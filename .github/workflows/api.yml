@@ -1,0 +1,80 @@
+name: API CI
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - "apps/api/**"
+
+jobs:
+  lint:
+    name: Lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - uses: golangci/golangci-lint-action@v6
+        with:
+          working-directory: apps/api
+
+  test:
+    name: Test
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    services:
+      mongo:
+        image: mongo:7
+        ports:
+          - 27017:27017
+      redis:
+        image: redis:7-alpine
+        ports:
+          - 6379:6379
+    env:
+      NEURODYNE_MONGODB_URI: mongodb://localhost:27017
+      NEURODYNE_REDIS_ADDR: localhost:6379
+      NEURODYNE_JWT_SECRET: ci-test-secret
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Run tests
+        run: go test -v -race -coverprofile=coverage.out ./...
+
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage
+          path: apps/api/coverage.out
+
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/api
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v5
+        with:
+          go-version: "1.23"
+
+      - name: Build server
+        run: go build -o bin/server cmd/server/main.go

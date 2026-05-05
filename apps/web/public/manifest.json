@@ -1,0 +1,21 @@
+{
+  "name": "NeuroDyne Corp",
+  "short_name": "NeuroDyne",
+  "description": "Productized software engineering. From AI-assisted spec to delivery.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "background_color": "#0A0E1A",
+  "theme_color": "#6C63FF",
+  "categories": ["business", "productivity", "developer"],
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ],
+  "shortcuts": [
+    { "name": "Start a Project", "url": "/start-project", "description": "Begin a new project intake" },
+    { "name": "Spec Library", "url": "/spec-library", "description": "Browse example specs" },
+    { "name": "Blog", "url": "/blog", "description": "Engineering blog" },
+    { "name": "Contact", "url": "/contact", "description": "Get in touch" }
+  ]
+}

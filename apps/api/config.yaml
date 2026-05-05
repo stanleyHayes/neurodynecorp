@@ -1,0 +1,34 @@
+server:
+  grpc_port: 50051
+  http_port: 8080
+  environment: development
+
+mongodb:
+  uri: mongodb://localhost:27017
+  database: neurodynecorp
+
+redis:
+  addr: localhost:6379
+  password: ""
+  db: 0
+
+kafka:
+  brokers:
+    - localhost:9092
+  group_id: neurodyne-api
+
+jwt:
+  secret: "change-me-in-production-use-a-strong-secret"
+  expiration_hours: 24
+  refresh_hours: 168
+
+cloud:
+  cloudinary_url: ""
+
+email:
+  resend_api_key: ""
+  from_address: "NeuroDyne Corp <noreply@neurodynecorp.com>"
+
+metrics:
+  enabled: true
+  port: 9090

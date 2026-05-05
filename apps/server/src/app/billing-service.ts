@@ -1,0 +1,175 @@
+import type { Logger } from "pino";
+import type { EventPublisher } from "./auth-service";
+
+// ---------------------------------------------------------------------------
+// Domain types
+// ---------------------------------------------------------------------------
+
+export type InvoiceStatus = "draft" | "sent" | "paid" | "overdue";
+
+export interface InvoiceLineItem {
+  description: string;
+  quantity: number;
+  unitPrice: number;
+  total: number;
+}
+
+export interface Invoice {
+  id: string;
+  projectId: string;
+  clientId: string;
+  invoiceNumber: string;
+  status: InvoiceStatus;
+  items: InvoiceLineItem[];
+  subtotal: number;
+  tax: number;
+  total: number;
+  currency: string;
+  dueDate: Date;
+  paidAt?: Date;
+  paymentId?: string;
+  createdAt: Date;
+  updatedAt: Date;
+}
+
+// ---------------------------------------------------------------------------
+// Port interfaces
+// ---------------------------------------------------------------------------
+
+export interface InvoiceRepository {
+  findById(id: string): Promise<Invoice | null>;
+  create(invoice: Invoice): Promise<Invoice>;
+  update(id: string, data: Partial<Invoice>): Promise<Invoice>;
+  listByClient(
+    clientId: string,
+    page: number,
+    pageSize: number,
+  ): Promise<{ invoices: Invoice[]; total: number }>;
+}
+
+// ---------------------------------------------------------------------------
+// Custom errors
+// ---------------------------------------------------------------------------
+
+export class InvoiceNotFoundError extends Error {
+  constructor(id: string) {
+    super(`Invoice "${id}" not found`);
+    this.name = "InvoiceNotFoundError";
+  }
+}
+
+export class InvoiceAlreadyPaidError extends Error {
+  constructor(id: string) {
+    super(`Invoice "${id}" has already been paid`);
+    this.name = "InvoiceAlreadyPaidError";
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Service
+// ---------------------------------------------------------------------------
+
+export class BillingService {
+  constructor(
+    private readonly invoiceRepo: InvoiceRepository,
+    private readonly events: EventPublisher,
+    private readonly logger: Logger,
+  ) {}
+
+  async createInvoice(
+    projectId: string,
+    clientId: string,
+    items: InvoiceLineItem[],
+    tax: number,
+    currency: string,
+    dueDate: Date,
+  ): Promise<Invoice> {
+    this.logger.info({ projectId, clientId, itemCount: items.length }, "Creating invoice");
+
+    const subtotal = items.reduce((sum, item) => sum + item.total, 0);
+    const total = subtotal + tax;
+
+    const now = new Date();
+    const invoice: Invoice = {
+      id: crypto.randomUUID(),
+      projectId,
+      clientId,
+      invoiceNumber: this.generateInvoiceNumber(),
+      status: "draft",
+      items,
+      subtotal,
+      tax,
+      total,
+      currency,
+      dueDate,
+      createdAt: now,
+      updatedAt: now,
+    };
+
+    const created = await this.invoiceRepo.create(invoice);
+
+    await this.events.publish("invoice.created", {
+      invoiceId: created.id,
+      projectId,
+      clientId,
+      total,
+      currency,
+    });
+
+    this.logger.info({ invoiceId: created.id, total, currency }, "Invoice created");
+    return created;
+  }
+
+  async markPaid(invoiceId: string, paymentId: string): Promise<Invoice> {
+    this.logger.info({ invoiceId, paymentId }, "Marking invoice as paid");
+
+    const invoice = await this.invoiceRepo.findById(invoiceId);
+    if (!invoice) {
+      throw new InvoiceNotFoundError(invoiceId);
+    }
+
+    if (invoice.status === "paid") {
+      throw new InvoiceAlreadyPaidError(invoiceId);
+    }
+
+    const now = new Date();
+    const updated = await this.invoiceRepo.update(invoiceId, {
+      status: "paid",
+      paidAt: now,
+      paymentId,
+      updatedAt: now,
+    });
+
+    await this.events.publish("invoice.paid", {
+      invoiceId,
+      projectId: invoice.projectId,
+      clientId: invoice.clientId,
+      paymentId,
+      total: invoice.total,
+      currency: invoice.currency,
+    });
+
+    this.logger.info({ invoiceId, paymentId }, "Invoice marked as paid");
+    return updated;
+  }
+
+  async listByClient(
+    clientId: string,
+    page = 1,
+    pageSize = 20,
+  ): Promise<{ invoices: Invoice[]; total: number }> {
+    return this.invoiceRepo.listByClient(clientId, page, pageSize);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Helpers
+  // ---------------------------------------------------------------------------
+
+  private generateInvoiceNumber(): string {
+    const now = new Date();
+    const year = now.getFullYear();
+    const month = String(now.getMonth() + 1).padStart(2, "0");
+    const random = Math.random().toString(36).substring(2, 8).toUpperCase();
+    return `INV-${year}${month}-${random}`;
+  }
+}

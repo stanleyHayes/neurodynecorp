@@ -1,0 +1,129 @@
+syntax = "proto3";
+
+package neurodyne.v1;
+
+option go_package = "github.com/neurodynecorp/api/internal/adapter/driving/grpc/pb";
+
+service ProjectService {
+  rpc CreateProject(CreateProjectRequest) returns (ProjectResponse);
+  rpc GetProject(GetProjectRequest) returns (ProjectResponse);
+  rpc ListProjects(ListProjectsRequest) returns (ListProjectsResponse);
+  rpc UpdateProjectStatus(UpdateProjectStatusRequest) returns (ProjectResponse);
+  rpc AssignTeam(AssignTeamRequest) returns (ProjectResponse);
+  rpc UpdateProgress(UpdateProgressRequest) returns (ProjectResponse);
+  rpc DeleteProject(DeleteProjectRequest) returns (DeleteProjectResponse);
+}
+
+message CreateProjectRequest {
+  string client_id = 1;
+  string title = 2;
+  string description = 3;
+  string type = 4;
+  repeated FeatureInput features = 5;
+  repeated string user_roles = 6;
+  BudgetRangeInput budget_range = 7;
+  TimelineInput timeline = 8;
+  repeated string integrations = 9;
+  string design_notes = 10;
+}
+
+message FeatureInput {
+  string name = 1;
+  string description = 2;
+  string priority = 3;
+  string complexity = 4;
+}
+
+message BudgetRangeInput {
+  double min = 1;
+  double max = 2;
+  string currency = 3;
+}
+
+message TimelineInput {
+  int32 duration_weeks = 1;
+  string preferred_urgency = 2;
+}
+
+message GetProjectRequest {
+  string id = 1;
+}
+
+message ListProjectsRequest {
+  string client_id = 1;
+  string status = 2;
+  string type = 3;
+  string search = 4;
+  int32 page = 5;
+  int32 page_size = 6;
+}
+
+message UpdateProjectStatusRequest {
+  string project_id = 1;
+  string status = 2;
+}
+
+message AssignTeamRequest {
+  string project_id = 1;
+  repeated string team_member_ids = 2;
+}
+
+message UpdateProgressRequest {
+  string project_id = 1;
+  double progress = 2;
+}
+
+message DeleteProjectRequest {
+  string id = 1;
+}
+
+message DeleteProjectResponse {
+  bool success = 1;
+}
+
+message ProjectResponse {
+  string id = 1;
+  string client_id = 2;
+  string title = 3;
+  string description = 4;
+  string type = 5;
+  string status = 6;
+  repeated FeatureResponse features = 7;
+  repeated string user_roles = 8;
+  repeated string integrations = 9;
+  BudgetRangeResponse budget_range = 10;
+  TimelineResponse timeline = 11;
+  double progress = 12;
+  repeated string assigned_team = 13;
+  string specification_id = 14;
+  string created_at = 15;
+  string updated_at = 16;
+}
+
+message FeatureResponse {
+  string id = 1;
+  string name = 2;
+  string description = 3;
+  string priority = 4;
+  string complexity = 5;
+}
+
+message BudgetRangeResponse {
+  double min = 1;
+  double max = 2;
+  string currency = 3;
+}
+
+message TimelineResponse {
+  int32 duration_weeks = 1;
+  string preferred_urgency = 2;
+  string expected_start = 3;
+  string expected_end = 4;
+}
+
+message ListProjectsResponse {
+  repeated ProjectResponse projects = 1;
+  int64 total = 2;
+  int32 page = 3;
+  int32 page_size = 4;
+}

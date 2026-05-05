@@ -1,0 +1,27 @@
+{
+  "expo": {
+    "name": "NeuroDyne Corp",
+    "slug": "neurodyne-client",
+    "version": "0.1.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "scheme": "neurodyne",
+    "userInterfaceStyle": "dark",
+    "splash": {
+      "backgroundColor": "#0A0E1A"
+    },
+    "ios": {
+      "bundleIdentifier": "com.neurodynecorp.client",
+      "supportsTablet": true
+    },
+    "android": {
+      "package": "com.neurodynecorp.client",
+      "adaptiveIcon": {
+        "backgroundColor": "#0A0E1A"
+      }
+    },
+    "plugins": [
+      "expo-notifications"
+    ]
+  }
+}

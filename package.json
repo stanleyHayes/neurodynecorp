@@ -1,0 +1,38 @@
+{
+  "name": "neurodynecorp",
+  "private": true,
+  "version": "0.1.0",
+  "description": "NeuroDyne Corp - Productized Software Engineering Platform",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "scripts": {
+    "dev": "pnpm --filter @neurodyne/server --filter @neurodyne/web --filter @neurodyne/client --filter @neurodyne/admin -r --parallel dev",
+    "dev:web": "pnpm --filter @neurodyne/web dev",
+    "dev:client": "pnpm --filter @neurodyne/client dev",
+    "dev:admin": "pnpm --filter @neurodyne/admin dev",
+    "dev:server": "pnpm --filter @neurodyne/server dev",
+    "dev:mobile": "pnpm --filter @neurodyne/mobile start",
+    "build": "pnpm --filter @neurodyne/shared build && pnpm --filter !@neurodyne/shared !@neurodyne/mobile -r build",
+    "build:web": "pnpm --filter @neurodyne/web build",
+    "build:admin": "pnpm --filter @neurodyne/admin build",
+    "build:shared": "pnpm --filter @neurodyne/shared build",
+    "lint": "pnpm -r lint",
+    "typecheck": "pnpm -r typecheck",
+    "proto:gen": "buf generate",
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.0",
+    "prettier": "^3.4.0"
+  },
+  "pnpm": {
+    "peerDependencyRules": {
+      "allowedVersions": {
+        "typescript": ">=6"
+      }
+    }
+  }
+}

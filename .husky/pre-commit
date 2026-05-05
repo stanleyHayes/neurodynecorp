@@ -1,0 +1,11 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+# Go: format and lint
+cd apps/api
+gofmt -l . | head -20
+go vet ./...
+cd ../..
+
+# Frontend: typecheck
+pnpm -r typecheck
