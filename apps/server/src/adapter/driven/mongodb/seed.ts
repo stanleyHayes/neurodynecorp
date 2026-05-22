@@ -35,6 +35,7 @@ import {
   caseStudies,
   contactSubmissions,
 } from "./seed-content.js";
+import { portfolioProjects } from "./seed-portfolio.js";
 
 // ── Repository map passed to the main seed function ─────────────────────────
 
@@ -67,6 +68,7 @@ export async function seedAll(repos: SeedRepositories): Promise<void> {
   await seedCollection("roles", repos.roles, roles);
   await seedCollection("users", repos.users, users);
   await seedCollection("projects", repos.projects, projects);
+  await seedCollection("portfolio_projects", repos.projects, portfolioProjects);
   await seedCollection("specifications", repos.specs, specifications);
   await seedCollection("sprints", repos.sprints, sprints);
   await seedCollection("tasks", repos.tasks, tasks);
