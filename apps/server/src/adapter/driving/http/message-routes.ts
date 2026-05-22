@@ -4,8 +4,6 @@ import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError } from "../../../middleware/error-handler.js";
 import type { Thread, Message } from "../../../domain/entity/message.js";
-import { createThread, createMessage } from "../../../domain/entity/message.js";
-import type { ThreadRepository, MessageRepository } from "../../../domain/port/repository.js";
 
 // ---- Validation schemas ----
 

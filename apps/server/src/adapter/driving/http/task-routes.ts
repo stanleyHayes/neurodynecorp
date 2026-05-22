@@ -3,8 +3,7 @@ import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
-import type { Task, Sprint, TaskStatus, TaskPriority } from "../../../domain/entity/task.js";
-import type { TaskRepository, SprintRepository } from "../../../domain/port/repository.js";
+import type { Task, Sprint } from "../../../domain/entity/task.js";
 import type { TaskFilter } from "../../../domain/port/repository.js";
 
 // ---- Validation schemas ----

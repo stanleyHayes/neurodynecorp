@@ -441,7 +441,8 @@ export default function Settings() {
   const activeTab = urlTab && tabKeys.includes(urlTab) ? urlTab : "profile";
   const setActiveTab = (key: string) => navigate(`/settings?tab=${key}`, { replace: true });
 
-  const current = tabs.find((t) => t.key === activeTab)!;
+  const _current = tabs.find((t) => t.key === activeTab)!;
+  void _current;
 
   return (
     <Box>

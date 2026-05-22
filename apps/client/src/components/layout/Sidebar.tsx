@@ -104,10 +104,11 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
     overflowX: "hidden" as const,
   };
 
-  const handleNav = () => {
+  const _handleNav = () => {
     if (isMobile) onMobileClose?.();
     onItemClick?.();
   };
+  void _handleNav;
 
   const drawerContent = (
     <>

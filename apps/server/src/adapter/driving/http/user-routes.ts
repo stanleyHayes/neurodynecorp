@@ -3,8 +3,8 @@ import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
-import type { User, Role } from "../../../domain/entity/user.js";
-import type { UserRepository, UserFilter } from "../../../domain/port/repository.js";
+import type { User } from "../../../domain/entity/user.js";
+import type { UserFilter } from "../../../domain/port/repository.js";
 
 // ---- Validation schemas ----
 

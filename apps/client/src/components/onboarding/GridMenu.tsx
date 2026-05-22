@@ -56,7 +56,9 @@ function playSelectSound() {
     gain2.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.25);
     osc2.start(ctx.currentTime + 0.05);
     osc2.stop(ctx.currentTime + 0.25);
-  } catch {}
+  } catch {
+    /* Audio not available — ignore */
+  }
 }
 
 function playHoverSound() {
@@ -72,7 +74,9 @@ function playHoverSound() {
     gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
     osc.start(ctx.currentTime);
     osc.stop(ctx.currentTime + 0.08);
-  } catch {}
+  } catch {
+    /* Audio not available — ignore */
+  }
 }
 
 function Scanlines() {

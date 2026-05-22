@@ -187,7 +187,7 @@ async function main(): Promise<void> {
       await eventSubscriber.connect();
       logger.info("Connected to Kafka");
     } catch {
-      kafkaReachable && logger.warn("Kafka connection failed, using no-op event stubs");
+      if (kafkaReachable) logger.warn("Kafka connection failed, using no-op event stubs");
     }
   }
 

@@ -1,0 +1,116 @@
+# ========================================
+# NeuroDyne Corp — Production Compose
+# ========================================
+# Usage: docker compose -f docker-compose.prod.yml up -d
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    container_name: neurodyne-server
+    ports:
+      - "4000:4000"
+      - "9090:9090"
+    environment:
+      NODE_ENV: production
+      NEURODYNE_HOST: 0.0.0.0
+      NEURODYNE_PORT: 4000
+      NEURODYNE_MONGODB_URI: mongodb://mongodb:27017/neurodyne
+      NEURODYNE_MONGODB_DATABASE: neurodyne
+      NEURODYNE_REDIS_HOST: redis
+      NEURODYNE_REDIS_PORT: 6379
+      NEURODYNE_KAFKA_BROKERS: kafka:9092
+      NEURODYNE_METRICS_ENABLED: "true"
+      NEURODYNE_METRICS_PORT: 9090
+      NEURODYNE_CORS_ORIGINS: ""
+      # Override with real secrets in production
+      NEURODYNE_JWT_ACCESS_SECRET: ${NEURODYNE_JWT_ACCESS_SECRET}
+      NEURODYNE_JWT_REFRESH_SECRET: ${NEURODYNE_JWT_REFRESH_SECRET}
+      NEURODYNE_RESEND_API_KEY: ${NEURODYNE_RESEND_API_KEY}
+      NEURODYNE_CLOUDINARY_CLOUD_NAME: ${NEURODYNE_CLOUDINARY_CLOUD_NAME}
+      NEURODYNE_CLOUDINARY_API_KEY: ${NEURODYNE_CLOUDINARY_API_KEY}
+      NEURODYNE_CLOUDINARY_API_SECRET: ${NEURODYNE_CLOUDINARY_API_SECRET}
+      NEURODYNE_STRIPE_SECRET_KEY: ${NEURODYNE_STRIPE_SECRET_KEY}
+      NEURODYNE_PAYSTACK_SECRET_KEY: ${NEURODYNE_PAYSTACK_SECRET_KEY}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:4000/health"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+
+  api:
+    build:
+      context: ./apps/api
+      dockerfile: Dockerfile
+    container_name: neurodyne-api
+    ports:
+      - "8080:8080"
+      - "50051:50051"
+      - "9091:9090"
+    environment:
+      SERVER_GRPC_PORT: 50051
+      SERVER_HTTP_PORT: 8080
+      SERVER_ENVIRONMENT: production
+      MONGODB_URI: mongodb://mongodb:27017/neurodyne
+      MONGODB_DATABASE: neurodyne
+      REDIS_ADDR: redis:6379
+      KAFKA_BROKERS: kafka:9092
+      METRICS_ENABLED: "true"
+      METRICS_PORT: 9090
+      JWT_SECRET: ${NEURODYNE_JWT_ACCESS_SECRET}
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    restart: unless-stopped
+
+  mongodb:
+    image: mongo:7
+    container_name: neurodyne-mongodb-prod
+    volumes:
+      - mongodb_prod_data:/data/db
+    environment:
+      MONGO_INITDB_DATABASE: neurodyne
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  redis:
+    image: redis:7-alpine
+    container_name: neurodyne-redis-prod
+    volumes:
+      - redis_prod_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+  nginx:
+    image: nginx:alpine
+    container_name: neurodyne-nginx
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./infra/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - server
+      - api
+    restart: unless-stopped
+
+volumes:
+  mongodb_prod_data:
+  redis_prod_data:

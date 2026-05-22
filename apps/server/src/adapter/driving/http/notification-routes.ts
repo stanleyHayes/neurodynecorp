@@ -2,9 +2,8 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
-import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
+import { ValidationError } from "../../../middleware/error-handler.js";
 import type { Notification } from "../../../domain/entity/notification.js";
-import type { NotificationRepository } from "../../../domain/port/repository.js";
 
 // ---- Validation schemas ----
 

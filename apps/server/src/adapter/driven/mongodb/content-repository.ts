@@ -1,5 +1,4 @@
 import { ObjectId } from "mongodb";
-import type { Collection, Filter } from "mongodb";
 import type {
   BlogPost,
   Testimonial,

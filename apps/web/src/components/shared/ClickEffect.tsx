@@ -45,7 +45,9 @@ function playClickSound() {
     g2.gain.exponentialRampToValueAtTime(0.001, t + 0.15);
     o2.start(t + 0.03);
     o2.stop(t + 0.15);
-  } catch {}
+  } catch {
+    /* Audio not available — ignore */
+  }
 }
 
 function playHoverSound() {
@@ -63,7 +65,9 @@ function playHoverSound() {
     g.gain.exponentialRampToValueAtTime(0.001, t + 0.06);
     o.start(t);
     o.stop(t + 0.06);
-  } catch {}
+  } catch {
+    /* Audio not available — ignore */
+  }
 }
 
 // ── Selectors for interactive elements ──

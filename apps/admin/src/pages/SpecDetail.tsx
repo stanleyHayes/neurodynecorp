@@ -6,7 +6,6 @@ import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
-import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";

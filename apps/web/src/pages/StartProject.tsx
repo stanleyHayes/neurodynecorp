@@ -122,7 +122,7 @@ interface SavedState {
 
 function saveState(formData: FormData, isFullscreen: boolean, stepIndex: number) {
   try {
-    const { specFile: _, ...rest } = formData;
+    const { specFile: _specFile, ...rest } = formData;
     const state: SavedState = { formData: rest, isFullscreen, stepIndex };
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
   } catch { /* quota exceeded — ignore */ }

@@ -1,25 +1,38 @@
-FROM node:20-alpine AS builder
+# ---------------------------------------
+# NeuroDyne Server — Production Dockerfile
+# ---------------------------------------
+# Runtime: Node 20 + tsx (no build step needed)
+# Depends on: packages/shared (workspace)
 
+FROM node:20-alpine AS base
+RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 WORKDIR /app
 
-COPY package.json pnpm-lock.yaml* ./
-RUN corepack enable && pnpm install --frozen-lockfile 2>/dev/null || npm install
+# ---- Dependencies ----
+FROM base AS deps
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml ./
+COPY packages/shared/package.json ./packages/shared/
+COPY apps/server/package.json ./apps/server/
+RUN pnpm install --frozen-lockfile
 
-COPY . .
-RUN npm run build
-
-FROM node:20-alpine
-
-RUN apk --no-cache add ca-certificates
-
-WORKDIR /app
-
-COPY --from=builder /app/dist ./dist
-COPY --from=builder /app/node_modules ./node_modules
-COPY --from=builder /app/package.json .
-
+# ---- Production ----
+FROM base AS runner
 ENV NODE_ENV=production
+ENV NEURODYNE_HOST=0.0.0.0
+ENV NEURODYNE_PORT=4000
 
-EXPOSE 8080 9090
+WORKDIR /app
 
-CMD ["node", "dist/index.js"]
+# Copy workspace source
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
+COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
+
+COPY packages/shared ./packages/shared
+COPY apps/server ./apps/server
+COPY package.json pnpm-workspace.yaml ./
+
+EXPOSE 4000 9090
+
+WORKDIR /app/apps/server
+CMD ["pnpm", "exec", "tsx", "src/index.ts"]

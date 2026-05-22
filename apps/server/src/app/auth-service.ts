@@ -1,5 +1,5 @@
 import type { Logger } from "pino";
-import type { User, CreateUserInput } from "../domain/entity/user";
+import type { User } from "../domain/entity/user";
 import { createUser } from "../domain/entity/user";
 
 // ---------------------------------------------------------------------------

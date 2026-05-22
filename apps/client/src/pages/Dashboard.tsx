@@ -38,10 +38,6 @@ const activityIcons = [
 
 const activityColors = ["#00D4AA", "#FFB547", "#6C63FF"];
 
-function formatCurrency(cents: number, currency = "USD"): string {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 0 }).format(cents / 100);
-}
-
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
   const hours = Math.floor(diff / 3600000);

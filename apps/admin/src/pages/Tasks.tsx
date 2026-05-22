@@ -598,7 +598,7 @@ export default function Tasks() {
 
       const sourceCol = findColumnForTask(activeTaskId);
       // Determine target column: if dropped on a column directly or on a task in a column
-      let targetCol: Status | null = STATUSES.includes(overId as Status) ? (overId as Status) : findColumnForTask(overId);
+      const targetCol: Status | null = STATUSES.includes(overId as Status) ? (overId as Status) : findColumnForTask(overId);
 
       if (!sourceCol || !targetCol || sourceCol === targetCol) return;
 

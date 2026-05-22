@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError } from "../../../middleware/error-handler.js";

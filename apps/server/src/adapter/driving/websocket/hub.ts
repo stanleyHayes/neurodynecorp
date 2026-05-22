@@ -2,7 +2,6 @@ import { WebSocketServer, WebSocket } from "ws";
 import type { Server } from "http";
 import type { Logger } from "pino";
 import type { TokenService } from "../../../middleware/auth.js";
-import type { URL } from "url";
 
 // ---- Message types ----
 

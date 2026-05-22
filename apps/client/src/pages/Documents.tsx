@@ -11,7 +11,6 @@ import {
   Chip,
   IconButton,
   Skeleton,
-  Typography,
 } from "@mui/material";
 import DownloadIcon from "@mui/icons-material/Download";
 import VisibilityIcon from "@mui/icons-material/Visibility";

@@ -11,8 +11,8 @@
     "lint": "eslint src/",
     "typecheck": "echo '[server] tsc --noEmit skipped (runtime via tsx). Use typecheck:strict for full check.'",
     "typecheck:strict": "tsc --noEmit",
-    "test": "vitest run",
-    "test:watch": "vitest",
+    "test": "node --import tsx --test 'src/**/*.test.ts'",
+    "test:watch": "node --import tsx --test --watch 'src/**/*.test.ts'",
     "seed": "tsx scripts/seed.ts",
     "seed:fresh": "tsx scripts/seed.ts --fresh"
   },
