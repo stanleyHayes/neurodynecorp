@@ -57,7 +57,7 @@ services:
         fromService:
           type: redis
           name: neurodyne-redis
-          property: hostport
+          property: connectionString
       - key: JWT_SECRET
         fromService:
           type: web

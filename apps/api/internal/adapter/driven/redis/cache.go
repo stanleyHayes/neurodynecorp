@@ -20,11 +20,21 @@ type CacheService struct {
 func NewCacheService(addr, password string, db int, log *logger.Logger, m *metrics.Metrics) (*CacheService, error) {
 	l := log.WithComponent("redis")
 
-	client := goredis.NewClient(&goredis.Options{
-		Addr:     addr,
-		Password: password,
-		DB:       db,
-	})
+	var client *goredis.Client
+	if len(addr) > 9 && addr[:9] == "redis://" {
+		// Render.com connectionString format: redis://host:port
+		opt, err := goredis.ParseURL(addr)
+		if err != nil {
+			return nil, err
+		}
+		client = goredis.NewClient(opt)
+	} else {
+		client = goredis.NewClient(&goredis.Options{
+			Addr:     addr,
+			Password: password,
+			DB:       db,
+		})
+	}
 
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
