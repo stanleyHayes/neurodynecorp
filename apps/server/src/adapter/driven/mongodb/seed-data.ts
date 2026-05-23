@@ -244,7 +244,7 @@ export const users: User[] = [
     role: "admin",
     roleId: ROLE_IDS.admin,
     permissions: ADMIN_PERMISSIONS,
-    phone: "+1-555-0001",
+    phone: "+233-55-000-0001",
     company: "NeuroDyne Corp",
     isActive: true,
     lastLoginAt: d("2026-03-28T15:30:00Z"),

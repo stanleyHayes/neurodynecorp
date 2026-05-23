@@ -45,12 +45,12 @@ const values = [
 ];
 
 const team = [
-  { name: "Alex Mercer", role: "CEO & Founder", avatar: "AM", color: "#6C63FF", index: "07" },
-  { name: "Priya Sharma", role: "CTO", avatar: "PS", color: "#00D4AA", index: "08" },
-  { name: "David Kim", role: "Lead Engineer", avatar: "DK", color: "#8B85FF", index: "09" },
-  { name: "Maria Santos", role: "Head of Design", avatar: "MS", color: "#33DDBB", index: "10" },
-  { name: "James Wright", role: "DevOps Lead", avatar: "JW", color: "#6C63FF", index: "11" },
-  { name: "Aisha Patel", role: "AI/ML Lead", avatar: "AP", color: "#00D4AA", index: "12" },
+  { name: "Stanley Asoku Hayford", role: "Founder & Principal Engineer", avatar: "SH", color: "#6C63FF", index: "07", bio: "Polyglot engineer building software for Africa and beyond. 36+ shipped projects across fintech, govtech, healthcare, and education." },
+  { name: "Ayo Adeyemi", role: "Engineering Lead", avatar: "AA", color: "#00D4AA", index: "08", bio: "Full-stack architect specializing in distributed systems and hexagonal backend design." },
+  { name: "Sarah Chen", role: "Product & Design", avatar: "SC", color: "#8B85FF", index: "09", bio: "Product strategist bridging user research, design systems, and engineering execution." },
+  { name: "Kwame Mensah", role: "Mobile & DevOps", avatar: "KM", color: "#33DDBB", index: "10", bio: "React Native and Expo specialist with deep experience in CI/CD and cloud infrastructure." },
+  { name: "Maria Gonzalez", role: "Backend Engineer", avatar: "MG", color: "#6C63FF", index: "11", bio: "Go and Node.js engineer focused on high-performance APIs, Kafka, and data pipelines." },
+  { name: "Priya Sharma", role: "QA & Analytics", avatar: "PS", color: "#00D4AA", index: "12", bio: "Quality assurance lead with expertise in test automation and real-time analytics systems." },
 ];
 
 // ── Reusable cell wrapper ──
@@ -188,7 +188,7 @@ export default function About() {
     <>
       <SEO
         title="About Us"
-        description="Learn about NeuroDyne Corp - our vision, mission, culture, and the team behind the productized software engineering platform."
+        description="Learn about NeuroDyne Corp — founded by Stanley Asoku Hayford. A productized software engineering platform shipping real solutions for fintech, govtech, healthcare, and education across Africa and beyond."
         canonical="https://neurodynecorp.com/about"
         ogUrl="https://neurodynecorp.com/about"
       />
@@ -196,7 +196,8 @@ export default function About() {
       <PageHero
         icon={<InfoOutlinedIcon />}
         title="About NeuroDyne Corp"
-        description="We're building the future of software engineering — where structured intelligence replaces vague conversations, and every project starts with clarity."
+        description="We're a productized software engineering studio founded by Stanley Asoku Hayford — shipping 36+ real projects across fintech, govtech, healthcare, edtech, and AI for clients in Africa and beyond."
+        accentWord="NeuroDyne"
         tag="INTEL // BRIEF"
         accentWord="NeuroDyne Corp"
         iconColor="#8B85FF"
@@ -331,6 +332,23 @@ export default function About() {
                 >
                   {member.role}
                 </Typography>
+                {"bio" in member && member.bio && (
+                  <Typography
+                    variant="caption"
+                    sx={{
+                      display: "block",
+                      mt: 0.5,
+                      fontSize: "0.6rem",
+                      color: "text.secondary",
+                      opacity: 0.5,
+                      lineHeight: 1.4,
+                      maxWidth: 180,
+                      mx: "auto",
+                    }}
+                  >
+                    {member.bio}
+                  </Typography>
+                )}
               </Box>
             </Stack>
           </Cell>

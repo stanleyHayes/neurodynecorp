@@ -51,8 +51,8 @@ const PROJECT_TYPES = [
 
 const CONTACT_DATA = [
   { icon: <EmailIcon />, label: "Email", value: "hello@neurodynecorp.com", href: "mailto:hello@neurodynecorp.com", copyable: true, color: "#6C63FF", index: "08" },
-  { icon: <PhoneIcon />, label: "Phone", value: "+1 (555) 123-4567", href: "tel:+15551234567", copyable: true, color: "#00D4AA", index: "09" },
-  { icon: <LocationOnIcon />, label: "Location", value: "San Francisco, CA", href: undefined, copyable: false, color: "#8B85FF", index: "10" },
+  { icon: <PhoneIcon />, label: "Phone", value: "+233 (0) 55 000 0000", href: "tel:+233550000000", copyable: true, color: "#00D4AA", index: "09" },
+  { icon: <LocationOnIcon />, label: "Location", value: "Accra, Ghana", href: undefined, copyable: false, color: "#8B85FF", index: "10" },
 ];
 
 const STEPS = [

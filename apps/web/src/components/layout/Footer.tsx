@@ -43,10 +43,13 @@ const footerSections = [
   {
     title: "Services",
     links: [
-      { label: "Custom Software", path: "/services#custom-software", icon: <CodeIcon sx={{ fontSize: 14 }} /> },
-      { label: "Mobile Development", path: "/services#mobile", icon: <RocketLaunchIcon sx={{ fontSize: 14 }} /> },
-      { label: "AI/ML Systems", path: "/services#ai-ml", icon: <PsychologyIcon sx={{ fontSize: 14 }} /> },
-      { label: "Blockchain", path: "/services#blockchain", icon: <SecurityIcon sx={{ fontSize: 14 }} /> },
+      { label: "Web Development", path: "/services#web", icon: <CodeIcon sx={{ fontSize: 14 }} /> },
+      { label: "Mobile Apps", path: "/services#mobile", icon: <RocketLaunchIcon sx={{ fontSize: 14 }} /> },
+      { label: "AI / ML Systems", path: "/services#ai-ml", icon: <PsychologyIcon sx={{ fontSize: 14 }} /> },
+      { label: "GovTech", path: "/services#govtech", icon: <SecurityIcon sx={{ fontSize: 14 }} /> },
+      { label: "Fintech", path: "/services#fintech", icon: <SecurityIcon sx={{ fontSize: 14 }} /> },
+      { label: "Healthcare", path: "/services#healthcare", icon: <SecurityIcon sx={{ fontSize: 14 }} /> },
+      { label: "EdTech", path: "/services#edtech", icon: <SecurityIcon sx={{ fontSize: 14 }} /> },
     ],
   },
   {
@@ -656,8 +659,7 @@ export default function Footer() {
                   color="text.secondary"
                   sx={{ mb: 2, maxWidth: 300, lineHeight: 1.8 }}
                 >
-                  A Productized Software Engineering Platform. Transforming ideas
-                  into structured, professional software solutions.
+                  A productized software engineering studio founded by Stanley Asoku Hayford. Shipping structured, professional solutions for fintech, govtech, healthcare, and education across Africa and beyond.
                 </Typography>
               </MotionBox>
 

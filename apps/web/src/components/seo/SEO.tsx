@@ -17,7 +17,7 @@ interface SEOProps {
 const SITE_NAME = "NeuroDyne Corp";
 const SITE_URL = "https://neurodynecorp.com";
 const DEFAULT_DESCRIPTION =
-  "NeuroDyne Corp - A Productized Software Engineering Platform. Custom Software, Mobile Development, AI/ML Systems, Blockchain Solutions.";
+  "NeuroDyne Corp — Productized Software Engineering by Stanley Asoku Hayford. 36+ shipped projects across fintech, govtech, healthcare, edtech, and AI for Africa and beyond.";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export { SITE_URL };
@@ -25,7 +25,7 @@ export { SITE_URL };
 export default function SEO({
   title,
   description = DEFAULT_DESCRIPTION,
-  keywords = "software development, custom software, mobile development, AI, machine learning, blockchain, DevOps",
+  keywords = "software development, custom software, mobile apps, AI, machine learning, fintech, govtech, healthcare, edtech, Africa, Stanley Hayford",
   ogTitle,
   ogDescription,
   ogImage = DEFAULT_OG_IMAGE,

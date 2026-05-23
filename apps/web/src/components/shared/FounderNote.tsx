@@ -10,7 +10,7 @@ interface FounderNoteProps {
 }
 
 const DEFAULT_MESSAGE =
-  "We're spending this week deepening our spec-engine: the goal is for any 30-minute intake to produce a doc your engineering team would happily accept. If you'd like to be one of the first to test it, hit Start a Project — we're taking 3 design partners.";
+  "We're shipping productized software engineering for Africa and beyond — 36+ projects delivered across fintech, govtech, healthcare, and education. Every engagement starts with a structured specification so you know exactly what you're building before we write a single line of code.";
 
 export default function FounderNote({ message = DEFAULT_MESSAGE, date = "This week" }: FounderNoteProps) {
   return (
@@ -57,11 +57,11 @@ export default function FounderNote({ message = DEFAULT_MESSAGE, date = "This we
         </Avatar>
         <Box>
           <Typography sx={{ fontSize: "0.95rem", fontWeight: 700, color: "text.primary" }}>
-            Stanley Hayford
+            Stanley Asoku Hayford
           </Typography>
           <Stack direction="row" spacing={1} alignItems="center">
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.05em" }}>
-              Founder · NeuroDyne Corp
+              Founder & Principal Engineer · NeuroDyne Corp
             </Typography>
             <Chip
               label={date}
