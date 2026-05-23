@@ -96,7 +96,7 @@ export default function Specifications() {
     setError(null);
     try {
       // Fetch all projects, then fetch specs for projects that have specification_id
-      const projectsRes = await api.listProjects();
+      const projectsRes = await api.listProjects({ pageSize: "100" });
       const projects = (projectsRes.items ?? []) as unknown as ApiProject[];
 
       const specPromises = projects
@@ -176,7 +176,7 @@ export default function Specifications() {
 
       <ActionBar label="New Spec" subtitle="GENERATE SPECIFICATION" color="#8B5CF6" onClick={async () => {
         try {
-          const res = await api.listProjects();
+          const res = await api.listProjects({ pageSize: "100" });
           const projects = (res.items ?? []).filter((p: any) => !p.specification_id);
           setGenProjects(projects.map((p: any) => ({ id: p.id, title: p.title })));
           setGenProjectId(projects[0]?.id ?? "");

@@ -512,7 +512,7 @@ export default function Tasks() {
     setLoading(true);
     setError(null);
     try {
-      const projectRes = await api.listProjects();
+      const projectRes = await api.listProjects({ pageSize: "100" });
       const loadedProjects = (projectRes.items ?? []) as ApiProject[];
       setProjects(loadedProjects);
 

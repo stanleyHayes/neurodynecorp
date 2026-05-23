@@ -10,6 +10,7 @@
     "./src/*": "./src/*"
   },
   "scripts": {
+    "build": "echo '[shared] no build needed — source consumed directly.'",
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {

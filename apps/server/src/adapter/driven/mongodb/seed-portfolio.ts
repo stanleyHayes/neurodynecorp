@@ -58,6 +58,11 @@ const CLIENT_HABIB = C3;
 const CLIENT_IBRAHIM = C1;
 const CLIENT_LINGUA = C2;
 const CLIENT_BRIANSFOMO = C3;
+const CLIENT_CIRCL = C1;
+const CLIENT_LEBIBU = C2;
+const CLIENT_MFA = C3;
+const CLIENT_PORTFOLIO_DASHBOARD = C1;
+const CLIENT_JDPLUS_LIMITED = C2;
 
 export const portfolioProjects: Project[] = [
   {
@@ -1173,5 +1178,171 @@ export const portfolioProjects: Project[] = [
     ],
     createdAt: d("2024-09-01T09:00:00Z"),
     updatedAt: d("2025-03-01T09:00:00Z"),
+  },
+
+  {
+    id: oid(),
+    name: "Circl — Social Events & Dining Platform",
+    description:
+      "Social events and dining platform with table bookings, real-time chat, digital wallet, subscriptions, and discovery. Monorepo with React web app, React Native mobile app, and Node.js/Express API.",
+    clientId: CLIENT_CIRCL,
+    status: "in_development",
+    type: "mobile_app",
+    features: [
+      { id: oid(), name: "Table discovery & booking", description: "Browse and reserve tables at venues with real-time availability", priority: "critical" },
+      { id: oid(), name: "Real-time chat", description: "Socket.io-powered messaging between guests and hosts", priority: "critical" },
+      { id: oid(), name: "Digital wallet", description: "In-app wallet for payments, tipping, and splitting bills", priority: "high" },
+      { id: oid(), name: "Subscription tiers", description: "Premium memberships with exclusive venue access and perks", priority: "high" },
+      { id: oid(), name: "Event creation", description: "Hosts can create and manage private and public events", priority: "medium" },
+    ],
+    userRoles: ["Guest", "Host", "Venue Manager", "Admin"],
+    integrations: ["MongoDB", "Redis", "Socket.io", "Stripe", "Expo"],
+    budgetRange: { min: 80000, max: 150000, currency: "USD" },
+    timeline: { startDate: d("2025-02-01"), endDate: d("2025-12-01"), estimatedWeeks: 44 },
+    attachments: [],
+    assignedTeam: [],
+    progress: 55,
+    milestones: [
+      { id: oid(), name: "Auth & profiles", description: "User registration, verification, and profile management", dueDate: d("2025-04-01"), status: "completed", completedAt: d("2025-03-25") },
+      { id: oid(), name: "Table booking MVP", description: "Core discovery and reservation flow", dueDate: d("2025-06-01"), status: "completed", completedAt: d("2025-05-28") },
+      { id: oid(), name: "Chat & wallet", description: "Real-time messaging and payment infrastructure", dueDate: d("2025-09-01"), status: "in_progress" },
+      { id: oid(), name: "Mobile launch", description: "React Native app store release", dueDate: d("2025-11-01"), status: "pending" },
+      { id: oid(), name: "Public launch", description: "Full platform launch with subscriptions", dueDate: d("2025-12-01"), status: "pending" },
+    ],
+    createdAt: d("2025-01-15T09:00:00Z"),
+    updatedAt: d("2026-03-20T09:00:00Z"),
+  },
+
+  {
+    id: oid(),
+    name: "LEBIBU — Agency Landing Page & Lead Engine",
+    description:
+      "High-performance interactive landing page and lead-generation platform for a modern software engineering agency. Features a real-time mockup engine, conversational chatbot onboarding, 3D parallax universe, and Supabase backend for lead capture.",
+    clientId: CLIENT_LEBIBU,
+    status: "delivered",
+    type: "web_app",
+    features: [
+      { id: oid(), name: "Interactive prototype generator", description: "Dynamic engine that generates live website mockups from user input", priority: "critical" },
+      { id: oid(), name: "Conversational lead capture", description: "Custom chatbot UI for onboarding and gathering project requirements", priority: "critical" },
+      { id: oid(), name: "3D parallax universe", description: "Hardware-accelerated multi-depth starry background with mouse reactivity", priority: "high" },
+      { id: oid(), name: "Portfolio carousel", description: "Scroll-snapping project showcase with responsive touch support", priority: "medium" },
+      { id: oid(), name: "SEO & accessibility", description: "Semantic HTML, aria labels, JSON-LD schema markup", priority: "medium" },
+    ],
+    userRoles: ["Visitor", "Prospect", "Admin"],
+    integrations: ["Supabase", "PostgreSQL"],
+    budgetRange: { min: 15000, max: 25000, currency: "USD" },
+    timeline: { startDate: d("2024-08-01"), endDate: d("2024-11-01"), estimatedWeeks: 14 },
+    attachments: [],
+    assignedTeam: [],
+    progress: 100,
+    milestones: [
+      { id: oid(), name: "Design system", description: "Visual identity and component library", dueDate: d("2024-08-15"), status: "completed", completedAt: d("2024-08-12") },
+      { id: oid(), name: "Mockup engine", description: "Interactive prototype generator", dueDate: d("2024-09-15"), status: "completed", completedAt: d("2024-09-10") },
+      { id: oid(), name: "Chatbot integration", description: "Conversational onboarding and Supabase lead capture", dueDate: d("2024-10-15"), status: "completed", completedAt: d("2024-10-12") },
+      { id: oid(), name: "Launch", description: "Production deployment and SEO optimization", dueDate: d("2024-11-01"), status: "completed", completedAt: d("2024-10-28") },
+    ],
+    createdAt: d("2024-07-01T09:00:00Z"),
+    updatedAt: d("2024-11-01T09:00:00Z"),
+  },
+
+  {
+    id: oid(),
+    name: "MFA — Multi-Factor Authentication System",
+    description:
+      "Enterprise multi-factor authentication system with React client dashboard, React admin panel, and Node.js API. Supports TOTP, SMS, email OTP, backup codes, and device management.",
+    clientId: CLIENT_MFA,
+    status: "in_development",
+    type: "web_app",
+    features: [
+      { id: oid(), name: "TOTP generation", description: "Time-based one-time password with QR code enrollment", priority: "critical" },
+      { id: oid(), name: "SMS & email OTP", description: "Fallback authentication via SMS and email one-time codes", priority: "critical" },
+      { id: oid(), name: "Backup codes", description: "Single-use recovery codes for account recovery", priority: "high" },
+      { id: oid(), name: "Device management", description: "Trusted device registration and remote revocation", priority: "high" },
+      { id: oid(), name: "Admin dashboard", description: "User management, audit logs, and security policy configuration", priority: "medium" },
+    ],
+    userRoles: ["End User", "Security Admin", "System Admin"],
+    integrations: ["MongoDB", "Redis", "Twilio", "SendGrid", "Cloudinary"],
+    budgetRange: { min: 40000, max: 70000, currency: "USD" },
+    timeline: { startDate: d("2025-04-01"), endDate: d("2025-10-01"), estimatedWeeks: 26 },
+    attachments: [],
+    assignedTeam: [],
+    progress: 40,
+    milestones: [
+      { id: oid(), name: "Core auth API", description: "TOTP and OTP generation and verification", dueDate: d("2025-05-15"), status: "completed", completedAt: d("2025-05-10") },
+      { id: oid(), name: "Client dashboard", description: "User-facing MFA enrollment and management", dueDate: d("2025-07-01"), status: "completed", completedAt: d("2025-06-28") },
+      { id: oid(), name: "Admin panel", description: "Security admin dashboard and audit logs", dueDate: d("2025-08-15"), status: "in_progress" },
+      { id: oid(), name: "Device trust", description: "Trusted device registration and revocation", dueDate: d("2025-09-15"), status: "pending" },
+      { id: oid(), name: "Production", description: "Enterprise hardening and deployment", dueDate: d("2025-10-01"), status: "pending" },
+    ],
+    createdAt: d("2025-03-01T09:00:00Z"),
+    updatedAt: d("2026-03-20T09:00:00Z"),
+  },
+
+  {
+    id: oid(),
+    name: "Portfolio Dashboard — NeuroDyne Internal Tool",
+    description:
+      "Internal portfolio management dashboard for NeuroDyne Corp. API backend with admin interface for tracking projects, clients, milestones, and team assignments. Powers the public portfolio site.",
+    clientId: CLIENT_PORTFOLIO_DASHBOARD,
+    status: "in_development",
+    type: "web_app",
+    features: [
+      { id: oid(), name: "Project tracking", description: "CRUD for projects with status, timeline, and milestone management", priority: "critical" },
+      { id: oid(), name: "Client management", description: "Client profiles, contacts, and project history", priority: "high" },
+      { id: oid(), name: "Team assignments", description: "Engineer allocation and workload visualization", priority: "high" },
+      { id: oid(), name: "Portfolio API", description: "REST API powering the public marketing portfolio site", priority: "critical" },
+      { id: oid(), name: "Admin dashboard", description: "MUI-based admin interface with data tables and forms", priority: "medium" },
+    ],
+    userRoles: ["Project Manager", "Engineer", "Admin"],
+    integrations: ["MongoDB", "Cloudinary", "Node.js", "React", "MUI"],
+    budgetRange: { min: 25000, max: 40000, currency: "USD" },
+    timeline: { startDate: d("2025-01-01"), endDate: d("2025-06-01"), estimatedWeeks: 22 },
+    attachments: [],
+    assignedTeam: [],
+    progress: 70,
+    milestones: [
+      { id: oid(), name: "API foundation", description: "Core project and client CRUD endpoints", dueDate: d("2025-02-15"), status: "completed", completedAt: d("2025-02-10") },
+      { id: oid(), name: "Admin UI v1", description: "Initial dashboard with project tables", dueDate: d("2025-04-01"), status: "completed", completedAt: d("2025-03-28") },
+      { id: oid(), name: "Portfolio integration", description: "Public site API and data sync", dueDate: d("2025-05-15"), status: "in_progress" },
+      { id: oid(), name: "Internal launch", description: "Team onboarding and production deployment", dueDate: d("2025-06-01"), status: "pending" },
+    ],
+    createdAt: d("2024-12-01T09:00:00Z"),
+    updatedAt: d("2026-03-20T09:00:00Z"),
+  },
+
+  {
+    id: oid(),
+    name: "JDPlus Limited — Parent Company Platform",
+    description:
+      "Parent company platform for the JDPlus ecosystem. Go backend with Fiber v3, React admin SPA, and React marketing SPA. Handles customers, products, suppliers, AC service requests, susu collections, loans, and analytics.",
+    clientId: CLIENT_JDPLUS_LIMITED,
+    status: "in_development",
+    type: "web_app",
+    features: [
+      { id: oid(), name: "Customer management", description: "Full CRM with contact history and segmentation", priority: "critical" },
+      { id: oid(), name: "Product inventory", description: "AC units, electronics, and spare parts catalog", priority: "critical" },
+      { id: oid(), name: "Supplier portal", description: "Vendor management and purchase order workflows", priority: "high" },
+      { id: oid(), name: "Service requests", description: "AC installation and maintenance scheduling with QR tracking", priority: "high" },
+      { id: oid(), name: "Susu collections", description: "Rotational savings group management with automated reminders", priority: "high" },
+      { id: oid(), name: "Loan management", description: "Micro-loan origination, disbursement, and repayment tracking", priority: "medium" },
+      { id: oid(), name: "Analytics dashboard", description: "Business intelligence with revenue, churn, and operational KPIs", priority: "medium" },
+    ],
+    userRoles: ["Customer", "Sales Rep", "Service Technician", "Finance Officer", "Admin"],
+    integrations: ["PostgreSQL", "Redis", "Twilio", "Docker", "Go", "React"],
+    budgetRange: { min: 120000, max: 200000, currency: "USD" },
+    timeline: { startDate: d("2025-03-01"), endDate: d("2026-03-01"), estimatedWeeks: 52 },
+    attachments: [],
+    assignedTeam: [],
+    progress: 45,
+    milestones: [
+      { id: oid(), name: "Backend foundation", description: "Go API with auth, customers, and products", dueDate: d("2025-05-01"), status: "completed", completedAt: d("2025-04-28") },
+      { id: oid(), name: "Admin SPA", description: "React admin dashboard with MUI v9", dueDate: d("2025-07-01"), status: "completed", completedAt: d("2025-06-25") },
+      { id: oid(), name: "Service module", description: "AC service requests and QR-coded tracking", dueDate: d("2025-09-01"), status: "in_progress" },
+      { id: oid(), name: "Susu & loans", description: "Susu group and micro-loan management", dueDate: d("2025-12-01"), status: "pending" },
+      { id: oid(), name: "Marketing site", description: "Public-facing marketing SPA", dueDate: d("2026-01-15"), status: "pending" },
+      { id: oid(), name: "Production", description: "Dockerized deployment with CI/CD", dueDate: d("2026-03-01"), status: "pending" },
+    ],
+    createdAt: d("2025-02-01T09:00:00Z"),
+    updatedAt: d("2026-03-20T09:00:00Z"),
   },
 ];

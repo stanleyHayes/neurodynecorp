@@ -104,7 +104,7 @@ export default function Projects() {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.listProjects();
+      const res = await api.listProjects({ pageSize: "100" });
       setProjects((res.items ?? []).map((p) => mapApiProject(p as unknown as ApiProject)));
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load projects");

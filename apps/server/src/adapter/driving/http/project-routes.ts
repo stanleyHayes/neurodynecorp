@@ -5,6 +5,38 @@ import { authMiddleware, requirePermission, type TokenService } from "../../../m
 import { ValidationError, NotFoundError, AppError } from "../../../middleware/error-handler.js";
 import type { ProjectService } from "../../../app/project-service.js";
 import { ProjectNotFoundError, InvalidStatusTransitionError } from "../../../app/project-service.js";
+import type { Project } from "../../../domain/entity/project.js";
+
+// Serialize Project entity to API response format (snake_case, title instead of name)
+function toApiProject(p: Project) {
+  return {
+    id: p.id,
+    client_id: p.clientId,
+    title: p.name,
+    description: p.description,
+    type: p.type,
+    status: p.status,
+    features: p.features,
+    user_roles: p.userRoles,
+    integrations: p.integrations,
+    budget_range: p.budgetRange,
+    timeline: p.timeline,
+    attachments: p.attachments,
+    assigned_team: p.assignedTeam,
+    specification_id: p.specificationId,
+    progress: p.progress,
+    milestones: p.milestones.map((m) => ({
+      id: m.id,
+      name: m.name,
+      description: m.description,
+      due_date: m.dueDate,
+      completed_at: m.completedAt,
+      status: m.status,
+    })),
+    created_at: p.createdAt,
+    updated_at: p.updatedAt,
+  };
+}
 
 // ---- Validation schemas ----
 
@@ -83,7 +115,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         ...parsed.data,
         clientId: req.userId!,
       });
-      res.status(201).json(project);
+      res.status(201).json(toApiProject(project));
     } catch (err) {
       next(err);
     }
@@ -111,7 +143,12 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
       }
 
       const result = await projectService.listProjects(filter as Parameters<typeof projectService.listProjects>[0]);
-      res.status(200).json(result);
+      res.status(200).json({
+        items: result.projects.map(toApiProject),
+        total: result.total,
+        page: parsed.data.page,
+        page_size: parsed.data.pageSize,
+      });
     } catch (err) {
       next(err);
     }
@@ -121,7 +158,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const project = await projectService.getProject(req.params.id!);
-      res.status(200).json(project);
+      res.status(200).json(toApiProject(project));
     } catch (err) {
       if (err instanceof ProjectNotFoundError) {
         return next(new NotFoundError("Project", req.params.id));
@@ -142,7 +179,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.updateStatus(req.params.id!, parsed.data.status);
-        res.status(200).json(project);
+        res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", req.params.id));
@@ -167,7 +204,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.assignTeam(req.params.id!, parsed.data.teamMemberIds);
-        res.status(200).json(project);
+        res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", req.params.id));
@@ -189,7 +226,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.updateProgress(req.params.id!, parsed.data.progress);
-        res.status(200).json(project);
+        res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", req.params.id));

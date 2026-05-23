@@ -191,7 +191,7 @@ export default function TeamDetail() {
       setLoading(true);
       const [userData, projectsRes] = await Promise.all([
         api.getUser(id),
-        api.listProjects(),
+        api.listProjects({ pageSize: "100" }),
       ]);
 
       setUser(userData as unknown as UserData);
