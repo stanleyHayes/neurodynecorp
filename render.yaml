@@ -108,4 +108,3 @@ databases:
   - name: neurodyne-redis
     plan: standard
     ipAllowList: []
-    maxmemoryPolicy: allkeys-lru
