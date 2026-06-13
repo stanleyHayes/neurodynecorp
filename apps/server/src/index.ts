@@ -49,6 +49,58 @@ import {
   MongoContactSubmissionRepository,
 } from "./adapter/driven/mongodb/content-repository.js";
 
+// ── Gap-audit modules (trust / ops / compliance / growth) ──
+import { createAuditRoutes, createAuditRecorder } from "./adapter/driving/http/audit-routes.js";
+import { createStatusRoutes } from "./adapter/driving/http/status-routes.js";
+import { createFeatureFlagRoutes } from "./adapter/driving/http/feature-flag-routes.js";
+import { createWebhookRoutes } from "./adapter/driving/http/webhook-routes.js";
+import { createApiKeyRoutes } from "./adapter/driving/http/api-key-routes.js";
+import { createDsrRoutes } from "./adapter/driving/http/dsr-routes.js";
+import { createConsentRoutes } from "./adapter/driving/http/consent-routes.js";
+import { createFeedbackRoutes } from "./adapter/driving/http/feedback-routes.js";
+import { createDiagnosticRoutes } from "./adapter/driving/http/diagnostic-routes.js";
+import { createRfpRoutes } from "./adapter/driving/http/rfp-routes.js";
+import { createBookingRoutes } from "./adapter/driving/http/booking-routes.js";
+import { createDecisionRoutes } from "./adapter/driving/http/decision-routes.js";
+import { createRiskRoutes } from "./adapter/driving/http/risk-routes.js";
+import { createSupportTicketRoutes } from "./adapter/driving/http/support-ticket-routes.js";
+import { createApprovalRoutes } from "./adapter/driving/http/approval-routes.js";
+import { createStakeholderRoutes } from "./adapter/driving/http/stakeholder-routes.js";
+import { createLatticeRoutes } from "./adapter/driving/http/lattice-routes.js";
+import { createReportRoutes } from "./adapter/driving/http/report-routes.js";
+import { createEngagementMemberRoutes } from "./adapter/driving/http/engagement-member-routes.js";
+import { createBudgetRoutes } from "./adapter/driving/http/budget-routes.js";
+import { createKbRoutes } from "./adapter/driving/http/kb-routes.js";
+import { createGlossaryRoutes } from "./adapter/driving/http/glossary-routes.js";
+import { createNewsletterRoutes } from "./adapter/driving/http/newsletter-routes.js";
+import { createChangelogRoutes } from "./adapter/driving/http/changelog-routes.js";
+import { MongoAuditRepository } from "./adapter/driven/mongodb/audit-repository.js";
+import { MongoStatusRepository } from "./adapter/driven/mongodb/status-repository.js";
+import { MongoFeatureFlagRepository } from "./adapter/driven/mongodb/feature-flag-repository.js";
+import { MongoWebhookRepository } from "./adapter/driven/mongodb/webhook-repository.js";
+import { MongoApiKeyRepository } from "./adapter/driven/mongodb/api-key-repository.js";
+import { MongoDsrRepository } from "./adapter/driven/mongodb/dsr-repository.js";
+import { MongoConsentRepository } from "./adapter/driven/mongodb/consent-repository.js";
+import { MongoFeedbackRepository } from "./adapter/driven/mongodb/feedback-repository.js";
+import { MongoDiagnosticRepository } from "./adapter/driven/mongodb/diagnostic-repository.js";
+import { MongoRfpRepository } from "./adapter/driven/mongodb/rfp-repository.js";
+import { MongoBookingRepository } from "./adapter/driven/mongodb/booking-repository.js";
+import { MongoDecisionRepository } from "./adapter/driven/mongodb/decision-repository.js";
+import { MongoRiskRepository } from "./adapter/driven/mongodb/risk-repository.js";
+import { MongoSupportTicketRepository } from "./adapter/driven/mongodb/support-ticket-repository.js";
+import { MongoApprovalRepository } from "./adapter/driven/mongodb/approval-repository.js";
+import { MongoStakeholderRepository } from "./adapter/driven/mongodb/stakeholder-repository.js";
+import { MongoLatticeRepository } from "./adapter/driven/mongodb/lattice-repository.js";
+import { MongoReportRepository } from "./adapter/driven/mongodb/report-repository.js";
+import { MongoEngagementMemberRepository } from "./adapter/driven/mongodb/engagement-member-repository.js";
+import { MongoBudgetRepository } from "./adapter/driven/mongodb/budget-repository.js";
+import { createContactSubmission } from "./domain/entity/content.js";
+import { MongoKbRepository } from "./adapter/driven/mongodb/kb-repository.js";
+import { MongoGlossaryRepository } from "./adapter/driven/mongodb/glossary-repository.js";
+import { MongoNewsletterRepository } from "./adapter/driven/mongodb/newsletter-repository.js";
+import { MongoChangelogRepository } from "./adapter/driven/mongodb/changelog-repository.js";
+import { rateLimit } from "./middleware/rate-limit.js";
+
 import { JwtTokenService } from "./adapter/driven/auth/jwt.js";
 import { BcryptPasswordHasher } from "./adapter/driven/auth/password.js";
 import { ResendEmailService } from "./adapter/driven/email/resend.js";
@@ -105,6 +157,32 @@ async function main(): Promise<void> {
   const serviceRepo = new MongoServiceRepository(mongoClient);
   const caseStudyRepo = new MongoCaseStudyRepository(mongoClient);
   const contactSubmissionRepo = new MongoContactSubmissionRepository(mongoClient);
+
+  // Gap-audit module repositories
+  const auditRepo = new MongoAuditRepository(mongoClient);
+  const statusRepo = new MongoStatusRepository(mongoClient);
+  const featureFlagRepo = new MongoFeatureFlagRepository(mongoClient);
+  const webhookRepo = new MongoWebhookRepository(mongoClient);
+  const apiKeyRepo = new MongoApiKeyRepository(mongoClient);
+  const dsrRepo = new MongoDsrRepository(mongoClient);
+  const consentRepo = new MongoConsentRepository(mongoClient);
+  const feedbackRepo = new MongoFeedbackRepository(mongoClient);
+  const diagnosticRepo = new MongoDiagnosticRepository(mongoClient);
+  const rfpRepo = new MongoRfpRepository(mongoClient);
+  const bookingRepo = new MongoBookingRepository(mongoClient);
+  const decisionRepo = new MongoDecisionRepository(mongoClient);
+  const riskRepo = new MongoRiskRepository(mongoClient);
+  const supportTicketRepo = new MongoSupportTicketRepository(mongoClient);
+  const approvalRepo = new MongoApprovalRepository(mongoClient);
+  const stakeholderRepo = new MongoStakeholderRepository(mongoClient);
+  const latticeRepo = new MongoLatticeRepository(mongoClient);
+  const reportRepo = new MongoReportRepository(mongoClient);
+  const engagementMemberRepo = new MongoEngagementMemberRepository(mongoClient);
+  const budgetRepo = new MongoBudgetRepository(mongoClient);
+  const kbRepo = new MongoKbRepository(mongoClient);
+  const glossaryRepo = new MongoGlossaryRepository(mongoClient);
+  const newsletterRepo = new MongoNewsletterRepository(mongoClient);
+  const changelogRepo = new MongoChangelogRepository(mongoClient);
 
   // Auth
   const passwordHasher = new BcryptPasswordHasher();
@@ -334,8 +412,23 @@ async function main(): Promise<void> {
 
   const contactService = {
     submit: async (input: Any) => {
-      const submission = { id: crypto.randomUUID(), ...input, createdAt: new Date() };
-      await (emailService as Any).sendEmail(config.email.fromAddress, `New Contact: ${input.subject}`, JSON.stringify(input, null, 2));
+      // Persist the lead so it lands in the admin inbox (previously this only
+      // emailed and was never written to the contact_submissions collection).
+      const submission = createContactSubmission({
+        name: input.name,
+        email: input.email,
+        phone: input.phone ?? "",
+        company: input.company ?? "",
+        subject: input.subject ?? "",
+        projectType: input.projectType ?? "",
+        message: input.message,
+        status: "new",
+      });
+      await contactSubmissionRepo.create(submission);
+      // Staff notification is best-effort — never fail the submission on email.
+      void (emailService as Any)
+        .sendEmail(config.email.fromAddress, `New Contact: ${input.subject ?? ""}`, JSON.stringify(input, null, 2))
+        .catch(() => undefined);
       return submission;
     },
   };
@@ -377,6 +470,10 @@ async function main(): Promise<void> {
   app.use(express.urlencoded({ extended: true }));
   app.use(metricsMiddleware);
 
+  // Record every mutating request to the audit log (spec §15.1: 100% of writes).
+  // Uses res.on("finish"), so req.userId/userRole set by per-route auth are captured.
+  app.use(createAuditRecorder(auditRepo));
+
   // Liveness — process is up
   app.get("/health", (_req, res) => {
     res.status(200).json({ status: "ok", uptime: process.uptime() });
@@ -405,6 +502,24 @@ async function main(): Promise<void> {
   app.use("/api/v1/notifications", createNotificationRoutes(notificationService, tokenService as Any));
   app.use("/api/v1/messages", createMessageRoutes(messageService, tokenService as Any, sioHub));
   app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any));
+  // Owning-client lookup shared by the project-scoped portal modules (decisions, risks).
+  const getProjectOwnerId = async (projectId: string): Promise<string | null> => {
+    try {
+      const p = await projectService.getProject(projectId);
+      return (p as Any)?.clientId ?? null;
+    } catch {
+      return null;
+    }
+  };
+  app.use("/api/v1/decisions", createDecisionRoutes(decisionRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/risks", createRiskRoutes(riskRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/tickets", createSupportTicketRoutes(supportTicketRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/approvals", createApprovalRoutes(approvalRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/stakeholders", createStakeholderRoutes(stakeholderRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/lattice", createLatticeRoutes(latticeRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/reports", createReportRoutes(reportRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/team", createEngagementMemberRoutes(engagementMemberRepo, tokenService as Any, getProjectOwnerId));
+  app.use("/api/v1/budget", createBudgetRoutes(budgetRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/invoices", createInvoiceRoutes(billingService, tokenService as Any));
   app.use("/api/v1/users", createUserRoutes(userServiceAdapter, tokenService as Any));
   app.use("/api/v1/roles", createRoleRoutes(roleServiceAdapter, userServiceAdapter, tokenService as Any));
@@ -415,6 +530,29 @@ async function main(): Promise<void> {
   app.use("/api/v1/services", createServiceItemRoutes(serviceRepo, tokenService as Any));
   app.use("/api/v1/portfolio", createCaseStudyRoutes(caseStudyRepo, tokenService as Any));
   app.use("/api/v1/contact-submissions", createContactSubmissionRoutes(contactSubmissionRepo, tokenService as Any));
+
+  // ── Gap-audit modules ─────────────────────────────────────────────────────
+  // Public-write endpoints get lightweight anti-abuse rate limiting; GET passes through.
+  const publicWrite = (name: string, max: number) => {
+    const limiter = rateLimit(name, { max, windowMs: 60_000 });
+    return (req: Any, res: Any, next: Any) => (req.method === "GET" ? next() : limiter(req, res, next));
+  };
+
+  app.use("/api/v1/audit", createAuditRoutes(auditRepo, tokenService as Any));
+  app.use("/api/v1/status", publicWrite("status", 30), createStatusRoutes(statusRepo, emailService as Any, tokenService as Any));
+  app.use("/api/v1/flags", createFeatureFlagRoutes(featureFlagRepo, tokenService as Any));
+  app.use("/api/v1/webhooks", createWebhookRoutes(webhookRepo, tokenService as Any));
+  app.use("/api/v1/api-keys", createApiKeyRoutes(apiKeyRepo, tokenService as Any));
+  app.use("/api/v1/privacy/requests", createDsrRoutes(dsrRepo, tokenService as Any));
+  app.use("/api/v1/consent", publicWrite("consent", 30), createConsentRoutes(consentRepo, tokenService as Any));
+  app.use("/api/v1/feedback", publicWrite("feedback", 20), createFeedbackRoutes(feedbackRepo, tokenService as Any));
+  app.use("/api/v1/diagnostic", publicWrite("diagnostic", 20), createDiagnosticRoutes(diagnosticRepo, tokenService as Any, emailService as Any, config.email.fromAddress));
+  app.use("/api/v1/rfp", publicWrite("rfp", 10), createRfpRoutes(rfpRepo, tokenService as Any, emailService as Any, config.email.fromAddress));
+  app.use("/api/v1/booking", publicWrite("booking", 15), createBookingRoutes(bookingRepo, tokenService as Any, emailService as Any, config.email.fromAddress));
+  app.use("/api/v1/help", createKbRoutes(kbRepo, tokenService as Any));
+  app.use("/api/v1/glossary", createGlossaryRoutes(glossaryRepo, tokenService as Any));
+  app.use("/api/v1/newsletter", publicWrite("newsletter", 15), createNewsletterRoutes(newsletterRepo, emailService as Any, tokenService as Any));
+  app.use("/api/v1/changelog", createChangelogRoutes(changelogRepo, tokenService as Any));
 
   // ── Public activity feed (anonymized, derived from recent events) ─────────
   app.get("/api/v1/activity", async (_req, res, next) => {
@@ -474,6 +612,37 @@ async function main(): Promise<void> {
       .replace(/'/g, "&apos;");
   }
 
+  // ── Trust & security endpoints (RFC 9116 + trust summary) ─────────────────
+  app.get("/.well-known/security.txt", (_req, res) => {
+    const expires = new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString();
+    res.set("Content-Type", "text/plain; charset=utf-8");
+    res.send(
+      [
+        "Contact: mailto:security@neurodynecorp.com",
+        `Expires: ${expires}`,
+        `Policy: ${SITE_URL}/legal/security`,
+        `Canonical: ${SITE_URL}/.well-known/security.txt`,
+        "Preferred-Languages: en",
+        "",
+      ].join("\n"),
+    );
+  });
+
+  app.get("/api/v1/trust", (_req, res) => {
+    res.json({
+      security: {
+        mfa: true,
+        auditLogging: true,
+        encryptionInTransit: true,
+        rbac: true,
+        vulnerabilityDisclosure: `${SITE_URL}/.well-known/security.txt`,
+      },
+      compliance: { gdpr: true, ghanaDataProtectionAct: true, dataResidency: "configurable" },
+      subprocessors: `${SITE_URL}/legal/subprocessors`,
+      status: `${SITE_URL}/status`,
+    });
+  });
+
   app.get("/feed.xml", async (_req, res, next) => {
     try {
       const posts = await blogPostRepo.findAll({ status: "published" });
@@ -519,16 +688,14 @@ ${items}
         caseStudyRepo.findAll({ status: "published" }),
       ]);
 
-      const staticPaths = ["/", "/about", "/services", "/portfolio", "/blog", "/contact", "/start-project", "/changelog", "/open-source", "/privacy", "/terms"];
+      const staticPaths = ["/", "/about", "/services", "/services/audit", "/services/enterprise", "/services/ai", "/services/digital", "/services/advisory", "/labs", "/subsidiaries", "/industries", "/portfolio", "/blog", "/faq", "/press", "/contact", "/start-project", "/changelog", "/open-source", "/privacy", "/terms", "/status", "/trust", "/help", "/legal/cookies", "/legal/acceptable-use", "/legal/accessibility", "/legal/subprocessors", "/legal/security", "/legal/dpa"];
       const blogUrls = (posts as any[]).map((p) => `/blog/${p.slug ?? p.id}`);
+      const portfolioUrls = (caseStudies as any[]).map((c) => `/portfolio/${c.slug ?? c.id}`);
 
-      const urls = [...staticPaths, ...blogUrls].map((path) => {
+      const urls = [...staticPaths, ...blogUrls, ...portfolioUrls].map((path) => {
         const lastmod = new Date().toISOString().slice(0, 10);
         return `<url><loc>${SITE_URL}${path}</loc><lastmod>${lastmod}</lastmod><changefreq>weekly</changefreq></url>`;
       });
-
-      // include case studies on portfolio
-      void caseStudies;
 
       const xml = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

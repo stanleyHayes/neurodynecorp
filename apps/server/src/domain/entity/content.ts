@@ -70,6 +70,7 @@ export function createServiceItem(input: Omit<ServiceItem, "id" | "createdAt" | 
 export interface CaseStudy {
   id: string;
   title: string;
+  slug: string;
   client: string;
   category: string;
   tags: string[];
@@ -79,6 +80,18 @@ export interface CaseStudy {
   status: "published" | "draft";
   coverImage?: string;
   color: string;
+  // ── Case Dossier facets (declassified-brief format) ──────────────────────
+  sector?: string;
+  serviceLine?: string;
+  scale?: string;
+  stage?: string;
+  // ── Declassified-brief narrative ─────────────────────────────────────────
+  brief?: string;
+  constraints?: string[];
+  architecture?: string;
+  shipped?: string[];
+  retained?: string[];
+  learnt?: string[];
   createdAt: Date;
   updatedAt: Date;
 }

@@ -13,9 +13,12 @@ import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/Miscellaneous
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
 import EmptyState from "@/components/shared/EmptyState";
-import CostEstimator from "@/components/shared/CostEstimator";
+import ScopeEstimator from "@/components/shared/ScopeEstimator";
 import TrustBadges from "@/components/shared/TrustBadges";
 import TechStackPicker from "@/components/shared/TechStackPicker";
+import { Container } from "@mui/material";
+import { SectionHeading, CardGrid, Overline } from "@/components/shared/Marketing";
+import { SERVICE_LINES } from "@/data/serviceLines";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
@@ -341,12 +344,52 @@ export default function Services() {
         </>
       )}
 
+      {/* Strategic service lines — deep pages */}
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
+        <SectionHeading
+          tag="§ — SERVICE LINES"
+          title="Five ways we engage"
+          lead="Beyond the capability matrix, the firm engages along five strategic service lines. Each has its own dedicated page."
+          color="#6C63FF"
+        />
+        <CardGrid columns={3}>
+          {SERVICE_LINES.map((s) => (
+            <Box
+              key={s.slug}
+              component={Link}
+              to={`/services/${s.slug}`}
+              sx={{
+                display: "block",
+                height: "100%",
+                p: { xs: 3, md: 3.5 },
+                borderRadius: 3,
+                border: "1px solid",
+                borderColor: "divider",
+                bgcolor: `${s.color}0A`,
+                textDecoration: "none",
+                color: "inherit",
+                transition: "border-color 0.3s, background 0.3s, transform 0.3s",
+                "&:hover": { borderColor: `${s.color}66`, bgcolor: `${s.color}14`, transform: "translateY(-3px)" },
+              }}
+            >
+              <Overline color={s.color}>{s.kicker}</Overline>
+              <Typography variant="h6" sx={{ fontWeight: 800, mt: 1, mb: 1 }}>
+                {s.name}
+              </Typography>
+              <Typography variant="body2" color="text.secondary">
+                {s.positioning}
+              </Typography>
+            </Box>
+          ))}
+        </CardGrid>
+      </Container>
+
       {/* Trust badges */}
       <TrustBadges />
 
-      {/* Cost estimator */}
+      {/* Scope estimator */}
       <Box sx={{ px: { xs: 3, md: 6 }, py: { xs: 6, md: 10 } }}>
-        <CostEstimator />
+        <ScopeEstimator />
       </Box>
 
       {/* Tech stack picker */}

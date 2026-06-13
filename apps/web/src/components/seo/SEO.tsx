@@ -64,10 +64,20 @@ export default function SEO({
       {/* Canonical */}
       {canonical && <link rel="canonical" href={canonical} />}
 
-      {/* Structured Data */}
+      {/* Structured Data.
+          react-helmet-async injects a <script> child as raw innerHTML on the client (CSR) path with
+          NO escaping, and JSON.stringify does not escape < > &. So any CMS/user-authored text in
+          structuredData containing "</script>" could break out of the JSON-LD tag and inject live DOM
+          (stored XSS). Escape those chars (and the JS line separators) to their \uXXXX forms — still
+          valid, machine-readable JSON-LD, but impossible to break out of the script element. */}
       {structuredData && (
         <script type="application/ld+json">
-          {JSON.stringify(structuredData)}
+          {JSON.stringify(structuredData)
+            .replace(/</g, "\\u003c")
+            .replace(/>/g, "\\u003e")
+            .replace(/&/g, "\\u0026")
+            .replace(/\u2028/g, "\\u2028")
+            .replace(/\u2029/g, "\\u2029")}
         </script>
       )}
     </Helmet>

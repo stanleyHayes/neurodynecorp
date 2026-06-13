@@ -197,7 +197,6 @@ export default function About() {
         icon={<InfoOutlinedIcon />}
         title="About NeuroDyne Corp"
         description="We're a productized software engineering studio founded by Stanley Asoku Hayford — shipping 36+ real projects across fintech, govtech, healthcare, edtech, and AI for clients in Africa and beyond."
-        accentWord="NeuroDyne"
         tag="INTEL // BRIEF"
         accentWord="NeuroDyne Corp"
         iconColor="#8B85FF"

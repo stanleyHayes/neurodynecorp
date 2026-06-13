@@ -3,6 +3,8 @@ import { Box } from "@mui/material";
 import { Outlet, useLocation } from "react-router";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
+import CookieConsent from "@/components/shared/CookieConsent";
+import FeedbackWidget from "@/components/shared/FeedbackWidget";
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -21,6 +23,8 @@ export default function Layout() {
         <Outlet />
       </Box>
       <Footer />
+      <CookieConsent />
+      <FeedbackWidget />
     </Box>
   );
 }

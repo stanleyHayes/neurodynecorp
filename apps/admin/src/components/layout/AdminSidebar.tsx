@@ -32,6 +32,19 @@ import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import AdminPanelSettingsOutlinedIcon from "@mui/icons-material/AdminPanelSettingsOutlined";
+import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
+import FlagOutlinedIcon from "@mui/icons-material/FlagOutlined";
+import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
+import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
+import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
+import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
+import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import SpellcheckOutlinedIcon from "@mui/icons-material/SpellcheckOutlined";
+import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
+import PolicyOutlinedIcon from "@mui/icons-material/PolicyOutlined";
+import NewReleasesOutlinedIcon from "@mui/icons-material/NewReleasesOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useAuth } from "@/context/AuthContext";
@@ -71,6 +84,19 @@ const ROUTE_PERMISSIONS: Record<string, string> = {
   "/notifications": "notifications:read",
   "/finance": "finance:read",
   "/roles": "roles:read",
+  "/status": "incidents:read",
+  "/feature-flags": "feature_flags:read",
+  "/audit-log": "audit:read",
+  "/feedback": "feedback:read",
+  "/diagnostics": "diagnostic:read",
+  "/rfp": "rfp:read",
+  "/bookings": "booking:read",
+  "/tickets": "tickets:read",
+  "/knowledge-base": "kb:read",
+  "/glossary": "kb:read",
+  "/newsletter": "newsletter:read",
+  "/privacy-requests": "dsr:read",
+  "/changelog": "changelog:read",
   "/settings": "settings:read",
 };
 
@@ -110,6 +136,29 @@ const menuGroups: MenuGroup[] = [
       { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#00D4AA" },
       { label: "Finance", icon: <AttachMoneyOutlinedIcon />, path: "/finance", color: "#10B981" },
       { label: "Roles", icon: <AdminPanelSettingsOutlinedIcon />, path: "/roles", color: "#EF4444" },
+    ],
+  },
+  {
+    title: "Platform",
+    items: [
+      { label: "Status", icon: <MonitorHeartOutlinedIcon />, path: "/status", color: "#10B981" },
+      { label: "Feature Flags", icon: <FlagOutlinedIcon />, path: "/feature-flags", color: "#F59E0B" },
+      { label: "Audit Log", icon: <ReceiptLongOutlinedIcon />, path: "/audit-log", color: "#8B5CF6" },
+      { label: "Feedback / NPS", icon: <FeedbackOutlinedIcon />, path: "/feedback", color: "#00D4AA" },
+      { label: "Diagnostics", icon: <InsightsOutlinedIcon />, path: "/diagnostics", color: "#6C63FF" },
+      { label: "RFPs & Tenders", icon: <GavelOutlinedIcon />, path: "/rfp", color: "#8B85FF" },
+      { label: "Reading Requests", icon: <EventAvailableOutlinedIcon />, path: "/bookings", color: "#00D4AA" },
+      { label: "Support Tickets", icon: <SupportAgentOutlinedIcon />, path: "/tickets", color: "#EF4444" },
+      { label: "Changelog", icon: <NewReleasesOutlinedIcon />, path: "/changelog", color: "#8B85FF" },
+    ],
+  },
+  {
+    title: "Knowledge & Compliance",
+    items: [
+      { label: "Knowledge Base", icon: <MenuBookOutlinedIcon />, path: "/knowledge-base", color: "#6C63FF" },
+      { label: "Glossary", icon: <SpellcheckOutlinedIcon />, path: "/glossary", color: "#8B85FF" },
+      { label: "Newsletter", icon: <MailOutlineOutlinedIcon />, path: "/newsletter", color: "#33DDBB" },
+      { label: "Privacy Requests", icon: <PolicyOutlinedIcon />, path: "/privacy-requests", color: "#EF4444" },
     ],
   },
 ];

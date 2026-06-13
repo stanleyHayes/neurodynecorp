@@ -139,6 +139,7 @@ const PM_PERMISSIONS = [
   ...allActions("testimonials"),
   ...allActions("services"),
   ...allActions("contact_submissions"),
+  ...allActions("tickets"),
   perm("settings", "read"),
   perm("settings", "update"),
   perm("roles", "read"),

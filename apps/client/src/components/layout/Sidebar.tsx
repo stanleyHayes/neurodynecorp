@@ -19,6 +19,9 @@ import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
+import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
+import ApiOutlinedIcon from "@mui/icons-material/ApiOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 export const DRAWER_WIDTH = 260;
@@ -44,6 +47,9 @@ const ROUTE_PERMISSIONS: Record<string, string> = {
   "/notifications": "notifications:read",
   "/documents": "documents:read",
   "/billing": "billing:read",
+  "/security": "settings:read",
+  "/webhooks": "settings:read",
+  "/help": "dashboard:read",
   "/settings": "settings:read",
 };
 
@@ -67,6 +73,14 @@ const menuGroups: MenuGroup[] = [
     items: [
       { label: "Documents", icon: <DescriptionOutlinedIcon />, path: "/documents", color: "#8B85FF" },
       { label: "Billing", icon: <ReceiptOutlinedIcon />, path: "/billing", color: "#6C63FF" },
+      { label: "Help Center", icon: <HelpOutlineOutlinedIcon />, path: "/help", color: "#00D4AA" },
+    ],
+  },
+  {
+    title: "Account & Trust",
+    items: [
+      { label: "Security", icon: <VpnKeyOutlinedIcon />, path: "/security", color: "#EF4444" },
+      { label: "Webhooks", icon: <ApiOutlinedIcon />, path: "/webhooks", color: "#8B85FF" },
     ],
   },
 ];

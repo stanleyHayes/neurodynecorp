@@ -16,6 +16,9 @@ import Billing from "@/pages/Billing";
 import Messages from "@/pages/Messages";
 import Notifications from "@/pages/Notifications";
 import Settings from "@/pages/Settings";
+import Security from "@/pages/Security";
+import Webhooks from "@/pages/Webhooks";
+import HelpCenter from "@/pages/HelpCenter";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -91,6 +94,9 @@ function AppShell() {
           <Route path="messages" element={<Messages />} />
           <Route path="notifications" element={<Notifications />} />
           <Route path="settings" element={<Settings />} />
+          <Route path="security" element={<Security />} />
+          <Route path="webhooks" element={<Webhooks />} />
+          <Route path="help" element={<HelpCenter />} />
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

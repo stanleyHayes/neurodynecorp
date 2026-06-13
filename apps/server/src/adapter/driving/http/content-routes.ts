@@ -163,11 +163,33 @@ export function createServiceItemRoutes(service: ContentService<any>, tokenServi
   });
 }
 
-export function createCaseStudyRoutes(service: ContentService<any>, tokenService: TokenService) {
+export function createCaseStudyRoutes(
+  service: ContentService<any> & { findBySlug?: (slug: string) => Promise<any | null> },
+  tokenService: TokenService,
+) {
   return createCrudRoutes("portfolio", service, tokenService, {
-    createFn: (data) => createCaseStudy({ ...data, status: data.status ?? "draft", tags: data.tags ?? [], results: data.results ?? [] }),
+    createFn: (data) => createCaseStudy({
+      ...data,
+      slug: data.slug ?? data.title.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, ""),
+      status: data.status ?? "draft",
+      tags: data.tags ?? [],
+      results: data.results ?? [],
+    }),
     publicRead: true,
-    filterKeys: ["status", "category"],
+    filterKeys: ["status", "category", "sector", "serviceLine", "scale", "stage"],
+    extraRoutes: service.findBySlug
+      ? (router) => {
+          router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
+            try {
+              const item = await service.findBySlug!(req.params.slug!);
+              if (!item) throw new NotFoundError("portfolio", req.params.slug);
+              res.json(item);
+            } catch (err) {
+              next(err);
+            }
+          });
+        }
+      : undefined,
   });
 }
 

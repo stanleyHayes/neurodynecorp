@@ -41,6 +41,22 @@ export const RESOURCES = [
   "documents",
   "settings",
   "roles",
+  // ── Platform / trust / ops resources (gap-audit build) ──
+  "audit",
+  "incidents",
+  "feature_flags",
+  "webhooks",
+  "apikeys",
+  "dsr",
+  "consent",
+  "feedback",
+  "kb",
+  "newsletter",
+  "changelog",
+  "diagnostic",
+  "rfp",
+  "booking",
+  "tickets",
 ] as const;
 
 export type Resource = (typeof RESOURCES)[number];

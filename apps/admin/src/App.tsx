@@ -40,6 +40,19 @@ import RoleCreate from "@/pages/RoleCreate";
 import RoleDetail from "@/pages/RoleDetail";
 import ProjectCreate from "@/pages/ProjectCreate";
 import ClientCreate from "@/pages/ClientCreate";
+import AuditLog from "@/pages/AuditLog";
+import FeatureFlags from "@/pages/FeatureFlags";
+import StatusManager from "@/pages/StatusManager";
+import ChangelogManager from "@/pages/ChangelogManager";
+import KnowledgeBase from "@/pages/KnowledgeBase";
+import Glossary from "@/pages/Glossary";
+import Newsletter from "@/pages/Newsletter";
+import FeedbackInbox from "@/pages/FeedbackInbox";
+import Diagnostics from "@/pages/Diagnostics";
+import Rfp from "@/pages/Rfp";
+import Bookings from "@/pages/Bookings";
+import Tickets from "@/pages/Tickets";
+import PrivacyRequests from "@/pages/PrivacyRequests";
 import CommandPalette from "@/components/shared/CommandPalette";
 import KeyboardNav from "@/components/shared/KeyboardNav";
 import CursorTrail from "@/components/shared/CursorTrail";
@@ -104,6 +117,19 @@ export default function App() {
                 <Route path="roles" element={<Roles />} />
                 <Route path="roles/new" element={<RoleCreate />} />
                 <Route path="roles/:id" element={<RoleDetail />} />
+                <Route path="status" element={<StatusManager />} />
+                <Route path="feature-flags" element={<FeatureFlags />} />
+                <Route path="audit-log" element={<AuditLog />} />
+                <Route path="feedback" element={<FeedbackInbox />} />
+                <Route path="diagnostics" element={<Diagnostics />} />
+                <Route path="rfp" element={<Rfp />} />
+                <Route path="bookings" element={<Bookings />} />
+                <Route path="tickets" element={<Tickets />} />
+                <Route path="knowledge-base" element={<KnowledgeBase />} />
+                <Route path="glossary" element={<Glossary />} />
+                <Route path="newsletter" element={<Newsletter />} />
+                <Route path="privacy-requests" element={<PrivacyRequests />} />
+                <Route path="changelog" element={<ChangelogManager />} />
                 <Route path="settings" element={<Settings />} />
               </Route>
             </Route>

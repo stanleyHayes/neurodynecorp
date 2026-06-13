@@ -36,7 +36,11 @@ const footerSections = [
     links: [
       { label: "About", path: "/about" },
       { label: "Services", path: "/services" },
-      { label: "Portfolio", path: "/portfolio" },
+      { label: "Labs", path: "/labs" },
+      { label: "Subsidiaries", path: "/subsidiaries" },
+      { label: "Industries", path: "/industries" },
+      { label: "Case Dossiers", path: "/portfolio" },
+      { label: "Press", path: "/press" },
       { label: "Blog", path: "/blog" },
     ],
   },
@@ -57,12 +61,30 @@ const footerSections = [
     links: [
       { label: "Contact", path: "/contact" },
       { label: "Start a Project", path: "/start-project" },
+      { label: "Readiness Diagnostic", path: "/diagnostic" },
+      { label: "Scope Estimator", path: "/estimator" },
+      { label: "Submit an RFP", path: "/rfp" },
+      { label: "Book a Reading", path: "/book" },
+      { label: "FAQ", path: "/faq" },
       { label: "Spec Library", path: "/spec-library" },
+      { label: "Help Center", path: "/help" },
+      { label: "Glossary", path: "/glossary" },
       { label: "Changelog", path: "/changelog" },
       { label: "Open Source", path: "/open-source" },
       { label: "RSS Feed", path: "/feed.xml" },
-      { label: "Privacy Policy", path: "/privacy" },
-      { label: "Terms of Service", path: "/terms" },
+    ],
+  },
+  {
+    title: "Trust & Legal",
+    links: [
+      { label: "Status", path: "/status" },
+      { label: "Trust Center", path: "/trust" },
+      { label: "Security", path: "/legal/security" },
+      { label: "Sub-processors", path: "/legal/subprocessors" },
+      { label: "Cookie Policy", path: "/legal/cookies" },
+      { label: "DPA", path: "/legal/dpa" },
+      { label: "Accessibility", path: "/legal/accessibility" },
+      { label: "Privacy", path: "/privacy" },
     ],
   },
 ];
@@ -675,7 +697,7 @@ export default function Footer() {
 
             {/* nav columns */}
             {footerSections.map((section, si) => (
-              <Grid key={section.title} size={{ xs: 6, md: 2.66 }}>
+              <Grid key={section.title} size={{ xs: 6, md: 2 }}>
                 <SectionTitle index={si}>{section.title}</SectionTitle>
                 {section.links.map((link, li) => (
                   <FooterLink

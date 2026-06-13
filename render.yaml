@@ -9,7 +9,7 @@ services:
     dockerfilePath: ./apps/server/Dockerfile
     repo: https://github.com/neurodynecorp/neurodynelabs
     branch: main
-    plan: standard
+    plan: free
     envVars:
       - key: NODE_ENV
         value: production
@@ -31,7 +31,7 @@ services:
       - key: NEURODYNE_JWT_REFRESH_SECRET
         generateValue: true
       - key: NEURODYNE_CORS_ORIGINS
-        value: "https://neurodynecorp.com,https://admin.neurodynecorp.com,https://client.neurodynecorp.com"
+        value: "https://neurodynecorp.com,https://admin.neurodynecorp.com,https://client.neurodynecorp.com,https://admin-neurodynecorp.vercel.app,https://client-neurodyncorp.vercel.app"
     healthCheckPath: /health
     numInstances: 1
 
@@ -41,7 +41,7 @@ services:
     dockerfilePath: ./apps/api/Dockerfile
     repo: https://github.com/neurodynecorp/neurodynelabs
     branch: main
-    plan: standard
+    plan: free
     envVars:
       - key: SERVER_ENVIRONMENT
         value: production
@@ -66,38 +66,7 @@ services:
     healthCheckPath: /health
     numInstances: 1
 
-  - type: web
-    name: neurodyne-web
-    runtime: static
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @neurodyne/web build
-    staticPublishPath: ./apps/web/dist
-    repo: https://github.com/neurodynecorp/neurodynelabs
-    branch: main
-    envVars:
-      - key: NODE_VERSION
-        value: 20
-
-  - type: web
-    name: neurodyne-client
-    runtime: static
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @neurodyne/client build
-    staticPublishPath: ./apps/client/dist
-    repo: https://github.com/neurodynecorp/neurodynelabs
-    branch: main
-    envVars:
-      - key: NODE_VERSION
-        value: 20
-
-  - type: web
-    name: neurodyne-admin
-    runtime: static
-    buildCommand: pnpm install --frozen-lockfile && pnpm --filter @neurodyne/admin build
-    staticPublishPath: ./apps/admin/dist
-    repo: https://github.com/neurodynecorp/neurodynelabs
-    branch: main
-    envVars:
-      - key: NODE_VERSION
-        value: 20
+  # Frontends (web, client, admin) are deployed on Vercel — not Render.
 
 databases:
   - name: neurodyne-mongodb

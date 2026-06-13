@@ -203,7 +203,7 @@ export class ApiClient {
 
   // Contact
   submitContact(data: { name: string; email: string; message: string; phone?: string; company?: string; subject?: string; projectType?: string }) {
-    return this.request<{ status: string; message: string }>("/api/v1/contact", { method: "POST", body: data });
+    return this.request<{ message: string; id: string }>("/api/v1/contact", { method: "POST", body: data });
   }
 
   // Blog Posts
@@ -276,6 +276,246 @@ export class ApiClient {
     return this.request<void>(`/api/v1/contact-submissions/${id}`, { method: "DELETE" });
   }
 
+  // Engagement Readiness Diagnostic (Layer 02 intake)
+  getDiagnosticQuestions() {
+    return this.request<{ questions: DiagnosticQuestion[] }>("/api/v1/diagnostic/questions");
+  }
+  submitDiagnostic(data: { answers: { questionId: string; value: string | string[] }[]; respondentName?: string; email?: string; org?: string }) {
+    return this.request<{ recordId: string; result: DiagnosticResult }>("/api/v1/diagnostic/submit", { method: "POST", body: data });
+  }
+  listDiagnostics(params?: Record<string, string>) {
+    return this.request<{ items: DiagnosticRecord[]; total: number }>("/api/v1/diagnostic", { params });
+  }
+  getDiagnostic(id: string) {
+    return this.request<DiagnosticRecord>(`/api/v1/diagnostic/${id}`);
+  }
+
+  // RFP / Tender Submission Portal (Layer 02 intake)
+  submitRfp(data: RfpSubmissionInput) {
+    return this.request<{ id: string; status: string; slaDueAt: string; slaHours: number }>("/api/v1/rfp/submit", { method: "POST", body: data });
+  }
+  listRfps(params?: Record<string, string>) {
+    return this.request<{ items: RfpSubmission[]; total: number }>("/api/v1/rfp", { params });
+  }
+  getRfp(id: string) {
+    return this.request<RfpSubmission>(`/api/v1/rfp/${id}`);
+  }
+  updateRfpStatus(id: string, status: string) {
+    return this.request<RfpSubmission>(`/api/v1/rfp/${id}`, { method: "PATCH", body: { status } });
+  }
+
+  // Book a Reading (Layer 02 intake)
+  getBookingDuration(route?: string) {
+    return this.request<{ durationMins: number }>("/api/v1/booking/duration", { params: route ? { route } : undefined });
+  }
+  submitBooking(data: BookingRequestInput) {
+    return this.request<{ id: string; status: string; durationMins: number }>("/api/v1/booking/submit", { method: "POST", body: data });
+  }
+  listBookings(params?: Record<string, string>) {
+    return this.request<{ items: BookingRequest[]; total: number }>("/api/v1/booking", { params });
+  }
+  getBooking(id: string) {
+    return this.request<BookingRequest>(`/api/v1/booking/${id}`);
+  }
+  updateBookingStatus(id: string, status: string) {
+    return this.request<BookingRequest>(`/api/v1/booking/${id}`, { method: "PATCH", body: { status } });
+  }
+
+  // Decision Log (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listDecisions(projectId: string) {
+    return this.request<{ items: Decision[]; total: number }>("/api/v1/decisions", { params: { projectId } });
+  }
+  getDecision(id: string) {
+    return this.request<Decision>(`/api/v1/decisions/${id}`);
+  }
+  createDecision(data: DecisionInput) {
+    return this.request<Decision>("/api/v1/decisions", { method: "POST", body: data });
+  }
+  updateDecision(id: string, data: Partial<DecisionInput>) {
+    return this.request<Decision>(`/api/v1/decisions/${id}`, { method: "PATCH", body: data });
+  }
+  deleteDecision(id: string) {
+    return this.request<void>(`/api/v1/decisions/${id}`, { method: "DELETE" });
+  }
+
+  // Risk Register (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listRisks(projectId: string) {
+    return this.request<{ items: Risk[]; total: number }>("/api/v1/risks", { params: { projectId } });
+  }
+  getRisk(id: string) {
+    return this.request<Risk>(`/api/v1/risks/${id}`);
+  }
+  createRisk(data: RiskInput) {
+    return this.request<Risk>("/api/v1/risks", { method: "POST", body: data });
+  }
+  updateRisk(id: string, data: Partial<RiskInput>) {
+    return this.request<Risk>(`/api/v1/risks/${id}`, { method: "PATCH", body: data });
+  }
+  deleteRisk(id: string) {
+    return this.request<void>(`/api/v1/risks/${id}`, { method: "DELETE" });
+  }
+
+  // Support Tickets (Layer 03 client portal — client-write / staff-respond, SLA-tracked)
+  listProjectTickets(projectId: string) {
+    return this.request<{ items: SupportTicket[]; total: number }>("/api/v1/tickets", { params: { projectId } });
+  }
+  listAllTickets(params?: Record<string, string>) {
+    return this.request<{ items: SupportTicket[]; total: number }>("/api/v1/tickets", { params });
+  }
+  getTicket(id: string) {
+    return this.request<SupportTicket>(`/api/v1/tickets/${id}`);
+  }
+  createTicket(data: TicketInput) {
+    return this.request<SupportTicket>("/api/v1/tickets", { method: "POST", body: data });
+  }
+  replyTicket(id: string, body: string) {
+    return this.request<SupportTicket>(`/api/v1/tickets/${id}/replies`, { method: "POST", body: { body } });
+  }
+  updateTicketStatus(id: string, status: string) {
+    return this.request<SupportTicket>(`/api/v1/tickets/${id}`, { method: "PATCH", body: { status } });
+  }
+
+  // Approval Workflows (Layer 03 client portal — staff request, owning client signs off)
+  listApprovals(projectId: string) {
+    return this.request<{ items: Approval[]; total: number }>("/api/v1/approvals", { params: { projectId } });
+  }
+  getApproval(id: string) {
+    return this.request<Approval>(`/api/v1/approvals/${id}`);
+  }
+  createApproval(data: ApprovalInput) {
+    return this.request<Approval>("/api/v1/approvals", { method: "POST", body: data });
+  }
+  decideApproval(id: string, decision: string, comment?: string) {
+    return this.request<Approval>(`/api/v1/approvals/${id}/decision`, { method: "POST", body: { decision, comment } });
+  }
+  deleteApproval(id: string) {
+    return this.request<void>(`/api/v1/approvals/${id}`, { method: "DELETE" });
+  }
+
+  // Stakeholder Map (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listStakeholders(projectId: string) {
+    return this.request<{ items: Stakeholder[]; total: number }>("/api/v1/stakeholders", { params: { projectId } });
+  }
+  getStakeholder(id: string) {
+    return this.request<Stakeholder>(`/api/v1/stakeholders/${id}`);
+  }
+  createStakeholder(data: StakeholderInput) {
+    return this.request<Stakeholder>("/api/v1/stakeholders", { method: "POST", body: data });
+  }
+  updateStakeholder(id: string, data: Partial<StakeholderInput>) {
+    return this.request<Stakeholder>(`/api/v1/stakeholders/${id}`, { method: "PATCH", body: data });
+  }
+  deleteStakeholder(id: string) {
+    return this.request<void>(`/api/v1/stakeholders/${id}`, { method: "DELETE" });
+  }
+
+  // Capability Lattice Tracker (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listLattice(projectId: string) {
+    return this.request<{ items: LatticeItem[]; total: number }>("/api/v1/lattice", { params: { projectId } });
+  }
+  getLatticeItem(id: string) {
+    return this.request<LatticeItem>(`/api/v1/lattice/${id}`);
+  }
+  createLatticeItem(data: LatticeItemInput) {
+    return this.request<LatticeItem>("/api/v1/lattice", { method: "POST", body: data });
+  }
+  updateLatticeItem(id: string, data: Partial<LatticeItemInput>) {
+    return this.request<LatticeItem>(`/api/v1/lattice/${id}`, { method: "PATCH", body: data });
+  }
+  deleteLatticeItem(id: string) {
+    return this.request<void>(`/api/v1/lattice/${id}`, { method: "DELETE" });
+  }
+
+  // Reports Library (Layer 03 client portal — project-scoped, staff-write / client sees published only)
+  listReports(projectId: string) {
+    return this.request<{ items: Report[]; total: number }>("/api/v1/reports", { params: { projectId } });
+  }
+  getReport(id: string) {
+    return this.request<Report>(`/api/v1/reports/${id}`);
+  }
+  createReport(data: ReportInput) {
+    return this.request<Report>("/api/v1/reports", { method: "POST", body: data });
+  }
+  updateReport(id: string, data: Partial<ReportInput>) {
+    return this.request<Report>(`/api/v1/reports/${id}`, { method: "PATCH", body: data });
+  }
+  deleteReport(id: string) {
+    return this.request<void>(`/api/v1/reports/${id}`, { method: "DELETE" });
+  }
+
+  // Team Directory (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listTeam(projectId: string) {
+    return this.request<{ items: EngagementMember[]; total: number }>("/api/v1/team", { params: { projectId } });
+  }
+  getTeamMember(id: string) {
+    return this.request<EngagementMember>(`/api/v1/team/${id}`);
+  }
+  createTeamMember(data: EngagementMemberInput) {
+    return this.request<EngagementMember>("/api/v1/team", { method: "POST", body: data });
+  }
+  updateTeamMember(id: string, data: Partial<EngagementMemberInput>) {
+    return this.request<EngagementMember>(`/api/v1/team/${id}`, { method: "PATCH", body: data });
+  }
+  deleteTeamMember(id: string) {
+    return this.request<void>(`/api/v1/team/${id}`, { method: "DELETE" });
+  }
+
+  // Budget & Milestone Tracker (Layer 03 client portal — project-scoped, staff-write / client-read)
+  listBudget(projectId: string) {
+    return this.request<{ items: BudgetItem[]; total: number }>("/api/v1/budget", { params: { projectId } });
+  }
+  getBudgetItem(id: string) {
+    return this.request<BudgetItem>(`/api/v1/budget/${id}`);
+  }
+  createBudgetItem(data: BudgetItemInput) {
+    return this.request<BudgetItem>("/api/v1/budget", { method: "POST", body: data });
+  }
+  updateBudgetItem(id: string, data: Partial<BudgetItemInput>) {
+    return this.request<BudgetItem>(`/api/v1/budget/${id}`, { method: "PATCH", body: data });
+  }
+  deleteBudgetItem(id: string) {
+    return this.request<void>(`/api/v1/budget/${id}`, { method: "DELETE" });
+  }
+
+  // Glossary of Practice (Layer 06 — public read, staff write)
+  listGlossary(params?: { category?: string; q?: string }) {
+    const p: Record<string, string> = {};
+    if (params?.category) p.category = params.category;
+    if (params?.q) p.q = params.q;
+    return this.request<{ items: GlossaryTerm[]; total: number }>("/api/v1/glossary", { params: p });
+  }
+  listAllGlossary(params?: { status?: string; category?: string; q?: string }) {
+    const p: Record<string, string> = {};
+    if (params?.status) p.status = params.status;
+    if (params?.category) p.category = params.category;
+    if (params?.q) p.q = params.q;
+    return this.request<{ items: GlossaryTerm[]; total: number }>("/api/v1/glossary/all", { params: p });
+  }
+  glossaryCategories() {
+    return this.request<{ categories: string[] }>("/api/v1/glossary/categories");
+  }
+  getGlossaryTermBySlug(slug: string) {
+    return this.request<GlossaryTerm>(`/api/v1/glossary/slug/${slug}`);
+  }
+  createGlossaryTerm(data: GlossaryTermInput) {
+    return this.request<GlossaryTerm>("/api/v1/glossary", { method: "POST", body: data });
+  }
+  updateGlossaryTerm(id: string, data: Partial<GlossaryTermInput>) {
+    return this.request<GlossaryTerm>(`/api/v1/glossary/${id}`, { method: "PATCH", body: data });
+  }
+  deleteGlossaryTerm(id: string) {
+    return this.request<void>(`/api/v1/glossary/${id}`, { method: "DELETE" });
+  }
+
+  // Client-exportable activity log (Layer 03 — the caller's OWN audit trail; userId forced server-side)
+  getMyActivity(params?: { from?: string; to?: string; limit?: number }) {
+    const q: Record<string, string> = {};
+    if (params?.from) q.from = params.from;
+    if (params?.to) q.to = params.to;
+    if (params?.limit != null) q.limit = String(params.limit);
+    return this.request<{ items: ActivityEntry[]; total: number }>("/api/v1/audit/me", { params: q });
+  }
+
   // Users (admin)
   listUsers(params?: Record<string, string>) {
     return this.request<{ users: UserData[] }>("/api/v1/users", { params });
@@ -312,6 +552,25 @@ export class ApiClient {
   updateUserPermissions(userId: string, permissions: string[]) {
     return this.request<UserData>(`/api/v1/roles/user-permissions/${userId}`, { method: "PATCH", body: { permissions } });
   }
+
+  // ── Generic helpers ──────────────────────────────────────────────────────
+  // Public passthroughs so feature surfaces can call any endpoint without a
+  // bespoke typed method. Path is relative to baseUrl (e.g. "/api/v1/status").
+  get<T = unknown>(path: string, params?: Record<string, string>) {
+    return this.request<T>(path, { params });
+  }
+  post<T = unknown>(path: string, body?: unknown) {
+    return this.request<T>(path, { method: "POST", body });
+  }
+  put<T = unknown>(path: string, body?: unknown) {
+    return this.request<T>(path, { method: "PUT", body });
+  }
+  patch<T = unknown>(path: string, body?: unknown) {
+    return this.request<T>(path, { method: "PATCH", body });
+  }
+  del<T = unknown>(path: string) {
+    return this.request<T>(path, { method: "DELETE" });
+  }
 }
 
 export class ApiError extends Error {
@@ -344,3 +603,38 @@ interface Task { id: string; project_id: string; sprint_id?: string; title: stri
 interface Invoice { id: string; project_id: string; client_id: string; invoice_number: string; status: string; total: number; currency: string; due_date: string; paid_at?: string; created_at: string }
 interface CreateInvoiceData { project_id: string; client_id: string; invoice_number: string; items: { description: string; quantity: number; unit_price: number }[]; tax: number; currency?: string; due_date?: string }
 interface ContentList { items: any[]; total: number }
+interface DiagnosticOption { value: string; label: string }
+interface DiagnosticQuestion { id: string; text: string; helpText?: string; type: "single" | "multi"; options: DiagnosticOption[]; dependsOn?: { questionId: string; expectedValue: string }; order: number }
+interface DiagnosticResult { route: string; routeLabel: string; scores: Record<string, number>; confidence: number; lowConfidence: boolean; summary: string; reasons: string[]; nextStep: string }
+interface DiagnosticRecord { id: string; respondentName?: string; email?: string; org?: string; answers: { questionId: string; value: string | string[] }[]; result: DiagnosticResult; createdAt: string }
+interface RfpSubmissionInput { org: string; contactName: string; contactEmail: string; contactPhone?: string; sector?: string; title: string; scope: string; evaluationCriteria?: string; submissionRequirements?: string; documentUrl?: string; estimatedValue?: string; deadline?: string }
+interface RfpSubmission extends RfpSubmissionInput { id: string; status: string; slaDueAt: string; acknowledgedAt?: string; createdAt: string }
+interface BookingRequestInput { name: string; email: string; org?: string; topic?: string; route?: string; diagnosticId?: string; preferredTimes?: string; timezone?: string }
+interface BookingRequest extends BookingRequestInput { id: string; durationMins: number; status: string; createdAt: string }
+interface DecisionInput { projectId: string; title: string; rationale: string; alternatives?: string[]; decisionMaker: string; linkedArtifacts?: string[]; status?: string; decidedAt?: string }
+interface Decision { id: string; projectId: string; title: string; rationale: string; alternatives: string[]; decisionMaker: string; linkedArtifacts: string[]; status: string; decidedAt: string; createdById: string; createdAt: string; updatedAt: string }
+interface RiskInput { projectId: string; title: string; description: string; owner: string; severity: string; mitigation?: string; residualRating?: string; escalation?: string; status?: string }
+interface Risk { id: string; projectId: string; title: string; description: string; owner: string; severity: string; mitigation: string; residualRating: string; escalation: string; status: string; createdById: string; createdAt: string; updatedAt: string }
+interface TicketInput { projectId: string; subject: string; body: string; category?: string; priority?: string }
+interface TicketReply { id: string; authorId: string; authorName?: string; body: string; staff: boolean; createdAt: string }
+interface SupportTicket { id: string; projectId: string; subject: string; body: string; category: string; priority: string; status: string; slaDueAt: string; firstRespondedAt?: string; createdById: string; createdByStaff: boolean; replies: TicketReply[]; createdAt: string; updatedAt: string }
+interface ApprovalInput { projectId: string; title: string; description?: string; deliverableRef?: string }
+interface Approval { id: string; projectId: string; title: string; description: string; deliverableRef?: string; status: string; requestedById: string; decidedById?: string; decidedAt?: string; decisionComment?: string; createdAt: string; updatedAt: string }
+interface StakeholderInput { projectId: string; name: string; role: string; side: "client" | "firm"; authority?: "decision_maker" | "influencer" | "contributor" | "informed"; briefed?: boolean; email?: string; notes?: string }
+interface Stakeholder { id: string; projectId: string; name: string; role: string; side: "client" | "firm"; authority: "decision_maker" | "influencer" | "contributor" | "informed"; briefed: boolean; email?: string; notes?: string; createdById: string; createdAt: string; updatedAt: string }
+interface LatticeItemInput { projectId: string; capability: string; category: string; status?: "delivered" | "in_flight" | "queued" | "deferred"; description?: string; owner?: string; targetDate?: string }
+interface LatticeItem { id: string; projectId: string; capability: string; category: string; status: "delivered" | "in_flight" | "queued" | "deferred"; description?: string; owner?: string; targetDate?: string; createdById: string; createdAt: string; updatedAt: string }
+type ReportType = "quarterly_review" | "status_memo" | "board_pack" | "handover" | "post_engagement" | "other";
+interface ReportInput { projectId: string; title: string; type?: ReportType; summary?: string; url?: string; period?: string; status?: "draft" | "published" }
+interface Report { id: string; projectId: string; title: string; type: ReportType; summary?: string; url?: string; period?: string; status: "draft" | "published"; publishedAt?: string; createdById: string; createdAt: string; updatedAt: string }
+type MemberAvailability = "full_time" | "part_time" | "on_call" | "unavailable";
+interface EngagementMemberInput { projectId: string; name: string; role: string; email?: string; availability?: MemberAvailability; focus?: string; bio?: string }
+interface EngagementMember { id: string; projectId: string; name: string; role: string; email?: string; availability: MemberAvailability; focus?: string; bio?: string; createdById: string; createdAt: string; updatedAt: string }
+type BudgetCurrency = "USD" | "GHS" | "EUR" | "GBP";
+type BudgetCategory = "milestone" | "workstream" | "retainer" | "expense";
+type BudgetStatus = "planned" | "in_progress" | "invoiced" | "paid" | "overdue";
+interface BudgetItemInput { projectId: string; label: string; category?: BudgetCategory; currency?: BudgetCurrency; budgetAmount: number; invoicedAmount?: number; paidAmount?: number; status?: BudgetStatus; dueDate?: string; notes?: string }
+interface BudgetItem { id: string; projectId: string; label: string; category: BudgetCategory; currency: BudgetCurrency; budgetAmount: number; invoicedAmount: number; paidAmount: number; status: BudgetStatus; dueDate?: string; notes?: string; createdById: string; createdAt: string; updatedAt: string }
+interface ActivityEntry { id: string; userId?: string; userRole?: string; action: string; method: string; path: string; statusCode?: number; ip?: string; createdAt: string }
+interface GlossaryTermInput { term: string; slug?: string; definition: string; category?: string; aliases?: string[]; status?: "published" | "draft"; order?: number }
+interface GlossaryTerm { id: string; term: string; slug: string; definition: string; category?: string; aliases: string[]; status: "published" | "draft"; order: number; createdAt: string; updatedAt: string }

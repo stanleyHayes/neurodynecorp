@@ -12,7 +12,10 @@ const contactFormSchema = z.object({
   phone: z.string().max(30).optional(),
   subject: z.string().min(1).max(300),
   message: z.string().min(10).max(5000),
-  projectType: z.enum(["web_app", "mobile_app", "ai_system", "blockchain"]).optional(),
+  // Free string: the Contact form sends web_app/mobile_app/ai_system/blockchain,
+  // while the Scope Estimator sends a service-line slug (audit/enterprise/ai/digital/advisory).
+  // Persisted as a plain string, so accept any short value rather than a closed enum.
+  projectType: z.string().max(60).optional(),
 });
 
 // ---- Service interface ----

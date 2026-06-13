@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Box, Typography, Stack, Chip } from "@mui/material";
+import { useNavigate } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { playSound } from "@/hooks/useSound";
@@ -37,6 +38,7 @@ export default function AnimatedCaseStudy({
 }: CaseStudyCardProps) {
   const [hovered, setHovered] = useState(false);
   const [step, setStep] = useState(0);
+  const navigate = useNavigate();
 
   const slides = [
     description,
@@ -56,8 +58,11 @@ export default function AnimatedCaseStudy({
         setStep(0);
       }}
       onClick={() => {
-        if (href) window.location.href = href;
-        playSound("click");
+        if (href) {
+          playSound("click");
+          if (href.startsWith("/")) navigate(href);
+          else window.location.href = href;
+        }
       }}
       sx={{
         position: "relative",

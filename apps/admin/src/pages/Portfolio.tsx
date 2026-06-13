@@ -71,7 +71,7 @@ export default function Portfolio() {
     { label: "Industries", value: String(new Set(caseStudies.map((c) => c.category)).size), change: "sectors covered", icon: <TrendingUpOutlinedIcon />, color: "#8B85FF" },
   ];
 
-  const statusLabel = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
+  const statusLabel = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "Draft");
 
   if (loading) {
     return <PageSkeleton stats={3} rows={4} grid cols={3} />;
@@ -172,7 +172,7 @@ export default function Portfolio() {
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{study.description}</Typography>
               <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
-                {study.tags.map((tag: string) => (
+                {(study.tags ?? []).map((tag: string) => (
                   <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.55rem", height: 22 }} />
                 ))}
               </Stack>

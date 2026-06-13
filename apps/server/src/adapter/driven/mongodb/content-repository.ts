@@ -28,6 +28,9 @@ function genericRepo<T extends { id: string; createdAt: Date; updatedAt: Date }>
 
   return {
     async findById(id: string): Promise<T | null> {
+      // Guard against non-ObjectId params (e.g. a slug routed to /:id) so a bad
+      // id resolves to a clean 404 instead of throwing a BSONError → HTTP 500.
+      if (!ObjectId.isValid(id)) return null;
       const doc = await col.findOne({ _id: new ObjectId(id) });
       return doc ? fromDoc(doc) : null;
     },
@@ -39,7 +42,9 @@ function genericRepo<T extends { id: string; createdAt: Date; updatedAt: Date }>
           if (v !== undefined) query[k] = v;
         }
       }
-      const docs = await col.find(query).sort({ created_at: -1 }).toArray();
+      // Documents persist `createdAt` (camelCase); sort on the field that exists
+      // so newest content (e.g. a just-created dossier) lands first.
+      const docs = await col.find(query).sort({ createdAt: -1 }).toArray();
       return docs.map(fromDoc);
     },
 
@@ -126,10 +131,15 @@ export class MongoCaseStudyRepository {
   }
 
   findById(id: string) { return this.repo.findById(id); }
-  findAll(filter?: { status?: string; category?: string }) { return this.repo.findAll(filter); }
+  findAll(filter?: { status?: string; category?: string; sector?: string; serviceLine?: string; scale?: string; stage?: string }) { return this.repo.findAll(filter); }
   create(item: CaseStudy) { return this.repo.create(item); }
   update(item: CaseStudy) { return this.repo.update(item); }
   delete(id: string) { return this.repo.delete(id); }
+
+  async findBySlug(slug: string): Promise<CaseStudy | null> {
+    const doc = await this.repo.col.findOne({ slug });
+    return doc ? this.repo.fromDoc(doc) : null;
+  }
 }
 
 // ── Contact Submission Repository ─────────────────────────────────────────

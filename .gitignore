@@ -54,3 +54,6 @@ docker-compose.override.yml
 credentials.txt
 *.pem
 *.key
+
+# Local runtime artifacts
+*.rdb
