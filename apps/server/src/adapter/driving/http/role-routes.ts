@@ -96,8 +96,8 @@ export function createRoleRoutes(
   // GET /api/v1/roles/:id — get single role
   router.get("/:id", requirePermission("roles:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const role = await roleService.findById(req.params.id!);
-      if (!role) throw new NotFoundError("Role", req.params.id);
+      const role = await roleService.findById(String(req.params.id));
+      if (!role) throw new NotFoundError("Role", String(req.params.id));
       res.status(200).json(role);
     } catch (err) {
       next(err);
@@ -133,8 +133,8 @@ export function createRoleRoutes(
       const parsed = updateRoleSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid role update data", parsed.error.flatten());
 
-      const existing = await roleService.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("Role", req.params.id);
+      const existing = await roleService.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("Role", String(req.params.id));
 
       if (parsed.data.name && parsed.data.name !== existing.name) {
         const dup = await roleService.findByName(parsed.data.name);
@@ -160,15 +160,15 @@ export function createRoleRoutes(
   // DELETE /api/v1/roles/:id — delete a role (not system roles)
   router.delete("/:id", requirePermission("roles:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await roleService.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("Role", req.params.id);
+      const existing = await roleService.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("Role", String(req.params.id));
 
       if (existing.isSystem) {
         res.status(403).json({ error: "Cannot delete a system role" });
         return;
       }
 
-      await roleService.delete(req.params.id!);
+      await roleService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -181,8 +181,8 @@ export function createRoleRoutes(
       const parsed = assignRoleSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid assignment data", parsed.error.flatten());
 
-      const user = await userService.findById(req.params.userId!);
-      if (!user) throw new NotFoundError("User", req.params.userId);
+      const user = await userService.findById(String(req.params.userId));
+      if (!user) throw new NotFoundError("User", String(req.params.userId));
 
       const role = await roleService.findById(parsed.data.roleId);
       if (!role) throw new NotFoundError("Role", parsed.data.roleId);
@@ -208,8 +208,8 @@ export function createRoleRoutes(
       const parsed = updateUserPermissionsSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid permissions data", parsed.error.flatten());
 
-      const user = await userService.findById(req.params.userId!);
-      if (!user) throw new NotFoundError("User", req.params.userId);
+      const user = await userService.findById(String(req.params.userId));
+      if (!user) throw new NotFoundError("User", String(req.params.userId));
 
       const normalized = normalizePermissions(parsed.data.permissions);
 

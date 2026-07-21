@@ -97,7 +97,7 @@ export default function OpenSource() {
 
       <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
         {/* Stats row */}
-        <Stack direction="row" spacing={4} justifyContent="center" sx={{ mb: 8, flexWrap: "wrap", gap: 4 }}>
+        <Stack direction="row" spacing={4} sx={{ justifyContent: "center", mb: 8, flexWrap: "wrap", gap: 4 }}>
           {[
             { label: "Repositories", value: repos.length },
             { label: "Stars", value: totalStars },
@@ -146,8 +146,8 @@ export default function OpenSource() {
                   },
                 }}
               >
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
-                <Stack direction="row" spacing={1} alignItems="center">
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <GitHubIcon sx={{ fontSize: 18, color: "text.secondary", opacity: 0.6 }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.95rem", fontWeight: 700, color: "#6C63FF" }}>
                     {r.name}
@@ -160,27 +160,27 @@ export default function OpenSource() {
                 {r.description}
               </Typography>
 
-              <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" sx={{ gap: 1 }}>
-                <Stack direction="row" spacing={0.75} alignItems="center">
+              <Stack direction="row" spacing={2} sx={{ alignItems: "center", flexWrap: "wrap", gap: 1 }}>
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.75}>
                   <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: r.langColor }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
                     {r.language}
                   </Typography>
                 </Stack>
-                <Stack direction="row" spacing={0.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                   <StarBorderOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.6 }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
                     {r.stars}
                   </Typography>
                 </Stack>
-                <Stack direction="row" spacing={0.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                   <CallSplitOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.6 }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
                     {r.forks}
                   </Typography>
                 </Stack>
                 <Box sx={{ flex: 1 }} />
-                <Stack direction="row" spacing={0.5} flexWrap="wrap" sx={{ gap: 0.5 }}>
+                <Stack direction="row" spacing={0.5} sx={{ flexWrap: "wrap", gap: 0.5 }}>
                   {r.tags.map((t) => (
                     <Chip
                       key={t}

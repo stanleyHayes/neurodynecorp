@@ -127,8 +127,8 @@ export function createStatusRoutes(
   // GET /incidents/:id — PUBLIC
   router.get("/incidents/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const incident = await repo.getIncident(req.params.id!);
-      if (!incident) throw new NotFoundError("incident", req.params.id);
+      const incident = await repo.getIncident(String(req.params.id));
+      if (!incident) throw new NotFoundError("incident", String(req.params.id));
       res.json(incident);
     } catch (err) {
       next(err);
@@ -183,8 +183,8 @@ export function createStatusRoutes(
       const parsed = updateComponentSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const existing = (await repo.listComponents()).find((c) => c.id === req.params.id);
-      if (!existing) throw new NotFoundError("component", req.params.id);
+      const existing = (await repo.listComponents()).find((c) => c.id === String(req.params.id));
+      if (!existing) throw new NotFoundError("component", String(req.params.id));
 
       const updated = await repo.updateComponent({ ...existing, ...parsed.data, id: existing.id });
       res.json(updated);
@@ -196,7 +196,7 @@ export function createStatusRoutes(
   // DELETE /components/:id — delete (incidents:delete)
   router.delete("/components/:id", auth, requirePermission("incidents:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await repo.deleteComponent(req.params.id!);
+      await repo.deleteComponent(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -233,8 +233,8 @@ export function createStatusRoutes(
       const parsed = updateIncidentSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const existing = await repo.getIncident(req.params.id!);
-      if (!existing) throw new NotFoundError("incident", req.params.id);
+      const existing = await repo.getIncident(String(req.params.id));
+      if (!existing) throw new NotFoundError("incident", String(req.params.id));
 
       const next_: Incident = { ...existing, id: existing.id };
       if (parsed.data.title !== undefined) next_.title = parsed.data.title;

@@ -117,7 +117,7 @@ export default function BlogDetail() {
         <>
           <SectionLabel>Tags</SectionLabel>
           <Cell color={color} index="04" animDelay={0.35}>
-            <Stack direction="row" spacing={1} flexWrap="wrap">
+            <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1}>
               {post.tags.map((tag: string) => (
                 <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
               ))}

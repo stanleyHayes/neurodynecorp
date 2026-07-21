@@ -108,13 +108,13 @@ export default function TechStackPicker() {
       <Stack spacing={3} sx={{ mb: 4 }}>
         {groups.map((cat) => (
           <Box key={cat}>
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.25 }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1.25 }}>
               <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: CAT_COLORS[cat], boxShadow: `0 0 6px ${CAT_COLORS[cat]}` }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.25em" }}>
                 {CAT_LABELS[cat]}
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75 }}>
+            <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", gap: 0.75 }}>
               {ITEMS.filter((i) => i.category === cat).map((item) => {
                 const active = picked.includes(item.id);
                 const c = CAT_COLORS[cat];

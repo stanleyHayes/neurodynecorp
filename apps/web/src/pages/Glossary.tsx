@@ -130,7 +130,7 @@ export default function Glossary() {
         {/* Header */}
         <Stack spacing={1.5} sx={{ mb: { xs: 4, md: 6 } }}>
           <Typography sx={OVERLINE}>KNOWLEDGE // GLOSSARY OF PRACTICE</Typography>
-          <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: "-0.02em" }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
             Glossary of Practice
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 680, opacity: 0.8 }}>
@@ -168,7 +168,7 @@ export default function Glossary() {
 
         {/* Category filter */}
         {categories.length > 0 && (
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: { xs: 4, md: 5 }, gap: 1 }}>
+          <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mb: { xs: 4, md: 5 }, gap: 1 }}>
             {["", ...categories].map((c) => {
               const active = c === category;
               return (
@@ -199,9 +199,9 @@ export default function Glossary() {
             <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
           </Box>
         ) : filtered.length === 0 ? (
-          <Stack alignItems="center" spacing={2} sx={{ py: 10, textAlign: "center" }}>
+          <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>
             <MenuBookOutlinedIcon sx={{ fontSize: 48, color: "#6C63FF", opacity: 0.5 }} />
-            <Typography variant="h6" fontWeight={700}>
+            <Typography sx={{ fontWeight: 700 }} variant="h6">
               No terms found
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 420, opacity: 0.75 }}>
@@ -216,8 +216,7 @@ export default function Glossary() {
               <Box key={letter}>
                 <Typography
                   variant="h4"
-                  fontWeight={800}
-                  sx={{ color: "#6C63FF", mb: 2, fontFamily: "monospace", letterSpacing: "0.05em" }}
+                  sx={{ fontWeight: 800, color: "#6C63FF", mb: 2, fontFamily: "monospace", letterSpacing: "0.05em" }}
                 >
                   {letter}
                 </Typography>
@@ -234,8 +233,8 @@ export default function Glossary() {
                         scrollMarginTop: "96px",
                       }}
                     >
-                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mb: 0.75, gap: 1 }}>
-                        <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.3 }}>
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap", mb: 0.75, gap: 1 }}>
+                        <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.3 }}>
                           {t.term}
                         </Typography>
                         {t.category && (

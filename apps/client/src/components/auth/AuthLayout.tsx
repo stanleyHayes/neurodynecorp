@@ -139,8 +139,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
             <Box component="img" src="/favicon.svg" alt="NeuroDyne Corp" sx={{ width: 52, height: 52, mb: 3 }} />
             <Typography
               variant="h3"
-              fontWeight={800}
-              sx={{
+              sx={{ fontWeight: 800,
                 background: "linear-gradient(135deg, #6C63FF, #8B85FF, #00D4AA)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -181,7 +180,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
               >
                 <Box sx={{ color: "#6C63FF", mt: 0.25, flexShrink: 0 }}>{card.icon}</Box>
                 <Box>
-                  <Typography variant="subtitle2" fontWeight={700} color="text.primary">
+                  <Typography sx={{ fontWeight: 700 }} variant="subtitle2" color="text.primary">
                     {card.title}
                   </Typography>
                   <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>

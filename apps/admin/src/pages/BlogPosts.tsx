@@ -178,7 +178,7 @@ export default function BlogPosts() {
                 onClick={() => navigate(`/blog/${post.id}`)}
                 sx={{ cursor: "pointer", height: "100%" }}
               >
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
                   <Chip label={post.category} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
                   <Chip label={capitalize(post.status)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                 </Stack>

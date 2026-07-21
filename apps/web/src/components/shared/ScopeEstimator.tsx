@@ -7,7 +7,7 @@ import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import { SERVICE_LINES, getEstimator } from "@/data/serviceLines";
 import { api } from "@/api/client";
 
@@ -111,7 +111,7 @@ export default function ScopeEstimator() {
       {/* Service line */}
       <Box sx={{ mb: 3 }}>
         <Typography sx={labelSx}>Service line</Typography>
-        <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
           {SERVICE_LINES.map((l) => (
             <Chip key={l.slug} label={l.name} onClick={() => setSlug(l.slug)} sx={chipSx(slug === l.slug, l.color)} />
           ))}
@@ -123,7 +123,7 @@ export default function ScopeEstimator() {
           {/* Params */}
           <Box sx={{ mb: 4 }}>
             <Typography sx={labelSx}>In scope ({params.length} selected)</Typography>
-            <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+            <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
               {estimator.params.map((p) => (
                 <Chip key={p.id} label={`${p.label} +${fmtK(p.costDelta)}`} onClick={() => toggleParam(p.id)} sx={chipSx(params.includes(p.id), "#00D4AA")} />
               ))}
@@ -140,14 +140,14 @@ export default function ScopeEstimator() {
               sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 14, 26, 0.4)", border: "1px solid rgba(108, 99, 255, 0.2)", mb: 3 }}
             >
               <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: { xs: 2, md: 3 }, mb: 3 }}>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <AttachMoneyIcon sx={{ fontSize: 30, color: "#6C63FF", filter: "drop-shadow(0 0 12px rgba(108,99,255,0.5))" }} />
                   <Box>
                     <Typography sx={{ ...labelSx, mb: 0.25, fontSize: "0.55rem" }}>Indicative price band</Typography>
                     <Typography sx={{ fontWeight: 800, fontSize: "1.4rem" }}>{fmtK(result.priceMin)} – {fmtK(result.priceMax)}</Typography>
                   </Box>
                 </Stack>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <ScheduleOutlinedIcon sx={{ fontSize: 30, color: "#00D4AA", filter: "drop-shadow(0 0 12px rgba(0,212,170,0.5))" }} />
                   <Box>
                     <Typography sx={{ ...labelSx, mb: 0.25, fontSize: "0.55rem" }}>Indicative timeline</Typography>
@@ -157,11 +157,11 @@ export default function ScopeEstimator() {
               </Box>
 
               <Box sx={{ mb: 2.5 }}>
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
                   <WidgetsOutlinedIcon sx={{ fontSize: 16, color: "#8B85FF" }} />
                   <Typography sx={{ ...labelSx, mb: 0 }}>Indicative components</Typography>
                 </Stack>
-                <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75 }}>
+                <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", gap: 0.75 }}>
                   {result.components.map((c) => (
                     <Chip key={c} label={c} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(139,133,255,0.12)", color: "#8B85FF", border: "1px solid rgba(139,133,255,0.25)" }} />
                   ))}
@@ -169,7 +169,7 @@ export default function ScopeEstimator() {
               </Box>
 
               <Box>
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.75 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.75 }}>
                   <LayersOutlinedIcon sx={{ fontSize: 16, color: "#33DDBB" }} />
                   <Typography sx={{ ...labelSx, mb: 0 }}>Sample architecture</Typography>
                 </Stack>

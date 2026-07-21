@@ -94,12 +94,12 @@ export function createApprovalRoutes(
   // GET /:id — owning client or staff; not-owned indistinguishable from not-found.
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const approval = await repo.findById(req.params.id!);
-      if (!approval) throw new NotFoundError("approval", req.params.id);
+      const approval = await repo.findById(String(req.params.id));
+      if (!approval) throw new NotFoundError("approval", String(req.params.id));
       try {
         await assertProjectAccess(req, approval.projectId);
       } catch {
-        throw new NotFoundError("approval", req.params.id);
+        throw new NotFoundError("approval", String(req.params.id));
       }
       res.json(approval);
     } catch (err) {
@@ -112,16 +112,16 @@ export function createApprovalRoutes(
     try {
       const parsed = decisionSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const approval = await repo.findById(req.params.id!);
-      if (!approval) throw new NotFoundError("approval", req.params.id);
+      const approval = await repo.findById(String(req.params.id));
+      if (!approval) throw new NotFoundError("approval", String(req.params.id));
       try {
         await assertProjectAccess(req, approval.projectId);
       } catch {
-        throw new NotFoundError("approval", req.params.id);
+        throw new NotFoundError("approval", String(req.params.id));
       }
       // Atomic decide-once: the DB conditional update is the single source of truth,
       // so concurrent deciders can't both win and clobber each other's decision.
-      const updated = await repo.decideIfPending(req.params.id!, {
+      const updated = await repo.decideIfPending(String(req.params.id), {
         status: parsed.data.decision,
         decidedById: req.userId!,
         decidedAt: new Date(),
@@ -137,8 +137,8 @@ export function createApprovalRoutes(
   // DELETE /:id — staff only: withdraw a request.
   router.delete("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("approval", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("approval", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {

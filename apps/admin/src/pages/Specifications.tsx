@@ -247,7 +247,7 @@ export default function Specifications() {
           return (
             <Cell key={spec.id} color={color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} colInRow={i % 3} totalCols={3} animDelay={0.3 + i * 0.05}>
               <Box onClick={() => navigate(`/specifications/${spec.id}`)} sx={{ cursor: "pointer" }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{spec.project}</Typography>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{spec.client}</Typography>
@@ -258,7 +258,7 @@ export default function Specifications() {
                   sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}15`, color, border: `1px solid ${color}25`, ml: 1 }}
                 />
               </Stack>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1.5 }}>
                 <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{spec.date}</Typography>
@@ -272,7 +272,7 @@ export default function Specifications() {
       {filtered.length > 0 && <Pagination page={page} totalPages={totalPages} onPageChange={setPage} totalItems={filtered.length} />}
 
       {/* Generate Spec Dialog */}
-      <Dialog open={genOpen} onClose={() => setGenOpen(false)} maxWidth="sm" fullWidth PaperProps={{ sx: { bgcolor: "background.paper" } }}>
+      <Dialog slotProps={{ paper: { sx: { bgcolor: "background.paper" } } }} open={genOpen} onClose={() => setGenOpen(false)} maxWidth="sm" fullWidth>
         <DialogTitle sx={{ fontWeight: 700 }}>Generate Specification</DialogTitle>
         <DialogContent>
           <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>

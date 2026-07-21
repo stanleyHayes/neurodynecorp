@@ -122,7 +122,7 @@ export default function AnimatedCaseStudy({
       ))}
 
       {/* Title + arrow */}
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mt: 3, mb: 1.5 }}>
+      <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mt: 3, mb: 1.5 }}>
         <Box>
           <Typography
             variant="h5"
@@ -207,7 +207,7 @@ export default function AnimatedCaseStudy({
       </Box>
 
       {/* Tag chips at bottom */}
-      <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75, mt: 2.5 }}>
+      <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", gap: 0.75, mt: 2.5 }}>
         {tags.slice(0, 4).map((t) => (
           <Chip
             key={t}

@@ -124,7 +124,7 @@ export default function FAQ() {
         <Stack spacing={{ xs: 5, md: 6 }}>
           {CATEGORIES.map((cat, ci) => (
             <Box key={cat.name}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 2 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 2 }}>
                 <Chip
                   label={`§ ${String(ci + 1).padStart(2, "0")}`}
                   size="small"

@@ -255,8 +255,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             <MotionTypography
               variant="h2"
-              fontWeight={800}
-              sx={{
+              sx={{ fontWeight: 800,
                 mb: 1.5,
                 background: `linear-gradient(135deg, ${slide.color}, ${slide.accent})`,
                 WebkitBackgroundClip: "text",
@@ -268,7 +267,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               {slide.title}
             </MotionTypography>
 
-            <Typography variant="h6" color="text.secondary" fontWeight={600} sx={{ mb: 2.5 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 600, mb: 2.5 }}>
               {slide.subtitle}
             </Typography>
 

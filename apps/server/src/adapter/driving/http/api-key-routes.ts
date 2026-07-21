@@ -71,9 +71,9 @@ export function createApiKeyRoutes(repo: MongoApiKeyRepository, tokenService: To
   // DELETE /api/v1/api-keys/:id — soft-revoke (set revokedAt)
   router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.getById(req.params.id!);
+      const existing = await repo.getById(String(req.params.id));
       if (!existing || existing.ownerId !== req.userId!) {
-        throw new NotFoundError("apikeys", req.params.id);
+        throw new NotFoundError("apikeys", String(req.params.id));
       }
       await repo.update({ ...existing, revokedAt: new Date(), updatedAt: new Date() });
       res.status(204).end();

@@ -187,7 +187,7 @@ export default function Roles() {
                 animDelay={0.3 + i * 0.05}
               >
                 <Box onClick={() => navigate(`/roles/${role.id}`)} sx={{ cursor: "pointer" }}>
-                  <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                  <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
                     <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 32 }, color, filter: `drop-shadow(0 0 10px ${color}40)` }}>
                       {role.is_system ? <AdminPanelSettingsOutlinedIcon /> : <SecurityOutlinedIcon />}
                     </Box>
@@ -223,7 +223,7 @@ export default function Roles() {
                   </Stack>
                 </Box>
 
-                <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                <Stack sx={{ justifyContent: "flex-end" }} direction="row" spacing={0.5}>
                   <PermissionGate permission="roles:update">
                     <Tooltip title="Edit">
                       <IconButton size="small" onClick={() => navigate(`/roles/${role.id}`)} sx={{ color: "text.secondary" }}>

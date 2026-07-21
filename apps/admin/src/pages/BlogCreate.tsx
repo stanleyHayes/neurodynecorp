@@ -86,7 +86,7 @@ export default function BlogCreate() {
             <TextField select fullWidth size="small" label="Accent Color" value={color} onChange={(e) => setColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
                 <MenuItem key={c.value} value={c.value}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: c.value }} />
                     <span>{c.label}</span>
                   </Stack>
@@ -182,7 +182,7 @@ export default function BlogCreate() {
       {tab === "edit" && (
         <Suspense fallback={
           <Cell color="#6C63FF" index="02" animDelay={0}>
-            <Stack alignItems="center" spacing={2} sx={{ py: 8 }}>
+            <Stack spacing={2} sx={{ alignItems: "center", py: 8 }}>
               <CircularProgress size={28} sx={{ color: "#6C63FF" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", opacity: 0.5 }}>Loading editor...</Typography>
             </Stack>
@@ -200,7 +200,7 @@ export default function BlogCreate() {
       {tab === "preview" && (
         <Box>
           <Cell color={color} index="P0" animDelay={0}>
-            <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1.5 }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1.5 }}>
               <Chip label={category} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
               {readTime && (
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{readTime}</Typography>

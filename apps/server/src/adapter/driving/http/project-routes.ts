@@ -8,7 +8,7 @@ import { ProjectNotFoundError, InvalidStatusTransitionError } from "../../../app
 import type { Project } from "../../../domain/entity/project.js";
 
 // Serialize Project entity to API response format (snake_case, title instead of name)
-function toApiProject(p: Project) {
+function toApiProject(p: any) {
   return {
     id: p.id,
     client_id: p.clientId,
@@ -112,7 +112,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
       }
 
       const project = await projectService.createProject({
-        ...parsed.data,
+        ...(parsed.data as any),
         clientId: req.userId!,
       });
       res.status(201).json(toApiProject(project));
@@ -157,11 +157,11 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
   // GET /api/v1/projects/:id
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const project = await projectService.getProject(req.params.id!);
+      const project = await projectService.getProject(String(req.params.id));
       res.status(200).json(toApiProject(project));
     } catch (err) {
       if (err instanceof ProjectNotFoundError) {
-        return next(new NotFoundError("Project", req.params.id));
+        return next(new NotFoundError("Project", String(req.params.id)));
       }
       next(err);
     }
@@ -178,11 +178,11 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
           throw new ValidationError("Invalid status data", parsed.error.flatten());
         }
 
-        const project = await projectService.updateStatus(req.params.id!, parsed.data.status);
+        const project = await projectService.updateStatus(String(req.params.id), parsed.data.status);
         res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
-          return next(new NotFoundError("Project", req.params.id));
+          return next(new NotFoundError("Project", String(req.params.id)));
         }
         if (err instanceof InvalidStatusTransitionError) {
           return next(new AppError(err.message, 422));
@@ -203,11 +203,11 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
           throw new ValidationError("Invalid team data", parsed.error.flatten());
         }
 
-        const project = await projectService.assignTeam(req.params.id!, parsed.data.teamMemberIds);
+        const project = await projectService.assignTeam(String(req.params.id), parsed.data.teamMemberIds);
         res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
-          return next(new NotFoundError("Project", req.params.id));
+          return next(new NotFoundError("Project", String(req.params.id)));
         }
         next(err);
       }
@@ -225,11 +225,11 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
           throw new ValidationError("Invalid progress data", parsed.error.flatten());
         }
 
-        const project = await projectService.updateProgress(req.params.id!, parsed.data.progress);
+        const project = await projectService.updateProgress(String(req.params.id), parsed.data.progress);
         res.status(200).json(toApiProject(project));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
-          return next(new NotFoundError("Project", req.params.id));
+          return next(new NotFoundError("Project", String(req.params.id)));
         }
         next(err);
       }

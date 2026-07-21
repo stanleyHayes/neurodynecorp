@@ -92,7 +92,7 @@ export function InfoCard({
       }}
     >
       {(icon || title) && (
-        <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: subtitle ? 0.75 : 1.5 }}>
+        <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: subtitle ? 0.75 : 1.5 }}>
           {icon && <Box sx={{ color: accent, display: "flex", "& .MuiSvgIcon-root": { fontSize: 28 } }}>{icon}</Box>}
           {title && (
             <Typography variant="h6" sx={{ fontWeight: 700 }}>

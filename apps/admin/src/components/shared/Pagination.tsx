@@ -25,7 +25,7 @@ export default function Pagination({ page, totalPages, onPageChange, totalItems 
         borderBottom: `1px solid ${BORDER}`,
       }}
     >
-      <Stack direction="row" spacing={2} alignItems="center">
+      <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
         <IconButton
           size="small"
           onClick={() => onPageChange(page - 1)}

@@ -80,8 +80,8 @@ export function createDsrRoutes(repo: DsrRepository, tokenService: TokenService)
       const parsed = updateDsrSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("dsr", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("dsr", String(req.params.id));
 
       const now = new Date();
       const updated: DsrRequest = {

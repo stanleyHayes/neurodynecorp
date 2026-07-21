@@ -157,7 +157,7 @@ export default function Dashboard() {
           </ResponsiveContainer>
           <Stack spacing={0.5} sx={{ mt: -1 }}>
             {projectsByStatus.map((s) => (
-              <Stack key={s.name} direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: s.color, flexShrink: 0 }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: s.color }}>{s.value}</Typography>
@@ -190,7 +190,7 @@ export default function Dashboard() {
           <Cell color="#6C63FF" index="07" animDelay={0.7}>
             <Stack spacing={2}>
               {pipeline.map((stage) => (
-                <Stack key={stage.stage} direction="row" alignItems="center" spacing={2}>
+                <Stack sx={{ alignItems: "center" }} key={stage.stage} direction="row" spacing={2}>
                   <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: stage.color, flexShrink: 0, filter: `drop-shadow(0 0 4px ${stage.color}60)` }} />
                   <Typography variant="body2" sx={{ flex: 1, fontFamily: "monospace", fontSize: "0.8rem" }}>{stage.stage}</Typography>
                   <Chip label={stage.count} size="small" sx={{ fontFamily: "monospace", bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />
@@ -209,12 +209,12 @@ export default function Dashboard() {
               index={String(i + 8).padStart(2, "0")}
               animDelay={0.8 + i * 0.1}
             >
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                   <Typography variant="caption" sx={{ color: "text.secondary", fontFamily: "monospace", fontSize: "0.65rem" }}>{project.client}</Typography>
                 </Box>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <Chip label={project.status} size="small" variant="outlined" />
                   {project.progress > 0 ? (
                     <Box sx={{ width: 80 }}>

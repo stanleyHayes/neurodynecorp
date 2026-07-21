@@ -1,9 +1,9 @@
 import { Box, Container, Stack, Typography, Chip, Button } from "@mui/material";
 import { useParams, Link } from "react-router";
 import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ReportProblemOutlinedIcon from "@mui/icons-material/ReportProblemOutlined";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
@@ -58,7 +58,7 @@ export default function IndustryDetail() {
             <InfoCard accent="#F59E0B" icon={<ReportProblemOutlinedIcon />} title="Sector challenges">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {industry.challenges.map((c) => (
-                  <Stack key={c} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={c} direction="row" spacing={1.5}>
                     <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#F59E0B", mt: "7px", flexShrink: 0 }} />
                     <Typography variant="body2" color="text.secondary">
                       {c}
@@ -71,7 +71,7 @@ export default function IndustryDetail() {
             <InfoCard accent={industry.color} icon={<CheckCircleOutlineIcon />} title="How we approach it">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {industry.approach.map((a) => (
-                  <Stack key={a} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={a} direction="row" spacing={1.5}>
                     <CheckCircleOutlineIcon sx={{ color: industry.color, fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">
                       {a}
@@ -83,7 +83,7 @@ export default function IndustryDetail() {
           </Box>
 
           <InfoCard accent="#8B85FF" icon={<WorkOutlineIcon />} title="Relevant work">
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 1 }}>
+            <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
               {industry.work.map((w) => (
                 <Chip key={w} label={w} variant="outlined" sx={{ borderColor: "#8B85FF55" }} />
               ))}

@@ -109,7 +109,7 @@ export default function Help() {
         {/* Header */}
         <Stack spacing={1.5} sx={{ mb: { xs: 4, md: 6 } }}>
           <Typography sx={OVERLINE}>SUPPORT // KNOWLEDGE BASE</Typography>
-          <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: "-0.02em" }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
             Help Center
           </Typography>
           <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 640, opacity: 0.8 }}>
@@ -147,7 +147,7 @@ export default function Help() {
 
         {/* Category filter */}
         {categoryOptions.length > 0 && (
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: { xs: 4, md: 5 }, gap: 1 }}>
+          <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mb: { xs: 4, md: 5 }, gap: 1 }}>
             <Chip
               label="All"
               onClick={() => setCategory("")}
@@ -191,9 +191,9 @@ export default function Help() {
             <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
           </Box>
         ) : articles.length === 0 ? (
-          <Stack alignItems="center" spacing={2} sx={{ py: 10, textAlign: "center" }}>
+          <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>
             <HelpOutlineOutlinedIcon sx={{ fontSize: 48, color: "#6C63FF", opacity: 0.5 }} />
-            <Typography variant="h6" fontWeight={700}>
+            <Typography sx={{ fontWeight: 700 }} variant="h6">
               No articles found
             </Typography>
             <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 420, opacity: 0.75 }}>
@@ -249,7 +249,7 @@ export default function Help() {
                         }}
                       />
                     )}
-                    <Typography variant="h6" fontWeight={700} sx={{ lineHeight: 1.35, color: "text.primary" }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, lineHeight: 1.35, color: "text.primary" }}>
                       {article?.title}
                     </Typography>
                     {(article?.summary ?? article?.excerpt) && (
@@ -261,7 +261,7 @@ export default function Help() {
                         {article?.summary ?? article?.excerpt}
                       </Typography>
                     )}
-                    <Stack direction="row" spacing={0.5} alignItems="center" sx={{ mt: "auto", color: "#6C63FF" }}>
+                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", mt: "auto", color: "#6C63FF" }}>
                       <Typography
                         sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}
                       >

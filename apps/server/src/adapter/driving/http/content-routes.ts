@@ -61,8 +61,8 @@ function createCrudRoutes<T extends { id: string }>(
 
   router.get("/:id", ...getMiddleware, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await service.findById(req.params.id!);
-      if (!item) throw new NotFoundError(resource, req.params.id);
+      const item = await service.findById(String(req.params.id));
+      if (!item) throw new NotFoundError(resource, String(req.params.id));
       res.json(item);
     } catch (err) {
       next(err);
@@ -87,8 +87,8 @@ function createCrudRoutes<T extends { id: string }>(
   // PATCH /:id — update
   router.patch("/:id", auth, requirePermission(`${resource}:update`), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await service.findById(req.params.id!);
-      if (!existing) throw new NotFoundError(resource, req.params.id);
+      const existing = await service.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError(resource, String(req.params.id));
       const updated = await service.update({ ...existing, ...req.body, id: existing.id });
       res.json(updated);
     } catch (err) {
@@ -99,7 +99,7 @@ function createCrudRoutes<T extends { id: string }>(
   // DELETE /:id
   router.delete("/:id", auth, requirePermission(`${resource}:delete`), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await service.delete(req.params.id!);
+      await service.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -137,8 +137,8 @@ export function createBlogRoutes(
       ? (router) => {
           router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
             try {
-              const item = await service.findBySlug!(req.params.slug!);
-              if (!item) throw new NotFoundError("blog", req.params.slug);
+              const item = await service.findBySlug!(String(req.params.slug));
+              if (!item) throw new NotFoundError("blog", String(req.params.slug));
               res.json(item);
             } catch (err) {
               next(err);
@@ -181,8 +181,8 @@ export function createCaseStudyRoutes(
       ? (router) => {
           router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
             try {
-              const item = await service.findBySlug!(req.params.slug!);
-              if (!item) throw new NotFoundError("portfolio", req.params.slug);
+              const item = await service.findBySlug!(String(req.params.slug));
+              if (!item) throw new NotFoundError("portfolio", String(req.params.slug));
               res.json(item);
             } catch (err) {
               next(err);

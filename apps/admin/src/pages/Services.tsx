@@ -149,12 +149,12 @@ export default function Services() {
               <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 36 }, color: service.color, filter: `drop-shadow(0 0 12px ${service.color}40)`, mb: 1.5 }}>
                 {iconMap[service.icon] ?? <CodeOutlinedIcon />}
               </Box>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{service.title}</Typography>
                 <Chip label={display} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{service.description}</Typography>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <FolderOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
                   {service.projectCount} project{service.projectCount !== 1 ? "s" : ""}

@@ -87,7 +87,7 @@ export default function Labs() {
                     "&:hover": { borderColor: `${p.color}66`, bgcolor: `${p.color}14`, transform: "translateY(-3px)" },
                   }}
                 >
-                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1.5 }}>
+                  <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1.5 }}>
                     <Overline color={p.color}>{p.kicker}</Overline>
                     <Chip
                       label={p.status}
@@ -101,7 +101,7 @@ export default function Labs() {
                   <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                     {p.tagline}
                   </Typography>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ color: p.color }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", color: p.color }}>
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>
                       EXPLORE PLATFORM
                     </Typography>

@@ -276,13 +276,9 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
                       >
                         {item.icon}
                       </ListItemIcon>
-                      <ListItemText
+                      <ListItemText slotProps={{ primary: { sx: { fontSize: "0.85rem", fontWeight: isActive ? 600 : 400, letterSpacing: "0.02em" },
+                        } }}
                         primary={item.label}
-                        primaryTypographyProps={{
-                          fontSize: "0.85rem",
-                          fontWeight: isActive ? 600 : 400,
-                          letterSpacing: "0.02em",
-                        }}
                       />
                     </ListItemButton>
                   </ListItem>
@@ -360,13 +356,9 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
               >
                 <SettingsOutlinedIcon />
               </ListItemIcon>
-              <ListItemText
+              <ListItemText slotProps={{ primary: { sx: { fontSize: "0.85rem", fontWeight: location.pathname === "/settings" ? 600 : 400, letterSpacing: "0.02em" },
+                } }}
                 primary="Settings"
-                primaryTypographyProps={{
-                  fontSize: "0.85rem",
-                  fontWeight: location.pathname === "/settings" ? 600 : 400,
-                  letterSpacing: "0.02em",
-                }}
               />
             </ListItemButton>
           </ListItem>

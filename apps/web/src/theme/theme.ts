@@ -87,13 +87,19 @@ const theme = createTheme({
           padding: "10px 24px",
           fontSize: "0.95rem",
         },
-        containedPrimary: {
+
+      },
+      variants: [
+        {
+          props: { variant: "contained", color: "primary" },
+          style: {
           background: "linear-gradient(135deg, #6C63FF 0%, #8B85FF 100%)",
           "&:hover": {
             background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)",
           },
         },
-      },
+        },
+      ],
     },
     MuiCard: {
       styleOverrides: {

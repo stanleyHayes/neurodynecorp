@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Chip, Button } from "@mui/material";
 import { useParams, Link } from "react-router";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SEO from "@/components/seo/SEO";
@@ -98,7 +98,7 @@ export default function LabsProduct() {
             <InfoCard accent="#8B85FF" icon={<LayersOutlinedIcon />} title="Technical architecture">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {product.architecture.map((a) => (
-                  <Stack key={a} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={a} direction="row" spacing={1.5}>
                     <CheckCircleOutlineIcon sx={{ color: "#8B85FF", fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">
                       {a}
@@ -108,7 +108,7 @@ export default function LabsProduct() {
               </Stack>
             </InfoCard>
             <InfoCard accent="#33DDBB" title="Sectors served">
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 1 }}>
+              <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
                 {product.sectors.map((s) => (
                   <Chip key={s} label={s} variant="outlined" sx={{ borderColor: "#33DDBB55" }} />
                 ))}

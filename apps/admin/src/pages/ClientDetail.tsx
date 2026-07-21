@@ -167,12 +167,12 @@ export default function ClientDetail() {
               const displayStatus = formatStatus(project.status);
               return (
                 <Cell key={project.id} color={color} index={String(i + 4).padStart(2, "0")} animDelay={0.4 + i * 0.1}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                       <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.type}</Typography>
                     </Box>
-                    <Stack direction="row" spacing={1} alignItems="center">
+                    <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                       <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                       <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
                     </Stack>
@@ -200,7 +200,7 @@ export default function ClientDetail() {
         <Box>
           <SectionLabel>Contact Info</SectionLabel>
           <Cell color={avatarColor} index="C0" animDelay={0.5}>
-            <Stack spacing={2} alignItems="center" sx={{ textAlign: "center" }}>
+            <Stack spacing={2} sx={{ alignItems: "center", textAlign: "center" }}>
               <Avatar sx={{ width: 72, height: 72, fontSize: 24, fontWeight: 700, bgcolor: `${avatarColor}20`, color: avatarColor, border: `2px solid ${avatarColor}30` }}>
                 {clientName.split(" ").map((n) => n[0]).join("")}
               </Avatar>

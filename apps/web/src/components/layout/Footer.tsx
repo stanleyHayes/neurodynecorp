@@ -1,4 +1,4 @@
-import { useRef, useCallback, useEffect, useState } from "react";
+import { useRef, useCallback, useEffect, useState, type ElementType } from "react";
 import {
   Box,
   Container,
@@ -383,13 +383,12 @@ function FooterLink({
       transition={{ delay: 0.3 + index * 0.06, duration: 0.35 }}
     >
       <MuiLink
-        component={Link}
+        component={Link as ElementType}
         to={path}
         color="text.secondary"
         display="flex"
-        alignItems="center"
         gap={1}
-        sx={{
+        sx={{ alignItems: "center",
           mb: 1.25,
           textDecoration: "none",
           position: "relative",
@@ -539,12 +538,11 @@ function SectionTitle({ children, index }: { children: string; index: number }) 
   return (
     <MotionTypography
       variant="subtitle2"
-      fontWeight={700}
       initial={{ opacity: 0, y: 10 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ delay: 0.2 + index * 0.1 }}
-      sx={{
+      sx={{ fontWeight: 700,
         mb: 2.5,
         position: "relative",
         display: "inline-block",
@@ -774,10 +772,10 @@ export default function Footer() {
                 },
               }}
             >
-              <MuiLink component={Link} to="/privacy">
+              <MuiLink component={Link as ElementType} to="/privacy">
                 Privacy
               </MuiLink>
-              <MuiLink component={Link} to="/terms">
+              <MuiLink component={Link as ElementType} to="/terms">
                 Terms
               </MuiLink>
             </Box>

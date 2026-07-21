@@ -280,7 +280,7 @@ export default function RoleCreate() {
           <SectionLabel>Preview</SectionLabel>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" } }}>
             <Cell color="#6C63FF" index="P0" colInRow={0} totalCols={3} animDelay={0.3}>
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
                 <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 32 }, color: "#6C63FF", filter: "drop-shadow(0 0 10px rgba(108,99,255,0.25))" }}>
                   <SecurityOutlinedIcon />
                 </Box>

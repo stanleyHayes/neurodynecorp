@@ -230,10 +230,8 @@ export default function Webhooks() {
         {/* Header */}
         <Stack
           direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems={{ xs: "flex-start", sm: "flex-end" }}
           spacing={2}
-          sx={{ mb: 3 }}
+          sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "flex-end" }, mb: 3 }}
         >
           <Box>
             <Typography sx={overlineSx}>Integrations</Typography>
@@ -293,7 +291,7 @@ export default function Webhooks() {
                           </Typography>
                         </TableCell>
                         <TableCell>
-                          <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                          <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={0.5} useFlexGap>
                             {events.length === 0 ? (
                               <Typography variant="caption" color="text.secondary">
                                 —
@@ -317,7 +315,7 @@ export default function Webhooks() {
                           </Typography>
                         </TableCell>
                         <TableCell align="right">
-                          <Stack direction="row" spacing={0.5} justifyContent="flex-end">
+                          <Stack sx={{ justifyContent: "flex-end" }} direction="row" spacing={0.5}>
                             <IconButton
                               size="small"
                               title="Send test event"
@@ -397,7 +395,7 @@ export default function Webhooks() {
                       Select events
                     </Typography>
                   ) : (
-                    <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                    <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={0.5} useFlexGap>
                       {(selected as string[]).map((ev) => (
                         <Chip key={ev} label={ev} size="small" sx={{ fontFamily: "monospace", fontSize: "0.65rem" }} />
                       ))}

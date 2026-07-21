@@ -99,11 +99,11 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
           throw new ValidationError("Invalid payment data", parsed.error.flatten());
         }
 
-        const invoice = await billingService.markPaid(req.params.id!, parsed.data.paymentId);
+        const invoice = await billingService.markPaid(String(req.params.id), parsed.data.paymentId);
         res.status(200).json(invoice);
       } catch (err) {
         if (err instanceof InvoiceNotFoundError) {
-          return next(new NotFoundError("Invoice", req.params.id));
+          return next(new NotFoundError("Invoice", String(req.params.id)));
         }
         if (err instanceof InvoiceAlreadyPaidError) {
           return next(new AppError(err.message, 409));

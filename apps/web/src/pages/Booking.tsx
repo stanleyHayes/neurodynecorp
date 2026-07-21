@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Container, Stack, Typography, TextField, Button, Alert, CircularProgress, Chip } from "@mui/material";
 import { Link, useSearchParams } from "react-router";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import SEO from "@/components/seo/SEO";
@@ -96,7 +96,7 @@ export default function Booking() {
             {/* Context / soft gate */}
             {ref ? (
               <InfoCard accent="#6C63FF" icon={<ScheduleOutlinedIcon />} title="Tailored to your diagnostic">
-                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 0.5 }}>
+                <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 0.5 }}>
                   {route && ROUTE_LABEL[route] && (
                     <Chip label={ROUTE_LABEL[route]} sx={{ bgcolor: "rgba(108,99,255,0.12)", color: "#6C63FF", fontFamily: "monospace", fontSize: "0.65rem" }} />
                   )}
@@ -115,10 +115,10 @@ export default function Booking() {
 
             <Stack spacing={2}>
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField label="Your name *" value={form.name} onChange={set("name")} fullWidth inputProps={{ maxLength: 200 }} />
-                <TextField label="Organisation" value={form.org} onChange={set("org")} fullWidth inputProps={{ maxLength: 200 }} />
+                <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Your name *" value={form.name} onChange={set("name")} fullWidth />
+                <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Organisation" value={form.org} onChange={set("org")} fullWidth />
               </Stack>
-              <TextField
+              <TextField slotProps={{ htmlInput: { maxLength: 320 } }}
                 label="Email *"
                 type="email"
                 value={form.email}
@@ -126,12 +126,11 @@ export default function Booking() {
                 fullWidth
                 error={Boolean(form.email) && !emailOk}
                 helperText={Boolean(form.email) && !emailOk ? "Enter a valid email address" : undefined}
-                inputProps={{ maxLength: 320 }}
               />
-              <TextField label="Preferred times *" value={form.preferredTimes} onChange={set("preferredTimes")} fullWidth multiline minRows={2} placeholder="e.g. Tue–Thu afternoons, or a few specific windows" inputProps={{ maxLength: 2000 }} />
+              <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Preferred times *" value={form.preferredTimes} onChange={set("preferredTimes")} fullWidth multiline minRows={2} placeholder="e.g. Tue–Thu afternoons, or a few specific windows" />
               <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                <TextField label="Timezone" value={form.timezone} onChange={set("timezone")} fullWidth placeholder="e.g. GMT, WAT" inputProps={{ maxLength: 80 }} />
-                <TextField label="Topic (optional)" value={form.topic} onChange={set("topic")} fullWidth inputProps={{ maxLength: 2000 }} />
+                <TextField slotProps={{ htmlInput: { maxLength: 80 } }} label="Timezone" value={form.timezone} onChange={set("timezone")} fullWidth placeholder="e.g. GMT, WAT" />
+                <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Topic (optional)" value={form.topic} onChange={set("topic")} fullWidth />
               </Stack>
             </Stack>
 

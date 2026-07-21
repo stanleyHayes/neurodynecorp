@@ -17,7 +17,7 @@ import {
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import AnimatedCard from "@/components/shared/AnimatedCard";
 import EmptyState from "@/components/shared/EmptyState";
@@ -182,7 +182,7 @@ export default function Messages() {
                           </Avatar>
                         </Badge>
                       </ListItemAvatar>
-                      <ListItemText
+                      <ListItemText slotProps={{ primary: { variant: "subtitle2", noWrap: true } }}
                         primary={thread.subject}
                         secondary={
                           <Box component="span" sx={{ display: "flex", flexDirection: "column" }}>
@@ -194,7 +194,6 @@ export default function Messages() {
                             </Typography>
                           </Box>
                         }
-                        primaryTypographyProps={{ variant: "subtitle2", noWrap: true }}
                       />
                     </ListItemButton>
                   ))}
@@ -205,7 +204,7 @@ export default function Messages() {
             {/* Conversation panel */}
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
-                <Typography variant="subtitle1" fontWeight={600}>
+                <Typography sx={{ fontWeight: 600 }} variant="subtitle1">
                   {threads.find((t) => t.id === selectedThread)?.subject ?? "Select a thread"}
                 </Typography>
               </Box>
@@ -239,7 +238,7 @@ export default function Messages() {
                               bgcolor: isMine ? "primary.dark" : "background.default",
                             }}
                           >
-                            <Typography variant="caption" fontWeight={600}>
+                            <Typography sx={{ fontWeight: 600 }} variant="caption">
                               {isMine ? "You" : msg.sender_id}
                             </Typography>
                             <Typography variant="body2">{msg.content}</Typography>

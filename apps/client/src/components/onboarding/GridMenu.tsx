@@ -283,7 +283,7 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
                     transition={{ duration: 0.2 }}
                     sx={{ position: "relative", zIndex: 2 }}
                   >
-                    <Typography variant="h6" fontWeight={700} sx={{ color: isSelected || isHovered ? "text.primary" : "text.secondary", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: { xs: "0.85rem", md: "1.1rem" } }}>
+                    <Typography variant="h6" sx={{ fontWeight: 700, color: isSelected || isHovered ? "text.primary" : "text.secondary", letterSpacing: "0.08em", textTransform: "uppercase", fontSize: { xs: "0.85rem", md: "1.1rem" } }}>
                       {item.label}
                     </Typography>
                   </MotionBox>
@@ -405,7 +405,7 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
               </MotionBox>
 
               <MotionBox animate={{ opacity: hoveredPath === ctaItem.path || selected === ctaItem.path ? 1 : 0.5 }} sx={{ position: "relative", zIndex: 2 }}>
-                <Typography variant="h4" fontWeight={800} sx={{ color: selected === ctaItem.path || hoveredPath === ctaItem.path ? "text.primary" : "text.secondary", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: { xs: "1.2rem", md: "1.8rem" } }}>
+                <Typography variant="h4" sx={{ fontWeight: 800, color: selected === ctaItem.path || hoveredPath === ctaItem.path ? "text.primary" : "text.secondary", letterSpacing: "0.1em", textTransform: "uppercase", fontSize: { xs: "1.2rem", md: "1.8rem" } }}>
                   {ctaItem.label}
                 </Typography>
               </MotionBox>
@@ -508,7 +508,7 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
                   <Box sx={{ color: selectedItem.color, mb: 2, "& .MuiSvgIcon-root": { fontSize: 64 } }}>
                     {selectedItem.icon}
                   </Box>
-                  <Typography variant="h3" fontWeight={800} sx={{ color: selectedItem.color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
+                  <Typography variant="h3" sx={{ fontWeight: 800, color: selectedItem.color, letterSpacing: "0.05em", textTransform: "uppercase" }}>
                     {selectedItem.label}
                   </Typography>
                 </MotionBox>

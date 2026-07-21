@@ -230,7 +230,7 @@ export default function Analytics() {
           </ResponsiveContainer>
           <Stack spacing={0.3}>
             {projectsByStatus.map((s) => (
-              <Stack key={s.name} direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: s.color }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>
@@ -250,7 +250,7 @@ export default function Analytics() {
           </ResponsiveContainer>
           <Stack spacing={0.3}>
             {projectsByType.map((s) => (
-              <Stack key={s.name} direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: s.color }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>

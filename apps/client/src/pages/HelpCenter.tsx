@@ -110,22 +110,21 @@ export default function HelpCenter() {
         </Box>
 
         {/* Search */}
-        <TextField
+        <TextField slotProps={{ input: {
+            startAdornment: (
+              <SearchOutlinedIcon sx={{ color: "text.secondary", mr: 1 }} fontSize="small" />
+            ),
+          } }}
           fullWidth
           placeholder="Search articles…"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          InputProps={{
-            startAdornment: (
-              <SearchOutlinedIcon sx={{ color: "text.secondary", mr: 1 }} fontSize="small" />
-            ),
-          }}
           sx={{ mb: 2 }}
         />
 
         {/* Category chips */}
         {categories.length > 1 && (
-          <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mb: 3 }}>
+          <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mb: 3 }}>
             {categories.map((c) => (
               <Chip
                 key={c}
@@ -177,10 +176,10 @@ export default function HelpCenter() {
                   }}
                 >
                   <AccordionSummary expandIcon={<ExpandMoreOutlinedIcon />}>
-                    <Stack direction="row" spacing={1.5} alignItems="flex-start" sx={{ width: "100%" }}>
+                    <Stack direction="row" spacing={1.5} sx={{ alignItems: "flex-start", width: "100%" }}>
                       <ArticleOutlinedIcon sx={{ color: "primary.main", mt: 0.25 }} fontSize="small" />
                       <Box sx={{ flex: 1, minWidth: 0 }}>
-                        <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.25 }}>
+                        <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.25 }}>
                           <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
                             {a.title ?? "Untitled"}
                           </Typography>

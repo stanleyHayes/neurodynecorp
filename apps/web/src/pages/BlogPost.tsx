@@ -308,7 +308,7 @@ function BlogPostSkeleton() {
           </Box>
 
           {/* Author skeleton */}
-          <Stack direction="row" spacing={1.5} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
             <Skeleton variant="circular" width={34} height={34} sx={{ bgcolor: SK }} />
             <Box>
               <Skeleton variant="text" width={100} sx={{ bgcolor: SK }} />
@@ -639,7 +639,7 @@ export default function BlogPost() {
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.35, duration: 0.5 }}
           >
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 2.5 }} flexWrap="wrap">
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", flexWrap: "wrap", mb: 2.5 }}>
               <Chip
                 label={post.category}
                 size="small"
@@ -655,12 +655,12 @@ export default function BlogPost() {
                 }}
               />
               {publishedDate && (
-                <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "text.secondary" }}>
+                <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "text.secondary" }}>
                   <CalendarTodayOutlinedIcon sx={{ fontSize: 14 }} />
                   <Typography variant="caption">{publishedDate}</Typography>
                 </Stack>
               )}
-              <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "text.secondary" }}>
+              <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "text.secondary" }}>
                 <AccessTimeIcon sx={{ fontSize: 14 }} />
                 <Typography variant="caption">{post.readTime}</Typography>
               </Stack>
@@ -670,11 +670,10 @@ export default function BlogPost() {
           {/* title */}
           <MotionTypography
             variant="h2"
-            fontWeight={800}
             initial={{ opacity: 0, y: 25 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.6, ease: "easeOut" }}
-            sx={{
+            sx={{ fontWeight: 800,
               mb: 3,
               letterSpacing: "-0.02em",
               lineHeight: 1.1,
@@ -694,8 +693,7 @@ export default function BlogPost() {
             <Stack
               direction="row"
               spacing={1.5}
-              alignItems="center"
-              sx={{
+              sx={{ alignItems: "center",
                 display: "inline-flex",
                 px: 2,
                 py: 1,
@@ -718,7 +716,7 @@ export default function BlogPost() {
                 NL
               </Avatar>
               <Box>
-                <Typography variant="body2" fontWeight={600} sx={{ lineHeight: 1.2, fontSize: "0.85rem" }}>
+                <Typography variant="body2" sx={{ fontWeight: 600, lineHeight: 1.2, fontSize: "0.85rem" }}>
                   {post.author}
                 </Typography>
               </Box>

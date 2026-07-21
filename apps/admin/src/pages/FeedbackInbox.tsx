@@ -150,8 +150,7 @@ export default function FeedbackInbox() {
             <Stack
               direction="row"
               spacing={2}
-              alignItems="stretch"
-              sx={{ mb: 3, flexWrap: "wrap", gap: 2 }}
+              sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}
             >
               <Card
                 variant="outlined"
@@ -203,9 +202,8 @@ export default function FeedbackInbox() {
 
             <Stack
               direction="row"
-              alignItems="center"
               spacing={2}
-              sx={{ mb: 2 }}
+              sx={{ alignItems: "center", mb: 2 }}
             >
               <Typography sx={overlineSx}>Filter by type</Typography>
               <Select

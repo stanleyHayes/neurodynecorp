@@ -112,7 +112,7 @@ export default function Trust() {
                     }}
                   >
                     <CardContent sx={{ p: { xs: 3, md: 3.5 } }}>
-                      <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
+                      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
                         <SectionIcon sx={{ color: section.accent, fontSize: 30 }} />
                         <Typography variant="h6" sx={{ fontWeight: 700 }}>
                           {section.title}
@@ -125,7 +125,7 @@ export default function Trust() {
                         {section.items.map((item) => {
                           const ItemIcon = item.Icon;
                           return (
-                            <Stack key={item.label} direction="row" spacing={1.5} alignItems="flex-start">
+                            <Stack sx={{ alignItems: "flex-start" }} key={item.label} direction="row" spacing={1.5}>
                               <ItemIcon sx={{ color: section.accent, fontSize: 20, mt: "2px" }} />
                               <Box>
                                 <Typography sx={{ fontWeight: 600, fontSize: "0.95rem" }}>
@@ -155,13 +155,11 @@ export default function Trust() {
           >
             <Card sx={{ borderRadius: 3, border: "1px solid", borderColor: "divider" }}>
               <CardContent sx={{ p: { xs: 3, md: 3.5 } }}>
-                <Stack
+                <Stack sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }}
                   direction={{ xs: "column", sm: "row" }}
                   spacing={2}
-                  alignItems={{ sm: "center" }}
-                  justifyContent="space-between"
                 >
-                  <Stack direction="row" spacing={1.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                     <HubOutlinedIcon sx={{ color: "#F59E0B", fontSize: 30 }} />
                     <Box>
                       <Typography variant="h6" sx={{ fontWeight: 700 }}>
@@ -201,7 +199,7 @@ export default function Trust() {
               }}
             >
               <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
                   <ShieldOutlinedIcon sx={{ color: "#6C63FF", fontSize: 30 }} />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     Report a security issue
@@ -212,7 +210,7 @@ export default function Trust() {
                   we'll respond promptly. Please do not publicly disclose until we've had a chance to remediate.
                 </Typography>
 
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2.5 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2.5 }}>
                   <EmailOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
                   <Typography
                     component="a"
@@ -230,7 +228,7 @@ export default function Trust() {
 
                 <Divider sx={{ mb: 2.5 }} />
 
-                <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap>
+                <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1.5} useFlexGap>
                   <Chip
                     component="a"
                     clickable

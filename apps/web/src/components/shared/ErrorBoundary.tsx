@@ -96,7 +96,7 @@ export default class ErrorBoundary extends Component<Props, State> {
               {this.state.error.message}
             </Box>
           )}
-          <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap" sx={{ gap: 2 }}>
+          <Stack direction="row" spacing={2} sx={{ justifyContent: "center", flexWrap: "wrap", gap: 2 }}>
             <Button
               onClick={this.handleReset}
               startIcon={<RefreshIcon />}

@@ -56,7 +56,7 @@ export default function Industries() {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                   {ind.summary}
                 </Typography>
-                <Stack direction="row" spacing={0.75} alignItems="center" sx={{ color: ind.color }}>
+                <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", color: ind.color }}>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em" }}>
                     VIEW SECTOR
                   </Typography>

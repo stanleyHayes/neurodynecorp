@@ -57,7 +57,7 @@ export function createContactRoutes(contactService: ContactService): Router {
         throw new ValidationError("Invalid contact form data", parsed.error.flatten());
       }
 
-      const submission = await contactService.submit(parsed.data);
+      const submission = await contactService.submit(parsed.data as any);
       res.status(201).json({ message: "Thank you for your inquiry. We will be in touch shortly.", id: submission.id });
     } catch (err) {
       next(err);

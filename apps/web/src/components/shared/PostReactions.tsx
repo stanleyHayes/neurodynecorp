@@ -97,7 +97,7 @@ export default function PostReactions({ postId, color = "#6C63FF" }: PostReactio
       >
         // REACT TO THIS POST
       </Typography>
-      <Stack direction="row" spacing={1.5} flexWrap="wrap" sx={{ gap: 1.5 }}>
+      <Stack direction="row" spacing={1.5} sx={{ flexWrap: "wrap", gap: 1.5 }}>
         {REACTIONS.map((r) => {
           const active = reacted.has(r.emoji);
           const count = counts[r.emoji] ?? 0;

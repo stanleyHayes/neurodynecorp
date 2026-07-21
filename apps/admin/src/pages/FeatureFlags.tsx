@@ -230,14 +230,12 @@ export default function FeatureFlags() {
       {/* Header */}
       <Stack
         direction={{ xs: "column", sm: "row" }}
-        justifyContent="space-between"
-        alignItems={{ xs: "flex-start", sm: "flex-end" }}
         spacing={2}
-        sx={{ mb: 3 }}
+        sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "flex-end" }, mb: 3 }}
       >
         <Stack spacing={0.5}>
           <Typography sx={overlineSx}>PLATFORM // FLAGS</Typography>
-          <Stack direction="row" spacing={1.5} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
             <FlagOutlinedIcon sx={{ color: "#6C63FF" }} />
             <Typography variant="h5" sx={{ fontWeight: 800 }}>
               Feature Flags
@@ -261,13 +259,11 @@ export default function FeatureFlags() {
         }}
       >
         <CardContent>
-          <Stack
+          <Stack sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "center" } }}
             direction={{ xs: "column", sm: "row" }}
-            justifyContent="space-between"
-            alignItems={{ xs: "flex-start", sm: "center" }}
             spacing={2}
           >
-            <Stack direction="row" spacing={1.5} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
               <BuildOutlinedIcon sx={{ color: maintenanceOn ? "#EF4444" : "#F59E0B" }} />
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 800 }}>
@@ -278,7 +274,7 @@ export default function FeatureFlags() {
                 </Typography>
               </Box>
             </Stack>
-            <Stack direction="row" spacing={1.5} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
               {maintBusy && <CircularProgress size={18} />}
               <Chip
                 label={maintenanceOn ? "ON" : "OFF"}
@@ -322,7 +318,7 @@ export default function FeatureFlags() {
           ) : error ? (
             <Alert severity="error">{error}</Alert>
           ) : flags.length === 0 ? (
-            <Stack alignItems="center" spacing={1.5} sx={{ py: 8, opacity: 0.7 }}>
+            <Stack spacing={1.5} sx={{ alignItems: "center", py: 8, opacity: 0.7 }}>
               <FlagOutlinedIcon sx={{ fontSize: 48, color: "text.secondary" }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                 No feature flags yet
@@ -357,7 +353,7 @@ export default function FeatureFlags() {
                     return (
                       <TableRow key={id || key} hover>
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                          <Stack direction="row" alignItems="center" spacing={1}>
+                          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                             <Switch
                               size="small"
                               checked={Boolean(f.enabled)}
@@ -368,7 +364,7 @@ export default function FeatureFlags() {
                           </Stack>
                         </TableCell>
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)", whiteSpace: "nowrap" }}>
-                          <Stack direction="row" spacing={1} alignItems="center">
+                          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                             <Typography variant="body2" sx={{ fontFamily: "monospace", fontWeight: 700 }}>
                               {key}
                             </Typography>
@@ -395,11 +391,10 @@ export default function FeatureFlags() {
                           </Typography>
                         </TableCell>
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)", width: 130 }}>
-                          <TextField
+                          <TextField slotProps={{ htmlInput: { min: 0, max: 100 } }}
                             size="small"
                             type="number"
                             defaultValue={rolloutOf(f)}
-                            inputProps={{ min: 0, max: 100 }}
                             onBlur={(e) => {
                               const v = Number(e.target.value);
                               if (v !== rolloutOf(f)) saveRollout(f, v);
@@ -456,15 +451,14 @@ export default function FeatureFlags() {
               value={form.description}
               onChange={(e) => setForm((s) => ({ ...s, description: e.target.value }))}
             />
-            <TextField
+            <TextField slotProps={{ htmlInput: { min: 0, max: 100 } }}
               label="Rollout Percentage"
               type="number"
               fullWidth
-              inputProps={{ min: 0, max: 100 }}
               value={form.rolloutPercentage}
               onChange={(e) => setForm((s) => ({ ...s, rolloutPercentage: e.target.value }))}
             />
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Stack sx={{ alignItems: "center", justifyContent: "space-between" }} direction="row">
               <Typography variant="body2">Enabled</Typography>
               <Switch
                 checked={form.enabled}

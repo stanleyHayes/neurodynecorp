@@ -25,15 +25,15 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import FullscreenExitIcon from "@mui/icons-material/FullscreenExit";
 import FullscreenIcon from "@mui/icons-material/Fullscreen";
 import CloudUploadOutlinedIcon from "@mui/icons-material/CloudUploadOutlined";
 import InsertDriveFileOutlinedIcon from "@mui/icons-material/InsertDriveFileOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import TitleOutlinedIcon from "@mui/icons-material/TitleOutlined";
@@ -432,8 +432,7 @@ function FileUpload({
         <Box sx={{ flex: 1, minWidth: 0 }}>
           <Typography
             variant="body2"
-            fontWeight={600}
-            sx={{ overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
+            sx={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis", whiteSpace: "nowrap" }}
           >
             {displayName}
           </Typography>
@@ -614,7 +613,7 @@ function ReviewCell({
         {label}
       </Typography>
       {children ?? (
-        <Typography variant="body2" fontWeight={500} sx={{ wordBreak: "break-word" }}>
+        <Typography variant="body2" sx={{ fontWeight: 500, wordBreak: "break-word" }}>
           {value || "—"}
         </Typography>
       )}
@@ -881,7 +880,7 @@ const fullscreenSteps: FullscreenStep[] = [
           }}
           sx={{ mb: 2, ...fsFieldSx }}
         />
-        <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ justifyContent: "center" }}>
+        <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", justifyContent: "center" }}>
           {formData.features.map((feature, i) => (
             <Chip
               key={i}
@@ -923,7 +922,7 @@ const fullscreenSteps: FullscreenStep[] = [
               "&:hover": { borderColor: "#6C63FF40", background: "#6C63FF06" },
             }}
           >
-            <Typography fontWeight={formData.budget === range ? 700 : 400} sx={{ fontFamily: "monospace" }}>
+            <Typography sx={{ fontWeight: formData.budget === range ? 700 : 400, fontFamily: "monospace" }}>
               {range}
             </Typography>
           </Box>
@@ -955,7 +954,7 @@ const fullscreenSteps: FullscreenStep[] = [
               "&:hover": { borderColor: "#00D4AA40", background: "#00D4AA06" },
             }}
           >
-            <Typography fontWeight={formData.timeline === t ? 700 : 400} sx={{ fontFamily: "monospace" }}>
+            <Typography sx={{ fontWeight: formData.timeline === t ? 700 : 400, fontFamily: "monospace" }}>
               {t}
             </Typography>
           </Box>
@@ -1029,7 +1028,7 @@ const fullscreenSteps: FullscreenStep[] = [
           {/* Features — full width */}
           {formData.features.length > 0 && (
             <ReviewCell color="#00D4AA" index="RF" label="Features" full>
-              <Stack direction="row" spacing={0.75} flexWrap="wrap" useFlexGap>
+              <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={0.75} useFlexGap>
                 {formData.features.map((f, i) => (
                   <Chip
                     key={i}
@@ -1361,8 +1360,7 @@ function FullscreenMode({
             {/* Title */}
             <MotionTypography
               variant="h3"
-              fontWeight={800}
-              sx={{
+              sx={{ fontWeight: 800,
                 mb: 1,
                 background: `linear-gradient(135deg, ${step.color}, ${step.accent})`,
                 WebkitBackgroundClip: "text",
@@ -1537,7 +1535,7 @@ function SuccessScreen({ onExit, isFullscreen }: { onExit: () => void; isFullscr
             <MotionBox initial={{ scale: 0 }} animate={{ scale: 1 }} transition={{ delay: 0.2, type: "spring", stiffness: 200 }} sx={{ mb: 3 }}>
               <CheckCircleOutlineIcon sx={{ fontSize: 80, color: "#00D4AA", filter: "drop-shadow(0 0 20px rgba(0,212,170,0.4))" }} />
             </MotionBox>
-            <Typography variant="h3" fontWeight={800} sx={{ mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
+            <Typography variant="h3" sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
               Project Submitted
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 440, mx: "auto", mb: 2, opacity: 0.6 }}>
@@ -1691,8 +1689,7 @@ function SuccessScreen({ onExit, isFullscreen }: { onExit: () => void; isFullscr
             >
               <Typography
                 variant="h2"
-                fontWeight={800}
-                sx={{
+                sx={{ fontWeight: 800,
                   mb: 2,
                   background: "linear-gradient(135deg, #00D4AA, #6C63FF)",
                   WebkitBackgroundClip: "text",
@@ -2106,14 +2103,14 @@ export default function StartProject() {
           {/* Row 1: Name | Email */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
             <Cell color="#6C63FF" index="01" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <PersonOutlineIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Full Name</Typography>
               </Stack>
               <TextField fullWidth required value={formData.name} onChange={(e) => update({ name: e.target.value })} placeholder="John Doe" size="small" sx={fieldSx} />
             </Cell>
             <Cell color="#00D4AA" index="02" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.05}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <AlternateEmailIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Email</Typography>
               </Stack>
@@ -2124,7 +2121,7 @@ export default function StartProject() {
           {/* Row 2: Company | Project Type */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
             <Cell color="#8B85FF" index="03" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.1}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <BusinessOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Company</Typography>
                 <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B85FF15", color: "#8B85FF", border: "none" }} />
@@ -2132,7 +2129,7 @@ export default function StartProject() {
               <TextField fullWidth value={formData.company} onChange={(e) => update({ company: e.target.value })} placeholder="Acme Corp" size="small" sx={fieldSx} />
             </Cell>
             <Cell color="#00D4AA" index="04" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.15}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <CategoryOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Project Type</Typography>
               </Stack>
@@ -2162,7 +2159,7 @@ export default function StartProject() {
 
           {/* Row 3: Title — full width */}
           <Cell color="#6C63FF" index="05" colInRow={0} totalCols={1} minH={{ xs: 100, md: 130 }} animDelay={0.2}>
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
               <TitleOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Project Title</Typography>
             </Stack>
@@ -2171,7 +2168,7 @@ export default function StartProject() {
 
           {/* Row 4: Description — full width */}
           <Cell color="#00D4AA" index="06" colInRow={0} totalCols={1} minH={{ xs: 180, md: 220 }} animDelay={0.25}>
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
               <DescriptionOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Description</Typography>
             </Stack>
@@ -2190,11 +2187,11 @@ export default function StartProject() {
           {/* Conditional: Mobile fields */}
           {formData.projectTypes.includes("mobile_app") && (
             <Cell color="#33DDBB" index="M1" colInRow={0} totalCols={1} minH={{ xs: 100, md: 130 }} animDelay={0}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <PhoneIphoneOutlinedIcon sx={{ fontSize: 18, color: "#33DDBB", filter: "drop-shadow(0 0 4px #33DDBB40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#33DDBB", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Mobile Configuration</Typography>
               </Stack>
-              <Stack direction="row" spacing={2} flexWrap="wrap" useFlexGap>
+              <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={2} useFlexGap>
                 <FormControl>
                   <FormLabel sx={{ fontFamily: "monospace", fontSize: "0.7rem", mb: 0.5 }}>Platforms</FormLabel>
                   <FormGroup row>
@@ -2217,11 +2214,11 @@ export default function StartProject() {
           {/* Conditional: AI fields */}
           {formData.projectTypes.includes("ai_system") && (
             <Cell color="#8B85FF" index="A1" colInRow={0} totalCols={1} minH={{ xs: 100, md: 130 }} animDelay={0}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <SmartToyOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>AI Configuration</Typography>
               </Stack>
-              <Stack direction="row" spacing={2} alignItems="center" flexWrap="wrap" useFlexGap>
+              <Stack sx={{ alignItems: "center", flexWrap: "wrap" }} direction="row" spacing={2} useFlexGap>
                 <FormControl sx={{ minWidth: 200 }}>
                   <InputLabel size="small">AI Type</InputLabel>
                   <Select size="small" value={formData.aiType} label="AI Type" onChange={(e) => update({ aiType: e.target.value })} sx={fieldSx}>
@@ -2237,7 +2234,7 @@ export default function StartProject() {
 
           {/* Row 5: Features — full width */}
           <Cell color="#8B85FF" index="07" colInRow={0} totalCols={1} minH={{ xs: 140, md: 170 }} animDelay={0.3}>
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
               <FeaturedPlayListOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Features</Typography>
               <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B85FF15", color: "#8B85FF", border: "none" }} />
@@ -2258,7 +2255,7 @@ export default function StartProject() {
               }}
               sx={{ ...fieldSx, mb: 1.5 }}
             />
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
               {formData.features.map((f, i) => (
                 <Chip key={i} label={f} onDelete={() => update({ features: formData.features.filter((_, idx) => idx !== i) })} color="primary" variant="outlined" size="small" />
               ))}
@@ -2268,7 +2265,7 @@ export default function StartProject() {
           {/* Row 6: Budget | Timeline */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
             <Cell color="#6C63FF" index="08" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.35}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <AttachMoneyIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Budget Range</Typography>
               </Stack>
@@ -2285,7 +2282,7 @@ export default function StartProject() {
               </TextField>
             </Cell>
             <Cell color="#00D4AA" index="09" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.4}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <ScheduleOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Timeline</Typography>
               </Stack>
@@ -2305,7 +2302,7 @@ export default function StartProject() {
 
           {/* Row 7: File Upload — full width */}
           <Cell color="#8B85FF" index="10" colInRow={0} totalCols={1} minH={{ xs: 140, md: 170 }} animDelay={0.45}>
-            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
               <CloudUploadOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Specification Document</Typography>
               <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B85FF15", color: "#8B85FF", border: "none" }} />

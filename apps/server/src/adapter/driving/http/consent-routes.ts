@@ -35,7 +35,7 @@ export function createConsentRoutes(repo: MongoConsentRepository, tokenService: 
       const record = createConsentRecord({
         anonymousId: parsed.data.anonymousId,
         userId: req.userId,
-        categories: parsed.data.categories,
+        categories: parsed.data.categories as any,
         policyVersion: parsed.data.policyVersion,
         ip: req.ip,
         userAgent: req.headers["user-agent"],

@@ -149,7 +149,7 @@ function SortableTaskCard({
         >
           {projectName}
         </Typography>
-        <Stack direction="row" justifyContent="space-between" alignItems="center">
+        <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
           <Chip
             label={task.priority}
             size="small"
@@ -255,7 +255,7 @@ function DroppableColumn({
         animDelay={0.4 + colIndex * 0.05}
         minH={40}
       >
-        <Stack direction="row" spacing={1} alignItems="center">
+        <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
           <Box
             sx={{
               width: 8,
@@ -340,19 +340,18 @@ function NewTaskDialog({
   }, [open, projects]);
 
   return (
-    <Dialog
-      open={open}
-      onClose={onClose}
-      maxWidth="sm"
-      fullWidth
-      PaperProps={{
+    <Dialog slotProps={{ paper: {
         sx: {
           bgcolor: "background.paper",
           backgroundImage: "none",
           border: "1px solid rgba(108, 99, 255, 0.15)",
           borderRadius: 2,
         },
-      }}
+      } }}
+      open={open}
+      onClose={onClose}
+      maxWidth="sm"
+      fullWidth
     >
       <DialogTitle
         sx={{
@@ -414,7 +413,7 @@ function NewTaskDialog({
         >
           {["low", "medium", "high", "critical"].map((p) => (
             <MenuItem key={p} value={p}>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <Box
                   sx={{
                     width: 8,

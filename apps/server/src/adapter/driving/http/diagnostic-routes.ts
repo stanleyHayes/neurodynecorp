@@ -112,8 +112,8 @@ export function createDiagnosticRoutes(
   // GET /:id — admin: single submission incl. one-page summary.
   router.get("/:id", auth, requirePermission("diagnostic:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findById(req.params.id!);
-      if (!item) throw new NotFoundError("diagnostic", req.params.id);
+      const item = await repo.findById(String(req.params.id));
+      if (!item) throw new NotFoundError("diagnostic", String(req.params.id));
       res.json(item);
     } catch (err) {
       next(err);

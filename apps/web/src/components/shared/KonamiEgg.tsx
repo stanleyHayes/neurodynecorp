@@ -103,7 +103,7 @@ export default function KonamiEgg() {
               maxWidth: 480,
             }}
           >
-            <Stack alignItems="center" spacing={1.5}>
+            <Stack sx={{ alignItems: "center" }} spacing={1.5}>
               <RocketLaunchOutlinedIcon sx={{ fontSize: 56, color: "#6C63FF", filter: "drop-shadow(0 0 16px #6C63FF)" }} />
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.3em", color: "#00D4AA", textTransform: "uppercase", opacity: 0.8 }}>
                 ░░░ ACHIEVEMENT UNLOCKED ░░░

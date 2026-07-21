@@ -56,8 +56,8 @@ export function createMessageRoutes(
       }
 
       const thread = await messageService.createThread({
-        ...parsed.data,
-        participantIds: [...new Set([req.userId!, ...parsed.data.participantIds])],
+        ...(parsed.data as any),
+        participantIds: [...new Set([req.userId!, ...(parsed.data as any).participantIds])],
       });
       res.status(201).json(thread);
     } catch (err) {
@@ -83,7 +83,7 @@ export function createMessageRoutes(
   // GET /api/v1/messages/threads/:threadId
   router.get("/threads/:threadId", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const thread = await messageService.getThread(req.params.threadId!);
+      const thread = await messageService.getThread(String(req.params.threadId));
       if (!thread) {
         res.status(404).json({ error: "Thread not found" });
         return;
@@ -103,7 +103,7 @@ export function createMessageRoutes(
       }
 
       const message = await messageService.sendMessage(
-        req.params.threadId!,
+        String(req.params.threadId),
         req.userId!,
         parsed.data.content,
         parsed.data.attachments,
@@ -111,7 +111,7 @@ export function createMessageRoutes(
 
       // Broadcast message to project room and notify participants
       if (realtime) {
-        const thread = await messageService.getThread(req.params.threadId!);
+        const thread = await messageService.getThread(String(req.params.threadId));
         if (thread) {
           realtime.broadcastToProject(thread.projectId, {
             type: "message",
@@ -143,7 +143,7 @@ export function createMessageRoutes(
   // GET /api/v1/messages/threads/:threadId/messages
   router.get("/threads/:threadId/messages", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const messages = await messageService.getMessages(req.params.threadId!);
+      const messages = await messageService.getMessages(String(req.params.threadId));
       res.status(200).json({ messages });
     } catch (err) {
       next(err);

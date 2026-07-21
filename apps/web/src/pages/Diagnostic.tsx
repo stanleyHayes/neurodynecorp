@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import SEO from "@/components/seo/SEO";
@@ -281,7 +281,7 @@ export default function Diagnostic() {
                       <Stack spacing={1} sx={{ mt: 2.5 }}>
                         <Overline>Why</Overline>
                         {result.reasons.map((r, i) => (
-                          <Stack key={`${i}-${r}`} direction="row" spacing={1.5} alignItems="flex-start">
+                          <Stack sx={{ alignItems: "flex-start" }} key={`${i}-${r}`} direction="row" spacing={1.5}>
                             <Box sx={{ width: 5, height: 5, borderRadius: "50%", bgcolor: ROUTE_COLOR[result.route] ?? "#6C63FF", mt: "7px", flexShrink: 0 }} />
                             <Typography variant="body2" color="text.secondary">{r}</Typography>
                           </Stack>
@@ -298,7 +298,7 @@ export default function Diagnostic() {
                     </Typography>
                   </Box>
 
-                  <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap>
+                  <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1.5} useFlexGap>
                     <Button variant="outlined" startIcon={<DownloadOutlinedIcon />} onClick={downloadSummary}>Download summary</Button>
                     <Button variant="outlined" startIcon={<PrintOutlinedIcon />} onClick={() => window.print()}>Print / Save as PDF</Button>
                   </Stack>

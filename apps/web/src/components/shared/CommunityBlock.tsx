@@ -1,4 +1,5 @@
 import { Box, Typography, Stack, Button } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import GitHubIcon from "@mui/icons-material/GitHub";
 import LinkedInIcon from "@mui/icons-material/LinkedIn";
@@ -25,13 +26,14 @@ export default function CommunityBlock() {
       sx={{
         position: "relative",
         p: { xs: 3, md: 5 },
-        borderRadius: 3,
+        borderRadius: 0,
         border: "1px solid rgba(108, 99, 255, 0.15)",
         background: "linear-gradient(135deg, rgba(108,99,255,0.04), rgba(0,212,170,0.03))",
         overflow: "hidden",
         textAlign: "center",
       }}
     >
+      <HudCorners />
       <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1, mb: 2 }}>
         <GroupsOutlinedIcon sx={{ fontSize: 22, color: "#6C63FF" }} />
         <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#6C63FF", opacity: 0.8 }}>
@@ -53,7 +55,7 @@ export default function CommunityBlock() {
         Follow along, weigh in on architecture decisions, or sponsor the open-source side. Pick your channel.
       </Typography>
 
-      <Stack direction="row" spacing={1.5} justifyContent="center" flexWrap="wrap" sx={{ gap: 1.5 }}>
+      <Stack direction="row" spacing={1.5} sx={{ justifyContent: "center", flexWrap: "wrap", gap: 1.5 }}>
         {links.map((l) => (
           <Button
             key={l.label}

@@ -17,7 +17,7 @@ import {
 import { motion } from "framer-motion";
 import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import SEO from "@/components/seo/SEO";
 import { api } from "@/api/client";
 
@@ -115,7 +115,7 @@ export default function NewsletterConfirm() {
         description="Confirm your NeuroDyne Corp newsletter subscription and choose the updates you want to receive."
       />
       <Container maxWidth="lg">
-        <Stack spacing={4} alignItems="center">
+        <Stack sx={{ alignItems: "center" }} spacing={4}>
           <MotionCard
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -134,7 +134,7 @@ export default function NewsletterConfirm() {
               <Typography sx={{ ...overline, mb: 2 }}>Newsletter</Typography>
 
               {status === "loading" && (
-                <Stack spacing={2} alignItems="center" sx={{ py: 3 }}>
+                <Stack spacing={2} sx={{ alignItems: "center", py: 3 }}>
                   <CircularProgress sx={{ color: "#6C63FF" }} />
                   <Typography sx={{ color: "text.secondary", opacity: 0.8 }}>
                     Confirming your subscription...
@@ -143,7 +143,7 @@ export default function NewsletterConfirm() {
               )}
 
               {status === "success" && (
-                <Stack spacing={1.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} spacing={1.5}>
                   <MarkEmailReadOutlinedIcon sx={{ color: "#10B981", fontSize: 52 }} />
                   <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.4rem", md: "1.7rem" }, letterSpacing: "-0.02em" }}>
                     You're confirmed.
@@ -156,7 +156,7 @@ export default function NewsletterConfirm() {
               )}
 
               {status === "error" && (
-                <Stack spacing={1.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} spacing={1.5}>
                   <ErrorOutlineOutlinedIcon sx={{ color: "#EF4444", fontSize: 52 }} />
                   <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.4rem", md: "1.7rem" }, letterSpacing: "-0.02em" }}>
                     Something went wrong.
@@ -214,17 +214,14 @@ export default function NewsletterConfirm() {
                     <Stack
                       key={seg.key}
                       direction="row"
-                      alignItems="center"
-                      justifyContent="space-between"
-                      sx={{ py: 1.25 }}
+                      sx={{ alignItems: "center", justifyContent: "space-between", py: 1.25 }}
                     >
                       <Typography sx={{ fontWeight: 600, fontSize: "0.95rem" }}>
                         {seg.label}
                       </Typography>
-                      <Switch
+                      <Switch slotProps={{ input: { "aria-label": seg.label } }}
                         checked={!!selected[seg.key]}
                         onChange={() => toggle(seg.key)}
-                        inputProps={{ "aria-label": seg.label }}
                       />
                     </Stack>
                   ))}

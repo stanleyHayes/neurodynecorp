@@ -1,8 +1,9 @@
 import { useState } from "react";
+import HudCorners from "@/components/shared/HudCorners";
 import { Box, Typography, TextField, Button, Stack, Alert } from "@mui/material";
 import { motion } from "framer-motion";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import { playSound } from "@/hooks/useSound";
 
 const MotionBox = motion.create(Box);
@@ -42,13 +43,14 @@ export default function NewsletterCTA() {
       sx={{
         position: "relative",
         p: { xs: 3, md: 5 },
-        borderRadius: 3,
+        borderRadius: 0,
         border: "1px solid rgba(108, 99, 255, 0.18)",
         background: "linear-gradient(135deg, rgba(108,99,255,0.05), rgba(0,212,170,0.04))",
         overflow: "hidden",
       }}
     >
-      <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+      <HudCorners />
+      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
         <EmailOutlinedIcon sx={{ color: "#6C63FF", fontSize: 22 }} />
         <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#6C63FF", opacity: 0.8 }}>
           // ENGINEERING DECISIONS, WEEKLY

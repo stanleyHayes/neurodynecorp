@@ -106,7 +106,7 @@ export default function Subsidiaries() {
                       bgcolor: `${color}0A`,
                     }}
                   >
-                    <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1.5 }}>
+                    <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
                       <Overline color={color}>ENTITY</Overline>
                       <Chip
                         label={s.status}

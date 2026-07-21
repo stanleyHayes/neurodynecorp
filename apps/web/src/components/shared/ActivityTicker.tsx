@@ -86,9 +86,8 @@ export default function ActivityTicker() {
   return (
     <Stack
       direction="row"
-      alignItems="center"
       spacing={1.5}
-      sx={{
+      sx={{ alignItems: "center",
         display: "inline-flex",
         px: 2,
         py: 1,

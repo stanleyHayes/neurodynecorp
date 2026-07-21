@@ -162,8 +162,7 @@ function BlogCell({
 
           <Typography
             variant="h5"
-            fontWeight={700}
-            sx={{
+            sx={{ fontWeight: 700,
               mb: 1.5,
               color: hovered ? "text.primary" : "text.secondary",
               transition: "color 0.3s",
@@ -191,18 +190,16 @@ function BlogCell({
         {/* Metadata footer */}
         <Stack
           direction="row"
-          justifyContent="space-between"
-          alignItems="center"
-          sx={{ position: "relative", zIndex: 1, mt: 2, pt: 2, borderTop: `1px solid ${BORDER}` }}
+          sx={{ justifyContent: "space-between", alignItems: "center", position: "relative", zIndex: 1, mt: 2, pt: 2, borderTop: `1px solid ${BORDER}` }}
         >
-          <Stack direction="row" spacing={2} alignItems="center">
-            <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "text.secondary", opacity: 0.6 }}>
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
+            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "text.secondary", opacity: 0.6 }}>
               <CalendarTodayOutlinedIcon sx={{ fontSize: 12 }} />
               <Typography variant="caption" sx={{ fontFamily: "monospace", fontSize: "0.65rem" }}>
                 {new Date(post.createdAt).toLocaleDateString("en-US", { month: "short", day: "numeric" })}
               </Typography>
             </Stack>
-            <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "text.secondary", opacity: 0.6 }}>
+            <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "text.secondary", opacity: 0.6 }}>
               <AccessTimeIcon sx={{ fontSize: 12 }} />
               <Typography variant="caption" sx={{ fontFamily: "monospace", fontSize: "0.65rem" }}>
                 {post.readTime}
@@ -300,7 +297,7 @@ export default function Blog() {
       {/* Search + filter bar */}
       {!loading && posts.length > 0 && (
         <Box sx={{ px: { xs: 3, md: 6 }, py: 3, borderBottom: `1px solid ${BORDER}` }}>
-          <Stack direction={{ xs: "column", md: "row" }} spacing={2} alignItems={{ md: "center" }}>
+          <Stack sx={{ alignItems: { md: "center" } }} direction={{ xs: "column", md: "row" }} spacing={2}>
             <TextField
               size="small"
               placeholder="Search posts..."
@@ -327,7 +324,7 @@ export default function Blog() {
                 },
               }}
             />
-            <Stack direction="row" spacing={0.75} flexWrap="wrap" sx={{ gap: 0.75 }}>
+            <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", gap: 0.75 }}>
               {categories.map((c) => {
                 const active = c === category;
                 return (

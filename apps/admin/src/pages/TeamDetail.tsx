@@ -267,7 +267,7 @@ export default function TeamDetail() {
         <Box>
           <SectionLabel>Profile</SectionLabel>
           <Cell color={color} index="00" animDelay={0}>
-            <Stack alignItems="center" spacing={2} sx={{ textAlign: "center", py: 2 }}>
+            <Stack spacing={2} sx={{ alignItems: "center", textAlign: "center", py: 2 }}>
               <Avatar
                 src={user.avatar}
                 sx={{ width: 80, height: 80, fontSize: 28, fontWeight: 700, bgcolor: `${color}20`, color, border: `2.5px solid ${color}30` }}
@@ -289,7 +289,7 @@ export default function TeamDetail() {
                   </Typography>
                 )}
                 {override.socials && override.socials.length > 0 && (
-                  <Stack direction="row" spacing={1.5} justifyContent="center" sx={{ mt: 1.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1.5} sx={{ justifyContent: "center", mt: 1.5, flexWrap: "wrap" }}>
                     {override.socials.map((s) => (
                       <Typography
                         key={s.href}
@@ -336,7 +336,7 @@ export default function TeamDetail() {
                 { icon: <CalendarTodayOutlinedIcon />, label: "Joined", value: joined },
                 { icon: <HistoryOutlinedIcon />, label: "Last Login", value: lastLogin },
               ].map((item) => (
-                <Stack key={item.label} direction="row" spacing={2} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} key={item.label} direction="row" spacing={2}>
                   <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 18 }, color: "text.secondary", opacity: 0.4, flexShrink: 0 }}>
                     {item.icon}
                   </Box>
@@ -413,7 +413,7 @@ export default function TeamDetail() {
             </Box>
             <Stack spacing={1.5}>
               {responsibilities.map((r, i) => (
-                <Stack key={i} direction="row" spacing={1.5} alignItems="flex-start">
+                <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
                   <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: color, flexShrink: 0, mt: 0.8, filter: `drop-shadow(0 0 4px ${color}60)` }} />
                   <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>{r}</Typography>
                 </Stack>
@@ -441,8 +441,8 @@ export default function TeamDetail() {
             return (
               <Cell key={project.id} color={pColor} index={String(i + 4).padStart(2, "0")} colInRow={i % 2} totalCols={2} animDelay={0.3 + i * 0.05}>
                 <Box onClick={() => navigate(`/projects/${project.id}`)} sx={{ cursor: "pointer" }}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
-                    <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
+                    <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                       <FolderOutlinedIcon sx={{ fontSize: 18, color: pColor }} />
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                     </Stack>
@@ -483,7 +483,7 @@ export default function TeamDetail() {
           {pastProjects.map((project, i) => (
             <Cell key={project.id} color="#10B981" index={String(i + 6).padStart(2, "0")} colInRow={i % 3} totalCols={3} animDelay={0.4 + i * 0.05}>
               <Box onClick={() => navigate(`/projects/${project.id}`)} sx={{ cursor: "pointer" }}>
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5 }}>
                   <FolderOutlinedIcon sx={{ fontSize: 16, color: "#10B981" }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                 </Stack>

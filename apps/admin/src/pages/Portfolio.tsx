@@ -163,7 +163,7 @@ export default function Portfolio() {
           const color = statusColor[statusLabel(study.status)] ?? "#94A3B8";
           return (
             <Cell key={study.id} color={study.color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} colInRow={i % 2} totalCols={2} animDelay={0.3 + i * 0.05} minH={160}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{study.title}</Typography>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{study.client} — {study.category}</Typography>
@@ -171,7 +171,7 @@ export default function Portfolio() {
                 <Chip label={statusLabel(study.status)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{study.description}</Typography>
-              <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 1 }}>
+              <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
                 {(study.tags ?? []).map((tag: string) => (
                   <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.55rem", height: 22 }} />
                 ))}

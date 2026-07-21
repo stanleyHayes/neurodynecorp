@@ -202,7 +202,7 @@ export default function Clients() {
               animDelay={0.3 + i * 0.05}
             >
               <Box onClick={() => navigate(`/clients/${client.id}`)} sx={{ cursor: "pointer" }}>
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 2 }}>
+                <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
                   <Avatar sx={{ bgcolor: `${client.avatarColor}20`, color: client.avatarColor, width: 42, height: 42, fontSize: 14, fontWeight: 700, border: `1.5px solid ${client.avatarColor}30` }}>
                     {client.name.split(" ").map((n) => n[0]).join("")}
                   </Avatar>

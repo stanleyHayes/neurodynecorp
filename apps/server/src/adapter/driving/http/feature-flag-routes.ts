@@ -89,8 +89,8 @@ export function createFeatureFlagRoutes(repo: MongoFeatureFlagRepository, tokenS
       const parsed = updateFlagSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("feature_flags", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("feature_flags", String(req.params.id));
 
       const updated: FeatureFlag = { ...existing, ...parsed.data, id: existing.id, updatedAt: new Date() };
       const saved = await repo.update(updated);
@@ -103,7 +103,7 @@ export function createFeatureFlagRoutes(repo: MongoFeatureFlagRepository, tokenS
   // DELETE /:id
   router.delete("/:id", auth, requirePermission("feature_flags:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await repo.delete(req.params.id!);
+      await repo.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

@@ -105,7 +105,7 @@ export default function TestimonialCreate() {
             <TextField select fullWidth size="small" label="Avatar Color" value={avatarColor} onChange={(e) => setAvatarColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
                 <MenuItem key={c.value} value={c.value}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: c.value }} />
                     <span>{c.label}</span>
                   </Stack>
@@ -146,7 +146,7 @@ export default function TestimonialCreate() {
         <>
           <SectionLabel>Preview</SectionLabel>
           <Cell color={avatarColor} index="P0" animDelay={0.3}>
-            <Stack direction="row" spacing={2} alignItems="flex-start">
+            <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={2}>
               <Avatar sx={{ bgcolor: `${avatarColor}20`, color: avatarColor, width: 42, height: 42, fontSize: 14, fontWeight: 700, border: `1.5px solid ${avatarColor}30`, flexShrink: 0 }}>
                 {initials || "?"}
               </Avatar>

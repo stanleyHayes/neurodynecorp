@@ -106,7 +106,7 @@ export default function Pipeline() {
           {pipelineStages.map((stage, si) => (
             <Box key={stage.name}>
               <Cell color={stage.color} index={String(si + 4).padStart(2, "0")} colInRow={si} totalCols={pipelineStages.length} animDelay={0.4 + si * 0.05} minH={40}>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: stage.color, filter: `drop-shadow(0 0 4px ${stage.color}60)` }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em" }}>{stage.name}</Typography>
                   <Chip label={stage.projects.length} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", height: 20, bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />

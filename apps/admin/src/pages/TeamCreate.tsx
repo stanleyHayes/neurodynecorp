@@ -127,7 +127,7 @@ export default function TeamCreate() {
           <SectionLabel>Preview</SectionLabel>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" } }}>
             <Cell color={color} index="P0" colInRow={0} totalCols={3} animDelay={0.2}>
-              <Stack direction="row" spacing={2} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
                 <Avatar sx={{ bgcolor: `${color}20`, color, width: 48, height: 48, fontSize: 16, fontWeight: 700, border: `2px solid ${color}30` }}>
                   {initials || "?"}
                 </Avatar>

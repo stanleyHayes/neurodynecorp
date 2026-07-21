@@ -415,9 +415,9 @@ export default function ProjectDetail() {
 
       <AnimatedCard delay={0} sx={{ mb: 3 }}>
         <CardContent>
-          <Stack direction="row" justifyContent="space-between" sx={{ mb: 1 }}>
+          <Stack direction="row" sx={{ justifyContent: "space-between", mb: 1 }}>
             <Typography variant="subtitle2">Overall Progress</Typography>
-            <Typography variant="subtitle2" fontWeight={700}>
+            <Typography sx={{ fontWeight: 700 }} variant="subtitle2">
               {project.progress}%
             </Typography>
           </Stack>
@@ -562,7 +562,7 @@ export default function ProjectDetail() {
                     .slice(0, 2)
                     .toUpperCase();
                   return (
-                    <Stack key={member.id} direction="row" spacing={2} alignItems="center">
+                    <Stack sx={{ alignItems: "center" }} key={member.id} direction="row" spacing={2}>
                       <Avatar
                         src={member.avatar}
                         sx={{ width: 40, height: 40, fontSize: 14, fontWeight: 700, bgcolor: "primary.dark" }}
@@ -573,7 +573,7 @@ export default function ProjectDetail() {
                         <Typography variant="body2" sx={{ fontWeight: 600 }}>
                           {member.name}
                         </Typography>
-                        <Stack direction="row" spacing={1} alignItems="center">
+                        <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                           <Chip
                             label={member.role}
                             size="small"
@@ -705,7 +705,7 @@ export default function ProjectDetail() {
       {tab === 6 && (
         <AnimatedCard delay={1} sx={{ p: 2 }}>
           <CardContent>
-            <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+            <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
               <Typography variant="h6">Support</Typography>
               <Button variant="contained" size="small" onClick={() => setRaiseOpen(true)}>
                 Raise a ticket
@@ -726,7 +726,7 @@ export default function ProjectDetail() {
                     onClick={() => { setActiveTicket(t); setReplyText(""); }}
                     sx={{ cursor: "pointer", borderRadius: 1, "&:hover": { bgcolor: "rgba(108,99,255,0.06)" } }}
                     secondaryAction={
-                      <Stack direction="row" spacing={1} alignItems="center">
+                      <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                         <Chip label={t.priority} size="small" variant="outlined" sx={{ textTransform: "capitalize", fontSize: "0.6rem" }} />
                         <Chip label={(t.status ?? "open").replace(/_/g, " ")} size="small" sx={{ textTransform: "capitalize", fontSize: "0.6rem" }} />
                       </Stack>
@@ -774,9 +774,8 @@ export default function ProjectDetail() {
                         )
                       }
                     >
-                      <ListItemText
+                      <ListItemText slotProps={{ secondary: { component: "div" } }}
                         primary={a.title}
-                        secondaryTypographyProps={{ component: "div" }}
                         secondary={
                           <Box sx={{ mt: 0.25 }}>
                             {a.deliverableRef && <Box sx={{ fontSize: "0.78rem" }}>Deliverable: {a.deliverableRef}</Box>}
@@ -826,8 +825,8 @@ export default function ProjectDetail() {
                       ) : (
                         <List dense disablePadding>
                           {group.map((s: any) => (
-                            <ListItem key={s.id} alignItems="flex-start" sx={{ px: 0, borderBottom: 1, borderColor: "divider" }}>
-                              <ListItemText
+                            <ListItem key={s.id} sx={{ alignItems: "flex-start", px: 0, borderBottom: 1, borderColor: "divider" }}>
+                              <ListItemText slotProps={{ secondary: { component: "div" } }}
                                 primary={
                                   <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
                                     <span>{s.name}</span>
@@ -846,7 +845,6 @@ export default function ProjectDetail() {
                                     />
                                   </Box>
                                 }
-                                secondaryTypographyProps={{ component: "div" }}
                                 secondary={
                                   <Box sx={{ mt: 0.25 }}>
                                     <Box sx={{ fontSize: "0.78rem" }}>{s.role}</Box>
@@ -944,7 +942,7 @@ export default function ProjectDetail() {
                       ) : null
                     }
                   >
-                    <ListItemText
+                    <ListItemText slotProps={{ secondary: { component: "div" } }}
                       primary={
                         <Box sx={{ display: "flex", alignItems: "center", flexWrap: "wrap", gap: 1 }}>
                           <span>{r.title}</span>
@@ -952,7 +950,6 @@ export default function ProjectDetail() {
                           {r.period && <Chip label={r.period} size="small" variant="outlined" sx={{ fontSize: "0.65rem" }} />}
                         </Box>
                       }
-                      secondaryTypographyProps={{ component: "div" }}
                       secondary={
                         <Box sx={{ mt: 0.25 }}>
                           {r.summary && <Box sx={{ fontSize: "0.78rem", whiteSpace: "pre-wrap" }}>{r.summary}</Box>}
@@ -1117,14 +1114,13 @@ export default function ProjectDetail() {
                 </Typography>
               )}
               <Divider sx={{ mb: 2 }} />
-              <TextField
+              <TextField slotProps={{ htmlInput: { maxLength: 8000 } }}
                 label="Comments / conditions (optional, required if rejecting)"
                 value={decisionComment}
                 onChange={(e) => setDecisionComment(e.target.value)}
                 fullWidth
                 multiline
                 minRows={2}
-                inputProps={{ maxLength: 8000 }}
               />
             </DialogContent>
             <DialogActions sx={{ flexWrap: "wrap", gap: 1, p: 2 }}>
@@ -1148,8 +1144,8 @@ export default function ProjectDetail() {
         <DialogTitle>Raise a ticket</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Subject" value={raiseForm.subject} onChange={(e) => setRaiseForm({ ...raiseForm, subject: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
-            <TextField label="Describe it" value={raiseForm.body} onChange={(e) => setRaiseForm({ ...raiseForm, body: e.target.value })} fullWidth multiline minRows={4} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Subject" value={raiseForm.subject} onChange={(e) => setRaiseForm({ ...raiseForm, subject: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Describe it" value={raiseForm.body} onChange={(e) => setRaiseForm({ ...raiseForm, body: e.target.value })} fullWidth multiline minRows={4} />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Category" value={raiseForm.category} onChange={(e) => setRaiseForm({ ...raiseForm, category: e.target.value })} fullWidth>
                 {["question", "issue", "change_request", "other"].map((c) => <MenuItem key={c} value={c} sx={{ textTransform: "capitalize" }}>{c.replace(/_/g, " ")}</MenuItem>)}
@@ -1198,8 +1194,8 @@ export default function ProjectDetail() {
               )}
             </DialogContent>
             <DialogActions sx={{ flexDirection: "column", alignItems: "stretch", gap: 1, p: 2 }}>
-              <TextField placeholder="Write a reply…" value={replyText} onChange={(e) => setReplyText(e.target.value)} fullWidth multiline minRows={2} size="small" inputProps={{ maxLength: 8000 }} />
-              <Stack direction="row" justifyContent="flex-end" spacing={1}>
+              <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} placeholder="Write a reply…" value={replyText} onChange={(e) => setReplyText(e.target.value)} fullWidth multiline minRows={2} size="small" />
+              <Stack sx={{ justifyContent: "flex-end" }} direction="row" spacing={1}>
                 <Button onClick={() => setActiveTicket(null)}>Close</Button>
                 <Button variant="contained" onClick={sendReply} disabled={replying || !replyText.trim()} startIcon={replying ? <CircularProgress size={14} sx={{ color: "#fff" }} /> : undefined}>
                   {replying ? "Sending…" : "Reply"}

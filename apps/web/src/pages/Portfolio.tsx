@@ -126,11 +126,10 @@ export default function Portfolio() {
             <Box sx={{ py: 3, px: { xs: 2, md: 4 }, borderBottom: `1px solid ${BORDER}` }}>
               <Stack spacing={2}>
                 {facetGroups.map((group) => (
-                  <Stack
+                  <Stack sx={{ alignItems: { sm: "center" } }}
                     key={group.key as string}
                     direction={{ xs: "column", sm: "row" }}
                     spacing={{ xs: 1, sm: 2 }}
-                    alignItems={{ sm: "center" }}
                   >
                     <Typography
                       sx={{
@@ -145,7 +144,7 @@ export default function Portfolio() {
                     >
                       {group.label}
                     </Typography>
-                    <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                    <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
                       {["All", ...group.options].map((opt) => {
                         const isActive = (filters[group.key as string] ?? "All") === opt;
                         return (

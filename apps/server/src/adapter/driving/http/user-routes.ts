@@ -65,9 +65,9 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
   // GET /api/v1/users/:id
   router.get("/:id", requirePermission("team:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const user = await userService.findById(req.params.id!);
+      const user = await userService.findById(String(req.params.id));
       if (!user) {
-        throw new NotFoundError("User", req.params.id);
+        throw new NotFoundError("User", String(req.params.id));
       }
       res.status(200).json(sanitizeUser(user));
     } catch (err) {
@@ -83,9 +83,9 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
         throw new ValidationError("Invalid user update data", parsed.error.flatten());
       }
 
-      const existing = await userService.findById(req.params.id!);
+      const existing = await userService.findById(String(req.params.id));
       if (!existing) {
-        throw new NotFoundError("User", req.params.id);
+        throw new NotFoundError("User", String(req.params.id));
       }
 
       const updated = await userService.update({
@@ -102,7 +102,7 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
   // DELETE /api/v1/users/:id (deactivate)
   router.delete("/:id", requirePermission("team:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await userService.delete(req.params.id!);
+      await userService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

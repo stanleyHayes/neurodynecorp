@@ -18,9 +18,7 @@ services:
       - key: NEURODYNE_PORT
         value: 4000
       - key: NEURODYNE_MONGODB_URI
-        fromDatabase:
-          name: neurodyne-mongodb
-          property: connectionString
+        sync: false
       - key: NEURODYNE_REDIS_URL
         fromService:
           type: redis
@@ -50,9 +48,7 @@ services:
       - key: SERVER_GRPC_PORT
         value: 50051
       - key: MONGODB_URI
-        fromDatabase:
-          name: neurodyne-mongodb
-          property: connectionString
+        sync: false
       - key: REDIS_ADDR
         fromService:
           type: redis
@@ -69,11 +65,6 @@ services:
   # Frontends (web, client, admin) are deployed on Vercel — not Render.
 
 databases:
-  - name: neurodyne-mongodb
-    databaseName: neurodyne
-    plan: standard
-    ipAllowList: []
-
   - name: neurodyne-redis
     plan: standard
     ipAllowList: []

@@ -29,14 +29,16 @@ const STORAGE_KEY = "neurodyne_theme_mode";
 
 // ── Theme definitions ──
 
+// Body copy uses Outfit; titles/headings keep TT Squares.
+const HEADING_FONT = "'TT Squares', 'Roboto', 'Helvetica', 'Arial', sans-serif";
 const sharedTypography = {
-  fontFamily: "'TT Squares', 'Roboto', 'Helvetica', 'Arial', sans-serif",
-  h1: { fontSize: "3.5rem", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em" },
-  h2: { fontSize: "2.5rem", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-0.01em" },
-  h3: { fontSize: "2rem", fontWeight: 700, lineHeight: 1.3 },
-  h4: { fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.4 },
-  h5: { fontSize: "1.25rem", fontWeight: 600 },
-  h6: { fontSize: "1rem", fontWeight: 600 },
+  fontFamily: "'Outfit', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+  h1: { fontFamily: HEADING_FONT, fontSize: "3.5rem", fontWeight: 800, lineHeight: 1.1, letterSpacing: "-0.02em" },
+  h2: { fontFamily: HEADING_FONT, fontSize: "2.5rem", fontWeight: 700, lineHeight: 1.2, letterSpacing: "-0.01em" },
+  h3: { fontFamily: HEADING_FONT, fontSize: "2rem", fontWeight: 700, lineHeight: 1.3 },
+  h4: { fontFamily: HEADING_FONT, fontSize: "1.5rem", fontWeight: 600, lineHeight: 1.4 },
+  h5: { fontFamily: HEADING_FONT, fontSize: "1.25rem", fontWeight: 600 },
+  h6: { fontFamily: HEADING_FONT, fontSize: "1rem", fontWeight: 600 },
   body1: { fontSize: "1rem", lineHeight: 1.7 },
   body2: { fontSize: "0.875rem", lineHeight: 1.6 },
   button: { textTransform: "none" as const, fontWeight: 600 },
@@ -78,14 +80,19 @@ function makeTheme(mode: Mode) {
       MuiButton: {
         styleOverrides: {
           ...sharedComponents.MuiButton.styleOverrides,
-          containedPrimary: mode === "dark" ? {
-            background: "linear-gradient(135deg, #6C63FF 0%, #8B85FF 100%)",
-            "&:hover": { background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)" },
-          } : {
-            background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)",
-            "&:hover": { background: "linear-gradient(135deg, #4B44CC 0%, #6C63FF 100%)" },
-          },
         },
+        variants: [
+          {
+            props: { variant: "contained", color: "primary" },
+            style: mode === "dark" ? {
+              background: "linear-gradient(135deg, #6C63FF 0%, #8B85FF 100%)",
+              "&:hover": { background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)" },
+            } : {
+              background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)",
+              "&:hover": { background: "linear-gradient(135deg, #4B44CC 0%, #6C63FF 100%)" },
+            },
+          },
+        ],
       },
       MuiCard: {
         styleOverrides: {
@@ -130,208 +137,37 @@ interface TransitionState {
   targetMode: Mode;
 }
 
-function generateParticles(count: number) {
-  return Array.from({ length: count }, (_, i) => ({
-    id: i,
-    angle: (360 / count) * i + Math.random() * 20,
-    distance: 80 + Math.random() * 200,
-    size: 2 + Math.random() * 4,
-    delay: Math.random() * 0.3,
-    duration: 0.6 + Math.random() * 0.4,
-  }));
-}
-
-const sparkParticles = generateParticles(24);
-
 function ThemeTransitionOverlay({ transition, onComplete }: {
   transition: TransitionState;
   onComplete: () => void;
 }) {
-  const isDark = transition.targetMode === "dark";
-  const maxDimension = typeof window !== "undefined" ? Math.max(window.innerWidth, window.innerHeight) : 2000;
-  const maxRadius = maxDimension * 1.5;
+  const maxDimension =
+    typeof window !== "undefined" ? Math.max(window.innerWidth, window.innerHeight) : 2000;
+  const maxRadius = maxDimension * 1.6;
+  // The page has already switched to the target theme. This overlay paints the
+  // theme we are LEAVING and circularly collapses it into the toggle button,
+  // revealing the new theme underneath — a clean circular reveal.
+  const leavingBg = transition.targetMode === "dark" ? "#F8FAFC" : "#0A0E1A";
+  const cx = transition.originX;
+  const cy = transition.originY;
 
   return (
-    <AnimatePresence onExitComplete={onComplete}>
+    <AnimatePresence>
       {transition.active && (
         <MotionBox
-          key={`theme-overlay-${transition.targetMode}`}
-          initial={{ opacity: 1 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.2 }}
-          onAnimationComplete={() => {
-            setTimeout(onComplete, 800);
-          }}
+          key={`theme-reveal-${transition.targetMode}`}
+          initial={{ clipPath: `circle(${maxRadius}px at ${cx}px ${cy}px)` }}
+          animate={{ clipPath: `circle(0px at ${cx}px ${cy}px)` }}
+          transition={{ duration: 0.6, ease: [0.83, 0, 0.17, 1] }}
+          onAnimationComplete={onComplete}
           sx={{
             position: "fixed",
             inset: 0,
             zIndex: 99999,
             pointerEvents: "none",
-            overflow: "hidden",
+            background: leavingBg,
           }}
-        >
-          {/* Expanding circle wipe */}
-          <MotionBox
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={{ duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            sx={{
-              position: "absolute",
-              left: transition.originX - maxRadius,
-              top: transition.originY - maxRadius,
-              width: maxRadius * 2,
-              height: maxRadius * 2,
-              borderRadius: "50%",
-              background: isDark
-                ? "radial-gradient(circle, #0A0E1A 60%, #111827 100%)"
-                : "radial-gradient(circle, #F8FAFC 60%, #E2E8F0 100%)",
-            }}
-          />
-
-          {/* Central icon flash */}
-          <MotionBox
-            initial={{ scale: 0, opacity: 1 }}
-            animate={{ scale: [0, 1.5, 0], opacity: [1, 1, 0] }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            sx={{
-              position: "absolute",
-              left: transition.originX - 30,
-              top: transition.originY - 30,
-              width: 60,
-              height: 60,
-              borderRadius: "50%",
-              background: isDark
-                ? "radial-gradient(circle, rgba(108,99,255,0.6), rgba(108,99,255,0))"
-                : "radial-gradient(circle, rgba(245,158,11,0.6), rgba(245,158,11,0))",
-            }}
-          />
-
-          {/* Expanding ring */}
-          <MotionBox
-            initial={{ scale: 0, opacity: 0.8 }}
-            animate={{ scale: 8, opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut" }}
-            sx={{
-              position: "absolute",
-              left: transition.originX - 40,
-              top: transition.originY - 40,
-              width: 80,
-              height: 80,
-              borderRadius: "50%",
-              border: `2px solid ${isDark ? "#6C63FF" : "#F59E0B"}`,
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Second ring delayed */}
-          <MotionBox
-            initial={{ scale: 0, opacity: 0.5 }}
-            animate={{ scale: 6, opacity: 0 }}
-            transition={{ duration: 0.8, ease: "easeOut", delay: 0.1 }}
-            sx={{
-              position: "absolute",
-              left: transition.originX - 30,
-              top: transition.originY - 30,
-              width: 60,
-              height: 60,
-              borderRadius: "50%",
-              border: `1px solid ${isDark ? "#00D4AA" : "#FCD34D"}`,
-              pointerEvents: "none",
-            }}
-          />
-
-          {/* Spark particles radiating outward */}
-          {sparkParticles.map((p) => {
-            const rad = (p.angle * Math.PI) / 180;
-            return (
-              <MotionBox
-                key={p.id}
-                initial={{
-                  x: transition.originX,
-                  y: transition.originY,
-                  scale: 0,
-                  opacity: 1,
-                }}
-                animate={{
-                  x: transition.originX + Math.cos(rad) * p.distance,
-                  y: transition.originY + Math.sin(rad) * p.distance,
-                  scale: [0, 1.5, 0],
-                  opacity: [0, 1, 0],
-                }}
-                transition={{
-                  duration: p.duration,
-                  delay: p.delay,
-                  ease: "easeOut",
-                }}
-                sx={{
-                  position: "absolute",
-                  width: p.size,
-                  height: p.size,
-                  borderRadius: "50%",
-                  background: isDark
-                    ? p.id % 3 === 0 ? "#6C63FF" : p.id % 3 === 1 ? "#8B85FF" : "#00D4AA"
-                    : p.id % 3 === 0 ? "#F59E0B" : p.id % 3 === 1 ? "#FCD34D" : "#FB923C",
-                  boxShadow: `0 0 ${p.size * 2}px ${isDark ? "rgba(108,99,255,0.6)" : "rgba(245,158,11,0.6)"}`,
-                  pointerEvents: "none",
-                }}
-              />
-            );
-          })}
-
-          {/* Stars (dark mode) or rays (light mode) */}
-          {isDark ? (
-            // Twinkling stars appearing
-            <>
-              {Array.from({ length: 12 }, (_, i) => (
-                <MotionBox
-                  key={`star-${i}`}
-                  initial={{ opacity: 0, scale: 0 }}
-                  animate={{ opacity: [0, 1, 0.6, 1], scale: 1 }}
-                  transition={{ delay: 0.3 + i * 0.05, duration: 0.5 }}
-                  sx={{
-                    position: "absolute",
-                    left: `${10 + Math.random() * 80}%`,
-                    top: `${10 + Math.random() * 80}%`,
-                    width: 3,
-                    height: 3,
-                    borderRadius: "50%",
-                    background: "#fff",
-                    boxShadow: "0 0 6px rgba(255,255,255,0.8), 0 0 12px rgba(108,99,255,0.4)",
-                    pointerEvents: "none",
-                  }}
-                />
-              ))}
-            </>
-          ) : (
-            // Sun rays expanding
-            <>
-              {Array.from({ length: 8 }, (_, i) => {
-                const angle = (360 / 8) * i;
-                return (
-                  <MotionBox
-                    key={`ray-${i}`}
-                    initial={{ scaleY: 0, opacity: 0 }}
-                    animate={{ scaleY: 1, opacity: [0, 0.6, 0] }}
-                    transition={{ delay: 0.2 + i * 0.04, duration: 0.6 }}
-                    sx={{
-                      position: "absolute",
-                      left: transition.originX - 1,
-                      top: transition.originY,
-                      width: 2,
-                      height: 120,
-                      borderRadius: 1,
-                      background: "linear-gradient(180deg, rgba(245,158,11,0.5), transparent)",
-                      transformOrigin: "top center",
-                      transform: `rotate(${angle}deg)`,
-                      pointerEvents: "none",
-                    }}
-                  />
-                );
-              })}
-            </>
-          )}
-        </MotionBox>
+        />
       )}
     </AnimatePresence>
   );

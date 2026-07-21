@@ -262,10 +262,9 @@ export default function PrivacyRequests() {
                             />
                           </TableCell>
                           <TableCell sx={{ minWidth: 170 }}>
-                            <Stack
+                            <Stack sx={{ alignItems: "center" }}
                               direction="row"
                               spacing={1}
-                              alignItems="center"
                             >
                               <Select
                                 size="small"

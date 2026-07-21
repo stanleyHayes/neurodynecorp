@@ -132,13 +132,13 @@ export default function Tickets() {
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
         ) : (
           <>
-            <Stack direction="row" spacing={2} alignItems="stretch" sx={{ mb: 3, flexWrap: "wrap", gap: 2 }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
               <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
               <StatCard label="Awaiting first response" value={String(awaiting)} color="#F59E0B" />
               <StatCard label="SLA breached" value={String(breached)} color="#EF4444" />
             </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by status</Typography>
               <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
                 <MenuItem value="">All statuses</MenuItem>
@@ -200,7 +200,7 @@ export default function Tickets() {
             <>
               <DialogTitle sx={{ pb: 0.5 }}>
                 {active.subject}
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mt: 1 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mt: 1 }}>
                   <Chip label={active.priority} size="small" variant="outlined" sx={{ textTransform: "capitalize", fontSize: "0.6rem" }} />
                   <Select size="small" value={active.status ?? "open"} onChange={(e) => changeStatus(e.target.value)} sx={{ fontFamily: "monospace", fontSize: "0.7rem", minWidth: 140 }}>
                     {STATUSES.map((s) => <MenuItem key={s} value={s} sx={{ fontSize: "0.75rem", textTransform: "capitalize" }}>{s.replace(/_/g, " ")}</MenuItem>)}
@@ -226,8 +226,8 @@ export default function Tickets() {
                 )}
               </DialogContent>
               <DialogActions sx={{ flexDirection: "column", alignItems: "stretch", gap: 1, p: 2 }}>
-                <TextField placeholder="Reply to the client…" value={replyText} onChange={(e) => setReplyText(e.target.value)} fullWidth multiline minRows={2} size="small" inputProps={{ maxLength: 8000 }} />
-                <Stack direction="row" justifyContent="flex-end" spacing={1}>
+                <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} placeholder="Reply to the client…" value={replyText} onChange={(e) => setReplyText(e.target.value)} fullWidth multiline minRows={2} size="small" />
+                <Stack sx={{ justifyContent: "flex-end" }} direction="row" spacing={1}>
                   <Button onClick={() => setActive(null)}>Close</Button>
                   <Button variant="contained" onClick={reply} disabled={busy || !replyText.trim()}>{busy ? "Sending…" : "Reply"}</Button>
                 </Stack>

@@ -221,7 +221,7 @@ export default function Projects() {
           return (
             <Cell key={project.id} color={color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} colInRow={i % 3} totalCols={3} animDelay={0.3 + i * 0.05}>
               <Box onClick={() => navigate(`/projects/${project.id}`)} sx={{ cursor: "pointer" }}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1.5 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1.5 }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.name}</Typography>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.client}</Typography>
@@ -231,7 +231,7 @@ export default function Projects() {
 
               <Chip label={project.type || "General"} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem", mb: 1.5 }} />
 
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>PROGRESS</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
               </Stack>
@@ -239,7 +239,7 @@ export default function Projects() {
                 <Skeleton variant="rectangular" width={`${project.progress}%`} height={6} sx={{ borderRadius: 1, bgcolor: color, "&::after": { display: "none" } }} animation={false} />
               </Box>
 
-              <Stack direction="row" justifyContent="space-between" alignItems="center">
+              <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                 <AvatarGroup max={4} sx={{ "& .MuiAvatar-root": { width: 24, height: 24, fontSize: 9, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" } }}>
                   {project.team.map((t) => <Avatar key={t}>{t}</Avatar>)}
                 </AvatarGroup>

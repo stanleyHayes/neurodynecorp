@@ -59,7 +59,7 @@ export default function Settings() {
       <AnimatedCard delay={0} sx={{ p: 3, mb: 3 }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 3 }}>Profile</Typography>
-          <Stack direction="row" spacing={3} alignItems="center" sx={{ mb: 3 }}>
+          <Stack direction="row" spacing={3} sx={{ alignItems: "center", mb: 3 }}>
             <Avatar sx={{ width: 72, height: 72, bgcolor: "primary.main", fontSize: "1.5rem" }}>{initials || "?"}</Avatar>
             <Button variant="outlined" size="small">Change Avatar</Button>
           </Stack>

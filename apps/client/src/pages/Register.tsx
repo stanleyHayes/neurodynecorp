@@ -13,14 +13,14 @@ import {
   Grid,
   Link as MuiLink,
 } from "@mui/material";
-import { Visibility, VisibilityOff, CheckCircleOutline } from "@mui/icons-material";
+import { Visibility, VisibilityOff, CheckCircleOutlined } from "@mui/icons-material";
 import { useAuth } from "@/context/AuthContext";
 import AuthLayout from "@/components/auth/AuthLayout";
 
 const cards = [
-  { icon: <CheckCircleOutline sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Full Project Visibility", desc: "Track your project lifecycle from concept to delivery." },
-  { icon: <CheckCircleOutline sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Documents & Deliverables", desc: "Download specifications, documents, and final assets." },
-  { icon: <CheckCircleOutline sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Billing & Payments", desc: "Manage invoices and view your complete payment history." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Full Project Visibility", desc: "Track your project lifecycle from concept to delivery." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Documents & Deliverables", desc: "Download specifications, documents, and final assets." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Billing & Payments", desc: "Manage invoices and view your complete payment history." },
 ];
 
 export default function Register() {
@@ -74,7 +74,7 @@ export default function Register() {
       brandSubtitle="Join hundreds of clients who trust NeuroDyne Corp to turn their ideas into production-ready software."
       cards={cards}
     >
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
         Create your account
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
@@ -151,7 +151,7 @@ export default function Register() {
         </Stack>
       </Box>
 
-      <Typography variant="body2" textAlign="center" color="text.secondary" sx={{ mt: 3.5 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
         Already have an account?{" "}
         <MuiLink component={Link} to="/login" sx={{ color: "#6C63FF", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
           Sign in

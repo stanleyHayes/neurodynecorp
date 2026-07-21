@@ -241,36 +241,36 @@ export default function DashboardLayout() {
 
               <MenuItem onClick={() => goTo("/settings?tab=profile")} sx={menuItemSx}>
                 <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem" }}>Profile</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Profile</ListItemText>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=security")} sx={menuItemSx}>
                 <ListItemIcon><LockOutlinedIcon sx={{ fontSize: 18, color: "#EF4444" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem" }}>Security</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Security</ListItemText>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=appearance")} sx={menuItemSx}>
                 <ListItemIcon><PaletteOutlinedIcon sx={{ fontSize: 18, color: "#8B5CF6" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem" }}>Appearance</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Appearance</ListItemText>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=notifications")} sx={menuItemSx}>
                 <ListItemIcon><NotificationsNoneOutlinedIcon sx={{ fontSize: 18, color: "#F59E0B" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem" }}>Notifications</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Notifications</ListItemText>
               </MenuItem>
 
               <Divider sx={{ borderColor: BORDER, my: 0.5 }} />
 
               <MenuItem onClick={() => goTo("/settings")} sx={menuItemSx}>
                 <ListItemIcon><SettingsOutlinedIcon sx={{ fontSize: 18, color: "text.secondary" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem" }}>All Settings</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>All Settings</ListItemText>
               </MenuItem>
 
               <Divider sx={{ borderColor: BORDER, my: 0.5 }} />
 
               <MenuItem onClick={() => setAnchorEl(null)} sx={{ ...menuItemSx, "&:hover": { bgcolor: "rgba(239, 68, 68, 0.06)" } }}>
                 <ListItemIcon><LogoutOutlinedIcon sx={{ fontSize: 18, color: "#EF4444" }} /></ListItemIcon>
-                <ListItemText primaryTypographyProps={{ fontSize: "0.8rem", color: "#EF4444" }}>Sign Out</ListItemText>
+                <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, color: "#EF4444" } }}>Sign Out</ListItemText>
               </MenuItem>
             </Menu>
           </Toolbar>

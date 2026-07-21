@@ -193,7 +193,7 @@ export default function PortfolioCreate() {
             <TextField select fullWidth size="small" label="Accent Color" value={color} onChange={(e) => setColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
                 <MenuItem key={c.value} value={c.value}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: c.value }} />
                     <span>{c.label}</span>
                   </Stack>
@@ -201,7 +201,7 @@ export default function PortfolioCreate() {
               ))}
             </TextField>
             <Box>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <TextField
                   size="small"
                   label="Tech Tags"
@@ -275,7 +275,7 @@ export default function PortfolioCreate() {
           <Stack spacing={2}>
             <TextField fullWidth multiline minRows={3} size="small" label="Brief (the problem)" value={brief} onChange={(e) => setBrief(e.target.value)} sx={inputSx} />
             <Box>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <TextField
                   size="small"
                   label="Constraints"
@@ -313,7 +313,7 @@ export default function PortfolioCreate() {
         <>
           <SectionLabel>Preview</SectionLabel>
           <Cell color={color} index="P0" animDelay={0.3} minH={140}>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" sx={{ mb: 1 }}>
+            <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{title}</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{client} — {category}</Typography>

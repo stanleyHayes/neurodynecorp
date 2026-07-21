@@ -181,8 +181,7 @@ function ServiceCell({ service, index }: { service: ServiceData & { tag: string;
 
         <Typography
           variant="h5"
-          fontWeight={800}
-          sx={{
+          sx={{ fontWeight: 800,
             mb: 1.5,
             color: hovered ? "text.primary" : "text.secondary",
             transition: "color 0.3s",
@@ -218,7 +217,7 @@ function ServiceCell({ service, index }: { service: ServiceData & { tag: string;
         }}
       >
         {service.features.map((feature) => (
-          <Stack key={feature} direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} key={feature} direction="row" spacing={1}>
             <CheckOutlinedIcon
               sx={{
                 fontSize: 12,
@@ -496,8 +495,7 @@ export default function Services() {
           </Typography>
           <Typography
             variant="h4"
-            fontWeight={800}
-            sx={{
+            sx={{ fontWeight: 800,
               color: ctaHovered ? "text.primary" : "text.secondary",
               transition: "color 0.3s",
               letterSpacing: "0.05em",

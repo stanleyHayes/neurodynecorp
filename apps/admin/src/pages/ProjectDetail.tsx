@@ -712,7 +712,7 @@ export default function ProjectDetail() {
 
       {/* Progress bar */}
       <Cell color={color} index="04" animDelay={0.4}>
-        <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+        <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
           <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
             Progress
           </Typography>
@@ -760,7 +760,7 @@ export default function ProjectDetail() {
               const sDisplayStatus = formatStatus(spec.status);
               return (
                 <Cell key={spec.id} color={sColor} index={String(i + 6).padStart(2, "0")} animDelay={0.6 + i * 0.1}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center">
+                  <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                       <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>v{spec.version} &middot; {spec.created_at?.slice(0, 10) ?? ""}</Typography>
@@ -781,8 +781,7 @@ export default function ProjectDetail() {
             {client ? (
               <Stack
                 spacing={2}
-                alignItems="center"
-                sx={{ textAlign: "center", cursor: "pointer" }}
+                sx={{ alignItems: "center", textAlign: "center", cursor: "pointer" }}
                 onClick={() => navigate(`/clients/${client.id}`)}
               >
                 <Avatar sx={{ width: 64, height: 64, fontSize: 22, fontWeight: 700, bgcolor: `${clientAvatarColor}20`, color: clientAvatarColor, border: `2px solid ${clientAvatarColor}30` }}>
@@ -826,7 +825,7 @@ export default function ProjectDetail() {
       </Box>
 
       {/* Decision Log */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Decision Log</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setDlgOpen(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#6C63FF40", color: "#6C63FF", "&:hover": { borderColor: "#6C63FF" } }}>
           Log a decision
@@ -839,9 +838,9 @@ export default function ProjectDetail() {
       ) : (
         decisions.map((d, i) => (
           <Cell key={d.id} color="#6C63FF" index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+            <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
               <Box sx={{ flex: 1 }}>
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{d.title}</Typography>
                   <Chip label={d.status} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} />
                 </Stack>
@@ -864,7 +863,7 @@ export default function ProjectDetail() {
       )}
 
       {/* Risk Register */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Risk Register</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRiskDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
           Register a risk
@@ -879,9 +878,9 @@ export default function ProjectDetail() {
           const sevColor = r.severity === "low" ? "#10B981" : r.severity === "medium" ? "#F59E0B" : "#EF4444";
           return (
             <Cell key={r.id} color={sevColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{r.title}</Typography>
                     <Chip label={r.severity} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${sevColor}18`, color: sevColor, border: `1px solid ${sevColor}40` }} />
                     <Chip label={r.status} size="small" variant="outlined" sx={{ fontSize: "0.55rem", textTransform: "capitalize" }} />
@@ -906,7 +905,7 @@ export default function ProjectDetail() {
       )}
 
       {/* Sign-offs (Approvals) */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Sign-offs</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setSignoffDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
           Request sign-off
@@ -921,9 +920,9 @@ export default function ProjectDetail() {
           const aColor = a.status === "approved" ? "#10B981" : a.status === "rejected" ? "#EF4444" : a.status === "approved_with_conditions" ? "#F59E0B" : "#8B85FF";
           return (
             <Cell key={a.id} color={aColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{a.title}</Typography>
                     <Chip label={(a.status ?? "pending").replace(/_/g, " ")} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${aColor}18`, color: aColor, border: `1px solid ${aColor}40` }} />
                   </Stack>
@@ -952,7 +951,7 @@ export default function ProjectDetail() {
       )}
 
       {/* Stakeholder Map */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Stakeholder Map</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setStkDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B85FF40", color: "#8B85FF", "&:hover": { borderColor: "#8B85FF" } }}>
           Add stakeholder
@@ -968,9 +967,9 @@ export default function ProjectDetail() {
           const authLabel = STK_AUTHORITY_LABELS[s.authority] ?? s.authority;
           return (
             <Cell key={s.id} color={sideColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.name}</Typography>
                     <Chip label={s.side === "client" ? "Client" : "NeuroDyne"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${sideColor}18`, color: sideColor, border: `1px solid ${sideColor}40` }} />
                     <Chip label={authLabel} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
@@ -998,8 +997,8 @@ export default function ProjectDetail() {
         <DialogTitle>Add a stakeholder</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" value={stkForm.name} onChange={(e) => setStkForm({ ...stkForm, name: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
-            <TextField label="Role / title" value={stkForm.role} onChange={(e) => setStkForm({ ...stkForm, role: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Name" value={stkForm.name} onChange={(e) => setStkForm({ ...stkForm, name: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Role / title" value={stkForm.role} onChange={(e) => setStkForm({ ...stkForm, role: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Side" value={stkForm.side} onChange={(e) => setStkForm({ ...stkForm, side: e.target.value })} fullWidth>
                 <MenuItem value="client">Client</MenuItem>
@@ -1009,8 +1008,8 @@ export default function ProjectDetail() {
                 {Object.entries(STK_AUTHORITY_LABELS).map(([v, label]) => <MenuItem key={v} value={v}>{label}</MenuItem>)}
               </TextField>
             </Stack>
-            <TextField label="Email (optional)" value={stkForm.email} onChange={(e) => setStkForm({ ...stkForm, email: e.target.value })} fullWidth inputProps={{ maxLength: 320 }} />
-            <TextField label="Notes (optional)" value={stkForm.notes} onChange={(e) => setStkForm({ ...stkForm, notes: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 2000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 320 } }} label="Email (optional)" value={stkForm.email} onChange={(e) => setStkForm({ ...stkForm, email: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Notes (optional)" value={stkForm.notes} onChange={(e) => setStkForm({ ...stkForm, notes: e.target.value })} fullWidth multiline minRows={2} />
             <TextField select label="Briefed?" value={stkForm.briefed ? "yes" : "no"} onChange={(e) => setStkForm({ ...stkForm, briefed: e.target.value === "yes" })} fullWidth>
               <MenuItem value="no">Not briefed</MenuItem>
               <MenuItem value="yes">Briefed</MenuItem>
@@ -1026,7 +1025,7 @@ export default function ProjectDetail() {
       </Dialog>
 
       {/* Capability Lattice */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Capability Lattice</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setLatDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981" } }}>
           Add capability
@@ -1041,9 +1040,9 @@ export default function ProjectDetail() {
           const lc = LATTICE_STATUS_META[l.status] ?? { label: l.status, color: "#94A3B8" };
           return (
             <Cell key={l.id} color={lc.color} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{l.capability}</Typography>
                     <Chip label={lc.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${lc.color}18`, color: lc.color, border: `1px solid ${lc.color}40` }} />
                     <Chip label={l.category} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
@@ -1069,16 +1068,16 @@ export default function ProjectDetail() {
         <DialogTitle>Add a capability</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Capability" value={latForm.capability} onChange={(e) => setLatForm({ ...latForm, capability: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
-            <TextField label="Capability-map category" value={latForm.category} onChange={(e) => setLatForm({ ...latForm, category: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Capability" value={latForm.capability} onChange={(e) => setLatForm({ ...latForm, capability: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Capability-map category" value={latForm.category} onChange={(e) => setLatForm({ ...latForm, category: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Delivery state" value={latForm.status} onChange={(e) => setLatForm({ ...latForm, status: e.target.value })} fullWidth>
                 {Object.entries(LATTICE_STATUS_META).map(([v, m]) => <MenuItem key={v} value={v}>{m.label}</MenuItem>)}
               </TextField>
-              <TextField label="Target date" type="date" value={latForm.targetDate} onChange={(e) => setLatForm({ ...latForm, targetDate: e.target.value })} fullWidth InputLabelProps={{ shrink: true }} />
+              <TextField slotProps={{ inputLabel: { shrink: true } }} label="Target date" type="date" value={latForm.targetDate} onChange={(e) => setLatForm({ ...latForm, targetDate: e.target.value })} fullWidth />
             </Stack>
-            <TextField label="Owner (optional)" value={latForm.owner} onChange={(e) => setLatForm({ ...latForm, owner: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
-            <TextField label="Description (optional)" value={latForm.description} onChange={(e) => setLatForm({ ...latForm, description: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 4000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Owner (optional)" value={latForm.owner} onChange={(e) => setLatForm({ ...latForm, owner: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 4000 } }} label="Description (optional)" value={latForm.description} onChange={(e) => setLatForm({ ...latForm, description: e.target.value })} fullWidth multiline minRows={2} />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -1090,7 +1089,7 @@ export default function ProjectDetail() {
       </Dialog>
 
       {/* Reports Library */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Reports Library</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRepDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B5CF640", color: "#8B5CF6", "&:hover": { borderColor: "#8B5CF6" } }}>
           Add report
@@ -1106,9 +1105,9 @@ export default function ProjectDetail() {
           const rColor = published ? "#10B981" : "#94A3B8";
           return (
             <Cell key={r.id} color={rColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{r.title}</Typography>
                     <Chip label={REPORT_TYPE_LABELS[r.type] ?? r.type} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
                     {r.period && <Chip label={r.period} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />}
@@ -1126,7 +1125,7 @@ export default function ProjectDetail() {
                     </Typography>
                   )}
                 </Box>
-                <Stack direction="row" spacing={0.5} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                   {published ? (
                     <Button size="small" onClick={() => unpublishReport(r.id)} sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "#94A3B8" }}>Unpublish</Button>
                   ) : (
@@ -1147,15 +1146,15 @@ export default function ProjectDetail() {
         <DialogTitle>Add a report</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Title" value={repForm.title} onChange={(e) => setRepForm({ ...repForm, title: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Title" value={repForm.title} onChange={(e) => setRepForm({ ...repForm, title: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Type" value={repForm.type} onChange={(e) => setRepForm({ ...repForm, type: e.target.value })} fullWidth>
                 {Object.entries(REPORT_TYPE_LABELS).map(([v, label]) => <MenuItem key={v} value={v}>{label}</MenuItem>)}
               </TextField>
-              <TextField label="Period (e.g. Q2 2026)" value={repForm.period} onChange={(e) => setRepForm({ ...repForm, period: e.target.value })} fullWidth inputProps={{ maxLength: 60 }} />
+              <TextField slotProps={{ htmlInput: { maxLength: 60 } }} label="Period (e.g. Q2 2026)" value={repForm.period} onChange={(e) => setRepForm({ ...repForm, period: e.target.value })} fullWidth />
             </Stack>
-            <TextField label="Document link / export URL" value={repForm.url} onChange={(e) => setRepForm({ ...repForm, url: e.target.value })} fullWidth inputProps={{ maxLength: 2000 }} />
-            <TextField label="Summary" value={repForm.summary} onChange={(e) => setRepForm({ ...repForm, summary: e.target.value })} fullWidth multiline minRows={3} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Document link / export URL" value={repForm.url} onChange={(e) => setRepForm({ ...repForm, url: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Summary" value={repForm.summary} onChange={(e) => setRepForm({ ...repForm, summary: e.target.value })} fullWidth multiline minRows={3} />
             <TextField select label="Visibility" value={repForm.status} onChange={(e) => setRepForm({ ...repForm, status: e.target.value })} fullWidth helperText="Drafts are not visible to the client until published.">
               <MenuItem value="draft">Draft (internal)</MenuItem>
               <MenuItem value="published">Published (client-visible)</MenuItem>
@@ -1171,7 +1170,7 @@ export default function ProjectDetail() {
       </Dialog>
 
       {/* Team Directory */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Team Directory</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setMemDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
           Add member
@@ -1186,9 +1185,9 @@ export default function ProjectDetail() {
           const av = AVAILABILITY_META[m.availability] ?? { label: m.availability, color: "#94A3B8" };
           return (
             <Cell key={m.id} color={av.color} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{m.name}</Typography>
                     <Chip label={av.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${av.color}18`, color: av.color, border: `1px solid ${av.color}40` }} />
                   </Stack>
@@ -1215,16 +1214,16 @@ export default function ProjectDetail() {
         <DialogTitle>Add a team member</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Name" value={memForm.name} onChange={(e) => setMemForm({ ...memForm, name: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
-            <TextField label="Role / title" value={memForm.role} onChange={(e) => setMemForm({ ...memForm, role: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Name" value={memForm.name} onChange={(e) => setMemForm({ ...memForm, name: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Role / title" value={memForm.role} onChange={(e) => setMemForm({ ...memForm, role: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <TextField label="Email (optional)" value={memForm.email} onChange={(e) => setMemForm({ ...memForm, email: e.target.value })} fullWidth inputProps={{ maxLength: 320 }} />
+              <TextField slotProps={{ htmlInput: { maxLength: 320 } }} label="Email (optional)" value={memForm.email} onChange={(e) => setMemForm({ ...memForm, email: e.target.value })} fullWidth />
               <TextField select label="Availability" value={memForm.availability} onChange={(e) => setMemForm({ ...memForm, availability: e.target.value })} fullWidth>
                 {Object.entries(AVAILABILITY_META).map(([v, m]) => <MenuItem key={v} value={v}>{m.label}</MenuItem>)}
               </TextField>
             </Stack>
-            <TextField label="Focus (optional)" value={memForm.focus} onChange={(e) => setMemForm({ ...memForm, focus: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
-            <TextField label="Bio (optional)" value={memForm.bio} onChange={(e) => setMemForm({ ...memForm, bio: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 2000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Focus (optional)" value={memForm.focus} onChange={(e) => setMemForm({ ...memForm, focus: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Bio (optional)" value={memForm.bio} onChange={(e) => setMemForm({ ...memForm, bio: e.target.value })} fullWidth multiline minRows={2} />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -1236,7 +1235,7 @@ export default function ProjectDetail() {
       </Dialog>
 
       {/* Budget & Milestones */}
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, pt: 1 }}>
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Budget &amp; Milestones</SectionLabel>
         <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setBudDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
           Add budget line
@@ -1254,9 +1253,9 @@ export default function ProjectDetail() {
           const outstanding = Math.max(0, invoiced - paid);
           return (
             <Cell key={b.id} color={st.color} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
-              <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
                 <Box sx={{ flex: 1 }}>
-                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5, flexWrap: "wrap" }}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{b.label}</Typography>
                     <Chip label={BUDGET_CATEGORY_LABELS[b.category] ?? b.category} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
                     <Chip label={st.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${st.color}18`, color: st.color, border: `1px solid ${st.color}40` }} />
@@ -1285,7 +1284,7 @@ export default function ProjectDetail() {
         <DialogTitle>Add a budget line</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Label (milestone / workstream)" value={budForm.label} onChange={(e) => setBudForm({ ...budForm, label: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Label (milestone / workstream)" value={budForm.label} onChange={(e) => setBudForm({ ...budForm, label: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Category" value={budForm.category} onChange={(e) => setBudForm({ ...budForm, category: e.target.value })} fullWidth>
                 {Object.entries(BUDGET_CATEGORY_LABELS).map(([v, label]) => <MenuItem key={v} value={v}>{label}</MenuItem>)}
@@ -1295,17 +1294,17 @@ export default function ProjectDetail() {
               </TextField>
             </Stack>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <TextField label="Budget" type="number" value={budForm.budgetAmount} onChange={(e) => setBudForm({ ...budForm, budgetAmount: e.target.value })} fullWidth inputProps={{ min: 0, step: "any" }} />
-              <TextField label="Invoiced" type="number" value={budForm.invoicedAmount} onChange={(e) => setBudForm({ ...budForm, invoicedAmount: e.target.value })} fullWidth inputProps={{ min: 0, step: "any" }} />
-              <TextField label="Paid" type="number" value={budForm.paidAmount} onChange={(e) => setBudForm({ ...budForm, paidAmount: e.target.value })} fullWidth inputProps={{ min: 0, step: "any" }} />
+              <TextField slotProps={{ htmlInput: { min: 0, step: "any" } }} label="Budget" type="number" value={budForm.budgetAmount} onChange={(e) => setBudForm({ ...budForm, budgetAmount: e.target.value })} fullWidth />
+              <TextField slotProps={{ htmlInput: { min: 0, step: "any" } }} label="Invoiced" type="number" value={budForm.invoicedAmount} onChange={(e) => setBudForm({ ...budForm, invoicedAmount: e.target.value })} fullWidth />
+              <TextField slotProps={{ htmlInput: { min: 0, step: "any" } }} label="Paid" type="number" value={budForm.paidAmount} onChange={(e) => setBudForm({ ...budForm, paidAmount: e.target.value })} fullWidth />
             </Stack>
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Status" value={budForm.status} onChange={(e) => setBudForm({ ...budForm, status: e.target.value })} fullWidth>
                 {Object.entries(BUDGET_STATUS_META).map(([v, m]) => <MenuItem key={v} value={v}>{m.label}</MenuItem>)}
               </TextField>
-              <TextField label="Due date" type="date" value={budForm.dueDate} onChange={(e) => setBudForm({ ...budForm, dueDate: e.target.value })} fullWidth InputLabelProps={{ shrink: true }} />
+              <TextField slotProps={{ inputLabel: { shrink: true } }} label="Due date" type="date" value={budForm.dueDate} onChange={(e) => setBudForm({ ...budForm, dueDate: e.target.value })} fullWidth />
             </Stack>
-            <TextField label="Notes (optional)" value={budForm.notes} onChange={(e) => setBudForm({ ...budForm, notes: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 2000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Notes (optional)" value={budForm.notes} onChange={(e) => setBudForm({ ...budForm, notes: e.target.value })} fullWidth multiline minRows={2} />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -1321,9 +1320,9 @@ export default function ProjectDetail() {
         <DialogTitle>Request a sign-off</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="What needs sign-off" value={signoffForm.title} onChange={(e) => setSignoffForm({ ...signoffForm, title: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
-            <TextField label="Deliverable reference (name or link)" value={signoffForm.deliverableRef} onChange={(e) => setSignoffForm({ ...signoffForm, deliverableRef: e.target.value })} fullWidth inputProps={{ maxLength: 2000 }} />
-            <TextField label="Context for the client" value={signoffForm.description} onChange={(e) => setSignoffForm({ ...signoffForm, description: e.target.value })} fullWidth multiline minRows={3} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="What needs sign-off" value={signoffForm.title} onChange={(e) => setSignoffForm({ ...signoffForm, title: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Deliverable reference (name or link)" value={signoffForm.deliverableRef} onChange={(e) => setSignoffForm({ ...signoffForm, deliverableRef: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Context for the client" value={signoffForm.description} onChange={(e) => setSignoffForm({ ...signoffForm, description: e.target.value })} fullWidth multiline minRows={3} />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -1339,15 +1338,15 @@ export default function ProjectDetail() {
         <DialogTitle>Register a risk</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Title" value={riskForm.title} onChange={(e) => setRiskForm({ ...riskForm, title: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
-            <TextField label="Description" value={riskForm.description} onChange={(e) => setRiskForm({ ...riskForm, description: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Title" value={riskForm.title} onChange={(e) => setRiskForm({ ...riskForm, title: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Description" value={riskForm.description} onChange={(e) => setRiskForm({ ...riskForm, description: e.target.value })} fullWidth multiline minRows={2} />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <TextField label="Owner" value={riskForm.owner} onChange={(e) => setRiskForm({ ...riskForm, owner: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
+              <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Owner" value={riskForm.owner} onChange={(e) => setRiskForm({ ...riskForm, owner: e.target.value })} fullWidth />
               <TextField select label="Severity" value={riskForm.severity} onChange={(e) => setRiskForm({ ...riskForm, severity: e.target.value })} fullWidth>
                 {["low", "medium", "high", "critical"].map((s) => <MenuItem key={s} value={s} sx={{ textTransform: "capitalize" }}>{s}</MenuItem>)}
               </TextField>
             </Stack>
-            <TextField label="Mitigation plan" value={riskForm.mitigation} onChange={(e) => setRiskForm({ ...riskForm, mitigation: e.target.value })} fullWidth multiline minRows={2} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Mitigation plan" value={riskForm.mitigation} onChange={(e) => setRiskForm({ ...riskForm, mitigation: e.target.value })} fullWidth multiline minRows={2} />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Residual rating" value={riskForm.residualRating} onChange={(e) => setRiskForm({ ...riskForm, residualRating: e.target.value })} fullWidth>
                 {["low", "medium", "high", "critical"].map((s) => <MenuItem key={s} value={s} sx={{ textTransform: "capitalize" }}>{s}</MenuItem>)}
@@ -1356,7 +1355,7 @@ export default function ProjectDetail() {
                 {["open", "mitigating", "monitoring", "accepted", "closed"].map((s) => <MenuItem key={s} value={s} sx={{ textTransform: "capitalize" }}>{s}</MenuItem>)}
               </TextField>
             </Stack>
-            <TextField label="Escalation status / path" value={riskForm.escalation} onChange={(e) => setRiskForm({ ...riskForm, escalation: e.target.value })} fullWidth inputProps={{ maxLength: 2000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Escalation status / path" value={riskForm.escalation} onChange={(e) => setRiskForm({ ...riskForm, escalation: e.target.value })} fullWidth />
           </Stack>
         </DialogContent>
         <DialogActions>
@@ -1372,17 +1371,17 @@ export default function ProjectDetail() {
         <DialogTitle>Log a decision</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
-            <TextField label="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} fullWidth inputProps={{ maxLength: 300 }} />
-            <TextField label="Rationale" value={form.rationale} onChange={(e) => setForm({ ...form, rationale: e.target.value })} fullWidth multiline minRows={3} inputProps={{ maxLength: 8000 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Title" value={form.title} onChange={(e) => setForm({ ...form, title: e.target.value })} fullWidth />
+            <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Rationale" value={form.rationale} onChange={(e) => setForm({ ...form, rationale: e.target.value })} fullWidth multiline minRows={3} />
             <TextField label="Alternatives considered (comma-separated)" value={form.alternatives} onChange={(e) => setForm({ ...form, alternatives: e.target.value })} fullWidth />
-            <TextField label="Decision-maker" value={form.decisionMaker} onChange={(e) => setForm({ ...form, decisionMaker: e.target.value })} fullWidth inputProps={{ maxLength: 200 }} />
+            <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Decision-maker" value={form.decisionMaker} onChange={(e) => setForm({ ...form, decisionMaker: e.target.value })} fullWidth />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
               <TextField select label="Status" value={form.status} onChange={(e) => setForm({ ...form, status: e.target.value })} fullWidth>
                 {["proposed", "accepted", "superseded", "rejected"].map((s) => (
                   <MenuItem key={s} value={s} sx={{ textTransform: "capitalize" }}>{s}</MenuItem>
                 ))}
               </TextField>
-              <TextField label="Decided on" type="date" value={form.decidedAt} onChange={(e) => setForm({ ...form, decidedAt: e.target.value })} fullWidth InputLabelProps={{ shrink: true }} />
+              <TextField slotProps={{ inputLabel: { shrink: true } }} label="Decided on" type="date" value={form.decidedAt} onChange={(e) => setForm({ ...form, decidedAt: e.target.value })} fullWidth />
             </Stack>
           </Stack>
         </DialogContent>

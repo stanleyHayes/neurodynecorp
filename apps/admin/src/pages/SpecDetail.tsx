@@ -196,7 +196,7 @@ export default function SpecDetail() {
             <Cell color="#00D4AA" index="05" colInRow={0} totalCols={2} animDelay={0.5}>
               <Stack spacing={1}>
                 {spec.objectives.map((obj, i) => (
-                  <Stack key={i} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#00D4AA", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
@@ -217,7 +217,7 @@ export default function SpecDetail() {
             <Cell color="#8B85FF" index="06" colInRow={1} totalCols={2} animDelay={0.6}>
               <Stack spacing={1.5}>
                 {features.map((feature, i) => (
-                  <Stack key={i} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#8B85FF", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
@@ -237,14 +237,14 @@ export default function SpecDetail() {
         <>
           <SectionLabel color="#94A3B8">Related Project</SectionLabel>
           <Cell color={projectStatusColors[project.status] ?? "#94A3B8"} index="--" animDelay={1.0}>
-            <Stack direction="row" justifyContent="space-between" alignItems="center">
+            <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
               <Box>
                 <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
                   {project.client_id} — {project.type}
                 </Typography>
               </Box>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <Chip
                   label={formatStatus(project.status)}
                   size="small"

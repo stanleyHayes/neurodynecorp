@@ -152,7 +152,7 @@ export default function Finance() {
                 { label: "Cost", value: fmtK(f.cost), color: "#EF4444" },
                 { label: "Profit", value: fmtK(f.profit), color: "#6C63FF" },
               ].map((row) => (
-                <Stack key={row.label} direction="row" justifyContent="space-between" alignItems="center">
+                <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} key={row.label} direction="row">
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>{row.label}</Typography>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.8rem", color: row.color, fontWeight: 600 }}>{row.value}</Typography>
                 </Stack>

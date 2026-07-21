@@ -96,12 +96,12 @@ export function createEngagementMemberRoutes(
   // GET /:id — owning client or staff; not-owned indistinguishable from not-found.
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const member = await repo.findById(req.params.id!);
-      if (!member) throw new NotFoundError("team member", req.params.id);
+      const member = await repo.findById(String(req.params.id));
+      if (!member) throw new NotFoundError("team member", String(req.params.id));
       try {
         await assertProjectAccess(req, member.projectId);
       } catch {
-        throw new NotFoundError("team member", req.params.id);
+        throw new NotFoundError("team member", String(req.params.id));
       }
       res.json(member);
     } catch (err) {
@@ -114,8 +114,8 @@ export function createEngagementMemberRoutes(
     try {
       const parsed = updateSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("team member", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("team member", String(req.params.id));
       const updated = await repo.update({ ...existing, ...parsed.data, id: existing.id });
       res.json(updated);
     } catch (err) {
@@ -126,8 +126,8 @@ export function createEngagementMemberRoutes(
   // DELETE /:id — staff only.
   router.delete("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("team member", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("team member", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {

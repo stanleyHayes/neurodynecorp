@@ -88,7 +88,7 @@ export default function Newsletter() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} flexWrap="wrap">
+      <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>AUDIENCE // NEWSLETTER</Typography>
           <Typography variant="h5" sx={{ fontWeight: 800, mt: 0.5 }}>
@@ -195,7 +195,7 @@ export default function Newsletter() {
                               —
                             </Typography>
                           ) : (
-                            <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                            <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={0.5} useFlexGap>
                               {segments.map((seg) => (
                                 <Chip
                                   key={seg}

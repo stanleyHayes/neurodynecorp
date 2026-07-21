@@ -12,14 +12,14 @@ import {
   Stack,
   Link as MuiLink,
 } from "@mui/material";
-import { Visibility, VisibilityOff, Rocket, Timeline, ChatBubbleOutline } from "@mui/icons-material";
+import { Visibility, VisibilityOff, Rocket, Timeline, ChatBubbleOutlined } from "@mui/icons-material";
 import { useAuth } from "@/context/AuthContext";
 import AuthLayout from "@/components/auth/AuthLayout";
 
 const cards = [
   { icon: <Rocket sx={{ fontSize: 28 }} />, title: "Track Your Projects", desc: "Follow your project from concept through specifications to final delivery." },
   { icon: <Timeline sx={{ fontSize: 28 }} />, title: "Real-Time Updates", desc: "Get instant visibility into milestones, tasks, and sprint progress." },
-  { icon: <ChatBubbleOutline sx={{ fontSize: 28 }} />, title: "Direct Communication", desc: "Message your project team and provide feedback without leaving the portal." },
+  { icon: <ChatBubbleOutlined sx={{ fontSize: 28 }} />, title: "Direct Communication", desc: "Message your project team and provide feedback without leaving the portal." },
 ];
 
 export default function Login() {
@@ -52,7 +52,7 @@ export default function Login() {
       brandSubtitle="Your client portal for tracking projects, managing invoices, and collaborating with your team."
       cards={cards}
     >
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
         Welcome back
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
@@ -114,7 +114,7 @@ export default function Login() {
         </Stack>
       </Box>
 
-      <Typography variant="body2" textAlign="center" color="text.secondary" sx={{ mt: 3.5 }}>
+      <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
         Don't have an account?{" "}
         <MuiLink component={Link} to="/register" sx={{ color: "#6C63FF", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
           Sign up

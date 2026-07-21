@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Box, Typography, Stack, Avatar, Chip, Button, CircularProgress } from "@mui/material";
+import { Box, Typography, Stack, Avatar, Chip, Button } from "@mui/material";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -16,6 +16,7 @@ import TrustBadges from "@/components/shared/TrustBadges";
 import ActivityTicker from "@/components/shared/ActivityTicker";
 import FounderNote from "@/components/shared/FounderNote";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
+import HeroWireframe from "@/components/shared/HeroWireframe";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
@@ -170,8 +171,9 @@ function SectionLabel({ text, color = "#6C63FF" }: { text: string; color?: strin
 
 function LoadingRow() {
   return (
-    <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 8, borderBottom: `1px solid ${BORDER}` }}>
-      <CircularProgress size={28} sx={{ color: "#6C63FF" }} />
+    <Box sx={{ py: 5, px: 4, borderBottom: `1px solid ${BORDER}` }}>
+      <Box sx={{ height: 10, width: "38%", borderRadius: 999, background: "rgba(108,99,255,0.22)", mb: 2 }} />
+      <Box sx={{ height: 8, width: "72%", borderRadius: 999, background: "rgba(108,99,255,0.12)" }} />
     </Box>
   );
 }
@@ -351,43 +353,10 @@ export default function Home() {
           </MotionBox>
         </Cell>
 
-        {/* Right — stats */}
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
-          {[
-            { value: "50+", label: "Projects Delivered", color: "#6C63FF" },
-            { value: "92%", label: "On-Time Delivery", color: "#00D4AA" },
-            { value: "4.8", label: "Client Satisfaction", color: "#8B85FF" },
-          ].map((stat, i) => (
-            <Cell key={stat.label} color={stat.color} index={`0${i}`} colInRow={1} totalCols={2} minH={{ xs: 120, md: 0 }} animDelay={0.2 + i * 0.1}>
-              <Box sx={{ textAlign: "center" }}>
-                <Typography
-                  variant="h2"
-                  fontWeight={800}
-                  sx={{
-                    color: stat.color,
-                    filter: `drop-shadow(0 0 8px ${stat.color}40)`,
-                    letterSpacing: "-0.02em",
-                    mb: 0.5,
-                  }}
-                >
-                  {stat.value}
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "monospace",
-                    fontSize: "0.65rem",
-                    color: "text.secondary",
-                    letterSpacing: "0.15em",
-                    textTransform: "uppercase",
-                    opacity: 0.5,
-                  }}
-                >
-                  {stat.label}
-                </Typography>
-              </Box>
-            </Cell>
-          ))}
-        </Box>
+        {/* Right — interactive hero object */}
+        <Cell color="#8B85FF" index="01" colInRow={1} totalCols={2} minH={{ xs: 320, md: 460 }} animDelay={0.2}>
+          <HeroWireframe />
+        </Cell>
       </Box>
 
       {/* ═══ SERVICES ═══ */}
@@ -402,7 +371,7 @@ export default function Home() {
               <Box sx={{ color: s.color, mb: 2, "& .MuiSvgIcon-root": { fontSize: { xs: 32, md: 40 } }, filter: `drop-shadow(0 0 4px ${s.color}40)` }}>
                 {s.iconNode}
               </Box>
-              <Typography variant="h6" fontWeight={800} sx={{ mb: 1, letterSpacing: "0.03em", textTransform: "uppercase", color: "text.secondary", fontSize: { xs: "0.85rem", md: "1rem" } }}>
+              <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, letterSpacing: "0.03em", textTransform: "uppercase", color: "text.secondary", fontSize: { xs: "0.85rem", md: "1rem" } }}>
                 {s.title}
               </Typography>
               <Typography variant="caption" sx={{ color: "text.secondary", opacity: 0.6, lineHeight: 1.5 }}>
@@ -438,7 +407,7 @@ export default function Home() {
               <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.8, fontStyle: "italic", mb: 3, opacity: 0.8 }}>
                 "{t.content}"
               </Typography>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mt: "auto", pt: 2, borderTop: `1px solid ${BORDER}` }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mt: "auto", pt: 2, borderTop: `1px solid ${BORDER}` }}>
                 <Avatar
                   sx={{
                     width: 36,
@@ -454,7 +423,7 @@ export default function Home() {
                   {t.avatar}
                 </Avatar>
                 <Box>
-                  <Typography variant="caption" fontWeight={700} sx={{ lineHeight: 1.2, display: "block" }}>
+                  <Typography variant="caption" sx={{ fontWeight: 700, lineHeight: 1.2, display: "block" }}>
                     {t.name}
                   </Typography>
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: t.color, opacity: 0.7, letterSpacing: "0.05em" }}>
@@ -479,13 +448,13 @@ export default function Home() {
               <Typography sx={{ fontSize: "0.6rem", fontFamily: "monospace", fontWeight: 600, color: cs.color, letterSpacing: "0.2em", textTransform: "uppercase", mb: 1, opacity: 0.7 }}>
                 {cs.category}
               </Typography>
-              <Typography variant="h4" fontWeight={800} sx={{ mb: 1.5, letterSpacing: "-0.02em", color: "text.secondary" }}>
+              <Typography variant="h4" sx={{ fontWeight: 800, mb: 1.5, letterSpacing: "-0.02em", color: "text.secondary" }}>
                 {cs.title}
               </Typography>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.6, lineHeight: 1.6, mb: 2.5 }}>
                 {cs.description}
               </Typography>
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ pt: 2, borderTop: `1px solid ${BORDER}` }}>
+              <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", pt: 2, borderTop: `1px solid ${BORDER}` }}>
                 {cs.tags.map((tag) => (
                   <Chip
                     key={tag}
@@ -563,7 +532,7 @@ export default function Home() {
 
         <Box sx={{ textAlign: "center", position: "relative", zIndex: 1 }}>
           <RocketLaunchOutlinedIcon sx={{ fontSize: 40, color: "#00D4AA", filter: "drop-shadow(0 0 8px rgba(0,212,170,0.4))", mb: 2 }} />
-          <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary", mb: 1 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary", mb: 1 }}>
             Ready to Build?
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.6, mb: 2 }}>

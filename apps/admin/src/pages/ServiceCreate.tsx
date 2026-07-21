@@ -115,7 +115,7 @@ export default function ServiceCreate() {
             <TextField select fullWidth size="small" label="Icon" value={icon} onChange={(e) => setIcon(e.target.value)} sx={inputSx}>
               {ICONS.map((i) => (
                 <MenuItem key={i.value} value={i.value}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 18 }, color: color, display: "flex" }}>{i.icon}</Box>
                     <span>{i.label}</span>
                   </Stack>
@@ -128,7 +128,7 @@ export default function ServiceCreate() {
             <TextField select fullWidth size="small" label="Accent Color" value={color} onChange={(e) => setColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
                 <MenuItem key={c.value} value={c.value}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Box sx={{ width: 12, height: 12, borderRadius: "50%", bgcolor: c.value }} />
                     <span>{c.label}</span>
                   </Stack>
@@ -148,7 +148,7 @@ export default function ServiceCreate() {
               <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 36 }, color, filter: `drop-shadow(0 0 12px ${color}40)`, mb: 1.5 }}>
                 {iconMap[icon] ?? <CodeOutlinedIcon />}
               </Box>
-              <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 1 }}>
+              <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{title}</Typography>
                 <Box sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${statusColor[status]}18`, color: statusColor[status], border: `1px solid ${statusColor[status]}30`, px: 1, py: 0.25, borderRadius: 1 }}>
                   {status}

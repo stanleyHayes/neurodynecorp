@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Box, Container, Stack, Typography, TextField, Button, Alert, CircularProgress, Divider } from "@mui/material";
 import { Link } from "react-router";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import SendOutlinedIcon from "@mui/icons-material/SendOutlined";
 import SEO from "@/components/seo/SEO";
@@ -97,7 +97,7 @@ export default function RFP() {
                 Thank you. Your RFP has been logged and routed internally. We commit to acknowledging it within{" "}
                 <strong>{result.slaHours} hours</strong> — you'll get an email from us, and a confirmation is on its way now.
               </Typography>
-              <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                 <ScheduleOutlinedIcon sx={{ color: "#00D4AA", fontSize: 20 }} />
                 <Typography variant="body2" color="text.secondary">
                   Reference: <Box component="span" sx={{ fontFamily: "monospace", color: "#00D4AA" }}>{result.id}</Box>
@@ -111,7 +111,7 @@ export default function RFP() {
         ) : (
           <Stack spacing={4}>
             <InfoCard accent="#8B85FF">
-              <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                 <ScheduleOutlinedIcon sx={{ color: "#8B85FF", fontSize: 22 }} />
                 <Typography variant="body2" color="text.secondary">
                   Every serious submission is acknowledged within <strong>48 hours</strong> and SLA-tracked internally.
@@ -124,13 +124,13 @@ export default function RFP() {
               <SectionHeading tag="§ 01 — WHO" title="Organisation & contact" color="#6C63FF" />
               <Stack spacing={2}>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                  <TextField label="Organisation *" value={form.org} onChange={set("org")} fullWidth inputProps={{ maxLength: 200 }} />
-                  <TextField label="Sector / vertical" value={form.sector} onChange={set("sector")} fullWidth placeholder="e.g. Government, Health, Finance" inputProps={{ maxLength: 80 }} />
+                  <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Organisation *" value={form.org} onChange={set("org")} fullWidth />
+                  <TextField slotProps={{ htmlInput: { maxLength: 80 } }} label="Sector / vertical" value={form.sector} onChange={set("sector")} fullWidth placeholder="e.g. Government, Health, Finance" />
                 </Stack>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                  <TextField label="Contact name *" value={form.contactName} onChange={set("contactName")} fullWidth inputProps={{ maxLength: 200 }} />
-                  <TextField label="Contact email *" type="email" value={form.contactEmail} onChange={set("contactEmail")} fullWidth error={Boolean(form.contactEmail) && !emailOk} helperText={Boolean(form.contactEmail) && !emailOk ? "Enter a valid email address" : undefined} inputProps={{ maxLength: 320 }} />
-                  <TextField label="Phone" value={form.contactPhone} onChange={set("contactPhone")} fullWidth inputProps={{ maxLength: 40 }} />
+                  <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Contact name *" value={form.contactName} onChange={set("contactName")} fullWidth />
+                  <TextField slotProps={{ htmlInput: { maxLength: 320 } }} label="Contact email *" type="email" value={form.contactEmail} onChange={set("contactEmail")} fullWidth error={Boolean(form.contactEmail) && !emailOk} helperText={Boolean(form.contactEmail) && !emailOk ? "Enter a valid email address" : undefined} />
+                  <TextField slotProps={{ htmlInput: { maxLength: 40 } }} label="Phone" value={form.contactPhone} onChange={set("contactPhone")} fullWidth />
                 </Stack>
               </Stack>
             </Box>
@@ -141,10 +141,10 @@ export default function RFP() {
             <Box>
               <SectionHeading tag="§ 02 — THE BRIEF" title="Scope & requirements" color="#00D4AA" />
               <Stack spacing={2}>
-                <TextField label="RFP / tender title *" value={form.title} onChange={set("title")} fullWidth inputProps={{ maxLength: 300 }} />
-                <TextField label="Scope * (what you need built or delivered)" value={form.scope} onChange={set("scope")} fullWidth multiline minRows={4} helperText="At least a couple of sentences." inputProps={{ maxLength: 8000 }} />
-                <TextField label="Evaluation criteria" value={form.evaluationCriteria} onChange={set("evaluationCriteria")} fullWidth multiline minRows={2} placeholder="How will submissions be scored?" inputProps={{ maxLength: 4000 }} />
-                <TextField label="Submission requirements" value={form.submissionRequirements} onChange={set("submissionRequirements")} fullWidth multiline minRows={2} placeholder="Format, mandatory documents, compliance, etc." inputProps={{ maxLength: 4000 }} />
+                <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="RFP / tender title *" value={form.title} onChange={set("title")} fullWidth />
+                <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Scope * (what you need built or delivered)" value={form.scope} onChange={set("scope")} fullWidth multiline minRows={4} helperText="At least a couple of sentences." />
+                <TextField slotProps={{ htmlInput: { maxLength: 4000 } }} label="Evaluation criteria" value={form.evaluationCriteria} onChange={set("evaluationCriteria")} fullWidth multiline minRows={2} placeholder="How will submissions be scored?" />
+                <TextField slotProps={{ htmlInput: { maxLength: 4000 } }} label="Submission requirements" value={form.submissionRequirements} onChange={set("submissionRequirements")} fullWidth multiline minRows={2} placeholder="Format, mandatory documents, compliance, etc." />
               </Stack>
             </Box>
 
@@ -155,10 +155,10 @@ export default function RFP() {
               <SectionHeading tag="§ 03 — LOGISTICS" title="Deadline, value & document" color="#8B85FF" />
               <Stack spacing={2}>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-                  <TextField label="Your submission deadline" type="date" value={form.deadline} onChange={set("deadline")} fullWidth InputLabelProps={{ shrink: true }} />
-                  <TextField label="Estimated value / budget band" value={form.estimatedValue} onChange={set("estimatedValue")} fullWidth placeholder="e.g. USD 100k–250k" inputProps={{ maxLength: 120 }} />
+                  <TextField slotProps={{ inputLabel: { shrink: true } }} label="Your submission deadline" type="date" value={form.deadline} onChange={set("deadline")} fullWidth />
+                  <TextField slotProps={{ htmlInput: { maxLength: 120 } }} label="Estimated value / budget band" value={form.estimatedValue} onChange={set("estimatedValue")} fullWidth placeholder="e.g. USD 100k–250k" />
                 </Stack>
-                <TextField label="Link to RFP document" value={form.documentUrl} onChange={set("documentUrl")} fullWidth placeholder="https://… (procurement portal, Drive, etc.)" helperText="Paste a link to the full RFP/tender document. Direct file upload is coming soon." inputProps={{ maxLength: 2000 }} />
+                <TextField slotProps={{ htmlInput: { maxLength: 2000 } }} label="Link to RFP document" value={form.documentUrl} onChange={set("documentUrl")} fullWidth placeholder="https://… (procurement portal, Drive, etc.)" helperText="Paste a link to the full RFP/tender document. Direct file upload is coming soon." />
               </Stack>
             </Box>
 

@@ -159,7 +159,7 @@ export default function KnowledgeBase() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} flexWrap="wrap">
+      <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>CONTENT // KNOWLEDGE BASE</Typography>
           <Typography variant="h5" sx={{ fontWeight: 800, mt: 0.5 }}>
@@ -204,9 +204,9 @@ export default function KnowledgeBase() {
             return (
               <Card key={id} sx={{ bgcolor: "background.paper" }}>
                 <CardContent>
-                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+                  <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={2}>
                     <Box sx={{ minWidth: 0 }}>
-                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mb: 0.5 }}>
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap", mb: 0.5 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                           {a.title || "Untitled"}
                         </Typography>
@@ -230,7 +230,7 @@ export default function KnowledgeBase() {
                           {a.summary}
                         </Typography>
                       )}
-                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mt: 1.5 }}>
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap", mt: 1.5 }}>
                         {tags.map((t) => (
                           <Chip
                             key={t}
@@ -240,11 +240,11 @@ export default function KnowledgeBase() {
                             sx={{ fontSize: "0.65rem", borderColor: "rgba(108,99,255,0.3)", color: "text.secondary" }}
                           />
                         ))}
-                        <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "#10B981" }}>
+                        <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "#10B981" }}>
                           <ThumbUpOutlinedIcon sx={{ fontSize: 14 }} />
                           <Typography variant="caption">{a.helpfulYes ?? a.helpful_yes ?? 0}</Typography>
                         </Stack>
-                        <Stack direction="row" spacing={0.5} alignItems="center" sx={{ color: "#EF4444" }}>
+                        <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "#EF4444" }}>
                           <ThumbDownOutlinedIcon sx={{ fontSize: 14 }} />
                           <Typography variant="caption">{a.helpfulNo ?? a.helpful_no ?? 0}</Typography>
                         </Stack>

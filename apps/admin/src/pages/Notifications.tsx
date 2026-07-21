@@ -178,15 +178,14 @@ export default function Notifications() {
                   <Stack
                     direction="row"
                     spacing={2}
-                    alignItems="flex-start"
                     onClick={() => !notif.read && handleMarkRead(notif.id)}
-                    sx={{ cursor: notif.read ? "default" : "pointer" }}
+                    sx={{ alignItems: "flex-start", cursor: notif.read ? "default" : "pointer" }}
                   >
                     <Box sx={{ color, opacity: notif.read ? 0.4 : 0.8, mt: 0.3 }}>
                       {iconMap[notif.type] ?? <InfoOutlinedIcon sx={{ fontSize: 20 }} />}
                     </Box>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
-                      <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.3 }}>
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.3 }}>
                         <Typography
                           sx={{
                             fontWeight: notif.read ? 500 : 700,

@@ -3,7 +3,7 @@ import { Box, Container, Stack, Typography, Chip, Button, CircularProgress, Divi
 import { useParams, Link } from "react-router";
 import WorkIcon from "@mui/icons-material/Work";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import BlockOutlinedIcon from "@mui/icons-material/BlockOutlined";
 import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -162,7 +162,7 @@ export default function PortfolioDetail() {
               <InfoCard accent="#F59E0B" icon={<BlockOutlinedIcon />} title="Constraint set">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.constraints!.map((c) => (
-                    <Stack key={c} direction="row" spacing={1.5} alignItems="flex-start">
+                    <Stack sx={{ alignItems: "flex-start" }} key={c} direction="row" spacing={1.5}>
                       <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#F59E0B", mt: "7px", flexShrink: 0 }} />
                       <Typography variant="body2" color="text.secondary">{c}</Typography>
                     </Stack>
@@ -185,7 +185,7 @@ export default function PortfolioDetail() {
               <SectionHeading tag="§ — WHAT SHIPPED" title="What we delivered" color={color} />
               <Stack spacing={1.5}>
                 {dossier.shipped!.map((s) => (
-                  <Stack key={s} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={s} direction="row" spacing={1.5}>
                     <CheckCircleOutlineIcon sx={{ color, fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">{s}</Typography>
                   </Stack>
@@ -200,7 +200,7 @@ export default function PortfolioDetail() {
               <InfoCard accent="#00D4AA" icon={<LockOutlinedIcon />} title="Retained as IP">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.retained!.map((r) => (
-                    <Stack key={r} direction="row" spacing={1.5} alignItems="flex-start">
+                    <Stack sx={{ alignItems: "flex-start" }} key={r} direction="row" spacing={1.5}>
                       <LockOutlinedIcon sx={{ color: "#00D4AA", fontSize: 16, mt: "3px" }} />
                       <Typography variant="body2" color="text.secondary">{r}</Typography>
                     </Stack>
@@ -212,7 +212,7 @@ export default function PortfolioDetail() {
               <InfoCard accent="#33DDBB" icon={<LightbulbOutlinedIcon />} title="What we learnt">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.learnt!.map((l) => (
-                    <Stack key={l} direction="row" spacing={1.5} alignItems="flex-start">
+                    <Stack sx={{ alignItems: "flex-start" }} key={l} direction="row" spacing={1.5}>
                       <LightbulbOutlinedIcon sx={{ color: "#33DDBB", fontSize: 16, mt: "3px" }} />
                       <Typography variant="body2" color="text.secondary">{l}</Typography>
                     </Stack>
@@ -229,7 +229,7 @@ export default function PortfolioDetail() {
                 <Typography sx={{ fontWeight: 700, color, mb: hasList(dossier.results) ? 1.5 : 0 }}>{dossier.impact}</Typography>
               )}
               {hasList(dossier.results) && (
-                <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+                <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
                   {dossier.results.map((r) => (
                     <Chip key={r} label={r} variant="outlined" sx={{ borderColor: `${color}55` }} />
                   ))}
@@ -242,7 +242,7 @@ export default function PortfolioDetail() {
           {hasList(dossier.tags) && (
             <Box>
               <Overline>Stack</Overline>
-              <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap sx={{ mt: 1 }}>
+              <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
                 {dossier.tags.map((t) => (
                   <Chip key={t} label={t} size="small" sx={{ fontFamily: "monospace", fontSize: "0.65rem", bgcolor: "rgba(108,99,255,0.06)" }} />
                 ))}

@@ -281,27 +281,26 @@ export default function SpecLibrary() {
       </Container>
 
       {/* Drawer with full spec */}
-      <Drawer
+      <Drawer slotProps={{ paper: {
+          sx: {
+            width: { xs: "100%", md: 720 },
+            bgcolor: "background.default",
+            borderLeft: "1px solid rgba(108,99,255,0.2)",
+          },
+        } }}
         anchor="right"
         open={!!selected}
         onClose={() => {
           playSound("close");
           setSelected(null);
         }}
-        PaperProps={{
-          sx: {
-            width: { xs: "100%", md: 720 },
-            bgcolor: "background.default",
-            borderLeft: "1px solid rgba(108,99,255,0.2)",
-          },
-        }}
       >
         <AnimatePresence>
           {selected && (
             <Box sx={{ height: "100%", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               {/* Header */}
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ px: 3, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
-                <Stack direction="row" spacing={1.5} alignItems="center">
+              <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: selected.color, boxShadow: `0 0 8px ${selected.color}` }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6 }}>
                     SPEC PREVIEW

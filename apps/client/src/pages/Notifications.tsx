@@ -123,7 +123,7 @@ export default function Notifications() {
                   <ListItemIcon>{iconMap[notif.type] ?? <InfoIcon />}</ListItemIcon>
                   <ListItemText
                     primary={
-                      <Stack direction="row" spacing={1} alignItems="center">
+                      <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                         <Typography variant="subtitle2">{notif.title}</Typography>
                         {!notif.read && <Chip label="New" size="small" color="primary" sx={{ height: 20, fontSize: 10 }} />}
                       </Stack>

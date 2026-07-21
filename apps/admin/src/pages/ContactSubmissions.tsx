@@ -166,9 +166,9 @@ export default function ContactSubmissions() {
         const color = statusColor[sub.status] ?? "#94A3B8";
         return (
           <Cell key={sub.id} color={color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} animDelay={0.3 + i * 0.05}>
-            <Stack direction="row" justifyContent="space-between" alignItems="flex-start">
+            <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row">
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.5 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{sub.subject}</Typography>
                   <Chip
                     label={capitalize(sub.status)}
@@ -178,18 +178,18 @@ export default function ContactSubmissions() {
                 </Stack>
 
                 <Stack direction="row" spacing={2} sx={{ mb: 1 }}>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", fontWeight: 600, color: "text.primary" }}>{sub.name}</Typography>
                   </Stack>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                     <BusinessOutlinedIcon sx={{ fontSize: 12, color: "text.secondary", opacity: 0.5 }} />
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{sub.company}</Typography>
                   </Stack>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                     <EmailOutlinedIcon sx={{ fontSize: 12, color: "text.secondary", opacity: 0.5 }} />
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{sub.email}</Typography>
                   </Stack>
-                  <Stack direction="row" spacing={0.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                     <PhoneOutlinedIcon sx={{ fontSize: 12, color: "text.secondary", opacity: 0.5 }} />
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{sub.phone}</Typography>
                   </Stack>

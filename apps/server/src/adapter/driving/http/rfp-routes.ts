@@ -60,7 +60,7 @@ export function createRfpRoutes(
       const parsed = submitSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const record = createRfpSubmission(parsed.data);
+      const record = createRfpSubmission(parsed.data as any);
       const created = await repo.create(record);
 
       // Best-effort notifications — never fail the submission on email.
@@ -106,8 +106,8 @@ export function createRfpRoutes(
   // GET /:id — admin: single submission.
   router.get("/:id", auth, requirePermission("rfp:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findById(req.params.id!);
-      if (!item) throw new NotFoundError("rfp", req.params.id);
+      const item = await repo.findById(String(req.params.id));
+      if (!item) throw new NotFoundError("rfp", String(req.params.id));
       res.json(item);
     } catch (err) {
       next(err);
@@ -119,8 +119,8 @@ export function createRfpRoutes(
     try {
       const parsed = statusSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const updated = await repo.updateStatus(req.params.id!, parsed.data.status);
-      if (!updated) throw new NotFoundError("rfp", req.params.id);
+      const updated = await repo.updateStatus(String(req.params.id), parsed.data.status);
+      if (!updated) throw new NotFoundError("rfp", String(req.params.id));
       res.json(updated);
     } catch (err) {
       next(err);

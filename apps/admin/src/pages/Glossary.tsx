@@ -143,7 +143,7 @@ export default function Glossary() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
-      <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2} flexWrap="wrap">
+      <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>CONTENT // GLOSSARY OF PRACTICE</Typography>
           <Typography variant="h5" sx={{ fontWeight: 800, mt: 0.5 }}>
@@ -187,9 +187,9 @@ export default function Glossary() {
             return (
               <Card key={t.id ?? i} sx={{ bgcolor: "background.paper" }}>
                 <CardContent>
-                  <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={2}>
+                  <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={2}>
                     <Box sx={{ minWidth: 0 }}>
-                      <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" sx={{ mb: 0.5 }}>
+                      <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap", mb: 0.5 }}>
                         <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                           {t.term || "Untitled"}
                         </Typography>

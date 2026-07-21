@@ -193,9 +193,9 @@ export default function ChangelogManager() {
       </Box>
 
       <Box sx={{ p: { xs: 2, md: 3 } }}>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 2 }}>
+        <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", mb: 2 }}>
           <Typography sx={overline}>ALL ENTRIES</Typography>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <IconButton size="small" onClick={load} sx={{ color: "text.secondary" }}>
               <RefreshOutlinedIcon fontSize="small" />
             </IconButton>
@@ -238,9 +238,9 @@ export default function ChangelogManager() {
               return (
                 <Card key={entry.id ?? entry._id} variant="outlined" sx={{ bgcolor: "#111827" }}>
                   <CardContent>
-                    <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} justifyContent="space-between" alignItems={{ sm: "flex-start" }}>
+                    <Stack sx={{ justifyContent: "space-between", alignItems: { sm: "flex-start" } }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                       <Box sx={{ minWidth: 0 }}>
-                        <Stack direction="row" spacing={1} alignItems="center" flexWrap="wrap" useFlexGap sx={{ mb: 0.5 }}>
+                        <Stack direction="row" spacing={1} useFlexGap sx={{ alignItems: "center", flexWrap: "wrap", mb: 0.5 }}>
                           <Chip
                             label={entry.version}
                             size="small"
@@ -270,8 +270,8 @@ export default function ChangelogManager() {
                         )}
                       </Box>
 
-                      <Stack direction="row" spacing={0.5} alignItems="center" sx={{ flexShrink: 0 }}>
-                        <Stack alignItems="center" sx={{ mr: 0.5 }}>
+                      <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", flexShrink: 0 }}>
+                        <Stack sx={{ alignItems: "center", mr: 0.5 }}>
                           <Switch size="small" checked={published} onChange={() => handleTogglePublished(entry)} />
                           <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", letterSpacing: "0.1em", color: "text.secondary", opacity: 0.6 }}>
                             {published ? "LIVE" : "DRAFT"}
@@ -334,7 +334,7 @@ export default function ChangelogManager() {
               onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
             />
             <Divider sx={{ borderColor: "rgba(108,99,255,0.12)" }} />
-            <Stack direction="row" alignItems="center" justifyContent="space-between">
+            <Stack sx={{ alignItems: "center", justifyContent: "space-between" }} direction="row">
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Published</Typography>
                 <Typography variant="caption" sx={{ color: "text.secondary", opacity: 0.7 }}>

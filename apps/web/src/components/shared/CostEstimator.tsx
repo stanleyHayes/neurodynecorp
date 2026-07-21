@@ -1,4 +1,5 @@
 import { useState, useMemo } from "react";
+import HudCorners from "@/components/shared/HudCorners";
 import { Box, Typography, Stack, Chip, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
@@ -62,11 +63,12 @@ export default function CostEstimator() {
       sx={{
         position: "relative",
         p: { xs: 3, md: 5 },
-        borderRadius: 3,
+        borderRadius: 0,
         border: "1px solid rgba(108, 99, 255, 0.18)",
         background: "linear-gradient(135deg, rgba(108,99,255,0.04), rgba(0,212,170,0.03))",
       }}
     >
+      <HudCorners />
       <Typography
         sx={{
           fontFamily: "monospace",
@@ -103,7 +105,7 @@ export default function CostEstimator() {
         <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.2em", color: "text.secondary", opacity: 0.6, mb: 1.5, textTransform: "uppercase" }}>
           Project type
         </Typography>
-        <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
           {projectTypes.map((p) => (
             <Chip
               key={p.id}
@@ -131,7 +133,7 @@ export default function CostEstimator() {
         <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.2em", color: "text.secondary", opacity: 0.6, mb: 1.5, textTransform: "uppercase" }}>
           Features ({selectedFeatures.length} selected)
         </Typography>
-        <Stack direction="row" spacing={1} flexWrap="wrap" sx={{ gap: 1 }}>
+        <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
           {features.map((f) => {
             const active = selectedFeatures.includes(f.id);
             return (
@@ -173,7 +175,7 @@ export default function CostEstimator() {
           border: "1px solid rgba(108, 99, 255, 0.2)",
         }}
       >
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
           <AttachMoneyIcon sx={{ fontSize: 32, color: "#6C63FF", filter: "drop-shadow(0 0 12px rgba(108,99,255,0.5))" }} />
           <Box>
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "text.secondary", opacity: 0.5, textTransform: "uppercase" }}>
@@ -185,7 +187,7 @@ export default function CostEstimator() {
           </Box>
         </Stack>
 
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
           <ScheduleOutlinedIcon sx={{ fontSize: 32, color: "#00D4AA", filter: "drop-shadow(0 0 12px rgba(0,212,170,0.5))" }} />
           <Box>
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.2em", color: "text.secondary", opacity: 0.5, textTransform: "uppercase" }}>

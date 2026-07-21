@@ -284,14 +284,12 @@ export default function Security() {
           <CardContent>
             <Stack
               direction={{ xs: "column", sm: "row" }}
-              justifyContent="space-between"
-              alignItems={{ xs: "flex-start", sm: "center" }}
               spacing={1.5}
-              sx={{ mb: 2 }}
+              sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "center" }, mb: 2 }}
             >
               <Stack spacing={0.5}>
                 <Typography sx={sectionLabelSx}>API KEYS</Typography>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <VpnKeyOutlinedIcon fontSize="small" color="primary" />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Programmatic access
@@ -372,7 +370,7 @@ export default function Security() {
           <CardContent>
             <Stack spacing={0.5} sx={{ mb: 2 }}>
               <Typography sx={sectionLabelSx}>DATA &amp; PRIVACY</Typography>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <PrivacyTipOutlinedIcon fontSize="small" color="primary" />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   Your data rights
@@ -451,14 +449,12 @@ export default function Security() {
           <CardContent>
             <Stack
               direction={{ xs: "column", sm: "row" }}
-              justifyContent="space-between"
-              alignItems={{ xs: "flex-start", sm: "center" }}
               spacing={1.5}
-              sx={{ mb: 2 }}
+              sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "center" }, mb: 2 }}
             >
               <Stack spacing={0.5}>
                 <Typography sx={sectionLabelSx}>ACTIVITY LOG</Typography>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <HistoryOutlinedIcon fontSize="small" color="primary" />
                   <Typography variant="h6" sx={{ fontWeight: 600 }}>
                     Your recent activity
@@ -530,7 +526,7 @@ export default function Security() {
           <CardContent>
             <Stack spacing={0.5} sx={{ mb: 2 }}>
               <Typography sx={sectionLabelSx}>SESSIONS</Typography>
-              <Stack direction="row" spacing={1} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                 <DevicesOutlinedIcon fontSize="small" color="primary" />
                 <Typography variant="h6" sx={{ fontWeight: 600 }}>
                   Active session
@@ -567,10 +563,8 @@ export default function Security() {
 
             <Divider sx={{ mb: 2 }} />
 
-            <Stack
+            <Stack sx={{ justifyContent: "space-between", alignItems: { xs: "flex-start", sm: "center" } }}
               direction={{ xs: "column", sm: "row" }}
-              justifyContent="space-between"
-              alignItems={{ xs: "flex-start", sm: "center" }}
               spacing={1.5}
             >
               <Typography variant="caption" color="text.secondary">

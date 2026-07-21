@@ -159,7 +159,7 @@ export default function Changelog() {
                 }}
               />
 
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1, flexWrap: "wrap", gap: 1 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1, flexWrap: "wrap", gap: 1 }}>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", color: "#6C63FF", fontWeight: 700 }}>
                   {e.version}
                 </Typography>

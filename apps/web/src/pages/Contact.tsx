@@ -17,16 +17,16 @@ import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import PhoneIcon from "@mui/icons-material/Phone";
 import SendIcon from "@mui/icons-material/Send";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
-import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
+import PersonOutlineIcon from "@mui/icons-material/PersonOutlined";
 import AlternateEmailIcon from "@mui/icons-material/AlternateEmail";
 import PhoneOutlinedIcon from "@mui/icons-material/PhoneOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
 import SubjectOutlinedIcon from "@mui/icons-material/SubjectOutlined";
 import CategoryOutlinedIcon from "@mui/icons-material/CategoryOutlined";
-import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutline";
+import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import SEO from "@/components/seo/SEO";
 import CommunityBlock from "@/components/shared/CommunityBlock";
@@ -366,7 +366,7 @@ export default function Contact() {
                     }}
                   />
                 </MotionBox>
-                <Typography variant="h3" fontWeight={800} sx={{ mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
+                <Typography variant="h3" sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
                   Signal Received
                 </Typography>
                 <Typography variant="body1" color="text.secondary" sx={{ maxWidth: 400, mx: "auto", mb: 4, opacity: 0.6 }}>
@@ -409,14 +409,14 @@ export default function Contact() {
             {/* Row 1: Name | Email */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
               <Cell color="#6C63FF" index="01" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <PersonOutlineIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Full Name</Typography>
                 </Stack>
                 <TextField fullWidth required disabled={isSubmitting} value={form.name} onChange={handleChange("name")} placeholder="John Doe" size="small" sx={fieldSx} />
               </Cell>
               <Cell color="#00D4AA" index="02" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.05}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <AlternateEmailIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Email</Typography>
                 </Stack>
@@ -427,7 +427,7 @@ export default function Contact() {
             {/* Row 2: Phone | Company */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
               <Cell color="#8B85FF" index="03" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.1}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <PhoneOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Phone</Typography>
                   <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B85FF15", color: "#8B85FF", border: "none" }} />
@@ -435,7 +435,7 @@ export default function Contact() {
                 <TextField fullWidth disabled={isSubmitting} value={form.phone} onChange={handleChange("phone")} placeholder="+1 (555) 000-0000" size="small" sx={fieldSx} />
               </Cell>
               <Cell color="#33DDBB" index="04" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.15}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <BusinessOutlinedIcon sx={{ fontSize: 18, color: "#33DDBB", filter: "drop-shadow(0 0 4px #33DDBB40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#33DDBB", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Company</Typography>
                   <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#33DDBB15", color: "#33DDBB", border: "none" }} />
@@ -447,14 +447,14 @@ export default function Contact() {
             {/* Row 3: Subject | Project Type */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
               <Cell color="#6C63FF" index="05" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.2}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <SubjectOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Subject</Typography>
                 </Stack>
                 <TextField fullWidth required disabled={isSubmitting} value={form.subject} onChange={handleChange("subject")} placeholder="Project inquiry" size="small" sx={fieldSx} />
               </Cell>
               <Cell color="#00D4AA" index="06" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.25}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <CategoryOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Project Type</Typography>
                   <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#00D4AA15", color: "#00D4AA", border: "none" }} />
@@ -478,7 +478,7 @@ export default function Contact() {
 
             {/* Row 4: Message — full width */}
             <Cell color="#8B85FF" index="07" colInRow={0} totalCols={1} minH={{ xs: 180, md: 220 }} animDelay={0.3}>
-              <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                 <ChatBubbleOutlineIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Message</Typography>
               </Stack>
@@ -609,7 +609,7 @@ export default function Contact() {
             component={item.href ? "a" : undefined}
             href={item.href}
           >
-            <Stack direction="row" spacing={2} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
               <Box
                 sx={{
                   "& .MuiSvgIcon-root": { fontSize: 28 },
@@ -623,7 +623,7 @@ export default function Contact() {
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", letterSpacing: "0.15em", textTransform: "uppercase", opacity: 0.5 }}>
                   {item.label}
                 </Typography>
-                <Typography variant="body2" fontWeight={600} sx={{ mt: 0.25 }}>
+                <Typography variant="body2" sx={{ fontWeight: 600, mt: 0.25 }}>
                   {item.value}
                 </Typography>
               </Box>
@@ -733,7 +733,7 @@ export default function Contact() {
 
         <Box sx={{ textAlign: "center", position: "relative", zIndex: 1 }}>
           <RocketLaunchOutlinedIcon sx={{ fontSize: 40, color: "#00D4AA", filter: "drop-shadow(0 0 8px rgba(0,212,170,0.4))", mb: 2 }} />
-          <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary", mb: 1 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary", mb: 1 }}>
             Skip the Form?
           </Typography>
           <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.6 }}>

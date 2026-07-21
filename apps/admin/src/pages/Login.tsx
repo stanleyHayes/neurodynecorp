@@ -52,7 +52,7 @@ export default function Login() {
       brandSubtitle="The command center for managing your software engineering platform."
       cards={cards}
     >
-      <Typography variant="h4" fontWeight={700} sx={{ mb: 0.5 }}>
+      <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
         Welcome back
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>

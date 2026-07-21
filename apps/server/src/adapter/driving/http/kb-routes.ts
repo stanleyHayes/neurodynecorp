@@ -69,8 +69,8 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
   // GET /slug/:slug — PUBLIC single article by slug
   router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findBySlug(req.params.slug!);
-      if (!item) throw new NotFoundError("kb", req.params.slug);
+      const item = await repo.findBySlug(String(req.params.slug));
+      if (!item) throw new NotFoundError("kb", String(req.params.slug));
       res.json(item);
     } catch (err) {
       next(err);
@@ -82,7 +82,7 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
     try {
       const parsed = helpfulSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      await repo.incrementHelpful(req.params.id!, parsed.data.helpful);
+      await repo.incrementHelpful(String(req.params.id), parsed.data.helpful);
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -117,8 +117,8 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
   // PATCH /:id — update (kb:update)
   router.patch("/:id", auth, requirePermission("kb:update"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("kb", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("kb", String(req.params.id));
       const updated = await repo.update({ ...existing, ...req.body, id: existing.id });
       res.json(updated);
     } catch (err) {
@@ -129,7 +129,7 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
   // DELETE /:id — delete (kb:delete)
   router.delete("/:id", auth, requirePermission("kb:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await repo.delete(req.params.id!);
+      await repo.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

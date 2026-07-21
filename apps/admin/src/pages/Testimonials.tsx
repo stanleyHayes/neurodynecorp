@@ -172,12 +172,12 @@ export default function Testimonials() {
           const color = statusColor[displayStatus] ?? "#94A3B8";
           return (
             <Cell key={t.id} color={t.avatarColor} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} colInRow={i % 2} totalCols={2} animDelay={0.3 + i * 0.05}>
-              <Stack direction="row" spacing={2} alignItems="flex-start">
+              <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={2}>
                 <Avatar sx={{ bgcolor: `${t.avatarColor}20`, color: t.avatarColor, width: 42, height: 42, fontSize: 14, fontWeight: 700, border: `1.5px solid ${t.avatarColor}30`, flexShrink: 0 }}>
                   {t.name.split(" ").map((n) => n[0]).join("")}
                 </Avatar>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
-                  <Stack direction="row" justifyContent="space-between" alignItems="center" sx={{ mb: 0.5 }}>
+                  <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 0.5 }}>
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{t.name}</Typography>
                       <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{t.role}, {t.company}</Typography>

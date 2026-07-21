@@ -93,7 +93,7 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
         }
 
         const { createSprint: buildSprint } = await import("../../../domain/entity/task.js");
-        const sprint = buildSprint(parsed.data);
+        const sprint = buildSprint(parsed.data as any);
         const created = await taskService.createSprint(sprint);
         res.status(201).json(created);
       } catch (err) {
@@ -120,9 +120,9 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
   // GET /api/v1/tasks/sprints/:id
   router.get("/sprints/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const sprint = await taskService.findSprint(req.params.id!);
+      const sprint = await taskService.findSprint(String(req.params.id));
       if (!sprint) {
-        throw new NotFoundError("Sprint", req.params.id);
+        throw new NotFoundError("Sprint", String(req.params.id));
       }
       res.status(200).json(sprint);
     } catch (err) {
@@ -141,14 +141,14 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
           throw new ValidationError("Invalid sprint update data", parsed.error.flatten());
         }
 
-        const existing = await taskService.findSprint(req.params.id!);
+        const existing = await taskService.findSprint(String(req.params.id));
         if (!existing) {
-          throw new NotFoundError("Sprint", req.params.id);
+          throw new NotFoundError("Sprint", String(req.params.id));
         }
 
         const updated = await taskService.updateSprint({
           ...existing,
-          ...parsed.data,
+          ...(parsed.data as any),
           updatedAt: new Date(),
         });
         res.status(200).json(updated);
@@ -164,7 +164,7 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
     requirePermission("tasks:create"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        await taskService.deleteSprint(req.params.id!);
+        await taskService.deleteSprint(String(req.params.id));
         res.status(204).end();
       } catch (err) {
         next(err);
@@ -184,7 +184,7 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
 
       const { createTask: buildTask } = await import("../../../domain/entity/task.js");
       const task = buildTask({
-        ...parsed.data,
+        ...(parsed.data as any),
         description: parsed.data.description ?? "",
         reporterId: req.userId!,
       });
@@ -213,9 +213,9 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
   // GET /api/v1/tasks/:id
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const task = await taskService.findTask(req.params.id!);
+      const task = await taskService.findTask(String(req.params.id));
       if (!task) {
-        throw new NotFoundError("Task", req.params.id);
+        throw new NotFoundError("Task", String(req.params.id));
       }
       res.status(200).json(task);
     } catch (err) {
@@ -231,14 +231,14 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
         throw new ValidationError("Invalid task update data", parsed.error.flatten());
       }
 
-      const existing = await taskService.findTask(req.params.id!);
+      const existing = await taskService.findTask(String(req.params.id));
       if (!existing) {
-        throw new NotFoundError("Task", req.params.id);
+        throw new NotFoundError("Task", String(req.params.id));
       }
 
       const merged: Task = {
         ...existing,
-        ...parsed.data,
+        ...(parsed.data as any),
         assigneeId: parsed.data.assigneeId === null ? undefined : (parsed.data.assigneeId ?? existing.assigneeId),
         storyPoints: parsed.data.storyPoints === null ? undefined : (parsed.data.storyPoints ?? existing.storyPoints),
         dueDate: parsed.data.dueDate === null ? undefined : (parsed.data.dueDate ?? existing.dueDate),
@@ -259,7 +259,7 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
     requirePermission("tasks:create"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        await taskService.deleteTask(req.params.id!);
+        await taskService.deleteTask(String(req.params.id));
         res.status(204).end();
       } catch (err) {
         next(err);

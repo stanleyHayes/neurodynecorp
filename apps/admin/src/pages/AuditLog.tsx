@@ -150,7 +150,7 @@ export default function AuditLog() {
       {/* Header */}
       <Stack spacing={0.5} sx={{ mb: 3 }}>
         <Typography sx={overlineSx}>SECURITY // AUDIT</Typography>
-        <Stack direction="row" spacing={1.5} alignItems="center">
+        <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
           <ReceiptLongOutlinedIcon sx={{ color: "#6C63FF" }} />
           <Typography variant="h5" sx={{ fontWeight: 800 }}>
             Audit Log
@@ -165,10 +165,9 @@ export default function AuditLog() {
       <Card sx={{ mb: 3, bgcolor: "#111827", border: "1px solid rgba(255,255,255,0.06)" }}>
         <CardContent>
           <Typography sx={{ ...overlineSx, mb: 2 }}>Filters</Typography>
-          <Stack
+          <Stack sx={{ alignItems: { xs: "stretch", md: "flex-end" } }}
             direction={{ xs: "column", md: "row" }}
             spacing={2}
-            alignItems={{ xs: "stretch", md: "flex-end" }}
           >
             <Box sx={{ minWidth: 160 }}>
               <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 0.5 }}>
@@ -254,7 +253,7 @@ export default function AuditLog() {
           ) : error ? (
             <Alert severity="error">{error}</Alert>
           ) : rows.length === 0 ? (
-            <Stack alignItems="center" spacing={1.5} sx={{ py: 8, opacity: 0.7 }}>
+            <Stack spacing={1.5} sx={{ alignItems: "center", py: 8, opacity: 0.7 }}>
               <HistoryOutlinedIcon sx={{ fontSize: 48, color: "text.secondary" }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>
                 No audit entries

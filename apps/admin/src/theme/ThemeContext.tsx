@@ -42,11 +42,17 @@ function makeTheme(mode: Mode) {
       MuiButton: {
         styleOverrides: {
           root: { borderRadius: 8, padding: "10px 24px" },
-          containedPrimary: {
+
+        },
+      variants: [
+        {
+          props: { variant: "contained", color: "primary" },
+          style: {
             background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
             "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)" },
           },
         },
+      ],
       },
       MuiCard: {
         styleOverrides: {

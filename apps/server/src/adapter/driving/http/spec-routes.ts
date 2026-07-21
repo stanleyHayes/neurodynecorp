@@ -150,11 +150,11 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
   // GET /api/v1/specifications/:id
   router.get("/:id", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const spec = await specService.getSpec(req.params.id!);
+      const spec = await specService.getSpec(String(req.params.id));
       res.status(200).json(spec);
     } catch (err) {
       if (err instanceof SpecNotFoundError) {
-        return next(new NotFoundError("Specification", req.params.id));
+        return next(new NotFoundError("Specification", String(req.params.id)));
       }
       next(err);
     }
@@ -167,11 +167,11 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
     requirePermission("specifications:update"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
-        const spec = await specService.approveSpec(req.params.id!, req.userId!);
+        const spec = await specService.approveSpec(String(req.params.id), req.userId!);
         res.status(200).json(spec);
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
-          return next(new NotFoundError("Specification", req.params.id));
+          return next(new NotFoundError("Specification", String(req.params.id)));
         }
         next(err);
       }
@@ -186,11 +186,11 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         rejectSchema.parse(req.body); // validate but reason is optional metadata
-        const spec = await specService.rejectSpec(req.params.id!);
+        const spec = await specService.rejectSpec(String(req.params.id));
         res.status(200).json(spec);
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
-          return next(new NotFoundError("Specification", req.params.id));
+          return next(new NotFoundError("Specification", String(req.params.id)));
         }
         next(err);
       }
@@ -209,11 +209,11 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
           throw new ValidationError("Invalid note data", parsed.error.flatten());
         }
 
-        const spec = await specService.addInternalNote(req.params.id!, req.userId!, parsed.data.content);
+        const spec = await specService.addInternalNote(String(req.params.id), req.userId!, parsed.data.content);
         res.status(201).json(spec);
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
-          return next(new NotFoundError("Specification", req.params.id));
+          return next(new NotFoundError("Specification", String(req.params.id)));
         }
         next(err);
       }
@@ -223,7 +223,7 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
   // GET /api/v1/specifications/:id/pdf - generate and download PDF
   router.get("/:id/pdf", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const spec = await specService.getSpec(req.params.id!);
+      const spec = await specService.getSpec(String(req.params.id));
       const pdf = buildSpecPdf(spec);
 
       res.set({
@@ -234,7 +234,7 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
       res.end(pdf);
     } catch (err) {
       if (err instanceof SpecNotFoundError) {
-        return next(new NotFoundError("Specification", req.params.id));
+        return next(new NotFoundError("Specification", String(req.params.id)));
       }
       next(err);
     }

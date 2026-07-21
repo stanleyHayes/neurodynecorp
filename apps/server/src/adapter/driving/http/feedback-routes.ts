@@ -34,7 +34,7 @@ export function createFeedbackRoutes(repo: FeedbackRepository, tokenService: Tok
       const parsed = createFeedbackSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const feedback = createFeedback({ ...parsed.data, userId: req.userId });
+      const feedback = createFeedback({ ...(parsed.data as any), userId: req.userId });
       const created = await repo.create(feedback);
       res.status(201).json(created);
     } catch (err) {

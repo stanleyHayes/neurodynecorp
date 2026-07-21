@@ -1,4 +1,5 @@
 import { Box, Typography, Stack, Button, Chip } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
@@ -27,13 +28,14 @@ export default function BookACall() {
       sx={{
         position: "relative",
         p: { xs: 3, md: 5 },
-        borderRadius: 3,
+        borderRadius: 0,
         border: "1px solid rgba(0, 212, 170, 0.25)",
         background: "linear-gradient(135deg, rgba(0,212,170,0.06), rgba(108,99,255,0.04))",
         overflow: "hidden",
       }}
     >
-      <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1.5 }}>
+      <HudCorners />
+      <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
         <VideoCallOutlinedIcon sx={{ color: "#00D4AA", fontSize: 22, filter: "drop-shadow(0 0 6px rgba(0,212,170,0.4))" }} />
         <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#00D4AA", opacity: 0.85 }}>
           // SKIP THE FORM

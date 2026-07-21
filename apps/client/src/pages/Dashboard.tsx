@@ -219,7 +219,7 @@ export default function Dashboard() {
                 totalCols={3}
                 animDelay={0.4 + i * 0.1}
               >
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
                   <Box
                     sx={{
                       color:
@@ -238,7 +238,7 @@ export default function Dashboard() {
                     {project.title}
                   </Typography>
                 </Stack>
-                <Stack direction="row" spacing={1} alignItems="center">
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <Chip
                     label={project.status.replace(/_/g, " ")}
                     size="small"
@@ -329,7 +329,7 @@ export default function Dashboard() {
                 totalCols={3}
                 animDelay={0.7 + i * 0.1}
               >
-                <Stack direction="row" spacing={1.5} alignItems="flex-start">
+                <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={1.5}>
                   <Box
                     sx={{
                       "& .MuiSvgIcon-root": { fontSize: 22 },

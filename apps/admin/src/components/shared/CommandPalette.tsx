@@ -184,7 +184,7 @@ export default function CommandPalette() {
               overflow: "hidden",
             }}
           >
-            <Stack direction="row" alignItems="center" spacing={1.5} sx={{ px: 2.5, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", px: 2.5, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
               <SearchIcon sx={{ color: "text.secondary", opacity: 0.6, fontSize: 20 }} />
               <InputBase
                 inputRef={inputRef}
@@ -247,10 +247,9 @@ export default function CommandPalette() {
                           key={cmd.id}
                           direction="row"
                           spacing={1.5}
-                          alignItems="center"
                           onMouseEnter={() => setActiveIdx(runningIdx)}
                           onClick={cmd.action}
-                          sx={{
+                          sx={{ alignItems: "center",
                             px: 2.5,
                             py: 1.25,
                             cursor: "pointer",
@@ -298,8 +297,8 @@ export default function CommandPalette() {
               )}
             </Box>
 
-            <Stack direction="row" spacing={2} alignItems="center" sx={{ px: 2.5, py: 1.25, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.03)" }}>
-              <Stack direction="row" spacing={0.5} alignItems="center">
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center", px: 2.5, py: 1.25, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.03)" }}>
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                 <KeyboardCommandKeyIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
                   K to toggle

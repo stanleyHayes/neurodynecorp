@@ -138,13 +138,12 @@ export default function CookieConsent() {
         <CloseOutlinedIcon fontSize="small" />
       </IconButton>
 
-      <Stack
+      <Stack sx={{ alignItems: { xs: "stretch", md: "center" } }}
         direction={{ xs: "column", md: "row" }}
         spacing={{ xs: 2, md: 3 }}
-        alignItems={{ xs: "stretch", md: "center" }}
       >
         <Box sx={{ flex: 1 }}>
-          <Stack direction="row" spacing={1.25} alignItems="center" sx={{ mb: 1 }}>
+          <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", mb: 1 }}>
             <ShieldOutlinedIcon sx={{ color: "#00D4AA", fontSize: 22 }} />
             <CookieOutlinedIcon sx={{ color: "#6C63FF", fontSize: 22 }} />
             <Typography sx={overline}>Your privacy</Typography>
@@ -189,10 +188,8 @@ export default function CookieConsent() {
               >
                 <Divider sx={{ my: 2, borderColor: "rgba(108,99,255,0.15)" }} />
                 <Stack spacing={1}>
-                  <Stack
+                  <Stack sx={{ alignItems: "center", justifyContent: "space-between" }}
                     direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
                   >
                     <Box>
                       <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
@@ -206,10 +203,8 @@ export default function CookieConsent() {
                     </Box>
                     <Switch checked disabled />
                   </Stack>
-                  <Stack
+                  <Stack sx={{ alignItems: "center", justifyContent: "space-between" }}
                     direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
                   >
                     <Box>
                       <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
@@ -221,16 +216,13 @@ export default function CookieConsent() {
                         Helps us see what's useful and what to fix.
                       </Typography>
                     </Box>
-                    <Switch
+                    <Switch slotProps={{ input: { "aria-label": "Analytics cookies" } }}
                       checked={analytics}
                       onChange={(e) => setAnalytics(e.target.checked)}
-                      inputProps={{ "aria-label": "Analytics cookies" }}
                     />
                   </Stack>
-                  <Stack
+                  <Stack sx={{ alignItems: "center", justifyContent: "space-between" }}
                     direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
                   >
                     <Box>
                       <Typography sx={{ fontWeight: 600, fontSize: "0.9rem" }}>
@@ -242,10 +234,9 @@ export default function CookieConsent() {
                         Lets us tailor what we show you elsewhere.
                       </Typography>
                     </Box>
-                    <Switch
+                    <Switch slotProps={{ input: { "aria-label": "Marketing cookies" } }}
                       checked={marketing}
                       onChange={(e) => setMarketing(e.target.checked)}
-                      inputProps={{ "aria-label": "Marketing cookies" }}
                     />
                   </Stack>
                 </Stack>

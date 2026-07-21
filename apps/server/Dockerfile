@@ -1,10 +1,10 @@
 # ---------------------------------------
 # NeuroDyne Server — Production Dockerfile
 # ---------------------------------------
-# Runtime: Node 20 + tsx (no build step needed)
+# Runtime: Node 26 + tsx (no build step needed)
 # Depends on: packages/shared (workspace)
 
-FROM node:20-alpine AS base
+FROM node:26-alpine AS base
 RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
 WORKDIR /app
 

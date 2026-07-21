@@ -95,15 +95,15 @@ export function createDecisionRoutes(
   // GET /:id — single decision (owning client or staff).
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const decision = await repo.findById(req.params.id!);
-      if (!decision) throw new NotFoundError("decision", req.params.id);
+      const decision = await repo.findById(String(req.params.id));
+      if (!decision) throw new NotFoundError("decision", String(req.params.id));
       // A non-owning client must not be able to tell "exists-but-not-yours" from
       // "not found", and must never see the owning project's id — surface a plain
       // decision-scoped 404 instead of the project-scoped one from assertProjectAccess.
       try {
         await assertProjectAccess(req, decision.projectId);
       } catch {
-        throw new NotFoundError("decision", req.params.id);
+        throw new NotFoundError("decision", String(req.params.id));
       }
       res.json(decision);
     } catch (err) {
@@ -116,8 +116,8 @@ export function createDecisionRoutes(
     try {
       const parsed = updateSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("decision", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("decision", String(req.params.id));
       const { decidedAt, ...rest } = parsed.data;
       const updated = await repo.update({
         ...existing,
@@ -134,8 +134,8 @@ export function createDecisionRoutes(
   // DELETE /:id — staff only.
   router.delete("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("decision", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("decision", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {

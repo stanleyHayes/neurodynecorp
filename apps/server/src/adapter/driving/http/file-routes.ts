@@ -96,7 +96,7 @@ export function createFileRoutes(
   // GET /api/v1/files/:id
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const file = await fileService.getById(req.params.id!);
+      const file = await fileService.getById(String(req.params.id));
       res.status(200).json(file);
     } catch (err) {
       next(err);
@@ -121,7 +121,7 @@ export function createFileRoutes(
   // DELETE /api/v1/files/:id
   router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await fileService.delete(req.params.id!);
+      await fileService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

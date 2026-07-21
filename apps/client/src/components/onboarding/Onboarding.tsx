@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import {
   Rocket,
   Timeline,
-  ChatBubbleOutline,
+  ChatBubbleOutlined,
   Receipt,
   Description,
   NotificationsActive,
@@ -51,7 +51,7 @@ const slides = [
     accent: "#33DDBB",
   },
   {
-    icon: <ChatBubbleOutline sx={{ fontSize: 64 }} />,
+    icon: <ChatBubbleOutlined sx={{ fontSize: 64 }} />,
     title: "Collaborate Seamlessly",
     subtitle: "Direct communication with your team",
     description: "Message your engineering team, provide feedback on deliverables, and approve milestones — all from one place.",
@@ -254,8 +254,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
 
             <MotionTypography
               variant="h2"
-              fontWeight={800}
-              sx={{
+              sx={{ fontWeight: 800,
                 mb: 1.5,
                 background: `linear-gradient(135deg, ${slide.color}, ${slide.accent})`,
                 WebkitBackgroundClip: "text",
@@ -266,7 +265,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
               {slide.title}
             </MotionTypography>
 
-            <Typography variant="h6" color="text.secondary" fontWeight={600} sx={{ mb: 2.5 }}>
+            <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 600, mb: 2.5 }}>
               {slide.subtitle}
             </Typography>
 

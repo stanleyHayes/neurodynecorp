@@ -59,7 +59,7 @@ describe("AuthService", () => {
   });
 
   it("throws on duplicate registration", async () => {
-    const existing = createUser({ email: "dup@example.com", passwordHash: "x", firstName: "Dup", lastName: "User" });
+    const existing = createUser({ email: "dup@example.com", passwordHash: "x", firstName: "Dup", lastName: "User", role: "client" });
     mockUserRepo.findByEmail = async () => existing;
 
     await assert.rejects(

@@ -1,4 +1,5 @@
 import { Box, Typography, Stack, Avatar, Chip } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import FormatQuoteOutlinedIcon from "@mui/icons-material/FormatQuoteOutlined";
 
@@ -24,12 +25,13 @@ export default function FounderNote({ message = DEFAULT_MESSAGE, date = "This we
         my: 6,
         mx: { xs: 2, md: 6 },
         p: { xs: 3, md: 5 },
-        borderRadius: 3,
+        borderRadius: 0,
         border: "1px solid rgba(108, 99, 255, 0.18)",
         background: "linear-gradient(135deg, rgba(108,99,255,0.06), rgba(0,212,170,0.04))",
         overflow: "hidden",
       }}
     >
+      <HudCorners />
       <FormatQuoteOutlinedIcon
         sx={{
           position: "absolute",
@@ -41,7 +43,7 @@ export default function FounderNote({ message = DEFAULT_MESSAGE, date = "This we
         }}
       />
 
-      <Stack direction="row" spacing={2} alignItems="flex-start" sx={{ mb: 2 }}>
+      <Stack direction="row" spacing={2} sx={{ alignItems: "flex-start", mb: 2 }}>
         <Avatar
           sx={{
             width: 48,
@@ -59,7 +61,7 @@ export default function FounderNote({ message = DEFAULT_MESSAGE, date = "This we
           <Typography sx={{ fontSize: "0.95rem", fontWeight: 700, color: "text.primary" }}>
             Stanley Asoku Hayford
           </Typography>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.05em" }}>
               Founder & Principal Engineer · NeuroDyne Corp
             </Typography>

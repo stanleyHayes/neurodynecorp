@@ -64,7 +64,7 @@ export function createNotificationRoutes(notificationService: NotificationServic
   // PATCH /api/v1/notifications/:id/read
   router.patch("/:id/read", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await notificationService.markAsRead(req.params.id!);
+      await notificationService.markAsRead(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -84,7 +84,7 @@ export function createNotificationRoutes(notificationService: NotificationServic
   // DELETE /api/v1/notifications/:id
   router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await notificationService.delete(req.params.id!);
+      await notificationService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

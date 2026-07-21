@@ -446,7 +446,7 @@ export default function RoleDetail() {
                   animDelay={0.35 + i * 0.05}
                 >
                   <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 1 }}>{formatResource(resource)}</Typography>
-                  <Stack direction="row" spacing={0.5} flexWrap="wrap" useFlexGap>
+                  <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={0.5} useFlexGap>
                     {activeActions.map((action) => (
                       <Chip
                         key={action}

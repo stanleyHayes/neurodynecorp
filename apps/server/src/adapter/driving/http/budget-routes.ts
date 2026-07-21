@@ -114,12 +114,12 @@ export function createBudgetRoutes(
   // GET /:id — owning client or staff; not-owned indistinguishable from not-found.
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findById(req.params.id!);
-      if (!item) throw new NotFoundError("budget item", req.params.id);
+      const item = await repo.findById(String(req.params.id));
+      if (!item) throw new NotFoundError("budget item", String(req.params.id));
       try {
         await assertProjectAccess(req, item.projectId);
       } catch {
-        throw new NotFoundError("budget item", req.params.id);
+        throw new NotFoundError("budget item", String(req.params.id));
       }
       res.json(item);
     } catch (err) {
@@ -132,8 +132,8 @@ export function createBudgetRoutes(
     try {
       const parsed = updateSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("budget item", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("budget item", String(req.params.id));
       const updated = await repo.update({ ...existing, ...parsed.data, id: existing.id });
       res.json(updated);
     } catch (err) {
@@ -144,8 +144,8 @@ export function createBudgetRoutes(
   // DELETE /:id — staff only.
   router.delete("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("budget item", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("budget item", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {

@@ -88,8 +88,8 @@ export function createGlossaryRoutes(repo: GlossaryRepository, tokenService: Tok
   // GET /slug/:slug — PUBLIC single PUBLISHED term by slug (drafts return 404).
   router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findBySlug(req.params.slug!);
-      if (!item || item.status !== "published") throw new NotFoundError("glossary", req.params.slug);
+      const item = await repo.findBySlug(String(req.params.slug));
+      if (!item || item.status !== "published") throw new NotFoundError("glossary", String(req.params.slug));
       res.json(item);
     } catch (err) {
       next(err);
@@ -124,8 +124,8 @@ export function createGlossaryRoutes(repo: GlossaryRepository, tokenService: Tok
     try {
       const parsed = updateSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("glossary", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("glossary", String(req.params.id));
       const updated = await repo.update({ ...existing, ...parsed.data, id: existing.id });
       res.json(updated);
     } catch (err) {
@@ -136,8 +136,8 @@ export function createGlossaryRoutes(repo: GlossaryRepository, tokenService: Tok
   // DELETE /:id — staff only.
   router.delete("/:id", auth, requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("glossary", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("glossary", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {

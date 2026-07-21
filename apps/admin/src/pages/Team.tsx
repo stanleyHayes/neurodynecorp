@@ -152,7 +152,7 @@ export default function Team() {
           return (
             <Cell key={member.id} color={color} index={String(i + 4).padStart(2, "0")} colInRow={i % 4} totalCols={4} animDelay={0.4 + i * 0.05}>
               <Box onClick={() => navigate(`/team/${member.id}`)} sx={{ cursor: "pointer" }}>
-                <Stack alignItems="center" spacing={1.5} sx={{ textAlign: "center" }}>
+                <Stack spacing={1.5} sx={{ alignItems: "center", textAlign: "center" }}>
                   <Avatar
                     src={member.avatar}
                     sx={{ width: 56, height: 56, fontSize: 18, fontWeight: 700, bgcolor: `${color}20`, color, border: `1.5px solid ${color}30` }}

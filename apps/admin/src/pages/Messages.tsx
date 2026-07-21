@@ -346,20 +346,16 @@ export default function Messages() {
                       </Avatar>
                     </Badge>
                   </ListItemAvatar>
-                  <ListItemText
-                    primary={thread.title}
-                    secondary={thread.lastMessage}
-                    primaryTypographyProps={{
+                  <ListItemText slotProps={{ primary: { sx: { fontWeight: thread.unread > 0 ? 700 : 500, fontSize: "0.85rem" },
                       variant: "subtitle2",
                       noWrap: true,
-                      fontWeight: thread.unread > 0 ? 700 : 500,
-                      fontSize: "0.85rem",
-                    }}
-                    secondaryTypographyProps={{
+                    }, secondary: {
                       variant: "caption",
                       noWrap: true,
                       sx: { opacity: 0.6, fontFamily: "monospace", fontSize: "0.7rem" },
-                    }}
+                    } }}
+                    primary={thread.title}
+                    secondary={thread.lastMessage}
                   />
                   <Typography
                     sx={{
@@ -394,10 +390,10 @@ export default function Messages() {
             }}
           >
             <Box>
-              <Typography variant="subtitle1" fontWeight={700} sx={{ fontSize: "0.95rem" }}>
+              <Typography variant="subtitle1" sx={{ fontWeight: 700, fontSize: "0.95rem" }}>
                 {currentThread?.title}
               </Typography>
-              <Stack direction="row" spacing={0.5} alignItems="center">
+              <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                 <CircleIcon sx={{ fontSize: 8, color: connected ? "#10B981" : "#EF4444" }} />
                 <Typography
                   sx={{
@@ -542,7 +538,7 @@ export default function Messages() {
               bgcolor: "rgba(108, 99, 255, 0.02)",
             }}
           >
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
               <TextField
                 fullWidth
                 size="small"

@@ -48,7 +48,7 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
         throw new ValidationError("Invalid registration data", parsed.error.flatten());
       }
 
-      const result = await authService.register(parsed.data);
+      const result = await authService.register(parsed.data as any);
       res.status(201).json({
         user: sanitizeUser(result.user as unknown as Record<string, unknown>),
         ...result.tokens,

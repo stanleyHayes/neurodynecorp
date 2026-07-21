@@ -1,7 +1,7 @@
 import { Box, Container, Stack, Typography, Chip, Button, Divider } from "@mui/material";
 import { useParams, Link } from "react-router";
 import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -79,7 +79,7 @@ export default function ServiceDetail() {
             <InfoCard accent={svc.color} title="What you get">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {svc.deliverables.map((d) => (
-                  <Stack key={d} direction="row" spacing={1.5} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} key={d} direction="row" spacing={1.5}>
                     <CheckCircleOutlineIcon sx={{ color: svc.color, fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">
                       {d}
@@ -91,14 +91,14 @@ export default function ServiceDetail() {
 
             <InfoCard accent="#6C63FF" title="Commercials">
               <Stack spacing={2} sx={{ mt: 1 }}>
-                <Stack direction="row" spacing={1.5} alignItems="flex-start">
+                <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={1.5}>
                   <ScheduleOutlinedIcon sx={{ color: "#6C63FF", fontSize: 20, mt: "2px" }} />
                   <Box>
                     <Overline>Indicative timeline</Overline>
                     <Typography variant="body2" sx={{ mt: 0.25 }}>{svc.timeline}</Typography>
                   </Box>
                 </Stack>
-                <Stack direction="row" spacing={1.5} alignItems="flex-start">
+                <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={1.5}>
                   <PaymentsOutlinedIcon sx={{ color: "#00D4AA", fontSize: 20, mt: "2px" }} />
                   <Box>
                     <Overline color="#00D4AA">Indicative price band</Overline>
@@ -115,7 +115,7 @@ export default function ServiceDetail() {
           {/* Sample work */}
           <Box>
             <SectionHeading tag="§ 02 — PRECEDENT" title="Sample work" color="#8B85FF" />
-            <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
+            <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
               {svc.sampleWork.map((w) => (
                 <Chip key={w} label={w} variant="outlined" component="a" href="/portfolio" clickable sx={{ borderColor: "#8B85FF55" }} />
               ))}

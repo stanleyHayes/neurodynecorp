@@ -20,7 +20,7 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
 import BugReportOutlinedIcon from "@mui/icons-material/BugReportOutlined";
 import ForumOutlinedIcon from "@mui/icons-material/ForumOutlined";
-import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import { api } from "@/api/client";
 
 const MotionBox = motion.create(Box);
@@ -135,12 +135,7 @@ export default function FeedbackWidget() {
         </Button>
       </Box>
 
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        maxWidth="xs"
-        fullWidth
-        PaperProps={{
+      <Dialog slotProps={{ paper: {
           sx: {
             bgcolor: "#111827",
             backgroundImage:
@@ -148,10 +143,14 @@ export default function FeedbackWidget() {
             border: "1px solid rgba(108,99,255,0.22)",
             borderRadius: 3,
           },
-        }}
+        } }}
+        open={open}
+        onClose={handleClose}
+        maxWidth="xs"
+        fullWidth
       >
         <DialogTitle sx={{ pb: 1 }}>
-          <Stack direction="row" alignItems="center" justifyContent="space-between">
+          <Stack sx={{ alignItems: "center", justifyContent: "space-between" }} direction="row">
             <Typography sx={overline}>Tell us anything</Typography>
             <IconButton
               aria-label="Close feedback"

@@ -60,7 +60,7 @@ export function createBookingRoutes(
       const parsed = submitSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const record = createBookingRequest({ ...parsed.data });
+      const record = createBookingRequest({ ...(parsed.data as any) });
       const created = await repo.create(record);
 
       if (mailer) {
@@ -69,7 +69,7 @@ export function createBookingRoutes(
             .sendEmail(
               notifyTo,
               `New reading request: ${created.name}${created.org ? ` — ${created.org}` : ""} (${created.durationMins}m)`,
-              `<pre>${escapeHtml(JSON.stringify({ ...parsed.data, durationMins: created.durationMins }, null, 2))}</pre>`,
+              `<pre>${escapeHtml(JSON.stringify({ ...(parsed.data as any), durationMins: created.durationMins }, null, 2))}</pre>`,
             )
             .catch(() => undefined);
         }
@@ -104,8 +104,8 @@ export function createBookingRoutes(
   // GET /:id — admin.
   router.get("/:id", auth, requirePermission("booking:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const item = await repo.findById(req.params.id!);
-      if (!item) throw new NotFoundError("booking", req.params.id);
+      const item = await repo.findById(String(req.params.id));
+      if (!item) throw new NotFoundError("booking", String(req.params.id));
       res.json(item);
     } catch (err) {
       next(err);
@@ -117,8 +117,8 @@ export function createBookingRoutes(
     try {
       const parsed = statusSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const updated = await repo.updateStatus(req.params.id!, parsed.data.status);
-      if (!updated) throw new NotFoundError("booking", req.params.id);
+      const updated = await repo.updateStatus(String(req.params.id), parsed.data.status);
+      if (!updated) throw new NotFoundError("booking", String(req.params.id));
       res.json(updated);
     } catch (err) {
       next(err);

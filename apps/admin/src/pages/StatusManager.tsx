@@ -242,7 +242,7 @@ export default function StatusManager() {
           <Stack spacing={4}>
             {/* ── Components ───────────────────────────────────────── */}
             <Box>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1.5 }}>
+              <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
                 <Typography sx={overline}>COMPONENTS</Typography>
                 <IconButton size="small" onClick={load} sx={{ color: "text.secondary" }}>
                   <RefreshOutlinedIcon fontSize="small" />
@@ -252,7 +252,7 @@ export default function StatusManager() {
               {/* Create component */}
               <Card variant="outlined" sx={{ mb: 2, bgcolor: "#111827" }}>
                 <CardContent>
-                  <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }}>
+                  <Stack sx={{ alignItems: { sm: "center" } }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                     <TextField
                       size="small"
                       fullWidth
@@ -302,14 +302,14 @@ export default function StatusManager() {
                     return (
                       <Card key={id} variant="outlined" sx={{ bgcolor: "#111827" }}>
                         <CardContent sx={{ py: 1.5, "&:last-child": { pb: 1.5 } }}>
-                          <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "center" }} justifyContent="space-between">
-                            <Stack direction="row" spacing={1.5} alignItems="center" sx={{ minWidth: 0 }}>
+                          <Stack sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
+                            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", minWidth: 0 }}>
                               <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: meta.color, flexShrink: 0, boxShadow: `0 0 10px ${meta.color}80` }} />
                               <Typography sx={{ fontWeight: 600, overflow: "hidden", textOverflow: "ellipsis" }}>
                                 {c.name}
                               </Typography>
                             </Stack>
-                            <Stack direction="row" spacing={1} alignItems="center">
+                            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                               <Select
                                 size="small"
                                 value={c.status ?? "operational"}
@@ -339,7 +339,7 @@ export default function StatusManager() {
 
             {/* ── Incidents ────────────────────────────────────────── */}
             <Box>
-              <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ mb: 1.5 }}>
+              <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", mb: 1.5 }}>
                 <Typography sx={overline}>INCIDENTS</Typography>
                 <Button
                   variant="outlined"
@@ -494,7 +494,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
   return (
     <Card variant="outlined" sx={{ bgcolor: "#111827", opacity: muted ? 0.75 : 1 }}>
       <CardContent>
-        <Stack direction="row" justifyContent="space-between" alignItems="flex-start" spacing={1.5}>
+        <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1.5}>
           <Box sx={{ minWidth: 0 }}>
             <Typography sx={{ fontWeight: 700 }}>{incident.title}</Typography>
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.3 }}>
@@ -521,7 +521,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
               const um = statusMeta(INCIDENT_STATUSES, u.status);
               return (
                 <Box key={i}>
-                  <Stack direction="row" spacing={1} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                     <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: um.color, fontWeight: 700 }}>
                       {um.label}
                     </Typography>

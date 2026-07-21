@@ -93,8 +93,8 @@ export function createChangelogRoutes(repo: ChangelogRepo, tokenService: TokenSe
       const parsed = updateChangelogSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("changelog", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("changelog", String(req.params.id));
 
       const merged: ChangelogEntry = { ...existing, ...parsed.data, id: existing.id, updatedAt: new Date() };
       if (merged.published && !merged.publishedAt) merged.publishedAt = new Date();
@@ -109,9 +109,9 @@ export function createChangelogRoutes(repo: ChangelogRepo, tokenService: TokenSe
   // DELETE /:id
   router.delete("/:id", auth, requirePermission("changelog:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("changelog", req.params.id);
-      await repo.delete(req.params.id!);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("changelog", String(req.params.id));
+      await repo.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
       next(err);

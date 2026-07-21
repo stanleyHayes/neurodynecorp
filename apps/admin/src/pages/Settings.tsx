@@ -25,7 +25,7 @@ import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import AutoModeOutlinedIcon from "@mui/icons-material/AutoModeOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 
@@ -86,7 +86,7 @@ function ProfileTab() {
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "auto 1fr" } }}>
       <Cell color="#6C63FF" index="P0" colInRow={0} totalCols={2} minH={200}>
-        <Stack alignItems="center" spacing={2} sx={{ px: { xs: 2, md: 4 } }}>
+        <Stack spacing={2} sx={{ alignItems: "center", px: { xs: 2, md: 4 } }}>
           <Box sx={{ position: "relative" }}>
             <Avatar
               sx={{
@@ -118,7 +118,7 @@ function ProfileTab() {
             </IconButton>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Typography variant="subtitle2" fontWeight={600}>Ayo Adeyemi</Typography>
+            <Typography sx={{ fontWeight: 600 }} variant="subtitle2">Ayo Adeyemi</Typography>
             <Typography
               sx={{
                 fontFamily: "monospace",
@@ -254,9 +254,9 @@ function SecurityTab() {
             </Typography>
           </Box>
           <Box sx={{ borderTop: `1px solid ${BORDER}`, pt: 2.5 }}>
-            <Stack direction={{ xs: "column", sm: "row" }} spacing={2} alignItems={{ sm: "center" }} justifyContent="space-between">
+            <Stack sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }} direction={{ xs: "column", sm: "row" }} spacing={2}>
               <Box>
-                <Typography variant="body2" fontWeight={600} sx={{ color: "#EF4444", mb: 0.25 }}>Delete Account</Typography>
+                <Typography variant="body2" sx={{ fontWeight: 600, color: "#EF4444", mb: 0.25 }}>Delete Account</Typography>
                 <Typography variant="caption" color="text.secondary" sx={{ opacity: 0.5 }}>
                   Permanently remove your account and all data.
                 </Typography>
@@ -392,7 +392,7 @@ function NotificationsTab() {
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" } }}>
       <Cell color="#6C63FF" index="N0" colInRow={0} totalCols={3}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <NotificationsOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} />
             <Label>In-App</Label>
           </Stack>
@@ -405,7 +405,7 @@ function NotificationsTab() {
 
       <Cell color="#00D4AA" index="N1" colInRow={1} totalCols={3}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <PersonOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA" }} />
             <Label color="#00D4AA">Email</Label>
           </Stack>
@@ -418,7 +418,7 @@ function NotificationsTab() {
 
       <Cell color="#8B85FF" index="N2" colInRow={2} totalCols={3}>
         <Stack spacing={2}>
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <LockOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF" }} />
             <Label color="#8B85FF">Integrations</Label>
           </Stack>

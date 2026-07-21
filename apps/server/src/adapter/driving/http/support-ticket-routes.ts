@@ -107,12 +107,12 @@ export function createSupportTicketRoutes(
   // GET /:id — single ticket; not-owned indistinguishable from not-found.
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const ticket = await repo.findById(req.params.id!);
-      if (!ticket) throw new NotFoundError("ticket", req.params.id);
+      const ticket = await repo.findById(String(req.params.id));
+      if (!ticket) throw new NotFoundError("ticket", String(req.params.id));
       try {
         await assertProjectAccess(req, ticket.projectId);
       } catch {
-        throw new NotFoundError("ticket", req.params.id);
+        throw new NotFoundError("ticket", String(req.params.id));
       }
       res.json(ticket);
     } catch (err) {
@@ -125,12 +125,12 @@ export function createSupportTicketRoutes(
     try {
       const parsed = replySchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const ticket = await repo.findById(req.params.id!);
-      if (!ticket) throw new NotFoundError("ticket", req.params.id);
+      const ticket = await repo.findById(String(req.params.id));
+      if (!ticket) throw new NotFoundError("ticket", String(req.params.id));
       try {
         await assertProjectAccess(req, ticket.projectId);
       } catch {
-        throw new NotFoundError("ticket", req.params.id);
+        throw new NotFoundError("ticket", String(req.params.id));
       }
       const staff = isStaff(req);
       const reply = newTicketReply({ authorId: req.userId!, body: parsed.data.body, staff });
@@ -150,8 +150,8 @@ export function createSupportTicketRoutes(
     try {
       const parsed = statusSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const ticket = await repo.findById(req.params.id!);
-      if (!ticket) throw new NotFoundError("ticket", req.params.id);
+      const ticket = await repo.findById(String(req.params.id));
+      if (!ticket) throw new NotFoundError("ticket", String(req.params.id));
       ticket.status = parsed.data.status;
       const updated = await repo.update(ticket);
       res.json(updated);

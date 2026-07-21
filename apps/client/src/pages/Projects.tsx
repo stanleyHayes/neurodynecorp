@@ -132,7 +132,7 @@ export default function Projects() {
                   <AnimatedGridItem index={i}>
                     <AnimatedCard sx={{ p: 2 }}>
                       <CardContent>
-                        <Stack direction="row" justifyContent="space-between" alignItems="start" sx={{ mb: 2 }}>
+                        <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "start", mb: 2 }}>
                           <Box>
                             <Typography variant="h5" sx={{ mb: 0.5 }}>
                               {project.title}
@@ -143,9 +143,9 @@ export default function Projects() {
                         </Stack>
 
                         <Box sx={{ mb: 3 }}>
-                          <Stack direction="row" justifyContent="space-between" sx={{ mb: 0.5 }}>
+                          <Stack direction="row" sx={{ justifyContent: "space-between", mb: 0.5 }}>
                             <Typography variant="body2" color="text.secondary">Progress</Typography>
-                            <Typography variant="body2" fontWeight={600}>{project.progress}%</Typography>
+                            <Typography sx={{ fontWeight: 600 }} variant="body2">{project.progress}%</Typography>
                           </Stack>
                           <LinearProgress
                             variant="determinate"
@@ -166,7 +166,7 @@ export default function Projects() {
                         </Stack>
 
                         {resolvedTeam.length > 0 && (
-                          <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 2 }}>
+                          <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2 }}>
                             <AvatarGroup max={4} sx={{ "& .MuiAvatar-root": { width: 28, height: 28, fontSize: 11, bgcolor: "primary.dark" } }}>
                               {resolvedTeam.map((m) => (
                                 <Avatar key={m.id} sx={{ width: 28, height: 28, fontSize: 11 }}>{m.initials}</Avatar>

@@ -11,7 +11,7 @@ import CloseIcon from "@mui/icons-material/Close";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutline";
+import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
@@ -484,23 +484,20 @@ function ThemeToggle() {
         ref={btnRef}
         size="small"
         onClick={handleClick}
-        whileTap={{ scale: 0.8, rotate: isDark ? 180 : -180 }}
-        whileHover={{ scale: 1.15 }}
+        whileTap={{ scale: 0.88, rotate: isDark ? 180 : -180 }}
+        whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 15 }}
         sx={{
-          width: 34,
-          height: 34,
+          width: 40,
+          height: 40,
           borderRadius: 50,
-          border: `1px solid ${isDark ? "rgba(108,99,255,0.2)" : "rgba(245,158,11,0.3)"}`,
-          background: isDark ? "rgba(108,99,255,0.06)" : "rgba(245,158,11,0.08)",
-          color: isDark ? "#8B85FF" : "#F59E0B",
+          border: `1px solid ${isDark ? "rgba(255,255,255,0.25)" : "rgba(12,22,46,0.16)"}`,
+          background: isDark ? "rgba(255,255,255,0.05)" : "rgba(12,22,46,0.03)",
+          color: isDark ? "rgba(247,250,255,0.9)" : "rgba(6,18,39,0.78)",
           transition: "border-color 0.3s, background 0.3s, color 0.3s",
-          overflow: "hidden",
           "&:hover": {
-            borderColor: isDark ? "rgba(108,99,255,0.4)" : "rgba(245,158,11,0.5)",
-            boxShadow: isDark
-              ? "0 0 16px rgba(108,99,255,0.3)"
-              : "0 0 16px rgba(245,158,11,0.3)",
+            borderColor: isDark ? "rgba(255,255,255,0.42)" : "rgba(12,22,46,0.28)",
+            background: isDark ? "rgba(255,255,255,0.08)" : "rgba(12,22,46,0.06)",
           },
         }}
       >
@@ -530,37 +527,6 @@ function ThemeToggle() {
           )}
         </AnimatePresence>
       </MotionIconButton>
-
-      {/* Burst particles on toggle */}
-      <AnimatePresence>
-        {!isDark && (
-          <>
-            {[0, 45, 90, 135, 180, 225, 270, 315].map((deg) => (
-              <motion.div
-                key={deg}
-                initial={{ scale: 0, opacity: 1 }}
-                animate={{
-                  scale: [0, 1],
-                  opacity: [1, 0],
-                  x: Math.cos((deg * Math.PI) / 180) * 20,
-                  y: Math.sin((deg * Math.PI) / 180) * 20,
-                }}
-                transition={{ duration: 0.5, ease: "easeOut" }}
-                style={{
-                  position: "absolute",
-                  top: "50%",
-                  left: "50%",
-                  width: 3,
-                  height: 3,
-                  borderRadius: "50%",
-                  background: "#F59E0B",
-                  pointerEvents: "none",
-                }}
-              />
-            ))}
-          </>
-        )}
-      </AnimatePresence>
     </Box>
   );
 }
@@ -571,6 +537,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -599,25 +566,25 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: { xs: 1, md: 0.5 },
-            px: { xs: 2, md: 2.5 },
-            py: 1,
+            gap: { xs: 1, md: 1.2 },
+            px: { xs: 2, md: 2.2 },
+            py: 0.85,
             borderRadius: 50,
             background: isDark
-              ? scrolled ? "rgba(17, 24, 39, 0.55)" : "rgba(17, 24, 39, 0.3)"
-              : scrolled ? "rgba(255, 255, 255, 0.75)" : "rgba(255, 255, 255, 0.5)",
+              ? scrolled ? "rgba(7, 20, 35, 0.84)" : "rgba(7, 20, 35, 0.72)"
+              : scrolled ? "rgba(248, 250, 255, 0.94)" : "rgba(248, 250, 255, 0.84)",
             backdropFilter: "blur(20px) saturate(1.4)",
             WebkitBackdropFilter: "blur(20px) saturate(1.4)",
             border: `1px solid ${isDark
-              ? scrolled ? "rgba(108, 99, 255, 0.18)" : "rgba(108, 99, 255, 0.1)"
-              : scrolled ? "rgba(91, 84, 238, 0.15)" : "rgba(91, 84, 238, 0.08)"}`,
+              ? "rgba(255,255,255,0.16)"
+              : "rgba(12,22,46,0.12)"}`,
             boxShadow: isDark
               ? scrolled
-                ? "0 8px 32px rgba(0,0,0,0.3), inset 0 1px 0 rgba(255,255,255,0.03)"
-                : "0 4px 16px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.02)"
+                ? "0 12px 36px rgba(0,0,0,0.34)"
+                : "0 8px 24px rgba(0,0,0,0.26)"
               : scrolled
-                ? "0 8px 32px rgba(0,0,0,0.08), inset 0 1px 0 rgba(255,255,255,0.8)"
-                : "0 4px 16px rgba(0,0,0,0.04), inset 0 1px 0 rgba(255,255,255,0.6)",
+                ? "0 10px 28px rgba(4,12,27,0.15)"
+                : "0 8px 20px rgba(4,12,27,0.12)",
             pointerEvents: "auto",
             transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
             maxWidth: "95vw",
@@ -640,77 +607,100 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           {/* Desktop nav links */}
           {!isMobile && (
             <>
-              {NAV_ITEMS.map((item) => {
-                const active = isActive(item.path);
-                return (
-                  <Box key={item.path} sx={{ position: "relative", flexShrink: 0 }}>
-                    <Typography
-                      component={Link}
-                      to={item.path}
-                      sx={{
-                        display: "block",
-                        px: 1.5,
-                        py: 0.75,
-                        fontSize: "0.8rem",
-                        fontWeight: active ? 700 : 500,
-                        color: active ? "text.primary" : "text.secondary",
-                        textDecoration: "none",
-                        borderRadius: 50,
-                        whiteSpace: "nowrap",
-                        transition: "color 0.2s",
-                        position: "relative",
-                        zIndex: 1,
-                        "&:hover": { color: "text.primary" },
-                      }}
-                    >
-                      {item.label}
-                    </Typography>
-                    {active && (
-                      <motion.div
-                        layoutId="pill-active"
-                        style={{
-                          position: "absolute",
-                          inset: 0,
-                          borderRadius: 50,
-                          background: isDark ? "rgba(108, 99, 255, 0.12)" : "rgba(91, 84, 238, 0.1)",
-                          border: isDark ? "1px solid rgba(108, 99, 255, 0.15)" : "1px solid rgba(91, 84, 238, 0.15)",
-                          zIndex: 0,
-                        }}
-                        transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                      />
-                    )}
-                  </Box>
-                );
-              })}
-
-              <ThemeToggle />
-
-              {/* Cmd+K hint */}
               <Box
-                onClick={() => {
-                  // Synthesize a Cmd+K event so the global palette opens
-                  window.dispatchEvent(new KeyboardEvent("keydown", { key: "k", metaKey: true, bubbles: true }));
-                }}
-                onMouseEnter={() => window.dispatchEvent(new CustomEvent("ndl:sound", { detail: { name: "hover" } }))}
+                sx={{ display: "flex", alignItems: "center", gap: 0.15 }}
+                onMouseLeave={() => setHoveredPath(null)}
+              >
+                {NAV_ITEMS.map((item) => {
+                  const active = isActive(item.path);
+                  const hovered = hoveredPath === item.path;
+                  return (
+                    <Box key={item.path} sx={{ position: "relative", flexShrink: 0 }}>
+                      <Typography
+                        component={Link}
+                        to={item.path}
+                        onMouseEnter={() => {
+                          if (hoveredPath !== item.path) playHover();
+                          setHoveredPath(item.path);
+                        }}
+                        onFocus={() => setHoveredPath(item.path)}
+                        onBlur={() => setHoveredPath((current) => (current === item.path ? null : current))}
+                        sx={{
+                          display: "block",
+                          px: 1.45,
+                          py: 0.8,
+                          fontSize: "0.83rem",
+                          fontWeight: active ? 650 : 500,
+                          color: active || hovered
+                            ? (isDark ? "rgba(255,255,255,0.97)" : "rgba(8,22,46,0.95)")
+                            : (isDark ? "rgba(242,246,255,0.68)" : "rgba(8,22,46,0.62)"),
+                          textDecoration: "none",
+                          borderRadius: 999,
+                          whiteSpace: "nowrap",
+                          transition: "color 0.2s, background-color 0.2s",
+                          position: "relative",
+                          zIndex: 2,
+                        }}
+                      >
+                        {item.label}
+                      </Typography>
+                      {hovered && (
+                        <motion.div
+                          layoutId="pill-hover"
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            borderRadius: 999,
+                            background: isDark ? "rgba(255, 255, 255, 0.16)" : "rgba(8, 22, 46, 0.14)",
+                            border: isDark ? "1px solid rgba(255, 255, 255, 0.24)" : "1px solid rgba(8, 22, 46, 0.16)",
+                            zIndex: 1,
+                          }}
+                          transition={{ type: "spring", stiffness: 430, damping: 34, mass: 0.8 }}
+                        />
+                      )}
+                      {!hoveredPath && active && (
+                        <motion.div
+                          layoutId="pill-active"
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            borderRadius: 999,
+                            background: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(8, 22, 46, 0.12)",
+                            border: isDark ? "1px solid rgba(255, 255, 255, 0.2)" : "1px solid rgba(8, 22, 46, 0.15)",
+                            zIndex: 0,
+                          }}
+                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+                        />
+                      )}
+                    </Box>
+                  );
+                })}
+              </Box>
+
+              <Typography
+                component={Link}
+                to="/contact"
                 sx={{
-                  display: { xs: "none", lg: "flex" },
-                  alignItems: "center",
-                  gap: 0.75,
-                  px: 1.25,
-                  py: 0.5,
-                  ml: 0.5,
-                  borderRadius: 1,
-                  border: "1px solid rgba(108,99,255,0.2)",
-                  bgcolor: "rgba(108,99,255,0.04)",
-                  cursor: "pointer",
-                  transition: "all 0.2s",
-                  "&:hover": { borderColor: "rgba(108,99,255,0.4)", bgcolor: "rgba(108,99,255,0.08)" },
+                  display: "block",
+                  px: 1.35,
+                  py: 0.8,
+                  fontSize: "0.83rem",
+                  fontWeight: 500,
+                  color: isDark ? "rgba(242,246,255,0.68)" : "rgba(8,22,46,0.62)",
+                  textDecoration: "none",
+                  borderRadius: 999,
+                  whiteSpace: "nowrap",
+                  transition: "color 0.2s, background-color 0.2s",
+                  "&:hover": {
+                    color: isDark ? "rgba(255,255,255,0.96)" : "rgba(8,22,46,0.9)",
+                    backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(8,22,46,0.06)",
+                  },
                 }}
               >
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.05em" }}>
-                  ⌘ K
-                </Typography>
-              </Box>
+                Log in
+              </Typography>
+
+              <ThemeToggle />
 
               {/* CTA */}
               <Typography
@@ -718,24 +708,22 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 to="/start-project"
                 sx={{
                   display: "block",
-                  ml: 1,
-                  px: 2,
-                  py: 0.75,
-                  fontSize: "0.8rem",
+                  ml: 0.2,
+                  px: 2.1,
+                  py: 0.82,
+                  fontSize: "0.83rem",
                   fontWeight: 700,
-                  color: "#fff",
+                  color: "#07281f",
                   textDecoration: "none",
-                  borderRadius: 50,
-                  background: isDark
-                    ? "linear-gradient(135deg, #6C63FF, #00D4AA)"
-                    : "linear-gradient(135deg, #5B54EE, #00BF99)",
+                  borderRadius: 999,
+                  background: "#FFFFFF",
                   whiteSpace: "nowrap",
                   flexShrink: 0,
-                  transition: "box-shadow 0.25s",
-                  "&:hover": { boxShadow: isDark ? "0 4px 20px rgba(108,99,255,0.4)" : "0 4px 20px rgba(91,84,238,0.3)" },
+                  transition: "opacity 0.2s",
+                  "&:hover": { opacity: 0.9 },
                 }}
               >
-                Start a Project
+                Get started
               </Typography>
             </>
           )}

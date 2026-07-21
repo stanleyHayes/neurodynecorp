@@ -237,7 +237,7 @@ export default function About() {
             >
               {cell.tag}
             </Typography>
-            <Typography variant="h4" fontWeight={800} sx={{ mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
+            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
               {cell.title}
             </Typography>
             <Typography variant="body1" sx={{ color: "text.secondary", lineHeight: 1.8, opacity: 0.7 }}>
@@ -273,7 +273,7 @@ export default function About() {
             >
               {v.icon}
             </Box>
-            <Typography variant="h6" fontWeight={800} sx={{ mb: 1, letterSpacing: "0.05em", textTransform: "uppercase", color: "text.secondary" }}>
+            <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, letterSpacing: "0.05em", textTransform: "uppercase", color: "text.secondary" }}>
               {v.title}
             </Typography>
             <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7, opacity: 0.6 }}>
@@ -299,7 +299,7 @@ export default function About() {
       >
         {team.map((member, i) => (
           <Cell key={member.index} color={member.color} index={member.index} colInRow={i} totalCols={6} minH={{ xs: 200, md: 240 }} animDelay={i * 0.05}>
-            <Stack alignItems="center" spacing={1.5}>
+            <Stack sx={{ alignItems: "center" }} spacing={1.5}>
               <Avatar
                 sx={{
                   width: 64,
@@ -316,7 +316,7 @@ export default function About() {
                 {member.avatar}
               </Avatar>
               <Box sx={{ textAlign: "center" }}>
-                <Typography variant="subtitle2" fontWeight={700} sx={{ letterSpacing: "0.02em" }}>
+                <Typography variant="subtitle2" sx={{ fontWeight: 700, letterSpacing: "0.02em" }}>
                   {member.name}
                 </Typography>
                 <Typography
@@ -365,7 +365,7 @@ export default function About() {
           position: "relative",
         }}
       >
-        <Stack alignItems="center" spacing={1}>
+        <Stack sx={{ alignItems: "center" }} spacing={1}>
           <GroupsOutlinedIcon sx={{ fontSize: 32, color: "#6C63FF", filter: "drop-shadow(0 0 6px rgba(108,99,255,0.4))" }} />
           <Typography
             sx={{

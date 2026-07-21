@@ -74,7 +74,7 @@ export default function Press() {
             <Stack spacing={2}>
               {RELEASES.map((r, i) => (
                 <InfoCard key={r.title} accent="#6C63FF" delay={i * 0.05}>
-                  <Stack direction="row" spacing={2} alignItems="flex-start">
+                  <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={2}>
                     <Box sx={{ minWidth: 64 }}>
                       <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em" }}>
                         {r.date}
@@ -107,7 +107,7 @@ export default function Press() {
               <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
                 Logos, brand assets, executive headshots, founder bio, and a one-pager about the firm.
               </Typography>
-              <Stack direction="row" spacing={1.5} flexWrap="wrap" useFlexGap>
+              <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1.5} useFlexGap>
                 <Button variant="outlined" size="small" startIcon={<DownloadOutlinedIcon />} href="/media-kit.zip">
                   Brand assets
                 </Button>
@@ -143,7 +143,7 @@ export default function Press() {
             <Typography variant="body2" color="text.secondary" sx={{ mb: 1.5 }}>
               For interviews, quotes, and media enquiries:
             </Typography>
-            <Stack direction="row" spacing={1} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
               <EmailOutlinedIcon sx={{ color: "text.secondary", fontSize: 18 }} />
               <Typography
                 component="a"

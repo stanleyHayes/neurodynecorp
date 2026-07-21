@@ -154,7 +154,7 @@ export default function Status() {
         </Typography>
 
         {loading ? (
-          <Stack alignItems="center" sx={{ py: 12 }}>
+          <Stack sx={{ alignItems: "center", py: 12 }}>
             <CircularProgress />
           </Stack>
         ) : (
@@ -173,7 +173,7 @@ export default function Status() {
                 }}
               >
                 <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                  <Stack direction="row" spacing={2.5} alignItems="center">
+                  <Stack sx={{ alignItems: "center" }} direction="row" spacing={2.5}>
                     <BannerIcon sx={{ fontSize: 44, color: banner.color }} />
                     <Box>
                       <Typography variant="h5" sx={{ fontWeight: 700, color: banner.color }}>
@@ -205,9 +205,7 @@ export default function Status() {
                         {i > 0 && <Divider />}
                         <Stack
                           direction="row"
-                          alignItems="center"
-                          justifyContent="space-between"
-                          sx={{ px: { xs: 2.5, md: 3 }, py: 2 }}
+                          sx={{ alignItems: "center", justifyContent: "space-between", px: { xs: 2.5, md: 3 }, py: 2 }}
                         >
                           <Box>
                             <Typography sx={{ fontWeight: 600 }}>{c.name ?? "Service"}</Typography>
@@ -241,10 +239,8 @@ export default function Status() {
                         <CardContent>
                           <Stack
                             direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
                             spacing={2}
-                            sx={{ mb: 1 }}
+                            sx={{ alignItems: "center", justifyContent: "space-between", mb: 1 }}
                           >
                             <Typography variant="h6" sx={{ fontWeight: 700 }}>
                               {inc.title ?? inc.name ?? "Incident"}
@@ -263,7 +259,7 @@ export default function Status() {
                                   key={u.id ?? ui}
                                   sx={{ pl: 2, borderLeft: "2px solid", borderColor: "divider" }}
                                 >
-                                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.25 }}>
+                                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.25 }}>
                                     {u.status && (
                                       <Typography
                                         sx={{
@@ -314,10 +310,8 @@ export default function Status() {
                         sx={{ borderRadius: 3, border: "1px solid", borderColor: "divider" }}
                       >
                         <CardContent>
-                          <Stack
+                          <Stack sx={{ alignItems: "center", justifyContent: "space-between" }}
                             direction="row"
-                            alignItems="center"
-                            justifyContent="space-between"
                             spacing={2}
                           >
                             <Box>
@@ -338,7 +332,7 @@ export default function Status() {
                                   key={u.id ?? ui}
                                   sx={{ pl: 2, borderLeft: "2px solid", borderColor: "divider" }}
                                 >
-                                  <Stack direction="row" spacing={1} alignItems="center" sx={{ mb: 0.25 }}>
+                                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.25 }}>
                                     {u.status && (
                                       <Typography
                                         sx={{
@@ -379,7 +373,7 @@ export default function Status() {
               }}
             >
               <CardContent sx={{ p: { xs: 3, md: 4 } }}>
-                <Stack direction="row" spacing={1.5} alignItems="center" sx={{ mb: 1 }}>
+                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
                   <NotificationsActiveOutlinedIcon sx={{ color: "#6C63FF" }} />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     Subscribe to updates
@@ -388,7 +382,7 @@ export default function Status() {
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5 }}>
                   Get notified by email when we open or resolve an incident.
                 </Typography>
-                <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} alignItems={{ sm: "stretch" }}>
+                <Stack sx={{ alignItems: { sm: "stretch" } }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                   <TextField
                     fullWidth
                     type="email"

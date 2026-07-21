@@ -242,12 +242,9 @@ function SidebarItem({
           {item.icon}
         </ListItemIcon>
         {!collapsed && (
-          <ListItemText
+          <ListItemText slotProps={{ primary: { sx: { fontSize: "0.85rem", fontWeight: isActive ? 600 : 400 },
+            } }}
             primary={item.label}
-            primaryTypographyProps={{
-              fontSize: "0.85rem",
-              fontWeight: isActive ? 600 : 400,
-            }}
           />
         )}
       </ListItemButton>

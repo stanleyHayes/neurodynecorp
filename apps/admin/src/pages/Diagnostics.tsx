@@ -90,7 +90,7 @@ export default function Diagnostics() {
           <Alert severity="error" sx={{ mb: 3 }}>{error}</Alert>
         ) : (
           <>
-            <Stack direction="row" spacing={2} alignItems="stretch" sx={{ mb: 3, flexWrap: "wrap", gap: 2 }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
               <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
               <StatCard label="Services" value={String(count("services"))} color={ROUTE_COLOR.services} />
               <StatCard label="Labs" value={String(count("labs"))} color={ROUTE_COLOR.labs} />
@@ -98,7 +98,7 @@ export default function Diagnostics() {
               <StatCard label="Declined" value={String(count("decline_referral"))} color={ROUTE_COLOR.decline_referral} />
             </Stack>
 
-            <Stack direction="row" alignItems="center" spacing={2} sx={{ mb: 2 }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by route</Typography>
               <Select size="small" value={routeFilter} displayEmpty onChange={(e) => setRouteFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
                 <MenuItem value="">All routes</MenuItem>

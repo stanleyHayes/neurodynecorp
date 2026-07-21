@@ -98,9 +98,9 @@ export default function HelpArticle() {
       <Box sx={{ py: { xs: 6, md: 10 } }}>
         <SEO title="Article not found" description="The help article you're looking for could not be found." />
         <Container maxWidth="lg">
-          <Stack spacing={3} alignItems="flex-start" sx={{ py: 8 }}>
+          <Stack spacing={3} sx={{ alignItems: "flex-start", py: 8 }}>
             <Typography sx={OVERLINE}>SUPPORT // 404</Typography>
-            <Typography variant="h4" fontWeight={800}>
+            <Typography sx={{ fontWeight: 800 }} variant="h4">
               Article not found
             </Typography>
             <Typography variant="body1" color="text.secondary" sx={{ opacity: 0.8 }}>
@@ -168,7 +168,7 @@ export default function HelpArticle() {
               }}
             />
           )}
-          <Typography variant="h3" fontWeight={800} sx={{ letterSpacing: "-0.02em", lineHeight: 1.15 }}>
+          <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
             {article?.title}
           </Typography>
         </Stack>
@@ -203,10 +203,10 @@ export default function HelpArticle() {
           }}
         >
           {feedbackSent ? (
-            <Stack direction="row" spacing={1.5} alignItems="center">
+            <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
               <CheckCircleOutlineOutlinedIcon sx={{ color: "#10B981", fontSize: 28 }} />
               <Box>
-                <Typography variant="subtitle1" fontWeight={700}>
+                <Typography sx={{ fontWeight: 700 }} variant="subtitle1">
                   Thanks for your feedback!
                 </Typography>
                 <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.75 }}>
@@ -217,7 +217,7 @@ export default function HelpArticle() {
           ) : (
             <Stack spacing={2}>
               <Typography sx={OVERLINE}>FEEDBACK</Typography>
-              <Typography variant="h6" fontWeight={700}>
+              <Typography sx={{ fontWeight: 700 }} variant="h6">
                 Was this helpful?
               </Typography>
               <Stack direction="row" spacing={1.5}>

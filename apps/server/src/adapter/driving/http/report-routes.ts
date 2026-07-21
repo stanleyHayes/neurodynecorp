@@ -117,15 +117,15 @@ export function createReportRoutes(
   // GET /:id — owning client (published only) or staff; otherwise indistinguishable 404.
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const report = await repo.findById(req.params.id!);
-      if (!report) throw new NotFoundError("report", req.params.id);
+      const report = await repo.findById(String(req.params.id));
+      if (!report) throw new NotFoundError("report", String(req.params.id));
       try {
         await assertProjectAccess(req, report.projectId);
       } catch {
-        throw new NotFoundError("report", req.params.id);
+        throw new NotFoundError("report", String(req.params.id));
       }
       // A client must not be able to read — or even probe the existence of — a draft.
-      if (isClient(req) && report.status !== "published") throw new NotFoundError("report", req.params.id);
+      if (isClient(req) && report.status !== "published") throw new NotFoundError("report", String(req.params.id));
       res.json(report);
     } catch (err) {
       next(err);
@@ -137,8 +137,8 @@ export function createReportRoutes(
     try {
       const parsed = updateSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("report", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("report", String(req.params.id));
       const merged: Report = { ...existing, ...parsed.data, id: existing.id };
       // Server-stamp publishedAt the first time a report becomes published.
       if (merged.status === "published" && !merged.publishedAt) merged.publishedAt = new Date();
@@ -152,8 +152,8 @@ export function createReportRoutes(
   // DELETE /:id — staff only.
   router.delete("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const existing = await repo.findById(req.params.id!);
-      if (!existing) throw new NotFoundError("report", req.params.id);
+      const existing = await repo.findById(String(req.params.id));
+      if (!existing) throw new NotFoundError("report", String(req.params.id));
       await repo.delete(existing.id);
       res.status(204).end();
     } catch (err) {
