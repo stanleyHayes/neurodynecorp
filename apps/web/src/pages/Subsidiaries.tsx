@@ -1,4 +1,5 @@
 import { Box, Container, Stack, Typography, Chip } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
@@ -100,12 +101,13 @@ export default function Subsidiaries() {
                     sx={{
                       height: "100%",
                       p: { xs: 3, md: 3.5 },
-                      borderRadius: 3,
+                      borderRadius: 0,
                       border: "1px solid",
                       borderColor: "divider",
                       bgcolor: `${color}0A`,
                     }}
                   >
+                    <HudCorners />
                     <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
                       <Overline color={color}>ENTITY</Overline>
                       <Chip

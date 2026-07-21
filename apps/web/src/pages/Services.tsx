@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import HudCorners from "@/components/shared/HudCorners";
 import { Box, Typography, Stack, CircularProgress } from "@mui/material";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
@@ -361,7 +362,7 @@ export default function Services() {
                 display: "block",
                 height: "100%",
                 p: { xs: 3, md: 3.5 },
-                borderRadius: 3,
+                borderRadius: 0,
                 border: "1px solid",
                 borderColor: "divider",
                 bgcolor: `${s.color}0A`,
@@ -371,6 +372,7 @@ export default function Services() {
                 "&:hover": { borderColor: `${s.color}66`, bgcolor: `${s.color}14`, transform: "translateY(-3px)" },
               }}
             >
+              <HudCorners />
               <Overline color={s.color}>{s.kicker}</Overline>
               <Typography variant="h6" sx={{ fontWeight: 800, mt: 1, mb: 1 }}>
                 {s.name}

@@ -1,4 +1,5 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { Link } from "react-router";
 import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -39,7 +40,7 @@ export default function Industries() {
                   display: "block",
                   height: "100%",
                   p: { xs: 3, md: 3.5 },
-                  borderRadius: 3,
+                  borderRadius: 0,
                   border: "1px solid",
                   borderColor: "divider",
                   bgcolor: `${ind.color}0A`,
@@ -49,6 +50,7 @@ export default function Industries() {
                   "&:hover": { borderColor: `${ind.color}66`, bgcolor: `${ind.color}14`, transform: "translateY(-3px)" },
                 }}
               >
+                <HudCorners />
                 <Overline color={ind.color}>{ind.kicker}</Overline>
                 <Typography variant="h6" sx={{ fontWeight: 800, mt: 1, mb: 1 }}>
                   {ind.name}

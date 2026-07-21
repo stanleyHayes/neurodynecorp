@@ -1,6 +1,7 @@
 import { ReactNode } from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import { Link } from "react-router";
+import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -82,7 +83,8 @@ export function InfoCard({
       sx={{
         height: "100%",
         p: { xs: 3, md: 3.5 },
-        borderRadius: 3,
+        borderRadius: 0,
+        position: "relative",
         border: "1px solid",
         borderColor: "divider",
         bgcolor: `${accent}0A`,
@@ -91,6 +93,7 @@ export function InfoCard({
         ...sx,
       }}
     >
+      <HudCorners />
       {(icon || title) && (
         <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: subtitle ? 0.75 : 1.5 }}>
           {icon && <Box sx={{ color: accent, display: "flex", "& .MuiSvgIcon-root": { fontSize: 28 } }}>{icon}</Box>}
@@ -154,7 +157,8 @@ export function CTABand({
         justifyContent: "space-between",
         gap: 3,
         p: { xs: 3, md: 4 },
-        borderRadius: 3,
+        borderRadius: 0,
+        position: "relative",
         border: "1px solid",
         borderColor: "divider",
         bgcolor: `${color}0A`,
@@ -164,6 +168,7 @@ export function CTABand({
         "&:hover": { borderColor: `${color}66`, bgcolor: `${color}14` },
       }}
     >
+      <HudCorners />
       <Box>
         <Overline color={color}>{tag}</Overline>
         <Typography variant="h5" sx={{ fontWeight: 800, mt: 1, letterSpacing: "-0.01em" }}>

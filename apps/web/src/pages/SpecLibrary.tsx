@@ -1,4 +1,5 @@
 import { useState } from "react";
+import HudCorners from "@/components/shared/HudCorners";
 import { Box, Typography, Container, Stack, Chip, Button, Drawer, IconButton } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import ReactMarkdown from "react-markdown";
@@ -226,7 +227,7 @@ export default function SpecLibrary() {
               sx={{
                 position: "relative",
                 p: 3,
-                borderRadius: 2,
+                borderRadius: 0,
                 border: "1px solid rgba(108, 99, 255, 0.15)",
                 bgcolor: "rgba(108, 99, 255, 0.02)",
                 transition: "all 0.25s",
@@ -238,6 +239,7 @@ export default function SpecLibrary() {
                 },
               }}
             >
+              <HudCorners />
               <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28, color: s.color, filter: `drop-shadow(0 0 8px ${s.color}50)` }, mb: 2 }}>
                 <SchemaOutlinedIcon />
               </Box>

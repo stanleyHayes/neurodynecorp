@@ -1,4 +1,5 @@
 import { Box, Container, Stack, Typography, Chip } from "@mui/material";
+import HudCorners from "@/components/shared/HudCorners";
 import { Link } from "react-router";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
@@ -77,7 +78,7 @@ export default function Labs() {
                   sx={{
                     display: "block",
                     p: { xs: 3, md: 4 },
-                    borderRadius: 3,
+                    borderRadius: 0,
                     border: "1px solid",
                     borderColor: "divider",
                     bgcolor: `${p.color}0A`,
@@ -87,6 +88,7 @@ export default function Labs() {
                     "&:hover": { borderColor: `${p.color}66`, bgcolor: `${p.color}14`, transform: "translateY(-3px)" },
                   }}
                 >
+                  <HudCorners />
                   <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1.5 }}>
                     <Overline color={p.color}>{p.kicker}</Overline>
                     <Chip
