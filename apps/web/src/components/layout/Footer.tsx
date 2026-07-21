@@ -8,16 +8,43 @@ import TwitterIcon from "@mui/icons-material/Twitter";
 import DiscordIcon from "@mui/icons-material/Forum";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import EmailIcon from "@mui/icons-material/Email";
-import RocketLaunchIcon from "@mui/icons-material/RocketLaunch";
-import CodeIcon from "@mui/icons-material/Code";
-import PsychologyIcon from "@mui/icons-material/Psychology";
-import SecurityIcon from "@mui/icons-material/Security";
-import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
-import PaymentsIcon from "@mui/icons-material/Payments";
-import LocalHospitalIcon from "@mui/icons-material/LocalHospital";
-import SchoolIcon from "@mui/icons-material/School";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import FavoriteIcon from "@mui/icons-material/Favorite";
+// Company
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
+import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
+import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
+import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
+import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+// Services
+import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
+import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
+import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
+import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
+import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
+import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+// Resources
+import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
+import PlayCircleOutlinedIcon from "@mui/icons-material/PlayCircleOutlined";
+import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
+import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
+import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
+import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
+import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
+import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
+// Legal & Trust
+import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
+import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
+import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
+import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
+import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
+import AccessibilityNewOutlinedIcon from "@mui/icons-material/AccessibilityNewOutlined";
+import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
 import Logo from "@/components/logo/Logo";
 import HudCorners from "@/components/shared/HudCorners";
 
@@ -27,57 +54,59 @@ interface FooterLinkItem {
   icon?: ReactNode;
 }
 
+const IC = { fontSize: 15 } as const;
+
 const footerSections: { title: string; links: FooterLinkItem[] }[] = [
   {
     title: "Company",
     links: [
-      { label: "About", path: "/about" },
-      { label: "Services", path: "/services" },
-      { label: "Labs", path: "/labs" },
-      { label: "Subsidiaries", path: "/subsidiaries" },
-      { label: "Industries", path: "/industries" },
-      { label: "Case Dossiers", path: "/portfolio" },
-      { label: "Press", path: "/press" },
-      { label: "Blog", path: "/blog" },
+      { label: "About", path: "/about", icon: <InfoOutlinedIcon sx={IC} /> },
+      { label: "Services", path: "/services", icon: <DesignServicesOutlinedIcon sx={IC} /> },
+      { label: "Labs", path: "/labs", icon: <ScienceOutlinedIcon sx={IC} /> },
+      { label: "Subsidiaries", path: "/subsidiaries", icon: <AccountTreeOutlinedIcon sx={IC} /> },
+      { label: "Industries", path: "/industries", icon: <DomainOutlinedIcon sx={IC} /> },
+      { label: "Case Dossiers", path: "/portfolio", icon: <FolderOpenOutlinedIcon sx={IC} /> },
+      { label: "Press", path: "/press", icon: <NewspaperOutlinedIcon sx={IC} /> },
+      { label: "Blog", path: "/blog", icon: <ArticleOutlinedIcon sx={IC} /> },
     ],
   },
   {
     title: "Services",
     links: [
-      { label: "Web Development", path: "/services#web", icon: <CodeIcon sx={{ fontSize: 15 }} /> },
-      { label: "Mobile Apps", path: "/services#mobile", icon: <RocketLaunchIcon sx={{ fontSize: 15 }} /> },
-      { label: "AI / ML Systems", path: "/services#ai-ml", icon: <PsychologyIcon sx={{ fontSize: 15 }} /> },
-      { label: "GovTech", path: "/services#govtech", icon: <SecurityIcon sx={{ fontSize: 15 }} /> },
-      { label: "Fintech", path: "/services#fintech", icon: <PaymentsIcon sx={{ fontSize: 15 }} /> },
-      { label: "Healthcare", path: "/services#healthcare", icon: <LocalHospitalIcon sx={{ fontSize: 15 }} /> },
-      { label: "EdTech", path: "/services#edtech", icon: <SchoolIcon sx={{ fontSize: 15 }} /> },
-      { label: "GovTech Suite", path: "/services#gov-suite", icon: <AccountBalanceIcon sx={{ fontSize: 15 }} /> },
+      { label: "Web Development", path: "/services#web", icon: <CodeOutlinedIcon sx={IC} /> },
+      { label: "Mobile Apps", path: "/services#mobile", icon: <RocketLaunchOutlinedIcon sx={IC} /> },
+      { label: "AI / ML Systems", path: "/services#ai-ml", icon: <PsychologyOutlinedIcon sx={IC} /> },
+      { label: "GovTech", path: "/services#govtech", icon: <SecurityOutlinedIcon sx={IC} /> },
+      { label: "Fintech", path: "/services#fintech", icon: <PaymentsOutlinedIcon sx={IC} /> },
+      { label: "Healthcare", path: "/services#healthcare", icon: <LocalHospitalOutlinedIcon sx={IC} /> },
+      { label: "EdTech", path: "/services#edtech", icon: <SchoolOutlinedIcon sx={IC} /> },
+      { label: "GovTech Suite", path: "/services#gov-suite", icon: <AccountBalanceOutlinedIcon sx={IC} /> },
     ],
   },
   {
     title: "Resources",
     links: [
-      { label: "Contact", path: "/contact" },
-      { label: "Start a Project", path: "/start-project" },
-      { label: "Scope Estimator", path: "/estimator" },
-      { label: "Submit an RFP", path: "/rfp" },
-      { label: "Book a Reading", path: "/book" },
-      { label: "FAQ", path: "/faq" },
-      { label: "Spec Library", path: "/spec-library" },
-      { label: "Help Center", path: "/help" },
+      { label: "Contact", path: "/contact", icon: <MailOutlinedIcon sx={IC} /> },
+      { label: "Start a Project", path: "/start-project", icon: <PlayCircleOutlinedIcon sx={IC} /> },
+      { label: "Scope Estimator", path: "/estimator", icon: <CalculateOutlinedIcon sx={IC} /> },
+      { label: "Submit an RFP", path: "/rfp", icon: <DescriptionOutlinedIcon sx={IC} /> },
+      { label: "Book a Reading", path: "/book", icon: <EventAvailableOutlinedIcon sx={IC} /> },
+      { label: "FAQ", path: "/faq", icon: <QuizOutlinedIcon sx={IC} /> },
+      { label: "Spec Library", path: "/spec-library", icon: <MenuBookOutlinedIcon sx={IC} /> },
+      { label: "Help Center", path: "/help", icon: <SupportAgentOutlinedIcon sx={IC} /> },
     ],
   },
   {
     title: "Legal & Trust",
     links: [
-      { label: "Status", path: "/status" },
-      { label: "Trust Center", path: "/trust" },
-      { label: "Security", path: "/legal/security" },
-      { label: "Sub-processors", path: "/legal/subprocessors" },
-      { label: "Cookie Policy", path: "/legal/cookies" },
-      { label: "DPA", path: "/legal/dpa" },
-      { label: "Accessibility", path: "/legal/accessibility" },
-      { label: "Privacy", path: "/privacy" },
+      { label: "Status", path: "/status", icon: <MonitorHeartOutlinedIcon sx={IC} /> },
+      { label: "Trust Center", path: "/trust", icon: <VerifiedUserOutlinedIcon sx={IC} /> },
+      { label: "Security", path: "/legal/security", icon: <SecurityOutlinedIcon sx={IC} /> },
+      { label: "Sub-processors", path: "/legal/subprocessors", icon: <HubOutlinedIcon sx={IC} /> },
+      { label: "Cookie Policy", path: "/legal/cookies", icon: <CookieOutlinedIcon sx={IC} /> },
+      { label: "DPA", path: "/legal/dpa", icon: <GavelOutlinedIcon sx={IC} /> },
+      { label: "Accessibility", path: "/legal/accessibility", icon: <AccessibilityNewOutlinedIcon sx={IC} /> },
+      { label: "Privacy", path: "/privacy", icon: <PrivacyTipOutlinedIcon sx={IC} /> },
     ],
   },
 ];
