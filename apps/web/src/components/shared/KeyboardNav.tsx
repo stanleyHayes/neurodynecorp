@@ -14,8 +14,8 @@ const ROUTES: Record<string, { path: string; label: string }> = {
   b: { path: "/blog", label: "Blog" },
   c: { path: "/contact", label: "Contact" },
   n: { path: "/start-project", label: "Start a Project" },
-  l: { path: "/changelog", label: "Changelog" },
-  o: { path: "/open-source", label: "Open Source" },
+  l: { path: "/philosophy", label: "Philosophy" },
+  o: { path: "/open-standards", label: "Open Standards" },
   x: { path: "/spec-library", label: "Spec Library" },
 };
 

@@ -1,385 +1,203 @@
-import { useState } from "react";
-import { Box, Typography, Stack, Avatar } from "@mui/material";
+import { Box, Container, Typography, Stack, Grid, Button } from "@mui/material";
+import { Link } from "react-router";
 import { motion } from "framer-motion";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VerifiedOutlinedIcon from "@mui/icons-material/VerifiedOutlined";
-import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import TrackChangesOutlinedIcon from "@mui/icons-material/TrackChangesOutlined";
-import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
+import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
+import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
+import { SectionHeading, Overline, CTABand } from "@/components/shared/Marketing";
+import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
+import HudCorners from "@/components/shared/HudCorners";
+import { ABOUT } from "@/content/positioning";
 
 const MotionBox = motion.create(Box);
-
-const BORDER = "rgba(108, 99, 255, 0.12)";
-
-// ── Data ──
-
-const topCells = [
-  {
-    tag: "VISION",
-    title: "Where We're Going",
-    icon: <RocketLaunchOutlinedIcon />,
-    body: "To become the world's leading productized software engineering platform — where any business can transform an idea into a professionally specified, precisely estimated, and expertly delivered software product.",
-    color: "#6C63FF",
-    index: "01",
-  },
-  {
-    tag: "MISSION",
-    title: "What Drives Us",
-    icon: <TrackChangesOutlinedIcon />,
-    body: "To replace the chaos of traditional software consulting with an intelligent, transparent, and automated system that delivers better outcomes for both clients and engineering teams.",
-    color: "#00D4AA",
-    index: "02",
-  },
-];
-
-const values = [
-  { title: "Innovation", body: "We push boundaries with cutting-edge technology to deliver solutions that set new standards.", icon: <LightbulbOutlinedIcon />, color: "#6C63FF", index: "03" },
-  { title: "Transparency", body: "Every step of our process is visible to you. No black boxes, no surprises.", icon: <VisibilityOutlinedIcon />, color: "#00D4AA", index: "04" },
-  { title: "Quality", body: "We don't ship until it's right. Rigorous testing, clean code, and thoughtful architecture.", icon: <VerifiedOutlinedIcon />, color: "#8B85FF", index: "05" },
-  { title: "Partnership", body: "We're not just vendors — we're your technical co-founders, invested in your success.", icon: <HandshakeOutlinedIcon />, color: "#33DDBB", index: "06" },
-];
-
-const team = [
-  { name: "Stanley Asoku Hayford", role: "Founder & Principal Engineer", avatar: "SH", color: "#6C63FF", index: "07", bio: "Polyglot engineer building software for Africa and beyond. 36+ shipped projects across fintech, govtech, healthcare, and education." },
-  { name: "Ayo Adeyemi", role: "Engineering Lead", avatar: "AA", color: "#00D4AA", index: "08", bio: "Full-stack architect specializing in distributed systems and hexagonal backend design." },
-  { name: "Sarah Chen", role: "Product & Design", avatar: "SC", color: "#8B85FF", index: "09", bio: "Product strategist bridging user research, design systems, and engineering execution." },
-  { name: "Kwame Mensah", role: "Mobile & DevOps", avatar: "KM", color: "#33DDBB", index: "10", bio: "React Native and Expo specialist with deep experience in CI/CD and cloud infrastructure." },
-  { name: "Maria Gonzalez", role: "Backend Engineer", avatar: "MG", color: "#6C63FF", index: "11", bio: "Go and Node.js engineer focused on high-performance APIs, Kafka, and data pipelines." },
-  { name: "Priya Sharma", role: "QA & Analytics", avatar: "PS", color: "#00D4AA", index: "12", bio: "Quality assurance lead with expertise in test automation and real-time analytics systems." },
-];
-
-// ── Reusable cell wrapper ──
-
-function Cell({
-  children,
-  color,
-  index,
-  colInRow,
-  totalCols,
-  minH = { xs: 240, md: 300 },
-  animDelay = 0,
-}: {
-  children: React.ReactNode;
-  color: string;
-  index: string;
-  colInRow: number;
-  totalCols: number;
-  minH?: Record<string, number>;
-  animDelay?: number;
-}) {
-  const [hovered, setHovered] = useState(false);
-
-  return (
-    <MotionBox
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true }}
-      transition={{ duration: 0.4, delay: animDelay }}
-      onMouseEnter={() => setHovered(true)}
-      onMouseLeave={() => setHovered(false)}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        minHeight: minH,
-        p: { xs: 3, md: 4 },
-        position: "relative",
-        overflow: "hidden",
-        borderRight: { xs: "none", md: colInRow < totalCols - 1 ? `1px solid ${BORDER}` : "none" },
-        borderBottom: `1px solid ${BORDER}`,
-        background: hovered ? `${color}06` : "transparent",
-        transition: "background 0.3s",
-      }}
-    >
-      {/* Corner brackets */}
-      {[
-        { top: 12, left: 12, bT: true, bL: true },
-        { top: 12, right: 12, bT: true, bR: true },
-        { bottom: 12, left: 12, bB: true, bL: true },
-        { bottom: 12, right: 12, bB: true, bR: true },
-      ].map((pos, ci) => (
-        <Box
-          key={ci}
-          sx={{
-            position: "absolute",
-            ...(pos.top !== undefined && { top: pos.top }),
-            ...(pos.bottom !== undefined && { bottom: pos.bottom }),
-            ...(pos.left !== undefined && { left: pos.left }),
-            ...(pos.right !== undefined && { right: pos.right }),
-            width: 16,
-            height: 16,
-            borderTop: pos.bT ? `2px solid ${color}${hovered ? "80" : "30"}` : "none",
-            borderBottom: pos.bB ? `2px solid ${color}${hovered ? "80" : "30"}` : "none",
-            borderLeft: pos.bL ? `2px solid ${color}${hovered ? "80" : "30"}` : "none",
-            borderRight: pos.bR ? `2px solid ${color}${hovered ? "80" : "30"}` : "none",
-            filter: hovered ? `drop-shadow(0 0 6px ${color}50)` : "none",
-            transition: "all 0.3s",
-            pointerEvents: "none",
-            zIndex: 2,
-          }}
-        />
-      ))}
-
-      {/* Hover glow */}
-      {hovered && (
-        <Box
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
-            width: "60%",
-            height: "60%",
-            borderRadius: "50%",
-            background: `radial-gradient(circle, ${color}10 0%, transparent 70%)`,
-            filter: "blur(40px)",
-            pointerEvents: "none",
-          }}
-        />
-      )}
-
-      {/* Index */}
-      <Typography
-        sx={{
-          position: "absolute",
-          top: 16,
-          left: 40,
-          fontSize: "0.65rem",
-          fontFamily: "monospace",
-          color: hovered ? color : "text.secondary",
-          opacity: 0.5,
-          letterSpacing: "0.15em",
-          transition: "color 0.3s",
-          zIndex: 2,
-        }}
-      >
-        {index}
-      </Typography>
-
-      {/* Bottom accent line */}
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: 0,
-          left: "10%",
-          right: "10%",
-          height: 2,
-          background: `linear-gradient(90deg, transparent, ${color}, transparent)`,
-          opacity: hovered ? 0.6 : 0,
-          transition: "opacity 0.3s",
-          pointerEvents: "none",
-        }}
-      />
-
-      <Box sx={{ position: "relative", zIndex: 1 }}>{children}</Box>
-    </MotionBox>
-  );
-}
-
-// ── Page ──
+const ACCENTS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#38BDF8"];
 
 export default function About() {
   return (
     <>
       <SEO
-        title="About Us"
-        description="Learn about NeuroDyne Corp — founded by Stanley Asoku Hayford. A productized software engineering platform shipping real solutions for fintech, govtech, healthcare, and education across Africa and beyond."
-        canonical="https://neurodynecorp.com/about"
-        ogUrl="https://neurodynecorp.com/about"
+        title="About | NeuroDyne Corp"
+        description="NeuroDyne is an engineering company building intelligent digital infrastructure that connects people, organizations, and industries through scalable software, AI, and open standards."
       />
 
-      <PageHero
-        icon={<InfoOutlinedIcon />}
-        title="About NeuroDyne Corp"
-        description="We're a productized software engineering studio founded by Stanley Asoku Hayford — shipping 36+ real projects across fintech, govtech, healthcare, edtech, and AI for clients in Africa and beyond."
-        tag="INTEL // BRIEF"
-        accentWord="NeuroDyne Corp"
-        iconColor="#8B85FF"
-        iconLabel="DOSSIER LOADED"
-      />
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+        <BlueprintGrid opacity={0.7} />
+        <Box sx={{ position: "relative", zIndex: 1 }}>
+          <PageHero
+            icon={<InfoOutlinedIcon />}
+            iconLabel="NDC-ABT"
+            tag="About NeuroDyne"
+            title="An engineering company, not a software agency"
+            accentWord="engineering company"
+            description="Much of today's software is fragmented, incompatible and hard to scale. NeuroDyne was founded to solve that."
+            iconColor="#8B85FF"
+          />
+        </Box>
 
-      {/* Vision & Mission — 2 columns */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "repeat(2, 1fr)" },
-          borderTop: `1px solid ${BORDER}`,
-        }}
-      >
-        {topCells.map((cell, i) => (
-          <Cell key={cell.index} color={cell.color} index={cell.index} colInRow={i} totalCols={2} minH={{ xs: 260, md: 340 }} animDelay={i * 0.08}>
-            <Box
-              sx={{
-                color: cell.color,
-                mb: 2,
-                "& .MuiSvgIcon-root": { fontSize: { xs: 36, md: 44 } },
-                filter: `drop-shadow(0 0 4px ${cell.color}40)`,
-              }}
-            >
-              {cell.icon}
-            </Box>
-            <Typography
-              sx={{
-                fontSize: "0.6rem",
-                fontFamily: "monospace",
-                fontWeight: 600,
-                color: cell.color,
-                letterSpacing: "0.2em",
-                textTransform: "uppercase",
-                mb: 1,
-                opacity: 0.7,
-              }}
-            >
-              {cell.tag}
-            </Typography>
-            <Typography variant="h4" sx={{ fontWeight: 800, mb: 2, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary" }}>
-              {cell.title}
-            </Typography>
-            <Typography variant="body1" sx={{ color: "text.secondary", lineHeight: 1.8, opacity: 0.7 }}>
-              {cell.body}
-            </Typography>
-          </Cell>
-        ))}
-      </Box>
-
-      {/* Section label */}
-      <Box sx={{ borderBottom: `1px solid ${BORDER}`, py: 2, px: 4 }}>
-        <Typography sx={{ fontSize: "0.7rem", fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.3em", color: "#6C63FF", filter: "drop-shadow(0 0 6px rgba(108,99,255,0.6))" }}>
-          CORE VALUES
-        </Typography>
-      </Box>
-
-      {/* Values — 4 columns */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" },
-        }}
-      >
-        {values.map((v, i) => (
-          <Cell key={v.index} color={v.color} index={v.index} colInRow={i} totalCols={4} minH={{ xs: 220, md: 280 }} animDelay={i * 0.06}>
-            <Box
-              sx={{
-                color: v.color,
-                mb: 2,
-                "& .MuiSvgIcon-root": { fontSize: { xs: 32, md: 40 } },
-                filter: `drop-shadow(0 0 4px ${v.color}40)`,
-              }}
-            >
-              {v.icon}
-            </Box>
-            <Typography variant="h6" sx={{ fontWeight: 800, mb: 1, letterSpacing: "0.05em", textTransform: "uppercase", color: "text.secondary" }}>
-              {v.title}
-            </Typography>
-            <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.7, opacity: 0.6 }}>
-              {v.body}
-            </Typography>
-          </Cell>
-        ))}
-      </Box>
-
-      {/* Section label */}
-      <Box sx={{ borderBottom: `1px solid ${BORDER}`, py: 2, px: 4 }}>
-        <Typography sx={{ fontSize: "0.7rem", fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.3em", color: "#00D4AA", filter: "drop-shadow(0 0 6px rgba(0,212,170,0.6))" }}>
-          THE TEAM
-        </Typography>
-      </Box>
-
-      {/* Team — 6 columns (3 on tablet, 1 on mobile) */}
-      <Box
-        sx={{
-          display: "grid",
-          gridTemplateColumns: { xs: "repeat(2, 1fr)", sm: "repeat(3, 1fr)", md: "repeat(6, 1fr)" },
-        }}
-      >
-        {team.map((member, i) => (
-          <Cell key={member.index} color={member.color} index={member.index} colInRow={i} totalCols={6} minH={{ xs: 200, md: 240 }} animDelay={i * 0.05}>
-            <Stack sx={{ alignItems: "center" }} spacing={1.5}>
-              <Avatar
-                sx={{
-                  width: 64,
-                  height: 64,
-                  background: `linear-gradient(135deg, ${member.color}30, ${member.color}10)`,
-                  border: `1px solid ${member.color}30`,
-                  color: member.color,
-                  fontSize: "1.2rem",
-                  fontWeight: 700,
-                  fontFamily: "monospace",
-                  filter: `drop-shadow(0 0 8px ${member.color}30)`,
-                }}
-              >
-                {member.avatar}
-              </Avatar>
-              <Box sx={{ textAlign: "center" }}>
-                <Typography variant="subtitle2" sx={{ fontWeight: 700, letterSpacing: "0.02em" }}>
-                  {member.name}
-                </Typography>
+        <Grid container spacing={{ xs: 3, md: 8 }} sx={{ mt: { xs: 3, md: 5 }, position: "relative", zIndex: 1 }}>
+          <Grid size={{ xs: 12, md: 7 }}>
+            <Stack spacing={2.5}>
+              {ABOUT.intro.map((p, i) => (
                 <Typography
-                  variant="caption"
+                  key={i}
+                  color={i === 2 ? "text.primary" : "text.secondary"}
                   sx={{
-                    fontFamily: "monospace",
-                    fontSize: "0.6rem",
-                    color: member.color,
-                    letterSpacing: "0.1em",
-                    opacity: 0.7,
+                    lineHeight: 1.95,
+                    fontSize: i === 2 ? "1.15rem" : "1.02rem",
+                    fontWeight: i === 2 ? 700 : 400,
                   }}
                 >
-                  {member.role}
+                  {p}
                 </Typography>
-                {"bio" in member && member.bio && (
-                  <Typography
-                    variant="caption"
-                    sx={{
-                      display: "block",
-                      mt: 0.5,
-                      fontSize: "0.6rem",
-                      color: "text.secondary",
-                      opacity: 0.5,
-                      lineHeight: 1.4,
-                      maxWidth: 180,
-                      mx: "auto",
-                    }}
-                  >
-                    {member.bio}
-                  </Typography>
-                )}
-              </Box>
+              ))}
             </Stack>
-          </Cell>
-        ))}
+          </Grid>
+
+          <Grid size={{ xs: 12, md: 5 }}>
+            <Stack spacing={2}>
+              {[
+                { tag: "Vision", icon: <RocketLaunchOutlinedIcon />, body: ABOUT.vision, accent: "#6C63FF" },
+                { tag: "Mission", icon: <TrackChangesOutlinedIcon />, body: ABOUT.mission, accent: "#00D4AA" },
+              ].map((c) => (
+                <Box
+                  key={c.tag}
+                  sx={{ position: "relative", p: { xs: 2.5, md: 3 }, border: "1px solid", borderColor: "divider", bgcolor: `${c.accent}08` }}
+                >
+                  <HudCorners color={`${c.accent}44`} />
+                  <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
+                    <Box sx={{ color: c.accent, display: "flex", "& .MuiSvgIcon-root": { fontSize: 26 } }}>{c.icon}</Box>
+                    <Overline color={c.accent}>{c.tag}</Overline>
+                  </Stack>
+                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.85 }}>
+                    {c.body}
+                  </Typography>
+                </Box>
+              ))}
+            </Stack>
+          </Grid>
+        </Grid>
+      </Container>
+
+      {/* Philosophy strip */}
+      <Box sx={{ position: "relative", py: { xs: 7, md: 11 }, borderTop: "1px solid", borderColor: "divider", overflow: "hidden" }}>
+        <WatermarkConstellation
+          tone="brand"
+          items={[
+            { icon: <LayersOutlinedIcon />, at: { top: "-10%", left: "-3%" }, size: 340 },
+            { icon: <HubOutlinedIcon />, at: { bottom: "-12%", right: "-2%" }, size: 320, tone: "accent" },
+          ]}
+        />
+        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+          <SectionHeading tag="Our Philosophy" title="Technology should be" align="center" />
+          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1.5, justifyContent: "center" }}>
+            {ABOUT.philosophy.map((word, i) => (
+              <MotionBox
+                key={word}
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.05 }}
+                sx={{
+                  px: 3,
+                  py: 1.75,
+                  border: "1px solid",
+                  borderColor: "divider",
+                  fontFamily: "monospace",
+                  fontSize: "0.95rem",
+                  letterSpacing: "0.06em",
+                  color: "text.secondary",
+                  transition: "all 0.25s",
+                  "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                }}
+              >
+                {word}
+              </MotionBox>
+            ))}
+          </Stack>
+          <Box sx={{ textAlign: "center", mt: 4 }}>
+            <Button component={Link} to="/philosophy" endIcon={<ArrowForwardIcon />} sx={{ borderRadius: 0, fontWeight: 700 }}>
+              The full engineering doctrine
+            </Button>
+          </Box>
+        </Container>
       </Box>
 
-      {/* Bottom CTA row */}
-      <Box
-        sx={{
-          display: "flex",
-          alignItems: "center",
-          justifyContent: "center",
-          py: { xs: 4, md: 5 },
-          borderBottom: `1px solid ${BORDER}`,
-          position: "relative",
-        }}
-      >
-        <Stack sx={{ alignItems: "center" }} spacing={1}>
-          <GroupsOutlinedIcon sx={{ fontSize: 32, color: "#6C63FF", filter: "drop-shadow(0 0 6px rgba(108,99,255,0.4))" }} />
-          <Typography
-            sx={{
-              fontFamily: "monospace",
-              fontSize: "0.65rem",
-              color: "text.secondary",
-              letterSpacing: "0.2em",
-              opacity: 0.5,
-            }}
-          >
-            ENGINEERING INTELLIGENCE. SOLVING TOMORROW.
-          </Typography>
-        </Stack>
+      {/* Values */}
+      <Box sx={{ position: "relative", py: { xs: 7, md: 11 }, borderTop: "1px solid", borderColor: "divider" }}>
+        <Container maxWidth="lg">
+          <SectionHeading tag="Our Values" title="What we hold to" align="center" color="#00D4AA" />
+          <Grid container spacing={2}>
+            {ABOUT.values.map((v, i) => (
+              <Grid size={{ xs: 12, sm: 6, md: 4 }} key={v.title}>
+                <MotionBox
+                  initial={{ opacity: 0, y: 12 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.4, delay: (i % 3) * 0.06 }}
+                  sx={{ position: "relative", height: "100%", p: 3, border: "1px solid", borderColor: "divider" }}
+                >
+                  <HudCorners />
+                  <Overline color={ACCENTS[i % ACCENTS.length]}>{String(i + 1).padStart(2, "0")}</Overline>
+                  <Typography variant="h6" sx={{ fontWeight: 700, mt: 1.25, mb: 1 }}>
+                    {v.title}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                    {v.body}
+                  </Typography>
+                </MotionBox>
+              </Grid>
+            ))}
+          </Grid>
+        </Container>
       </Box>
+
+      {/* Founder / origin */}
+      <Box sx={{ position: "relative", py: { xs: 7, md: 11 }, borderTop: "1px solid", borderColor: "divider", overflow: "hidden" }}>
+        <WatermarkConstellation items={[{ icon: <PublicOutlinedIcon />, at: { top: "-6%", right: "-3%" }, size: 380 }]} />
+        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
+          <Grid container spacing={{ xs: 3, md: 8 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Overline color="#8B85FF">Where we work</Overline>
+              <Typography variant="h3" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em", lineHeight: 1.2 }}>
+                Built in Accra. Engineered for anywhere.
+              </Typography>
+            </Grid>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Stack spacing={2.5}>
+                <Typography color="text.secondary" sx={{ lineHeight: 1.95, fontSize: "1.02rem" }}>
+                  Our systems are designed against the constraints that actually exist in the markets we serve:
+                  intermittent connectivity, low-spec devices, mobile-money rails, multiple local languages, thin
+                  budgets and real regulatory obligations.
+                </Typography>
+                <Typography color="text.secondary" sx={{ lineHeight: 1.95, fontSize: "1.02rem" }}>
+                  Software engineered for those conditions works everywhere. Software engineered only for ideal
+                  conditions works nowhere that matters to us.
+                </Typography>
+                <Typography color="text.secondary" sx={{ lineHeight: 1.95, fontSize: "1.02rem" }}>
+                  That is why our portfolio spans housing, education, disaster response, healthcare interoperability,
+                  commerce, culture and public investment — and why every one of those systems contributes reusable
+                  infrastructure back to the next.
+                </Typography>
+              </Stack>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+        <CTABand
+          to="/projects"
+          tag="See the work"
+          title="Systems we've engineered"
+          description="Housing, schools, disaster response, healthcare, public investment — and the primitives each one proved out."
+        />
+      </Container>
     </>
   );
 }

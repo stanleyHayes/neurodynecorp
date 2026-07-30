@@ -119,8 +119,10 @@ export default function CommandPalette() {
       { id: "contact", label: "Contact", group: "NAVIGATE", icon: <MailOutlineIcon />, shortcut: "G C", action: () => { navigate("/contact"); close(); } },
       // Resources
       { id: "specs", label: "Spec Library", group: "RESOURCES", icon: <LibraryBooksOutlinedIcon />, action: () => { navigate("/spec-library"); close(); }, keywords: "examples sample document specification" },
-      { id: "changelog", label: "Changelog", group: "RESOURCES", icon: <HistoryEduOutlinedIcon />, action: () => { navigate("/changelog"); close(); }, keywords: "updates new releases" },
-      { id: "oss", label: "Open Source", group: "RESOURCES", icon: <GitHubIcon />, action: () => { navigate("/open-source"); close(); }, keywords: "github repos repositories libraries" },
+      { id: "philosophy", label: "Philosophy", group: "COMPANY", icon: <HistoryEduOutlinedIcon />, action: () => { navigate("/philosophy"); close(); }, keywords: "doctrine principles engineering industries" },
+      { id: "standards", label: "Open Standards", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/open-standards"); close(); }, keywords: "nosi interoperability schemas data standards" },
+      { id: "research", label: "Research", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/research"); close(); }, keywords: "lab papers ai distributed systems" },
+      { id: "projects", label: "Projects", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/projects"); close(); }, keywords: "case studies portfolio systems rentos auraedu" },
       // Actions
       { id: "start", label: "Start a Project", group: "ACTIONS", icon: <RocketLaunchOutlinedIcon />, shortcut: "↵", action: () => { navigate("/start-project"); close(); }, keywords: "begin new build hire quote" },
       { id: "book", label: "Book a Discovery Call", group: "ACTIONS", icon: <VideoCallOutlinedIcon />, action: () => { navigate("/contact"); close(); }, keywords: "calendly meeting schedule chat" },
