@@ -17,6 +17,12 @@ import GridMenu from "@/components/onboarding/GridMenu";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
+import Solutions from "@/pages/Solutions";
+import Philosophy from "@/pages/Philosophy";
+import OpenStandards from "@/pages/OpenStandards";
+import Research from "@/pages/Research";
+import Projects from "@/pages/Projects";
+import ProjectDetail from "@/pages/ProjectDetail";
 import Portfolio from "@/pages/Portfolio";
 import Blog from "@/pages/Blog";
 import Contact from "@/pages/Contact";
@@ -104,6 +110,12 @@ function AppShell() {
           <Route index element={<Home />} />
           <Route path="about" element={<About />} />
           <Route path="services" element={<Services />} />
+          <Route path="solutions" element={<Solutions />} />
+          <Route path="philosophy" element={<Philosophy />} />
+          <Route path="open-standards" element={<OpenStandards />} />
+          <Route path="research" element={<Research />} />
+          <Route path="projects" element={<Projects />} />
+          <Route path="projects/:slug" element={<ProjectDetail />} />
           <Route path="services/:slug" element={<ServiceDetail />} />
           <Route path="labs" element={<Labs />} />
           <Route path="labs/:slug" element={<LabsProduct />} />
