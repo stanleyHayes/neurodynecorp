@@ -19,6 +19,7 @@ import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
 import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined";
 // Services
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
@@ -61,11 +62,12 @@ const footerSections: { title: string; links: FooterLinkItem[] }[] = [
     title: "Company",
     links: [
       { label: "About", path: "/about", icon: <InfoOutlinedIcon sx={IC} /> },
-      { label: "Services", path: "/services", icon: <DesignServicesOutlinedIcon sx={IC} /> },
+      { label: "Solutions", path: "/solutions", icon: <DesignServicesOutlinedIcon sx={IC} /> },
+      { label: "Philosophy", path: "/philosophy", icon: <ArchitectureOutlinedIcon sx={IC} /> },
       { label: "Labs", path: "/labs", icon: <ScienceOutlinedIcon sx={IC} /> },
       { label: "Subsidiaries", path: "/subsidiaries", icon: <AccountTreeOutlinedIcon sx={IC} /> },
       { label: "Industries", path: "/industries", icon: <DomainOutlinedIcon sx={IC} /> },
-      { label: "Case Dossiers", path: "/portfolio", icon: <FolderOpenOutlinedIcon sx={IC} /> },
+      { label: "Projects", path: "/projects", icon: <FolderOpenOutlinedIcon sx={IC} /> },
       { label: "Press", path: "/press", icon: <NewspaperOutlinedIcon sx={IC} /> },
       { label: "Blog", path: "/blog", icon: <ArticleOutlinedIcon sx={IC} /> },
     ],
@@ -92,6 +94,8 @@ const footerSections: { title: string; links: FooterLinkItem[] }[] = [
       { label: "Submit an RFP", path: "/rfp", icon: <DescriptionOutlinedIcon sx={IC} /> },
       { label: "Book a Reading", path: "/book", icon: <EventAvailableOutlinedIcon sx={IC} /> },
       { label: "FAQ", path: "/faq", icon: <QuizOutlinedIcon sx={IC} /> },
+      { label: "Open Standards", path: "/open-standards", icon: <AccountTreeOutlinedIcon sx={IC} /> },
+      { label: "Research", path: "/research", icon: <ScienceOutlinedIcon sx={IC} /> },
       { label: "Spec Library", path: "/spec-library", icon: <MenuBookOutlinedIcon sx={IC} /> },
       { label: "Help Center", path: "/help", icon: <SupportAgentOutlinedIcon sx={IC} /> },
     ],

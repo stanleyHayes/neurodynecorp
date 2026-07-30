@@ -12,8 +12,8 @@ import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
 import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
+import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
+import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
 import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
@@ -29,10 +29,10 @@ import { useThemeMode } from "@/context/ThemeContext";
 const NAV_ITEMS = [
   { label: "Home", path: "/", index: "01", tag: "MAIN SECTOR", icon: <HomeOutlinedIcon />, color: "#6C63FF" },
   { label: "About", path: "/about", index: "02", tag: "INTEL BRIEF", icon: <InfoOutlinedIcon />, color: "#8B85FF" },
-  { label: "Services", path: "/services", index: "03", tag: "CAPABILITIES", icon: <MiscellaneousServicesOutlinedIcon />, color: "#00D4AA" },
-  { label: "Portfolio", path: "/portfolio", index: "04", tag: "OPERATIONS LOG", icon: <WorkOutlineIcon />, color: "#33DDBB" },
-  { label: "Blog", path: "/blog", index: "05", tag: "TRANSMISSIONS", icon: <ArticleOutlinedIcon />, color: "#8B85FF" },
-  { label: "Contact", path: "/contact", index: "06", tag: "COMM LINK", icon: <ContactMailOutlinedIcon />, color: "#6C63FF" },
+  { label: "Solutions", path: "/solutions", index: "03", tag: "CAPABILITIES", icon: <MiscellaneousServicesOutlinedIcon />, color: "#00D4AA" },
+  { label: "Industries", path: "/industries", index: "04", tag: "SECTORS", icon: <DomainOutlinedIcon />, color: "#33DDBB" },
+  { label: "Standards", path: "/open-standards", index: "05", tag: "INTEROPERABILITY", icon: <AccountTreeOutlinedIcon />, color: "#00D4AA" },
+  { label: "Projects", path: "/projects", index: "06", tag: "OPERATIONS LOG", icon: <WorkOutlineIcon />, color: "#8B85FF" },
 ];
 
 const CTA_ITEM = {
