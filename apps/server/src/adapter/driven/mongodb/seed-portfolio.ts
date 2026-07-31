@@ -23,6 +23,20 @@ function oid(): string {
   return createHash("sha1").update(`neurodyne:portfolio:${oidSeq}`).digest("hex").slice(0, 24);
 }
 
+/**
+ * Pin a portfolio project onto one of the demo project ids.
+ *
+ * The seeded client-portal data (specifications, sprints, tasks, invoices,
+ * threads, messages, notifications) referenced four placeholder projects. Those
+ * placeholders are gone, so the real project takes the id and keeps all of that
+ * data attached instead of orphaning it. The counter is still advanced so every
+ * other row keeps the id it already has in the database.
+ */
+function anchor(fixed: string): string {
+  oid();
+  return fixed;
+}
+
 function d(iso: string): Date {
   return new Date(iso);
 }
@@ -78,7 +92,7 @@ const CLIENT_JDPLUS_LIMITED = C2;
 
 export const portfolioProjects: Project[] = [
   {
-    id: oid(),
+    id: anchor(IDS.proj1),
     name: "24-Hour Economy Investment Intelligence Platform",
     description:
       "Comprehensive investment intelligence and management platform for Ghana's 24-hour economy policy. Features real-time market analytics, portfolio tracking, and ML-driven investment recommendations.",
@@ -109,7 +123,7 @@ export const portfolioProjects: Project[] = [
   },
 
   {
-    id: oid(),
+    id: anchor(IDS.proj4),
     name: "JDPlus AC — Service Management Platform",
     description:
       "Air-conditioning sales, installation, and service platform with QR-coded follow-up system. Every AC installation gets a QR sticker holding full service history, with SMS reminders 14 days before scheduled service.",
@@ -171,7 +185,7 @@ export const portfolioProjects: Project[] = [
   },
 
   {
-    id: oid(),
+    id: anchor(IDS.proj2),
     name: "RentOS Ghana — National Rental Housing Platform",
     description:
       "Ghana's national digital rental housing platform. Find properties, sign legally compliant agreements, pay rent via mobile money, build credit score, and resolve disputes — all in one platform.",
@@ -234,7 +248,7 @@ export const portfolioProjects: Project[] = [
   },
 
   {
-    id: oid(),
+    id: anchor(IDS.proj3),
     name: "Back2u — Smart Lost & Found Ecosystem",
     description:
       "AI-powered platform that reunites people with their lost belongings. Hexagonal-architecture Express backend with four React + MUI web apps and an Expo mobile app.",
