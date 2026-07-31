@@ -52,8 +52,6 @@ export default function Home() {
           perspectiveOrigin: "50% 38%",
         }}
       >
-        <BlueprintGrid opacity={0.9} />
-
         {/* Hero-wide ground plane: the same grid the cube stands on, extended
             across the full section so the copy shares its space. */}
         <Box

@@ -285,29 +285,6 @@ export default function HeroWireframe() {
           }}
         />
 
-        {/* Ground plane — a wide grid running back to a horizon. The long
-            recession is what sells the depth. */}
-        <Box
-          aria-hidden
-          sx={{
-            position: "absolute",
-            left: "50%",
-            bottom: "-6%",
-            width: "320%",
-            height: "120%",
-            transform: "translateX(-50%) rotateX(64deg)",
-            transformOrigin: "50% 100%",
-            backgroundImage:
-              "linear-gradient(rgba(108,99,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.16) 1px, transparent 1px)",
-            backgroundSize: "92px 92px",
-            maskImage: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.35) 42%, transparent 76%)",
-            WebkitMaskImage:
-              "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.35) 42%, transparent 76%)",
-            pointerEvents: "none",
-            zIndex: 0,
-          }}
-        />
-
 
         {/* Orbital projection rings */}
         {[0, 1, 2].map((ring) => (
