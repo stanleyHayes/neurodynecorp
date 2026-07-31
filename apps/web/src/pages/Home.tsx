@@ -59,18 +59,23 @@ export default function Home() {
           sx={{
             position: "absolute",
             left: "50%",
-            bottom: "-14%",
-            width: "260%",
-            height: "115%",
-            transform: "translateX(-50%) rotateX(66deg)",
+            bottom: "-20%",
+            width: "300%",
+            // The plane is tipped about its bottom edge, so its own "up" is the
+            // distance. It needs real length to have anywhere to recede to.
+            height: "260%",
+            transform: "translateX(-50%) rotateX(72deg)",
             transformOrigin: "50% 100%",
             backgroundImage:
-              "linear-gradient(rgba(108,99,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.14) 1px, transparent 1px)",
+              "linear-gradient(rgba(108,99,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.16) 1px, transparent 1px)",
             backgroundSize: "104px 104px",
+            // Fade only as it approaches the horizon. The previous mask hit
+            // full transparency at 78%, which erased the entire far field and
+            // left the grid visible only in the foreground.
             maskImage:
-              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.28) 46%, transparent 78%)",
+              "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 34%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.16) 84%, transparent 100%)",
             WebkitMaskImage:
-              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.28) 46%, transparent 78%)",
+              "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 34%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.16) 84%, transparent 100%)",
             pointerEvents: "none",
             zIndex: 0,
           }}
