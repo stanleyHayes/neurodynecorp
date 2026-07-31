@@ -265,7 +265,13 @@ async function main(): Promise<void> {
       await eventSubscriber.connect();
       logger.info("Connected to Kafka");
     } catch {
-      if (kafkaReachable) logger.warn("Kafka connection failed, using no-op event stubs");
+      // The TCP probe only proves *something* is listening — it may not be Kafka
+      // (or the broker may be half-up). Reset both so the no-op fallback below
+      // engages; otherwise a half-constructed publisher slips through the
+      // `!eventPublisher` check and the workflow engine dies on startup.
+      logger.warn("Kafka connection failed, using no-op event stubs");
+      eventPublisher = undefined;
+      eventSubscriber = undefined;
     }
   }
 
