@@ -90,7 +90,7 @@ export default function FeedbackWidget() {
     try {
       await api.post("/api/v1/feedback", {
         type,
-        nps,
+        score: nps,
         message: message.trim(),
         email: email.trim() || undefined,
       });

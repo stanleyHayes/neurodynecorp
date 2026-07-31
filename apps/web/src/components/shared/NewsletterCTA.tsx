@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import EmailOutlinedIcon from "@mui/icons-material/EmailOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import { playSound } from "@/hooks/useSound";
+import { api } from "@/api/client";
 
 const MotionBox = motion.create(Box);
 
@@ -12,6 +13,7 @@ export default function NewsletterCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [failed, setFailed] = useState(false);
 
   const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 
@@ -19,19 +21,18 @@ export default function NewsletterCTA() {
     e.preventDefault();
     if (!valid) return;
     setLoading(true);
-    // Stash locally; back-end Resend wiring can read these later or hit /api/v1/contact
+    setFailed(false);
     try {
-      const stored = JSON.parse(localStorage.getItem("ndl_newsletter") ?? "[]");
-      stored.push({ email, ts: new Date().toISOString() });
-      localStorage.setItem("ndl_newsletter", JSON.stringify(stored));
+      await api.post("/api/v1/newsletter/subscribe", { email, source: "web" });
+      playSound("success");
+      setSubmitted(true);
+      setEmail("");
     } catch {
-      // ignore storage errors
+      // Surface the failure — silently "succeeding" would lose the subscriber.
+      setFailed(true);
+    } finally {
+      setLoading(false);
     }
-    await new Promise((r) => setTimeout(r, 400));
-    playSound("success");
-    setLoading(false);
-    setSubmitted(true);
-    setEmail("");
   };
 
   return (
@@ -70,6 +71,21 @@ export default function NewsletterCTA() {
       <Typography sx={{ color: "text.secondary", opacity: 0.75, mb: 3, maxWidth: 460, lineHeight: 1.7 }}>
         Architecture choices we made, what we'd change, and which tools earned their keep. No spam. Unsubscribe in one click.
       </Typography>
+
+      {failed && (
+        <Alert
+          severity="error"
+          sx={{
+            mb: 2,
+            bgcolor: "rgba(239,68,68,0.08)",
+            border: "1px solid rgba(239,68,68,0.3)",
+            color: "text.primary",
+            borderRadius: 0,
+          }}
+        >
+          We couldn't sign you up just then. Please try again.
+        </Alert>
+      )}
 
       {submitted ? (
         <Alert
