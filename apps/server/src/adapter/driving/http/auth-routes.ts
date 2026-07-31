@@ -27,11 +27,12 @@ const refreshSchema = z.object({
   refreshToken: z.string().min(1),
 });
 
+import { toApiUser } from "./user-serializer.js";
+
 // ---- Helpers ----
 
 function sanitizeUser(user: Record<string, unknown>) {
-  const { passwordHash: _, ...safe } = user;
-  return safe;
+  return toApiUser(user);
 }
 
 // ---- Route factory ----

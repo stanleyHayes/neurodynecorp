@@ -32,11 +32,12 @@ export interface UserService {
   delete(id: string): Promise<void>;
 }
 
+import { toApiUser } from "./user-serializer.js";
+
 // ---- Helpers ----
 
-function sanitizeUser(user: User): Omit<User, "passwordHash"> {
-  const { passwordHash: _, ...safe } = user;
-  return safe;
+function sanitizeUser(user: User): Record<string, unknown> {
+  return toApiUser(user as unknown as Record<string, unknown>);
 }
 
 // ---- Route factory ----
