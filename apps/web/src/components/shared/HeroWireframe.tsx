@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Box, Typography } from "@mui/material";
+import { motion } from "framer-motion";
+
+const MotionBox = motion.create(Box);
 
 type Axis = "x" | "y" | "z";
 type Cubie = { id: string; x: number; y: number; z: number };
 type TurnState = { axis: Axis; layer: number; dir: 1 | -1; angle: number } | null;
 
 const SYMBOLS = [
-  { s: "lambda", x: "9%", y: "17%" },
-  { s: "pi", x: "22%", y: "74%" },
-  { s: "Sigma", x: "84%", y: "20%" },
-  { s: "sqrt", x: "76%", y: "48%" },
-  { s: "delta", x: "92%", y: "70%" },
-  { s: "integral", x: "56%", y: "12%" },
+  { s: "schema", x: "9%", y: "17%" },
+  { s: "registry", x: "20%", y: "74%" },
+  { s: "interop", x: "82%", y: "20%" },
+  { s: "tenancy", x: "74%", y: "48%" },
+  { s: "identity", x: "88%", y: "70%" },
+  { s: "primitives", x: "52%", y: "12%" },
 ];
 
 const BASE_CUBIES: Cubie[] = (() => {
@@ -49,7 +52,7 @@ function CubieMesh({
   cubie: Cubie;
   turn: TurnState;
 }>) {
-  const size = 44;
+  const size = 48;
   const gap = 4;
   const step = size + gap;
   const half = size / 2;
@@ -84,8 +87,9 @@ function CubieMesh({
   const face = {
     position: "absolute",
     inset: 0,
-    border: "1px solid rgba(223, 238, 247, 0.7)",
-    background: "transparent",
+    border: "1px solid rgba(218, 232, 255, 0.82)",
+    background: "rgba(108, 99, 255, 0.018)",
+    boxShadow: "inset 0 0 10px rgba(108,99,255,0.035)",
     boxSizing: "border-box",
   } as const;
 
@@ -97,7 +101,7 @@ function CubieMesh({
         height: size,
         transform: `translate3d(${tx}px, ${ty}px, ${tz}px)${turnTransform}`,
         transformStyle: "preserve-3d",
-        boxShadow: inTurningLayer ? "0 0 12px rgba(170, 214, 255, 0.22)" : "none",
+        boxShadow: inTurningLayer ? "0 0 22px rgba(0, 212, 170, 0.34)" : "0 0 6px rgba(108,99,255,0.08)",
       }}
     >
       <span style={{ ...face, transform: `translateZ(${half}px)` }} />
@@ -194,34 +198,7 @@ export default function HeroWireframe() {
   );
 
   return (
-    <Box sx={{ position: "relative", width: "100%", maxWidth: 560, mx: "auto" }}>
-      <Box
-        sx={{
-          position: "absolute",
-          top: -40,
-          right: -32,
-          width: 180,
-          height: 180,
-          borderRadius: "50%",
-          background: "rgba(108,99,255,0.2)",
-          filter: "blur(56px)",
-          pointerEvents: "none",
-        }}
-      />
-      <Box
-        sx={{
-          position: "absolute",
-          bottom: -36,
-          left: -24,
-          width: 170,
-          height: 170,
-          borderRadius: "50%",
-          background: "rgba(0,212,170,0.2)",
-          filter: "blur(56px)",
-          pointerEvents: "none",
-        }}
-      />
-
+    <Box sx={{ position: "relative", width: "100%", maxWidth: 560, mx: "auto", p: { xs: 1, md: 1.5 } }}>
       {SYMBOLS.map((glyph) => (
         <Box
           key={glyph.s}
@@ -281,20 +258,87 @@ export default function HeroWireframe() {
         aria-label="Interactive wireframe Rubik's cube"
         sx={{
           position: "relative",
-          height: { xs: 360, md: 440 },
-          borderRadius: "28px",
-          border: "1px solid rgba(128,153,255,0.2)",
-          background:
-            "linear-gradient(180deg, rgba(9,14,29,0.45) 0%, rgba(8,12,25,0.3) 100%)",
-          boxShadow: "0 16px 44px rgba(2, 5, 14, 0.35)",
+          height: { xs: 380, md: 480 },
+          background: "transparent",
           overflow: "hidden",
-          perspective: "1200px",
+          // Shorter focal length = stronger foreshortening, so the cube reads as
+          // an object standing in a space rather than a flat badge.
+          perspective: "820px",
+          perspectiveOrigin: "50% 42%",
           cursor: dragging ? "grabbing" : "grab",
           touchAction: "none",
           userSelect: "none",
         }}
       >
-        <div style={{ position: "absolute", inset: 0, transformStyle: "preserve-3d" }}>
+        {/* Deep-space star field */}
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute", inset: 0, zIndex: 0, opacity: 0.72, pointerEvents: "none",
+            backgroundImage: [
+              "radial-gradient(circle at 12% 21%, rgba(255,255,255,.8) 0 1px, transparent 1.5px)",
+              "radial-gradient(circle at 74% 18%, rgba(0,212,170,.75) 0 1px, transparent 1.6px)",
+              "radial-gradient(circle at 88% 61%, rgba(139,133,255,.85) 0 1px, transparent 1.5px)",
+              "radial-gradient(circle at 31% 69%, rgba(255,255,255,.55) 0 1px, transparent 1.4px)",
+            ].join(","),
+            backgroundSize: "190px 170px, 260px 210px, 230px 250px, 310px 190px",
+          }}
+        />
+
+        {/* Ground plane — a wide grid running back to a horizon. The long
+            recession is what sells the depth. */}
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute",
+            left: "50%",
+            bottom: "-6%",
+            width: "320%",
+            height: "120%",
+            transform: "translateX(-50%) rotateX(64deg)",
+            transformOrigin: "50% 100%",
+            backgroundImage:
+              "linear-gradient(rgba(108,99,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.16) 1px, transparent 1px)",
+            backgroundSize: "92px 92px",
+            maskImage: "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.35) 42%, transparent 76%)",
+            WebkitMaskImage:
+              "linear-gradient(to top, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.35) 42%, transparent 76%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+
+
+        {/* Orbital projection rings */}
+        {[0, 1, 2].map((ring) => (
+          <MotionBox
+            key={ring}
+            aria-hidden
+            animate={reduceMotion ? undefined : { rotate: ring % 2 ? [0, -360] : [0, 360] }}
+            transition={{ duration: 22 + ring * 9, repeat: Infinity, ease: "linear" }}
+            sx={{
+              position: "absolute", zIndex: 1, left: "50%", top: "53%",
+              width: 235 + ring * 44, height: 92 + ring * 22,
+              ml: `${-(235 + ring * 44) / 2}px`, mt: `${-(92 + ring * 22) / 2}px`,
+              border: `1px solid ${ring === 1 ? "rgba(0,212,170,.16)" : "rgba(139,133,255,.2)"}`,
+              borderRadius: "50%", transform: `rotate(${ring * 38}deg)`, pointerEvents: "none",
+            }}
+          />
+        ))}
+
+        <Box sx={{ position: "absolute", zIndex: 3, top: 20, left: 22, right: 22, display: "flex", justifyContent: "space-between", alignItems: "center", pointerEvents: "none" }}>
+          <Box>
+            <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.16em", color: "primary.main", mb: 0.35 }}>
+              NDC / SYSTEM MODEL
+            </Typography>
+            <Typography sx={{ fontSize: "0.72rem", fontWeight: 600, color: "rgba(226,232,255,.72)" }}>Composable infrastructure</Typography>
+          </Box>
+          <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, px: 1.1, py: 0.55, border: "1px solid rgba(148,163,184,.25)", bgcolor: "rgba(5,9,20,.58)", backdropFilter: "blur(12px)" }}>
+            <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#00D4AA", boxShadow: "0 0 10px rgba(0,212,170,0.75)" }} />
+            <Typography sx={{ fontFamily: "monospace", fontSize: "0.52rem", letterSpacing: "0.12em", color: "rgba(226,232,255,.72)" }}>LIVE</Typography>
+          </Box>
+        </Box>
+        <div style={{ position: "absolute", inset: 0, zIndex: 2, transformStyle: "preserve-3d" }}>
           <div
             style={{
               position: "absolute",
@@ -310,20 +354,18 @@ export default function HeroWireframe() {
             ))}
           </div>
         </div>
+        <Typography
+          sx={{
+            position: "absolute", zIndex: 3, bottom: 18, left: "50%", transform: "translateX(-50%)",
+            width: "max-content", px: 1.5, py: 0.7, border: "1px solid", borderColor: "divider",
+            bgcolor: "rgba(5,9,20,0.72)",
+            backdropFilter: "blur(10px)", fontFamily: "monospace", fontSize: "0.55rem",
+            color: "rgba(203,213,235,.72)", letterSpacing: "0.12em", textTransform: "uppercase", pointerEvents: "none",
+          }}
+        >
+          {dragging ? "Rotating model" : "Drag to explore"}
+        </Typography>
       </Box>
-      <Typography
-        sx={{
-          mt: 1.2,
-          textAlign: "center",
-          fontSize: "0.72rem",
-          color: "text.secondary",
-          opacity: 0.65,
-          letterSpacing: "0.07em",
-          textTransform: "uppercase",
-        }}
-      >
-        Drag to rotate
-      </Typography>
     </Box>
   );
 }
