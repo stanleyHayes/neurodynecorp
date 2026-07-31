@@ -1,4 +1,4 @@
-import type { ReactElement } from "react";
+import type { ReactNode } from "react";
 import { Box, useTheme } from "@mui/material";
 import type { SxProps, Theme } from "@mui/material";
 
@@ -34,7 +34,7 @@ export function IconWatermark({
   rotate = 0,
   sx,
 }: {
-  icon: ReactElement;
+  icon: ReactNode;
   size?: number | Record<string, number>;
   tone?: WatermarkTone;
   rotate?: number;
@@ -61,7 +61,7 @@ export function IconWatermark({
 }
 
 interface ConstellationItem {
-  icon: ReactElement;
+  icon: ReactNode;
   /** CSS position — any subset of top/right/bottom/left, e.g. { top: "8%", left: "-4%" } */
   at?: Record<string, string | number>;
   size?: number | Record<string, number>;

@@ -1,6 +1,7 @@
 import { ReactNode, useState } from "react";
 import { Box, Typography } from "@mui/material";
 import { motion } from "framer-motion";
+import { BlueprintGrid, IconWatermark } from "@/components/shared/Watermark";
 
 const MotionBox = motion.create(Box);
 
@@ -133,6 +134,15 @@ export default function PageHero({
         overflow: "hidden",
       }}
     >
+      {/* Decorative engineering backdrop — every page that uses PageHero gets it. */}
+      <BlueprintGrid opacity={0.55} />
+      <IconWatermark
+        icon={icon}
+        size={{ xs: 220, md: 340 }}
+        tone="brand"
+        rotate={-8}
+        sx={{ top: "-14%", right: "-4%" }}
+      />
       {/* Scanline overlay */}
       <Box
         sx={{
