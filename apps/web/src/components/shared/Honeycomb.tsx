@@ -21,7 +21,7 @@ export interface HoneycombItem {
   content: ReactNode;
 }
 
-const HEX_CLIP = "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
+const HEX_CLIP = "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)";
 
 export default function Honeycomb({
   items,
@@ -75,25 +75,44 @@ export default function Honeycomb({
     wide = !wide;
   }
 
-  // Regular pointy-top hexagon: height = width × 2/√3.
-  const height = cell * 1.1547;
+  // Flat-top hexagon: height = width × √3/2. Pointy-top wasted ~25% of the
+  // cell on an empty apex, which made the cells read as houses rather than
+  // hexagons and squeezed the text into the middle band.
+  const height = cell * 0.866;
   // Rows tessellate at 3/4 height. With a horizontal gap the comb also has to
   // breathe vertically by gap×sin(60°), otherwise the offset row collides with
   // the row above instead of nesting into its notches.
-  const rowStep = height * 0.75 + gap * 0.866;
-  const overlap = height - rowStep;
+  // Flat-top rows nest by overlapping the slanted shoulders.
+  const rowStep = height * 0.78 + gap * 0.5;
+
+  // Each cell is placed at an exact (x, y). Flow layout with negative margins
+  // made later rows paint over the bottom points of the row above, which
+  // truncated the hexagons into house shapes.
+  const pitchX = cell + gap;
+  const combWidth = perRow * pitchX - gap;
+  const combHeight = (rows.length - 1) * rowStep + height;
 
   return (
-    <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+    <Box
+      sx={{
+        position: "relative",
+        width: combWidth,
+        height: combHeight,
+        maxWidth: "100%",
+        mx: "auto",
+      }}
+    >
       {rows.map((row, ri) => (
         <Box
           key={ri}
           sx={{
+            position: "absolute",
+            top: ri * rowStep,
+            // Narrow rows are indented by half a pitch so they sit in the
+            // notches of the row above; both row types stay centred overall.
+            left: row.length < perRow ? pitchX / 2 : 0,
             display: "flex",
             gap: `${gap}px`,
-            mt: ri === 0 ? 0 : `-${overlap}px`,
-            // Indent the narrow rows by half a cell so they nest into the gaps above.
-            ml: row.length < perRow ? `${(cell + gap) / 2}px` : 0,
           }}
         >
           {row.map((item, ci) => {
@@ -140,13 +159,11 @@ export default function Honeycomb({
                   sx={{
                     position: "relative",
                     zIndex: 1,
-                    // A hexagon only reaches full width at its vertical centre;
-                    // it tapers to a point top and bottom. Text is therefore
-                    // constrained to the largest rectangle that fits inside —
-                    // ~62% of the width and ~55% of the height — and clipped
-                    // rather than allowed to bleed past the angled edges.
-                    width: cell * 0.62,
-                    maxHeight: height * 0.58,
+                    // A flat-top hexagon tapers on the left and right, so text
+                    // is held inside the inscribed rectangle (70% wide) and
+                    // clipped rather than bleeding past the slanted edges.
+                    width: cell * 0.7,
+                    maxHeight: height * 0.82,
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",

@@ -73,6 +73,9 @@ export default function CookieConsent() {
   const reduceMotion = prefersReducedMotion();
 
   useEffect(() => {
+    // `?nosplash=1` (screenshot/E2E tooling) suppresses the consent banner too,
+    // so it cannot cover the page content being captured.
+    if (new URLSearchParams(window.location.search).has("nosplash")) return;
     try {
       const stored = localStorage.getItem(CONSENT_KEY);
       if (!stored) setOpen(true);

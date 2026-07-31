@@ -608,7 +608,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
             gap: { xs: 1, md: 1.2 },
             px: scrolled ? { xs: 2, md: 2.2 } : { xs: 2, md: 3 },
             py: scrolled ? 0.85 : 1.15,
-            width: scrolled ? "auto" : "100%",
+            width: "100%",
             borderRadius: scrolled ? 50 : 0,
             background: isDark
               ? scrolled ? "rgba(7, 20, 35, 0.84)" : "rgba(7, 20, 35, 0.72)"
@@ -627,7 +627,8 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 : "0 8px 20px rgba(4,12,27,0.12)",
             pointerEvents: "auto",
             transition: barTransition,
-            maxWidth: scrolled ? "min(1200px, 95vw)" : "100vw",
+            maxWidth: scrolled ? "min(1180px, calc(100vw - 24px))" : "none",
+            mx: "auto",
             borderBottom: scrolled ? undefined : `1px solid ${isDark ? "rgba(255,255,255,0.10)" : "rgba(12,22,46,0.10)"}`,
           }}
         >
@@ -649,7 +650,15 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           {!isMobile && (
             <>
               <Box
-                sx={{ display: "flex", alignItems: "center", gap: 0.15 }}
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 0.15,
+                  // Settled (full-width) bar: centre the nav and let the action
+                  // group fall to the right edge, as kedland does. In the
+                  // floating capsule everything stays compact together.
+                  mx: "auto",
+                }}
                 onMouseLeave={() => setHoveredPath(null)}
               >
                 {NAV_ITEMS.map((item) => {
