@@ -68,6 +68,10 @@ function AppShell() {
   const [showGridMenu, setShowGridMenu] = useState(false);
 
   useEffect(() => {
+    // `?nosplash=1` also skips onboarding and the grid menu so screenshot/E2E
+    // tooling lands directly on page content.
+    if (new URLSearchParams(window.location.search).has("nosplash")) return;
+
     const onboardingDone = localStorage.getItem(ONBOARDING_KEY);
     const gridMenuShown = sessionStorage.getItem(GRID_MENU_KEY);
 
@@ -159,7 +163,11 @@ function AppShell() {
 }
 
 export default function App() {
-  const [splashDone, setSplashDone] = useState(false);
+  // `?nosplash=1` skips the intro — used by screenshot/E2E tooling, which
+  // otherwise never gets past the splash's looping animations.
+  const [splashDone, setSplashDone] = useState(
+    () => typeof window !== "undefined" && new URLSearchParams(window.location.search).has("nosplash"),
+  );
 
   return (
     <HelmetProvider>

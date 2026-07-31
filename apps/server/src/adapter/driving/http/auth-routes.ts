@@ -8,15 +8,28 @@ import { UserExistsError, InvalidCredentialsError, UserInactiveError, InvalidTok
 
 // ---- Validation schemas ----
 
-const registerSchema = z.object({
-  email: z.string().email(),
-  password: z.string().min(8).max(128),
-  firstName: z.string().min(1).max(100),
-  lastName: z.string().min(1).max(100),
-  role: z.enum(["admin", "project_manager", "developer", "qa", "client"]).optional(),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-});
+// NOTE: `role` is deliberately NOT accepted here. This endpoint is public, so
+// honouring a client-supplied role would let anyone self-register as an admin
+// and walk straight through every requireRole() guard. Roles are assigned only
+// via POST /api/v1/roles/assign/:userId, which is permission-gated.
+//
+// Names accept snake_case as well as camelCase: the client portal and admin
+// console post first_name/last_name, which previously failed validation with a
+// 400 and made registration impossible from those apps.
+const registerSchema = z
+  .object({
+    email: z.string().email(),
+    password: z.string().min(8).max(128),
+    firstName: z.string().min(1).max(100).optional(),
+    lastName: z.string().min(1).max(100).optional(),
+    first_name: z.string().min(1).max(100).optional(),
+    last_name: z.string().min(1).max(100).optional(),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+  })
+  .refine((d) => (d.firstName ?? d.first_name) && (d.lastName ?? d.last_name), {
+    message: "firstName and lastName are required",
+  });
 
 const loginSchema = z.object({
   email: z.string().email(),
@@ -49,7 +62,17 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
         throw new ValidationError("Invalid registration data", parsed.error.flatten());
       }
 
-      const result = await authService.register(parsed.data as any);
+      const d = parsed.data as Record<string, string | undefined>;
+      const result = await authService.register({
+        email: d["email"],
+        password: d["password"],
+        firstName: d["firstName"] ?? d["first_name"],
+        lastName: d["lastName"] ?? d["last_name"],
+        phone: d["phone"],
+        company: d["company"],
+        // Self-service registration is always a client. Never trust a body role.
+        role: "client",
+      } as any);
       res.status(201).json({
         user: sanitizeUser(result.user as unknown as Record<string, unknown>),
         ...result.tokens,

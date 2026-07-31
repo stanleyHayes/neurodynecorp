@@ -1,7 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:8080";
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 const TOKEN_KEY = "neurodyne_admin_access_token";
 
 export function useSocket() {

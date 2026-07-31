@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const API_URL = "http://localhost:8080";
+const API_URL = "http://localhost:4000";
 const TOKEN_KEY = "neurodyne_mobile_token";
 const USER_KEY = "neurodyne_mobile_user";
 

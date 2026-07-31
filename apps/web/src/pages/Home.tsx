@@ -18,6 +18,7 @@ import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import { Overline, SectionHeading } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
 import HudCorners from "@/components/shared/HudCorners";
+import Honeycomb from "@/components/shared/Honeycomb";
 import { BRAND, WHAT_WE_DO, WHY_NEURODYNE, INITIATIVES, INDUSTRY_LIST } from "@/content/positioning";
 
 const MotionBox = motion.create(Box);
@@ -156,42 +157,32 @@ export default function Home() {
       <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
         <Container maxWidth="lg">
           <SectionHeading tag="What We Do" title="Five disciplines, one system of work" align="center" />
-          <Grid container spacing={2}>
-            {WHAT_WE_DO.map((d, i) => {
+          <Honeycomb
+            cell={260}
+            perRow={3}
+            items={WHAT_WE_DO.map((d, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;
-              return (
-                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={d.slug}>
-                  <MotionBox
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-40px" }}
-                    transition={{ duration: 0.4, delay: (i % 3) * 0.06 }}
-                    sx={{
-                      position: "relative",
-                      height: "100%",
-                      p: { xs: 2.5, md: 3.5 },
-                      border: "1px solid",
-                      borderColor: "divider",
-                      bgcolor: `${accent}08`,
-                      transition: "border-color 0.3s, background 0.3s",
-                      "&:hover": { borderColor: `${accent}55`, bgcolor: `${accent}14` },
-                    }}
-                  >
-                    <HudCorners color={`${accent}40`} />
-                    <Box sx={{ color: accent, display: "flex", "& .MuiSvgIcon-root": { fontSize: 32 }, mb: 2 }}>
+              return {
+                key: d.slug,
+                accent,
+                content: (
+                  <>
+                    <Box sx={{ color: accent, display: "flex", justifyContent: "center", "& .MuiSvgIcon-root": { fontSize: 30 }, mb: 1.25 }}>
                       {DO_ICONS[d.slug]}
                     </Box>
-                    <Typography variant="h6" sx={{ fontWeight: 700, mb: 1 }}>
-                      {d.title}
-                    </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                    <Typography sx={{ fontWeight: 700, fontSize: "1rem", mb: 0.75 }}>{d.title}</Typography>
+                    <Typography
+                      variant="body2"
+                      color="text.secondary"
+                      sx={{ lineHeight: 1.55, fontSize: "0.76rem" }}
+                    >
                       {d.blurb}
                     </Typography>
-                  </MotionBox>
-                </Grid>
-              );
+                  </>
+                ),
+              };
             })}
-          </Grid>
+          />
         </Container>
       </Box>
 
@@ -276,45 +267,30 @@ export default function Home() {
             lead="Each one models an entire industry — not an application within it."
             color="#8B85FF"
           />
-          <Grid container spacing={2}>
-            {INITIATIVES.map((init, i) => {
+          <Honeycomb
+            cell={250}
+            perRow={4}
+            items={INITIATIVES.map((init, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;
-              return (
-                <Grid size={{ xs: 12, sm: 6, md: 4 }} key={init.slug}>
-                  <MotionBox
-                    initial={{ opacity: 0, y: 14 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.4, delay: (i % 3) * 0.05 }}
-                    sx={{
-                      position: "relative",
-                      height: "100%",
-                      p: 3,
-                      border: "1px solid",
-                      borderColor: "divider",
-                      bgcolor: `${accent}06`,
-                      transition: "all 0.3s",
-                      "&:hover": { borderColor: `${accent}55`, bgcolor: `${accent}12` },
-                    }}
-                  >
-                    <HudCorners color={`${accent}40`} />
-                    <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1.5 }}>
-                      <Overline color={accent}>{String(i + 1).padStart(2, "0")}</Overline>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.7, letterSpacing: "0.1em" }}>
-                        {init.status.toUpperCase()}
-                      </Typography>
-                    </Stack>
-                    <Typography variant="h6" sx={{ fontWeight: 800 }}>
-                      {init.name}
+              return {
+                key: init.slug,
+                accent,
+                content: (
+                  <>
+                    <Typography
+                      sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: accent, letterSpacing: "0.18em", mb: 0.75 }}
+                    >
+                      {String(i + 1).padStart(2, "0")} · {init.status.toUpperCase()}
                     </Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ mt: 1, lineHeight: 1.8 }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: "0.98rem", mb: 0.6 }}>{init.name}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.5, fontSize: "0.74rem" }}>
                       {init.blurb}
                     </Typography>
-                  </MotionBox>
-                </Grid>
-              );
+                  </>
+                ),
+              };
             })}
-          </Grid>
+          />
           <Button component={Link} to="/projects" endIcon={<ArrowForwardIcon />} sx={{ borderRadius: 0, mt: 3.5, px: 0, fontWeight: 700 }}>
             See the systems we've engineered
           </Button>

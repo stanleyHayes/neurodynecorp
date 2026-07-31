@@ -60,7 +60,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [api] = useState(
     () =>
       new ApiClient({
-        baseUrl: import.meta.env.VITE_API_URL ?? "http://localhost:8080",
+        baseUrl: import.meta.env.VITE_API_URL ?? "http://localhost:4000",
         getToken,
         onUnauthorized: handleUnauthorized,
       })
