@@ -42,8 +42,41 @@ export default function Home() {
       />
 
       {/* ── Hero ─────────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", overflow: "hidden" }}>
+      <Box
+        sx={{
+          position: "relative",
+          overflow: "hidden",
+          // The whole hero is one 3D volume, not a flat band with a 3D widget
+          // bolted onto the right. Children below sit at explicit depths.
+          perspective: { md: "1100px" },
+          perspectiveOrigin: "50% 38%",
+        }}
+      >
         <BlueprintGrid opacity={0.9} />
+
+        {/* Hero-wide ground plane: the same grid the cube stands on, extended
+            across the full section so the copy shares its space. */}
+        <Box
+          aria-hidden
+          sx={{
+            position: "absolute",
+            left: "50%",
+            bottom: "-14%",
+            width: "260%",
+            height: "115%",
+            transform: "translateX(-50%) rotateX(66deg)",
+            transformOrigin: "50% 100%",
+            backgroundImage:
+              "linear-gradient(rgba(108,99,255,0.14) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.14) 1px, transparent 1px)",
+            backgroundSize: "104px 104px",
+            maskImage:
+              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.28) 46%, transparent 78%)",
+            WebkitMaskImage:
+              "linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.28) 46%, transparent 78%)",
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
         <WatermarkConstellation
           tone="brand"
           items={[
@@ -53,8 +86,13 @@ export default function Home() {
         />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1, pt: { xs: 6, md: 10 }, pb: { xs: 6, md: 9 } }}>
           <Grid container spacing={{ xs: 4, md: 6 }} sx={{ alignItems: "center" }}>
-            <Grid size={{ xs: 12, md: 7 }}>
-              <MotionBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}>
+            <Grid size={{ xs: 12, md: 7 }} sx={{ transformStyle: "preserve-3d" }}>
+              <MotionBox
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6 }}
+                sx={{ transform: { md: "translateZ(52px)" } }}
+              >
                 <Overline color="#00D4AA">Engineering Company · Accra, Ghana</Overline>
                 <Typography
                   variant="h1"

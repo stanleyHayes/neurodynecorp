@@ -7,6 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
@@ -576,10 +577,10 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
   const shellTransition = prefersReducedMotion
     ? "none"
-    : `top 0.5s ${EASE}, padding 0.5s ${EASE}`;
+    : `top 0.9s ${EASE}, padding 0.9s ${EASE}`;
   const barTransition = prefersReducedMotion
     ? "background 0.3s, border-color 0.3s"
-    : `max-width 0.5s ${EASE}, border-radius 0.5s ${EASE}, padding 0.5s ${EASE}, background 0.35s, border-color 0.35s, box-shadow 0.35s`;
+    : `max-width 0.9s ${EASE}, border-radius 0.9s ${EASE}, padding 0.9s ${EASE}, background 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease`;
 
   return (
     <>
@@ -644,7 +645,45 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
               mr: { xs: 0, md: 1 },
             }}
           >
-            <Logo size={isMobile ? 28 : 22} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: isMobile ? 34 : 38,
+                height: isMobile ? 34 : 38,
+                borderRadius: "50%",
+                flexShrink: 0,
+                bgcolor: isDark ? "rgba(255,255,255,0.06)" : "rgba(12,22,46,0.04)",
+                border: `1px solid ${isDark ? "rgba(255,255,255,0.12)" : "rgba(12,22,46,0.10)"}`,
+              }}
+            >
+              <Logo size={isMobile ? 20 : 22} />
+            </Box>
+            {!isMobile && (
+              <Box sx={{ ml: 1.15, lineHeight: 1 }}>
+                <Typography
+                  sx={{
+                    fontSize: "0.95rem",
+                    fontWeight: 800,
+                    letterSpacing: "-0.01em",
+                    color: isDark ? "rgba(245,248,255,0.96)" : "rgba(8,18,40,0.94)",
+                  }}
+                >
+                  NeuroDyne
+                </Typography>
+                <Typography
+                  sx={{
+                    fontSize: "0.6rem",
+                    fontWeight: 500,
+                    letterSpacing: "0.04em",
+                    color: isDark ? "rgba(226,234,255,0.52)" : "rgba(8,18,40,0.5)",
+                  }}
+                >
+                  Engineering the systems.
+                </Typography>
+              </Box>
+            )}
           </Box>
 
           {/* Desktop nav links */}
@@ -686,7 +725,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                             ? (isDark ? "rgba(255,255,255,0.97)" : "rgba(8,22,46,0.95)")
                             : (isDark ? "rgba(242,246,255,0.68)" : "rgba(8,22,46,0.62)"),
                           textDecoration: "none",
-                          borderRadius: 999,
+                          borderRadius: 0,
                           whiteSpace: "nowrap",
                           transition: "color 0.2s, background-color 0.2s",
                           position: "relative",
@@ -760,17 +799,22 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 component={Link}
                 to="/start-project"
                 sx={{
-                  display: "block",
-                  ml: 0.2,
-                  px: 2.1,
-                  py: 0.82,
+                  ml: 1,
+                  pl: 2.6,
+                  pr: 0.6,
+                  py: 0.55,
                   fontSize: "0.83rem",
                   fontWeight: 700,
                   letterSpacing: "0.01em",
                   color: "#FFFFFF",
                   textDecoration: "none",
-                  borderRadius: 999,
-                  background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 1.1,
+                  // Reference #3: the CTA is a panel whose leading edge sweeps
+                  // into the bar rather than a detached pill.
+                  borderRadius: "999px",
+                  background: "linear-gradient(120deg, #6C63FF, #00D4AA)",
                   boxShadow: "0 4px 14px rgba(108,99,255,0.28)",
                   whiteSpace: "nowrap",
                   flexShrink: 0,
@@ -783,6 +827,22 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 }}
               >
                 Start a project
+                <Box
+                  aria-hidden
+                  sx={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: 30,
+                    height: 30,
+                    borderRadius: "50%",
+                    bgcolor: "rgba(255,255,255,0.92)",
+                    color: "#1B1F3B",
+                    flexShrink: 0,
+                  }}
+                >
+                  <ArrowForwardIcon sx={{ fontSize: 16 }} />
+                </Box>
               </Typography>
             </>
           )}
