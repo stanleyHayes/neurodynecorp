@@ -1,11 +1,10 @@
 import { Box, Container, Stack, Typography } from "@mui/material";
-import HudCorners from "@/components/shared/HudCorners";
-import { Link } from "react-router";
 import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
-import { CardGrid, CTABand, Overline } from "@/components/shared/Marketing";
+import Honeycomb from "@/components/shared/Honeycomb";
+import { CTABand, Overline } from "@/components/shared/Marketing";
 import { INDUSTRIES } from "@/data/industries";
 
 export default function Industries() {
@@ -18,55 +17,53 @@ export default function Industries() {
         ogUrl="https://neurodynecorp.com/industries"
       />
 
-      <PageHero
-        icon={<DomainOutlinedIcon />}
-        title="Industries"
-        description="The firm's capability lattice maps differently to every sector. Pick yours to see how we approach its specific problems, and the precedent behind it."
-        tag="SECTORS // COVERAGE"
-        accentWord="Industries"
-        iconColor="#00D4AA"
-        iconLabel="SECTOR MAP"
-      />
+      <Container maxWidth="lg" sx={{ pt: 0 }}>
+        <PageHero
+          icon={<DomainOutlinedIcon />}
+          title="Industries"
+          description="The firm's capability lattice maps differently to every sector. Pick yours to see how we approach its specific problems, and the precedent behind it."
+          tag="SECTORS // COVERAGE"
+          accentWord="Industries"
+          iconColor="#00D4AA"
+          iconLabel="SECTOR MAP"
+        />
+      </Container>
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <Stack spacing={{ xs: 6, md: 9 }}>
-          <CardGrid columns={4}>
-            {INDUSTRIES.map((ind) => (
-              <Box
-                key={ind.slug}
-                component={Link}
-                to={`/industries/${ind.slug}`}
-                sx={{
-                  display: "block",
-                  height: "100%",
-                  p: { xs: 3, md: 3.5 },
-                  borderRadius: 0,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  bgcolor: `${ind.color}0A`,
-                  textDecoration: "none",
-                  color: "inherit",
-                  transition: "border-color 0.3s, background 0.3s, transform 0.3s",
-                  "&:hover": { borderColor: `${ind.color}66`, bgcolor: `${ind.color}14`, transform: "translateY(-3px)" },
-                }}
-              >
-                <HudCorners />
-                <Overline color={ind.color}>{ind.kicker}</Overline>
-                <Typography variant="h6" sx={{ fontWeight: 800, mt: 1, mb: 1 }}>
-                  {ind.name}
-                </Typography>
-                <Typography variant="body2" color="text.secondary" sx={{ mb: 2 }}>
-                  {ind.summary}
-                </Typography>
-                <Stack direction="row" spacing={0.75} sx={{ alignItems: "center", color: ind.color }}>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em" }}>
-                    VIEW SECTOR
+          <Honeycomb
+            cell={216}
+            perRow={5}
+            items={INDUSTRIES.map((ind, i) => ({
+              key: ind.slug,
+              accent: ind.color,
+              to: `/industries/${ind.slug}`,
+              content: (
+                <>
+                  <Overline color={ind.color}>
+                    {String(i + 1).padStart(2, "0")} / {ind.kicker}
+                  </Overline>
+                  <Typography
+                    sx={{
+                      fontWeight: 800,
+                      fontSize: "0.95rem",
+                      lineHeight: 1.15,
+                      mt: 0.75,
+                      mb: 0.75,
+                    }}
+                  >
+                    {ind.name}
                   </Typography>
-                  <ArrowForwardIcon sx={{ fontSize: 15 }} />
-                </Stack>
-              </Box>
-            ))}
-          </CardGrid>
+                  <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: ind.color }}>
+                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.1em" }}>
+                      EXPLORE
+                    </Typography>
+                    <ArrowForwardIcon sx={{ fontSize: 12 }} />
+                  </Stack>
+                </>
+              ),
+            }))}
+          />
 
           <CTABand
             to="/start-project"
