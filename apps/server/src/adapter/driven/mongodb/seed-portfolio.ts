@@ -5,10 +5,22 @@
  */
 
 import { ObjectId } from "mongodb";
+import { createHash } from "crypto";
 import type { Project } from "../../../domain/entity/project.js";
 
+let oidSeq = 0;
+/**
+ * Deterministic seed ids.
+ *
+ * These used to be `new ObjectId()`, which minted fresh ids on every run — so
+ * re-seeding never collided on _id and inserted a second copy of every row.
+ * A single `pnpm seed` duplicated the entire portfolio and most demo data.
+ * Deriving the id from a stable counter makes re-seeding idempotent: the same
+ * row keeps the same _id, the insert hits a duplicate-key error and is skipped.
+ */
 function oid(): string {
-  return new ObjectId().toHexString();
+  oidSeq += 1;
+  return createHash("sha1").update(`neurodyne:portfolio:${oidSeq}`).digest("hex").slice(0, 24);
 }
 
 function d(iso: string): Date {

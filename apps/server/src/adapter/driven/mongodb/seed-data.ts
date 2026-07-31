@@ -4,6 +4,7 @@
  */
 
 import { ObjectId } from "mongodb";
+import { createHash } from "crypto";
 import type { User } from "../../../domain/entity/user.js";
 import type { Project } from "../../../domain/entity/project.js";
 import type { Specification } from "../../../domain/entity/specification.js";
@@ -18,8 +19,19 @@ import { perm, RESOURCES, ACTIONS, type Permission } from "../../../domain/entit
 // ── Pre-generated ObjectId hex strings ──────────────────────────────────────
 // Generated once so foreign-key references are consistent across collections.
 
+let oidSeq = 0;
+/**
+ * Deterministic seed ids.
+ *
+ * These used to be `new ObjectId()`, which minted fresh ids on every run — so
+ * re-seeding never collided on _id and inserted a second copy of every row.
+ * A single `pnpm seed` duplicated the entire portfolio and most demo data.
+ * Deriving the id from a stable counter makes re-seeding idempotent: the same
+ * row keeps the same _id, the insert hits a duplicate-key error and is skipped.
+ */
 function oid(): string {
-  return new ObjectId().toHexString();
+  oidSeq += 1;
+  return createHash("sha1").update(`neurodyne:core:${oidSeq}`).digest("hex").slice(0, 24);
 }
 
 export const IDS = {
