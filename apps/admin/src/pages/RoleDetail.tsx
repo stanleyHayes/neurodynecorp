@@ -88,7 +88,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -219,7 +219,7 @@ export default function RoleDetail() {
           sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
         >
           <ArrowBackIcon sx={{ fontSize: 18 }} />
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
         </Box>
         <Alert severity="error" sx={{ mx: 3, mt: 2 }}>{error}</Alert>
       </Box>
@@ -238,7 +238,7 @@ export default function RoleDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
       </Box>
 
       <PageBanner
@@ -302,7 +302,7 @@ export default function RoleDetail() {
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color, filter: `drop-shadow(0 0 12px ${color}40)`, mb: 1 }}>
             {role.is_system ? <LockOutlinedIcon /> : <TuneOutlinedIcon />}
           </Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Type
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{role.is_system ? "System" : "Custom"}</Typography>
@@ -312,7 +312,7 @@ export default function RoleDetail() {
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#8B5CF6", filter: "drop-shadow(0 0 12px rgba(139,92,246,0.25))", mb: 1 }}>
             <VpnKeyOutlinedIcon />
           </Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Permissions
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{role.permissions.length}</Typography>
@@ -322,7 +322,7 @@ export default function RoleDetail() {
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#00D4AA", filter: "drop-shadow(0 0 12px rgba(0,212,170,0.25))", mb: 1 }}>
             <SecurityOutlinedIcon />
           </Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Resources
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{resourceCount}</Typography>
@@ -332,7 +332,7 @@ export default function RoleDetail() {
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#F59E0B", filter: "drop-shadow(0 0 12px rgba(245,158,11,0.25))", mb: 1 }}>
             <CalendarTodayOutlinedIcon />
           </Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Created
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5, fontSize: "1.4rem" }}>{role.created_at?.slice(0, 10) ?? "—"}</Typography>
@@ -355,7 +355,7 @@ export default function RoleDetail() {
               <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#8B5CF6", filter: "drop-shadow(0 0 12px rgba(139,92,246,0.25))", mb: 1 }}>
                 <VpnKeyOutlinedIcon />
               </Box>
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
                 Selected Permissions
               </Typography>
               <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{formPermissions.size}</Typography>
@@ -453,7 +453,7 @@ export default function RoleDetail() {
                         label={action}
                         size="small"
                         sx={{
-                          fontFamily: "monospace",
+                          fontFamily: "'Outfit', sans-serif",
                           fontSize: "0.6rem",
                           textTransform: "capitalize",
                           bgcolor: `${color}18`,

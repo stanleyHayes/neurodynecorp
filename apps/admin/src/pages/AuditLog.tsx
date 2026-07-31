@@ -27,7 +27,7 @@ import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -281,7 +281,7 @@ export default function AuditLog() {
                     return (
                       <TableRow key={r.id ?? r._id ?? i} hover>
                         <TableCell sx={{ whiteSpace: "nowrap", borderColor: "rgba(255,255,255,0.05)" }}>
-                          <Typography variant="caption" sx={{ fontFamily: "monospace" }}>
+                          <Typography variant="caption" sx={{ fontFamily: "'Outfit', sans-serif" }}>
                             {formatTime(r.createdAt ?? r.created_at ?? r.timestamp ?? r.time)}
                           </Typography>
                         </TableCell>
@@ -293,7 +293,7 @@ export default function AuditLog() {
                             label={m || "—"}
                             size="small"
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.6rem",
                               fontWeight: 700,
                               bgcolor: `${methodColor[m] ?? "#94A3B8"}18`,
@@ -305,7 +305,7 @@ export default function AuditLog() {
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)", maxWidth: 360 }}>
                           <Typography
                             variant="caption"
-                            sx={{ fontFamily: "monospace", wordBreak: "break-all" }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", wordBreak: "break-all" }}
                           >
                             {r.path ?? r.url ?? r.route ?? "—"}
                           </Typography>
@@ -313,13 +313,13 @@ export default function AuditLog() {
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)" }}>
                           <Typography
                             variant="caption"
-                            sx={{ fontFamily: "monospace", fontWeight: 700, color: statusColor(status) }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700, color: statusColor(status) }}
                           >
                             {status || "—"}
                           </Typography>
                         </TableCell>
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)" }}>
-                          <Typography variant="caption" sx={{ fontFamily: "monospace", opacity: 0.7 }}>
+                          <Typography variant="caption" sx={{ fontFamily: "'Outfit', sans-serif", opacity: 0.7 }}>
                             {r.ip ?? r.ipAddress ?? r.ip_address ?? "—"}
                           </Typography>
                         </TableCell>

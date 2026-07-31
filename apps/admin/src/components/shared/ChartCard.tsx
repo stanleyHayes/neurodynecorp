@@ -27,7 +27,7 @@ export default function ChartCard({
     <Cell color={color} index={index} colInRow={colInRow} totalCols={totalCols} animDelay={animDelay}>
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.6rem",
           textTransform: "uppercase",
           letterSpacing: "0.2em",

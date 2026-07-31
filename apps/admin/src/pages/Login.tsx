@@ -60,7 +60,7 @@ export default function Login() {
       </Typography>
 
       {error && (
-        <Alert severity="error" sx={{ mb: 3, borderRadius: 2 }}>{error}</Alert>
+        <Alert severity="error" sx={{ mb: 3, borderRadius: 1 }}>{error}</Alert>
       )}
 
       <Box component="form" onSubmit={handleSubmit}>
@@ -103,7 +103,7 @@ export default function Login() {
               py: 1.5,
               fontSize: "1rem",
               fontWeight: 700,
-              borderRadius: 2,
+              borderRadius: 1,
               background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
               boxShadow: "0 4px 16px rgba(108, 99, 255, 0.3)",
               "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(108, 99, 255, 0.4)" },

@@ -23,7 +23,7 @@ import UnsubscribeOutlinedIcon from "@mui/icons-material/UnsubscribeOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -181,7 +181,7 @@ export default function Newsletter() {
                             label={meta.label}
                             size="small"
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.6rem",
                               bgcolor: `${meta.color}1A`,
                               color: meta.color,

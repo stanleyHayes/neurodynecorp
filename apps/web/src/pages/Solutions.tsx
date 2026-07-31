@@ -35,7 +35,7 @@ export default function Solutions() {
         description="Enterprise software, artificial intelligence, cloud, data, cybersecurity and UX engineering — the capabilities behind every NeuroDyne operating system."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.6} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero

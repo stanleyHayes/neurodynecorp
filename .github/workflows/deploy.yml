@@ -42,13 +42,10 @@ jobs:
       - name: Build server image
         run: docker build -f apps/server/Dockerfile -t neurodyne-server:latest .
 
-      - name: Build API image
-        run: docker build -f apps/api/Dockerfile -t neurodyne-api:latest ./apps/api
 
       - name: Save images
         run: |
           docker save neurodyne-server:latest -o neurodyne-server.tar
-          docker save neurodyne-api:latest -o neurodyne-api.tar
 
       - name: Upload server image
         uses: actions/upload-artifact@v4
@@ -56,11 +53,6 @@ jobs:
           name: neurodyne-server-image
           path: neurodyne-server.tar
 
-      - name: Upload API image
-        uses: actions/upload-artifact@v4
-        with:
-          name: neurodyne-api-image
-          path: neurodyne-api.tar
 
   deploy-render:
     name: Deploy to Render
@@ -74,11 +66,6 @@ jobs:
             curl -X POST "${{ secrets.RENDER_SERVER_DEPLOY_HOOK }}"
           fi
 
-      - name: Trigger Render deploy hook (API)
-        run: |
-          if [ -n "${{ secrets.RENDER_API_DEPLOY_HOOK }}" ]; then
-            curl -X POST "${{ secrets.RENDER_API_DEPLOY_HOOK }}"
-          fi
 
       - name: Trigger Render deploy hook (Web)
         run: |

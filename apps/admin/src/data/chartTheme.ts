@@ -2,7 +2,7 @@ export const CHART_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF444
 
 export const AXIS_STYLE = {
   fontSize: 11,
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fill: "#94A3B8",
 };
 
@@ -15,7 +15,7 @@ export const TOOLTIP_STYLE = {
     background: "#111827",
     border: "1px solid rgba(108,99,255,0.2)",
     borderRadius: 8,
-    fontFamily: "monospace",
+    fontFamily: "'Outfit', sans-serif",
     fontSize: 12,
   },
   labelStyle: { color: "#94A3B8" },

@@ -1,4 +1,4 @@
-.PHONY: all dev infra stop api server web client admin mobile proto clean
+.PHONY: all dev infra stop server web client admin mobile clean
 
 # ========================================
 # Infrastructure
@@ -17,28 +17,9 @@ infra-clean:
 # Backend (Go API)
 # ========================================
 
-api:
-	cd apps/api && go run cmd/server/main.go
-
-api-build:
-	cd apps/api && go build -o bin/server cmd/server/main.go
-
-api-test:
-	cd apps/api && go test ./...
-
-api-lint:
-	cd apps/api && golangci-lint run
-
 # ========================================
 # Proto Generation
 # ========================================
-
-proto:
-	cd apps/api && protoc \
-		--proto_path=proto \
-		--go_out=internal/adapter/driving/grpc/pb --go_opt=paths=source_relative \
-		--go-grpc_out=internal/adapter/driving/grpc/pb --go-grpc_opt=paths=source_relative \
-		proto/*.proto
 
 # ========================================
 # Frontend Apps
@@ -84,20 +65,17 @@ server-test:
 
 dev: infra
 	@echo "Starting all services..."
-	@make -j5 api server web client admin
+	@make -j4 server web client admin
 
 install:
 	pnpm install
-	cd apps/api && go mod tidy
 
-build: web-build client-build admin-build api-build server-build
+build: web-build client-build admin-build server-build
 
 lint:
 	pnpm -r lint
-	cd apps/api && golangci-lint run
 
 clean:
-	rm -rf apps/api/bin
 	rm -rf apps/web/dist
 	rm -rf apps/client/dist
 	rm -rf apps/admin/dist

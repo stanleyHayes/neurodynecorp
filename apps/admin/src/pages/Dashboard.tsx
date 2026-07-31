@@ -109,7 +109,7 @@ export default function Dashboard() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 32 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1.5 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h3" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -159,8 +159,8 @@ export default function Dashboard() {
             {projectsByStatus.map((s) => (
               <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: s.color, flexShrink: 0 }} />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: s.color }}>{s.value}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: s.color }}>{s.value}</Typography>
               </Stack>
             ))}
           </Stack>
@@ -192,8 +192,8 @@ export default function Dashboard() {
               {pipeline.map((stage) => (
                 <Stack sx={{ alignItems: "center" }} key={stage.stage} direction="row" spacing={2}>
                   <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: stage.color, flexShrink: 0, filter: `drop-shadow(0 0 4px ${stage.color}60)` }} />
-                  <Typography variant="body2" sx={{ flex: 1, fontFamily: "monospace", fontSize: "0.8rem" }}>{stage.stage}</Typography>
-                  <Chip label={stage.count} size="small" sx={{ fontFamily: "monospace", bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />
+                  <Typography variant="body2" sx={{ flex: 1, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>{stage.stage}</Typography>
+                  <Chip label={stage.count} size="small" sx={{ fontFamily: "'Outfit', sans-serif", bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />
                 </Stack>
               ))}
             </Stack>
@@ -212,7 +212,7 @@ export default function Dashboard() {
               <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
-                  <Typography variant="caption" sx={{ color: "text.secondary", fontFamily: "monospace", fontSize: "0.65rem" }}>{project.client}</Typography>
+                  <Typography variant="caption" sx={{ color: "text.secondary", fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem" }}>{project.client}</Typography>
                 </Box>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <Chip label={project.status} size="small" variant="outlined" />
@@ -231,7 +231,7 @@ export default function Dashboard() {
                       />
                     </Box>
                   ) : (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.4, width: 80, textAlign: "right" }}>PENDING</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.4, width: 80, textAlign: "right" }}>PENDING</Typography>
                   )}
                 </Stack>
               </Stack>

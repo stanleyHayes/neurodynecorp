@@ -30,7 +30,7 @@ import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overline = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase",
   letterSpacing: "0.25em",
@@ -497,7 +497,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
         <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1.5}>
           <Box sx={{ minWidth: 0 }}>
             <Typography sx={{ fontWeight: 700 }}>{incident.title}</Typography>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.3 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.3 }}>
               {fmtDate(incident.createdAt ?? incident.created_at)}
             </Typography>
           </Box>
@@ -505,7 +505,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
             label={meta.label}
             size="small"
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.6rem",
               bgcolor: `${meta.color}18`,
               color: meta.color,
@@ -522,10 +522,10 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
               return (
                 <Box key={i}>
                   <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: um.color, fontWeight: 700 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: um.color, fontWeight: 700 }}>
                       {um.label}
                     </Typography>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5 }}>
                       {fmtDate(u.createdAt ?? u.created_at ?? u.timestamp)}
                     </Typography>
                   </Stack>

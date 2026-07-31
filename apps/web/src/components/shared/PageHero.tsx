@@ -129,6 +129,11 @@ export default function PageHero({
       sx={{
         display: "grid",
         gridTemplateColumns: { xs: "1fr", md: "1.6fr 0.4fr" },
+        // Page banners are intentionally full-bleed, even when a page places
+        // them inside a constrained content container.
+        width: "100vw",
+        maxWidth: "100vw",
+        ml: "calc(50% - 50vw)",
         borderBottom: `1px solid ${BORDER}`,
         position: "relative",
         overflow: "hidden",

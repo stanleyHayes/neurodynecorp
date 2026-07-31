@@ -38,15 +38,17 @@ export default function IndustryDetail() {
         ogUrl={`https://neurodynecorp.com/industries/${industry.slug}`}
       />
 
-      <PageHero
-        icon={<DomainOutlinedIcon />}
-        title={industry.name}
-        description={industry.summary}
-        tag={`SECTOR // ${industry.kicker}`}
-        accentWord={industry.name}
-        iconColor={industry.color}
-        iconLabel="SECTOR BRIEF"
-      />
+      <Container maxWidth="lg" sx={{ pt: 0 }}>
+        <PageHero
+          icon={<DomainOutlinedIcon />}
+          title={industry.name}
+          description={industry.summary}
+          tag={`SECTOR // ${industry.kicker}`}
+          accentWord={industry.name}
+          iconColor={industry.color}
+          iconLabel="SECTOR BRIEF"
+        />
+      </Container>
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <Stack spacing={{ xs: 5, md: 7 }}>

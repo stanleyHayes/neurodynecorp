@@ -21,7 +21,7 @@ export default function Research() {
         description="Applied research in AI, distributed systems, digital identity, interoperability, knowledge graphs, digital twins and edge computing — grounded in African deployment realities."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.7} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero

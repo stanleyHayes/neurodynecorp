@@ -99,11 +99,11 @@ export default function KeyboardNav() {
             pointerEvents: "none",
           }}
         >
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", fontWeight: 600 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", fontWeight: 600 }}>
             {hint}
           </Typography>
           {hint === "g" && (
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5 }}>
               · d dash · c clients · r projects · t tasks · m team · f fin · b blog · o portfolio · s settings
             </Typography>
           )}

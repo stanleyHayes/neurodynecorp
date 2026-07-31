@@ -109,7 +109,7 @@ const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: colors.background, padding: 16 },
   card: {
     backgroundColor: colors.surface,
-    borderRadius: 12,
+    borderRadius: 4,
     padding: 16,
     marginBottom: 10,
     borderWidth: 1,

@@ -12,14 +12,15 @@ const theme = createTheme({
     warning: { main: "#F59E0B" },
   },
   typography: {
-    fontFamily: "'TT Squares', 'Roboto', sans-serif",
+    fontFamily: "'Outfit', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+    h1: { fontFamily: "'TT Squares', 'Outfit', sans-serif" },
     button: { textTransform: "none", fontWeight: 600 },
   },
-  shape: { borderRadius: 12 },
+  shape: { borderRadius: 4 },
   components: {
     MuiButton: {
       styleOverrides: {
-        root: { borderRadius: 8, padding: "10px 24px" },
+        root: { borderRadius: 4, padding: "10px 24px" },
 
       },
       variants: [
@@ -35,6 +36,7 @@ const theme = createTheme({
     MuiCard: {
       styleOverrides: {
         root: {
+          borderRadius: 6,
           background: "rgba(17, 24, 39, 0.35)",
           backdropFilter: "blur(16px) saturate(1.3)",
           WebkitBackdropFilter: "blur(16px) saturate(1.3)",
@@ -43,6 +45,9 @@ const theme = createTheme({
         },
       },
     },
+    MuiOutlinedInput: { styleOverrides: { root: { borderRadius: 4 } } },
+    MuiAlert: { styleOverrides: { root: { borderRadius: 4 } } },
+    MuiDialog: { styleOverrides: { paper: { borderRadius: 6 } } },
     MuiAppBar: {
       styleOverrides: {
         root: {

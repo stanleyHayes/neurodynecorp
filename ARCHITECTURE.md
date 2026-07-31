@@ -53,7 +53,7 @@ NeuroDyne is a **productized software-engineering platform** built as a polyglot
 
 ### Clean Architecture (Ports & Adapters)
 
-Both `apps/server` and `apps/api` follow the same layered structure:
+`apps/server` follows a layered (hexagonal) structure:
 
 ```
 ┌─────────────────────────────────────────┐
@@ -86,10 +86,6 @@ This means:
 - **Metrics** — Prometheus scrape endpoint on `/metrics` (port 9090)
 - **Public feeds** — RSS (`/feed.xml`) and sitemap (`/sitemap.xml`)
 
-### Go API (`apps/api`)
-- **gRPC** — internal service-to-service calls (port 50051)
-- **HTTP** — REST gateway for external consumers (port 8080)
-- **Metrics** — Prometheus scrape endpoint (port 9090)
 
 ### Frontend → Backend
 - `packages/shared` exports a typed `ApiClient` used by `web`, `client`, and `admin`.
@@ -154,7 +150,6 @@ The Go API reads `config.yaml` locally but also supports env overrides for conta
 A `render.yaml` blueprint is provided for one-click deployment:
 
 - **Node Server** — Docker service built from `apps/server/Dockerfile`
-- **Go API** — Docker service built from `apps/api/Dockerfile`
 - **MongoDB** — Managed MongoDB (Render) or Docker service
 - **Redis** — Managed Redis (Render) or Docker service
 
@@ -192,7 +187,6 @@ All workflows use `pnpm/action-setup@v4` with Node 20 and pnpm 9.
 ```bash
 # Install everything
 pnpm install
-cd apps/api && go mod tidy
 
 # Start infrastructure
 docker compose up -d
@@ -212,7 +206,6 @@ pnpm typecheck
 pnpm --filter @neurodyne/server test
 
 # Go API
-cd apps/api && go test ./...
 ```
 
 ---

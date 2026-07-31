@@ -50,7 +50,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           <RocketLaunchOutlinedIcon sx={{ fontSize: 64, color: "#6C63FF", filter: "drop-shadow(0 0 20px rgba(108,99,255,0.5))", mb: 3 }} />
           <Typography
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.3em",
               textTransform: "uppercase",
@@ -81,7 +81,7 @@ export default class ErrorBoundary extends Component<Props, State> {
           {this.state.error?.message && (
             <Box
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.75rem",
                 bgcolor: "rgba(10,14,26,0.6)",
                 border: "1px solid rgba(239,68,68,0.2)",

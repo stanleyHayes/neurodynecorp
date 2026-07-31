@@ -37,7 +37,7 @@ export default function Pagination({ page, totalPages, onPageChange, totalItems 
 
         <Typography
           sx={{
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.7rem",
             letterSpacing: "0.15em",
             color: "text.secondary",

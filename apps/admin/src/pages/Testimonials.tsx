@@ -121,7 +121,7 @@ export default function Testimonials() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -180,9 +180,9 @@ export default function Testimonials() {
                   <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 0.5 }}>
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{t.name}</Typography>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{t.role}, {t.company}</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{t.role}, {t.company}</Typography>
                     </Box>
-                    <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                    <Chip label={displayStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                   </Stack>
                   <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.8, mt: 1, fontStyle: "italic", lineHeight: 1.6 }}>
                     "{t.content}"
@@ -191,7 +191,7 @@ export default function Testimonials() {
                     {Array.from({ length: 5 }).map((_, si) => (
                       <StarOutlinedIcon key={si} sx={{ fontSize: 14, color: si < t.rating ? "#F59E0B" : "rgba(148,163,184,0.3)" }} />
                     ))}
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, ml: 1 }}>{new Date(t.createdAt).toLocaleDateString()}</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, ml: 1 }}>{new Date(t.createdAt).toLocaleDateString()}</Typography>
                   </Stack>
                 </Box>
               </Stack>

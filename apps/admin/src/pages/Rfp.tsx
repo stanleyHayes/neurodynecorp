@@ -7,7 +7,7 @@ import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -114,7 +114,7 @@ export default function Rfp() {
 
             <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by status</Typography>
-              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
+              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                 <MenuItem value="">All statuses</MenuItem>
                 {STATUSES.map((s) => (
                   <MenuItem key={s} value={s}>{s.replace(/_/g, " ")}</MenuItem>
@@ -150,7 +150,7 @@ export default function Rfp() {
                       const sColor = STATUS_COLOR[r.status] ?? "#94A3B8";
                       return (
                         <TableRow key={r.id ?? r._id ?? i} hover>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
                             {formatDate(r.createdAt ?? r.created_at)}
                           </TableCell>
                           <TableCell sx={{ fontSize: "0.8rem", fontWeight: 600 }}>
@@ -165,21 +165,21 @@ export default function Rfp() {
                               </Typography>
                             ) : null}
                           </TableCell>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary" }}>
                             {r.contactEmail ?? "—"}
                           </TableCell>
                           <TableCell>
-                            <Chip label={sla.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${sla.color}18`, color: sla.color, border: `1px solid ${sla.color}30` }} />
+                            <Chip label={sla.label} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${sla.color}18`, color: sla.color, border: `1px solid ${sla.color}30` }} />
                           </TableCell>
                           <TableCell>
                             <Select
                               size="small"
                               value={r.status ?? "received"}
                               onChange={(e) => changeStatus(r.id, e.target.value)}
-                              sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: sColor, minWidth: 130, "& .MuiOutlinedInput-notchedOutline": { borderColor: `${sColor}40` } }}
+                              sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: sColor, minWidth: 130, "& .MuiOutlinedInput-notchedOutline": { borderColor: `${sColor}40` } }}
                             >
                               {STATUSES.map((s) => (
-                                <MenuItem key={s} value={s} sx={{ fontFamily: "monospace", fontSize: "0.75rem" }}>{s.replace(/_/g, " ")}</MenuItem>
+                                <MenuItem key={s} value={s} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem" }}>{s.replace(/_/g, " ")}</MenuItem>
                               ))}
                             </Select>
                           </TableCell>

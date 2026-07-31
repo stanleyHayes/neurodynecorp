@@ -147,7 +147,7 @@ export default function Analytics() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h3" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -232,8 +232,8 @@ export default function Analytics() {
             {projectsByStatus.map((s) => (
               <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: s.color }} />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>
               </Stack>
             ))}
           </Stack>
@@ -252,8 +252,8 @@ export default function Analytics() {
             {projectsByType.map((s) => (
               <Stack sx={{ alignItems: "center" }} key={s.name} direction="row" spacing={1}>
                 <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: s.color }} />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", flex: 1 }}>{s.name}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: s.color }}>{s.value}</Typography>
               </Stack>
             ))}
           </Stack>

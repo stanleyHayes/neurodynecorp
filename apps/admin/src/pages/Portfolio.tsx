@@ -84,7 +84,7 @@ export default function Portfolio() {
         <Typography
           component="button"
           onClick={loadCaseStudies}
-          sx={{ cursor: "pointer", color: "#6C63FF", background: "none", border: "none", fontFamily: "monospace", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", "&:hover": { textDecoration: "underline" } }}
+          sx={{ cursor: "pointer", color: "#6C63FF", background: "none", border: "none", fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", "&:hover": { textDecoration: "underline" } }}
         >
           Retry
         </Typography>
@@ -113,7 +113,7 @@ export default function Portfolio() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -166,19 +166,19 @@ export default function Portfolio() {
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{study.title}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{study.client} — {study.category}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{study.client} — {study.category}</Typography>
                 </Box>
-                <Chip label={statusLabel(study.status)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                <Chip label={statusLabel(study.status)} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{study.description}</Typography>
               <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
                 {(study.tags ?? []).map((tag: string) => (
-                  <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.55rem", height: 22 }} />
+                  <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", height: 22 }} />
                 ))}
               </Stack>
               <Stack direction="row" spacing={2}>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: study.color, fontWeight: 600 }}>{study.impact}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{study.createdAt}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: study.color, fontWeight: 600 }}>{study.impact}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{study.createdAt}</Typography>
               </Stack>
             </Cell>
           );

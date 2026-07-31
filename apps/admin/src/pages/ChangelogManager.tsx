@@ -29,7 +29,7 @@ import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overline = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase",
   letterSpacing: "0.25em",
@@ -244,21 +244,21 @@ export default function ChangelogManager() {
                           <Chip
                             label={entry.version}
                             size="small"
-                            sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.3)" }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.3)" }}
                           />
                           <Chip
                             label={meta.label}
                             size="small"
-                            sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${meta.color}18`, color: meta.color, border: `1px solid ${meta.color}30` }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${meta.color}18`, color: meta.color, border: `1px solid ${meta.color}30` }}
                           />
                           {!published && (
                             <Chip
                               label="DRAFT"
                               size="small"
-                              sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: "rgba(148,163,184,0.12)", color: "#94A3B8", border: "1px solid rgba(148,163,184,0.3)" }}
+                              sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: "rgba(148,163,184,0.12)", color: "#94A3B8", border: "1px solid rgba(148,163,184,0.3)" }}
                             />
                           )}
-                          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
+                          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
                             {fmtDate(entry.createdAt ?? entry.created_at ?? entry.date)}
                           </Typography>
                         </Stack>
@@ -273,7 +273,7 @@ export default function ChangelogManager() {
                       <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", flexShrink: 0 }}>
                         <Stack sx={{ alignItems: "center", mr: 0.5 }}>
                           <Switch size="small" checked={published} onChange={() => handleTogglePublished(entry)} />
-                          <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", letterSpacing: "0.1em", color: "text.secondary", opacity: 0.6 }}>
+                          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", letterSpacing: "0.1em", color: "text.secondary", opacity: 0.6 }}>
                             {published ? "LIVE" : "DRAFT"}
                           </Typography>
                         </Stack>

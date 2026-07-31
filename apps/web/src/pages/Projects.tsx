@@ -26,7 +26,7 @@ export default function Projects() {
         description="The systems we've engineered — industry operating systems, government platforms, healthcare interoperability, and civic infrastructure across Ghana and Africa."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.6} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero
@@ -41,34 +41,49 @@ export default function Projects() {
         </Box>
 
         {/* Filter */}
-        <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, mt: { xs: 4, md: 6 }, position: "relative", zIndex: 1 }}>
+        <Box
+          role="group"
+          aria-label="Filter projects by category"
+          sx={{
+            display: "flex", flexWrap: "wrap", gap: 0.75, mt: { xs: 4, md: 6 }, p: 0.75,
+            position: "relative", zIndex: 1, width: "fit-content", maxWidth: "100%",
+            border: "1px solid", borderColor: "divider", bgcolor: "background.paper",
+            boxShadow: "0 14px 36px rgba(30, 38, 80, 0.08)",
+          }}
+        >
           {(["All", ...PROJECT_CATEGORIES] as const).map((c) => {
             const active = filter === c;
+            const count = c === "All" ? PROJECTS.length : PROJECTS.filter((p) => p.category === c).length;
             return (
               <Box
+                component="button"
+                type="button"
                 key={c}
                 onClick={() => setFilter(c as ProjectCategory | "All")}
                 sx={{
                   cursor: "pointer",
-                  px: 1.75,
-                  py: 0.9,
-                  border: "1px solid",
-                  borderColor: active ? "primary.main" : "divider",
-                  bgcolor: active ? "action.selected" : "transparent",
-                  color: active ? "primary.main" : "text.secondary",
+                  display: "flex", alignItems: "center", gap: 1,
+                  px: 1.6, py: 1.05, border: 0,
+                  bgcolor: active ? "primary.main" : "transparent",
+                  color: active ? "primary.contrastText" : "text.secondary",
                   fontFamily: "monospace",
-                  fontSize: "0.7rem",
+                  fontSize: "0.66rem",
                   letterSpacing: "0.08em",
                   textTransform: "uppercase",
-                  transition: "all 0.2s",
-                  "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                  transition: "background-color 0.2s, color 0.2s, transform 0.2s",
+                  "&:hover": { bgcolor: active ? "primary.dark" : "action.hover", color: active ? "primary.contrastText" : "primary.main" },
+                  "&:active": { transform: "translateY(1px)" },
+                  "&:focus-visible": { outline: "2px solid", outlineColor: "primary.main", outlineOffset: 2 },
                 }}
               >
-                {c}
+                <span>{c}</span>
+                <Box component="span" sx={{ minWidth: 18, px: 0.45, py: 0.1, bgcolor: active ? "rgba(255,255,255,0.16)" : "action.selected", fontSize: "0.56rem", textAlign: "center" }}>
+                  {String(count).padStart(2, "0")}
+                </Box>
               </Box>
             );
           })}
-        </Stack>
+        </Box>
       </Container>
 
       <Box sx={{ position: "relative", pb: { xs: 8, md: 12 }, overflow: "hidden" }}>

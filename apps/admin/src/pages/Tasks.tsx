@@ -87,7 +87,7 @@ const priorityColors: Record<string, string> = {
 
 const INPUT_SX = {
   "& .MuiOutlinedInput-root": {
-    fontFamily: "monospace",
+    fontFamily: "'Outfit', sans-serif",
     fontSize: "0.85rem",
     bgcolor: "rgba(108, 99, 255, 0.04)",
     "& fieldset": { borderColor: "rgba(108, 99, 255, 0.15)" },
@@ -95,7 +95,7 @@ const INPUT_SX = {
     "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
   },
   "& .MuiInputLabel-root": {
-    fontFamily: "monospace",
+    fontFamily: "'Outfit', sans-serif",
     fontSize: "0.8rem",
     color: "text.secondary",
   },
@@ -140,7 +140,7 @@ function SortableTaskCard({
         </Typography>
         <Typography
           sx={{
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.6rem",
             color: "text.secondary",
             opacity: 0.6,
@@ -154,7 +154,7 @@ function SortableTaskCard({
             label={task.priority}
             size="small"
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.55rem",
               height: 20,
               bgcolor: `${pColor}18`,
@@ -201,7 +201,7 @@ function TaskCardOverlay({ task, projectName }: { task: ApiTask; projectName: st
         {task.title}
       </Typography>
       <Typography
-        sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mb: 1 }}
+        sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mb: 1 }}
       >
         {projectName}
       </Typography>
@@ -209,7 +209,7 @@ function TaskCardOverlay({ task, projectName }: { task: ApiTask; projectName: st
         label={task.priority}
         size="small"
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.55rem",
           height: 20,
           bgcolor: `${pColor}18`,
@@ -265,14 +265,14 @@ function DroppableColumn({
               filter: `drop-shadow(0 0 4px ${color}60)`,
             }}
           />
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em" }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em" }}>
             {label}
           </Typography>
           <Chip
             label={tasks.length}
             size="small"
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.6rem",
               height: 20,
               bgcolor: `${color}18`,
@@ -364,7 +364,7 @@ function NewTaskDialog({
         <Box>
           <Typography
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.6rem",
               fontWeight: 700,
               letterSpacing: "0.3em",
@@ -422,7 +422,7 @@ function NewTaskDialog({
                     bgcolor: priorityColors[p],
                   }}
                 />
-                <span style={{ fontFamily: "monospace", fontSize: "0.8rem", textTransform: "capitalize" }}>
+                <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", textTransform: "capitalize" }}>
                   {p}
                 </span>
               </Stack>
@@ -440,7 +440,7 @@ function NewTaskDialog({
         >
           {projects.map((p) => (
             <MenuItem key={p.id} value={p.id}>
-              <span style={{ fontFamily: "monospace", fontSize: "0.8rem" }}>{p.title}</span>
+              <span style={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>{p.title}</span>
             </MenuItem>
           ))}
         </TextField>
@@ -450,7 +450,7 @@ function NewTaskDialog({
         <Button
           onClick={onClose}
           sx={{
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.75rem",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
@@ -464,7 +464,7 @@ function NewTaskDialog({
           disabled={!title.trim() || !projectId || submitting}
           variant="contained"
           sx={{
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.75rem",
             letterSpacing: "0.08em",
             textTransform: "uppercase",
@@ -699,7 +699,7 @@ export default function Tasks() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>

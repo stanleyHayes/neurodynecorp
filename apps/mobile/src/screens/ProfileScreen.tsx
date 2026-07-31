@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   menuItem: {
     backgroundColor: colors.surface,
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 4,
     marginBottom: 8,
     borderWidth: 1,
     borderColor: colors.border,
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     backgroundColor: "rgba(239, 68, 68, 0.15)",
     padding: 16,
-    borderRadius: 12,
+    borderRadius: 4,
     marginTop: 24,
     alignItems: "center",
   },

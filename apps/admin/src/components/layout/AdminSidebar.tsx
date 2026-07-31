@@ -214,7 +214,7 @@ function SidebarItem({
         {!collapsed && (
           <Typography
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.55rem",
               color: isActive ? item.color : "text.secondary",
               opacity: isActive ? 0.7 : 0.3,
@@ -374,7 +374,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               {!(collapsed && !isMobile) && (
                 <Typography
                   sx={{
-                    fontFamily: "monospace",
+                    fontFamily: "'Outfit', sans-serif",
                     fontSize: "0.55rem",
                     textTransform: "uppercase",
                     letterSpacing: "0.25em",
@@ -431,10 +431,10 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               "&:hover": { borderColor: "rgba(108,99,255,0.3)", bgcolor: "rgba(108,99,255,0.04)" },
             }}
           >
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
               QUICK NAV
             </Typography>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
               ⌘ K
             </Typography>
           </Box>

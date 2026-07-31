@@ -21,7 +21,6 @@
     "build:shared": "pnpm --filter @neurodyne/shared build",
     "lint": "pnpm -r lint",
     "typecheck": "pnpm -r typecheck",
-    "proto:gen": "buf generate",
     "prepare": "husky"
   },
   "devDependencies": {

@@ -20,6 +20,10 @@ import {
   CircularProgress,
   IconButton,
   LinearProgress,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
   keyframes,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
@@ -45,6 +49,7 @@ import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
 import PhoneIphoneOutlinedIcon from "@mui/icons-material/PhoneIphoneOutlined";
 import SmartToyOutlinedIcon from "@mui/icons-material/SmartToyOutlined";
 import AutoAwesomeIcon from "@mui/icons-material/AutoAwesome";
+import CloseIcon from "@mui/icons-material/Close";
 import { useTheme } from "@mui/material/styles";
 import SEO from "@/components/seo/SEO";
 import { api } from "@/api/client";
@@ -88,11 +93,17 @@ const scanlinePulse = keyframes`
 `;
 
 const projectTypes = [
-  { value: "web_app", label: "Web Application" },
-  { value: "mobile_app", label: "Mobile Application" },
-  { value: "ai_system", label: "AI/ML System" },
-  { value: "blockchain", label: "Blockchain Platform" },
+  { value: "digital_platform", label: "Digital Platform / Portal" },
+  { value: "mobile_app", label: "Mobile Product" },
+  { value: "ai_system", label: "AI or Automation System" },
+  { value: "data_platform", label: "Data & Intelligence Platform" },
+  { value: "systems_integration", label: "Systems Integration" },
+  { value: "modernisation", label: "Modernisation / Rebuild" },
 ];
+
+const organisationTypes = ["Startup", "Established business", "Government / public institution", "NGO / development organisation", "University / research institution", "Individual founder"];
+const projectStages = ["Exploring the opportunity", "Requirements are taking shape", "Specification or designs exist", "Replacing an existing system", "Already building and need help"];
+const securityOptions = ["Role-based access", "Audit trail", "Sensitive personal data", "Payments or financial data", "Data residency requirements", "Regulatory compliance", "Not sure yet"];
 
 const budgetRanges = [
   "$10,000 - $25,000",
@@ -164,6 +175,12 @@ interface FormData {
   name: string;
   email: string;
   company: string;
+  organisationType: string;
+  projectStage: string;
+  primaryUsers: string;
+  successCriteria: string;
+  integrations: string;
+  securityRequirements: string[];
   specFile: File | null;
   specUploaded: UploadedSpec | null;
 }
@@ -184,9 +201,34 @@ const initialFormData: FormData = {
   name: "",
   email: "",
   company: "",
+  organisationType: "",
+  projectStage: "",
+  primaryUsers: "",
+  successCriteria: "",
+  integrations: "",
+  securityRequirements: [],
   specFile: null,
   specUploaded: null,
 };
+
+const EMAIL_PATTERN = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+function validateProject(formData: FormData, requireDetailedBrief = true): string | null {
+  if (!formData.projectTypes.length) return "Select at least one kind of engagement.";
+  if (formData.title.trim().length < 3) return "Enter a working title with at least 3 characters.";
+  if (formData.description.trim().length < 80) return "Describe the problem, current situation, and intended outcome in at least 80 characters.";
+  if (requireDetailedBrief && !formData.projectStage) return "Select the current stage of the initiative.";
+  if (requireDetailedBrief && formData.primaryUsers.trim().length < 20) return "Tell us who will use the system and in what context.";
+  if (requireDetailedBrief && formData.successCriteria.trim().length < 30) return "Describe at least one measurable outcome that would make this project successful.";
+  if (formData.name.trim().length < 2) return "Enter your full name.";
+  if (!EMAIL_PATTERN.test(formData.email.trim())) return "Enter a valid email address, for example name@company.com.";
+  if (requireDetailedBrief && !formData.organisationType) return "Select the type of organisation you represent.";
+  if (formData.projectTypes.includes("mobile_app") && !formData.platforms.length) return "Select a target mobile platform.";
+  if (formData.projectTypes.includes("ai_system") && !formData.aiType) return "Select the primary AI capability.";
+  if (!formData.budget) return "Select the investment range you are planning around.";
+  if (!formData.timeline) return "Select the delivery window you are working toward.";
+  return null;
+}
 
 // ── Shared helpers ────────────────────────────────────────────────────────────
 
@@ -517,6 +559,7 @@ interface FullscreenStep {
     extra?: { uploading: boolean; onSpecFile: (f: File) => void; onSpecRemove: () => void };
   }) => React.ReactNode;
   shouldShow?: (formData: FormData) => boolean;
+  validate?: (formData: FormData) => string | null;
 }
 
 function ReviewCell({
@@ -621,29 +664,56 @@ function ReviewCell({
   );
 }
 
+const fsChoiceGridSx = {
+  display: "grid",
+  gridTemplateColumns: { xs: "1fr", md: "repeat(2, minmax(0, 1fr))" },
+  gap: { xs: 1, md: 1.5 },
+  width: "100%",
+  maxWidth: 900,
+} as const;
+
+function fsChoiceCardSx(selected: boolean, color: string) {
+  return {
+    position: "relative",
+    minHeight: { xs: 64, md: 78 },
+    m: 0,
+    px: { xs: 1.5, md: 2 },
+    py: { xs: 1, md: 1.25 },
+    border: "1px solid",
+    borderColor: selected ? `${color}70` : "divider",
+    borderRadius: 2,
+    bgcolor: selected ? `${color}10` : "rgba(108,99,255,0.025)",
+    boxShadow: selected ? `inset 3px 0 0 ${color}, 0 12px 30px ${color}0D` : "none",
+    transition: "transform 0.2s ease, border-color 0.2s ease, background-color 0.2s ease",
+    cursor: "pointer",
+    "&:hover": { borderColor: `${color}55`, bgcolor: `${color}08`, transform: "translateY(-2px)" },
+    "& .MuiFormControlLabel-label": { fontWeight: selected ? 700 : 500, textAlign: "left" },
+  } as const;
+}
+
 const fullscreenSteps: FullscreenStep[] = [
   {
     key: "welcome",
-    label: "Let's Build Something",
-    sublabel: "Answer a few questions and we'll craft a specification for your project.",
+    label: "Build the Brief",
+    sublabel: "A focused intake for serious digital systems—not a generic contact form.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <RocketLaunchIcon sx={{ fontSize: 48 }} />,
     render: () => (
       <Typography variant="body1" sx={{ color: "text.secondary", lineHeight: 1.8, maxWidth: 460, textAlign: "center" }}>
-        This will only take a few minutes. We'll walk you through each step one at a time.
+        We’ll capture the problem, users, operating context, constraints, and measures of success. Your answers give our team enough signal to prepare a useful first response.
       </Typography>
     ),
   },
   {
     key: "projectType",
-    label: "What Are You Building?",
-    sublabel: "Select all that apply",
+    label: "What Kind of Engagement Is This?",
+    sublabel: "Select every workstream that is genuinely in scope.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <CategoryOutlinedIcon sx={{ fontSize: 48 }} />,
     render: ({ formData, update }) => (
-      <FormGroup sx={{ gap: 1.5, width: "100%", maxWidth: 400 }}>
+      <FormGroup sx={fsChoiceGridSx}>
         {projectTypes.map((type) => (
           <FormControlLabel
             key={type.value}
@@ -663,24 +733,17 @@ const fullscreenSteps: FullscreenStep[] = [
               />
             }
             label={type.label}
-            sx={{
-              border: "1px solid",
-              borderColor: formData.projectTypes.includes(type.value) ? "#00D4AA50" : "rgba(108,99,255,0.12)",
-              borderRadius: 2,
-              p: 1.5,
-              mx: 0,
-              background: formData.projectTypes.includes(type.value) ? "#00D4AA08" : "transparent",
-              transition: "all 0.2s",
-            }}
+            sx={fsChoiceCardSx(formData.projectTypes.includes(type.value), "#00D4AA")}
           />
         ))}
       </FormGroup>
     ),
+    validate: (fd) => fd.projectTypes.length ? null : "Select at least one kind of engagement.",
   },
   {
     key: "title",
-    label: "Give Your Project a Name",
-    sublabel: "Something descriptive — you can always change it later",
+    label: "Give the Initiative a Working Title",
+    sublabel: "Use a specific internal or public name; it does not need to be final.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <TitleOutlinedIcon sx={{ fontSize: 48 }} />,
@@ -690,16 +753,17 @@ const fullscreenSteps: FullscreenStep[] = [
         autoFocus
         value={formData.title}
         onChange={(e) => update({ title: e.target.value })}
-        placeholder="e.g. Customer Analytics Dashboard"
+        placeholder="e.g. National Provider Registry"
         variant="outlined"
-        sx={{ maxWidth: 480, ...fsFieldSx }}
+        sx={{ maxWidth: 760, ...fsFieldSx }}
       />
     ),
+    validate: (fd) => fd.title.trim().length >= 3 ? null : "Enter a working title with at least 3 characters.",
   },
   {
     key: "description",
-    label: "Describe Your Vision",
-    sublabel: "What problem does this solve? What's the big picture?",
+    label: "What Problem Must Change?",
+    sublabel: "Describe the current situation, why it is failing, and the outcome you need.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <DescriptionOutlinedIcon sx={{ fontSize: 48 }} />,
@@ -711,14 +775,58 @@ const fullscreenSteps: FullscreenStep[] = [
         rows={5}
         value={formData.description}
         onChange={(e) => update({ description: e.target.value })}
-        placeholder="Tell us about the product you envision..."
-        sx={{ maxWidth: 520, ...fsFieldSx }}
+        placeholder="Today, our teams rely on… This causes… We need a system that…"
+        sx={{ maxWidth: 820, ...fsFieldSx }}
       />
     ),
+    validate: (fd) => fd.description.trim().length >= 80 ? null : "Add more context—at least 80 characters covering the problem and intended outcome.",
+  },
+  {
+    key: "projectStage",
+    label: "Where Is the Initiative Today?",
+    sublabel: "This tells us whether the first engagement should focus on discovery, specification, rescue, or delivery.",
+    color: "#6C63FF",
+    accent: "#8B85FF",
+    icon: <ScheduleOutlinedIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <FormGroup sx={fsChoiceGridSx}>
+        {projectStages.map((stage) => (
+          <Box key={stage} onClick={() => update({ projectStage: stage })} sx={{ ...fsChoiceCardSx(formData.projectStage === stage, "#6C63FF"), display: "flex", alignItems: "center", textAlign: "left" }}>
+            <Typography sx={{ fontWeight: formData.projectStage === stage ? 700 : 400 }}>{stage}</Typography>
+          </Box>
+        ))}
+      </FormGroup>
+    ),
+    validate: (fd) => fd.projectStage ? null : "Select the current stage of the initiative.",
+  },
+  {
+    key: "primaryUsers",
+    label: "Who Will Depend on This System?",
+    sublabel: "Name the primary users, their environment, and any access or device constraints.",
+    color: "#00D4AA",
+    accent: "#33DDBB",
+    icon: <PersonOutlineIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <TextField fullWidth autoFocus multiline rows={5} value={formData.primaryUsers} onChange={(e) => update({ primaryUsers: e.target.value })} placeholder="e.g. District health officers using shared Android devices, often with unstable connectivity…" sx={{ maxWidth: 820, ...fsFieldSx }} />
+    ),
+    validate: (fd) => fd.primaryUsers.trim().length >= 20 ? null : "Tell us who will use the system and in what context.",
+  },
+  {
+    key: "successCriteria",
+    label: "What Would Success Look Like?",
+    sublabel: "Give us one or more observable outcomes—not just ‘launch the product’.",
+    color: "#6C63FF",
+    accent: "#8B85FF",
+    icon: <AutoAwesomeIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <TextField fullWidth autoFocus multiline rows={5} value={formData.successCriteria} onChange={(e) => update({ successCriteria: e.target.value })} placeholder="e.g. Reduce case processing from 10 days to 2, with a complete audit trail and 80% staff adoption in the first quarter." sx={{ maxWidth: 820, ...fsFieldSx }} />
+    ),
+    validate: (fd) => fd.successCriteria.trim().length >= 30 ? null : "Describe at least one measurable outcome in 30 characters or more.",
   },
   {
     key: "name",
-    label: "What's Your Name?",
+    label: "Who Should We Speak With?",
+    sublabel: "Use your real name so we can address the response properly.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <PersonOutlineIcon sx={{ fontSize: 48 }} />,
@@ -728,15 +836,16 @@ const fullscreenSteps: FullscreenStep[] = [
         autoFocus
         value={formData.name}
         onChange={(e) => update({ name: e.target.value })}
-        placeholder="John Doe"
-        sx={{ maxWidth: 400, ...fsFieldSx }}
+        placeholder="Your full name"
+        sx={{ maxWidth: 620, ...fsFieldSx }}
       />
     ),
+    validate: (fd) => fd.name.trim().length >= 2 ? null : "Enter your full name.",
   },
   {
     key: "email",
-    label: "Your Email Address",
-    sublabel: "We'll send your specification here",
+    label: "Where Should We Send the Response?",
+    sublabel: "Use an address you actively monitor. We’ll never sell or publish it.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <AlternateEmailIcon sx={{ fontSize: 48 }} />,
@@ -748,14 +857,33 @@ const fullscreenSteps: FullscreenStep[] = [
         value={formData.email}
         onChange={(e) => update({ email: e.target.value })}
         placeholder="you@company.com"
-        sx={{ maxWidth: 400, ...fsFieldSx }}
+        sx={{ maxWidth: 620, ...fsFieldSx }}
       />
     ),
+    validate: (fd) => EMAIL_PATTERN.test(fd.email.trim()) ? null : "Enter a valid email address, for example name@company.com.",
+  },
+  {
+    key: "organisationType",
+    label: "What Kind of Organisation Is This For?",
+    sublabel: "The delivery, procurement, and governance approach changes with your operating context.",
+    color: "#6C63FF",
+    accent: "#8B85FF",
+    icon: <BusinessOutlinedIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <FormGroup sx={fsChoiceGridSx}>
+        {organisationTypes.map((type) => (
+          <Box key={type} onClick={() => update({ organisationType: type })} sx={{ ...fsChoiceCardSx(formData.organisationType === type, "#6C63FF"), display: "flex", alignItems: "center", textAlign: "left" }}>
+            <Typography sx={{ fontWeight: formData.organisationType === type ? 700 : 400 }}>{type}</Typography>
+          </Box>
+        ))}
+      </FormGroup>
+    ),
+    validate: (fd) => fd.organisationType ? null : "Select the type of organisation you represent.",
   },
   {
     key: "company",
-    label: "Your Company",
-    sublabel: "Optional — but helps us understand your context",
+    label: "Organisation Name",
+    sublabel: "Optional for individual founders; useful for institutional briefs.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <BusinessOutlinedIcon sx={{ fontSize: 48 }} />,
@@ -765,26 +893,26 @@ const fullscreenSteps: FullscreenStep[] = [
         autoFocus
         value={formData.company}
         onChange={(e) => update({ company: e.target.value })}
-        placeholder="Acme Corp"
-        sx={{ maxWidth: 400, ...fsFieldSx }}
+        placeholder="Organisation or programme name"
+        sx={{ maxWidth: 620, ...fsFieldSx }}
       />
     ),
   },
   {
     key: "mobilePlatforms",
-    label: "Target Platforms",
-    sublabel: "Which platforms should your mobile app support?",
+    label: "Mobile Operating Context",
+    sublabel: "Choose the platform and the capabilities the field experience genuinely requires.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <PhoneIphoneOutlinedIcon sx={{ fontSize: 48 }} />,
     shouldShow: (fd) => fd.projectTypes.includes("mobile_app"),
     render: ({ formData, update }) => (
-      <Stack spacing={2} sx={{ width: "100%", maxWidth: 400 }}>
+      <Stack spacing={2} sx={{ width: "100%", maxWidth: 900 }}>
         <RadioGroup
           row
           value={formData.platforms[0] ?? ""}
           onChange={(e) => update({ platforms: [e.target.value] })}
-          sx={{ gap: 1 }}
+          sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "repeat(3, 1fr)" }, gap: 1.25 }}
         >
           {["iOS", "Android", "Both"].map((platform) => (
             <FormControlLabel
@@ -796,42 +924,29 @@ const fullscreenSteps: FullscreenStep[] = [
                 />
               }
               label={platform}
-              sx={{
-                border: "1px solid",
-                borderColor: formData.platforms[0] === platform ? "#00D4AA50" : "rgba(108,99,255,0.12)",
-                borderRadius: 2,
-                px: 2,
-                py: 0.5,
-                background: formData.platforms[0] === platform ? "#00D4AA08" : "transparent",
-              }}
+              sx={fsChoiceCardSx(formData.platforms[0] === platform, "#00D4AA")}
             />
           ))}
         </RadioGroup>
-        <FormControlLabel
-          control={<Checkbox checked={formData.authRequired} onChange={(e) => update({ authRequired: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />}
-          label="Authentication required?"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={formData.pushNotifications} onChange={(e) => update({ pushNotifications: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />}
-          label="Push notifications?"
-        />
-        <FormControlLabel
-          control={<Checkbox checked={formData.offlineCapability} onChange={(e) => update({ offlineCapability: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />}
-          label="Offline capability?"
-        />
+        <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" }, gap: 1.25 }}>
+          <FormControlLabel control={<Checkbox checked={formData.authRequired} onChange={(e) => update({ authRequired: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />} label="Secure sign-in" sx={fsChoiceCardSx(formData.authRequired, "#00D4AA")} />
+          <FormControlLabel control={<Checkbox checked={formData.pushNotifications} onChange={(e) => update({ pushNotifications: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />} label="Push notifications" sx={fsChoiceCardSx(formData.pushNotifications, "#00D4AA")} />
+          <FormControlLabel control={<Checkbox checked={formData.offlineCapability} onChange={(e) => update({ offlineCapability: e.target.checked })} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />} label="Offline operation" sx={fsChoiceCardSx(formData.offlineCapability, "#00D4AA")} />
+        </Box>
       </Stack>
     ),
+    validate: (fd) => fd.platforms.length ? null : "Select a target mobile platform.",
   },
   {
     key: "aiDetails",
-    label: "AI Configuration",
-    sublabel: "Help us understand the intelligence layer",
+    label: "What Should the Intelligence Layer Do?",
+    sublabel: "Choose the dominant capability. We’ll refine the model and data strategy during discovery.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <SmartToyOutlinedIcon sx={{ fontSize: 48 }} />,
     shouldShow: (fd) => fd.projectTypes.includes("ai_system"),
     render: ({ formData, update }) => (
-      <Stack spacing={3} sx={{ width: "100%", maxWidth: 400 }}>
+      <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1.4fr 0.6fr" }, gap: 1.5, width: "100%", maxWidth: 900 }}>
         <FormControl fullWidth>
           <InputLabel sx={{ fontFamily: "monospace", letterSpacing: "0.05em" }}>AI Type</InputLabel>
           <Select
@@ -844,30 +959,34 @@ const fullscreenSteps: FullscreenStep[] = [
             }}
           >
             <MenuItem value="prediction">Prediction</MenuItem>
-            <MenuItem value="nlp">NLP</MenuItem>
+            <MenuItem value="nlp">Language, search, or document understanding</MenuItem>
             <MenuItem value="computer_vision">Computer Vision</MenuItem>
+            <MenuItem value="agentic_automation">Agentic workflow automation</MenuItem>
+            <MenuItem value="recommendation">Recommendation or decision support</MenuItem>
           </Select>
         </FormControl>
         <FormControlLabel
           control={<Checkbox checked={formData.datasetAvailable} onChange={(e) => update({ datasetAvailable: e.target.checked })} sx={{ color: "#6C63FF60", "&.Mui-checked": { color: "#6C63FF" } }} />}
-          label="Do you have a dataset available?"
+          label="Existing data is available"
+          sx={fsChoiceCardSx(formData.datasetAvailable, "#6C63FF")}
         />
-      </Stack>
+      </Box>
     ),
+    validate: (fd) => fd.aiType ? null : "Select the primary AI capability.",
   },
   {
     key: "features",
-    label: "Key Features",
-    sublabel: "Type a feature and press Enter to add it",
+    label: "What Must the First Release Do?",
+    sublabel: "Add only essential capabilities. Type one clear capability and press Enter.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <FeaturedPlayListOutlinedIcon sx={{ fontSize: 48 }} />,
     render: ({ formData, update }) => (
-      <Box sx={{ width: "100%", maxWidth: 480 }}>
+      <Box sx={{ width: "100%", maxWidth: 860 }}>
         <TextField
           fullWidth
           autoFocus
-          placeholder="e.g. User authentication, Dashboard analytics..."
+          placeholder="e.g. Approve applications with a recorded decision trail"
           onKeyDown={(e) => {
             if (e.key === "Enter") {
               e.preventDefault();
@@ -899,28 +1018,51 @@ const fullscreenSteps: FullscreenStep[] = [
     ),
   },
   {
+    key: "integrations",
+    label: "What Must It Connect To?",
+    sublabel: "List existing systems, databases, payment rails, identity providers, devices, or APIs. Leave blank if none are known.",
+    color: "#6C63FF",
+    accent: "#8B85FF",
+    icon: <CategoryOutlinedIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <TextField fullWidth autoFocus multiline rows={5} value={formData.integrations} onChange={(e) => update({ integrations: e.target.value })} placeholder="e.g. Microsoft Entra ID, Mobile Money, an existing PostgreSQL registry, SMS gateway…" sx={{ maxWidth: 820, ...fsFieldSx }} />
+    ),
+  },
+  {
+    key: "securityRequirements",
+    label: "Which Trust Requirements Already Matter?",
+    sublabel: "Select known constraints. ‘Not sure yet’ is a valid answer at this stage.",
+    color: "#00D4AA",
+    accent: "#33DDBB",
+    icon: <FeaturedPlayListOutlinedIcon sx={{ fontSize: 48 }} />,
+    render: ({ formData, update }) => (
+      <FormGroup sx={fsChoiceGridSx}>
+        {securityOptions.map((option) => (
+          <FormControlLabel key={option} control={<Checkbox checked={formData.securityRequirements.includes(option)} onChange={(e) => {
+            if (!e.target.checked) {
+              update({ securityRequirements: formData.securityRequirements.filter((v) => v !== option) });
+              return;
+            }
+            update({ securityRequirements: option === "Not sure yet" ? [option] : [...formData.securityRequirements.filter((v) => v !== "Not sure yet"), option] });
+          }} sx={{ color: "#00D4AA60", "&.Mui-checked": { color: "#00D4AA" } }} />} label={option} sx={fsChoiceCardSx(formData.securityRequirements.includes(option), "#00D4AA")} />
+        ))}
+      </FormGroup>
+    ),
+  },
+  {
     key: "budget",
-    label: "Budget Range",
-    sublabel: "This helps us scope the project appropriately",
+    label: "What Investment Range Is Approved or Plausible?",
+    sublabel: "An honest range lets us recommend the right engagement shape instead of over-scoping.",
     color: "#6C63FF",
     accent: "#8B85FF",
     icon: <AttachMoneyIcon sx={{ fontSize: 48 }} />,
     render: ({ formData, update }) => (
-      <FormGroup sx={{ gap: 1.5, width: "100%", maxWidth: 400 }}>
+      <FormGroup sx={fsChoiceGridSx}>
         {budgetRanges.map((range) => (
           <Box
             key={range}
             onClick={() => update({ budget: range })}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              border: "1px solid",
-              borderColor: formData.budget === range ? "#6C63FF50" : "rgba(108,99,255,0.12)",
-              background: formData.budget === range ? "#6C63FF10" : "transparent",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              "&:hover": { borderColor: "#6C63FF40", background: "#6C63FF06" },
-            }}
+            sx={{ ...fsChoiceCardSx(formData.budget === range, "#6C63FF"), display: "flex", alignItems: "center" }}
           >
             <Typography sx={{ fontWeight: formData.budget === range ? 700 : 400, fontFamily: "monospace" }}>
               {range}
@@ -929,30 +1071,22 @@ const fullscreenSteps: FullscreenStep[] = [
         ))}
       </FormGroup>
     ),
+    validate: (fd) => fd.budget ? null : "Select the investment range you are planning around.",
   },
   {
     key: "timeline",
-    label: "Expected Timeline",
-    sublabel: "When do you need this delivered?",
+    label: "What Delivery Window Are You Working Toward?",
+    sublabel: "Choose the practical window, not the most optimistic one.",
     color: "#00D4AA",
     accent: "#33DDBB",
     icon: <ScheduleOutlinedIcon sx={{ fontSize: 48 }} />,
     render: ({ formData, update }) => (
-      <FormGroup sx={{ gap: 1.5, width: "100%", maxWidth: 400 }}>
+      <FormGroup sx={fsChoiceGridSx}>
         {timelines.map((t) => (
           <Box
             key={t}
             onClick={() => update({ timeline: t })}
-            sx={{
-              p: 2,
-              borderRadius: 2,
-              border: "1px solid",
-              borderColor: formData.timeline === t ? "#00D4AA50" : "rgba(108,99,255,0.12)",
-              background: formData.timeline === t ? "#00D4AA10" : "transparent",
-              cursor: "pointer",
-              transition: "all 0.2s",
-              "&:hover": { borderColor: "#00D4AA40", background: "#00D4AA06" },
-            }}
+            sx={{ ...fsChoiceCardSx(formData.timeline === t, "#00D4AA"), display: "flex", alignItems: "center" }}
           >
             <Typography sx={{ fontWeight: formData.timeline === t ? 700 : 400, fontFamily: "monospace" }}>
               {t}
@@ -961,6 +1095,7 @@ const fullscreenSteps: FullscreenStep[] = [
         ))}
       </FormGroup>
     ),
+    validate: (fd) => fd.timeline ? null : "Select the delivery window you are working toward.",
   },
   {
     key: "specFile",
@@ -970,7 +1105,7 @@ const fullscreenSteps: FullscreenStep[] = [
     accent: "#8B85FF",
     icon: <CloudUploadOutlinedIcon sx={{ fontSize: 48 }} />,
     render: ({ formData, extra }) => (
-      <Box sx={{ width: "100%", maxWidth: 480 }}>
+      <Box sx={{ width: "100%", maxWidth: 760 }}>
         <FileUpload
           file={formData.specFile}
           uploaded={formData.specUploaded}
@@ -993,18 +1128,24 @@ const fullscreenSteps: FullscreenStep[] = [
       const items = [
         { label: "Project Type", value: formData.projectTypes.map((t) => projectTypes.find((pt) => pt.value === t)?.label).join(", "), color: "#6C63FF", index: "R1" },
         { label: "Title", value: formData.title, color: "#00D4AA", index: "R2" },
-        { label: "Name", value: formData.name, color: "#6C63FF", index: "R3" },
-        { label: "Email", value: formData.email, color: "#00D4AA", index: "R4" },
-        ...(formData.company ? [{ label: "Company", value: formData.company, color: "#8B85FF", index: "R5" }] : []),
-        { label: "Budget", value: formData.budget, color: "#6C63FF", index: "R6" },
-        { label: "Timeline", value: formData.timeline, color: "#00D4AA", index: "R7" },
-        ...((formData.specFile || formData.specUploaded) ? [{ label: "Spec File", value: formData.specFile?.name ?? formData.specUploaded?.name ?? "", color: "#8B85FF", index: "R8" }] : []),
+        { label: "Stage", value: formData.projectStage, color: "#8B85FF", index: "R3" },
+        { label: "Organisation Type", value: formData.organisationType, color: "#00D4AA", index: "R4" },
+        { label: "Contact", value: formData.name, color: "#6C63FF", index: "R5" },
+        { label: "Email", value: formData.email, color: "#00D4AA", index: "R6" },
+        ...(formData.company ? [{ label: "Organisation", value: formData.company, color: "#8B85FF", index: "R7" }] : []),
+        { label: "Budget", value: formData.budget, color: "#6C63FF", index: "R8" },
+        { label: "Timeline", value: formData.timeline, color: "#00D4AA", index: "R9" },
+        ...((formData.specFile || formData.specUploaded) ? [{ label: "Spec File", value: formData.specFile?.name ?? formData.specUploaded?.name ?? "", color: "#8B85FF", index: "R10" }] : []),
       ];
 
       return (
         <Box sx={{ width: "100%" }}>
           {/* Description — full width */}
           <ReviewCell color="#8B85FF" index="R0" label="Description" value={formData.description} full />
+          <ReviewCell color="#00D4AA" index="RU" label="Primary users" value={formData.primaryUsers} full />
+          <ReviewCell color="#6C63FF" index="RS" label="Success criteria" value={formData.successCriteria} full />
+          {formData.integrations && <ReviewCell color="#8B85FF" index="RI" label="Integrations" value={formData.integrations} full />}
+          {formData.securityRequirements.length > 0 && <ReviewCell color="#00D4AA" index="RT" label="Trust requirements" value={formData.securityRequirements.join(", ")} full />}
 
           {/* Grid pairs */}
           <Box
@@ -1054,13 +1195,19 @@ const fullscreenSteps: FullscreenStep[] = [
 
 const fsFieldSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "action.hover",
+    bgcolor: "rgba(108,99,255,0.045)",
     borderRadius: 2,
     fontSize: "1.1rem",
-    "& fieldset": { borderColor: "divider" },
-    "&:hover fieldset": { borderColor: "primary.main" },
-    "&.Mui-focused fieldset": { borderColor: "primary.main", borderWidth: 1 },
+    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.025)",
+    transition: "background-color 0.2s ease, box-shadow 0.2s ease",
+    "& fieldset": { borderColor: "rgba(108,99,255,0.2)" },
+    "&:hover": { bgcolor: "rgba(108,99,255,0.065)" },
+    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.45)" },
+    "&.Mui-focused": { bgcolor: "rgba(108,99,255,0.075)", boxShadow: "0 14px 36px rgba(34,31,90,0.18), inset 3px 0 0 #6C63FF" },
+    "&.Mui-focused fieldset": { borderColor: "#6C63FF", borderWidth: 1 },
   },
+  "& .MuiInputBase-input": { py: 1.7 },
+  "& textarea.MuiInputBase-input": { lineHeight: 1.75 },
 };
 
 // Floating particles for fullscreen background
@@ -1075,6 +1222,7 @@ const fsParticles = Array.from({ length: 15 }, (_, i) => ({
 
 function FullscreenMode({
   onExit,
+  onCancel,
   formData,
   update,
   onSubmit,
@@ -1088,6 +1236,7 @@ function FullscreenMode({
   setStepIndex,
 }: {
   onExit: () => void;
+  onCancel: () => void;
   formData: FormData;
   update: (fields: Partial<FormData>) => void;
   onSubmit: () => Promise<void>;
@@ -1102,6 +1251,8 @@ function FullscreenMode({
 }) {
   const tc = useThemeColors();
   const [direction, setDirection] = useState(1);
+  const [stepError, setStepError] = useState<string | null>(null);
+  const [cancelOpen, setCancelOpen] = useState(false);
 
   const visibleSteps = fullscreenSteps.filter((s) => !s.shouldShow || s.shouldShow(formData));
   const safeIndex = Math.min(stepIndex, visibleSteps.length - 1);
@@ -1114,6 +1265,12 @@ function FullscreenMode({
   const progress = ((safeIndex + 1) / visibleSteps.length) * 100;
 
   const goNext = () => {
+    const validationMessage = step.validate?.(formData) ?? (isLast ? validateProject(formData) : null);
+    if (validationMessage) {
+      setStepError(validationMessage);
+      return;
+    }
+    setStepError(null);
     if (isLast) {
       onSubmit();
       return;
@@ -1123,6 +1280,7 @@ function FullscreenMode({
   };
 
   const goBack = () => {
+    setStepError(null);
     setDirection(-1);
     setStepIndex((prev) => Math.max(prev - 1, 0));
   };
@@ -1135,7 +1293,7 @@ function FullscreenMode({
       }
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [safeIndex, isLast],
+    [safeIndex, isLast, formData, step.key],
   );
 
   useEffect(() => {
@@ -1247,8 +1405,26 @@ function FullscreenMode({
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 0.5 }}
-        sx={{ position: "absolute", top: 24, right: 32, zIndex: 10, display: "flex", gap: 1 }}
+        sx={{ position: "absolute", top: 24, right: { xs: 16, md: 32 }, zIndex: 10, display: "flex", gap: 1, alignItems: "center" }}
       >
+        <Button
+          onClick={() => setCancelOpen(true)}
+          startIcon={<CloseIcon />}
+          sx={{
+            color: "error.main",
+            fontWeight: 700,
+            fontFamily: "monospace",
+            fontSize: "0.7rem",
+            letterSpacing: "0.08em",
+            border: "1px solid",
+            borderColor: "rgba(239,68,68,0.24)",
+            px: { xs: 1.25, md: 1.75 },
+            whiteSpace: "nowrap",
+            "&:hover": { borderColor: "error.main", bgcolor: "rgba(239,68,68,0.08)" },
+          }}
+        >
+          Exit
+        </Button>
         <Button
           onClick={onReset}
           sx={{
@@ -1279,6 +1455,25 @@ function FullscreenMode({
         </Button>
       </MotionBox>
 
+      <Dialog
+        open={cancelOpen}
+        onClose={() => setCancelOpen(false)}
+        maxWidth="xs"
+        fullWidth
+        slotProps={{ paper: { sx: { border: "1px solid rgba(239,68,68,0.24)", bgcolor: "background.paper" } } }}
+      >
+        <DialogTitle sx={{ fontWeight: 800 }}>Exit project intake?</DialogTitle>
+        <DialogContent>
+          <Typography color="text.secondary" sx={{ lineHeight: 1.7 }}>
+            This will discard the current draft and return you to the homepage. You won’t be able to recover these answers.
+          </Typography>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 3 }}>
+          <Button onClick={() => setCancelOpen(false)} color="inherit">Keep editing</Button>
+          <Button onClick={onCancel} color="error" variant="contained">Discard and exit</Button>
+        </DialogActions>
+      </Dialog>
+
       {/* Step counter */}
       <Box sx={{ position: "absolute", top: 28, left: 32, zIndex: 10 }}>
         <Typography
@@ -1307,13 +1502,13 @@ function FullscreenMode({
           flexDirection: "column",
           alignItems: "center",
           overflowY: "auto",
-          px: step.key === "review" ? { xs: 2, md: 6 } : 4,
+          px: step.key === "review" ? { xs: 2, md: 6 } : { xs: 2, sm: 4, md: 6 },
           py: 2,
           "&::-webkit-scrollbar": { width: 4 },
           "&::-webkit-scrollbar-thumb": { background: tc.scrollThumb, borderRadius: 2 },
         }}
       >
-        <Box sx={{ maxWidth: step.key === "review" ? "100%" : 640, width: "100%", textAlign: "center" }}>
+        <Box sx={{ maxWidth: step.key === "review" ? "100%" : 1040, width: "100%", textAlign: "center" }}>
         <AnimatePresence mode="wait" custom={direction}>
           <MotionBox
             key={step.key}
@@ -1373,17 +1568,24 @@ function FullscreenMode({
             </MotionTypography>
 
             {step.sublabel && (
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 4, opacity: 0.6, maxWidth: 400 }}>
+              <Typography variant="body2" color="text.secondary" sx={{ mb: { xs: 2.5, md: 3.5 }, opacity: 0.68, maxWidth: 620, lineHeight: 1.7 }}>
                 {step.sublabel}
               </Typography>
             )}
 
             {/* Render step content */}
-            {step.render({ formData, update, extra: { uploading, onSpecFile, onSpecRemove } })}
+            {step.render({
+              formData,
+              update: (fields) => {
+                update(fields);
+                setStepError(null);
+              },
+              extra: { uploading, onSpecFile, onSpecRemove },
+            })}
 
-            {error && (
-              <Alert severity="error" sx={{ mt: 3, width: "100%", maxWidth: 480 }} onClose={() => {}}>
-                {error}
+            {(stepError || error) && (
+              <Alert severity="error" sx={{ mt: 3, width: "100%", maxWidth: 760 }} onClose={() => {}}>
+                {stepError || error}
               </Alert>
             )}
           </MotionBox>
@@ -1816,7 +2018,7 @@ export default function StartProject() {
   const [error, setError] = useState<string | null>(null);
   const [formData, setFormData] = useState<FormData>(() => {
     if (saved.current?.formData) {
-      return { ...saved.current.formData, specFile: null };
+      return { ...initialFormData, ...saved.current.formData, specFile: null };
     }
     return initialFormData;
   });
@@ -1848,7 +2050,10 @@ export default function StartProject() {
     }
   }, [formData, isFullscreen, stepIndex, submitted]);
 
-  const update = (fields: Partial<FormData>) => setFormData((prev) => ({ ...prev, ...fields }));
+  const update = (fields: Partial<FormData>) => {
+    setError(null);
+    setFormData((prev) => ({ ...prev, ...fields }));
+  };
 
   const handleReset = () => {
     clearState();
@@ -1858,9 +2063,19 @@ export default function StartProject() {
     setError(null);
   };
 
+  const handleCancel = () => {
+    clearState();
+    window.location.href = "/";
+  };
+
   const handleSubmit = async () => {
-    setLoading(true);
     setError(null);
+    const validationMessage = validateProject(formData, isFullscreen);
+    if (validationMessage) {
+      setError(validationMessage);
+      return;
+    }
+    setLoading(true);
     try {
       // Use already-uploaded URL, or upload now as fallback
       let specFileUrl = formData.specUploaded?.url;
@@ -1873,9 +2088,19 @@ export default function StartProject() {
         }
       }
 
+      const intakeContext = [
+        formData.primaryUsers.trim() ? `Primary users: ${formData.primaryUsers.trim()}` : "",
+        formData.successCriteria.trim() ? `Success criteria: ${formData.successCriteria.trim()}` : "",
+        formData.projectStage ? `Initiative stage: ${formData.projectStage}` : "",
+        formData.organisationType ? `Organisation: ${formData.company.trim() || "Not provided"} (${formData.organisationType})` : (formData.company.trim() ? `Organisation: ${formData.company.trim()}` : ""),
+        `Contact: ${formData.name.trim()} <${formData.email.trim()}>`,
+        formData.integrations.trim() ? `Integrations: ${formData.integrations.trim()}` : "",
+        formData.securityRequirements.length ? `Trust requirements: ${formData.securityRequirements.join(", ")}` : "",
+      ].filter(Boolean).join("\n");
+
       await api.createProject({
         title: formData.title,
-        description: formData.description + (specFileUrl ? `\n\n[Specification Document](${specFileUrl})` : ""),
+        description: `${formData.description.trim()}\n\n--- Intake context ---\n${intakeContext}${specFileUrl ? `\n\n[Specification Document](${specFileUrl})` : ""}`,
         type: formData.projectTypes.join(", "),
         features: formData.features.map((name) => ({
           name,
@@ -1922,6 +2147,7 @@ export default function StartProject() {
         <FullscreenErrorBoundary onFallback={() => setIsFullscreen(false)}>
           <FullscreenMode
             onExit={() => setIsFullscreen(false)}
+            onCancel={handleCancel}
             formData={formData}
             update={update}
             onSubmit={handleSubmit}
@@ -2047,7 +2273,11 @@ export default function StartProject() {
             >
               LAUNCH SEQUENCE
             </Typography>
-            <Stack direction="row" spacing={1} sx={{ mt: 2 }}>
+            <Stack
+              direction={{ xs: "column", sm: "row", md: "column", lg: "row" }}
+              spacing={1}
+              sx={{ mt: 2, alignItems: "center", justifyContent: "center" }}
+            >
               <Button
                 onClick={() => setIsFullscreen(true)}
                 startIcon={<FullscreenIcon />}
@@ -2056,6 +2286,7 @@ export default function StartProject() {
                   fontFamily: "monospace",
                   fontSize: "0.7rem",
                   letterSpacing: "0.1em",
+                  whiteSpace: "nowrap",
                   border: "1px solid #00D4AA30",
                   "&:hover": { borderColor: "#00D4AA60", background: "#00D4AA08" },
                 }}
@@ -2069,6 +2300,7 @@ export default function StartProject() {
                   fontFamily: "monospace",
                   fontSize: "0.7rem",
                   letterSpacing: "0.1em",
+                  whiteSpace: "nowrap",
                   opacity: 0.6,
                   "&:hover": { opacity: 1 },
                 }}

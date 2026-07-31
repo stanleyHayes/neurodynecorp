@@ -7,7 +7,7 @@ import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -140,7 +140,7 @@ export default function Tickets() {
 
             <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by status</Typography>
-              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
+              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                 <MenuItem value="">All statuses</MenuItem>
                 {STATUSES.map((s) => <MenuItem key={s} value={s}>{s.replace(/_/g, " ")}</MenuItem>)}
               </Select>
@@ -172,18 +172,18 @@ export default function Tickets() {
                       const breach = slaBreached(t);
                       return (
                         <TableRow key={t.id ?? i} hover sx={{ cursor: "pointer" }} onClick={() => { setActive(t); setReplyText(""); }}>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>{formatDate(t.createdAt ?? t.created_at)}</TableCell>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>{formatDate(t.createdAt ?? t.created_at)}</TableCell>
                           <TableCell sx={{ fontSize: "0.82rem", fontWeight: 600, maxWidth: 320 }}>
                             {t.subject}
                             <Typography component="span" sx={{ display: "block", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
                               {(t.replies?.length ?? 0)} repl{(t.replies?.length ?? 0) === 1 ? "y" : "ies"} · {t.category?.replace(/_/g, " ")}
                             </Typography>
                           </TableCell>
-                          <TableCell><Chip label={t.priority} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", textTransform: "capitalize", bgcolor: `${pColor}18`, color: pColor, border: `1px solid ${pColor}30` }} /></TableCell>
+                          <TableCell><Chip label={t.priority} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", textTransform: "capitalize", bgcolor: `${pColor}18`, color: pColor, border: `1px solid ${pColor}30` }} /></TableCell>
                           <TableCell>
-                            <Chip label={breach ? "Breached" : t.firstRespondedAt ? "Responded" : "On track"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: breach ? "#EF444418" : t.firstRespondedAt ? "#10B98118" : "#F59E0B18", color: breach ? "#EF4444" : t.firstRespondedAt ? "#10B981" : "#F59E0B" }} />
+                            <Chip label={breach ? "Breached" : t.firstRespondedAt ? "Responded" : "On track"} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: breach ? "#EF444418" : t.firstRespondedAt ? "#10B98118" : "#F59E0B18", color: breach ? "#EF4444" : t.firstRespondedAt ? "#10B981" : "#F59E0B" }} />
                           </TableCell>
-                          <TableCell><Chip label={(t.status ?? "open").replace(/_/g, " ")} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", textTransform: "capitalize", bgcolor: `${sColor}18`, color: sColor, border: `1px solid ${sColor}30` }} /></TableCell>
+                          <TableCell><Chip label={(t.status ?? "open").replace(/_/g, " ")} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", textTransform: "capitalize", bgcolor: `${sColor}18`, color: sColor, border: `1px solid ${sColor}30` }} /></TableCell>
                         </TableRow>
                       );
                     })}
@@ -202,7 +202,7 @@ export default function Tickets() {
                 {active.subject}
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mt: 1 }}>
                   <Chip label={active.priority} size="small" variant="outlined" sx={{ textTransform: "capitalize", fontSize: "0.6rem" }} />
-                  <Select size="small" value={active.status ?? "open"} onChange={(e) => changeStatus(e.target.value)} sx={{ fontFamily: "monospace", fontSize: "0.7rem", minWidth: 140 }}>
+                  <Select size="small" value={active.status ?? "open"} onChange={(e) => changeStatus(e.target.value)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", minWidth: 140 }}>
                     {STATUSES.map((s) => <MenuItem key={s} value={s} sx={{ fontSize: "0.75rem", textTransform: "capitalize" }}>{s.replace(/_/g, " ")}</MenuItem>)}
                   </Select>
                 </Stack>
@@ -216,7 +216,7 @@ export default function Tickets() {
                   <Stack spacing={1.5}>
                     {(active.replies ?? []).map((rep: any) => (
                       <Box key={rep.id} sx={{ p: 1.25, borderRadius: 1.5, bgcolor: rep.staff ? "rgba(0,212,170,0.08)" : "rgba(108,99,255,0.06)", border: "1px solid", borderColor: rep.staff ? "rgba(0,212,170,0.25)" : "rgba(108,99,255,0.15)" }}>
-                        <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#00D4AA" : "#8B85FF", textTransform: "uppercase", mb: 0.5 }}>
+                        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#00D4AA" : "#8B85FF", textTransform: "uppercase", mb: 0.5 }}>
                           {rep.staff ? "Staff" : "Client"}{rep.createdAt ? ` · ${formatDate(rep.createdAt)}` : ""}
                         </Typography>
                         <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{rep.body}</Typography>

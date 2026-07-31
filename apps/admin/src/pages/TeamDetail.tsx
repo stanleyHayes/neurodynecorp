@@ -248,7 +248,7 @@ export default function TeamDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
       </Box>
 
       <PageBanner
@@ -276,14 +276,14 @@ export default function TeamDetail() {
               </Avatar>
               <Box>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>{name}</Typography>
-                <Chip label={title} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", mt: 1, bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                <Chip label={title} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", mt: 1, bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                 {override.website && (
                   <Typography
                     component="a"
                     href={`https://${override.website}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    sx={{ display: "block", fontFamily: "monospace", fontSize: "0.65rem", color, mt: 1.5, textDecoration: "none", opacity: 0.8, "&:hover": { opacity: 1, textDecoration: "underline" } }}
+                    sx={{ display: "block", fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color, mt: 1.5, textDecoration: "none", opacity: 0.8, "&:hover": { opacity: 1, textDecoration: "underline" } }}
                   >
                     {override.website}
                   </Typography>
@@ -298,7 +298,7 @@ export default function TeamDetail() {
                         target="_blank"
                         rel="noopener noreferrer"
                         sx={{
-                          fontFamily: "monospace",
+                          fontFamily: "'Outfit', sans-serif",
                           fontSize: "0.6rem",
                           letterSpacing: "0.1em",
                           textTransform: "uppercase",
@@ -318,7 +318,7 @@ export default function TeamDetail() {
               <Chip
                 label={active ? "Active" : "Inactive"}
                 size="small"
-                sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: active ? "#10B98118" : "#94A3B818", color: active ? "#10B981" : "#94A3B8", border: `1px solid ${active ? "#10B98130" : "#94A3B830"}` }}
+                sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: active ? "#10B98118" : "#94A3B818", color: active ? "#10B981" : "#94A3B8", border: `1px solid ${active ? "#10B98130" : "#94A3B830"}` }}
               />
             </Stack>
           </Cell>
@@ -341,7 +341,7 @@ export default function TeamDetail() {
                     {item.icon}
                   </Box>
                   <Box>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
                       {item.label}
                     </Typography>
                     <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>{item.value}</Typography>
@@ -369,12 +369,12 @@ export default function TeamDetail() {
                     label={skill}
                     size="small"
                     variant="outlined"
-                    sx={{ fontFamily: "monospace", fontSize: "0.6rem", borderColor: "#00D4AA30", color: "#00D4AA" }}
+                    sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", borderColor: "#00D4AA30", color: "#00D4AA" }}
                   />
                 ))}
               </Stack>
             ) : (
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", opacity: 0.4 }}>No skills listed</Typography>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", opacity: 0.4 }}>No skills listed</Typography>
             )}
           </Cell>
         </Box>
@@ -392,12 +392,12 @@ export default function TeamDetail() {
                     key={perm}
                     label={perm}
                     size="small"
-                    sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: "#8B5CF618", color: "#8B5CF6", border: "1px solid #8B5CF630" }}
+                    sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: "#8B5CF618", color: "#8B5CF6", border: "1px solid #8B5CF630" }}
                   />
                 ))}
               </Stack>
             ) : (
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", opacity: 0.4 }}>Default role permissions</Typography>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", opacity: 0.4 }}>Default role permissions</Typography>
             )}
           </Cell>
         </Box>
@@ -449,16 +449,16 @@ export default function TeamDetail() {
                     <Chip
                       label={project.status.replace(/_/g, " ")}
                       size="small"
-                      sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${pColor}18`, color: pColor, border: `1px solid ${pColor}30`, textTransform: "capitalize" }}
+                      sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${pColor}18`, color: pColor, border: `1px solid ${pColor}30`, textTransform: "capitalize" }}
                     />
                   </Stack>
                   <Stack direction="row" spacing={3}>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
                       <Typography variant="body2" sx={{ fontSize: "0.8rem", textTransform: "capitalize" }}>{project.type?.replace(/_/g, " ") ?? "—"}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Progress</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Progress</Typography>
                       <Typography variant="body2" sx={{ fontSize: "0.8rem", color: pColor, fontWeight: 600 }}>{project.progress}%</Typography>
                     </Box>
                   </Stack>
@@ -487,7 +487,7 @@ export default function TeamDetail() {
                   <FolderOutlinedIcon sx={{ fontSize: 16, color: "#10B981" }} />
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
                 </Stack>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, textTransform: "capitalize" }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, textTransform: "capitalize" }}>
                   {project.type?.replace(/_/g, " ") ?? "Project"}
                 </Typography>
               </Box>

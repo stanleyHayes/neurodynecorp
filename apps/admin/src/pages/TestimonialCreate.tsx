@@ -30,7 +30,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -62,7 +62,7 @@ export default function TestimonialCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#8B85FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TESTIMONIALS</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TESTIMONIALS</Typography>
       </Box>
 
       <PageBanner
@@ -113,7 +113,7 @@ export default function TestimonialCreate() {
               ))}
             </TextField>
             <Box>
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.5, mb: 1 }}>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.5, mb: 1 }}>
                 Rating
               </Typography>
               <Rating
@@ -152,7 +152,7 @@ export default function TestimonialCreate() {
               </Avatar>
               <Box sx={{ flex: 1 }}>
                 <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{name}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{role}, {company}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{role}, {company}</Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.8, mt: 1, fontStyle: "italic", lineHeight: 1.6 }}>
                   "{content}"
                 </Typography>

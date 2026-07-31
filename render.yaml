@@ -33,36 +33,6 @@ services:
     healthCheckPath: /health
     numInstances: 1
 
-  - type: web
-    name: neurodyne-api
-    runtime: docker
-    dockerfilePath: ./apps/api/Dockerfile
-    repo: https://github.com/neurodynecorp/neurodynelabs
-    branch: main
-    plan: free
-    envVars:
-      - key: SERVER_ENVIRONMENT
-        value: production
-      - key: SERVER_HTTP_PORT
-        value: 8080
-      - key: SERVER_GRPC_PORT
-        value: 50051
-      - key: MONGODB_URI
-        sync: false
-      - key: REDIS_ADDR
-        fromService:
-          type: redis
-          name: neurodyne-redis
-          property: connectionString
-      - key: JWT_SECRET
-        fromService:
-          type: web
-          name: neurodyne-server
-          envVarKey: NEURODYNE_JWT_ACCESS_SECRET
-    healthCheckPath: /health
-    numInstances: 1
-
-  # Frontends (web, client, admin) are deployed on Vercel — not Render.
 
 databases:
   - name: neurodyne-redis

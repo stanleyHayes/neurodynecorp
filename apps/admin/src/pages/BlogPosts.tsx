@@ -115,7 +115,7 @@ export default function BlogPosts() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -179,17 +179,17 @@ export default function BlogPosts() {
                 sx={{ cursor: "pointer", height: "100%" }}
               >
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
-                  <Chip label={post.category} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
-                  <Chip label={capitalize(post.status)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                  <Chip label={post.category} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" }} />
+                  <Chip label={capitalize(post.status)} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                 </Stack>
                 <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5 }}>{post.title}</Typography>
                 <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, mb: 1.5, display: "-webkit-box", WebkitLineClamp: 2, WebkitBoxOrient: "vertical", overflow: "hidden" }}>
                   {post.excerpt}
                 </Typography>
                 <Stack direction="row" spacing={2} sx={{ mt: "auto" }}>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{post.author}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{new Date(post.createdAt).toLocaleDateString()}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{post.readTime}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{post.author}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{new Date(post.createdAt).toLocaleDateString()}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{post.readTime}</Typography>
                 </Stack>
               </Box>
             </Cell>

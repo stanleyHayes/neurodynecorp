@@ -41,7 +41,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -141,7 +141,7 @@ export default function PortfolioCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PORTFOLIO</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PORTFOLIO</Typography>
       </Box>
 
       <PageBanner
@@ -222,7 +222,7 @@ export default function PortfolioCreate() {
                       size="small"
                       onDelete={() => removeTag(tag)}
                       deleteIcon={<CloseIcon sx={{ fontSize: 14 }} />}
-                      sx={{ fontFamily: "monospace", fontSize: "0.6rem" }}
+                      sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" }}
                     />
                   ))}
                 </Stack>
@@ -290,7 +290,7 @@ export default function PortfolioCreate() {
               {constraints.length > 0 && (
                 <Stack direction="row" spacing={0.5} sx={{ mt: 1, flexWrap: "wrap", gap: 0.5 }}>
                   {constraints.map((c) => (
-                    <Chip key={c} label={c} size="small" onDelete={() => removeConstraint(c)} deleteIcon={<CloseIcon sx={{ fontSize: 14 }} />} sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
+                    <Chip key={c} label={c} size="small" onDelete={() => removeConstraint(c)} deleteIcon={<CloseIcon sx={{ fontSize: 14 }} />} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" }} />
                   ))}
                 </Stack>
               )}
@@ -316,19 +316,19 @@ export default function PortfolioCreate() {
             <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{title}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{client} — {category}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{client} — {category}</Typography>
               </Box>
-              <Chip label="Draft" size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "#F59E0B18", color: "#F59E0B", border: "1px solid #F59E0B30" }} />
+              <Chip label="Draft" size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "#F59E0B18", color: "#F59E0B", border: "1px solid #F59E0B30" }} />
             </Stack>
             <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{description}</Typography>
             {tags.length > 0 && (
               <Stack direction="row" spacing={0.5} sx={{ mb: 1 }}>
                 {tags.map((tag) => (
-                  <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.55rem", height: 22 }} />
+                  <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", height: 22 }} />
                 ))}
               </Stack>
             )}
-            {impact && <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color, fontWeight: 600 }}>{impact}</Typography>}
+            {impact && <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color, fontWeight: 600 }}>{impact}</Typography>}
           </Cell>
         </>
       )}

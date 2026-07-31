@@ -90,7 +90,7 @@ export default function Finance() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -153,15 +153,15 @@ export default function Finance() {
                 { label: "Profit", value: fmtK(f.profit), color: "#6C63FF" },
               ].map((row) => (
                 <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} key={row.label} direction="row">
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>{row.label}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.8rem", color: row.color, fontWeight: 600 }}>{row.value}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>{row.label}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", color: row.color, fontWeight: 600 }}>{row.value}</Typography>
                 </Stack>
               ))}
             </Stack>
             <Chip
               label={`${f.margin}% margin`}
               size="small"
-              sx={{ mt: 1.5, fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${f.color}18`, color: f.color, border: `1px solid ${f.color}30` }}
+              sx={{ mt: 1.5, fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${f.color}18`, color: f.color, border: `1px solid ${f.color}30` }}
             />
           </Cell>
         ))}

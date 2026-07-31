@@ -48,7 +48,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -114,7 +114,7 @@ export default function ProjectCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#F59E0B" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PROJECTS</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PROJECTS</Typography>
       </Box>
 
       <PageBanner

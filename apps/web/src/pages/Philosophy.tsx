@@ -21,7 +21,7 @@ export default function Philosophy() {
         description="We don't start with software. We study how an industry actually works, standardize its language, and engineer the operating systems it runs on."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.7} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero

@@ -1,7 +1,7 @@
 # Agent Plan — Spec Feature Gaps to Build
 
 **Source spec:** XCreativs Web Platform Specification v1.0 (15 May 2026)
-**Implemented in:** NeuroDyne Corp monorepo (`apps/server` Express/Mongo hexagonal, `apps/web|client|admin` React/Vite/MUI, `apps/api` Go, `apps/mobile` Expo)
+**Implemented in:** NeuroDyne Corp monorepo (`apps/server` Express/Mongo hexagonal, `apps/web|client|admin` React/Vite/MUI, `apps/mobile` Expo)
 **Date:** 2026-06-13
 
 This plan lists **features named in the spec that are NOT yet present in the codebase** (or only

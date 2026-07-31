@@ -49,7 +49,6 @@ server/src/
 
 - Node.js 20+ (see `.nvmrc`)
 - pnpm 9+
-- Go 1.22+ (for `apps/api`)
 - Docker & Docker Compose
 
 ## Quick Start

@@ -122,7 +122,7 @@ export default function Notifications() {
       >
         <Typography
           sx={{
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.7rem",
             fontWeight: 600,
             textTransform: "uppercase",
@@ -139,7 +139,7 @@ export default function Notifications() {
             startIcon={<DoneAllOutlinedIcon />}
             onClick={handleMarkAllRead}
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.6rem",
               letterSpacing: "0.05em",
               textTransform: "none",
@@ -202,7 +202,7 @@ export default function Notifications() {
                             sx={{
                               height: 18,
                               fontSize: "0.5rem",
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontWeight: 700,
                               letterSpacing: "0.1em",
                               bgcolor: `${color}20`,
@@ -214,7 +214,7 @@ export default function Notifications() {
                       </Stack>
                       <Typography
                         sx={{
-                          fontFamily: "monospace",
+                          fontFamily: "'Outfit', sans-serif",
                           fontSize: "0.75rem",
                           color: "text.secondary",
                           opacity: notif.read ? 0.4 : 0.7,
@@ -226,7 +226,7 @@ export default function Notifications() {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         fontSize: "0.6rem",
                         color: "text.secondary",
                         opacity: 0.4,

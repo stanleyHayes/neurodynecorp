@@ -129,7 +129,7 @@ export default function Roles() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -193,7 +193,7 @@ export default function Roles() {
                     </Box>
                     <Box sx={{ flex: 1, minWidth: 0 }}>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{role.name}</Typography>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
                         {role.description || "No description"}
                       </Typography>
                     </Box>
@@ -202,7 +202,7 @@ export default function Roles() {
                       size="small"
                       icon={role.is_system ? <LockOutlinedIcon sx={{ fontSize: "14px !important" }} /> : undefined}
                       sx={{
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         fontSize: "0.6rem",
                         bgcolor: `${color}18`,
                         color,
@@ -213,11 +213,11 @@ export default function Roles() {
 
                   <Stack direction="row" spacing={3} sx={{ mb: 2 }}>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Permissions</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Permissions</Typography>
                       <Typography variant="body2" sx={{ fontSize: "0.8rem", fontWeight: 600 }}>{role.permissions.length}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Created</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Created</Typography>
                       <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>{role.created_at?.slice(0, 10) ?? "—"}</Typography>
                     </Box>
                   </Stack>

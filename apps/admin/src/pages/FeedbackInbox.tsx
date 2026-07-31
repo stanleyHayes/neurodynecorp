@@ -22,7 +22,7 @@ import FeedbackOutlinedIcon from "@mui/icons-material/FeedbackOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -211,7 +211,7 @@ export default function FeedbackInbox() {
                 value={typeFilter}
                 displayEmpty
                 onChange={(e) => setTypeFilter(e.target.value)}
-                sx={{ minWidth: 160, fontFamily: "monospace", fontSize: "0.8rem" }}
+                sx={{ minWidth: 160, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}
               >
                 <MenuItem value="">All types</MenuItem>
                 {TYPE_OPTIONS.map((t) => (
@@ -258,7 +258,7 @@ export default function FeedbackInbox() {
                         <TableRow key={f.id ?? f._id ?? i} hover>
                           <TableCell
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.7rem",
                               color: "text.secondary",
                               whiteSpace: "nowrap",
@@ -271,7 +271,7 @@ export default function FeedbackInbox() {
                               label={(f.type ?? "—").toString().toUpperCase()}
                               size="small"
                               sx={{
-                                fontFamily: "monospace",
+                                fontFamily: "'Outfit', sans-serif",
                                 fontSize: "0.6rem",
                                 bgcolor: `${color}18`,
                                 color,
@@ -293,7 +293,7 @@ export default function FeedbackInbox() {
                           </TableCell>
                           <TableCell
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.7rem",
                               color: "text.secondary",
                             }}
@@ -302,7 +302,7 @@ export default function FeedbackInbox() {
                           </TableCell>
                           <TableCell
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.7rem",
                               color: "text.secondary",
                             }}

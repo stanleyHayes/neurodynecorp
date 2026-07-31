@@ -124,7 +124,7 @@ export default function ClientDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO CLIENTS</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO CLIENTS</Typography>
       </Box>
 
       <PageBanner
@@ -145,7 +145,7 @@ export default function ClientDetail() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800 }}>{stat.value}</Typography>
@@ -159,7 +159,7 @@ export default function ClientDetail() {
           <SectionLabel>Projects</SectionLabel>
           {projects.length === 0 ? (
             <Cell color="#94A3B8" index="--">
-              <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No projects yet</Typography>
+              <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No projects yet</Typography>
             </Cell>
           ) : (
             projects.map((project, i) => {
@@ -170,20 +170,20 @@ export default function ClientDetail() {
                   <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.type}</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.type}</Typography>
                     </Box>
                     <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-                      <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
+                      <Chip label={displayStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
                     </Stack>
                   </Stack>
                   <Stack direction="row" spacing={3} sx={{ mt: 1.5 }}>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
                       <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>{project.type}</Typography>
                     </Box>
                     <Box>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Team</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Team</Typography>
                       <Stack direction="row" spacing={0.5}>
                         {(project.assigned_team ?? []).map((t) => (
                           <Avatar key={t} sx={{ width: 22, height: 22, fontSize: 9, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" }}>{t.slice(0, 2).toUpperCase()}</Avatar>
@@ -206,9 +206,9 @@ export default function ClientDetail() {
               </Avatar>
               <Box>
                 <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{clientName}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>{user.email}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary" }}>{user.email}</Typography>
               </Box>
-              <Chip label={clientStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${avatarColor}18`, color: avatarColor, border: `1px solid ${avatarColor}30` }} />
+              <Chip label={clientStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${avatarColor}18`, color: avatarColor, border: `1px solid ${avatarColor}30` }} />
             </Stack>
           </Cell>
           <Cell color="#00D4AA" index="C1" animDelay={0.6}>
@@ -220,7 +220,7 @@ export default function ClientDetail() {
                 { label: "Phone", value: user.phone ?? "—" },
               ].map((field) => (
                 <Box key={field.label}>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
                     {field.label}
                   </Typography>
                   <Typography variant="body2">{field.value}</Typography>

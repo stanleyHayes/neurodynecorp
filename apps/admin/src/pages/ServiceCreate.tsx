@@ -47,7 +47,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -76,7 +76,7 @@ export default function ServiceCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO SERVICES</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO SERVICES</Typography>
       </Box>
 
       <PageBanner
@@ -150,7 +150,7 @@ export default function ServiceCreate() {
               </Box>
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{title}</Typography>
-                <Box sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${statusColor[status]}18`, color: statusColor[status], border: `1px solid ${statusColor[status]}30`, px: 1, py: 0.25, borderRadius: 1 }}>
+                <Box sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${statusColor[status]}18`, color: statusColor[status], border: `1px solid ${statusColor[status]}30`, px: 1, py: 0.25, borderRadius: 1 }}>
                   {status}
                 </Box>
               </Stack>

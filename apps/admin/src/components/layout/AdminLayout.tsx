@@ -144,7 +144,7 @@ export default function AdminLayout() {
             <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
               <Typography
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.5rem",
                   color: "primary.main",
                   opacity: 0.5,
@@ -155,7 +155,7 @@ export default function AdminLayout() {
               </Typography>
               <Typography
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.8rem",
                   fontWeight: 600,
                   letterSpacing: "0.08em",
@@ -197,10 +197,10 @@ export default function AdminLayout() {
                 AA
               </Avatar>
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
                   Ayo Adeyemi
                 </Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#6C63FF", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#6C63FF", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
                   ADMIN
                 </Typography>
               </Box>
@@ -228,7 +228,7 @@ export default function AdminLayout() {
               }}
             >
               <Box sx={{ px: 2, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.4, letterSpacing: "0.2em", textTransform: "uppercase" }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.4, letterSpacing: "0.2em", textTransform: "uppercase" }}>
                   Quick Settings
                 </Typography>
               </Box>
@@ -236,25 +236,25 @@ export default function AdminLayout() {
               <MenuItem onClick={() => goTo("/settings?tab=profile")} sx={menuItemSx}>
                 <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Profile</ListItemText>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>P0</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>P0</Typography>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=security")} sx={menuItemSx}>
                 <ListItemIcon><LockOutlinedIcon sx={{ fontSize: 18, color: "#EF4444" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Security</ListItemText>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>S0</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>S0</Typography>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=appearance")} sx={menuItemSx}>
                 <ListItemIcon><PaletteOutlinedIcon sx={{ fontSize: 18, color: "#8B5CF6" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Appearance</ListItemText>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>A0</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>A0</Typography>
               </MenuItem>
 
               <MenuItem onClick={() => goTo("/settings?tab=notifications")} sx={menuItemSx}>
                 <ListItemIcon><NotificationsNoneOutlinedIcon sx={{ fontSize: 18, color: "#F59E0B" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Notifications</ListItemText>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>N0</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>N0</Typography>
               </MenuItem>
 
               <Divider sx={{ borderColor: BORDER, my: 0.5 }} />

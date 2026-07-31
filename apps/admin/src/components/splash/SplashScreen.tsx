@@ -163,7 +163,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
                 fontWeight: 400,
                 letterSpacing: "0.15em",
                 fontSize: "1rem",
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
               }}
             >
               Admin Control Center

@@ -34,7 +34,7 @@ import BuildOutlinedIcon from "@mui/icons-material/BuildOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -280,7 +280,7 @@ export default function FeatureFlags() {
                 label={maintenanceOn ? "ON" : "OFF"}
                 size="small"
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontWeight: 700,
                   bgcolor: maintenanceOn ? "rgba(239,68,68,0.18)" : "rgba(148,163,184,0.15)",
                   color: maintenanceOn ? "#EF4444" : "#94A3B8",
@@ -365,7 +365,7 @@ export default function FeatureFlags() {
                         </TableCell>
                         <TableCell sx={{ borderColor: "rgba(255,255,255,0.05)", whiteSpace: "nowrap" }}>
                           <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-                            <Typography variant="body2" sx={{ fontFamily: "monospace", fontWeight: 700 }}>
+                            <Typography variant="body2" sx={{ fontFamily: "'Outfit', sans-serif", fontWeight: 700 }}>
                               {key}
                             </Typography>
                             {isMaint && (
@@ -373,7 +373,7 @@ export default function FeatureFlags() {
                                 label="SYSTEM"
                                 size="small"
                                 sx={{
-                                  fontFamily: "monospace",
+                                  fontFamily: "'Outfit', sans-serif",
                                   fontSize: "0.55rem",
                                   height: 18,
                                   bgcolor: "rgba(245,158,11,0.15)",

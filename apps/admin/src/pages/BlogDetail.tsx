@@ -72,7 +72,7 @@ export default function BlogDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>
       </Box>
 
       <PageBanner
@@ -90,25 +90,25 @@ export default function BlogDetail() {
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr 1fr" } }}>
         <Cell color={color} index="00" colInRow={0} totalCols={4} animDelay={0} minH={100}>
           <Box sx={{ color, mb: 0.5 }}><PersonOutlinedIcon sx={{ fontSize: 22 }} /></Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Author</Typography>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Author</Typography>
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{post.author}</Typography>
         </Cell>
         <Cell color={color} index="01" colInRow={1} totalCols={4} animDelay={0.1} minH={100}>
           <Box sx={{ color, mb: 0.5 }}><CalendarTodayOutlinedIcon sx={{ fontSize: 22 }} /></Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Date</Typography>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Date</Typography>
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>
             {post.createdAt ? new Date(post.createdAt).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }) : "—"}
           </Typography>
         </Cell>
         <Cell color={color} index="02" colInRow={2} totalCols={4} animDelay={0.2} minH={100}>
           <Box sx={{ color, mb: 0.5 }}><AccessTimeIcon sx={{ fontSize: 22 }} /></Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Read Time</Typography>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Read Time</Typography>
           <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{post.readTime ?? "—"}</Typography>
         </Cell>
         <Cell color={statusColor[post.status] ?? color} index="03" colInRow={3} totalCols={4} animDelay={0.3} minH={100}>
           <Box sx={{ color: statusColor[post.status] ?? color, mb: 0.5 }}><ArticleOutlinedIcon sx={{ fontSize: 22 }} /></Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Status</Typography>
-          <Chip label={capitalize(post.status)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${statusColor[post.status] ?? color}18`, color: statusColor[post.status] ?? color, border: `1px solid ${statusColor[post.status] ?? color}30` }} />
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>Status</Typography>
+          <Chip label={capitalize(post.status)} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${statusColor[post.status] ?? color}18`, color: statusColor[post.status] ?? color, border: `1px solid ${statusColor[post.status] ?? color}30` }} />
         </Cell>
       </Box>
 
@@ -119,7 +119,7 @@ export default function BlogDetail() {
           <Cell color={color} index="04" animDelay={0.35}>
             <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1}>
               {post.tags.map((tag: string) => (
-                <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
+                <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" }} />
               ))}
             </Stack>
           </Cell>

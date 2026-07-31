@@ -16,7 +16,7 @@ export default function SectionLabel({ children, color = "#6C63FF" }: SectionLab
     >
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.7rem",
           fontWeight: 700,
           letterSpacing: "0.3em",

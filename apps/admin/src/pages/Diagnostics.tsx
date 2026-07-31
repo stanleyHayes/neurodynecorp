@@ -7,7 +7,7 @@ import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -100,7 +100,7 @@ export default function Diagnostics() {
 
             <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by route</Typography>
-              <Select size="small" value={routeFilter} displayEmpty onChange={(e) => setRouteFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
+              <Select size="small" value={routeFilter} displayEmpty onChange={(e) => setRouteFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                 <MenuItem value="">All routes</MenuItem>
                 {Object.entries(ROUTE_LABELS).map(([k, v]) => (
                   <MenuItem key={k} value={k}>{v}</MenuItem>
@@ -136,17 +136,17 @@ export default function Diagnostics() {
                       const color = ROUTE_COLOR[route] ?? "#94A3B8";
                       return (
                         <TableRow key={d.id ?? d._id ?? i} hover>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
                             {formatDate(d.createdAt ?? d.created_at)}
                           </TableCell>
                           <TableCell>
-                            <Chip label={ROUTE_LABELS[route] ?? route ?? "—"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                            <Chip label={ROUTE_LABELS[route] ?? route ?? "—"} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                           </TableCell>
                           <TableCell sx={{ fontWeight: 700 }}>
                             {d.result?.confidence != null ? `${Math.round(d.result.confidence * 100)}%` : "—"}
                           </TableCell>
                           <TableCell sx={{ fontSize: "0.8rem" }}>{d.org ?? "—"}</TableCell>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary" }}>
                             {d.email ?? d.respondentName ?? "—"}
                           </TableCell>
                           <TableCell sx={{ maxWidth: 320, color: "text.secondary", fontSize: "0.8rem" }}>

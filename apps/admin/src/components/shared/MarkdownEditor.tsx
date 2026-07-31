@@ -119,7 +119,7 @@ const MarkdownEditor = forwardRef<MDXEditorMethods, MarkdownEditorProps>(
             borderRadius: "0 6px 6px 0",
           },
           "& [class*='_contentEditable_'] code, & [role='textbox'] code": {
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             fontSize: "0.85em",
             bgcolor: "rgba(108, 99, 255, 0.1)",
             color: "#8B85FF",

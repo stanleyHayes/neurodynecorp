@@ -7,7 +7,7 @@ import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlin
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -108,7 +108,7 @@ export default function Bookings() {
 
             <Stack direction="row" spacing={2} sx={{ alignItems: "center", mb: 2 }}>
               <Typography sx={overlineSx}>Filter by status</Typography>
-              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "monospace", fontSize: "0.8rem" }}>
+              <Select size="small" value={statusFilter} displayEmpty onChange={(e) => setStatusFilter(e.target.value)} sx={{ minWidth: 200, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                 <MenuItem value="">All statuses</MenuItem>
                 {STATUSES.map((s) => (
                   <MenuItem key={s} value={s}>{s}</MenuItem>
@@ -143,17 +143,17 @@ export default function Bookings() {
                       const sColor = STATUS_COLOR[b.status] ?? "#94A3B8";
                       return (
                         <TableRow key={b.id ?? b._id ?? i} hover>
-                          <TableCell sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
+                          <TableCell sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", whiteSpace: "nowrap" }}>
                             {formatDate(b.createdAt ?? b.created_at)}
                           </TableCell>
                           <TableCell sx={{ fontSize: "0.8rem" }}>
                             <Typography sx={{ fontWeight: 600, fontSize: "0.8rem" }}>{b.name ?? "—"}{b.org ? ` · ${b.org}` : ""}</Typography>
-                            <Typography component="span" sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.7 }}>{b.email ?? ""}</Typography>
+                            <Typography component="span" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.7 }}>{b.email ?? ""}</Typography>
                           </TableCell>
                           <TableCell>
-                            {b.route ? <Chip label={ROUTE_LABEL[b.route] ?? b.route} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} /> : <Typography sx={{ color: "text.secondary", opacity: 0.5 }}>—</Typography>}
+                            {b.route ? <Chip label={ROUTE_LABEL[b.route] ?? b.route} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} /> : <Typography sx={{ color: "text.secondary", opacity: 0.5 }}>—</Typography>}
                           </TableCell>
-                          <TableCell sx={{ fontWeight: 700, fontFamily: "monospace", fontSize: "0.8rem" }}>
+                          <TableCell sx={{ fontWeight: 700, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                             {b.durationMins ? `${b.durationMins}m` : "—"}
                           </TableCell>
                           <TableCell sx={{ maxWidth: 260, fontSize: "0.78rem", color: "text.secondary" }}>
@@ -165,10 +165,10 @@ export default function Bookings() {
                               size="small"
                               value={b.status ?? "requested"}
                               onChange={(e) => changeStatus(b.id, e.target.value)}
-                              sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: sColor, minWidth: 130, "& .MuiOutlinedInput-notchedOutline": { borderColor: `${sColor}40` } }}
+                              sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: sColor, minWidth: 130, "& .MuiOutlinedInput-notchedOutline": { borderColor: `${sColor}40` } }}
                             >
                               {STATUSES.map((s) => (
-                                <MenuItem key={s} value={s} sx={{ fontFamily: "monospace", fontSize: "0.75rem" }}>{s}</MenuItem>
+                                <MenuItem key={s} value={s} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem" }}>{s}</MenuItem>
                               ))}
                             </Select>
                           </TableCell>

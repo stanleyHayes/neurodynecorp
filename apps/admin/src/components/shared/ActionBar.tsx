@@ -72,7 +72,7 @@ export default function ActionBar({ label, subtitle, color = "#6C63FF", onClick 
           top: 14,
           left: 34,
           fontSize: "0.6rem",
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           color: hovered ? color : "text.secondary",
           opacity: 0.5,
           letterSpacing: "0.15em",
@@ -86,7 +86,7 @@ export default function ActionBar({ label, subtitle, color = "#6C63FF", onClick 
       {/* Subtitle */}
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.55rem",
           fontWeight: 500,
           textTransform: "uppercase",

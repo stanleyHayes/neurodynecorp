@@ -30,7 +30,7 @@ import ThumbDownOutlinedIcon from "@mui/icons-material/ThumbDownOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -214,7 +214,7 @@ export default function KnowledgeBase() {
                           label={isDraft ? "Draft" : "Published"}
                           size="small"
                           sx={{
-                            fontFamily: "monospace",
+                            fontFamily: "'Outfit', sans-serif",
                             fontSize: "0.6rem",
                             bgcolor: isDraft ? "rgba(245,158,11,0.15)" : "rgba(16,185,129,0.15)",
                             color: isDraft ? "#F59E0B" : "#10B981",

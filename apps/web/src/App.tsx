@@ -1,7 +1,6 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { HelmetProvider } from "react-helmet-async";
-import { AnimatePresence } from "framer-motion";
 import ThemeContextProvider from "@/context/ThemeContext";
 import ClickEffect from "@/components/shared/ClickEffect";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
@@ -12,8 +11,6 @@ import KonamiEgg from "@/components/shared/KonamiEgg";
 import KeyboardNav from "@/components/shared/KeyboardNav";
 import Layout from "@/components/layout/Layout";
 import SplashScreen from "@/components/splash/SplashScreen";
-import Onboarding from "@/components/onboarding/Onboarding";
-import GridMenu from "@/components/onboarding/GridMenu";
 import Home from "@/pages/Home";
 import About from "@/pages/About";
 import Services from "@/pages/Services";
@@ -60,39 +57,7 @@ import Estimator from "@/pages/Estimator";
 import RFP from "@/pages/RFP";
 import Booking from "@/pages/Booking";
 
-const ONBOARDING_KEY = "neurodyne_web_onboarding_complete";
-const GRID_MENU_KEY = "neurodyne_web_grid_menu_shown";
-
 function AppShell() {
-  const [showOnboarding, setShowOnboarding] = useState(false);
-  const [showGridMenu, setShowGridMenu] = useState(false);
-
-  useEffect(() => {
-    // `?nosplash=1` also skips onboarding and the grid menu so screenshot/E2E
-    // tooling lands directly on page content.
-    if (new URLSearchParams(window.location.search).has("nosplash")) return;
-
-    const onboardingDone = localStorage.getItem(ONBOARDING_KEY);
-    const gridMenuShown = sessionStorage.getItem(GRID_MENU_KEY);
-
-    if (!onboardingDone) {
-      setShowOnboarding(true);
-    } else if (!gridMenuShown) {
-      setShowGridMenu(true);
-    }
-  }, []);
-
-  const handleOnboardingComplete = () => {
-    localStorage.setItem(ONBOARDING_KEY, "true");
-    setShowOnboarding(false);
-    setShowGridMenu(true);
-  };
-
-  const handleGridMenuNavigate = () => {
-    sessionStorage.setItem(GRID_MENU_KEY, "true");
-    setShowGridMenu(false);
-  };
-
   return (
     <>
       <CursorTrail />
@@ -100,14 +65,6 @@ function AppShell() {
       <KeyboardNav />
       <KonamiEgg />
       <SoundToggle />
-
-      <AnimatePresence>
-        {showOnboarding && <Onboarding onComplete={handleOnboardingComplete} />}
-      </AnimatePresence>
-
-      <AnimatePresence>
-        {showGridMenu && !showOnboarding && <GridMenu onNavigate={handleGridMenuNavigate} />}
-      </AnimatePresence>
 
       <Routes>
         <Route element={<Layout />}>

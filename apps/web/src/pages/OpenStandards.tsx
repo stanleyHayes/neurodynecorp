@@ -11,6 +11,7 @@ import PageHero from "@/components/shared/PageHero";
 import { SectionHeading, InfoCard, CardGrid, Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
 import HudCorners from "@/components/shared/HudCorners";
+import Honeycomb from "@/components/shared/Honeycomb";
 import { NOSI } from "@/content/positioning";
 
 const MotionBox = motion.create(Box);
@@ -30,7 +31,7 @@ export default function OpenStandards() {
         description="Software is temporary. Data lives forever. NOSI builds open, community-driven data standards so organizations never lose their information when they change vendors."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.8} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero
@@ -103,31 +104,23 @@ export default function OpenStandards() {
           title="Fifteen domains, one shared language"
           lead="Each working group defines the vocabulary, records and exchange rules for its domain."
         />
-        <Grid container spacing={1.5}>
-          {NOSI.workingGroups.map((g, i) => (
-            <Grid size={{ xs: 6, sm: 4, md: 3 }} key={g}>
-              <MotionBox
-                initial={{ opacity: 0, y: 10 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.35, delay: (i % 8) * 0.03 }}
-                sx={{
-                  position: "relative",
-                  p: 2,
-                  border: "1px solid",
-                  borderColor: "divider",
-                  transition: "border-color 0.25s, background 0.25s",
-                  "&:hover": { borderColor: "rgba(0,212,170,0.5)", bgcolor: "rgba(0,212,170,0.06)" },
-                }}
-              >
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.14em" }}>
-                  WG-{String(i + 1).padStart(2, "0")}
+        <Honeycomb
+          cell={210}
+          perRow={5}
+          gap={8}
+          items={NOSI.workingGroups.map((g, i) => ({
+            key: g,
+            accent: i % 3 === 0 ? "#6C63FF" : "#00D4AA",
+            content: (
+              <>
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.7, letterSpacing: "0.16em", mb: 0.8 }}>
+                  WG / {String(i + 1).padStart(2, "0")}
                 </Typography>
-                <Typography sx={{ fontWeight: 600, fontSize: "0.95rem", mt: 0.5 }}>{g}</Typography>
-              </MotionBox>
-            </Grid>
-          ))}
-        </Grid>
+                <Typography sx={{ fontWeight: 700, fontSize: "0.88rem", lineHeight: 1.25 }}>{g}</Typography>
+              </>
+            ),
+          }))}
+        />
       </Container>
 
       {/* Join */}
@@ -147,25 +140,41 @@ export default function OpenStandards() {
             NOSI is open to anyone who depends on data outliving the software that produced it.
           </Typography>
 
-          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1.5, justifyContent: "center", mb: 5 }}>
-            {NOSI.join.map((who) => (
-              <Box
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(3, 1fr)" },
+              gap: 1.5,
+              mb: 5,
+              textAlign: "left",
+            }}
+          >
+            {NOSI.join.map((who, i) => (
+              <MotionBox
                 key={who}
+                initial={{ opacity: 0, y: 12 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.35, delay: i * 0.04 }}
                 sx={{
-                  px: 2,
-                  py: 1,
+                  position: "relative",
+                  p: 2.25,
                   border: "1px solid",
                   borderColor: "divider",
-                  fontFamily: "monospace",
-                  fontSize: "0.75rem",
-                  letterSpacing: "0.06em",
-                  color: "text.secondary",
+                  bgcolor: "background.paper",
+                  overflow: "hidden",
+                  transition: "transform 0.25s ease, border-color 0.25s ease",
+                  "&:hover": { transform: "translateY(-3px)", borderColor: "rgba(0,212,170,0.5)" },
                 }}
               >
-                {who}
-              </Box>
+                <Box sx={{ position: "absolute", top: 0, left: 0, width: 3, height: "100%", bgcolor: i % 2 ? "primary.main" : "#00D4AA" }} />
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.16em", color: "text.secondary", opacity: 0.65, mb: 1 }}>
+                  COMMUNITY / {String(i + 1).padStart(2, "0")}
+                </Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: "1rem" }}>{who}</Typography>
+              </MotionBox>
             ))}
-          </Stack>
+          </Box>
 
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ justifyContent: "center" }}>
             <Button

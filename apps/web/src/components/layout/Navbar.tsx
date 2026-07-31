@@ -542,6 +542,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const [scrolled, setScrolled] = useState(false);
   const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
+  const activeMobileItem = NAV_ITEMS.find((item) => isActive(item.path));
 
   // Kedland-style header: at the top of a page the bar SETTLES into the layout
   // as a full-width edge-to-edge bar; once the reader moves down it contracts
@@ -643,7 +644,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
               mr: { xs: 0, md: 1 },
             }}
           >
-            <Logo size={22} />
+            <Logo size={isMobile ? 28 : 22} />
           </Box>
 
           {/* Desktop nav links */}
@@ -789,17 +790,59 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           {/* Mobile: theme toggle + hamburger */}
           {isMobile && (
             <>
-              <Box sx={{ flex: 1 }} />
+              <Box
+                component={Link}
+                to="/"
+                sx={{
+                  flex: 1,
+                  minWidth: 0,
+                  ml: 0.25,
+                  textDecoration: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "center",
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontSize: "0.86rem",
+                    fontWeight: 750,
+                    lineHeight: 1.1,
+                    letterSpacing: "0.01em",
+                    color: "text.primary",
+                  }}
+                >
+                  NeuroDyne
+                </Typography>
+                <Typography
+                  sx={{
+                    mt: 0.45,
+                    fontFamily: "monospace",
+                    fontSize: "0.5rem",
+                    lineHeight: 1,
+                    letterSpacing: "0.14em",
+                    color: "text.secondary",
+                    opacity: 0.68,
+                    textTransform: "uppercase",
+                    whiteSpace: "nowrap",
+                    overflow: "hidden",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {activeMobileItem?.label ?? "Systems engineering"}
+                </Typography>
+              </Box>
               <ThemeToggle />
               <IconButton
                 onClick={() => setDrawerOpen(true)}
+                aria-label="Open navigation menu"
                 size="small"
                 sx={{
                   color: "text.primary",
                   border: isDark ? "1px solid rgba(108,99,255,0.2)" : "1px solid rgba(91,84,238,0.15)",
                   borderRadius: 50,
-                  width: 34,
-                  height: 34,
+                  width: 40,
+                  height: 40,
                 }}
               >
                 <MenuIcon sx={{ fontSize: 18 }} />

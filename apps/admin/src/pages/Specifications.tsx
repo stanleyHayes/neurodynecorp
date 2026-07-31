@@ -195,7 +195,7 @@ export default function Specifications() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -250,18 +250,18 @@ export default function Specifications() {
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1 }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{spec.project}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{spec.client}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{spec.client}</Typography>
                 </Box>
                 <Chip
                   label={`v${spec.version}`}
                   size="small"
-                  sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}15`, color, border: `1px solid ${color}25`, ml: 1 }}
+                  sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}15`, color, border: `1px solid ${color}25`, ml: 1 }}
                 />
               </Stack>
               <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1.5 }}>
-                <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                <Chip label={displayStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{spec.date}</Typography>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{spec.date}</Typography>
               </Box>
             </Cell>
           );

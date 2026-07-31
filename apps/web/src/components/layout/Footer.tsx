@@ -9,7 +9,6 @@ import DiscordIcon from "@mui/icons-material/Forum";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import EmailIcon from "@mui/icons-material/Email";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 // Company
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
@@ -323,17 +322,25 @@ export default function Footer() {
             direction={{ xs: "column", sm: "row" }}
             sx={{ justifyContent: "space-between", alignItems: "center", gap: 1.5 }}
           >
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              sx={{ display: "flex", alignItems: "center", gap: 0.6, fontSize: "0.8rem" }}
-            >
-              &copy; {new Date().getFullYear()} NeuroDyne Corp. Built with
-              <motion.span animate={{ scale: [1, 1.2, 1] }} transition={{ duration: 1.5, repeat: Infinity }} style={{ display: "inline-flex" }}>
-                <FavoriteIcon sx={{ fontSize: 13, color: "#EF4444" }} />
-              </motion.span>
-              &amp; caffeine.
-            </Typography>
+            <Stack direction="row" sx={{ alignItems: "center", gap: 1.5 }}>
+              <Box
+                aria-hidden
+                sx={{
+                  width: 24,
+                  height: 1,
+                  background: "linear-gradient(90deg, #6C63FF, #00D4AA)",
+                  boxShadow: "0 0 10px rgba(0,212,170,0.3)",
+                }}
+              />
+              <Box>
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.66rem", letterSpacing: "0.1em", color: "text.secondary" }}>
+                  &copy; {new Date().getFullYear()} NEURODYNE CORP
+                </Typography>
+                <Typography sx={{ mt: 0.35, fontSize: "0.76rem", color: "text.secondary", opacity: 0.68 }}>
+                  Built in Accra · Engineered for anywhere
+                </Typography>
+              </Box>
+            </Stack>
 
             <Stack
               direction="row"

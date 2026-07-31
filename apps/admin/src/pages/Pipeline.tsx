@@ -91,7 +91,7 @@ export default function Pipeline() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -108,17 +108,17 @@ export default function Pipeline() {
               <Cell color={stage.color} index={String(si + 4).padStart(2, "0")} colInRow={si} totalCols={pipelineStages.length} animDelay={0.4 + si * 0.05} minH={40}>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                   <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: stage.color, filter: `drop-shadow(0 0 4px ${stage.color}60)` }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em" }}>{stage.name}</Typography>
-                  <Chip label={stage.projects.length} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", height: 20, bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", fontWeight: 600, letterSpacing: "0.05em" }}>{stage.name}</Typography>
+                  <Chip label={stage.projects.length} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", height: 20, bgcolor: `${stage.color}18`, color: stage.color, border: `1px solid ${stage.color}30` }} />
                 </Stack>
               </Cell>
               {stage.projects.map((project, pi) => (
                 <Cell key={project.title} color={stage.color} colInRow={si} totalCols={pipelineStages.length} animDelay={0.5 + (si + pi) * 0.05}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5, fontSize: "0.8rem" }}>{project.title}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mb: 1 }}>{project.client}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mb: 1 }}>{project.client}</Typography>
                   <Stack direction="row" spacing={0.5}>
-                    <Chip label={project.type} size="small" sx={{ fontFamily: "monospace", fontSize: "0.5rem", height: 20 }} variant="outlined" />
-                    <Chip label={project.budget} size="small" sx={{ fontFamily: "monospace", fontSize: "0.5rem", height: 20, bgcolor: `${stage.color}15`, color: stage.color }} />
+                    <Chip label={project.type} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", height: 20 }} variant="outlined" />
+                    <Chip label={project.budget} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", height: 20, bgcolor: `${stage.color}15`, color: stage.color }} />
                   </Stack>
                 </Cell>
               ))}

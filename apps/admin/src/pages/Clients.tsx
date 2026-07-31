@@ -142,7 +142,7 @@ export default function Clients() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -208,13 +208,13 @@ export default function Clients() {
                   </Avatar>
                   <Box sx={{ flex: 1, minWidth: 0 }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{client.name}</Typography>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{client.company}</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{client.company}</Typography>
                   </Box>
                   <Chip
                     label={client.status}
                     size="small"
                     sx={{
-                      fontFamily: "monospace",
+                      fontFamily: "'Outfit', sans-serif",
                       fontSize: "0.6rem",
                       bgcolor: `${color}18`,
                       color,
@@ -225,11 +225,11 @@ export default function Clients() {
 
                 <Stack direction="row" spacing={3}>
                   <Box>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Email</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Email</Typography>
                     <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>{client.email}</Typography>
                   </Box>
                   <Box>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Joined</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Joined</Typography>
                     <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>{client.joined}</Typography>
                   </Box>
                 </Stack>

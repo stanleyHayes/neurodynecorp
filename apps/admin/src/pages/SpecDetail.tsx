@@ -146,7 +146,7 @@ export default function SpecDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#8B5CF6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO SPECIFICATIONS</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO SPECIFICATIONS</Typography>
       </Box>
 
       <PageBanner
@@ -167,7 +167,7 @@ export default function SpecDetail() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 24 }, color: card.color, filter: `drop-shadow(0 0 10px ${card.color}40)`, mb: 1 }}>
               {card.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {card.label}
             </Typography>
             <Typography variant="h5" sx={{ fontWeight: 700 }}>{card.value}</Typography>
@@ -197,7 +197,7 @@ export default function SpecDetail() {
               <Stack spacing={1}>
                 {spec.objectives.map((obj, i) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#00D4AA", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#00D4AA", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>
@@ -218,7 +218,7 @@ export default function SpecDetail() {
               <Stack spacing={1.5}>
                 {features.map((feature, i) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#8B85FF", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#8B85FF", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>
@@ -240,7 +240,7 @@ export default function SpecDetail() {
             <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
               <Box>
                 <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>
                   {project.client_id} — {project.type}
                 </Typography>
               </Box>
@@ -249,14 +249,14 @@ export default function SpecDetail() {
                   label={formatStatus(project.status)}
                   size="small"
                   sx={{
-                    fontFamily: "monospace",
+                    fontFamily: "'Outfit', sans-serif",
                     fontSize: "0.6rem",
                     bgcolor: `${projectStatusColors[project.status] ?? "#94A3B8"}18`,
                     color: projectStatusColors[project.status] ?? "#94A3B8",
                     border: `1px solid ${projectStatusColors[project.status] ?? "#94A3B8"}30`,
                   }}
                 />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: projectStatusColors[project.status] ?? "#94A3B8", fontWeight: 600 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: projectStatusColors[project.status] ?? "#94A3B8", fontWeight: 600 }}>
                   {project.progress}%
                 </Typography>
               </Stack>

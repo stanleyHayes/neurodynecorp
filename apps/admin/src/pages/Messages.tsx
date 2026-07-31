@@ -286,7 +286,7 @@ export default function Messages() {
                     </InputAdornment>
                   ),
                   sx: {
-                    fontFamily: "monospace",
+                    fontFamily: "'Outfit', sans-serif",
                     fontSize: "0.8rem",
                     bgcolor: "rgba(108, 99, 255, 0.04)",
                     borderRadius: 1,
@@ -331,7 +331,7 @@ export default function Messages() {
                     <Badge
                       badgeContent={thread.unread}
                       color="primary"
-                      sx={{ "& .MuiBadge-badge": { fontFamily: "monospace", fontSize: "0.6rem" } }}
+                      sx={{ "& .MuiBadge-badge": { fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" } }}
                     >
                       <Avatar
                         sx={{
@@ -339,7 +339,7 @@ export default function Messages() {
                           width: 40,
                           height: 40,
                           fontSize: 14,
-                          fontFamily: "monospace",
+                          fontFamily: "'Outfit', sans-serif",
                         }}
                       >
                         {thread.avatar}
@@ -352,14 +352,14 @@ export default function Messages() {
                     }, secondary: {
                       variant: "caption",
                       noWrap: true,
-                      sx: { opacity: 0.6, fontFamily: "monospace", fontSize: "0.7rem" },
+                      sx: { opacity: 0.6, fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem" },
                     } }}
                     primary={thread.title}
                     secondary={thread.lastMessage}
                   />
                   <Typography
                     sx={{
-                      fontFamily: "monospace",
+                      fontFamily: "'Outfit', sans-serif",
                       fontSize: "0.6rem",
                       color: "text.secondary",
                       opacity: 0.5,
@@ -397,7 +397,7 @@ export default function Messages() {
                 <CircleIcon sx={{ fontSize: 8, color: connected ? "#10B981" : "#EF4444" }} />
                 <Typography
                   sx={{
-                    fontFamily: "monospace",
+                    fontFamily: "'Outfit', sans-serif",
                     fontSize: "0.6rem",
                     color: "text.secondary",
                     opacity: 0.6,
@@ -412,7 +412,7 @@ export default function Messages() {
               label={`${currentMessages.length} msgs`}
               size="small"
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.6rem",
                 bgcolor: "rgba(108, 99, 255, 0.08)",
                 color: "#6C63FF",
@@ -441,7 +441,7 @@ export default function Messages() {
                         fontSize: 11,
                         bgcolor: "rgba(0, 212, 170, 0.15)",
                         color: "#00D4AA",
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         mt: 0.5,
                       }}
                     >
@@ -463,7 +463,7 @@ export default function Messages() {
                       {!msg.isMine && (
                         <Typography
                           sx={{
-                            fontFamily: "monospace",
+                            fontFamily: "'Outfit', sans-serif",
                             fontSize: "0.6rem",
                             fontWeight: 700,
                             color: "#00D4AA",
@@ -480,7 +480,7 @@ export default function Messages() {
                     </Box>
                     <Typography
                       sx={{
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         fontSize: "0.55rem",
                         color: "text.secondary",
                         opacity: 0.4,
@@ -500,7 +500,7 @@ export default function Messages() {
                         fontSize: 11,
                         bgcolor: "rgba(108, 99, 255, 0.15)",
                         color: "#6C63FF",
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         mt: 0.5,
                       }}
                     >
@@ -514,7 +514,7 @@ export default function Messages() {
                 <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
                   <Typography
                     sx={{
-                      fontFamily: "monospace",
+                      fontFamily: "'Outfit', sans-serif",
                       fontSize: "0.65rem",
                       color: "#00D4AA",
                       opacity: 0.7,

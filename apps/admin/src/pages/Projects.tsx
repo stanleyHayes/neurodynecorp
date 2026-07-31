@@ -169,7 +169,7 @@ export default function Projects() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -224,16 +224,16 @@ export default function Projects() {
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "flex-start", mb: 1.5 }}>
                 <Box sx={{ flex: 1, minWidth: 0 }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.name}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.client}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{project.client}</Typography>
                 </Box>
-                <Chip label={displayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30`, ml: 1 }} />
+                <Chip label={displayStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30`, ml: 1 }} />
               </Stack>
 
-              <Chip label={project.type || "General"} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem", mb: 1.5 }} />
+              <Chip label={project.type || "General"} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", mb: 1.5 }} />
 
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>PROGRESS</Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>PROGRESS</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
               </Stack>
               <Box sx={{ width: "100%", bgcolor: "rgba(108,99,255,0.08)", borderRadius: 1, height: 6, mb: 2 }}>
                 <Skeleton variant="rectangular" width={`${project.progress}%`} height={6} sx={{ borderRadius: 1, bgcolor: color, "&::after": { display: "none" } }} animation={false} />
@@ -243,7 +243,7 @@ export default function Projects() {
                 <AvatarGroup max={4} sx={{ "& .MuiAvatar-root": { width: 24, height: 24, fontSize: 9, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" } }}>
                   {project.team.map((t) => <Avatar key={t}>{t}</Avatar>)}
                 </AvatarGroup>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
                   {project.type}
                 </Typography>
               </Stack>

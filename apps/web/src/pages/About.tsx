@@ -26,7 +26,7 @@ export default function About() {
         description="NeuroDyne is an engineering company building intelligent digital infrastructure that connects people, organizations, and industries through scalable software, AI, and open standards."
       />
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative" }}>
+      <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
         <BlueprintGrid opacity={0.7} />
         <Box sx={{ position: "relative", zIndex: 1 }}>
           <PageHero
@@ -95,7 +95,15 @@ export default function About() {
         />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <SectionHeading tag="Our Philosophy" title="Technology should be" align="center" />
-          <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1.5, justifyContent: "center" }}>
+          <Box
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "repeat(2, 1fr)", md: "repeat(4, 1fr)" },
+              borderTop: "1px solid",
+              borderLeft: "1px solid",
+              borderColor: "divider",
+            }}
+          >
             {ABOUT.philosophy.map((word, i) => (
               <MotionBox
                 key={word}
@@ -104,22 +112,35 @@ export default function About() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.35, delay: i * 0.05 }}
                 sx={{
-                  px: 3,
-                  py: 1.75,
-                  border: "1px solid",
+                  position: "relative",
+                  minHeight: { xs: 96, md: 128 },
+                  p: { xs: 2.5, md: 3 },
+                  borderRight: "1px solid",
+                  borderBottom: "1px solid",
                   borderColor: "divider",
-                  fontFamily: "monospace",
-                  fontSize: "0.95rem",
-                  letterSpacing: "0.06em",
-                  color: "text.secondary",
-                  transition: "all 0.25s",
-                  "&:hover": { borderColor: "primary.main", color: "primary.main" },
+                  display: "flex",
+                  flexDirection: "column",
+                  justifyContent: "space-between",
+                  overflow: "hidden",
+                  transition: "background-color 0.25s ease, color 0.25s ease",
+                  "&::after": {
+                    content: '""', position: "absolute", inset: "auto 0 0", height: 3,
+                    bgcolor: i % 2 === 0 ? "primary.main" : "#00D4AA",
+                    transform: "scaleX(0)", transformOrigin: "left", transition: "transform 0.3s ease",
+                  },
+                  "&:hover": { bgcolor: i % 2 === 0 ? "rgba(108,99,255,0.07)" : "rgba(0,212,170,0.06)" },
+                  "&:hover::after": { transform: "scaleX(1)" },
                 }}
               >
-                {word}
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.58rem", letterSpacing: "0.16em", color: "text.secondary", opacity: 0.68 }}>
+                  PRINCIPLE / {String(i + 1).padStart(2, "0")}
+                </Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: { xs: "1rem", md: "1.12rem" }, letterSpacing: "-0.015em" }}>
+                  {word}
+                </Typography>
               </MotionBox>
             ))}
-          </Stack>
+          </Box>
           <Box sx={{ textAlign: "center", mt: 4 }}>
             <Button component={Link} to="/philosophy" endIcon={<ArrowForwardIcon />} sx={{ borderRadius: 0, fontWeight: 700 }}>
               The full engineering doctrine

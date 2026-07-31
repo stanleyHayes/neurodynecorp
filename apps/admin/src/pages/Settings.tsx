@@ -38,8 +38,8 @@ const fieldSx = {
     "&:hover fieldset": { borderColor: "rgba(108, 99, 255, 0.25)" },
     "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
   },
-  "& .MuiInputLabel-root": { fontFamily: "monospace", fontSize: "0.8rem" },
-  "& .MuiOutlinedInput-input": { fontFamily: "monospace", fontSize: "0.85rem" },
+  "& .MuiInputLabel-root": { fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" },
+  "& .MuiOutlinedInput-input": { fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem" },
 };
 
 const switchSx = {
@@ -51,7 +51,7 @@ function Label({ children, color = "#6C63FF" }: { children: string; color?: stri
   return (
     <Typography
       sx={{
-        fontFamily: "monospace",
+        fontFamily: "'Outfit', sans-serif",
         fontSize: "0.6rem",
         textTransform: "uppercase",
         letterSpacing: "0.2em",
@@ -121,7 +121,7 @@ function ProfileTab() {
             <Typography sx={{ fontWeight: 600 }} variant="subtitle2">Ayo Adeyemi</Typography>
             <Typography
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.6rem",
                 color: "#6C63FF",
                 letterSpacing: "0.1em",
@@ -149,7 +149,7 @@ function ProfileTab() {
               variant="contained"
               size="small"
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.75rem",
                 letterSpacing: "0.08em",
                 px: 3,
@@ -223,7 +223,7 @@ function SecurityTab() {
               variant="contained"
               size="small"
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.75rem",
                 letterSpacing: "0.08em",
                 px: 3,
@@ -246,7 +246,7 @@ function SecurityTab() {
             <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Remember devices for 30 days</Typography>} />
           </Stack>
           <Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5, mb: 0.5 }}>
               LAST LOGIN
             </Typography>
             <Typography variant="body2" color="text.secondary">
@@ -266,7 +266,7 @@ function SecurityTab() {
                 size="small"
                 startIcon={<DeleteOutlineIcon sx={{ fontSize: 14 }} />}
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.65rem",
                   letterSpacing: "0.08em",
                   color: "#EF4444",
@@ -312,7 +312,7 @@ function AppearanceTab() {
                 flex: 1,
                 border: `1px solid ${BORDER}`,
                 color: "text.secondary",
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.7rem",
                 letterSpacing: "0.1em",
                 py: 1.5,
@@ -338,7 +338,7 @@ function AppearanceTab() {
           <Box>
             <Typography
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.6rem",
                 color: "text.secondary",
                 opacity: 0.5,
@@ -499,7 +499,7 @@ export default function Settings() {
             >
               <Typography
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.5rem",
                   color: isActive ? tab.color : "text.secondary",
                   opacity: isActive ? 0.7 : 0.3,
@@ -522,7 +522,7 @@ export default function Settings() {
               </Box>
               <Typography
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.75rem",
                   fontWeight: isActive ? 600 : 400,
                   letterSpacing: "0.08em",

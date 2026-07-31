@@ -24,7 +24,7 @@ import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
@@ -235,7 +235,7 @@ export default function PrivacyRequests() {
                         <TableRow key={id} hover>
                           <TableCell
                             sx={{
-                              fontFamily: "monospace",
+                              fontFamily: "'Outfit', sans-serif",
                               fontSize: "0.7rem",
                               color: "text.secondary",
                               whiteSpace: "nowrap",
@@ -244,7 +244,7 @@ export default function PrivacyRequests() {
                             {formatDate(r.createdAt ?? r.created_at ?? r.time)}
                           </TableCell>
                           <TableCell
-                            sx={{ fontFamily: "monospace", fontSize: "0.75rem" }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem" }}
                           >
                             {r.email ?? "—"}
                           </TableCell>
@@ -253,7 +253,7 @@ export default function PrivacyRequests() {
                               label={(r.type ?? "—").toString().toUpperCase()}
                               size="small"
                               sx={{
-                                fontFamily: "monospace",
+                                fontFamily: "'Outfit', sans-serif",
                                 fontSize: "0.6rem",
                                 bgcolor: `${tColor}18`,
                                 color: tColor,
@@ -282,7 +282,7 @@ export default function PrivacyRequests() {
                                   )
                                 }
                                 sx={{
-                                  fontFamily: "monospace",
+                                  fontFamily: "'Outfit', sans-serif",
                                   fontSize: "0.72rem",
                                   minWidth: 140,
                                   color: statusColor[r.status] ?? "text.primary",

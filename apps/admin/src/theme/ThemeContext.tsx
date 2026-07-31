@@ -34,14 +34,15 @@ function makeTheme(mode: Mode) {
       warning: { main: "#F59E0B" },
     },
     typography: {
-      fontFamily: "'TT Squares', 'Roboto', sans-serif",
+      fontFamily: "'Outfit', 'Roboto', 'Helvetica', 'Arial', sans-serif",
+      h1: { fontFamily: "'TT Squares', 'Outfit', sans-serif" },
       button: { textTransform: "none", fontWeight: 600 },
     },
-    shape: { borderRadius: 12 },
+    shape: { borderRadius: 4 },
     components: {
       MuiButton: {
         styleOverrides: {
-          root: { borderRadius: 8, padding: "10px 24px" },
+          root: { borderRadius: 4, padding: "10px 24px" },
 
         },
       variants: [
@@ -57,6 +58,7 @@ function makeTheme(mode: Mode) {
       MuiCard: {
         styleOverrides: {
           root: {
+            borderRadius: 6,
             background: dark ? "rgba(17, 24, 39, 0.35)" : "rgba(255, 255, 255, 0.8)",
             backdropFilter: "blur(16px) saturate(1.3)",
             WebkitBackdropFilter: "blur(16px) saturate(1.3)",
@@ -65,6 +67,9 @@ function makeTheme(mode: Mode) {
           },
         },
       },
+      MuiOutlinedInput: { styleOverrides: { root: { borderRadius: 4 } } },
+      MuiAlert: { styleOverrides: { root: { borderRadius: 4 } } },
+      MuiDialog: { styleOverrides: { paper: { borderRadius: 6 } } },
       MuiAppBar: {
         styleOverrides: {
           root: {

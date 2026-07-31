@@ -26,6 +26,10 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
       setError("Please enter both email and password.");
       return;
     }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email.trim())) {
+      setError("Enter a valid email address.");
+      return;
+    }
 
     try {
       await login(email, password);
@@ -140,7 +144,7 @@ const styles = StyleSheet.create({
     width: "100%",
     fontFamily: fonts.regular,
     backgroundColor: colors.surfaceLight,
-    borderRadius: 12,
+    borderRadius: 4,
     paddingHorizontal: 16,
     paddingVertical: 14,
     fontSize: 16,
@@ -151,7 +155,7 @@ const styles = StyleSheet.create({
   },
   button: {
     width: "100%",
-    borderRadius: 12,
+    borderRadius: 4,
     paddingVertical: 16,
     alignItems: "center",
     marginTop: 8,

@@ -25,7 +25,7 @@ const baseSx = (color: string) => ({
     "& p": { color: "text.secondary", fontStyle: "italic", mb: 0 },
   },
   "& code": {
-    fontFamily: "monospace",
+    fontFamily: "'Outfit', sans-serif",
     fontSize: "0.85em",
     background: "rgba(108, 99, 255, 0.1)",
     color: "#8B85FF",
@@ -58,7 +58,7 @@ const baseSx = (color: string) => ({
 export default function MarkdownRenderer({ content, color = "#6C63FF" }: MarkdownRendererProps) {
   if (!content?.trim()) {
     return (
-      <Typography sx={{ fontFamily: "monospace", fontSize: "0.8rem", color: "text.secondary", opacity: 0.4, py: 6, textAlign: "center" }}>
+      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", color: "text.secondary", opacity: 0.4, py: 6, textAlign: "center" }}>
         No content yet.
       </Typography>
     );

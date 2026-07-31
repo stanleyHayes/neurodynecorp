@@ -123,7 +123,7 @@ export default function Team() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{stat.value}</Typography>
@@ -161,9 +161,9 @@ export default function Team() {
                   </Avatar>
                   <Box>
                     <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{name}</Typography>
-                    <Chip label={formatRole(member.role)} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", mt: 0.5, bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                    <Chip label={formatRole(member.role)} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", mt: 0.5, bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
                   </Box>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{member.email}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6 }}>{member.email}</Typography>
                 </Stack>
               </Box>
             </Cell>

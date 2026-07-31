@@ -103,7 +103,7 @@ function HeroCell({
           top: 16,
           left: 40,
           fontSize: "0.65rem",
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           color: hovered ? color : "text.secondary",
           opacity: 0.5,
           letterSpacing: "0.15em",
@@ -199,7 +199,7 @@ export default function PageBanner({
           <Typography
             sx={{
               fontSize: "0.6rem",
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontWeight: 600,
               color: "#6C63FF",
               letterSpacing: "0.25em",
@@ -273,7 +273,7 @@ export default function PageBanner({
           <Typography
             sx={{
               mt: 2,
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               color: "text.secondary",
               letterSpacing: "0.15em",

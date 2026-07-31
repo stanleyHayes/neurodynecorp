@@ -681,7 +681,7 @@ export default function ProjectDetail() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PROJECTS</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PROJECTS</Typography>
       </Box>
 
       <PageBanner
@@ -702,7 +702,7 @@ export default function ProjectDetail() {
             <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: stat.color, filter: `drop-shadow(0 0 12px ${stat.color}40)`, mb: 1 }}>
               {stat.icon}
             </Box>
-            <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
               {stat.label}
             </Typography>
             <Typography variant="h4" sx={{ fontWeight: 800 }}>{stat.value}</Typography>
@@ -713,10 +713,10 @@ export default function ProjectDetail() {
       {/* Progress bar */}
       <Cell color={color} index="04" animDelay={0.4}>
         <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>
             Progress
           </Typography>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.8rem", color, fontWeight: 700 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", color, fontWeight: 700 }}>
             {project.progress}%
           </Typography>
         </Stack>
@@ -734,16 +734,16 @@ export default function ProjectDetail() {
           <Cell color="#6C63FF" index="05" animDelay={0.5}>
             <Stack spacing={2}>
               <Box>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Created</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Created</Typography>
                 <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>{project.created_at?.slice(0, 10) ?? "—"}</Typography>
               </Box>
               <Box>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Updated</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Updated</Typography>
                 <Typography variant="body2" sx={{ fontSize: "0.85rem" }}>{project.updated_at?.slice(0, 10) ?? "—"}</Typography>
               </Box>
               <Box>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Status</Typography>
-                <Chip label={displayStatus} size="small" sx={{ mt: 0.5, fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Status</Typography>
+                <Chip label={displayStatus} size="small" sx={{ mt: 0.5, fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Box>
             </Stack>
           </Cell>
@@ -752,7 +752,7 @@ export default function ProjectDetail() {
           <SectionLabel>Specifications</SectionLabel>
           {specs.length === 0 ? (
             <Cell color="#94A3B8" index="--">
-              <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No specifications yet</Typography>
+              <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No specifications yet</Typography>
             </Cell>
           ) : (
             specs.map((spec, i) => {
@@ -763,9 +763,9 @@ export default function ProjectDetail() {
                   <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
                     <Box>
                       <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{project.title}</Typography>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>v{spec.version} &middot; {spec.created_at?.slice(0, 10) ?? ""}</Typography>
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>v{spec.version} &middot; {spec.created_at?.slice(0, 10) ?? ""}</Typography>
                     </Box>
-                    <Chip label={sDisplayStatus} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${sColor}18`, color: sColor, border: `1px solid ${sColor}30` }} />
+                    <Chip label={sDisplayStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${sColor}18`, color: sColor, border: `1px solid ${sColor}30` }} />
                   </Stack>
                 </Cell>
               );
@@ -789,13 +789,13 @@ export default function ProjectDetail() {
                 </Avatar>
                 <Box>
                   <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>{clientName}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>{clientCompany}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5 }}>{client.email}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary" }}>{clientCompany}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5 }}>{client.email}</Typography>
                 </Box>
-                <Chip label={client.is_active ? "Active" : "Inactive"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${clientAvatarColor}18`, color: clientAvatarColor, border: `1px solid ${clientAvatarColor}30` }} />
+                <Chip label={client.is_active ? "Active" : "Inactive"} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${clientAvatarColor}18`, color: clientAvatarColor, border: `1px solid ${clientAvatarColor}30` }} />
               </Stack>
             ) : (
-              <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>Unknown client</Typography>
+              <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>Unknown client</Typography>
             )}
           </Cell>
 
@@ -806,7 +806,7 @@ export default function ProjectDetail() {
               <AvatarGroup max={6} sx={{ justifyContent: "center", "& .MuiAvatar-root": { width: 36, height: 36, fontSize: 12, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" } }}>
                 {teamInitials.map((t) => <Avatar key={t}>{t}</Avatar>)}
               </AvatarGroup>
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, textAlign: "center" }}>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, textAlign: "center" }}>
                 {team.length} member{team.length !== 1 ? "s" : ""} assigned
               </Typography>
             </Stack>
@@ -827,13 +827,13 @@ export default function ProjectDetail() {
       {/* Decision Log */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Decision Log</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setDlgOpen(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#6C63FF40", color: "#6C63FF", "&:hover": { borderColor: "#6C63FF" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setDlgOpen(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#6C63FF40", color: "#6C63FF", "&:hover": { borderColor: "#6C63FF" } }}>
           Log a decision
         </Button>
       </Stack>
       {decisions.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No decisions logged yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No decisions logged yet</Typography>
         </Cell>
       ) : (
         decisions.map((d, i) => (
@@ -842,15 +842,15 @@ export default function ProjectDetail() {
               <Box sx={{ flex: 1 }}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{d.title}</Typography>
-                  <Chip label={d.status} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} />
+                  <Chip label={d.status} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} />
                 </Stack>
                 <Typography variant="body2" color="text.secondary">{d.rationale}</Typography>
                 {Array.isArray(d.alternatives) && d.alternatives.length > 0 && (
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, mt: 0.5 }}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, mt: 0.5 }}>
                     Alternatives: {d.alternatives.join(", ")}
                   </Typography>
                 )}
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                   {d.decisionMaker}{d.decidedAt ? ` · ${String(d.decidedAt).slice(0, 10)}` : ""}
                 </Typography>
               </Box>
@@ -865,13 +865,13 @@ export default function ProjectDetail() {
       {/* Risk Register */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Risk Register</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRiskDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRiskDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
           Register a risk
         </Button>
       </Stack>
       {risks.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No risks recorded yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No risks recorded yet</Typography>
         </Cell>
       ) : (
         risks.map((r, i) => {
@@ -882,7 +882,7 @@ export default function ProjectDetail() {
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{r.title}</Typography>
-                    <Chip label={r.severity} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${sevColor}18`, color: sevColor, border: `1px solid ${sevColor}40` }} />
+                    <Chip label={r.severity} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${sevColor}18`, color: sevColor, border: `1px solid ${sevColor}40` }} />
                     <Chip label={r.status} size="small" variant="outlined" sx={{ fontSize: "0.55rem", textTransform: "capitalize" }} />
                   </Stack>
                   <Typography variant="body2" color="text.secondary">{r.description}</Typography>
@@ -891,7 +891,7 @@ export default function ProjectDetail() {
                       Mitigation: {r.mitigation} · Residual: {r.residualRating ?? r.severity}
                     </Typography>
                   )}
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                     Owner: {r.owner || "—"}{r.escalation ? ` · Escalation: ${r.escalation}` : ""}
                   </Typography>
                 </Box>
@@ -907,13 +907,13 @@ export default function ProjectDetail() {
       {/* Sign-offs (Approvals) */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Sign-offs</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setSignoffDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setSignoffDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
           Request sign-off
         </Button>
       </Stack>
       {approvals.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No sign-offs requested yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No sign-offs requested yet</Typography>
         </Cell>
       ) : (
         approvals.map((a, i) => {
@@ -924,7 +924,7 @@ export default function ProjectDetail() {
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{a.title}</Typography>
-                    <Chip label={(a.status ?? "pending").replace(/_/g, " ")} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${aColor}18`, color: aColor, border: `1px solid ${aColor}40` }} />
+                    <Chip label={(a.status ?? "pending").replace(/_/g, " ")} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: `${aColor}18`, color: aColor, border: `1px solid ${aColor}40` }} />
                   </Stack>
                   {a.deliverableRef && <Typography variant="body2" color="text.secondary">Deliverable: {a.deliverableRef}</Typography>}
                   {a.description && <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.85 }}>{a.description}</Typography>}
@@ -934,7 +934,7 @@ export default function ProjectDetail() {
                     </Typography>
                   )}
                   {a.decidedAt && (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                       Decided {String(a.decidedAt).slice(0, 10)}
                     </Typography>
                   )}
@@ -953,13 +953,13 @@ export default function ProjectDetail() {
       {/* Stakeholder Map */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Stakeholder Map</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setStkDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B85FF40", color: "#8B85FF", "&:hover": { borderColor: "#8B85FF" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setStkDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B85FF40", color: "#8B85FF", "&:hover": { borderColor: "#8B85FF" } }}>
           Add stakeholder
         </Button>
       </Stack>
       {stakeholders.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No stakeholders recorded yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No stakeholders recorded yet</Typography>
         </Cell>
       ) : (
         stakeholders.map((s, i) => {
@@ -971,13 +971,13 @@ export default function ProjectDetail() {
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{s.name}</Typography>
-                    <Chip label={s.side === "client" ? "Client" : "NeuroDyne"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${sideColor}18`, color: sideColor, border: `1px solid ${sideColor}40` }} />
+                    <Chip label={s.side === "client" ? "Client" : "NeuroDyne"} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${sideColor}18`, color: sideColor, border: `1px solid ${sideColor}40` }} />
                     <Chip label={authLabel} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
                     <Chip label={s.briefed ? "Briefed" : "Not briefed"} size="small" variant="outlined" color={s.briefed ? "success" : "default"} sx={{ fontSize: "0.55rem" }} />
                   </Stack>
                   <Typography variant="body2" color="text.secondary">{s.role}</Typography>
                   {s.email && (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.62rem", color: "text.secondary", opacity: 0.6, mt: 0.5 }}>{s.email}</Typography>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "text.secondary", opacity: 0.6, mt: 0.5 }}>{s.email}</Typography>
                   )}
                   {s.notes && (
                     <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.75, mt: 0.5, whiteSpace: "pre-wrap" }}>{s.notes}</Typography>
@@ -1027,13 +1027,13 @@ export default function ProjectDetail() {
       {/* Capability Lattice */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Capability Lattice</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setLatDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setLatDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981" } }}>
           Add capability
         </Button>
       </Stack>
       {lattice.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No capabilities tracked yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No capabilities tracked yet</Typography>
         </Cell>
       ) : (
         lattice.map((l, i) => {
@@ -1044,12 +1044,12 @@ export default function ProjectDetail() {
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{l.capability}</Typography>
-                    <Chip label={lc.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${lc.color}18`, color: lc.color, border: `1px solid ${lc.color}40` }} />
+                    <Chip label={lc.label} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${lc.color}18`, color: lc.color, border: `1px solid ${lc.color}40` }} />
                     <Chip label={l.category} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
                   </Stack>
                   {l.description && <Typography variant="body2" color="text.secondary">{l.description}</Typography>}
                   {(l.owner || l.targetDate) && (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                       {l.owner ? `Owner: ${l.owner}` : ""}{l.owner && l.targetDate ? " · " : ""}{l.targetDate ? `Target: ${String(l.targetDate).slice(0, 10)}` : ""}
                     </Typography>
                   )}
@@ -1091,13 +1091,13 @@ export default function ProjectDetail() {
       {/* Reports Library */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Reports Library</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRepDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B5CF640", color: "#8B5CF6", "&:hover": { borderColor: "#8B5CF6" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setRepDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B5CF640", color: "#8B5CF6", "&:hover": { borderColor: "#8B5CF6" } }}>
           Add report
         </Button>
       </Stack>
       {reports.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No reports yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No reports yet</Typography>
         </Cell>
       ) : (
         reports.map((r, i) => {
@@ -1111,25 +1111,25 @@ export default function ProjectDetail() {
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{r.title}</Typography>
                     <Chip label={REPORT_TYPE_LABELS[r.type] ?? r.type} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
                     {r.period && <Chip label={r.period} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />}
-                    <Chip label={published ? "Published" : "Draft"} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${rColor}18`, color: rColor, border: `1px solid ${rColor}40` }} />
+                    <Chip label={published ? "Published" : "Draft"} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${rColor}18`, color: rColor, border: `1px solid ${rColor}40` }} />
                   </Stack>
                   {r.summary && <Typography variant="body2" color="text.secondary">{r.summary}</Typography>}
                   {safeHref(r.url) && (
-                    <Typography component="a" href={safeHref(r.url)!} target="_blank" rel="noopener noreferrer" sx={{ fontFamily: "monospace", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+                    <Typography component="a" href={safeHref(r.url)!} target="_blank" rel="noopener noreferrer" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
                       {r.url}
                     </Typography>
                   )}
                   {published && r.publishedAt && (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                       Published {String(r.publishedAt).slice(0, 10)}
                     </Typography>
                   )}
                 </Box>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                   {published ? (
-                    <Button size="small" onClick={() => unpublishReport(r.id)} sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "#94A3B8" }}>Unpublish</Button>
+                    <Button size="small" onClick={() => unpublishReport(r.id)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#94A3B8" }}>Unpublish</Button>
                   ) : (
-                    <Button size="small" onClick={() => publishReport(r.id)} sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "#10B981" }}>Publish</Button>
+                    <Button size="small" onClick={() => publishReport(r.id)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#10B981" }}>Publish</Button>
                   )}
                   <IconButton size="small" onClick={() => removeReport(r.id)} sx={{ color: "#EF4444" }}>
                     <DeleteOutlineOutlinedIcon fontSize="small" />
@@ -1172,13 +1172,13 @@ export default function ProjectDetail() {
       {/* Team Directory */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Team Directory</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setMemDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setMemDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
           Add member
         </Button>
       </Stack>
       {directory.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No team members listed yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No team members listed yet</Typography>
         </Cell>
       ) : (
         directory.map((m, i) => {
@@ -1189,13 +1189,13 @@ export default function ProjectDetail() {
                 <Box sx={{ flex: 1 }}>
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{m.name}</Typography>
-                    <Chip label={av.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${av.color}18`, color: av.color, border: `1px solid ${av.color}40` }} />
+                    <Chip label={av.label} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${av.color}18`, color: av.color, border: `1px solid ${av.color}40` }} />
                   </Stack>
                   <Typography variant="body2" color="text.secondary">{m.role}</Typography>
                   {m.focus && <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.8, mt: 0.5 }}>Focus: {m.focus}</Typography>}
                   {m.bio && <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.75, mt: 0.5 }}>{m.bio}</Typography>}
                   {m.email && (
-                    <Typography component="a" href={`mailto:${m.email}`} sx={{ fontFamily: "monospace", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+                    <Typography component="a" href={`mailto:${m.email}`} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
                       {m.email}
                     </Typography>
                   )}
@@ -1237,13 +1237,13 @@ export default function ProjectDetail() {
       {/* Budget & Milestones */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Budget &amp; Milestones</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setBudDlg(true)} sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setBudDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B" } }}>
           Add budget line
         </Button>
       </Stack>
       {budget.length === 0 ? (
         <Cell color="#94A3B8" index="--">
-          <Typography color="text.secondary" sx={{ fontFamily: "monospace", fontSize: "0.8rem", opacity: 0.5 }}>No budget lines tracked yet</Typography>
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>No budget lines tracked yet</Typography>
         </Cell>
       ) : (
         budget.map((b, i) => {
@@ -1258,13 +1258,13 @@ export default function ProjectDetail() {
                   <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                     <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{b.label}</Typography>
                     <Chip label={BUDGET_CATEGORY_LABELS[b.category] ?? b.category} size="small" variant="outlined" sx={{ fontSize: "0.55rem" }} />
-                    <Chip label={st.label} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${st.color}18`, color: st.color, border: `1px solid ${st.color}40` }} />
+                    <Chip label={st.label} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: `${st.color}18`, color: st.color, border: `1px solid ${st.color}40` }} />
                   </Stack>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary" }}>
                     Budget {fmtMoney(Number(b.budgetAmount) || 0, b.currency)} · Invoiced {fmtMoney(invoiced, b.currency)} · Outstanding {fmtMoney(outstanding, b.currency)}
                   </Typography>
                   {b.dueDate && (
-                    <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, mt: 0.5 }}>
                       Due {String(b.dueDate).slice(0, 10)}
                     </Typography>
                   )}

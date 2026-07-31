@@ -72,7 +72,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -148,7 +148,7 @@ export default function RoleCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
       </Box>
 
       <PageBanner
@@ -199,7 +199,7 @@ export default function RoleCreate() {
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#8B5CF6", filter: "drop-shadow(0 0 12px rgba(139,92,246,0.25))", mb: 1 }}>
             <VpnKeyOutlinedIcon />
           </Box>
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
+          <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Selected Permissions
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{permissions.size}</Typography>
@@ -286,17 +286,17 @@ export default function RoleCreate() {
                 </Box>
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{name}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{description || "No description"}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{description || "No description"}</Typography>
                 </Box>
               </Stack>
               <Stack direction="row" spacing={3} sx={{ mt: 2 }}>
                 <Box>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Permissions</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Permissions</Typography>
                   <Typography variant="body2" sx={{ fontSize: "0.8rem", fontWeight: 600 }}>{permissions.size}</Typography>
                 </Box>
                 <Box>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
-                  <Chip label="Custom" size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.1)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.2)" }} />
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
+                  <Chip label="Custom" size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.1)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.2)" }} />
                 </Box>
               </Stack>
             </Cell>

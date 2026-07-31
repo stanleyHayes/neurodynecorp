@@ -53,7 +53,7 @@ export default function BlogCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>
       </Box>
 
       <PageBanner
@@ -106,7 +106,7 @@ export default function BlogCreate() {
               onClick={() => setTab(t)}
               startIcon={t === "edit" ? <EditNoteOutlinedIcon /> : <VisibilityOutlinedIcon />}
               sx={{
-                fontFamily: "monospace",
+                fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.7rem",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
@@ -132,7 +132,7 @@ export default function BlogCreate() {
             size="small"
             onClick={() => navigate("/blog")}
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.1em",
               borderColor: "rgba(108,99,255,0.2)",
@@ -148,7 +148,7 @@ export default function BlogCreate() {
             startIcon={<SaveOutlinedIcon />}
             disabled={!canSubmit}
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.1em",
               borderColor: "#F59E0B40",
@@ -164,7 +164,7 @@ export default function BlogCreate() {
             size="small"
             disabled={!canSubmit}
             sx={{
-              fontFamily: "monospace",
+              fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.1em",
               borderColor: "#10B98140",
@@ -184,7 +184,7 @@ export default function BlogCreate() {
           <Cell color="#6C63FF" index="02" animDelay={0}>
             <Stack spacing={2} sx={{ alignItems: "center", py: 8 }}>
               <CircularProgress size={28} sx={{ color: "#6C63FF" }} />
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", opacity: 0.5 }}>Loading editor...</Typography>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", opacity: 0.5 }}>Loading editor...</Typography>
             </Stack>
           </Cell>
         }>
@@ -201,9 +201,9 @@ export default function BlogCreate() {
         <Box>
           <Cell color={color} index="P0" animDelay={0}>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1.5 }}>
-              <Chip label={category} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
+              <Chip label={category} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem" }} />
               {readTime && (
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{readTime}</Typography>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{readTime}</Typography>
               )}
             </Stack>
             <Typography variant="h4" sx={{ fontWeight: 800, mb: 1, letterSpacing: "-0.02em" }}>

@@ -194,7 +194,7 @@ function GridButton({
       {/* Label */}
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.7rem",
           fontWeight: 700,
           letterSpacing: "0.1em",
@@ -381,7 +381,7 @@ export default function EmptyState({
       {/* Tag */}
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.6rem",
           fontWeight: 700,
           letterSpacing: "0.3em",
@@ -411,7 +411,7 @@ export default function EmptyState({
       {/* Description */}
       <Typography
         sx={{
-          fontFamily: "monospace",
+          fontFamily: "'Outfit', sans-serif",
           fontSize: "0.75rem",
           color: "text.secondary",
           opacity: 0.4,

@@ -200,7 +200,7 @@ export default function CommandPalette() {
               />
               <Box
                 sx={{
-                  fontFamily: "monospace",
+                  fontFamily: "'Outfit', sans-serif",
                   fontSize: "0.6rem",
                   letterSpacing: "0.1em",
                   color: "text.secondary",
@@ -218,7 +218,7 @@ export default function CommandPalette() {
             <Box sx={{ maxHeight: 460, overflowY: "auto", py: 1 }}>
               {filtered.length === 0 ? (
                 <Box sx={{ py: 6, textAlign: "center" }}>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", color: "text.secondary", opacity: 0.5 }}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", color: "text.secondary", opacity: 0.5 }}>
                     No commands match "{query}"
                   </Typography>
                 </Box>
@@ -227,7 +227,7 @@ export default function CommandPalette() {
                   <Box key={group} sx={{ mb: 1 }}>
                     <Typography
                       sx={{
-                        fontFamily: "monospace",
+                        fontFamily: "'Outfit', sans-serif",
                         fontSize: "0.55rem",
                         fontWeight: 700,
                         letterSpacing: "0.25em",
@@ -279,7 +279,7 @@ export default function CommandPalette() {
                           {cmd.shortcut && (
                             <Box
                               sx={{
-                                fontFamily: "monospace",
+                                fontFamily: "'Outfit', sans-serif",
                                 fontSize: "0.6rem",
                                 letterSpacing: "0.1em",
                                 color: "text.secondary",
@@ -300,12 +300,12 @@ export default function CommandPalette() {
             <Stack direction="row" spacing={2} sx={{ alignItems: "center", px: 2.5, py: 1.25, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.03)" }}>
               <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                 <KeyboardCommandKeyIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
                   K to toggle
                 </Typography>
               </Stack>
               <Box sx={{ flex: 1 }} />
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
                 ↑↓ navigate &nbsp;·&nbsp; ↵ select
               </Typography>
             </Stack>

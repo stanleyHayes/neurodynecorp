@@ -106,7 +106,7 @@ export default function Cell({
             top: 14,
             left: 34,
             fontSize: "0.6rem",
-            fontFamily: "monospace",
+            fontFamily: "'Outfit', sans-serif",
             color: hovered ? color : "text.secondary",
             opacity: 0.5,
             letterSpacing: "0.15em",

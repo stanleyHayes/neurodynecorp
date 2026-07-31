@@ -29,7 +29,7 @@ const inputSx = {
 };
 
 const btnSx = {
-  fontFamily: "monospace",
+  fontFamily: "'Outfit', sans-serif",
   fontSize: "0.65rem",
   letterSpacing: "0.1em",
 };
@@ -61,7 +61,7 @@ export default function TeamCreate() {
         sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
+        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
       </Box>
 
       <PageBanner
@@ -101,7 +101,7 @@ export default function TeamCreate() {
               {ROLES.map((r) => <MenuItem key={r} value={r}>{r}</MenuItem>)}
             </TextField>
             <Box>
-              <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.5, mb: 1 }}>
+              <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.5, mb: 1 }}>
                 Initial Utilization — {utilization}%
               </Typography>
               <Slider
@@ -133,17 +133,17 @@ export default function TeamCreate() {
                 </Avatar>
                 <Box>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{name}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{role}</Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{email}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6 }}>{role}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{email}</Typography>
                 </Box>
               </Stack>
               <Stack direction="row" spacing={3} sx={{ mt: 2 }}>
                 <Box>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Projects</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Projects</Typography>
                   <Typography variant="body2" sx={{ fontSize: "0.8rem" }}>0</Typography>
                 </Box>
                 <Box>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Utilization</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Utilization</Typography>
                   <Typography variant="body2" sx={{ fontSize: "0.8rem", color }}>{utilization}%</Typography>
                 </Box>
               </Stack>
