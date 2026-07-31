@@ -158,7 +158,7 @@ export default function Home() {
         <Container maxWidth="lg">
           <SectionHeading tag="What We Do" title="Five disciplines, one system of work" align="center" />
           <Honeycomb
-            cell={310}
+            cell={300}
             perRow={3}
             items={WHAT_WE_DO.map((d, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;
@@ -268,7 +268,7 @@ export default function Home() {
             color="#8B85FF"
           />
           <Honeycomb
-            cell={280}
+            cell={260}
             perRow={4}
             items={INITIATIVES.map((init, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;

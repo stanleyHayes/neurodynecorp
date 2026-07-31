@@ -21,13 +21,13 @@ export interface HoneycombItem {
   content: ReactNode;
 }
 
-const HEX_CLIP = "polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%)";
+const HEX_CLIP = "polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%)";
 
 export default function Honeycomb({
   items,
   cell = 240,
   perRow = 3,
-  gap = 12,
+  gap = 0,
 }: {
   items: HoneycombItem[];
   /** Hexagon width in px. Height is derived (width × 1.1547). */
@@ -75,15 +75,14 @@ export default function Honeycomb({
     wide = !wide;
   }
 
-  // Flat-top hexagon: height = width × √3/2. Pointy-top wasted ~25% of the
-  // cell on an empty apex, which made the cells read as houses rather than
-  // hexagons and squeezed the text into the middle band.
-  const height = cell * 0.866;
+  // Pointy-top hexagon: height = width x 2/sqrt3. Rows tessellate at exactly
+  // 3/4 height with alternate rows offset by half a cell, and the default gap
+  // is 0 so neighbouring cells share edges — a real comb, not floating tiles.
+  const height = cell * 1.1547;
   // Rows tessellate at 3/4 height. With a horizontal gap the comb also has to
   // breathe vertically by gap×sin(60°), otherwise the offset row collides with
   // the row above instead of nesting into its notches.
-  // Flat-top rows nest by overlapping the slanted shoulders.
-  const rowStep = height * 0.78 + gap * 0.5;
+  const rowStep = height * 0.75 + gap;
 
   // Each cell is placed at an exact (x, y). Flow layout with negative margins
   // made later rows paint over the bottom points of the row above, which
@@ -147,7 +146,7 @@ export default function Honeycomb({
                   className="comb-face"
                   sx={{
                     position: "absolute",
-                    inset: 1,
+                    inset: 1.5,
                     clipPath: HEX_CLIP,
                     background: theme.palette.mode === "dark"
                       ? `linear-gradient(160deg, ${accent}14, rgba(10,14,26,0.92))`
@@ -159,11 +158,11 @@ export default function Honeycomb({
                   sx={{
                     position: "relative",
                     zIndex: 1,
-                    // A flat-top hexagon tapers on the left and right, so text
-                    // is held inside the inscribed rectangle (70% wide) and
-                    // clipped rather than bleeding past the slanted edges.
-                    width: cell * 0.7,
-                    maxHeight: height * 0.82,
+                    // A pointy-top hexagon reaches full width only at its
+                    // centre band, so text is held inside the inscribed
+                    // rectangle rather than bleeding past the angled edges.
+                    width: cell * 0.66,
+                    maxHeight: height * 0.6,
                     overflow: "hidden",
                     display: "flex",
                     flexDirection: "column",
