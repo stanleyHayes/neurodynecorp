@@ -75,8 +75,13 @@ export default function Honeycomb({
     wide = !wide;
   }
 
+  // Regular pointy-top hexagon: height = width × 2/√3.
   const height = cell * 1.1547;
-  const overlap = height * 0.25;
+  // Rows tessellate at 3/4 height. With a horizontal gap the comb also has to
+  // breathe vertically by gap×sin(60°), otherwise the offset row collides with
+  // the row above instead of nesting into its notches.
+  const rowStep = height * 0.75 + gap * 0.866;
+  const overlap = height - rowStep;
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
@@ -135,9 +140,18 @@ export default function Honeycomb({
                   sx={{
                     position: "relative",
                     zIndex: 1,
-                    // Keep content inside the hexagon's safe inner rectangle.
-                    px: `${cell * 0.16}px`,
-                    maxWidth: cell * 0.72,
+                    // A hexagon only reaches full width at its vertical centre;
+                    // it tapers to a point top and bottom. Text is therefore
+                    // constrained to the largest rectangle that fits inside —
+                    // ~62% of the width and ~55% of the height — and clipped
+                    // rather than allowed to bleed past the angled edges.
+                    width: cell * 0.62,
+                    maxHeight: height * 0.58,
+                    overflow: "hidden",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    justifyContent: "center",
                   }}
                 >
                   {item.content}

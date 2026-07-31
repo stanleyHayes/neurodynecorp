@@ -26,6 +26,9 @@ import { useThemeMode } from "@/context/ThemeContext";
    CONFIGURATION
    ═══════════════════════════════════════════════════════════════════ */
 
+const CLIENT_PORTAL_URL =
+  import.meta.env.VITE_CLIENT_PORTAL_URL ?? "https://client.neurodynecorp.com";
+
 const NAV_ITEMS = [
   { label: "Home", path: "/", index: "01", tag: "MAIN SECTOR", icon: <HomeOutlinedIcon />, color: "#6C63FF" },
   { label: "About", path: "/about", index: "02", tag: "INTEL BRIEF", icon: <InfoOutlinedIcon />, color: "#8B85FF" },
@@ -537,13 +540,45 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
 
+  // Kedland-style header: at the top of a page the bar SETTLES into the layout
+  // as a full-width edge-to-edge bar; once the reader moves down it contracts
+  // into an inset FLOATING capsule, and expands back on return to the top.
+  // Scroll reads are rAF-throttled, and the initial read covers a browser
+  // restoring scroll position on back-navigation.
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    let frame: number | null = null;
+
+    const update = () => {
+      frame = null;
+      setScrolled(window.scrollY > 48);
+    };
+
+    const onScroll = () => {
+      if (frame !== null) return;
+      frame = requestAnimationFrame(update);
+    };
+
+    window.addEventListener("scroll", onScroll, { passive: true });
+    update();
+
+    return () => {
+      if (frame !== null) cancelAnimationFrame(frame);
+      window.removeEventListener("scroll", onScroll);
+    };
   }, []);
+
+  // Matches kedland's easing/duration, and collapses to an instant swap when
+  // the reader has asked for reduced motion.
+  const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
+  const shellTransition = prefersReducedMotion
+    ? "none"
+    : `top 0.5s ${EASE}, padding 0.5s ${EASE}`;
+  const barTransition = prefersReducedMotion
+    ? "background 0.3s, border-color 0.3s"
+    : `max-width 0.5s ${EASE}, border-radius 0.5s ${EASE}, padding 0.5s ${EASE}, background 0.35s, border-color 0.35s, box-shadow 0.35s`;
 
   return (
     <>
@@ -553,23 +588,28 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
         transition={{ type: "spring", stiffness: 220, damping: 26, delay: 0.05 }}
         style={{
           position: "fixed",
-          top: 12,
+          top: scrolled ? 12 : 0,
           left: 0,
           right: 0,
           display: "flex",
           justifyContent: "center",
           zIndex: 1300,
           pointerEvents: "none",
+          paddingLeft: scrolled ? 12 : 0,
+          paddingRight: scrolled ? 12 : 0,
+          transition: shellTransition,
         }}
       >
         <Box
+          data-header-state={scrolled ? "floating" : "settled"}
           sx={{
             display: "flex",
             alignItems: "center",
             gap: { xs: 1, md: 1.2 },
-            px: { xs: 2, md: 2.2 },
-            py: 0.85,
-            borderRadius: 50,
+            px: scrolled ? { xs: 2, md: 2.2 } : { xs: 2, md: 3 },
+            py: scrolled ? 0.85 : 1.15,
+            width: scrolled ? "auto" : "100%",
+            borderRadius: scrolled ? 50 : 0,
             background: isDark
               ? scrolled ? "rgba(7, 20, 35, 0.84)" : "rgba(7, 20, 35, 0.72)"
               : scrolled ? "rgba(248, 250, 255, 0.94)" : "rgba(248, 250, 255, 0.84)",
@@ -586,8 +626,9 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 ? "0 10px 28px rgba(4,12,27,0.15)"
                 : "0 8px 20px rgba(4,12,27,0.12)",
             pointerEvents: "auto",
-            transition: "background 0.3s, border-color 0.3s, box-shadow 0.3s",
-            maxWidth: "95vw",
+            transition: barTransition,
+            maxWidth: scrolled ? "min(1200px, 95vw)" : "100vw",
+            borderBottom: scrolled ? undefined : `1px solid ${isDark ? "rgba(255,255,255,0.10)" : "rgba(12,22,46,0.10)"}`,
           }}
         >
           {/* Logo */}
@@ -677,9 +718,11 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 })}
               </Box>
 
+              {/* Client portal is a separate app, so this is an external link
+                  rather than a router route. It used to point at /contact. */}
               <Typography
-                component={Link}
-                to="/contact"
+                component="a"
+                href={CLIENT_PORTAL_URL}
                 sx={{
                   display: "block",
                   px: 1.35,
@@ -697,7 +740,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   },
                 }}
               >
-                Log in
+                Client login
               </Typography>
 
               <ThemeToggle />
@@ -713,17 +756,23 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   py: 0.82,
                   fontSize: "0.83rem",
                   fontWeight: 700,
-                  color: "#07281f",
+                  letterSpacing: "0.01em",
+                  color: "#FFFFFF",
                   textDecoration: "none",
                   borderRadius: 999,
-                  background: "#FFFFFF",
+                  background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                  boxShadow: "0 4px 14px rgba(108,99,255,0.28)",
                   whiteSpace: "nowrap",
                   flexShrink: 0,
-                  transition: "opacity 0.2s",
-                  "&:hover": { opacity: 0.9 },
+                  transition: "transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease",
+                  "&:hover": {
+                    transform: "translateY(-1px)",
+                    filter: "brightness(1.06)",
+                    boxShadow: "0 6px 18px rgba(108,99,255,0.38)",
+                  },
                 }}
               >
-                Get started
+                Start a project
               </Typography>
             </>
           )}
@@ -997,9 +1046,12 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
    ═══════════════════════════════════════════════════════════════════ */
 
 export default function Navbar() {
-  const [phase, setPhase] = useState<Phase>(() =>
-    sessionStorage.getItem("ndl-nav") === "1" ? "pill" : "grid",
-  );
+  const [phase, setPhase] = useState<Phase>(() => {
+    // `?nosplash=1` (screenshot/E2E tooling) skips the intro grid and lands
+    // straight on the pill nav, same as a returning visitor.
+    if (new URLSearchParams(window.location.search).has("nosplash")) return "pill";
+    return sessionStorage.getItem("ndl-nav") === "1" ? "pill" : "grid";
+  });
   const [selectedPath, setSelectedPath] = useState<string | null>(null);
   const navigate = useNavigate();
   const location = useLocation();

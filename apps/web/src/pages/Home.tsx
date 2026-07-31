@@ -158,7 +158,7 @@ export default function Home() {
         <Container maxWidth="lg">
           <SectionHeading tag="What We Do" title="Five disciplines, one system of work" align="center" />
           <Honeycomb
-            cell={260}
+            cell={310}
             perRow={3}
             items={WHAT_WE_DO.map((d, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;
@@ -167,14 +167,14 @@ export default function Home() {
                 accent,
                 content: (
                   <>
-                    <Box sx={{ color: accent, display: "flex", justifyContent: "center", "& .MuiSvgIcon-root": { fontSize: 30 }, mb: 1.25 }}>
+                    <Box sx={{ color: accent, display: "flex", justifyContent: "center", "& .MuiSvgIcon-root": { fontSize: 26 }, mb: 1 }}>
                       {DO_ICONS[d.slug]}
                     </Box>
-                    <Typography sx={{ fontWeight: 700, fontSize: "1rem", mb: 0.75 }}>{d.title}</Typography>
+                    <Typography sx={{ fontWeight: 700, fontSize: "0.92rem", lineHeight: 1.2, mb: 0.6 }}>{d.title}</Typography>
                     <Typography
                       variant="body2"
                       color="text.secondary"
-                      sx={{ lineHeight: 1.55, fontSize: "0.76rem" }}
+                      sx={{ lineHeight: 1.45, fontSize: "0.7rem" }}
                     >
                       {d.blurb}
                     </Typography>
@@ -268,7 +268,7 @@ export default function Home() {
             color="#8B85FF"
           />
           <Honeycomb
-            cell={250}
+            cell={280}
             perRow={4}
             items={INITIATIVES.map((init, i) => {
               const accent = ACCENTS[i % ACCENTS.length]!;
@@ -282,8 +282,8 @@ export default function Home() {
                     >
                       {String(i + 1).padStart(2, "0")} · {init.status.toUpperCase()}
                     </Typography>
-                    <Typography sx={{ fontWeight: 800, fontSize: "0.98rem", mb: 0.6 }}>{init.name}</Typography>
-                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.5, fontSize: "0.74rem" }}>
+                    <Typography sx={{ fontWeight: 800, fontSize: "0.92rem", lineHeight: 1.2, mb: 0.5 }}>{init.name}</Typography>
+                    <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.4, fontSize: "0.68rem" }}>
                       {init.blurb}
                     </Typography>
                   </>
