@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "echo '[server] runtime is tsx — no build artifact needed.'",
+    "build": "echo '[server] runtime is tsx \u2014 no build artifact needed.'",
     "build:strict": "tsc",
     "start": "tsx src/index.ts",
     "lint": "eslint src/",
@@ -14,7 +14,8 @@
     "test": "node --import tsx --test 'src/**/*.test.ts'",
     "test:watch": "node --import tsx --test --watch 'src/**/*.test.ts'",
     "seed": "tsx scripts/seed.ts",
-    "seed:fresh": "tsx scripts/seed.ts --fresh"
+    "seed:fresh": "tsx scripts/seed.ts --fresh",
+    "seed:align": "tsx scripts/align-seed-ids.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",

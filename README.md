@@ -330,3 +330,22 @@ make clean         Remove build artifacts
 ## License
 
 Proprietary - NeuroDyne Corp
+
+### Seeding
+
+```bash
+pnpm --filter @neurodyne/server seed          # idempotent — safe to re-run
+pnpm --filter @neurodyne/server seed:align    # only for a database seeded before Jul 2026
+```
+
+`seed` is idempotent: rows carry deterministic ids, so re-running collides and
+skips rather than inserting duplicates.
+
+`seed:align` is a one-off migration for databases seeded *before* ids became
+deterministic. Those hold random ids, and because users and roles have a unique
+index the seed skips them — so they keep their old ids while everything else
+moves, leaving projects pointing at client ids that match no user (client
+portals come back empty). The script re-keys identities, drops the retired
+placeholder projects, collapses duplicates from earlier double-seeding, and
+refreshes admin permissions. It is idempotent, supports `--dry-run`, and a
+freshly seeded database never needs it.
