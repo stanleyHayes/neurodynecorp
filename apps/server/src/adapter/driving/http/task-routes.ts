@@ -111,7 +111,7 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
       }
 
       const sprints = await taskService.listSprints(projectId);
-      res.status(200).json({ sprints });
+      res.status(200).json({ sprints, items: sprints, total: sprints.length });
     } catch (err) {
       next(err);
     }
@@ -204,7 +204,9 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
       }
 
       const tasks = await taskService.listTasks(parsed.data as TaskFilter);
-      res.status(200).json({ tasks });
+      // `items` mirrors every other list endpoint (the admin Kanban reads it);
+      // `tasks` is kept for existing consumers.
+      res.status(200).json({ tasks, items: tasks, total: tasks.length });
     } catch (err) {
       next(err);
     }

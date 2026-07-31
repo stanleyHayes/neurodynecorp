@@ -63,7 +63,7 @@ export default function AdminLayout() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { api } = useAuth();
+  const { api, logout } = useAuth();
   const { on } = useSocket();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -266,7 +266,14 @@ export default function AdminLayout() {
 
               <Divider sx={{ borderColor: BORDER, my: 0.5 }} />
 
-              <MenuItem onClick={() => setAnchorEl(null)} sx={{ ...menuItemSx, "&:hover": { bgcolor: "rgba(239, 68, 68, 0.06)" } }}>
+              <MenuItem
+                onClick={() => {
+                  setAnchorEl(null);
+                  logout();
+                  navigate("/login", { replace: true });
+                }}
+                sx={{ ...menuItemSx, "&:hover": { bgcolor: "rgba(239, 68, 68, 0.06)" } }}
+              >
                 <ListItemIcon><LogoutOutlinedIcon sx={{ fontSize: 18, color: "#EF4444" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, color: "#EF4444" } }}>Sign Out</ListItemText>
               </MenuItem>
