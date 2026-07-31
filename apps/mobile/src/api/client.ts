@@ -78,12 +78,14 @@ export function listThreads(projectId: string) {
 }
 
 export function getMessages(threadId: string) {
-  return request<{ items: any[] }>(`/api/v1/messages/${threadId}/messages`);
+  // Thread routes live under the /api/v1/messages mount: the /threads segment
+  // is required, and POSTing a message goes to that thread's collection.
+  return request<{ items: any[] }>(`/api/v1/messages/threads/${threadId}/messages`);
 }
 
 export function sendMessage(threadId: string, content: string) {
-  return request<any>("/api/v1/messages", {
+  return request<any>(`/api/v1/messages/threads/${threadId}/messages`, {
     method: "POST",
-    body: { thread_id: threadId, content },
+    body: { content },
   });
 }

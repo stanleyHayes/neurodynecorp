@@ -145,17 +145,33 @@ export class ApiClient {
   }
 
   // Messages
-  listThreads(projectId: string) {
-    return this.request<{ threads: Thread[] }>("/api/v1/threads", { params: { project_id: projectId } });
+  //
+  // The message router is mounted at /api/v1/messages and declares its thread
+  // routes inside it, so every path is /api/v1/messages/threads[...]. These
+  // used to point at /api/v1/threads, which 404s — messaging was dead in both
+  // portals. The server also validates camelCase bodies.
+  listThreads(projectId?: string) {
+    return this.request<{ threads: Thread[] }>("/api/v1/messages/threads", {
+      params: projectId ? { projectId } : undefined,
+    });
   }
-  createThread(projectId: string, subject: string, participants: string[]) {
-    return this.request<Thread>("/api/v1/threads", { method: "POST", body: { project_id: projectId, subject, participants } });
+  createThread(projectId: string, title: string, participantIds: string[]) {
+    return this.request<Thread>("/api/v1/messages/threads", {
+      method: "POST",
+      body: { projectId, title, participantIds },
+    });
   }
   getMessages(threadId: string, page = 1) {
-    return this.request<PaginatedResponse<Message>>(`/api/v1/threads/${threadId}/messages`, { params: { page: String(page) } });
+    return this.request<PaginatedResponse<Message>>(
+      `/api/v1/messages/threads/${threadId}/messages`,
+      { params: { page: String(page) } },
+    );
   }
-  sendMessage(projectId: string, threadId: string, content: string, fileUrls?: string[]) {
-    return this.request<Message>("/api/v1/messages", { method: "POST", body: { project_id: projectId, thread_id: threadId, content, file_urls: fileUrls } });
+  sendMessage(threadId: string, content: string, attachments?: string[]) {
+    return this.request<Message>(`/api/v1/messages/threads/${threadId}/messages`, {
+      method: "POST",
+      body: { content, attachments },
+    });
   }
 
   // Tasks

@@ -125,7 +125,7 @@ export default function Messages() {
     if (!thread) return;
 
     try {
-      const sent = await api.sendMessage(thread.project_id, selectedThread, text);
+      const sent = await api.sendMessage(selectedThread, text);
       setMessages((prev) => [...prev, sent as Msg]);
       setNewMessage("");
     } catch {

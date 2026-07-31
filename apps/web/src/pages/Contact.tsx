@@ -200,9 +200,27 @@ export default function Contact() {
     projectType: "",
   });
   const [copied, setCopied] = useState<string | null>(null);
+  const [attempted, setAttempted] = useState(false);
+
+  // Inline validation. The browser's native bubble ("Please fill in this
+  // field") is unstyled, appears off to the side and vanishes on the next
+  // click, so the form is marked noValidate and validated here instead.
+  const errors = {
+    name: !form.name.trim() ? "Tell us your name." : "",
+    email: !form.email.trim()
+      ? "We need an email to reply to."
+      : !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(form.email)
+        ? "That email doesn't look right."
+        : "",
+    subject: !form.subject.trim() ? "Add a subject." : "",
+    message: !form.message.trim() ? "Tell us what you need." : "",
+  };
+  const hasErrors = Object.values(errors).some(Boolean);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setAttempted(true);
+    if (hasErrors) return;
     await submit({
       name: form.name,
       email: form.email,
@@ -390,7 +408,7 @@ export default function Contact() {
           </MotionBox>
         ) : (
           /* ── Form cells ── */
-          <Box key="form" component="form" onSubmit={handleSubmit}>
+          <Box key="form" component="form" noValidate onSubmit={handleSubmit}>
             <AnimatePresence>
               {error && (
                 <MotionBox
@@ -413,14 +431,14 @@ export default function Contact() {
                   <PersonOutlineIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Full Name</Typography>
                 </Stack>
-                <TextField fullWidth required disabled={isSubmitting} value={form.name} onChange={handleChange("name")} placeholder="John Doe" size="small" sx={fieldSx} />
+                <TextField fullWidth required disabled={isSubmitting} value={form.name} onChange={handleChange("name")} placeholder="John Doe" size="small" sx={fieldSx} error={attempted && Boolean(errors.name)} helperText={attempted ? errors.name : ""}/>
               </Cell>
               <Cell color="#00D4AA" index="02" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.05}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <AlternateEmailIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Email</Typography>
                 </Stack>
-                <TextField fullWidth required type="email" disabled={isSubmitting} value={form.email} onChange={handleChange("email")} placeholder="you@company.com" size="small" sx={fieldSx} />
+                <TextField fullWidth required type="email" disabled={isSubmitting} value={form.email} onChange={handleChange("email")} placeholder="you@company.com" size="small" sx={fieldSx} error={attempted && Boolean(errors.email)} helperText={attempted ? errors.email : ""}/>
               </Cell>
             </Box>
 
@@ -451,7 +469,7 @@ export default function Contact() {
                   <SubjectOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Subject</Typography>
                 </Stack>
-                <TextField fullWidth required disabled={isSubmitting} value={form.subject} onChange={handleChange("subject")} placeholder="Project inquiry" size="small" sx={fieldSx} />
+                <TextField fullWidth required disabled={isSubmitting} value={form.subject} onChange={handleChange("subject")} placeholder="Project inquiry" size="small" sx={fieldSx} error={attempted && Boolean(errors.subject)} helperText={attempted ? errors.subject : ""}/>
               </Cell>
               <Cell color="#00D4AA" index="06" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.25}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
@@ -492,7 +510,7 @@ export default function Contact() {
                 onChange={handleChange("message")}
                 placeholder="Tell us about your project, timeline, and any specific requirements..."
                 sx={fieldSx}
-              />
+              error={attempted && Boolean(errors.message)} helperText={attempted ? errors.message : ""}/>
             </Cell>
 
             {/* Row 5: Send — CTA cell */}
