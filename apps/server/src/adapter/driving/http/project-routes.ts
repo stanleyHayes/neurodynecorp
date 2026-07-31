@@ -21,7 +21,7 @@ function toApiProject(p: any) {
     integrations: p.integrations,
     budget_range: p.budgetRange,
     timeline: p.timeline,
-    attachments: p.attachments,
+    attachments: p.attachments ?? [],
     assigned_team: p.assignedTeam,
     specification_id: p.specificationId,
     progress: p.progress,
@@ -158,6 +158,11 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const project = await projectService.getProject(String(req.params.id));
+      // The list endpoint scopes clients to their own projects; the detail
+      // endpoint did not, so a client could read any project by id.
+      if (req.userRole === "client" && project.clientId !== req.userId) {
+        return next(new NotFoundError("Project", String(req.params.id)));
+      }
       res.status(200).json(toApiProject(project));
     } catch (err) {
       if (err instanceof ProjectNotFoundError) {

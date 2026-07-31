@@ -48,6 +48,22 @@ export function createMessageRoutes(
   router.use(auth);
 
   // POST /api/v1/messages/threads
+
+  // Threads are private to their participants. POST /threads deliberately forces
+  // the creator into participantIds, which shows membership is the intended
+  // authorization boundary — but it was never enforced on read or reply, so any
+  // authenticated user could read (or post into) any thread by id.
+  // Staff roles retain cross-thread visibility for support purposes.
+  const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
+
+  async function loadThreadForCaller(req: Request) {
+    const thread = await messageService.getThread(String(req.params.threadId));
+    if (!thread) return { thread: null, allowed: false };
+    const isStaff = req.userRole ? STAFF_ROLES.has(req.userRole) : false;
+    const isParticipant = !!req.userId && thread.participantIds.includes(req.userId);
+    return { thread, allowed: isStaff || isParticipant };
+  }
+
   router.post("/threads", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = createThreadSchema.safeParse(req.body);
@@ -83,8 +99,9 @@ export function createMessageRoutes(
   // GET /api/v1/messages/threads/:threadId
   router.get("/threads/:threadId", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const thread = await messageService.getThread(String(req.params.threadId));
-      if (!thread) {
+      const { thread, allowed } = await loadThreadForCaller(req);
+      if (!thread || !allowed) {
+        // 404 rather than 403 so thread ids cannot be probed for existence.
         res.status(404).json({ error: "Thread not found" });
         return;
       }
@@ -100,6 +117,14 @@ export function createMessageRoutes(
       const parsed = sendMessageSchema.safeParse(req.body);
       if (!parsed.success) {
         throw new ValidationError("Invalid message data", parsed.error.flatten());
+      }
+
+      // Without this, any authenticated user could inject a message into any
+      // thread — and it would then be broadcast to that project's whole room.
+      const { thread: target, allowed } = await loadThreadForCaller(req);
+      if (!target || !allowed) {
+        res.status(404).json({ error: "Thread not found" });
+        return;
       }
 
       const message = await messageService.sendMessage(
@@ -143,6 +168,11 @@ export function createMessageRoutes(
   // GET /api/v1/messages/threads/:threadId/messages
   router.get("/threads/:threadId/messages", async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const { thread, allowed } = await loadThreadForCaller(req);
+      if (!thread || !allowed) {
+        res.status(404).json({ error: "Thread not found" });
+        return;
+      }
       const messages = await messageService.getMessages(String(req.params.threadId));
       res.status(200).json({ messages });
     } catch (err) {

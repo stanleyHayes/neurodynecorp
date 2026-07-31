@@ -121,6 +121,15 @@ export function createFileRoutes(
   // DELETE /api/v1/files/:id
   router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // Deletion had no ownership or permission check at all: any
+      // authenticated user could destroy any stored asset by id.
+      const existing = await fileService.getById(String(req.params.id));
+      const isStaff = req.userRole === "admin" || req.userRole === "project_manager";
+      if (!existing || (!isStaff && existing.uploadedBy !== req.userId)) {
+        res.status(404).json({ error: "File not found" });
+        return;
+      }
+
       await fileService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {
