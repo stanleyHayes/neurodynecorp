@@ -1,4 +1,5 @@
 import type { Logger } from "pino";
+import { ObjectId } from "mongodb";
 import type { EventPublisher } from "./auth-service";
 import type { QuestionnaireResponse } from "./questionnaire-service";
 
@@ -146,7 +147,7 @@ export class SpecService {
 
     const now = new Date();
     const spec: Specification = {
-      id: crypto.randomUUID(),
+      id: new ObjectId().toHexString(),
       projectId,
       version: 1,
       status: "generated",
@@ -280,7 +281,7 @@ export class SpecService {
     }
 
     const note: InternalNote = {
-      id: crypto.randomUUID(),
+      id: new ObjectId().toHexString(),
       authorId,
       content,
       createdAt: new Date(),

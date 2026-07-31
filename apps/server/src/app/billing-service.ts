@@ -1,4 +1,5 @@
 import type { Logger } from "pino";
+import { ObjectId } from "mongodb";
 import type { EventPublisher } from "./auth-service";
 
 // ---------------------------------------------------------------------------
@@ -91,7 +92,7 @@ export class BillingService {
 
     const now = new Date();
     const invoice: Invoice = {
-      id: crypto.randomUUID(),
+      id: new ObjectId().toHexString(),
       projectId,
       clientId,
       invoiceNumber: this.generateInvoiceNumber(),

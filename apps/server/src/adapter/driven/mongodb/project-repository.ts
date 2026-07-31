@@ -28,7 +28,8 @@ interface ProjectDoc {
 function toDoc(p: Project): ProjectDoc {
   return {
     _id: new ObjectId(p.id),
-    name: p.name,
+    // ProjectService names the field `title`; storage uses `name`.
+    name: p.name ?? (p as unknown as { title?: string }).title ?? "",
     description: p.description,
     client_id: p.clientId,
     status: p.status,

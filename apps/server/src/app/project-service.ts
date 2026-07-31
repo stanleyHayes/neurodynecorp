@@ -1,4 +1,5 @@
 import type { Logger } from "pino";
+import { ObjectId } from "mongodb";
 import type { EventPublisher, CacheService } from "./auth-service";
 
 // ---------------------------------------------------------------------------
@@ -148,7 +149,7 @@ export class ProjectService {
 
     const now = new Date();
     const project: Project = {
-      id: crypto.randomUUID(),
+      id: new ObjectId().toHexString(),
       clientId: input.clientId,
       title: input.title,
       description: input.description,

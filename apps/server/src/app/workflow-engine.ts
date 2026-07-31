@@ -1,4 +1,5 @@
 import type { Logger } from "pino";
+import { ObjectId } from "mongodb";
 import type { EventPublisher, EmailService } from "./auth-service";
 
 // ---------------------------------------------------------------------------
@@ -126,7 +127,7 @@ export class WorkflowEngine {
 
     try {
       const notification: Notification = {
-        id: crypto.randomUUID(),
+        id: new ObjectId().toHexString(),
         userId: "admin",
         type: "project_update",
         title: "New Project Created",
@@ -165,7 +166,7 @@ export class WorkflowEngine {
 
       // Create a notification for the client
       const clientNotification: Notification = {
-        id: crypto.randomUUID(),
+        id: new ObjectId().toHexString(),
         userId: project.clientId,
         type: "status_change",
         title: "Project Status Updated",

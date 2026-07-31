@@ -12,7 +12,7 @@ function toApiProject(p: any) {
   return {
     id: p.id,
     client_id: p.clientId,
-    title: p.name,
+    title: p.name ?? p.title,
     description: p.description,
     type: p.type,
     status: p.status,
