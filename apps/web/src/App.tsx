@@ -56,6 +56,7 @@ import Diagnostic from "@/pages/Diagnostic";
 import Estimator from "@/pages/Estimator";
 import RFP from "@/pages/RFP";
 import Booking from "@/pages/Booking";
+import AccountDeletion from "@/pages/AccountDeletion";
 
 function AppShell() {
   return (
@@ -97,6 +98,7 @@ function AppShell() {
           <Route path="book" element={<Booking />} />
           <Route path="privacy" element={<Privacy />} />
           <Route path="terms" element={<Terms />} />
+          <Route path="account-deletion" element={<AccountDeletion />} />
           <Route path="changelog" element={<Changelog />} />
           <Route path="open-source" element={<OpenSource />} />
           <Route path="spec-library" element={<SpecLibrary />} />

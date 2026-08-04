@@ -5,7 +5,7 @@ import {
   ScrollView,
   StyleSheet,
   TouchableOpacity,
-  Alert,
+  Linking,
   Animated,
   Easing,
 } from "react-native";
@@ -13,6 +13,7 @@ import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
 import { listInvoices } from "../api/client";
+import { BILLING_URL } from "../config";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
@@ -208,14 +209,9 @@ export default function BillingScreen() {
                 <TouchableOpacity
                   style={styles.payButton}
                   activeOpacity={0.7}
-                  onPress={() =>
-                    Alert.alert(
-                      "Payment",
-                      `Processing payment for ${invoiceId}`,
-                    )
-                  }
+                  onPress={() => void Linking.openURL(BILLING_URL)}
                 >
-                  <Text style={styles.payButtonText}>PAY NOW</Text>
+                  <Text style={styles.payButtonText}>PAY SECURELY</Text>
                 </TouchableOpacity>
               )}
             </View>

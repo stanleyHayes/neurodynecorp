@@ -1,9 +1,7 @@
 import { useEffect, useRef, useCallback, useState } from "react";
 import { io, Socket } from "socket.io-client";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const API_URL = "http://localhost:4000";
-const TOKEN_KEY = "neurodyne_mobile_token";
+import { API_URL } from "../config";
+import { authStorage } from "../storage/auth-storage";
 
 export function useSocket() {
   const socketRef = useRef<Socket | null>(null);
@@ -13,7 +11,7 @@ export function useSocket() {
     let socket: Socket | null = null;
 
     async function connect() {
-      const token = await AsyncStorage.getItem(TOKEN_KEY);
+      const token = await authStorage.getToken();
       if (!token) return;
 
       socket = io(API_URL, {

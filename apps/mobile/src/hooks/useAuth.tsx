@@ -1,9 +1,6 @@
-import React, { createContext, useContext, useState, useCallback, type ReactNode } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const API_URL = "http://localhost:4000";
-const TOKEN_KEY = "neurodyne_mobile_token";
-const USER_KEY = "neurodyne_mobile_user";
+import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from "react";
+import { API_URL } from "../config";
+import { authStorage } from "../storage/auth-storage";
 
 interface User {
   id: string;
@@ -31,7 +28,21 @@ const AuthContext = createContext<AuthState | null>(null);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    let active = true;
+    authStorage.getUser().then((stored) => {
+      if (!active) return;
+      if (stored) {
+        try { setUser(JSON.parse(stored) as User); } catch { void authStorage.clearSession(); }
+      }
+      setIsLoading(false);
+    });
+    return () => { active = false; };
+  }, []);
+
+  useEffect(() => authStorage.onSessionCleared(() => setUser(null)), []);
 
   const login = useCallback(async (email: string, password: string) => {
     setIsLoading(true);
@@ -48,8 +59,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await res.json();
-      await AsyncStorage.setItem(TOKEN_KEY, data.accessToken ?? data.access_token);
-      await AsyncStorage.setItem(USER_KEY, JSON.stringify(data.user));
+      await authStorage.setSession(data.accessToken ?? data.access_token, data.user);
       setUser(data.user as User);
     } finally {
       setIsLoading(false);
@@ -57,12 +67,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, []);
 
   const logout = useCallback(async () => {
-    await AsyncStorage.removeItem(TOKEN_KEY);
-    await AsyncStorage.removeItem(USER_KEY);
+    await authStorage.clearSession();
     setUser(null);
   }, []);
 
-  const permissions = user?.permissions ?? [];
+  const permissions = useMemo(() => user?.permissions ?? [], [user?.permissions]);
   const hasPermsData = permissions.length > 0;
 
   const hasPermission = useCallback(

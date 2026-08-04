@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { View, Text, ScrollView, StyleSheet } from "react-native";
 import { colors } from "../theme/colors";
 import { listProjects } from "../api/client";
 
@@ -89,7 +89,7 @@ export default function DocumentsScreen() {
   return (
     <ScrollView style={styles.container}>
       {documents.map((doc, i) => (
-        <TouchableOpacity key={i} style={styles.card}>
+        <View key={i} style={styles.card}>
           <View style={styles.row}>
             <View style={styles.info}>
               <Text style={styles.name}>{doc.name}</Text>
@@ -99,7 +99,7 @@ export default function DocumentsScreen() {
               <Text style={styles.typeText}>{doc.type}</Text>
             </View>
           </View>
-        </TouchableOpacity>
+        </View>
       ))}
     </ScrollView>
   );

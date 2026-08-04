@@ -110,6 +110,7 @@ const footerSections: { title: string; links: FooterLinkItem[] }[] = [
       { label: "DPA", path: "/legal/dpa", icon: <GavelOutlinedIcon sx={IC} /> },
       { label: "Accessibility", path: "/legal/accessibility", icon: <AccessibilityNewOutlinedIcon sx={IC} /> },
       { label: "Privacy", path: "/privacy", icon: <PrivacyTipOutlinedIcon sx={IC} /> },
+      { label: "Delete Account", path: "/account-deletion", icon: <PrivacyTipOutlinedIcon sx={IC} /> },
     ],
   },
 ];
@@ -359,6 +360,9 @@ export default function Footer() {
               </MuiLink>
               <MuiLink component={Link as ElementType} to="/terms" underline="none">
                 Terms
+              </MuiLink>
+              <MuiLink component={Link as ElementType} to="/account-deletion" underline="none">
+                Privacy choices
               </MuiLink>
               <MuiLink component={Link as ElementType} to="/legal/cookies" underline="none">
                 Cookies

@@ -3,6 +3,7 @@ packages:
   - "apps/client"
   - "apps/admin"
   - "apps/server"
+  - "apps/mobile"
   - "packages/*"
 
 peerDependencyRules:

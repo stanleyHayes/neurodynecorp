@@ -12,6 +12,13 @@ the spec never named. Here we go layer-by-layer through the spec itself.
 **Legend:** `[ ]` not started · `[~]` partial (exists but below spec) · `[x]` done.
 Each item notes **what to build** and **where** (app · server module).
 
+## Mobile store production readiness (4 August 2026)
+
+- [x] **Apple/Google policy implementation audit.** Mobile is now part of the pnpm 11 workspace and aligned with Expo SDK 55 / React Native 0.83.10. Release config targets Android API 36, iOS 15.1+, uses store-safe versioning, valid icon/splash assets, HTTPS production endpoints, encrypted SecureStore session storage, session restoration, and no unnecessary native permissions. Apple privacy-manifest data types match the app's account and private-messaging flows; tracking is disabled.
+- [x] **Account, privacy, and completeness controls.** Profile exposes working privacy/terms/support links, authenticated data-export and permanent-deletion requests, a clear destructive confirmation, and pending-request state. Public `/account-deletion` supplies Google Play's required web path. Dead profile/document actions were removed, signup has a working portal route, and external invoice payment is explicitly for professional services delivered outside the app.
+- [x] **Submission package.** `apps/mobile/eas.json` defines preview/production App Bundle builds with remote auto-incrementing versions. `apps/mobile/store/STORE_SUBMISSION.md` contains store copy, review notes, privacy/Data Safety mappings, console declarations, and the release checklist. Dependency check, TypeScript, ESLint, Expo Doctor 19/19, public config evaluation, and clean iOS/Android prebuild passed; the generated Android release manifest retains only Internet access.
+- [ ] **External release evidence.** Requires the owner's Apple Developer and Google Play accounts, signing credentials, EAS project association, legal approval, representative screenshots, a dedicated seeded reviewer account, physical-device regression testing, TestFlight/internal-track artifacts, and completed store-console questionnaires. These cannot be manufactured or committed safely.
+
 What already exists and is NOT re-listed: dark/light theme (web), newsletter (double opt-in),
 status page, trust center, help/KB, legal pages, audit log, feature flags, webhooks, scoped API
 keys, DSR/consent, feedback/NPS, changelog, invoices/billing, messages, notifications, basic

@@ -1,10 +1,8 @@
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
-const API_URL = "http://localhost:4000";
-const TOKEN_KEY = "neurodyne_mobile_token";
+import { API_URL } from "../config";
+import { authStorage } from "../storage/auth-storage";
 
 async function getToken(): Promise<string | null> {
-  return AsyncStorage.getItem(TOKEN_KEY);
+  return authStorage.getToken();
 }
 
 async function request<T>(path: string, options: { method?: string; body?: any } = {}): Promise<T> {
@@ -20,6 +18,11 @@ async function request<T>(path: string, options: { method?: string; body?: any }
     body: body ? JSON.stringify(body) : undefined,
   });
 
+  if (res.status === 401 && token) {
+    await authStorage.clearSession();
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
   if (!res.ok) {
     const err = await res.json().catch(() => ({ error: "Request failed" }));
     throw new Error(err.error ?? `Request failed (${res.status})`);
@@ -33,6 +36,14 @@ async function request<T>(path: string, options: { method?: string; body?: any }
 
 export function getProfile() {
   return request<any>("/api/v1/auth/profile");
+}
+
+export function createPrivacyRequest(type: "export" | "erasure", email?: string) {
+  return request<any>("/api/v1/privacy/requests", { method: "POST", body: { type, email } });
+}
+
+export function listMyPrivacyRequests() {
+  return request<{ items: any[]; total: number }>("/api/v1/privacy/requests/mine");
 }
 
 // ── Projects ──────────────────────────────────────────────────────────────

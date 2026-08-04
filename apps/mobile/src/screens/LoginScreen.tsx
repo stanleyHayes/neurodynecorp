@@ -8,10 +8,12 @@ import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
+  Linking,
 } from "react-native";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { useAuth } from "../hooks/useAuth";
+import { PRIVACY_URL, REGISTER_URL, SUPPORT_URL } from "../config";
 
 export default function LoginScreen({ navigation }: { navigation: any }) {
   const [email, setEmail] = useState("");
@@ -87,11 +89,19 @@ export default function LoginScreen({ navigation }: { navigation: any }) {
           )}
         </TouchableOpacity>
 
-        <TouchableOpacity onPress={() => {}} activeOpacity={0.7}>
+        <TouchableOpacity onPress={() => void Linking.openURL(SUPPORT_URL)} activeOpacity={0.7}>
+          <Text style={styles.secondaryLink}>Need help signing in?</Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => void Linking.openURL(REGISTER_URL)} activeOpacity={0.7}>
           <Text style={styles.linkText}>
             Don't have an account?{" "}
             <Text style={styles.linkHighlight}>Sign up</Text>
           </Text>
+        </TouchableOpacity>
+
+        <TouchableOpacity onPress={() => void Linking.openURL(PRIVACY_URL)} activeOpacity={0.7}>
+          <Text style={styles.privacyLink}>Privacy Policy</Text>
         </TouchableOpacity>
       </View>
     </KeyboardAvoidingView>
@@ -175,6 +185,19 @@ const styles = StyleSheet.create({
     fontFamily: fonts.regular,
     color: colors.textSecondary,
     fontSize: 14,
+  },
+  secondaryLink: {
+    fontFamily: fonts.regular,
+    color: colors.secondary,
+    fontSize: 14,
+    marginTop: 18,
+  },
+  privacyLink: {
+    fontFamily: fonts.regular,
+    color: colors.textSecondary,
+    fontSize: 13,
+    marginTop: 22,
+    textDecorationLine: "underline",
   },
   linkHighlight: {
     fontFamily: fonts.bold,
