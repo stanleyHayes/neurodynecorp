@@ -5,7 +5,9 @@
 # Depends on: packages/shared (workspace)
 
 FROM node:26-alpine AS base
-RUN corepack enable && corepack prepare pnpm@9.15.4 --activate
+# Corepack is no longer bundled with Node.js 25+, so install the workspace's
+# pinned package-manager version explicitly.
+RUN npm install --global pnpm@11.20.0
 WORKDIR /app
 
 # ---- Dependencies ----
