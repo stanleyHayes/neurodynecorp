@@ -50,8 +50,12 @@ export class ApiClient {
     });
 
     if (res.status === 401) {
-      this.onUnauthorized?.();
-      throw new ApiError("Unauthorized", 401);
+      // A 401 from an authenticated request means the stored session expired.
+      // Public auth endpoints (notably login) have no token and must surface
+      // their validation error without redirecting or refreshing the page.
+      if (token) this.onUnauthorized?.();
+      const error = await res.json().catch(() => ({ error: "Unauthorized" }));
+      throw new ApiError(error.error ?? "Unauthorized", 401);
     }
 
     if (!res.ok) {
