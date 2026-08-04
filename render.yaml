@@ -57,7 +57,7 @@ services:
   # not databases (which is reserved for managed Postgres instances).
   - name: neurodyne-redis
     type: keyvalue
-    plan: standard
+    plan: starter
     ipAllowList: []
     maxmemoryPolicy: allkeys-lru
     persistenceMode: off
