@@ -7,8 +7,6 @@ services:
     name: neurodyne-server
     runtime: docker
     dockerfilePath: ./apps/server/Dockerfile
-    repo: https://github.com/neurodynecorp/neurodynelabs
-    branch: main
     plan: free
     domains:
       - api.neurodyne.dev
@@ -25,7 +23,7 @@ services:
         value: neurodyne
       - key: NEURODYNE_REDIS_URL
         fromService:
-          type: redis
+          type: keyvalue
           name: neurodyne-redis
           property: connectionString
       - key: NEURODYNE_JWT_ACCESS_SECRET
@@ -55,8 +53,11 @@ services:
     healthCheckPath: /health
     numInstances: 1
 
-
-databases:
+  # Render Key Value is Redis/Valkey-compatible and belongs in services,
+  # not databases (which is reserved for managed Postgres instances).
   - name: neurodyne-redis
+    type: keyvalue
     plan: standard
     ipAllowList: []
+    maxmemoryPolicy: allkeys-lru
+    persistenceMode: off
