@@ -34,7 +34,7 @@ COPY packages/shared ./packages/shared
 COPY apps/server ./apps/server
 COPY package.json pnpm-workspace.yaml ./
 
-EXPOSE 4000 9090
+EXPOSE 10000 9090
 
 WORKDIR /app/apps/server
 CMD ["pnpm", "exec", "tsx", "src/index.ts"]

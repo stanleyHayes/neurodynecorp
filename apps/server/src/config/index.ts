@@ -100,7 +100,9 @@ function envBool(key: string, fallback: boolean): boolean {
 export function loadConfig(): AppConfig {
   return {
     server: {
-      port: envInt("NEURODYNE_PORT", 4000),
+      // Render and other PaaS providers assign the public HTTP port through
+      // PORT. Keep NEURODYNE_PORT as the local/container fallback.
+      port: envInt("PORT", envInt("NEURODYNE_PORT", 4000)),
       host: env("NEURODYNE_HOST", "0.0.0.0"),
       environment: env("NEURODYNE_ENV", "development") as ServerConfig["environment"],
       corsOrigins: env(

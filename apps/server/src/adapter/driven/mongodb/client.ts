@@ -13,8 +13,10 @@ export class MongoDBClient {
   constructor(config: MongoClientConfig) {
     this.client = new MongoClient(config.uri, {
       maxPoolSize: 100,
-      minPoolSize: 10,
+      minPoolSize: 1,
       maxIdleTimeMS: 30_000,
+      connectTimeoutMS: 10_000,
+      serverSelectionTimeoutMS: 10_000,
     });
     this.dbName = config.database;
   }

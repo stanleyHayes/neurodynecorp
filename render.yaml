@@ -15,8 +15,8 @@ services:
         value: production
       - key: NEURODYNE_HOST
         value: 0.0.0.0
-      - key: NEURODYNE_PORT
-        value: 4000
+      - key: PORT
+        value: 10000
       - key: NEURODYNE_MONGODB_URI
         sync: false
       - key: NEURODYNE_MONGODB_DATABASE

@@ -15,7 +15,6 @@ export default defineConfig(({ mode }) => ({
           if (id.includes("react-router") || id.includes("/react-dom/") || id.match(/\/react\//)) return "react";
           if (id.includes("@mui/")) return "mui";
           if (id.includes("framer-motion")) return "motion";
-          if (id.includes("@mdxeditor/")) return "editor";
           if (id.includes("recharts")) return "recharts";
         },
       },
