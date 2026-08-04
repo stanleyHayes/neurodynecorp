@@ -37,4 +37,7 @@ COPY package.json pnpm-workspace.yaml ./
 EXPOSE 10000 9090
 
 WORKDIR /app/apps/server
-CMD ["pnpm", "exec", "tsx", "src/index.ts"]
+# Do not invoke pnpm at runtime. pnpm 11 verifies the workspace before `exec`
+# and can trigger a full reinstall, exhausting small Render instances before
+# the HTTP server binds its port. Dependencies are already baked into the image.
+CMD ["node", "--import", "tsx", "src/index.ts"]
