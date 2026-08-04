@@ -1,5 +1,6 @@
 import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
 import { ApiClient } from "@neurodyne/shared";
+import { API_URL } from "@/config";
 
 const ALLOWED_ROLES = ["admin", "project_manager"];
 
@@ -60,7 +61,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [api] = useState(
     () =>
       new ApiClient({
-        baseUrl: import.meta.env.VITE_API_URL ?? "http://localhost:4000",
+        baseUrl: API_URL,
         getToken,
         onUnauthorized: handleUnauthorized,
       })

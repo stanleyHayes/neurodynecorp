@@ -25,6 +25,7 @@ import FileDownloadOutlinedIcon from "@mui/icons-material/FileDownloadOutlined";
 import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import { useAuth } from "@/context/AuthContext";
+import { API_URL } from "@/config";
 
 const overlineSx = {
   fontFamily: "'Outfit', sans-serif",
@@ -119,7 +120,7 @@ export default function AuditLog() {
   const handleExport = async () => {
     try {
       setExporting(true);
-      const base = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
+      const base = API_URL;
       const token =
         localStorage.getItem("neurodyne_access_token") ??
         localStorage.getItem("neurodyne_admin_access_token") ??
