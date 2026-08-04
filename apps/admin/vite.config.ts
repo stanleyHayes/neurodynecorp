@@ -8,17 +8,9 @@ export default defineConfig(({ mode }) => ({
   build: {
     outDir: "dist",
     sourcemap: mode !== "production" || process.env.VITE_SOURCEMAP === "1",
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (!id.includes("node_modules")) return;
-          if (id.includes("react-router") || id.includes("/react-dom/") || id.match(/\/react\//)) return "react";
-          if (id.includes("@mui/")) return "mui";
-          if (id.includes("framer-motion")) return "motion";
-          if (id.includes("recharts")) return "recharts";
-        },
-      },
-    },
+    // Keep Rollup's dependency graph intact. MDXEditor's Prism language modules
+    // rely on CommonJS side-effect ordering; forced vendor chunks can execute a
+    // language extension before the Prism global has been initialized.
     chunkSizeWarningLimit: 1200,
   },
   server: { port: 5174, strictPort: false },
