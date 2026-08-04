@@ -62,8 +62,8 @@ export default function LegalCookies() {
       <SEO
         title="Cookie Policy"
         description="How NeuroDyne Corp uses cookies and similar technologies, the categories we set, and how to manage your preferences."
-        canonical="https://neurodynecorp.com/legal/cookies"
-        ogUrl="https://neurodynecorp.com/legal/cookies"
+        canonical="https://neurodyne.dev/legal/cookies"
+        ogUrl="https://neurodyne.dev/legal/cookies"
       />
 
       <Container maxWidth="md">

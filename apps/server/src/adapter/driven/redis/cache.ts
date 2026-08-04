@@ -2,6 +2,7 @@ import Redis from "ioredis";
 import type { CacheService } from "../../../domain/port/index.js";
 
 export interface RedisCacheConfig {
+  url?: string;
   host: string;
   port: number;
   password?: string;
@@ -12,7 +13,7 @@ export class RedisCacheService implements CacheService {
   private readonly redis: Redis;
 
   constructor(config: RedisCacheConfig) {
-    this.redis = new Redis({
+    const options = {
       host: config.host,
       port: config.port,
       password: config.password,
@@ -20,7 +21,8 @@ export class RedisCacheService implements CacheService {
       retryStrategy(times) {
         return Math.min(times * 50, 2000);
       },
-    });
+    };
+    this.redis = config.url ? new Redis(config.url, options) : new Redis(options);
   }
 
   async get<T>(key: string): Promise<T | null> {

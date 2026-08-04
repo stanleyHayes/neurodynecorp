@@ -62,8 +62,8 @@ export default function LegalAccessibility() {
       <SEO
         title="Accessibility Statement"
         description="NeuroDyne Corp's commitment to WCAG 2.1 AA accessibility across our products and services, and how to report barriers."
-        canonical="https://neurodynecorp.com/legal/accessibility"
-        ogUrl="https://neurodynecorp.com/legal/accessibility"
+        canonical="https://neurodyne.dev/legal/accessibility"
+        ogUrl="https://neurodyne.dev/legal/accessibility"
       />
 
       <Container maxWidth="md">

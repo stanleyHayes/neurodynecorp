@@ -28,7 +28,7 @@ import { useThemeMode } from "@/context/ThemeContext";
    ═══════════════════════════════════════════════════════════════════ */
 
 const CLIENT_PORTAL_URL =
-  import.meta.env.VITE_CLIENT_PORTAL_URL ?? "https://client.neurodynecorp.com";
+  import.meta.env.VITE_CLIENT_PORTAL_URL ?? "https://client.neurodyne.dev";
 
 const NAV_ITEMS = [
   { label: "Home", path: "/", index: "01", tag: "MAIN SECTOR", icon: <HomeOutlinedIcon />, color: "#6C63FF" },

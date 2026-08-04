@@ -47,8 +47,8 @@ export default function LegalSecurity() {
       <SEO
         title="Security Practices"
         description="An overview of NeuroDyne Corp's security practices, including data protection, application security, and responsible disclosure."
-        canonical="https://neurodynecorp.com/legal/security"
-        ogUrl="https://neurodynecorp.com/legal/security"
+        canonical="https://neurodyne.dev/legal/security"
+        ogUrl="https://neurodyne.dev/legal/security"
       />
 
       <Container maxWidth="md">

@@ -13,8 +13,8 @@ export default function Industries() {
       <SEO
         title="Industries"
         description="The sectors NeuroDyne Corp operates in — Government, Health, Financial Services, Insurance, Retail/Commerce, Energy, Education, and NGO/Development — and how our capability lattice maps to each."
-        canonical="https://neurodynecorp.com/industries"
-        ogUrl="https://neurodynecorp.com/industries"
+        canonical="https://neurodyne.dev/industries"
+        ogUrl="https://neurodyne.dev/industries"
       />
 
       <Container maxWidth="lg" sx={{ pt: 0 }}>

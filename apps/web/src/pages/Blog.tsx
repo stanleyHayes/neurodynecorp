@@ -280,8 +280,8 @@ export default function Blog() {
       <SEO
         title="Blog"
         description="Engineering insights, tutorials, and thought leadership from the NeuroDyne Corp team."
-        canonical="https://neurodynecorp.com/blog"
-        ogUrl="https://neurodynecorp.com/blog"
+        canonical="https://neurodyne.dev/blog"
+        ogUrl="https://neurodyne.dev/blog"
       />
 
       <PageHero

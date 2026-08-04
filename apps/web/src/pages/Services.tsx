@@ -291,8 +291,8 @@ export default function Services() {
       <SEO
         title="Services"
         description="Custom Software, Mobile Development, AI/ML Systems, Blockchain Solutions, and DevOps & Infrastructure services by NeuroDyne Corp."
-        canonical="https://neurodynecorp.com/services"
-        ogUrl="https://neurodynecorp.com/services"
+        canonical="https://neurodyne.dev/services"
+        ogUrl="https://neurodyne.dev/services"
       />
 
       <PageHero

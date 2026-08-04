@@ -1,17 +1,15 @@
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-import { Helmet } from "react-helmet-async";
 import DoodleBackground from "@/components/doodles/DoodleBackground";
+import SEO from "@/components/seo/SEO";
 
 const MotionBox = motion.create(Box);
 
 export default function NotFound() {
   return (
     <>
-      <Helmet>
-        <title>404 - Page Not Found | NeuroDyne Corp</title>
-      </Helmet>
+      <SEO title="Page not found" description="The requested page could not be found." noIndex />
 
       <Box
         sx={{

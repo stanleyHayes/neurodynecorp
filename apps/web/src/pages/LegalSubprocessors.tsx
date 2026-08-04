@@ -59,8 +59,8 @@ export default function LegalSubprocessors() {
       <SEO
         title="Sub-processors"
         description="The third-party sub-processors NeuroDyne Corp engages to deliver its services, including their purpose and location."
-        canonical="https://neurodynecorp.com/legal/subprocessors"
-        ogUrl="https://neurodynecorp.com/legal/subprocessors"
+        canonical="https://neurodyne.dev/legal/subprocessors"
+        ogUrl="https://neurodyne.dev/legal/subprocessors"
       />
 
       <Container maxWidth="md">

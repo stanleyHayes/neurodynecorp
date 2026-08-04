@@ -102,8 +102,8 @@ export default function Help() {
       <SEO
         title="Help Center"
         description="Search guides, answers, and how-tos for working with NeuroDyne Corp."
-        canonical="https://neurodynecorp.com/help"
-        ogUrl="https://neurodynecorp.com/help"
+        canonical="https://neurodyne.dev/help"
+        ogUrl="https://neurodyne.dev/help"
       />
       <Container maxWidth="lg">
         {/* Header */}

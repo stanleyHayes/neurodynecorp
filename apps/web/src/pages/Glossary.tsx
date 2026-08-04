@@ -106,12 +106,12 @@ export default function Glossary() {
       "@context": "https://schema.org",
       "@type": "DefinedTermSet",
       name: "NeuroDyne Glossary of Practice",
-      url: "https://neurodynecorp.com/glossary",
+      url: "https://neurodyne.dev/glossary",
       hasDefinedTerm: filtered.slice(0, 200).map((t) => ({
         "@type": "DefinedTerm",
         name: t.term,
         description: t.definition,
-        ...(t.slug ? { url: `https://neurodynecorp.com/glossary#${t.slug}` } : {}),
+        ...(t.slug ? { url: `https://neurodyne.dev/glossary#${t.slug}` } : {}),
       })),
     }),
     [filtered],
@@ -122,8 +122,8 @@ export default function Glossary() {
       <SEO
         title="Glossary of Practice"
         description="Definitions of the language NeuroDyne Corp uses — leverage points, the capability lattice, sovereign-by-default, and more."
-        canonical="https://neurodynecorp.com/glossary"
-        ogUrl="https://neurodynecorp.com/glossary"
+        canonical="https://neurodyne.dev/glossary"
+        ogUrl="https://neurodyne.dev/glossary"
         structuredData={structuredData}
       />
       <Container maxWidth="lg">

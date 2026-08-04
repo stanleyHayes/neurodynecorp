@@ -42,6 +42,7 @@ const menuItemSx = {
 const pageTitles: Record<string, string> = {
   "/": "Dashboard",
   "/projects": "Projects",
+  "/start-project": "Start a Project",
   "/documents": "Documents",
   "/billing": "Billing",
   "/messages": "Messages",

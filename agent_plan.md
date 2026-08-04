@@ -72,6 +72,23 @@ Current public routes: Home, About, Services (single page), Portfolio, Blog, Con
 `/start-project` is a multi-step questionnaire; `BookACall` is a mailto/Calendly stub. The structured
 qualification system is mostly missing:
 
+- [x] **Adaptive Project Discovery Brief** — `/start-project` now uses a server-backed draft → resume →
+  submit lifecycle with category-specific questionnaires distilled from the supplied cleaning,
+  photography, and luxury-interior DOCX discovery forms, plus the general digital-product path. Public
+  prospects resume with a high-entropy private key stored on their device; signed-in clients get
+  account-bound drafts and a new portal **Start a Project** page. Both surfaces include an optional
+  server-side OpenAI Responses API brief copilot (deterministic coaching fallback when unconfigured),
+  whose suggestions never silently overwrite answers. Submission sends owner + client email, locks the
+  brief, and appears in the admin **Project Briefs** inbox with category-aware review. Public-key and
+  owner access are 404-hardened; admin reads require admin/PM role. _(server `project-intake` module +
+  shared schema/API client + apps/web, apps/client, apps/admin)_
+  **Deployment polish:** intake coverage expanded from 4 to 18 researched categories spanning
+  commerce, professional services, health, education, nonprofit/community, hospitality, property,
+  construction/home services, wellness, events, creative/media, government, logistics, and personal
+  brands while retaining the three document-derived specialist branches. `neurodyne.dev` is now the
+  canonical public origin; SEO defaults, service structured data, sitemap/robots, private-app noindex
+  headers, Render/Vercel host configuration, rate limits, and a production deployment runbook are in place.
+
 - [x] **Engagement Readiness Diagnostic** (§6.1). New self-contained `diagnostic` server module
   (entity + Mongo repo + routes, NOT bolted onto the project-scoped questionnaire): a 10-question
   branching tree with **server-authoritative weighted scoring + ordered hard gates** → one of

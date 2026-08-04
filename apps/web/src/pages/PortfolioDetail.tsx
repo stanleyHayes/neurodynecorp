@@ -102,8 +102,8 @@ export default function PortfolioDetail() {
       <SEO
         title={`${dossier.title} — Case Dossier`}
         description={dossier.brief || dossier.description}
-        canonical={`https://neurodynecorp.com/portfolio/${dossier.slug ?? dossier.id}`}
-        ogUrl={`https://neurodynecorp.com/portfolio/${dossier.slug ?? dossier.id}`}
+        canonical={`https://neurodyne.dev/portfolio/${dossier.slug ?? dossier.id}`}
+        ogUrl={`https://neurodyne.dev/portfolio/${dossier.slug ?? dossier.id}`}
         ogType="article"
         structuredData={{
           "@context": "https://schema.org",

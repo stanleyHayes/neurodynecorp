@@ -130,6 +130,23 @@ export class ApiClient {
     return this.request<QuestionnaireResponse>("/api/v1/questionnaire/complete", { method: "POST", body: { project_id: projectId } });
   }
 
+  // Project discovery intakes
+  createProjectIntake(data: Record<string, unknown>, accountBound = false) {
+    return this.request<import("./project-intake").ProjectIntakeRecord>(`/api/v1/project-intakes/${accountBound ? "mine" : "drafts"}`, { method: "POST", body: data });
+  }
+  updateProjectIntake(id: string, data: Record<string, unknown>, accountBound = false) {
+    return this.request<import("./project-intake").ProjectIntakeRecord>(`/api/v1/project-intakes/${accountBound ? `mine/${id}` : `drafts/${id}`}`, { method: "PATCH", body: data });
+  }
+  submitProjectIntake(id: string, resumeToken?: string, accountBound = false) {
+    return this.request<import("./project-intake").ProjectIntakeRecord>(`/api/v1/project-intakes/${accountBound ? `mine/${id}` : `drafts/${id}`}/submit`, { method: "POST", body: resumeToken ? { resumeToken } : {} });
+  }
+  listMyProjectIntakes() { return this.request<{ items: import("./project-intake").ProjectIntakeRecord[] }>("/api/v1/project-intakes/mine"); }
+  listProjectIntakes(status?: "draft" | "submitted") { return this.request<{ items: import("./project-intake").ProjectIntakeRecord[] }>("/api/v1/project-intakes/admin", { params: status ? { status } : undefined }); }
+  getProjectIntake(id: string) { return this.request<import("./project-intake").ProjectIntakeRecord>(`/api/v1/project-intakes/admin/${id}`); }
+  askProjectCopilot(data: { category: string; section: string; message: string; answers: Record<string, unknown> }) {
+    return this.request<{ reply: string; poweredByAI: boolean }>("/api/v1/project-intakes/copilot", { method: "POST", body: data });
+  }
+
   // Notifications
   listNotifications(page = 1, pageSize = 20) {
     return this.request<NotificationListResponse>("/api/v1/notifications", { params: { page: String(page), page_size: String(pageSize) } });

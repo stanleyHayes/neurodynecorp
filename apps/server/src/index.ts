@@ -36,6 +36,8 @@ import { MongoUserRepository } from "./adapter/driven/mongodb/user-repository.js
 import { MongoProjectRepository } from "./adapter/driven/mongodb/project-repository.js";
 import { MongoSpecificationRepository } from "./adapter/driven/mongodb/spec-repository.js";
 import { MongoQuestionRepository, MongoQuestionnaireResponseRepository } from "./adapter/driven/mongodb/questionnaire-repository.js";
+import { MongoProjectIntakeRepository } from "./adapter/driven/mongodb/project-intake-repository.js";
+import { createProjectIntakeRoutes } from "./adapter/driving/http/project-intake-routes.js";
 import { MongoInvoiceRepository } from "./adapter/driven/mongodb/invoice-repository.js";
 import { MongoTaskRepository, MongoSprintRepository } from "./adapter/driven/mongodb/task-repository.js";
 import { MongoNotificationRepository } from "./adapter/driven/mongodb/notification-repository.js";
@@ -145,6 +147,7 @@ async function main(): Promise<void> {
   const specRepo = new MongoSpecificationRepository(mongoClient);
   const questionRepo = new MongoQuestionRepository(mongoClient);
   const responseRepo = new MongoQuestionnaireResponseRepository(mongoClient);
+  const projectIntakeRepo = new MongoProjectIntakeRepository(mongoClient);
   const invoiceRepo = new MongoInvoiceRepository(mongoClient);
   const taskRepo = new MongoTaskRepository(mongoClient);
   const sprintRepo = new MongoSprintRepository(mongoClient);
@@ -221,6 +224,7 @@ async function main(): Promise<void> {
   let cacheService: Any;
   try {
     cacheService = new RedisCacheService({
+      url: config.redis.url,
       host: config.redis.host,
       port: config.redis.port,
       password: config.redis.password,
@@ -505,6 +509,13 @@ async function main(): Promise<void> {
   app.use("/api/v1/projects", createProjectRoutes(projectService, tokenService as Any));
   app.use("/api/v1/specifications", createSpecRoutes(specService, tokenService as Any));
   app.use("/api/v1/questionnaire", createQuestionnaireRoutes(questionnaireService, tokenService as Any));
+  app.use("/api/v1/project-intakes", createProjectIntakeRoutes(
+    projectIntakeRepo,
+    tokenService as Any,
+    emailService as Any,
+    process.env["NEURODYNE_PROJECT_INTAKE_NOTIFY_TO"] || config.email.fromAddress,
+    { apiKey: process.env["OPENAI_API_KEY"], model: process.env["OPENAI_INTAKE_MODEL"] },
+  ));
   app.use("/api/v1/notifications", createNotificationRoutes(notificationService, tokenService as Any));
   app.use("/api/v1/messages", createMessageRoutes(messageService, tokenService as Any, sioHub));
   app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any));
@@ -607,7 +618,7 @@ async function main(): Promise<void> {
   });
 
   // ── RSS feed and sitemap (public, no auth) ────────────────────────────────
-  const SITE_URL = process.env.NEURODYNE_SITE_URL ?? "https://neurodynecorp.com";
+  const SITE_URL = process.env.NEURODYNE_SITE_URL ?? "https://neurodyne.dev";
 
   function escapeXml(s: string): string {
     return s
@@ -694,7 +705,7 @@ ${items}
         caseStudyRepo.findAll({ status: "published" }),
       ]);
 
-      const staticPaths = ["/", "/about", "/services", "/services/audit", "/services/enterprise", "/services/ai", "/services/digital", "/services/advisory", "/labs", "/subsidiaries", "/industries", "/portfolio", "/blog", "/faq", "/press", "/contact", "/start-project", "/changelog", "/open-source", "/privacy", "/terms", "/status", "/trust", "/help", "/legal/cookies", "/legal/acceptable-use", "/legal/accessibility", "/legal/subprocessors", "/legal/security", "/legal/dpa"];
+      const staticPaths = ["/", "/about", "/services", "/services/audit", "/services/enterprise", "/services/ai", "/services/digital", "/services/advisory", "/solutions", "/philosophy", "/open-standards", "/research", "/projects", "/labs", "/subsidiaries", "/industries", "/portfolio", "/blog", "/faq", "/press", "/contact", "/start-project", "/diagnostic", "/estimator", "/rfp", "/book", "/changelog", "/open-source", "/spec-library", "/privacy", "/terms", "/status", "/trust", "/help", "/glossary", "/legal/cookies", "/legal/acceptable-use", "/legal/accessibility", "/legal/subprocessors", "/legal/security", "/legal/dpa"];
       const blogUrls = (posts as any[]).map((p) => `/blog/${p.slug ?? p.id}`);
       const portfolioUrls = (caseStudies as any[]).map((c) => `/portfolio/${c.slug ?? c.id}`);
 

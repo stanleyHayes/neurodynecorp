@@ -80,7 +80,7 @@ export function createNewsletterRoutes(
           email,
           "Confirm your subscription",
           '<p>Confirm: <a href="' +
-            (process.env.NEURODYNE_SITE_URL ?? "https://neurodynecorp.com") +
+            (process.env.NEURODYNE_SITE_URL ?? "https://neurodyne.dev") +
             "/newsletter/confirm?token=" +
             token +
             '">Confirm</a></p>',

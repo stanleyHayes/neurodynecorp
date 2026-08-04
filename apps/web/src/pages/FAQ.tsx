@@ -105,8 +105,8 @@ export default function FAQ() {
       <SEO
         title="FAQ"
         description="Frequently asked questions about NeuroDyne Corp — engagement model, pricing, IP, government work, timelines, team, security & compliance, and post-launch support."
-        canonical="https://neurodynecorp.com/faq"
-        ogUrl="https://neurodynecorp.com/faq"
+        canonical="https://neurodyne.dev/faq"
+        ogUrl="https://neurodyne.dev/faq"
         structuredData={faqStructuredData}
       />
 

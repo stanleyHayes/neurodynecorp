@@ -59,8 +59,8 @@ export default function LegalDPA() {
       <SEO
         title="Data Processing Addendum"
         description="A summary of NeuroDyne Corp's Data Processing Addendum and how to request a signed DPA for your organisation."
-        canonical="https://neurodynecorp.com/legal/dpa"
-        ogUrl="https://neurodynecorp.com/legal/dpa"
+        canonical="https://neurodyne.dev/legal/dpa"
+        ogUrl="https://neurodyne.dev/legal/dpa"
       />
 
       <Container maxWidth="md">

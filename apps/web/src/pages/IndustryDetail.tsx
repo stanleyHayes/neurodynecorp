@@ -34,8 +34,8 @@ export default function IndustryDetail() {
       <SEO
         title={`${industry.name} — Industries`}
         description={industry.summary}
-        canonical={`https://neurodynecorp.com/industries/${industry.slug}`}
-        ogUrl={`https://neurodynecorp.com/industries/${industry.slug}`}
+        canonical={`https://neurodyne.dev/industries/${industry.slug}`}
+        ogUrl={`https://neurodyne.dev/industries/${industry.slug}`}
       />
 
       <Container maxWidth="lg" sx={{ pt: 0 }}>

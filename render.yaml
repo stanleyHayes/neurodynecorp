@@ -10,6 +10,8 @@ services:
     repo: https://github.com/neurodynecorp/neurodynelabs
     branch: main
     plan: free
+    domains:
+      - api.neurodyne.dev
     envVars:
       - key: NODE_ENV
         value: production
@@ -19,6 +21,8 @@ services:
         value: 4000
       - key: NEURODYNE_MONGODB_URI
         sync: false
+      - key: NEURODYNE_MONGODB_DATABASE
+        value: neurodyne
       - key: NEURODYNE_REDIS_URL
         fromService:
           type: redis
@@ -29,7 +33,25 @@ services:
       - key: NEURODYNE_JWT_REFRESH_SECRET
         generateValue: true
       - key: NEURODYNE_CORS_ORIGINS
-        value: "https://neurodynecorp.com,https://admin.neurodynecorp.com,https://client.neurodynecorp.com,https://admin-neurodynecorp.vercel.app,https://client-neurodyncorp.vercel.app"
+        value: "https://neurodyne.dev,https://admin.neurodyne.dev,https://client.neurodyne.dev,https://admin-neurodynecorp.vercel.app,https://client-neurodyncorp.vercel.app"
+      - key: NEURODYNE_SITE_URL
+        value: https://neurodyne.dev
+      - key: NEURODYNE_PROJECT_INTAKE_NOTIFY_TO
+        sync: false
+      - key: NEURODYNE_RESEND_API_KEY
+        sync: false
+      - key: NEURODYNE_EMAIL_FROM
+        sync: false
+      - key: NEURODYNE_CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: NEURODYNE_CLOUDINARY_API_KEY
+        sync: false
+      - key: NEURODYNE_CLOUDINARY_API_SECRET
+        sync: false
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: OPENAI_INTAKE_MODEL
+        value: gpt-5-mini
     healthCheckPath: /health
     numInstances: 1
 

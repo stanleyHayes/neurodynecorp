@@ -1,8 +1,10 @@
-# Go: format and lint
-cd apps/api
-gofmt -l . | head -20
-go vet ./...
-cd ../..
+# Go: format and lint when the legacy API module is present.
+if [ -f apps/api/go.mod ]; then
+  cd apps/api
+  gofmt -l . | head -20
+  go vet ./...
+  cd ../..
+fi
 
 # Frontend: typecheck
 pnpm -r typecheck

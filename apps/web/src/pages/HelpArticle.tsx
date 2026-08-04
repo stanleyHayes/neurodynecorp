@@ -134,8 +134,8 @@ export default function HelpArticle() {
         title={article?.title}
         description={article?.summary ?? article?.excerpt ?? body.slice(0, 160).trim()}
         ogType="article"
-        canonical={`https://neurodynecorp.com/help/${slug}`}
-        ogUrl={`https://neurodynecorp.com/help/${slug}`}
+        canonical={`https://neurodyne.dev/help/${slug}`}
+        ogUrl={`https://neurodyne.dev/help/${slug}`}
       />
       <Container maxWidth="md">
         <Button

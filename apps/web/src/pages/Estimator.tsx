@@ -11,8 +11,8 @@ export default function Estimator() {
       <SEO
         title="Scope Estimator"
         description="Configure an indicative scope with NeuroDyne Corp — pick a service line, toggle what's in scope, and see indicative components, a weeks-band, a price-band, and a sample architecture."
-        canonical="https://neurodynecorp.com/estimator"
-        ogUrl="https://neurodynecorp.com/estimator"
+        canonical="https://neurodyne.dev/estimator"
+        ogUrl="https://neurodyne.dev/estimator"
       />
 
       <PageHero

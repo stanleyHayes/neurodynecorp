@@ -86,8 +86,8 @@ export default function Privacy() {
       <SEO
         title="Privacy Policy"
         description="NeuroDyne Corp Privacy Policy — how we collect, use, and protect your personal information."
-        canonical="https://neurodynecorp.com/privacy"
-        ogUrl="https://neurodynecorp.com/privacy"
+        canonical="https://neurodyne.dev/privacy"
+        ogUrl="https://neurodyne.dev/privacy"
       />
 
       <PageHero

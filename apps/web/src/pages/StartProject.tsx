@@ -2141,8 +2141,8 @@ export default function StartProject() {
         <SEO
           title="Start a Project"
           description="Start your software project with NeuroDyne Corp."
-          canonical="https://neurodynecorp.com/start-project"
-          ogUrl="https://neurodynecorp.com/start-project"
+          canonical="https://neurodyne.dev/start-project"
+          ogUrl="https://neurodyne.dev/start-project"
         />
         <FullscreenErrorBoundary onFallback={() => setIsFullscreen(false)}>
           <FullscreenMode
@@ -2171,8 +2171,8 @@ export default function StartProject() {
       <SEO
         title="Start a Project"
         description="Start your software project with NeuroDyne Corp. Our intelligent questionnaire transforms your idea into a professional specification."
-        canonical="https://neurodynecorp.com/start-project"
-        ogUrl="https://neurodynecorp.com/start-project"
+        canonical="https://neurodyne.dev/start-project"
+        ogUrl="https://neurodyne.dev/start-project"
       />
 
       {/* ═══ HERO ═══ */}

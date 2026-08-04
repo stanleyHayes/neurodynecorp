@@ -67,8 +67,8 @@ export default function LegalAcceptableUse() {
       <SEO
         title="Acceptable Use Policy"
         description="The rules governing use of NeuroDyne Corp products and services, including prohibited activities and enforcement."
-        canonical="https://neurodynecorp.com/legal/acceptable-use"
-        ogUrl="https://neurodynecorp.com/legal/acceptable-use"
+        canonical="https://neurodyne.dev/legal/acceptable-use"
+        ogUrl="https://neurodyne.dev/legal/acceptable-use"
       />
 
       <Container maxWidth="md">

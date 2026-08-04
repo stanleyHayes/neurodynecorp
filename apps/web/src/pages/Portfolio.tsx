@@ -101,8 +101,8 @@ export default function Portfolio() {
       <SEO
         title="Case Dossiers"
         description="NeuroDyne Corp case dossiers — declassified briefs on engagements across Government, Health, Financial Services, Commerce, and Education. Filter by sector, service line, scale, and stage."
-        canonical="https://neurodynecorp.com/portfolio"
-        ogUrl="https://neurodynecorp.com/portfolio"
+        canonical="https://neurodyne.dev/portfolio"
+        ogUrl="https://neurodyne.dev/portfolio"
       />
 
       <PageHero

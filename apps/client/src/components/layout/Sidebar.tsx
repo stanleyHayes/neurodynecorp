@@ -22,6 +22,7 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import VpnKeyOutlinedIcon from "@mui/icons-material/VpnKeyOutlined";
 import ApiOutlinedIcon from "@mui/icons-material/ApiOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
+import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 export const DRAWER_WIDTH = 260;
@@ -43,6 +44,7 @@ interface MenuGroup {
 const ROUTE_PERMISSIONS: Record<string, string> = {
   "/": "dashboard:read",
   "/projects": "projects:read",
+  "/start-project": "projects:read",
   "/messages": "messages:read",
   "/notifications": "notifications:read",
   "/documents": "documents:read",
@@ -59,6 +61,7 @@ const menuGroups: MenuGroup[] = [
     items: [
       { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#6C63FF" },
       { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#00D4AA" },
+      { label: "Start a Project", icon: <AddCircleOutlineOutlinedIcon />, path: "/start-project", color: "#8B85FF" },
     ],
   },
   {

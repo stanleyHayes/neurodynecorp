@@ -247,8 +247,8 @@ export default function Contact() {
       <SEO
         title="Contact"
         description="Get in touch with NeuroDyne Corp. Contact us for custom software development, consultations, and project inquiries."
-        canonical="https://neurodynecorp.com/contact"
-        ogUrl="https://neurodynecorp.com/contact"
+        canonical="https://neurodyne.dev/contact"
+        ogUrl="https://neurodyne.dev/contact"
       />
 
       {/* ═══ HERO — full-width cell ═══ */}

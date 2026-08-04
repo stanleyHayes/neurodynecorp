@@ -52,8 +52,8 @@ export default function Press() {
       <SEO
         title="Press & Newsroom"
         description="NeuroDyne Corp newsroom — press releases, media coverage, the media kit, awards, speaking engagements, and press contact."
-        canonical="https://neurodynecorp.com/press"
-        ogUrl="https://neurodynecorp.com/press"
+        canonical="https://neurodyne.dev/press"
+        ogUrl="https://neurodyne.dev/press"
       />
 
       <PageHero

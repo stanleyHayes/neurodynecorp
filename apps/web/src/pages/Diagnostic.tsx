@@ -145,8 +145,8 @@ export default function Diagnostic() {
       <SEO
         title="Engagement Readiness Diagnostic"
         description="A short, branching diagnostic that routes your brief to the right engagement path with NeuroDyne Corp — and gives you a one-page readiness summary."
-        canonical="https://neurodynecorp.com/diagnostic"
-        ogUrl="https://neurodynecorp.com/diagnostic"
+        canonical="https://neurodyne.dev/diagnostic"
+        ogUrl="https://neurodyne.dev/diagnostic"
       />
 
       <PageHero

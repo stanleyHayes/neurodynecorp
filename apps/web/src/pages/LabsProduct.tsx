@@ -36,8 +36,8 @@ export default function LabsProduct() {
       <SEO
         title={`${product.name} — NeuroDyne Labs`}
         description={product.tagline}
-        canonical={`https://neurodynecorp.com/labs/${product.slug}`}
-        ogUrl={`https://neurodynecorp.com/labs/${product.slug}`}
+        canonical={`https://neurodyne.dev/labs/${product.slug}`}
+        ogUrl={`https://neurodyne.dev/labs/${product.slug}`}
         ogType="article"
         structuredData={{
           "@context": "https://schema.org",

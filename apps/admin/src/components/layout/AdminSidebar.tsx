@@ -45,6 +45,7 @@ import SpellcheckOutlinedIcon from "@mui/icons-material/SpellcheckOutlined";
 import MailOutlineOutlinedIcon from "@mui/icons-material/MailOutlineOutlined";
 import PolicyOutlinedIcon from "@mui/icons-material/PolicyOutlined";
 import NewReleasesOutlinedIcon from "@mui/icons-material/NewReleasesOutlined";
+import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useAuth } from "@/context/AuthContext";
@@ -69,6 +70,7 @@ interface MenuGroup {
 const ROUTE_PERMISSIONS: Record<string, string> = {
   "/": "dashboard:read",
   "/pipeline": "pipeline:read",
+  "/project-intakes": "projects:read",
   "/analytics": "analytics:read",
   "/clients": "clients:read",
   "/projects": "projects:read",
@@ -106,6 +108,7 @@ const menuGroups: MenuGroup[] = [
     items: [
       { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#6C63FF" },
       { label: "Pipeline", icon: <TimelineOutlinedIcon />, path: "/pipeline", color: "#8B85FF" },
+      { label: "Project Briefs", icon: <AssignmentOutlinedIcon />, path: "/project-intakes", color: "#00D4AA" },
       { label: "Analytics", icon: <BarChartOutlinedIcon />, path: "/analytics", color: "#8B85FF" },
     ],
   },

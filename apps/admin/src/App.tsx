@@ -53,6 +53,7 @@ import Rfp from "@/pages/Rfp";
 import Bookings from "@/pages/Bookings";
 import Tickets from "@/pages/Tickets";
 import PrivacyRequests from "@/pages/PrivacyRequests";
+import ProjectIntakes from "@/pages/ProjectIntakes";
 import CommandPalette from "@/components/shared/CommandPalette";
 import KeyboardNav from "@/components/shared/KeyboardNav";
 import CursorTrail from "@/components/shared/CursorTrail";
@@ -91,6 +92,7 @@ export default function App() {
                 <Route path="clients/new" element={<ClientCreate />} />
                 <Route path="clients/:id" element={<ClientDetail />} />
                 <Route path="pipeline" element={<Pipeline />} />
+                <Route path="project-intakes" element={<ProjectIntakes />} />
                 <Route path="projects" element={<Projects />} />
                 <Route path="projects/new" element={<ProjectCreate />} />
                 <Route path="projects/:id" element={<ProjectDetail />} />

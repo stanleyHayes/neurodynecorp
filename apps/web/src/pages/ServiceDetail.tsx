@@ -34,8 +34,8 @@ export default function ServiceDetail() {
       <SEO
         title={svc.name}
         description={svc.positioning}
-        canonical={`https://neurodynecorp.com/services/${svc.slug}`}
-        ogUrl={`https://neurodynecorp.com/services/${svc.slug}`}
+        canonical={`https://neurodyne.dev/services/${svc.slug}`}
+        ogUrl={`https://neurodyne.dev/services/${svc.slug}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Service",

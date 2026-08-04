@@ -12,10 +12,11 @@ interface SEOProps {
   twitterCard?: "summary" | "summary_large_image";
   canonical?: string;
   structuredData?: Record<string, unknown>;
+  noIndex?: boolean;
 }
 
 const SITE_NAME = "NeuroDyne Corp";
-const SITE_URL = "https://neurodynecorp.com";
+const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://neurodyne.dev").replace(/\/$/, "");
 const DEFAULT_DESCRIPTION =
   "NeuroDyne Corp — Productized Software Engineering by Stanley Asoku Hayford. 36+ shipped projects across fintech, govtech, healthcare, edtech, and AI for Africa and beyond.";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
@@ -34,10 +35,14 @@ export default function SEO({
   twitterCard = "summary_large_image",
   canonical,
   structuredData,
+  noIndex = false,
 }: SEOProps) {
   const fullTitle = title ? `${title} | ${SITE_NAME}` : SITE_NAME;
   const finalOgTitle = ogTitle ?? fullTitle;
   const finalOgDescription = ogDescription ?? description;
+  const currentPath = typeof window === "undefined" ? "/" : window.location.pathname;
+  const finalCanonical = canonical ?? `${SITE_URL}${currentPath === "/" ? "" : currentPath.replace(/\/$/, "")}`;
+  const finalOgUrl = ogUrl ?? finalCanonical;
 
   return (
     <Helmet>
@@ -52,7 +57,7 @@ export default function SEO({
       <meta property="og:image" content={ogImage} />
       <meta property="og:site_name" content={SITE_NAME} />
       <meta property="og:locale" content="en_US" />
-      {ogUrl && <meta property="og:url" content={ogUrl} />}
+      <meta property="og:url" content={finalOgUrl} />
 
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
@@ -62,7 +67,22 @@ export default function SEO({
       <meta name="twitter:image" content={ogImage} />
 
       {/* Canonical */}
-      {canonical && <link rel="canonical" href={canonical} />}
+      <link rel="canonical" href={finalCanonical} />
+      <link rel="alternate" hrefLang="en" href={finalCanonical} />
+      <meta name="robots" content={noIndex ? "noindex,nofollow,noarchive" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"} />
+      <script type="application/ld+json">
+        {JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "Organization",
+          name: SITE_NAME,
+          url: SITE_URL,
+          logo: `${SITE_URL}/favicon.svg`,
+          email: "hello@neurodynecorp.com",
+          founder: { "@type": "Person", name: "Stanley Asoku Hayford" },
+          areaServed: ["Ghana", "Africa", "Worldwide"],
+          sameAs: [],
+        }).replace(/</g, "\\u003c")}
+      </script>
 
       {/* Structured Data.
           react-helmet-async injects a <script> child as raw innerHTML on the client (CSR) path with

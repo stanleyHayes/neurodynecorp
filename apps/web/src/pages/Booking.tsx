@@ -66,8 +66,8 @@ export default function Booking() {
       <SEO
         title="Book a Reading"
         description="Request an initial conversation with NeuroDyne Corp. Conversations are gated by the readiness diagnostic so we come prepared with the right people and the right amount of time."
-        canonical="https://neurodynecorp.com/book"
-        ogUrl="https://neurodynecorp.com/book"
+        canonical="https://neurodyne.dev/book"
+        ogUrl="https://neurodyne.dev/book"
       />
 
       <PageHero

@@ -55,8 +55,8 @@ export default function Subsidiaries() {
       <SEO
         title="Subsidiaries"
         description="The NeuroDyne Corp holding structure — subsidiaries that are active, in formation, or planned, their relationship to the parent, and their leadership."
-        canonical="https://neurodynecorp.com/subsidiaries"
-        ogUrl="https://neurodynecorp.com/subsidiaries"
+        canonical="https://neurodyne.dev/subsidiaries"
+        ogUrl="https://neurodyne.dev/subsidiaries"
       />
 
       <PageHero

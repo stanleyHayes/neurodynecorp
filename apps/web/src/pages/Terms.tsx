@@ -89,8 +89,8 @@ export default function Terms() {
       <SEO
         title="Terms of Service"
         description="NeuroDyne Corp Terms of Service — the terms and conditions governing your use of our platform and services."
-        canonical="https://neurodynecorp.com/terms"
-        ogUrl="https://neurodynecorp.com/terms"
+        canonical="https://neurodyne.dev/terms"
+        ogUrl="https://neurodyne.dev/terms"
       />
 
       <PageHero

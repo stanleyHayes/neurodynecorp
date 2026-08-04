@@ -23,7 +23,7 @@ import ProjectDetail from "@/pages/ProjectDetail";
 import Portfolio from "@/pages/Portfolio";
 import Blog from "@/pages/Blog";
 import Contact from "@/pages/Contact";
-import StartProject from "@/pages/StartProject";
+import ProjectDiscovery from "@/pages/ProjectDiscovery";
 import BlogPost from "@/pages/BlogPost";
 import Privacy from "@/pages/Privacy";
 import Terms from "@/pages/Terms";
@@ -90,7 +90,7 @@ function AppShell() {
           <Route path="blog" element={<Blog />} />
           <Route path="blog/:slug" element={<BlogPost />} />
           <Route path="contact" element={<Contact />} />
-          <Route path="start-project" element={<StartProject />} />
+          <Route path="start-project" element={<ProjectDiscovery />} />
           <Route path="diagnostic" element={<Diagnostic />} />
           <Route path="estimator" element={<Estimator />} />
           <Route path="rfp" element={<RFP />} />

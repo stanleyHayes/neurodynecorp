@@ -13,6 +13,7 @@ export interface MongoDBConfig {
 }
 
 export interface RedisConfig {
+  url?: string;
   host: string;
   port: number;
   password?: string;
@@ -115,6 +116,7 @@ export function loadConfig(): AppConfig {
       database: env("NEURODYNE_MONGODB_DATABASE", "neurodyne"),
     },
     redis: {
+      url: process.env["NEURODYNE_REDIS_URL"],
       host: env("NEURODYNE_REDIS_HOST", "localhost"),
       port: envInt("NEURODYNE_REDIS_PORT", 6379),
       password: process.env["NEURODYNE_REDIS_PASSWORD"],

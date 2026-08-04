@@ -19,6 +19,7 @@ import Settings from "@/pages/Settings";
 import Security from "@/pages/Security";
 import Webhooks from "@/pages/Webhooks";
 import HelpCenter from "@/pages/HelpCenter";
+import StartProject from "@/pages/StartProject";
 import Login from "@/pages/Login";
 import Register from "@/pages/Register";
 import ForgotPassword from "@/pages/ForgotPassword";
@@ -88,6 +89,7 @@ function AppShell() {
         >
           <Route index element={<Dashboard />} />
           <Route path="projects" element={<Projects />} />
+          <Route path="start-project" element={<StartProject />} />
           <Route path="projects/:id" element={<ProjectDetail />} />
           <Route path="documents" element={<Documents />} />
           <Route path="billing" element={<Billing />} />
