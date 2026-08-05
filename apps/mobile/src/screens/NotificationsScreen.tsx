@@ -236,7 +236,7 @@ export default function NotificationsScreen() {
         {notifications.map((notification) => {
           const config = typeConfig[notification.type as NotificationType] ?? defaultTypeConfig;
           const { icon, color } = config;
-          const time = notification.time ?? formatTimeAgo(notification.created_at ?? "");
+          const time = notification.time ?? formatTimeAgo(notification.created_at ?? notification.createdAt ?? "");
           return (
             <TouchableOpacity
               key={notification.id}
@@ -263,7 +263,7 @@ export default function NotificationsScreen() {
                     {!notification.read && <View style={styles.dot} />}
                   </View>
                   <Text style={styles.body} numberOfLines={2}>
-                    {notification.body}
+                    {notification.body ?? notification.message ?? ""}
                   </Text>
                   <Text style={styles.time}>{time}</Text>
                 </View>

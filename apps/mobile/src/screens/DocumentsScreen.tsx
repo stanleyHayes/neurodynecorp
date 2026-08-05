@@ -27,7 +27,7 @@ export default function DocumentsScreen() {
           if (project.attachments && Array.isArray(project.attachments)) {
             for (const att of project.attachments) {
               docs.push({
-                name: att.name ?? att.filename ?? "Attachment",
+                name: att.fileName ?? att.file_name ?? att.name ?? att.filename ?? "Attachment",
                 type: att.type ?? "Attachment",
                 date: att.created_at ?? project.created_at ?? "",
               });

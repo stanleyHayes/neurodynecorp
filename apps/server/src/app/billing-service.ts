@@ -48,6 +48,7 @@ export interface InvoiceRepository {
     page: number,
     pageSize: number,
   ): Promise<{ invoices: Invoice[]; total: number }>;
+  listAll(page: number, pageSize: number): Promise<{ invoices: Invoice[]; total: number }>;
 }
 
 // ---------------------------------------------------------------------------
@@ -159,6 +160,13 @@ export class BillingService {
     pageSize = 20,
   ): Promise<{ invoices: Invoice[]; total: number }> {
     return this.invoiceRepo.listByClient(clientId, page, pageSize);
+  }
+
+  async listAll(
+    page = 1,
+    pageSize = 20,
+  ): Promise<{ invoices: Invoice[]; total: number }> {
+    return this.invoiceRepo.listAll(page, pageSize);
   }
 
   async getById(invoiceId: string): Promise<Invoice> {

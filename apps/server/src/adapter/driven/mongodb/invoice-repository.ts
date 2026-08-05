@@ -145,6 +145,20 @@ export class MongoInvoiceRepository implements InvoiceRepository {
     return { invoices: docs.map(fromDoc), total };
   }
 
+  async listAll(
+    page: number = 1,
+    pageSize: number = 20,
+  ): Promise<{ invoices: Invoice[]; total: number }> {
+    const total = await this.col.countDocuments({});
+    const docs = await this.col
+      .find({})
+      .sort({ created_at: -1 })
+      .skip((page - 1) * pageSize)
+      .limit(pageSize)
+      .toArray();
+    return { invoices: docs.map(fromDoc), total };
+  }
+
   async create(invoice: Invoice): Promise<Invoice> {
     await this.col.insertOne(toDoc(invoice));
     return invoice;

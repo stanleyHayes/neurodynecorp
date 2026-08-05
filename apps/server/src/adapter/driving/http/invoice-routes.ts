@@ -148,25 +148,29 @@ export function createInvoiceRoutes(
         throw new ValidationError("Invalid query parameters", parsed.error.flatten());
       }
 
-      let clientId: string;
+      let result: { invoices: Awaited<ReturnType<BillingService["listAll"]>>["invoices"]; total: number };
       if (isClientActor(req.userRole)) {
         // Clients always see their own invoices — ignore any clientId query.
-        clientId = req.userId!;
+        result = await billingService.listByClient(
+          req.userId!,
+          parsed.data.page,
+          parsed.data.pageSize,
+        );
       } else {
-        // Staff need finance:read; arbitrary clientId without it was an IDOR.
+        // Staff need finance:read; optional clientId scopes the list.
         const perms = req.userPermissions ?? [];
         if (!perms.includes("finance:read") && !perms.includes("billing:read")) {
           res.status(403).json({ error: "Insufficient permissions", missing: ["finance:read"] });
           return;
         }
-        const requested = req.query["clientId"] as string | undefined;
-        if (!requested) {
-          throw new ValidationError("clientId query parameter is required");
-        }
-        clientId = requested;
+        const requested =
+          (req.query["clientId"] as string | undefined) ??
+          (req.query["client_id"] as string | undefined);
+        result = requested
+          ? await billingService.listByClient(requested, parsed.data.page, parsed.data.pageSize)
+          : await billingService.listAll(parsed.data.page, parsed.data.pageSize);
       }
 
-      const result = await billingService.listByClient(clientId, parsed.data.page, parsed.data.pageSize);
       const items = result.invoices.map((inv) => toApiInvoice(inv as unknown as Record<string, any>));
       res.status(200).json({
         items,

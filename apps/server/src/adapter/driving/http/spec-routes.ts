@@ -7,6 +7,7 @@ import { ValidationError, NotFoundError, AppError } from "../../../middleware/er
 import type { SpecService } from "../../../app/spec-service.js";
 import { SpecNotFoundError, ProjectNotFoundError, QuestionnaireIncompleteError } from "../../../app/spec-service.js";
 import type { Specification } from "../../../app/spec-service.js";
+import { toApiSpec } from "./spec-serializer.js";
 
 // ---- Validation schemas ----
 
@@ -146,7 +147,7 @@ export function createSpecRoutes(
       await assertProjectAccess(req, parsed.data.projectId);
 
       const spec = await specService.generateSpec(parsed.data.projectId);
-      res.status(201).json(spec);
+      res.status(201).json(toApiSpec(spec));
     } catch (err) {
       if (err instanceof ProjectNotFoundError) {
         return next(new NotFoundError("Project"));
@@ -169,7 +170,7 @@ export function createSpecRoutes(
       await assertProjectAccess(req, projectId);
 
       const spec = await specService.getByProject(projectId);
-      res.status(200).json(spec);
+      res.status(200).json(toApiSpec(spec));
     } catch (err) {
       if (err instanceof SpecNotFoundError) {
         return next(new NotFoundError("Specification"));
@@ -183,7 +184,7 @@ export function createSpecRoutes(
     try {
       const spec = await specService.getSpec(String(req.params.id));
       await assertSpecAccess(req, spec);
-      res.status(200).json(spec);
+      res.status(200).json(toApiSpec(spec));
     } catch (err) {
       if (err instanceof SpecNotFoundError) {
         return next(new NotFoundError("Specification", String(req.params.id)));
@@ -202,7 +203,7 @@ export function createSpecRoutes(
         const existing = await specService.getSpec(String(req.params.id));
         await assertSpecAccess(req, existing);
         const spec = await specService.approveSpec(String(req.params.id), req.userId!);
-        res.status(200).json(spec);
+        res.status(200).json(toApiSpec(spec));
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
           return next(new NotFoundError("Specification", String(req.params.id)));
@@ -223,7 +224,7 @@ export function createSpecRoutes(
         const existing = await specService.getSpec(String(req.params.id));
         await assertSpecAccess(req, existing);
         const spec = await specService.rejectSpec(String(req.params.id));
-        res.status(200).json(spec);
+        res.status(200).json(toApiSpec(spec));
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
           return next(new NotFoundError("Specification", String(req.params.id)));
@@ -248,7 +249,7 @@ export function createSpecRoutes(
         const existing = await specService.getSpec(String(req.params.id));
         await assertSpecAccess(req, existing);
         const spec = await specService.addInternalNote(String(req.params.id), req.userId!, parsed.data.content);
-        res.status(201).json(spec);
+        res.status(201).json(toApiSpec(spec));
       } catch (err) {
         if (err instanceof SpecNotFoundError) {
           return next(new NotFoundError("Specification", String(req.params.id)));

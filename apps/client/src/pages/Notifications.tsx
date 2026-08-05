@@ -143,10 +143,10 @@ export default function Notifications() {
                     }
                     secondary={
                       <>
-                        {notif.body}
+                        {(notif as any).body ?? (notif as any).message ?? ""}
                         <br />
                         <Typography variant="caption" color="text.secondary">
-                          {timeAgo(notif.created_at)}
+                          {timeAgo((notif as any).created_at ?? (notif as any).createdAt ?? "")}
                         </Typography>
                       </>
                     }

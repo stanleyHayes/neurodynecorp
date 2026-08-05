@@ -4,6 +4,7 @@ import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Notification } from "../../../domain/entity/notification.js";
+import { toApiNotification } from "./notification-serializer.js";
 
 // ---- Validation schemas ----
 
@@ -55,7 +56,8 @@ export function createNotificationRoutes(notificationService: NotificationServic
 
       const unread = await notificationService.countUnreadByUserId(req.userId!);
 
-      res.status(200).json({ items: notifications, total: notifications.length, unread });
+      const items = notifications.map(toApiNotification);
+      res.status(200).json({ items, notifications: items, total: items.length, unread });
     } catch (err) {
       next(err);
     }
