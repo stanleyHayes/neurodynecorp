@@ -116,6 +116,16 @@ export function listInvoices(params?: Record<string, string>) {
   return request<{ items: any[]; total: number }>(`/api/v1/invoices${qs}`);
 }
 
+export function checkoutInvoice(id: string) {
+  return request<{
+    provider: string;
+    clientSecret: string;
+    client_secret?: string;
+    paymentIntentId: string;
+    payment_intent_id?: string;
+  }>(`/api/v1/invoices/${id}/checkout`, { method: "POST" });
+}
+
 // ── Notifications ─────────────────────────────────────────────────────────
 
 export function listNotifications() {

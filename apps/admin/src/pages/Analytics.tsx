@@ -29,80 +29,19 @@ import { AXIS_STYLE, GRID_STYLE, TOOLTIP_STYLE, fmtTooltipK, fmtTooltipPct } fro
 // Empty until analytics aggregation API ships.
 const revenueTimeSeries: { month: string; revenue: number; costs: number; profit: number }[] = [];
 
-const projectsByStatus = [
-  { name: "In Progress", value: 4, color: "#F59E0B" },
-  { name: "Completed", value: 3, color: "#10B981" },
-  { name: "Review", value: 2, color: "#8B5CF6" },
-  { name: "Planning", value: 2, color: "#94A3B8" },
-  { name: "On Hold", value: 1, color: "#EF4444" },
-];
+const projectsByStatus: { name: string; value: number; color: string }[] = [];
 
-const projectsByType = [
-  { name: "Web App", value: 5, color: "#6C63FF" },
-  { name: "Mobile App", value: 3, color: "#00D4AA" },
-  { name: "AI/ML", value: 3, color: "#8B85FF" },
-  { name: "SaaS Platform", value: 1, color: "#F59E0B" },
-  { name: "API Integration", value: 1, color: "#EF4444" },
-];
+const projectsByType: { name: string; value: number; color: string }[] = [];
 
-const clientAcquisition = [
-  { month: "Apr", newClients: 1, churned: 0 },
-  { month: "May", newClients: 0, churned: 0 },
-  { month: "Jun", newClients: 2, churned: 0 },
-  { month: "Jul", newClients: 1, churned: 0 },
-  { month: "Aug", newClients: 0, churned: 1 },
-  { month: "Sep", newClients: 1, churned: 0 },
-  { month: "Oct", newClients: 2, churned: 0 },
-  { month: "Nov", newClients: 1, churned: 0 },
-  { month: "Dec", newClients: 1, churned: 0 },
-  { month: "Jan", newClients: 2, churned: 0 },
-  { month: "Feb", newClients: 1, churned: 0 },
-  { month: "Mar", newClients: 3, churned: 1 },
-];
+const clientAcquisition: { month: string; newClients: number; churned: number }[] = [];
 
-const taskCompletion = [
-  { week: "W1", completed: 8, created: 12 },
-  { week: "W2", completed: 11, created: 9 },
-  { week: "W3", completed: 6, created: 10 },
-  { week: "W4", completed: 14, created: 8 },
-  { week: "W5", completed: 9, created: 11 },
-  { week: "W6", completed: 12, created: 7 },
-  { week: "W7", completed: 10, created: 13 },
-  { week: "W8", completed: 15, created: 9 },
-  { week: "W9", completed: 7, created: 12 },
-  { week: "W10", completed: 13, created: 10 },
-  { week: "W11", completed: 11, created: 8 },
-  { week: "W12", completed: 16, created: 11 },
-];
+const taskCompletion: { week: string; completed: number; created: number }[] = [];
 
-const revenueByClient = [
-  { client: "SkyBridge AI", revenue: 180000, color: "#6C63FF" },
-  { client: "Apex Finance", revenue: 125000, color: "#00D4AA" },
-  { client: "NexGen", revenue: 95000, color: "#8B85FF" },
-  { client: "LogiTrack", revenue: 75000, color: "#F59E0B" },
-  { client: "MedCore", revenue: 50000, color: "#EF4444" },
-  { client: "GreenPulse", revenue: 40000, color: "#10B981" },
-];
+const revenueByClient: { client: string; revenue: number; color: string }[] = [];
 
-const pipelineConversion = [
-  { stage: "Lead", count: 8, rate: "100%" },
-  { stage: "Review", count: 5, rate: "63%" },
-  { stage: "Approved", count: 4, rate: "80%" },
-  { stage: "Development", count: 4, rate: "100%" },
-  { stage: "QA", count: 3, rate: "75%" },
-  { stage: "Delivered", count: 3, rate: "100%" },
-];
+const pipelineConversion: { stage: string; count: number; rate: string }[] = [];
 
-const team = [
-  { avatar: "AM", utilization: 90 },
-  { avatar: "PS", utilization: 85 },
-  { avatar: "DK", utilization: 95 },
-  { avatar: "MS", utilization: 80 },
-  { avatar: "JW", utilization: 70 },
-  { avatar: "AP", utilization: 75 },
-  { avatar: "CD", utilization: 88 },
-  { avatar: "LW", utilization: 82 },
-];
+const team: { avatar: string; utilization: number }[] = [];
 
 const fmtK = (v: number) => `$${(v / 1000).toFixed(0)}K`;
 

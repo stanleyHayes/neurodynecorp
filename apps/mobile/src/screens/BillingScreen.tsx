@@ -12,8 +12,7 @@ import {
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
-import { listInvoices } from "../api/client";
-import { BILLING_URL } from "../config";
+import { checkoutInvoice, listInvoices } from "../api/client";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
@@ -183,8 +182,24 @@ export default function BillingScreen() {
         const badgeColor = isPaid ? colors.success : colors.warning;
         const invoiceId = invoice.invoice_number ?? invoice.id ?? "";
         const amount = invoice.total ?? invoice.amount ?? 0;
-        const description = invoice.description ?? invoice.line_items?.[0]?.description ?? "";
+        const description =
+          invoice.description ??
+          invoice.items?.[0]?.description ??
+          invoice.line_items?.[0]?.description ??
+          "";
         const date = formatDate(isPaid ? (invoice.paid_at ?? invoice.created_at ?? "") : (invoice.due_date ?? invoice.created_at ?? ""));
+
+        const handlePay = async () => {
+          try {
+            const checkout = await checkoutInvoice(invoice.id);
+            const dest = checkout.client_secret ?? checkout.clientSecret;
+            if (typeof dest === "string" && dest.startsWith("http")) {
+              await Linking.openURL(dest);
+            }
+          } catch {
+            // checkout failed — leave invoice list as-is
+          }
+        };
 
         return (
           <View key={invoice.id} style={styles.card}>
@@ -208,11 +223,11 @@ export default function BillingScreen() {
                 </Text>
                 <Text style={styles.date}>{date}</Text>
               </View>
-              {!isPaid && (
+              {!isPaid && status !== "cancelled" && status !== "refunded" && (
                 <TouchableOpacity
                   style={styles.payButton}
                   activeOpacity={0.7}
-                  onPress={() => void Linking.openURL(BILLING_URL)}
+                  onPress={() => void handlePay()}
                 >
                   <Text style={styles.payButtonText}>PAY SECURELY</Text>
                 </TouchableOpacity>

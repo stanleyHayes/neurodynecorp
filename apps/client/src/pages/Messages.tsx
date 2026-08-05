@@ -26,17 +26,21 @@ import { useAuth } from "@/context/AuthContext";
 interface Thread {
   id: string;
   project_id: string;
-  subject: string;
+  subject?: string;
+  title?: string;
   participants: string[];
   last_message: string;
-  created_at: string;
+  created_at?: string;
+  createdAt?: string;
 }
 
 interface Msg {
   id: string;
-  sender_id: string;
+  sender_id?: string;
+  senderId?: string;
   content: string;
-  created_at: string;
+  created_at?: string;
+  createdAt?: string;
 }
 
 function timeAgo(dateStr: string): string {
@@ -67,19 +71,14 @@ export default function Messages() {
 
     async function load() {
       try {
-        const projectRes = await api.listProjects();
-        const allThreads: Thread[] = [];
+        const res = await api.listThreads();
+        const allThreads = ((res as any).threads ?? (res as any).items ?? []) as Thread[];
 
-        const threadResults = await Promise.all(
-          (projectRes.items ?? []).map((p: any) => api.listThreads(p.id).catch(() => ({ threads: [] })))
-        );
-
-        for (const res of threadResults) {
-          allThreads.push(...(res.threads ?? []));
-        }
-
-        // Sort by most recent
-        allThreads.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+        allThreads.sort((a, b) => {
+          const bt = new Date(b.created_at || b.createdAt || 0).getTime();
+          const at = new Date(a.created_at || a.createdAt || 0).getTime();
+          return bt - at;
+        });
 
         if (!cancelled) {
           setThreads(allThreads);
@@ -178,19 +177,19 @@ export default function Messages() {
                       <ListItemAvatar>
                         <Badge badgeContent={0} color="primary">
                           <Avatar sx={{ bgcolor: "primary.dark" }}>
-                            {thread.subject.charAt(0)}
+                            {(thread.subject || thread.title || "?").charAt(0)}
                           </Avatar>
                         </Badge>
                       </ListItemAvatar>
                       <ListItemText slotProps={{ primary: { variant: "subtitle2", noWrap: true } }}
-                        primary={thread.subject}
+                        primary={thread.subject || thread.title || "Thread"}
                         secondary={
                           <Box component="span" sx={{ display: "flex", flexDirection: "column" }}>
                             <Typography variant="caption" noWrap component="span">
-                              {thread.last_message}
+                              {thread.last_message || ""}
                             </Typography>
                             <Typography variant="caption" color="text.secondary" component="span" sx={{ opacity: 0.6 }}>
-                              {timeAgo(thread.created_at)}
+                              {timeAgo(thread.created_at || thread.createdAt || new Date().toISOString())}
                             </Typography>
                           </Box>
                         }
@@ -205,7 +204,10 @@ export default function Messages() {
             <Box sx={{ flex: 1, display: "flex", flexDirection: "column" }}>
               <Box sx={{ p: 2, borderBottom: "1px solid", borderColor: "divider" }}>
                 <Typography sx={{ fontWeight: 600 }} variant="subtitle1">
-                  {threads.find((t) => t.id === selectedThread)?.subject ?? "Select a thread"}
+                  {(() => {
+                    const t = threads.find((x) => x.id === selectedThread);
+                    return t?.subject || t?.title || "Select a thread";
+                  })()}
                 </Typography>
               </Box>
 
@@ -221,7 +223,7 @@ export default function Messages() {
                 ) : (
                   <Stack spacing={2}>
                     {messages.map((msg) => {
-                      const isMine = msg.sender_id === currentUserId;
+                      const isMine = (msg.sender_id ?? msg.senderId) === currentUserId;
                       return (
                         <Box
                           key={msg.id}
@@ -243,7 +245,7 @@ export default function Messages() {
                             </Typography>
                             <Typography variant="body2">{msg.content}</Typography>
                             <Typography variant="caption" color="text.secondary">
-                              {formatTime(msg.created_at)}
+                              {formatTime(msg.created_at || msg.createdAt || new Date().toISOString())}
                             </Typography>
                           </Box>
                         </Box>

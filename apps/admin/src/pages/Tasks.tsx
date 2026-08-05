@@ -67,14 +67,14 @@ interface ApiProject {
 
 /* ── Constants ── */
 
-const STATUSES = ["backlog", "todo", "in_progress", "review", "done"] as const;
+const STATUSES = ["backlog", "todo", "in_progress", "in_review", "done"] as const;
 type Status = (typeof STATUSES)[number];
 
 const COLUMN_META: Record<Status, { label: string; color: string }> = {
   backlog: { label: "Backlog", color: "#94A3B8" },
   todo: { label: "To Do", color: "#6C63FF" },
   in_progress: { label: "In Progress", color: "#F59E0B" },
-  review: { label: "Review", color: "#8B5CF6" },
+  in_review: { label: "Review", color: "#8B5CF6" },
   done: { label: "Done", color: "#10B981" },
 };
 
@@ -546,11 +546,13 @@ export default function Tasks() {
       backlog: [],
       todo: [],
       in_progress: [],
-      review: [],
+      in_review: [],
       done: [],
     };
     tasks.forEach((t) => {
-      const s = t.status as Status;
+      // Accept legacy "review" from older clients/seeds as in_review.
+      const raw = t.status === "review" ? "in_review" : t.status;
+      const s = raw as Status;
       if (grouped[s]) grouped[s].push(t);
       else grouped.backlog.push(t);
     });

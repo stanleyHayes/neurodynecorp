@@ -21,6 +21,7 @@ import CircleIcon from "@mui/icons-material/Circle";
 import PageBanner from "@/components/shared/PageBanner";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useSocket } from "@/hooks/useSocket";
+import { useAuth } from "@/context/AuthContext";
 
 // ---- Types ----
 
@@ -45,87 +46,23 @@ interface ChatMessage {
   avatar: string;
 }
 
-// ---- Mock data ----
+function timeAgo(dateStr?: string): string {
+  if (!dateStr) return "";
+  const diff = Date.now() - new Date(dateStr).getTime();
+  const hours = Math.floor(diff / 3600000);
+  if (hours < 1) return "just now";
+  if (hours < 24) return `${hours}h ago`;
+  return `${Math.floor(hours / 24)}d ago`;
+}
 
-const ADMIN_ID = "admin-001";
+function formatClock(dateStr?: string): string {
+  if (!dateStr) return "";
+  return new Date(dateStr).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+}
 
-const mockThreads: Thread[] = [
-  {
-    id: "t1",
-    projectId: "p1",
-    title: "E-Commerce Platform",
-    lastMessage: "We'll integrate Stripe for the checkout flow",
-    time: "2h ago",
-    unread: 3,
-    avatar: "JD",
-    participants: ["John Doe", "You"],
-  },
-  {
-    id: "t2",
-    projectId: "p1",
-    title: "Mobile Banking App",
-    lastMessage: "Wireframes look great, approved!",
-    time: "5h ago",
-    unread: 0,
-    avatar: "SK",
-    participants: ["Sarah Kim", "You"],
-  },
-  {
-    id: "t3",
-    projectId: "p2",
-    title: "AI Dashboard: Data Pipeline",
-    lastMessage: "The ETL process needs optimization",
-    time: "1d ago",
-    unread: 1,
-    avatar: "DK",
-    participants: ["David Kim", "You"],
-  },
-  {
-    id: "t4",
-    projectId: "p2",
-    title: "Healthcare Portal",
-    lastMessage: "Can we schedule a call tomorrow?",
-    time: "2d ago",
-    unread: 0,
-    avatar: "MC",
-    participants: ["Maria Chen", "You"],
-  },
-  {
-    id: "t5",
-    projectId: "p3",
-    title: "Supply Chain Tracker",
-    lastMessage: "The logistics module is ready for QA",
-    time: "3d ago",
-    unread: 5,
-    avatar: "TL",
-    participants: ["Tom Lee", "You"],
-  },
-];
-
-const mockMessages: Record<string, ChatMessage[]> = {
-  t1: [
-    { id: "m1", sender: "John Doe", senderId: "u1", content: "Hi, we've completed the product listing module. Ready for review.", time: "10:30 AM", isMine: false, avatar: "JD" },
-    { id: "m2", sender: "You", senderId: ADMIN_ID, content: "Great work! I'll review it this afternoon. Any blockers on the payment integration?", time: "11:15 AM", isMine: true, avatar: "AM" },
-    { id: "m3", sender: "John Doe", senderId: "u1", content: "We'll integrate Stripe for the checkout flow. Should be done by end of sprint.", time: "11:45 AM", isMine: false, avatar: "JD" },
-    { id: "m4", sender: "You", senderId: ADMIN_ID, content: "Perfect. Let me know if the Stripe test keys are working properly.", time: "12:00 PM", isMine: true, avatar: "AM" },
-  ],
-  t2: [
-    { id: "m5", sender: "Sarah Kim", senderId: "u2", content: "I've uploaded the wireframes for the mobile banking app.", time: "9:00 AM", isMine: false, avatar: "SK" },
-    { id: "m6", sender: "You", senderId: ADMIN_ID, content: "Wireframes look great, approved!", time: "9:30 AM", isMine: true, avatar: "AM" },
-  ],
-  t3: [
-    { id: "m7", sender: "David Kim", senderId: "u3", content: "The ETL process needs optimization. We're seeing latency spikes.", time: "Yesterday", isMine: false, avatar: "DK" },
-    { id: "m8", sender: "You", senderId: ADMIN_ID, content: "Can you share the metrics dashboard link? I'll take a look.", time: "Yesterday", isMine: true, avatar: "AM" },
-    { id: "m9", sender: "David Kim", senderId: "u3", content: "Sure, I'll send it over now. The bottleneck seems to be in the transformation step.", time: "Yesterday", isMine: false, avatar: "DK" },
-  ],
-  t4: [
-    { id: "m10", sender: "Maria Chen", senderId: "u4", content: "Can we schedule a call tomorrow to discuss the HIPAA compliance requirements?", time: "2 days ago", isMine: false, avatar: "MC" },
-  ],
-  t5: [
-    { id: "m11", sender: "Tom Lee", senderId: "u5", content: "The logistics module is ready for QA. All unit tests passing.", time: "3 days ago", isMine: false, avatar: "TL" },
-    { id: "m12", sender: "You", senderId: ADMIN_ID, content: "Excellent! I'll assign the QA team to it right away.", time: "3 days ago", isMine: true, avatar: "AM" },
-  ],
-};
+function initials(id: string): string {
+  return (id || "??").slice(0, 2).toUpperCase();
+}
 
 // ---- Constants ----
 
@@ -135,47 +72,114 @@ const THREAD_WIDTH = 340;
 // ---- Component ----
 
 export default function Messages() {
-  const [selectedThread, setSelectedThread] = useState(mockThreads[0].id);
+  const { api, user } = useAuth();
+  const myId = user?.id ?? "";
+  const myAvatar = initials(user?.first_name || user?.email || "ME");
+
+  const [threads, setThreads] = useState<Thread[]>([]);
+  const [selectedThread, setSelectedThread] = useState<string>("");
   const [newMessage, setNewMessage] = useState("");
   const [search, setSearch] = useState("");
-  const [messages, setMessages] = useState(mockMessages);
+  const [messages, setMessages] = useState<Record<string, ChatMessage[]>>({});
   const [typingUser, setTypingUser] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const { connected, subscribeProject, sendMessage: emitMessage, sendTyping, on } = useSocket();
+  const { connected, subscribeProject, sendTyping, on } = useSocket();
 
-  // Subscribe to project rooms
+  const loadThreads = useCallback(async () => {
+    const res = await api.listThreads();
+    const raw = (res as any).threads ?? (res as any).items ?? [];
+    const mapped: Thread[] = raw.map((t: any) => ({
+      id: t.id,
+      projectId: t.project_id ?? t.projectId,
+      title: t.subject ?? t.title ?? "Thread",
+      lastMessage: t.last_message ?? "",
+      time: timeAgo(t.updated_at ?? t.created_at ?? t.updatedAt ?? t.createdAt),
+      unread: 0,
+      avatar: initials(t.subject ?? t.title ?? t.id),
+      participants: t.participants ?? t.participant_ids ?? t.participantIds ?? [],
+    }));
+    setThreads(mapped);
+    setSelectedThread((prev) => prev || mapped[0]?.id || "");
+  }, [api]);
+
+  const loadMessages = useCallback(
+    async (threadId: string) => {
+      if (!threadId) return;
+      const res = await api.getMessages(threadId);
+      const items = (res as any).items ?? (res as any).messages ?? [];
+      const mapped: ChatMessage[] = items.map((m: any) => {
+        const senderId = m.sender_id ?? m.senderId ?? "";
+        const mine = senderId === myId;
+        return {
+          id: m.id,
+          sender: mine ? "You" : senderId.slice(0, 8),
+          senderId,
+          content: m.content,
+          time: formatClock(m.created_at ?? m.createdAt),
+          isMine: mine,
+          avatar: mine ? myAvatar : initials(senderId),
+        };
+      });
+      setMessages((prev) => ({ ...prev, [threadId]: mapped }));
+    },
+    [api, myId, myAvatar],
+  );
+
+  useEffect(() => {
+    void loadThreads().catch(() => setThreads([]));
+  }, [loadThreads]);
+
+  useEffect(() => {
+    if (selectedThread) void loadMessages(selectedThread).catch(() => undefined);
+  }, [selectedThread, loadMessages]);
+
+  // Subscribe to project rooms for live updates
   useEffect(() => {
     if (!connected) return;
-    const projectIds = [...new Set(mockThreads.map((t) => t.projectId))];
+    const projectIds = [...new Set(threads.map((t) => t.projectId).filter(Boolean))];
     projectIds.forEach(subscribeProject);
-  }, [connected, subscribeProject]);
+  }, [connected, subscribeProject, threads]);
 
-  // Listen for incoming messages
   useEffect(() => {
     const off = on("message", (data: unknown) => {
-      const msg = data as { threadId: string; senderId: string; sender: string; content: string; avatar?: string };
-      if (msg.senderId === ADMIN_ID) return;
+      const msg = data as {
+        threadId?: string;
+        thread_id?: string;
+        id?: string;
+        senderId?: string;
+        sender_id?: string;
+        content: string;
+      };
+      const threadId = msg.threadId ?? msg.thread_id;
+      const senderId = msg.senderId ?? msg.sender_id ?? "";
+      if (!threadId || senderId === myId) return;
 
       const newMsg: ChatMessage = {
-        id: `rt-${Date.now()}`,
-        sender: msg.sender ?? "Client",
-        senderId: msg.senderId,
+        id: msg.id ?? `rt-${Date.now()}`,
+        sender: senderId.slice(0, 8) || "Client",
+        senderId,
         content: msg.content,
         time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
         isMine: false,
-        avatar: msg.avatar ?? "??",
+        avatar: initials(senderId),
       };
 
       setMessages((prev) => ({
         ...prev,
-        [msg.threadId]: [...(prev[msg.threadId] ?? []), newMsg],
+        [threadId]: [...(prev[threadId] ?? []), newMsg],
       }));
+      setThreads((prev) =>
+        prev.map((t) =>
+          t.id === threadId
+            ? { ...t, lastMessage: msg.content, time: "just now" }
+            : t,
+        ),
+      );
     });
     return off;
-  }, [on]);
+  }, [on, myId]);
 
-  // Typing indicator
   useEffect(() => {
     const off = on("typing", (data: unknown) => {
       const { userId, threadId } = data as { userId: string; threadId?: string };
@@ -187,57 +191,58 @@ export default function Messages() {
     return off;
   }, [on, selectedThread]);
 
-  // Auto-scroll to bottom
   useEffect(() => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, selectedThread]);
 
-  const handleSend = useCallback(() => {
-    if (!newMessage.trim()) return;
-
-    const thread = mockThreads.find((t) => t.id === selectedThread);
+  const handleSend = useCallback(async () => {
+    if (!newMessage.trim() || !selectedThread) return;
+    const thread = threads.find((t) => t.id === selectedThread);
     if (!thread) return;
-
-    const msg: ChatMessage = {
-      id: `local-${Date.now()}`,
-      sender: "You",
-      senderId: ADMIN_ID,
-      content: newMessage.trim(),
-      time: new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }),
-      isMine: true,
-      avatar: "AM",
-    };
-
-    setMessages((prev) => ({
-      ...prev,
-      [selectedThread]: [...(prev[selectedThread] ?? []), msg],
-    }));
-
-    emitMessage(thread.projectId, selectedThread, {
-      senderId: ADMIN_ID,
-      sender: "Admin",
-      content: msg.content,
-      avatar: "AM",
-    });
-
+    const text = newMessage.trim();
     setNewMessage("");
-  }, [newMessage, selectedThread, emitMessage]);
+
+    try {
+      const sent = await api.sendMessage(selectedThread, text);
+      const senderId = (sent as any).sender_id ?? (sent as any).senderId ?? myId;
+      const newMsg: ChatMessage = {
+        id: (sent as any).id ?? `local-${Date.now()}`,
+        sender: "You",
+        senderId,
+        content: text,
+        time: formatClock((sent as any).created_at ?? (sent as any).createdAt ?? new Date().toISOString()),
+        isMine: true,
+        avatar: myAvatar,
+      };
+      setMessages((prev) => ({
+        ...prev,
+        [selectedThread]: [...(prev[selectedThread] ?? []), newMsg],
+      }));
+      setThreads((prev) =>
+        prev.map((t) =>
+          t.id === selectedThread ? { ...t, lastMessage: text, time: "just now" } : t,
+        ),
+      );
+    } catch {
+      setNewMessage(text);
+    }
+  }, [newMessage, selectedThread, threads, api, myId, myAvatar]);
 
   const handleTyping = useCallback(() => {
-    const thread = mockThreads.find((t) => t.id === selectedThread);
+    const thread = threads.find((t) => t.id === selectedThread);
     if (thread) sendTyping(thread.projectId, selectedThread);
-  }, [selectedThread, sendTyping]);
+  }, [selectedThread, sendTyping, threads]);
 
   const filtered = search
-    ? mockThreads.filter(
+    ? threads.filter(
         (t) =>
           t.title.toLowerCase().includes(search.toLowerCase()) ||
           t.lastMessage.toLowerCase().includes(search.toLowerCase()),
       )
-    : mockThreads;
+    : threads;
 
   const currentMessages = messages[selectedThread] ?? [];
-  const currentThread = mockThreads.find((t) => t.id === selectedThread);
+  const currentThread = threads.find((t) => t.id === selectedThread);
 
   return (
     <Box>

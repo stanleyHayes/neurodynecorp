@@ -6,8 +6,13 @@ import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Task, Sprint } from "../../../domain/entity/task.js";
 import type { TaskFilter } from "../../../domain/port/repository.js";
+import { toApiSprint, toApiTask } from "./task-serializer.js";
 
 // ---- Validation schemas ----
+
+const taskStatusSchema = z
+  .enum(["backlog", "todo", "in_progress", "in_review", "review", "done", "cancelled"])
+  .transform((s) => (s === "review" ? "in_review" : s));
 
 const createTaskSchema = z
   .object({
@@ -41,13 +46,19 @@ const updateTaskSchema = z.object({
   title: z.string().min(1).max(200).optional(),
   description: z.string().max(5000).optional(),
   assigneeId: z.string().nullable().optional(),
+  assignee_id: z.string().nullable().optional(),
   priority: z.enum(["low", "medium", "high", "critical"]).optional(),
-  status: z.enum(["backlog", "todo", "in_progress", "in_review", "done", "cancelled"]).optional(),
+  status: taskStatusSchema.optional(),
   labels: z.array(z.string()).optional(),
   storyPoints: z.number().positive().nullable().optional(),
   dueDate: z.coerce.date().nullable().optional(),
   sprintId: z.string().nullable().optional(),
-});
+  sprint_id: z.string().nullable().optional(),
+}).transform((d) => ({
+  ...d,
+  assigneeId: d.assigneeId !== undefined ? d.assigneeId : d.assignee_id,
+  sprintId: d.sprintId !== undefined ? d.sprintId : d.sprint_id,
+}));
 
 const createSprintSchema = z.object({
   projectId: z.string().min(1),
@@ -69,7 +80,7 @@ const listTasksSchema = z
     project_id: z.string().optional(),
     sprintId: z.string().optional(),
     assigneeId: z.string().optional(),
-    status: z.enum(["backlog", "todo", "in_progress", "in_review", "done", "cancelled"]).optional(),
+    status: taskStatusSchema.optional(),
     priority: z.enum(["low", "medium", "high", "critical"]).optional(),
     search: z.string().optional(),
   })
@@ -139,7 +150,7 @@ export function createTaskRoutes(
         const { createSprint: buildSprint } = await import("../../../domain/entity/task.js");
         const sprint = buildSprint(parsed.data as any);
         const created = await taskService.createSprint(sprint);
-        res.status(201).json(created);
+        res.status(201).json(toApiSprint(created));
       } catch (err) {
         next(err);
       }
@@ -159,7 +170,7 @@ export function createTaskRoutes(
 
         await assertProjectAccess(req, projectId);
 
-        const sprints = await taskService.listSprints(projectId);
+        const sprints = (await taskService.listSprints(projectId)).map(toApiSprint);
         res.status(200).json({ sprints, items: sprints, total: sprints.length });
       } catch (err) {
         next(err);
@@ -182,7 +193,7 @@ export function createTaskRoutes(
         } catch {
           throw new NotFoundError("Sprint", String(req.params.id));
         }
-        res.status(200).json(sprint);
+        res.status(200).json(toApiSprint(sprint));
       } catch (err) {
         next(err);
       }
@@ -212,7 +223,7 @@ export function createTaskRoutes(
           ...(parsed.data as any),
           updatedAt: new Date(),
         });
-        res.status(200).json(updated);
+        res.status(200).json(toApiSprint(updated));
       } catch (err) {
         next(err);
       }
@@ -261,7 +272,7 @@ export function createTaskRoutes(
           reporterId: req.userId!,
         });
         const created = await taskService.createTask(task);
-        res.status(201).json(created);
+        res.status(201).json(toApiTask(created));
       } catch (err) {
         next(err);
       }
@@ -289,7 +300,7 @@ export function createTaskRoutes(
           await assertProjectAccess(req, parsed.data.projectId);
         }
 
-        const tasks = await taskService.listTasks(parsed.data as TaskFilter);
+        const tasks = (await taskService.listTasks(parsed.data as TaskFilter)).map(toApiTask);
         // `items` mirrors every other list endpoint (the admin Kanban reads it);
         // `tasks` is kept for existing consumers.
         res.status(200).json({ tasks, items: tasks, total: tasks.length });
@@ -314,7 +325,7 @@ export function createTaskRoutes(
         } catch {
           throw new NotFoundError("Task", String(req.params.id));
         }
-        res.status(200).json(task);
+        res.status(200).json(toApiTask(task));
       } catch (err) {
         next(err);
       }
@@ -350,7 +361,7 @@ export function createTaskRoutes(
         } as Task;
 
         const updated = await taskService.updateTask(merged);
-        res.status(200).json(updated);
+        res.status(200).json(toApiTask(updated));
       } catch (err) {
         next(err);
       }

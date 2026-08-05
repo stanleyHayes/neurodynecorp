@@ -139,6 +139,7 @@ export interface MessageRepository {
 
 export interface ThreadRepository {
   findById(id: string): Promise<Thread | null>;
+  findAll(): Promise<Thread[]>;
   findByProjectId(projectId: string): Promise<Thread[]>;
   findByParticipantId(participantId: string): Promise<Thread[]>;
   create(thread: Thread): Promise<Thread>;

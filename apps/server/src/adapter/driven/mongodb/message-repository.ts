@@ -130,6 +130,14 @@ export class MongoThreadRepository implements ThreadRepository {
     return doc ? threadFromDoc(doc) : null;
   }
 
+  async findAll(): Promise<Thread[]> {
+    const docs = await this.col
+      .find({})
+      .sort({ last_message_at: -1, created_at: -1 })
+      .toArray();
+    return docs.map(threadFromDoc);
+  }
+
   async findByProjectId(projectId: string): Promise<Thread[]> {
     const docs = await this.col
       .find({ project_id: projectId })

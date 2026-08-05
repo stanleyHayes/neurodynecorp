@@ -185,9 +185,14 @@ export default function MessagesScreen() {
 
       {threads.map((thread) => {
         const unread = thread.unread_count ?? 0;
-        const subject = thread.subject ?? thread.projectName ?? "Thread";
-        const lastMessage = thread.last_message?.content ?? thread.last_message ?? "";
-        const time = formatTimeAgo(thread.updated_at ?? thread.created_at ?? "");
+        const subject = thread.subject ?? thread.title ?? thread.projectName ?? "Thread";
+        const lastMessage =
+          typeof thread.last_message === "string"
+            ? thread.last_message
+            : thread.last_message?.content ?? "";
+        const time = formatTimeAgo(
+          thread.updated_at ?? thread.createdAt ?? thread.created_at ?? "",
+        );
 
         return (
           <TouchableOpacity

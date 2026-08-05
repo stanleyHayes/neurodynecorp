@@ -5,14 +5,26 @@ import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
 import { isClientActor, isStaffRole } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Thread, Message } from "../../../domain/entity/message.js";
+import { toApiMessage, toApiThread } from "./message-serializer.js";
 
 // ---- Validation schemas ----
 
-const createThreadSchema = z.object({
-  projectId: z.string().min(1),
-  title: z.string().min(1).max(200),
-  participantIds: z.array(z.string().min(1)),
-});
+const createThreadSchema = z
+  .object({
+    projectId: z.string().min(1).optional(),
+    project_id: z.string().min(1).optional(),
+    title: z.string().min(1).max(200).optional(),
+    subject: z.string().min(1).max(200).optional(),
+    participantIds: z.array(z.string().min(1)).optional(),
+    participant_ids: z.array(z.string().min(1)).optional(),
+  })
+  .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
+  .refine((d) => d.title ?? d.subject, { message: "title is required" })
+  .transform((d) => ({
+    projectId: (d.projectId ?? d.project_id)!,
+    title: (d.title ?? d.subject)!,
+    participantIds: d.participantIds ?? d.participant_ids ?? [],
+  }));
 
 const sendMessageSchema = z.object({
   content: z.string().min(1).max(10000),
@@ -25,6 +37,7 @@ export interface MessageService {
   createThread(input: { projectId: string; title: string; participantIds: string[] }): Promise<Thread>;
   listThreadsByProject(projectId: string): Promise<Thread[]>;
   listThreadsByParticipant(userId: string): Promise<Thread[]>;
+  listAllThreads(): Promise<Thread[]>;
   getThread(threadId: string): Promise<Thread | null>;
   sendMessage(threadId: string, senderId: string, content: string, attachments?: string[]): Promise<Message>;
   getMessages(threadId: string): Promise<Message[]>;
@@ -89,34 +102,50 @@ export function createMessageRoutes(
       await assertProjectAccess(req, parsed.data.projectId);
 
       const thread = await messageService.createThread({
-        ...(parsed.data as any),
-        participantIds: [...new Set([req.userId!, ...(parsed.data as any).participantIds])],
+        ...parsed.data,
+        participantIds: [...new Set([req.userId!, ...parsed.data.participantIds])],
       });
-      res.status(201).json(thread);
+      res.status(201).json(toApiThread(thread));
     } catch (err) {
       next(err);
     }
   });
 
+  async function serializeThreads(threads: Thread[]) {
+    return Promise.all(
+      threads.map(async (thread) => {
+        const msgs = await messageService.getMessages(thread.id);
+        const last = msgs[msgs.length - 1];
+        return toApiThread(thread, last?.content?.slice(0, 160) ?? "");
+      }),
+    );
+  }
+
   // GET /api/v1/messages/threads
   router.get("/threads", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const projectId = req.query["projectId"] as string | undefined;
+      const projectId = (req.query["projectId"] ?? req.query["project_id"]) as string | undefined;
 
       if (projectId) {
         await assertProjectAccess(req, projectId);
       }
 
-      let threads = projectId
-        ? await messageService.listThreadsByProject(projectId)
-        : await messageService.listThreadsByParticipant(req.userId!);
+      let threads: Thread[];
+      if (projectId) {
+        threads = await messageService.listThreadsByProject(projectId);
+      } else if (isStaff(req)) {
+        threads = await messageService.listAllThreads();
+      } else {
+        threads = await messageService.listThreadsByParticipant(req.userId!);
+      }
 
       // Non-staff must never see other projects' threads via ?projectId=.
       if (!isStaff(req)) {
         threads = threads.filter((t) => t.participantIds.includes(req.userId!));
       }
 
-      res.status(200).json({ threads });
+      const items = await serializeThreads(threads);
+      res.status(200).json({ threads: items, items, total: items.length });
     } catch (err) {
       next(err);
     }
@@ -131,7 +160,9 @@ export function createMessageRoutes(
         res.status(404).json({ error: "Thread not found" });
         return;
       }
-      res.status(200).json(thread);
+      const msgs = await messageService.getMessages(thread.id);
+      const last = msgs[msgs.length - 1];
+      res.status(200).json(toApiThread(thread, last?.content?.slice(0, 160) ?? ""));
     } catch (err) {
       next(err);
     }
@@ -185,7 +216,7 @@ export function createMessageRoutes(
         }
       }
 
-      res.status(201).json(message);
+      res.status(201).json(toApiMessage(message));
     } catch (err) {
       next(err);
     }
@@ -200,8 +231,9 @@ export function createMessageRoutes(
         return;
       }
       const messages = await messageService.getMessages(String(req.params.threadId));
+      const items = messages.map(toApiMessage);
       // `items` matches ApiClient / portal list consumers; `messages` kept as alias.
-      res.status(200).json({ messages, items: messages, total: messages.length });
+      res.status(200).json({ messages: items, items, total: items.length });
     } catch (err) {
       next(err);
     }

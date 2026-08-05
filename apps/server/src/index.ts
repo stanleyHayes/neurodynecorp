@@ -408,6 +408,7 @@ async function main(): Promise<void> {
     },
     listThreadsByProject: (projectId: string) => threadRepo.findByProjectId(projectId),
     listThreadsByParticipant: (userId: string) => threadRepo.findByParticipantId(userId),
+    listAllThreads: () => threadRepo.findAll(),
     getThread: (threadId: string) => threadRepo.findById(threadId),
     sendMessage: async (threadId: string, senderId: string, content: string, attachments?: string[]) => {
       const { createMessage } = await import("./domain/entity/message.js");
