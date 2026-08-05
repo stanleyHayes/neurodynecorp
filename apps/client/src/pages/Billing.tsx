@@ -12,6 +12,7 @@ import {
   Chip,
   Grid,
   Skeleton,
+  Button,
 } from "@mui/material";
 import ReceiptLongIcon from "@mui/icons-material/ReceiptLong";
 import PaidIcon from "@mui/icons-material/Paid";
@@ -50,6 +51,28 @@ export default function Billing() {
   const [loading, setLoading] = useState(true);
   const [invoices, setInvoices] = useState<InvoiceRow[]>([]);
   const [projectNames, setProjectNames] = useState<Record<string, string>>({});
+  const [payingId, setPayingId] = useState<string | null>(null);
+  const [payError, setPayError] = useState("");
+
+  const handlePay = async (invoiceId: string) => {
+    setPayingId(invoiceId);
+    setPayError("");
+    try {
+      const checkout = await api.checkoutInvoice(invoiceId);
+      const dest = checkout.client_secret ?? checkout.clientSecret;
+      if (typeof dest === "string" && dest.startsWith("http")) {
+        window.open(dest, "_blank", "noopener,noreferrer");
+      } else {
+        setPayError(
+          `Payment intent ${checkout.payment_intent_id ?? checkout.paymentIntentId} created via ${checkout.provider}. Complete payment with your provider SDK.`,
+        );
+      }
+    } catch (err: any) {
+      setPayError(err?.message ?? "Unable to start checkout");
+    } finally {
+      setPayingId(null);
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -137,6 +160,12 @@ export default function Billing() {
         ))}
       </Grid>
 
+      {payError && (
+        <Typography variant="body2" color="error" sx={{ mb: 2 }}>
+          {payError}
+        </Typography>
+      )}
+
       <AnimatedCard delay={3}>
         <CardContent>
           {loading ? (
@@ -182,10 +211,17 @@ export default function Billing() {
                         />
                       </TableCell>
                       <TableCell align="right">
-                        {(inv.status === "pending" || inv.status === "sent") && (
-                          <Typography variant="caption" color="text.secondary">
-                            Contact your PM to arrange payment
-                          </Typography>
+                        {inv.status !== "paid" &&
+                          inv.status !== "cancelled" &&
+                          inv.status !== "refunded" && (
+                          <Button
+                            size="small"
+                            variant="outlined"
+                            disabled={payingId === inv.id}
+                            onClick={() => handlePay(inv.id)}
+                          >
+                            {payingId === inv.id ? "Starting…" : "Pay"}
+                          </Button>
                         )}
                       </TableCell>
                     </TableRow>

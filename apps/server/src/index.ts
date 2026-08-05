@@ -16,6 +16,7 @@ import { createNotificationRoutes } from "./adapter/driving/http/notification-ro
 import { createMessageRoutes } from "./adapter/driving/http/message-routes.js";
 import { createTaskRoutes } from "./adapter/driving/http/task-routes.js";
 import { createInvoiceRoutes } from "./adapter/driving/http/invoice-routes.js";
+import { createPaymentGateway } from "./adapter/driven/payment/index.js";
 import { createPaymentWebhookHandlers } from "./adapter/driving/http/payment-webhook-routes.js";
 import { createUserRoutes } from "./adapter/driving/http/user-routes.js";
 import { createRoleRoutes } from "./adapter/driving/http/role-routes.js";
@@ -608,7 +609,21 @@ async function main(): Promise<void> {
   app.use("/api/v1/reports", createReportRoutes(reportRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/team", createEngagementMemberRoutes(engagementMemberRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/budget", createBudgetRoutes(budgetRepo, tokenService as Any, getProjectOwnerId));
-  app.use("/api/v1/invoices", createInvoiceRoutes(billingService, tokenService as Any));
+  const paymentConfigured =
+    (config.payment.provider === "stripe" && !!config.payment.stripe.secretKey) ||
+    (config.payment.provider === "paystack" && !!config.payment.paystack.secretKey);
+  const paymentGateway = paymentConfigured ? createPaymentGateway(config.payment) : undefined;
+  app.use(
+    "/api/v1/invoices",
+    createInvoiceRoutes(billingService, tokenService as Any, {
+      paymentGateway,
+      paymentProvider: config.payment.provider,
+      findUserEmail: async (userId: string) => {
+        const u = await userRepo.findById(userId);
+        return u?.email ?? null;
+      },
+    }),
+  );
   app.use("/api/v1/users", createUserRoutes(userServiceAdapter, tokenService as Any));
   app.use("/api/v1/roles", createRoleRoutes(roleServiceAdapter, userServiceAdapter, tokenService as Any));
   app.use("/api/v1/files", createFileRoutes(fileServiceAdapter, tokenService as Any, upload, getProjectOwnerId));

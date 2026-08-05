@@ -348,6 +348,18 @@ export class ApiClient {
       body: { paymentId: paymentId ?? `manual-${Date.now()}` },
     });
   }
+  checkoutInvoice(id: string) {
+    return this.request<{
+      provider: string;
+      clientSecret: string;
+      client_secret: string;
+      paymentIntentId: string;
+      payment_intent_id: string;
+      invoiceId: string;
+      amount: number;
+      currency: string;
+    }>(`/api/v1/invoices/${id}/checkout`, { method: "POST" });
+  }
 
   // File Upload
   async uploadFile(file: File, folder = "uploads"): Promise<{ url: string; filename: string; size: number }> {

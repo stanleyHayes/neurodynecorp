@@ -69,7 +69,8 @@ export class PaystackPaymentGateway implements PaymentGateway {
     );
 
     return {
-      clientSecret: data.data.access_code,
+      // Prefer hosted checkout URL so clients can pay without a native SDK.
+      clientSecret: data.data.authorization_url || data.data.access_code,
       paymentIntentId: data.data.reference,
     };
   }

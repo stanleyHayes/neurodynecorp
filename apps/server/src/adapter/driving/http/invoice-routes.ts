@@ -7,6 +7,14 @@ import { ValidationError, NotFoundError, AppError } from "../../../middleware/er
 import type { BillingService } from "../../../app/billing-service.js";
 import { InvoiceNotFoundError, InvoiceAlreadyPaidError } from "../../../app/billing-service.js";
 import type { InvoiceLineItem } from "../../../app/billing-service.js";
+import type { PaymentGateway } from "../../../domain/port/index.js";
+
+export interface InvoiceRouteDeps {
+  paymentGateway?: PaymentGateway;
+  paymentProvider?: string;
+  /** Resolve payer email for Paystack initialize / Stripe receipts. */
+  findUserEmail?: (userId: string) => Promise<string | null>;
+}
 
 // ---- Validation schemas ----
 
@@ -96,7 +104,11 @@ function toApiInvoice(invoice: Record<string, any>) {
 
 // ---- Route factory ----
 
-export function createInvoiceRoutes(billingService: BillingService, tokenService: TokenService): Router {
+export function createInvoiceRoutes(
+  billingService: BillingService,
+  tokenService: TokenService,
+  deps: InvoiceRouteDeps = {},
+): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
 
@@ -184,6 +196,72 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
         }
       }
       res.status(200).json(toApiInvoice(invoice as unknown as Record<string, any>));
+    } catch (err) {
+      if (err instanceof InvoiceNotFoundError) {
+        return next(new NotFoundError("Invoice", String(req.params.id)));
+      }
+      next(err);
+    }
+  });
+
+  // POST /api/v1/invoices/:id/checkout — create a provider payment intent for this invoice
+  router.post("/:id/checkout", async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      if (!deps.paymentGateway) {
+        res.status(503).json({ error: "Payment provider is not configured" });
+        return;
+      }
+
+      const invoice = await billingService.getById(String(req.params.id));
+      if (isClientActor(req.userRole)) {
+        if (invoice.clientId !== req.userId) {
+          return next(new NotFoundError("Invoice", String(req.params.id)));
+        }
+      } else {
+        const perms = req.userPermissions ?? [];
+        if (!perms.includes("finance:create") && !perms.includes("billing:create")) {
+          res.status(403).json({ error: "Insufficient permissions", missing: ["finance:create"] });
+          return;
+        }
+      }
+
+      if (invoice.status === "paid") {
+        return next(new AppError("Invoice is already paid", 409));
+      }
+      const blocked = new Set(["cancelled", "canceled", "refunded"]);
+      if (blocked.has(String(invoice.status))) {
+        return next(new AppError("Invoice cannot be paid in its current status", 409));
+      }
+      if (!Number.isFinite(invoice.total) || invoice.total <= 0) {
+        throw new ValidationError("Invoice total must be positive to start checkout");
+      }
+
+      const email =
+        (deps.findUserEmail ? await deps.findUserEmail(invoice.clientId) : null) ??
+        "customer@neurodynecorp.com";
+
+      const intent = await deps.paymentGateway.createPaymentIntent(
+        invoice.total,
+        invoice.currency,
+        {
+          invoiceId: invoice.id,
+          invoice_id: invoice.id,
+          clientId: invoice.clientId,
+          email,
+        },
+      );
+
+      res.status(200).json({
+        provider: deps.paymentProvider ?? "unknown",
+        clientSecret: intent.clientSecret,
+        client_secret: intent.clientSecret,
+        paymentIntentId: intent.paymentIntentId,
+        payment_intent_id: intent.paymentIntentId,
+        invoiceId: invoice.id,
+        invoice_id: invoice.id,
+        amount: invoice.total,
+        currency: invoice.currency,
+      });
     } catch (err) {
       if (err instanceof InvoiceNotFoundError) {
         return next(new NotFoundError("Invoice", String(req.params.id)));
