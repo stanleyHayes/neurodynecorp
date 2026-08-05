@@ -2,6 +2,7 @@ import { randomBytes } from "crypto";
 import type { Logger } from "pino";
 import type { User } from "../domain/entity/user";
 import { createUser } from "../domain/entity/user";
+import { CLIENT_DEFAULT_PERMISSIONS } from "../domain/entity/default-permissions.js";
 
 // ---------------------------------------------------------------------------
 // Port interfaces
@@ -129,12 +130,15 @@ export class AuthService {
 
     const passwordHash = await this.hasher.hash(input.password);
 
+    const role = input.role ?? "client";
     const user = createUser({
       email: input.email,
       passwordHash,
       firstName: input.firstName,
       lastName: input.lastName,
-      role: input.role ?? "client",
+      role,
+      // Self-register must not land with empty permissions (fail-closed UI).
+      permissions: role === "client" ? [...CLIENT_DEFAULT_PERMISSIONS] : [],
       phone: input.phone,
       company: input.company,
     });

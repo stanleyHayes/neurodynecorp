@@ -12,6 +12,24 @@ import {
   ACTIONS,
 } from "../../../domain/entity/permission.js";
 import type { User } from "../../../domain/entity/user.js";
+import { asKnownRole } from "../../../middleware/rbac-helpers.js";
+
+function toApiRole(role: RBACRole) {
+  return {
+    ...role,
+    is_system: role.isSystem,
+  };
+}
+
+/** Non-admins cannot grant permissions they do not hold. */
+function assertPermissionCeiling(actorPerms: string[] | undefined, granting: string[], actorRole?: string | null) {
+  if (actorRole === "admin") return;
+  const held = new Set(actorPerms ?? []);
+  const excess = granting.filter((p) => !held.has(p));
+  if (excess.length > 0) {
+    throw new ValidationError("Cannot grant permissions you do not hold", { excess });
+  }
+}
 
 // ---- Validation schemas ----
 
@@ -78,7 +96,7 @@ export function createRoleRoutes(
   router.get("/", requirePermission("roles:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const roles = await roleService.findAll();
-      res.status(200).json({ roles });
+      res.status(200).json({ roles: roles.map(toApiRole) });
     } catch (err) {
       next(err);
     }
@@ -98,7 +116,7 @@ export function createRoleRoutes(
     try {
       const role = await roleService.findById(String(req.params.id));
       if (!role) throw new NotFoundError("Role", String(req.params.id));
-      res.status(200).json(role);
+      res.status(200).json(toApiRole(role));
     } catch (err) {
       next(err);
     }
@@ -114,6 +132,8 @@ export function createRoleRoutes(
       if (existing) throw new ConflictError(`Role "${parsed.data.name}" already exists`);
 
       const normalized = normalizePermissions(parsed.data.permissions);
+      assertPermissionCeiling(req.userPermissions, normalized, req.userRole);
+
       const role = createRole({
         name: parsed.data.name,
         description: parsed.data.description,
@@ -121,7 +141,7 @@ export function createRoleRoutes(
       });
 
       const created = await roleService.create(role);
-      res.status(201).json(created);
+      res.status(201).json(toApiRole(created));
     } catch (err) {
       next(err);
     }
@@ -136,6 +156,11 @@ export function createRoleRoutes(
       const existing = await roleService.findById(String(req.params.id));
       if (!existing) throw new NotFoundError("Role", String(req.params.id));
 
+      if (existing.isSystem) {
+        res.status(403).json({ error: "Cannot modify a system role" });
+        return;
+      }
+
       if (parsed.data.name && parsed.data.name !== existing.name) {
         const dup = await roleService.findByName(parsed.data.name);
         if (dup) throw new ConflictError(`Role "${parsed.data.name}" already exists`);
@@ -145,13 +170,17 @@ export function createRoleRoutes(
         ? normalizePermissions(parsed.data.permissions)
         : existing.permissions;
 
+      if (parsed.data.permissions) {
+        assertPermissionCeiling(req.userPermissions, permissions, req.userRole);
+      }
+
       const updated = await roleService.update({
         ...existing,
         ...parsed.data,
         permissions,
         updatedAt: new Date(),
       });
-      res.status(200).json(updated);
+      res.status(200).json(toApiRole(updated));
     } catch (err) {
       next(err);
     }
@@ -194,9 +223,15 @@ export function createRoleRoutes(
         return;
       }
 
+      assertPermissionCeiling(req.userPermissions, role.permissions, req.userRole);
+
+      // Custom roles keep their roleId/permissions but `user.role` must stay a
+      // known enum value for tenancy and JWT claims. Map unknowns to client.
+      const knownRole = asKnownRole(role.name) ?? "client";
+
       const updated = await userService.update({
         ...user,
-        role: role.name as User["role"],
+        role: knownRole,
         roleId: role.id,
         permissions: [...role.permissions],
         updatedAt: new Date(),
@@ -218,7 +253,13 @@ export function createRoleRoutes(
       const user = await userService.findById(String(req.params.userId));
       if (!user) throw new NotFoundError("User", String(req.params.userId));
 
+      if (user.role === "admin" && req.userRole !== "admin") {
+        res.status(403).json({ error: "Only admins can edit admin permissions" });
+        return;
+      }
+
       const normalized = normalizePermissions(parsed.data.permissions);
+      assertPermissionCeiling(req.userPermissions, normalized, req.userRole);
 
       const updated = await userService.update({
         ...user,

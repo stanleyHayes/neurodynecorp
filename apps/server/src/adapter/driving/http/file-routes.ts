@@ -1,6 +1,7 @@
 import { Router } from "express";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 
 // ---- Service interface ----
@@ -73,7 +74,7 @@ export function createFileRoutes(
   }
 
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client") {
+    if (isClientActor(req.userRole)) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
     }

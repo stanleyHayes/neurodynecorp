@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requireRole, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor, isStaffRole } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import {
   createSupportTicket,
@@ -47,14 +48,14 @@ export function createSupportTicketRoutes(
 
   // Row-level isolation: a client may only touch tickets for a project they own.
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client") {
+    if (isClientActor(req.userRole)) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
     }
   }
 
-  // Fail closed: an absent role is treated as non-staff (a client), never staff.
-  const isStaff = (req: Request) => req.userRole != null && req.userRole !== "client";
+  // Fail closed: an absent / unknown role is treated as non-staff.
+  const isStaff = (req: Request) => isStaffRole(req.userRole);
 
   // POST / — owning client OR staff raises a ticket.
   router.post("/", async (req: Request, res: Response, next: NextFunction) => {
@@ -90,7 +91,7 @@ export function createSupportTicketRoutes(
         return;
       }
       // No projectId: global list is staff-only; clients get an empty set.
-      if (req.userRole === "client") {
+      if (isClientActor(req.userRole)) {
         res.json({ items: [], total: 0 });
         return;
       }

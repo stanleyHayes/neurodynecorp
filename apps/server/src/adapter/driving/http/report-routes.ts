@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requireRole, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import {
   createReport,
@@ -65,7 +66,7 @@ export function createReportRoutes(
   const auth = authMiddleware(tokenService);
   router.use(auth);
 
-  const isClient = (req: Request): boolean => req.userRole === "client";
+  const isClient = (req: Request): boolean => isClientActor(req.userRole);
 
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
     if (isClient(req)) {

@@ -100,13 +100,31 @@ function envBool(key: string, fallback: boolean): boolean {
 }
 
 export function loadConfig(): AppConfig {
+  const environment = env("NEURODYNE_ENV", "development") as ServerConfig["environment"];
+  const accessSecret = env("NEURODYNE_JWT_ACCESS_SECRET", "dev-access-secret-change-me");
+  const refreshSecret = env("NEURODYNE_JWT_REFRESH_SECRET", "dev-refresh-secret-change-me");
+  const insecureDefaults = new Set([
+    "dev-access-secret-change-me",
+    "dev-refresh-secret-change-me",
+    "change-me-access-secret",
+    "change-me-refresh-secret",
+  ]);
+  if (
+    environment === "production" &&
+    (insecureDefaults.has(accessSecret) || insecureDefaults.has(refreshSecret))
+  ) {
+    throw new Error(
+      "Refusing to start: set strong NEURODYNE_JWT_ACCESS_SECRET and NEURODYNE_JWT_REFRESH_SECRET in production",
+    );
+  }
+
   return {
     server: {
       // Render and other PaaS providers assign the public HTTP port through
       // PORT. Keep NEURODYNE_PORT as the local/container fallback.
       port: envInt("PORT", envInt("NEURODYNE_PORT", 4000)),
       host: env("NEURODYNE_HOST", "0.0.0.0"),
-      environment: env("NEURODYNE_ENV", "development") as ServerConfig["environment"],
+      environment,
       corsOrigins: env(
         "NEURODYNE_CORS_ORIGINS",
         // Dev defaults: allow all common Vite ports + any localhost variant
@@ -133,8 +151,8 @@ export function loadConfig(): AppConfig {
       groupId: env("NEURODYNE_KAFKA_GROUP_ID", "neurodyne-group"),
     },
     jwt: {
-      accessSecret: env("NEURODYNE_JWT_ACCESS_SECRET", "dev-access-secret-change-me"),
-      refreshSecret: env("NEURODYNE_JWT_REFRESH_SECRET", "dev-refresh-secret-change-me"),
+      accessSecret,
+      refreshSecret,
       accessExpiresIn: env("NEURODYNE_JWT_ACCESS_EXPIRES", "15m"),
       refreshExpiresIn: env("NEURODYNE_JWT_REFRESH_EXPIRES", "7d"),
     },

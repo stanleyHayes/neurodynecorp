@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requireRole, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import {
   createApproval,
@@ -52,7 +53,7 @@ export function createApprovalRoutes(
   router.use(auth);
 
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client") {
+    if (isClientActor(req.userRole)) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
     }

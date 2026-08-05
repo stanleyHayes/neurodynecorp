@@ -30,19 +30,34 @@ interface InvoiceDoc {
   updated_at: Date;
 }
 
-function toDoc(i: Invoice): InvoiceDoc {
+/** Accept domain Invoice or BillingService shape (`items` / `total` / `paymentId`). */
+function toDoc(invoice: Invoice | Record<string, any>): InvoiceDoc {
+  const i = invoice as Record<string, any>;
+  const lineItems =
+    Array.isArray(i.lineItems) && i.lineItems.length > 0
+      ? i.lineItems
+      : Array.isArray(i.items)
+        ? i.items.map((li: any) => ({
+            id: li.id ?? new ObjectId().toHexString(),
+            description: li.description,
+            quantity: li.quantity,
+            unitPrice: li.unitPrice ?? li.unit_price ?? 0,
+            amount: li.amount ?? li.total ?? 0,
+          }))
+        : [];
+
   return {
     _id: new ObjectId(i.id),
     project_id: i.projectId,
     client_id: i.clientId,
     invoice_number: i.invoiceNumber,
     status: i.status,
-    line_items: i.lineItems.map((li) => ({
-      id: li.id,
+    line_items: lineItems.map((li: any) => ({
+      id: li.id ?? new ObjectId().toHexString(),
       description: li.description,
       quantity: li.quantity,
-      unit_price: li.unitPrice,
-      amount: li.amount,
+      unit_price: li.unitPrice ?? li.unit_price ?? 0,
+      amount: li.amount ?? li.total ?? 0,
     })),
     subtotal: i.subtotal,
     tax: i.tax,
@@ -51,7 +66,7 @@ function toDoc(i: Invoice): InvoiceDoc {
     due_date: i.dueDate,
     paid_at: i.paidAt,
     payment_provider: i.paymentProvider,
-    payment_reference: i.paymentReference,
+    payment_reference: i.paymentReference ?? i.paymentId,
     notes: i.notes,
     created_at: i.createdAt,
     updated_at: i.updatedAt,

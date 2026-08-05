@@ -103,7 +103,10 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
       } as any);
       res.status(201).json({
         user: sanitizeUser(result.user as unknown as Record<string, unknown>),
-        ...result.tokens,
+        accessToken: result.tokens.accessToken,
+        refreshToken: result.tokens.refreshToken,
+        access_token: result.tokens.accessToken,
+        refresh_token: result.tokens.refreshToken,
       });
     } catch (err) {
       if (err instanceof UserExistsError) {
@@ -124,7 +127,10 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
       const result = await authService.login(parsed.data.email, parsed.data.password);
       res.status(200).json({
         user: sanitizeUser(result.user as unknown as Record<string, unknown>),
-        ...result.tokens,
+        accessToken: result.tokens.accessToken,
+        refreshToken: result.tokens.refreshToken,
+        access_token: result.tokens.accessToken,
+        refresh_token: result.tokens.refreshToken,
       });
     } catch (err) {
       if (err instanceof InvalidCredentialsError || err instanceof UserInactiveError) {
@@ -143,7 +149,12 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
       }
 
       const tokens = await authService.refreshToken(parsed.data.refreshToken);
-      res.status(200).json(tokens);
+      res.status(200).json({
+        accessToken: tokens.accessToken,
+        refreshToken: tokens.refreshToken,
+        access_token: tokens.accessToken,
+        refresh_token: tokens.refreshToken,
+      });
     } catch (err) {
       if (err instanceof InvalidTokenError || err instanceof UserInactiveError) {
         return next(new UnauthorizedError(err.message));

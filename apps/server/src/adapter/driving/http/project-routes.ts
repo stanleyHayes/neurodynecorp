@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError, AppError } from "../../../middleware/error-handler.js";
 import type { ProjectService } from "../../../app/project-service.js";
 import { ProjectNotFoundError, InvalidStatusTransitionError } from "../../../app/project-service.js";
@@ -212,7 +213,7 @@ export function createProjectRoutes(
       };
 
       // Clients can only see their own projects
-      if (req.userRole === "client") {
+      if (isClientActor(req.userRole)) {
         filter["clientId"] = req.userId!;
       }
 
@@ -236,7 +237,7 @@ export function createProjectRoutes(
       const project = await projectService.getProject(String(req.params.id));
       // The list endpoint scopes clients to their own projects; the detail
       // endpoint did not, so a client could read any project by id.
-      if (req.userRole === "client" && project.clientId !== req.userId) {
+      if (isClientActor(req.userRole) && project.clientId !== req.userId) {
         return next(new NotFoundError("Project", String(req.params.id)));
       }
       res.status(200).json(await serializeProject(project, userLookup));

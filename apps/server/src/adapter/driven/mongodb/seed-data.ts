@@ -14,6 +14,7 @@ import type { Thread, Message } from "../../../domain/entity/message.js";
 import type { QuestionnaireResponse } from "../../../domain/entity/questionnaire.js";
 import type { RBACRole as Role } from "../../../domain/entity/role.js";
 import { perm, RESOURCES, ACTIONS, type Permission } from "../../../domain/entity/permission.js";
+import { CLIENT_DEFAULT_PERMISSIONS } from "../../../domain/entity/default-permissions.js";
 
 // ── Pre-generated ObjectId hex strings ──────────────────────────────────────
 // Generated once so foreign-key references are consistent across collections.
@@ -182,20 +183,7 @@ const QA_PERMISSIONS = [
   perm("settings", "update"),
 ];
 
-const CLIENT_PERMISSIONS: string[] = [
-  perm("dashboard", "read"),
-  perm("projects", "read"),
-  // Clients approve/reject specs (README + portal); read required by weight rules.
-  perm("specifications", "read"),
-  perm("specifications", "update"),
-  perm("messages", "read"),
-  perm("messages", "create"),
-  perm("billing", "read"),
-  perm("notifications", "read"),
-  perm("documents", "read"),
-  perm("settings", "read"),
-  perm("settings", "update"),
-];
+const CLIENT_PERMISSIONS: string[] = CLIENT_DEFAULT_PERMISSIONS;
 
 // ── Roles ──────────────────────────────────────────────────────────────────
 

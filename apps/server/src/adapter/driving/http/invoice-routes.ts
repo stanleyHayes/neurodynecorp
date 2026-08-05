@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError, AppError } from "../../../middleware/error-handler.js";
 import type { BillingService } from "../../../app/billing-service.js";
 import { InvoiceNotFoundError, InvoiceAlreadyPaidError } from "../../../app/billing-service.js";
@@ -60,6 +61,39 @@ const markPaidSchema = z
   .refine((d) => d.paymentId ?? d.payment_id, { message: "paymentId is required" })
   .transform((d) => ({ paymentId: (d.paymentId ?? d.payment_id)! }));
 
+function toApiInvoice(invoice: Record<string, any>) {
+  const lineItems = invoice.lineItems ?? invoice.items ?? [];
+  const items = lineItems.map((li: any) => ({
+    description: li.description,
+    quantity: li.quantity,
+    unit_price: li.unitPrice ?? li.unit_price ?? 0,
+    total: li.amount ?? li.total ?? 0,
+  }));
+  return {
+    id: invoice.id,
+    project_id: invoice.projectId,
+    client_id: invoice.clientId,
+    invoice_number: invoice.invoiceNumber,
+    status: invoice.status,
+    items,
+    subtotal: invoice.subtotal,
+    tax: invoice.tax,
+    total: invoice.total,
+    currency: invoice.currency,
+    due_date: invoice.dueDate,
+    paid_at: invoice.paidAt,
+    payment_id: invoice.paymentId ?? invoice.paymentReference,
+    created_at: invoice.createdAt,
+    updated_at: invoice.updatedAt,
+    // camelCase retained for existing consumers
+    projectId: invoice.projectId,
+    clientId: invoice.clientId,
+    invoiceNumber: invoice.invoiceNumber,
+    dueDate: invoice.dueDate,
+    paidAt: invoice.paidAt,
+  };
+}
+
 // ---- Route factory ----
 
 export function createInvoiceRoutes(billingService: BillingService, tokenService: TokenService): Router {
@@ -87,7 +121,7 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
           parsed.data.currency,
           parsed.data.dueDate,
         );
-        res.status(201).json(invoice);
+        res.status(201).json(toApiInvoice(invoice as unknown as Record<string, any>));
       } catch (err) {
         next(err);
       }
@@ -103,7 +137,7 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
       }
 
       let clientId: string;
-      if (req.userRole === "client") {
+      if (isClientActor(req.userRole)) {
         // Clients always see their own invoices — ignore any clientId query.
         clientId = req.userId!;
       } else {
@@ -121,7 +155,14 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
       }
 
       const result = await billingService.listByClient(clientId, parsed.data.page, parsed.data.pageSize);
-      res.status(200).json(result);
+      const items = result.invoices.map((inv) => toApiInvoice(inv as unknown as Record<string, any>));
+      res.status(200).json({
+        items,
+        invoices: items,
+        total: result.total,
+        page: parsed.data.page,
+        page_size: parsed.data.pageSize,
+      });
     } catch (err) {
       next(err);
     }
@@ -131,7 +172,7 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const invoice = await billingService.getById(String(req.params.id));
-      if (req.userRole === "client") {
+      if (isClientActor(req.userRole)) {
         if (invoice.clientId !== req.userId) {
           return next(new NotFoundError("Invoice", String(req.params.id)));
         }
@@ -142,7 +183,7 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
           return;
         }
       }
-      res.status(200).json(invoice);
+      res.status(200).json(toApiInvoice(invoice as unknown as Record<string, any>));
     } catch (err) {
       if (err instanceof InvoiceNotFoundError) {
         return next(new NotFoundError("Invoice", String(req.params.id)));
@@ -163,7 +204,7 @@ export function createInvoiceRoutes(billingService: BillingService, tokenService
         }
 
         const invoice = await billingService.markPaid(String(req.params.id), parsed.data.paymentId);
-        res.status(200).json(invoice);
+        res.status(200).json(toApiInvoice(invoice as unknown as Record<string, any>));
       } catch (err) {
         if (err instanceof InvoiceNotFoundError) {
           return next(new NotFoundError("Invoice", String(req.params.id)));

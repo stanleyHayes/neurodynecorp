@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Task, Sprint } from "../../../domain/entity/task.js";
 import type { TaskFilter } from "../../../domain/port/repository.js";
@@ -114,7 +115,7 @@ export function createTaskRoutes(
 
   // Clients may only touch tasks/sprints for projects they own (404, not 403).
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client") {
+    if (isClientActor(req.userRole)) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
     }
@@ -279,7 +280,7 @@ export function createTaskRoutes(
         }
 
         // Clients must scope by project they own — never dump the global task list.
-        if (req.userRole === "client") {
+        if (isClientActor(req.userRole)) {
           if (!parsed.data.projectId) {
             throw new ValidationError("projectId query parameter is required");
           }

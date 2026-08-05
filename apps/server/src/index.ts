@@ -103,6 +103,7 @@ import { MongoGlossaryRepository } from "./adapter/driven/mongodb/glossary-repos
 import { MongoNewsletterRepository } from "./adapter/driven/mongodb/newsletter-repository.js";
 import { MongoChangelogRepository } from "./adapter/driven/mongodb/changelog-repository.js";
 import { rateLimit } from "./middleware/rate-limit.js";
+import { isStaffRole } from "./middleware/rbac-helpers.js";
 
 import { JwtTokenService } from "./adapter/driven/auth/jwt.js";
 import { BcryptPasswordHasher } from "./adapter/driven/auth/password.js";
@@ -494,13 +495,12 @@ async function main(): Promise<void> {
       return null;
     }
   };
-  const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
   const canAccessProject = async (input: {
     userId: string;
     role: string;
     projectId: string;
   }): Promise<boolean> => {
-    if (STAFF_ROLES.has(input.role)) return true;
+    if (isStaffRole(input.role)) return true;
     const ownerId = await getProjectOwnerId(input.projectId);
     return !!ownerId && ownerId === input.userId;
   };

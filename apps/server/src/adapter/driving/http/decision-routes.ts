@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requireRole, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import { createDecision, DECISION_STATUSES, type Decision, type DecisionStatus } from "../../../domain/entity/decision.js";
 
@@ -49,7 +50,7 @@ export function createDecisionRoutes(
   // Row-level isolation: a client may only touch decisions for a project they own.
   // Mapped to 404 (not 403) so we don't leak the existence of other clients' projects.
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client") {
+    if (isClientActor(req.userRole)) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
     }

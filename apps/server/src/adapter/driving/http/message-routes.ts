@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
+import { isClientActor, isStaffRole } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Thread, Message } from "../../../domain/entity/message.js";
 
@@ -58,14 +59,12 @@ export function createMessageRoutes(
   // authorization boundary — but it was never enforced on read or reply, so any
   // authenticated user could read (or post into) any thread by id.
   // Staff roles retain cross-thread visibility for support purposes.
-  const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
-
   function isStaff(req: Request): boolean {
-    return !!req.userRole && STAFF_ROLES.has(req.userRole);
+    return isStaffRole(req.userRole);
   }
 
   async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
-    if (req.userRole === "client" && getProjectOwnerId) {
+    if (isClientActor(req.userRole) && getProjectOwnerId) {
       const ownerId = await getProjectOwnerId(projectId);
       if (!ownerId || ownerId !== req.userId) {
         throw new NotFoundError("project", projectId);
@@ -201,7 +200,8 @@ export function createMessageRoutes(
         return;
       }
       const messages = await messageService.getMessages(String(req.params.threadId));
-      res.status(200).json({ messages });
+      // `items` matches ApiClient / portal list consumers; `messages` kept as alias.
+      res.status(200).json({ messages, items: messages, total: messages.length });
     } catch (err) {
       next(err);
     }
