@@ -187,6 +187,13 @@ export function createRoleRoutes(
       const role = await roleService.findById(parsed.data.roleId);
       if (!role) throw new NotFoundError("Role", parsed.data.roleId);
 
+      // Only admins may grant the admin role — blocks privilege escalation via a
+      // custom role that somehow holds roles:update.
+      if (role.name === "admin" && req.userRole !== "admin") {
+        res.status(403).json({ error: "Only admins can assign the admin role" });
+        return;
+      }
+
       const updated = await userService.update({
         ...user,
         role: role.name as User["role"],

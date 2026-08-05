@@ -8,17 +8,33 @@ import type { TaskFilter } from "../../../domain/port/repository.js";
 
 // ---- Validation schemas ----
 
-const createTaskSchema = z.object({
-  projectId: z.string().min(1),
-  sprintId: z.string().optional(),
-  title: z.string().min(1).max(200),
-  description: z.string().max(5000).optional().default(""),
-  assigneeId: z.string().optional(),
-  priority: z.enum(["low", "medium", "high", "critical"]).optional().default("medium"),
-  labels: z.array(z.string()).optional(),
-  storyPoints: z.number().positive().optional(),
-  dueDate: z.coerce.date().optional(),
-});
+const createTaskSchema = z
+  .object({
+    projectId: z.string().min(1).optional(),
+    project_id: z.string().min(1).optional(),
+    sprintId: z.string().optional(),
+    sprint_id: z.string().optional(),
+    title: z.string().min(1).max(200),
+    description: z.string().max(5000).optional().default(""),
+    assigneeId: z.string().optional(),
+    assignee_id: z.string().optional(),
+    priority: z.enum(["low", "medium", "high", "critical"]).optional().default("medium"),
+    labels: z.array(z.string()).optional(),
+    storyPoints: z.number().positive().optional(),
+    dueDate: z.coerce.date().optional(),
+  })
+  .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
+  .transform((d) => ({
+    projectId: (d.projectId ?? d.project_id)!,
+    sprintId: d.sprintId ?? d.sprint_id,
+    title: d.title,
+    description: d.description,
+    assigneeId: d.assigneeId ?? d.assignee_id,
+    priority: d.priority,
+    labels: d.labels,
+    storyPoints: d.storyPoints,
+    dueDate: d.dueDate,
+  }));
 
 const updateTaskSchema = z.object({
   title: z.string().min(1).max(200).optional(),
@@ -46,14 +62,27 @@ const updateSprintSchema = z.object({
   status: z.enum(["planning", "active", "completed"]).optional(),
 });
 
-const listTasksSchema = z.object({
-  projectId: z.string().optional(),
-  sprintId: z.string().optional(),
-  assigneeId: z.string().optional(),
-  status: z.enum(["backlog", "todo", "in_progress", "in_review", "done", "cancelled"]).optional(),
-  priority: z.enum(["low", "medium", "high", "critical"]).optional(),
-  search: z.string().optional(),
-});
+const listTasksSchema = z
+  .object({
+    projectId: z.string().optional(),
+    project_id: z.string().optional(),
+    sprintId: z.string().optional(),
+    assigneeId: z.string().optional(),
+    status: z.enum(["backlog", "todo", "in_progress", "in_review", "done", "cancelled"]).optional(),
+    priority: z.enum(["low", "medium", "high", "critical"]).optional(),
+    search: z.string().optional(),
+  })
+  .transform((d) => ({
+    projectId: d.projectId ?? d.project_id,
+    sprintId: d.sprintId,
+    assigneeId: d.assigneeId,
+    status: d.status,
+    priority: d.priority,
+    search: d.search,
+  }));
+
+/** Returns the owning client's userId for a project, or null if unknown. */
+type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
 
 // ---- Service interface ----
 
@@ -73,11 +102,23 @@ export interface TaskService {
 
 // ---- Route factory ----
 
-export function createTaskRoutes(taskService: TaskService, tokenService: TokenService): Router {
+export function createTaskRoutes(
+  taskService: TaskService,
+  tokenService: TokenService,
+  getProjectOwnerId: ProjectOwnerLookup,
+): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
 
   router.use(auth);
+
+  // Clients may only touch tasks/sprints for projects they own (404, not 403).
+  async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
+    if (req.userRole === "client") {
+      const ownerId = await getProjectOwnerId(projectId);
+      if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
+    }
+  }
 
   // ---- Sprints (must be before /:id to avoid conflict) ----
 
@@ -92,6 +133,8 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
           throw new ValidationError("Invalid sprint data", parsed.error.flatten());
         }
 
+        await assertProjectAccess(req, parsed.data.projectId);
+
         const { createSprint: buildSprint } = await import("../../../domain/entity/task.js");
         const sprint = buildSprint(parsed.data as any);
         const created = await taskService.createSprint(sprint);
@@ -103,32 +146,47 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
   );
 
   // GET /api/v1/tasks/sprints?projectId=
-  router.get("/sprints", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const projectId = req.query["projectId"] as string;
-      if (!projectId) {
-        throw new ValidationError("projectId query parameter is required");
-      }
+  router.get(
+    "/sprints",
+    requirePermission("tasks:read"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const projectId = req.query["projectId"] as string;
+        if (!projectId) {
+          throw new ValidationError("projectId query parameter is required");
+        }
 
-      const sprints = await taskService.listSprints(projectId);
-      res.status(200).json({ sprints, items: sprints, total: sprints.length });
-    } catch (err) {
-      next(err);
-    }
-  });
+        await assertProjectAccess(req, projectId);
+
+        const sprints = await taskService.listSprints(projectId);
+        res.status(200).json({ sprints, items: sprints, total: sprints.length });
+      } catch (err) {
+        next(err);
+      }
+    },
+  );
 
   // GET /api/v1/tasks/sprints/:id
-  router.get("/sprints/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const sprint = await taskService.findSprint(String(req.params.id));
-      if (!sprint) {
-        throw new NotFoundError("Sprint", String(req.params.id));
+  router.get(
+    "/sprints/:id",
+    requirePermission("tasks:read"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const sprint = await taskService.findSprint(String(req.params.id));
+        if (!sprint) {
+          throw new NotFoundError("Sprint", String(req.params.id));
+        }
+        try {
+          await assertProjectAccess(req, sprint.projectId);
+        } catch {
+          throw new NotFoundError("Sprint", String(req.params.id));
+        }
+        res.status(200).json(sprint);
+      } catch (err) {
+        next(err);
       }
-      res.status(200).json(sprint);
-    } catch (err) {
-      next(err);
-    }
-  });
+    },
+  );
 
   // PATCH /api/v1/tasks/sprints/:id
   router.patch(
@@ -145,6 +203,8 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
         if (!existing) {
           throw new NotFoundError("Sprint", String(req.params.id));
         }
+
+        await assertProjectAccess(req, existing.projectId);
 
         const updated = await taskService.updateSprint({
           ...existing,
@@ -164,6 +224,12 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
     requirePermission("tasks:create"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const existing = await taskService.findSprint(String(req.params.id));
+        if (!existing) {
+          throw new NotFoundError("Sprint", String(req.params.id));
+        }
+        await assertProjectAccess(req, existing.projectId);
+
         await taskService.deleteSprint(String(req.params.id));
         res.status(204).end();
       } catch (err) {
@@ -175,85 +241,120 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
   // ---- Tasks ----
 
   // POST /api/v1/tasks
-  router.post("/", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const parsed = createTaskSchema.safeParse(req.body);
-      if (!parsed.success) {
-        throw new ValidationError("Invalid task data", parsed.error.flatten());
-      }
+  router.post(
+    "/",
+    requirePermission("tasks:create"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const parsed = createTaskSchema.safeParse(req.body);
+        if (!parsed.success) {
+          throw new ValidationError("Invalid task data", parsed.error.flatten());
+        }
 
-      const { createTask: buildTask } = await import("../../../domain/entity/task.js");
-      const task = buildTask({
-        ...(parsed.data as any),
-        description: parsed.data.description ?? "",
-        reporterId: req.userId!,
-      });
-      const created = await taskService.createTask(task);
-      res.status(201).json(created);
-    } catch (err) {
-      next(err);
-    }
-  });
+        await assertProjectAccess(req, parsed.data.projectId);
+
+        const { createTask: buildTask } = await import("../../../domain/entity/task.js");
+        const task = buildTask({
+          ...(parsed.data as any),
+          description: parsed.data.description ?? "",
+          reporterId: req.userId!,
+        });
+        const created = await taskService.createTask(task);
+        res.status(201).json(created);
+      } catch (err) {
+        next(err);
+      }
+    },
+  );
 
   // GET /api/v1/tasks
-  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const parsed = listTasksSchema.safeParse(req.query);
-      if (!parsed.success) {
-        throw new ValidationError("Invalid query parameters", parsed.error.flatten());
-      }
+  router.get(
+    "/",
+    requirePermission("tasks:read"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const parsed = listTasksSchema.safeParse(req.query);
+        if (!parsed.success) {
+          throw new ValidationError("Invalid query parameters", parsed.error.flatten());
+        }
 
-      const tasks = await taskService.listTasks(parsed.data as TaskFilter);
-      // `items` mirrors every other list endpoint (the admin Kanban reads it);
-      // `tasks` is kept for existing consumers.
-      res.status(200).json({ tasks, items: tasks, total: tasks.length });
-    } catch (err) {
-      next(err);
-    }
-  });
+        // Clients must scope by project they own — never dump the global task list.
+        if (req.userRole === "client") {
+          if (!parsed.data.projectId) {
+            throw new ValidationError("projectId query parameter is required");
+          }
+          await assertProjectAccess(req, parsed.data.projectId);
+        } else if (parsed.data.projectId) {
+          await assertProjectAccess(req, parsed.data.projectId);
+        }
+
+        const tasks = await taskService.listTasks(parsed.data as TaskFilter);
+        // `items` mirrors every other list endpoint (the admin Kanban reads it);
+        // `tasks` is kept for existing consumers.
+        res.status(200).json({ tasks, items: tasks, total: tasks.length });
+      } catch (err) {
+        next(err);
+      }
+    },
+  );
 
   // GET /api/v1/tasks/:id
-  router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const task = await taskService.findTask(String(req.params.id));
-      if (!task) {
-        throw new NotFoundError("Task", String(req.params.id));
+  router.get(
+    "/:id",
+    requirePermission("tasks:read"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const task = await taskService.findTask(String(req.params.id));
+        if (!task) {
+          throw new NotFoundError("Task", String(req.params.id));
+        }
+        try {
+          await assertProjectAccess(req, task.projectId);
+        } catch {
+          throw new NotFoundError("Task", String(req.params.id));
+        }
+        res.status(200).json(task);
+      } catch (err) {
+        next(err);
       }
-      res.status(200).json(task);
-    } catch (err) {
-      next(err);
-    }
-  });
+    },
+  );
 
   // PATCH /api/v1/tasks/:id
-  router.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
-    try {
-      const parsed = updateTaskSchema.safeParse(req.body);
-      if (!parsed.success) {
-        throw new ValidationError("Invalid task update data", parsed.error.flatten());
+  router.patch(
+    "/:id",
+    requirePermission("tasks:update"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const parsed = updateTaskSchema.safeParse(req.body);
+        if (!parsed.success) {
+          throw new ValidationError("Invalid task update data", parsed.error.flatten());
+        }
+
+        const existing = await taskService.findTask(String(req.params.id));
+        if (!existing) {
+          throw new NotFoundError("Task", String(req.params.id));
+        }
+
+        await assertProjectAccess(req, existing.projectId);
+
+        const merged: Task = {
+          ...existing,
+          ...(parsed.data as any),
+          assigneeId: parsed.data.assigneeId === null ? undefined : (parsed.data.assigneeId ?? existing.assigneeId),
+          storyPoints: parsed.data.storyPoints === null ? undefined : (parsed.data.storyPoints ?? existing.storyPoints),
+          dueDate: parsed.data.dueDate === null ? undefined : (parsed.data.dueDate ?? existing.dueDate),
+          sprintId: parsed.data.sprintId === null ? undefined : (parsed.data.sprintId ?? existing.sprintId),
+          updatedAt: new Date(),
+        } as Task;
+
+        const updated = await taskService.updateTask(merged);
+        res.status(200).json(updated);
+      } catch (err) {
+        next(err);
       }
-
-      const existing = await taskService.findTask(String(req.params.id));
-      if (!existing) {
-        throw new NotFoundError("Task", String(req.params.id));
-      }
-
-      const merged: Task = {
-        ...existing,
-        ...(parsed.data as any),
-        assigneeId: parsed.data.assigneeId === null ? undefined : (parsed.data.assigneeId ?? existing.assigneeId),
-        storyPoints: parsed.data.storyPoints === null ? undefined : (parsed.data.storyPoints ?? existing.storyPoints),
-        dueDate: parsed.data.dueDate === null ? undefined : (parsed.data.dueDate ?? existing.dueDate),
-        sprintId: parsed.data.sprintId === null ? undefined : (parsed.data.sprintId ?? existing.sprintId),
-        updatedAt: new Date(),
-      } as Task;
-
-      const updated = await taskService.updateTask(merged);
-      res.status(200).json(updated);
-    } catch (err) {
-      next(err);
-    }
-  });
+    },
+  );
 
   // DELETE /api/v1/tasks/:id
   router.delete(
@@ -261,6 +362,12 @@ export function createTaskRoutes(taskService: TaskService, tokenService: TokenSe
     requirePermission("tasks:create"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const existing = await taskService.findTask(String(req.params.id));
+        if (!existing) {
+          throw new NotFoundError("Task", String(req.params.id));
+        }
+        await assertProjectAccess(req, existing.projectId);
+
         await taskService.deleteTask(String(req.params.id));
         res.status(204).end();
       } catch (err) {

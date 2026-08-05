@@ -74,7 +74,22 @@ export class ApiClient {
     return this.request<AuthResponse>("/api/v1/auth/login", { method: "POST", body: { email, password } });
   }
   refreshToken(refreshToken: string) {
-    return this.request<{ access_token: string; refresh_token: string }>("/api/v1/auth/refresh", { method: "POST", body: { refresh_token: refreshToken } });
+    return this.request<{ accessToken: string; refreshToken: string }>("/api/v1/auth/refresh", {
+      method: "POST",
+      body: { refreshToken },
+    });
+  }
+  forgotPassword(email: string) {
+    return this.request<{ message: string }>("/api/v1/auth/forgot-password", {
+      method: "POST",
+      body: { email },
+    });
+  }
+  resetPassword(token: string, password: string) {
+    return this.request<{ message: string }>("/api/v1/auth/reset-password", {
+      method: "POST",
+      body: { token, password },
+    });
   }
   getProfile() {
     return this.request<UserData>("/api/v1/auth/profile");
@@ -97,7 +112,10 @@ export class ApiClient {
     return this.request<Project>(`/api/v1/projects/${id}/status`, { method: "PATCH", body: { status } });
   }
   assignTeam(id: string, teamMemberIds: string[]) {
-    return this.request<{ status: string }>(`/api/v1/projects/${id}/team`, { method: "PUT", body: { team_member_ids: teamMemberIds } });
+    return this.request<{ status: string }>(`/api/v1/projects/${id}/team`, {
+      method: "PUT",
+      body: { teamMemberIds },
+    });
   }
   updateProgress(id: string, progress: number) {
     return this.request<{ status: string }>(`/api/v1/projects/${id}/progress`, { method: "PATCH", body: { progress } });
@@ -105,12 +123,13 @@ export class ApiClient {
 
   // Specifications
   generateSpec(projectId: string) {
-    return this.request<Specification>("/api/v1/specifications", { method: "POST", body: { project_id: projectId } });
+    return this.request<Specification>("/api/v1/specifications", { method: "POST", body: { projectId } });
   }
   getSpec(id: string) {
     return this.request<Specification>(`/api/v1/specifications/${id}`);
   }
   getSpecByProject(projectId: string) {
+    // Server accepts project_id (documented) and projectId.
     return this.request<Specification>("/api/v1/specifications", { params: { project_id: projectId } });
   }
   approveSpec(id: string) {
@@ -131,10 +150,16 @@ export class ApiClient {
     return this.request<{ questions: Question[] }>("/api/v1/questionnaire/adaptive", { method: "POST", body: { answers } });
   }
   saveQuestionnaireResponse(projectId: string, answers: AnswerInput[]) {
-    return this.request<QuestionnaireResponse>("/api/v1/questionnaire/responses", { method: "POST", body: { project_id: projectId, answers } });
+    return this.request<QuestionnaireResponse>("/api/v1/questionnaire/responses", {
+      method: "POST",
+      body: { projectId, answers },
+    });
   }
   completeQuestionnaire(projectId: string) {
-    return this.request<QuestionnaireResponse>("/api/v1/questionnaire/complete", { method: "POST", body: { project_id: projectId } });
+    return this.request<QuestionnaireResponse>("/api/v1/questionnaire/complete", {
+      method: "POST",
+      body: { projectId },
+    });
   }
 
   // Project discovery intakes
@@ -198,15 +223,34 @@ export class ApiClient {
     });
   }
 
-  // Tasks
+  // Tasks — server validates camelCase and uses PATCH for updates.
   listTasks(projectId: string, params?: Record<string, string>) {
-    return this.request<PaginatedResponse<Task>>("/api/v1/tasks", { params: { project_id: projectId, ...params } });
+    return this.request<PaginatedResponse<Task>>("/api/v1/tasks", {
+      params: { projectId, ...params },
+    });
   }
-  createTask(data: { project_id: string; title: string; description?: string; priority: string; assignee_id?: string; sprint_id?: string }) {
-    return this.request<Task>("/api/v1/tasks", { method: "POST", body: data });
+  createTask(data: {
+    project_id: string;
+    title: string;
+    description?: string;
+    priority: string;
+    assignee_id?: string;
+    sprint_id?: string;
+  }) {
+    return this.request<Task>("/api/v1/tasks", {
+      method: "POST",
+      body: {
+        projectId: data.project_id,
+        title: data.title,
+        description: data.description,
+        priority: data.priority,
+        assigneeId: data.assignee_id,
+        sprintId: data.sprint_id,
+      },
+    });
   }
   updateTask(id: string, data: Partial<Task>) {
-    return this.request<Task>(`/api/v1/tasks/${id}`, { method: "PUT", body: data });
+    return this.request<Task>(`/api/v1/tasks/${id}`, { method: "PATCH", body: data });
   }
   deleteTask(id: string) {
     return this.request<{ status: string }>(`/api/v1/tasks/${id}`, { method: "DELETE" });
@@ -220,10 +264,28 @@ export class ApiClient {
     return this.request<Invoice>(`/api/v1/invoices/${id}`);
   }
   createInvoice(data: CreateInvoiceData) {
-    return this.request<Invoice>("/api/v1/invoices", { method: "POST", body: data });
+    return this.request<Invoice>("/api/v1/invoices", {
+      method: "POST",
+      body: {
+        projectId: data.project_id,
+        clientId: data.client_id,
+        items: data.items.map((item) => ({
+          description: item.description,
+          quantity: item.quantity,
+          unitPrice: item.unit_price,
+          total: item.quantity * item.unit_price,
+        })),
+        tax: data.tax,
+        currency: data.currency,
+        dueDate: data.due_date,
+      },
+    });
   }
   markInvoicePaid(id: string, paymentId?: string) {
-    return this.request<Invoice>(`/api/v1/invoices/${id}/pay`, { method: "POST", body: { payment_id: paymentId } });
+    return this.request<Invoice>(`/api/v1/invoices/${id}/paid`, {
+      method: "POST",
+      body: { paymentId: paymentId ?? `manual-${Date.now()}` },
+    });
   }
 
   // File Upload

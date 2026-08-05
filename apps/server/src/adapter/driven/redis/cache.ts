@@ -52,6 +52,11 @@ export class RedisCacheService implements CacheService {
     await this.redis.del(key);
   }
 
+  /** Alias used by AuthService and other app ports. */
+  async del(key: string): Promise<void> {
+    await this.delete(key);
+  }
+
   async exists(key: string): Promise<boolean> {
     const result = await this.redis.exists(key);
     return result === 1;

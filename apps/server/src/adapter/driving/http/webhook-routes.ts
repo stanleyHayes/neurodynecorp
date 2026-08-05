@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import { randomBytes, createHmac } from "crypto";
 import type { Request, Response, NextFunction } from "express";
-import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
+import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import {
   createWebhookSubscription,
@@ -10,6 +10,7 @@ import {
   type WebhookSubscription,
 } from "../../../domain/entity/webhook.js";
 import type { MongoWebhookRepository } from "../../../adapter/driven/mongodb/webhook-repository.js";
+import { assertSafeOutboundUrl } from "./url-safety.js";
 
 // ---- Validation schemas ----
 
@@ -43,7 +44,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   router.use(auth);
 
   // GET / — list owner's subscriptions (secret masked)
-  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  router.get("/", requirePermission("webhooks:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const subs = await repo.listByOwner(req.userId!);
       res.status(200).json({ items: subs.map(toMasked), total: subs.length });
@@ -53,12 +54,14 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // POST / — create subscription (full secret shown once)
-  router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/", requirePermission("webhooks:create"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = createSubscriptionSchema.safeParse(req.body);
       if (!parsed.success) {
         throw new ValidationError("Invalid data", parsed.error.flatten());
       }
+
+      await assertSafeOutboundUrl(parsed.data.url);
 
       const secret = "whsec_" + randomBytes(24).toString("hex");
       const subscription = createWebhookSubscription({
@@ -77,7 +80,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // PATCH /:id — update url/events/active (owner-scoped)
-  router.patch("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  router.patch("/:id", requirePermission("webhooks:update"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = updateSubscriptionSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -87,6 +90,10 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
       const existing = await repo.getById(String(req.params.id));
       if (!existing || existing.ownerId !== req.userId!) {
         throw new NotFoundError("webhook", String(req.params.id));
+      }
+
+      if (parsed.data.url) {
+        await assertSafeOutboundUrl(parsed.data.url);
       }
 
       const updated = await repo.update({
@@ -104,7 +111,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // DELETE /:id — delete subscription (owner-scoped)
-  router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
+  router.delete("/:id", requirePermission("webhooks:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const existing = await repo.getById(String(req.params.id));
       if (!existing || existing.ownerId !== req.userId!) {
@@ -118,7 +125,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // GET /:id/deliveries — list deliveries (owner-scoped)
-  router.get("/:id/deliveries", async (req: Request, res: Response, next: NextFunction) => {
+  router.get("/:id/deliveries", requirePermission("webhooks:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const existing = await repo.getById(String(req.params.id));
       if (!existing || existing.ownerId !== req.userId!) {
@@ -132,12 +139,15 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // POST /:id/test — send a ping delivery (owner-scoped)
-  router.post("/:id/test", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/:id/test", requirePermission("webhooks:create"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const sub = await repo.getById(String(req.params.id));
       if (!sub || sub.ownerId !== req.userId!) {
         throw new NotFoundError("webhook", String(req.params.id));
       }
+
+      // Re-check at delivery time — DNS/IP may have changed since create.
+      await assertSafeOutboundUrl(sub.url);
 
       let delivery = await repo.createDelivery(
         createWebhookDelivery({
@@ -159,6 +169,8 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
             "X-Webhook-Signature": signature,
           },
           body,
+          redirect: "manual",
+          signal: AbortSignal.timeout(5_000),
         });
         delivery = await repo.updateDelivery({
           ...delivery,
@@ -179,7 +191,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
   });
 
   // POST /:id/rotate-secret — generate a new secret (shown once, owner-scoped)
-  router.post("/:id/rotate-secret", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/:id/rotate-secret", requirePermission("webhooks:update"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const existing = await repo.getById(String(req.params.id));
       if (!existing || existing.ownerId !== req.userId!) {

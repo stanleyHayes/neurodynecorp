@@ -214,7 +214,7 @@ export class ProjectService {
       updatedAt: new Date(),
     });
 
-    await this.cache.del(`project:${projectId}`);
+    await this.cache.delete(`project:${projectId}`);
 
     await this.events.publish("project.status_changed", {
       projectId,
@@ -239,7 +239,7 @@ export class ProjectService {
       updatedAt: new Date(),
     });
 
-    await this.cache.del(`project:${projectId}`);
+    await this.cache.delete(`project:${projectId}`);
     return updated;
   }
 
@@ -258,7 +258,7 @@ export class ProjectService {
       updatedAt: new Date(),
     });
 
-    await this.cache.del(`project:${projectId}`);
+    await this.cache.delete(`project:${projectId}`);
     return updated;
   }
 }

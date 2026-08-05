@@ -16,6 +16,7 @@ import { createNotificationRoutes } from "./adapter/driving/http/notification-ro
 import { createMessageRoutes } from "./adapter/driving/http/message-routes.js";
 import { createTaskRoutes } from "./adapter/driving/http/task-routes.js";
 import { createInvoiceRoutes } from "./adapter/driving/http/invoice-routes.js";
+import { createPaymentWebhookHandlers } from "./adapter/driving/http/payment-webhook-routes.js";
 import { createUserRoutes } from "./adapter/driving/http/user-routes.js";
 import { createRoleRoutes } from "./adapter/driving/http/role-routes.js";
 import { createFileRoutes } from "./adapter/driving/http/file-routes.js";
@@ -196,29 +197,40 @@ async function main(): Promise<void> {
     refreshExpiresIn: config.jwt.refreshExpiresIn,
   });
 
-  // Email – use Resend in production, log-only stub in dev when no API key
-  const emailService = config.email.resendApiKey
+  // Email – Resend when configured; always expose AuthService methods
+  // (sendWelcome / sendPasswordReset) so production doesn't call undefined.
+  const resetBase = config.email.passwordResetBaseUrl.replace(/\/$/, "");
+  const resendTransport = config.email.resendApiKey
     ? new ResendEmailService({
         apiKey: config.email.resendApiKey,
         fromAddress: config.email.fromAddress,
       })
-    : {
-        sendEmail: async (to: string, subject: string, _html: string) => {
-          logger.info({ to, subject }, "Email (dev stub, not sent)");
-        },
-        sendTemplateEmail: async (to: string, templateId: string, _vars: Record<string, string>) => {
-          logger.info({ to, templateId }, "Template email (dev stub, not sent)");
-        },
-        sendWelcome: async (email: string, firstName: string) => {
-          logger.info({ email, firstName }, "Welcome email (dev stub, not sent)");
-        },
-        sendPasswordReset: async (email: string, _token: string) => {
-          logger.info({ email }, "Password reset email (dev stub, not sent)");
-        },
-        send: async (to: string, subject: string, _body: string) => {
-          logger.info({ to, subject }, "Email (dev stub, not sent)");
-        },
-      };
+    : null;
+
+  const emailService = {
+    sendEmail: async (to: string, subject: string, html: string) => {
+      if (resendTransport) return resendTransport.sendEmail(to, subject, html);
+      logger.info({ to, subject }, "Email (dev stub, not sent)");
+    },
+    sendTemplateEmail: async (to: string, templateId: string, vars: Record<string, string>) => {
+      if (resendTransport) return resendTransport.sendTemplateEmail(to, templateId, vars);
+      logger.info({ to, templateId }, "Template email (dev stub, not sent)");
+    },
+    sendWelcome: async (email: string, firstName: string) => {
+      const html = `<p>Hi ${firstName},</p><p>Welcome to NeuroDyne Corp.</p>`;
+      return emailService.sendEmail(email, "Welcome to NeuroDyne", html);
+    },
+    sendPasswordReset: async (email: string, token: string) => {
+      const link = `${resetBase}/reset-password?token=${encodeURIComponent(token)}`;
+      const html = `<p>Reset your password:</p><p><a href="${link}">${link}</a></p><p>This link expires in one hour.</p>`;
+      if (!resendTransport) {
+        logger.info({ email, link }, "Password reset email (dev stub — link logged)");
+        return;
+      }
+      return emailService.sendEmail(email, "Reset your NeuroDyne password", html);
+    },
+    send: async (to: string, subject: string, body: string) => emailService.sendEmail(to, subject, body),
+  };
 
   // Cache (Redis) – optional, falls back to no-op in dev
   let cacheService: Any;
@@ -231,11 +243,32 @@ async function main(): Promise<void> {
     });
     logger.info("Connected to Redis");
   } catch {
-    logger.warn("Redis unavailable, using no-op cache");
+    // In-memory fallback so password-reset tokens (and similar) still work in
+    // local/dev when Redis is down. Not shared across instances.
+    logger.warn("Redis unavailable, using in-memory cache");
+    const mem = new Map<string, { value: unknown; expiresAt?: number }>();
     cacheService = {
-      get: async () => null,
-      set: async () => {},
-      del: async () => {},
+      get: async <T>(key: string): Promise<T | null> => {
+        const entry = mem.get(key);
+        if (!entry) return null;
+        if (entry.expiresAt && entry.expiresAt <= Date.now()) {
+          mem.delete(key);
+          return null;
+        }
+        return entry.value as T;
+      },
+      set: async (key: string, value: unknown, ttlSeconds?: number) => {
+        mem.set(key, {
+          value,
+          expiresAt: ttlSeconds ? Date.now() + ttlSeconds * 1000 : undefined,
+        });
+      },
+      delete: async (key: string) => {
+        mem.delete(key);
+      },
+      del: async (key: string) => {
+        mem.delete(key);
+      },
     };
   }
 
@@ -356,6 +389,7 @@ async function main(): Promise<void> {
 
   // Thin service adapters for routes that operate directly on repositories
   const notificationService = {
+    findById: (id: string) => notificationRepo.findById(id),
     findByUserId: (userId: string) => notificationRepo.findByUserId(userId),
     findUnreadByUserId: (userId: string) => notificationRepo.findUnreadByUserId(userId),
     countUnreadByUserId: (userId: string) => notificationRepo.countUnreadByUserId(userId),
@@ -451,9 +485,32 @@ async function main(): Promise<void> {
     limits: { fileSize: 10 * 1024 * 1024 }, // 10MB
   });
 
+  // Owning-client lookup + realtime project-room gate (staff or owning client).
+  const getProjectOwnerId = async (projectId: string): Promise<string | null> => {
+    try {
+      const p = await projectService.getProject(projectId);
+      return (p as Any)?.clientId ?? null;
+    } catch {
+      return null;
+    }
+  };
+  const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
+  const canAccessProject = async (input: {
+    userId: string;
+    role: string;
+    projectId: string;
+  }): Promise<boolean> => {
+    if (STAFF_ROLES.has(input.role)) return true;
+    const ownerId = await getProjectOwnerId(input.projectId);
+    return !!ownerId && ownerId === input.userId;
+  };
+
   // ── Socket.IO hub (created early so routes can reference it; started after server) ──
 
-  const sioHub = new SocketIOHub(tokenService as Any, logger);
+  const sioHub = new SocketIOHub(tokenService as Any, logger, canAccessProject, {
+    corsOrigins: config.server.corsOrigins,
+    allowLocalhost: config.server.environment === "development",
+  });
 
   // ── Express app ─────────────────────────────────────────────────────────────
 
@@ -476,6 +533,27 @@ async function main(): Promise<void> {
       credentials: true,
     }),
   );
+  // Payment provider webhooks need the raw body for HMAC / Stripe signature checks.
+  // Mount them before express.json() so the payload is not pre-parsed.
+  const paymentWebhooks = createPaymentWebhookHandlers(
+    billingService,
+    {
+      stripeWebhookSecret: config.payment.stripe.webhookSecret,
+      paystackWebhookSecret: config.payment.paystack.webhookSecret,
+    },
+    logger,
+  );
+  app.post(
+    "/api/v1/payments/webhooks/stripe",
+    express.raw({ type: "application/json" }),
+    paymentWebhooks.stripe,
+  );
+  app.post(
+    "/api/v1/payments/webhooks/paystack",
+    express.raw({ type: "application/json" }),
+    paymentWebhooks.paystack,
+  );
+
   app.use(express.json({ limit: "5mb" }));
   app.use(express.urlencoded({ extended: true }));
   app.use(metricsMiddleware);
@@ -509,7 +587,7 @@ async function main(): Promise<void> {
   app.use("/api/v1/projects", createProjectRoutes(projectService, tokenService as Any, {
     findById: (id: string) => userRepo.findById(id),
   }));
-  app.use("/api/v1/specifications", createSpecRoutes(specService, tokenService as Any));
+  app.use("/api/v1/specifications", createSpecRoutes(specService, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/questionnaire", createQuestionnaireRoutes(questionnaireService, tokenService as Any));
   app.use("/api/v1/project-intakes", createProjectIntakeRoutes(
     projectIntakeRepo,
@@ -519,17 +597,8 @@ async function main(): Promise<void> {
     { apiKey: process.env["OPENAI_API_KEY"], model: process.env["OPENAI_INTAKE_MODEL"] },
   ));
   app.use("/api/v1/notifications", createNotificationRoutes(notificationService, tokenService as Any));
-  app.use("/api/v1/messages", createMessageRoutes(messageService, tokenService as Any, sioHub));
-  app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any));
-  // Owning-client lookup shared by the project-scoped portal modules (decisions, risks).
-  const getProjectOwnerId = async (projectId: string): Promise<string | null> => {
-    try {
-      const p = await projectService.getProject(projectId);
-      return (p as Any)?.clientId ?? null;
-    } catch {
-      return null;
-    }
-  };
+  app.use("/api/v1/messages", createMessageRoutes(messageService, tokenService as Any, sioHub, getProjectOwnerId));
+  app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/decisions", createDecisionRoutes(decisionRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/risks", createRiskRoutes(riskRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/tickets", createSupportTicketRoutes(supportTicketRepo, tokenService as Any, getProjectOwnerId));
@@ -542,7 +611,7 @@ async function main(): Promise<void> {
   app.use("/api/v1/invoices", createInvoiceRoutes(billingService, tokenService as Any));
   app.use("/api/v1/users", createUserRoutes(userServiceAdapter, tokenService as Any));
   app.use("/api/v1/roles", createRoleRoutes(roleServiceAdapter, userServiceAdapter, tokenService as Any));
-  app.use("/api/v1/files", createFileRoutes(fileServiceAdapter, tokenService as Any, upload));
+  app.use("/api/v1/files", createFileRoutes(fileServiceAdapter, tokenService as Any, upload, getProjectOwnerId));
   app.use("/api/v1/contact", createContactRoutes(contactService));
   app.use("/api/v1/blog", createBlogRoutes(blogPostRepo, tokenService as Any));
   app.use("/api/v1/testimonials", createTestimonialRoutes(testimonialRepo, tokenService as Any));
@@ -735,7 +804,7 @@ ${urls.join("\n")}
 
   const server = createServer(app);
 
-  const wsHub = new WebSocketHub(tokenService as Any, logger);
+  const wsHub = new WebSocketHub(tokenService as Any, logger, canAccessProject);
   wsHub.start(server);
 
   sioHub.start(server);

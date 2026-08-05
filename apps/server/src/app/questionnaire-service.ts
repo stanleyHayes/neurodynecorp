@@ -121,8 +121,9 @@ export class QuestionnaireService {
 
   async saveResponse(
     projectId: string,
-    clientId: string,
+    actorId: string,
     answers: QuestionnaireAnswer[],
+    options?: { isStaff?: boolean },
   ): Promise<QuestionnaireResponse> {
     this.logger.info({ projectId, answerCount: answers.length }, "Saving questionnaire response");
 
@@ -131,11 +132,17 @@ export class QuestionnaireService {
       throw new ProjectNotFoundError(projectId);
     }
 
+    // Clients may only write their own project's questionnaire. Always attribute
+    // the response to the project owner — never to a staff actor's user id.
+    if (!options?.isStaff && project.clientId !== actorId) {
+      throw new ProjectNotFoundError(projectId);
+    }
+
     const now = new Date();
 
     const response = await this.responseRepo.upsertByProject(projectId, {
       projectId,
-      clientId,
+      clientId: project.clientId,
       answers,
       completed: false,
       updatedAt: now,
@@ -145,8 +152,20 @@ export class QuestionnaireService {
     return response;
   }
 
-  async completeQuestionnaire(projectId: string): Promise<QuestionnaireResponse> {
+  async completeQuestionnaire(
+    projectId: string,
+    actorId: string,
+    options?: { isStaff?: boolean },
+  ): Promise<QuestionnaireResponse> {
     this.logger.info({ projectId }, "Completing questionnaire");
+
+    const project = await this.projectRepo.findById(projectId);
+    if (!project) {
+      throw new ProjectNotFoundError(projectId);
+    }
+    if (!options?.isStaff && project.clientId !== actorId) {
+      throw new ProjectNotFoundError(projectId);
+    }
 
     const existing = await this.responseRepo.findByProjectId(projectId);
     if (!existing) {

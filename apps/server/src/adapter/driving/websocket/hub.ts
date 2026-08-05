@@ -13,11 +13,18 @@ export interface WSMessage {
   timestamp: string;
 }
 
+export type ProjectAccessChecker = (input: {
+  userId: string;
+  role: string;
+  projectId: string;
+}) => Promise<boolean>;
+
 // ---- Client entry ----
 
 interface ClientEntry {
   ws: WebSocket;
   userId: string;
+  role: string;
   projectIds: Set<string>;
 }
 
@@ -31,6 +38,7 @@ export class WebSocketHub {
   constructor(
     private readonly tokenService: TokenService,
     private readonly logger: Logger,
+    private readonly canAccessProject: ProjectAccessChecker,
   ) {}
 
   start(server: Server): void {
@@ -46,19 +54,21 @@ export class WebSocketHub {
       }
 
       let userId: string;
+      let role: string;
       try {
         const payload = this.tokenService.validateAccessToken(token);
         userId = payload.userId;
+        role = payload.role;
       } catch {
         ws.close(4001, "Invalid authentication token");
         return;
       }
 
-      this.registerClient(userId, ws);
+      this.registerClient(userId, role, ws);
       this.logger.info({ userId }, "WebSocket client connected");
 
       ws.on("message", (data) => {
-        this.handleMessage(userId, data);
+        void this.handleMessage(userId, data);
       });
 
       ws.on("close", () => {
@@ -81,7 +91,7 @@ export class WebSocketHub {
     this.logger.info("WebSocket hub started");
   }
 
-  private registerClient(userId: string, ws: WebSocket): void {
+  private registerClient(userId: string, role: string, ws: WebSocket): void {
     // Close existing connection for user if any
     const existing = this.clients.get(userId);
     if (existing) {
@@ -92,6 +102,7 @@ export class WebSocketHub {
     this.clients.set(userId, {
       ws,
       userId,
+      role,
       projectIds: new Set(),
     });
   }
@@ -116,15 +127,30 @@ export class WebSocketHub {
     }
   }
 
-  private handleMessage(userId: string, data: unknown): void {
+  private async handleMessage(userId: string, data: unknown): Promise<void> {
     try {
       const raw = typeof data === "string" ? data : String(data);
       const msg = JSON.parse(raw) as { type: string; payload?: Record<string, unknown> };
+      const client = this.clients.get(userId);
+      if (!client) return;
 
       switch (msg.type) {
         case "subscribe_project": {
           const projectId = msg.payload?.["projectId"] as string;
           if (projectId) {
+            const allowed = await this.canAccessProject({
+              userId,
+              role: client.role,
+              projectId,
+            });
+            if (!allowed) {
+              this.sendToUser(userId, {
+                type: "error",
+                payload: { error: "Project not found" },
+                timestamp: new Date().toISOString(),
+              });
+              return;
+            }
             this.subscribeToProject(userId, projectId);
           }
           break;
@@ -139,7 +165,7 @@ export class WebSocketHub {
         case "typing": {
           const projectId = msg.payload?.["projectId"] as string;
           const threadId = msg.payload?.["threadId"] as string;
-          if (projectId) {
+          if (projectId && client.projectIds.has(projectId)) {
             this.broadcastToProject(projectId, {
               type: "typing",
               payload: { userId, threadId },

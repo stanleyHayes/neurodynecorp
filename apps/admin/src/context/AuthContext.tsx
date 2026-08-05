@@ -111,22 +111,21 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   );
 
   const permissions = useMemo(() => user?.permissions ?? [], [user?.permissions]);
-  // If the user has no permissions array (legacy/pre-RBAC data), grant all access
-  const hasPermsData = permissions.length > 0;
 
+  // Fail closed: empty permissions means no access (never treat missing RBAC as admin).
   const hasPermission = useCallback(
-    (permission: string) => !hasPermsData || permissions.includes(permission),
-    [permissions, hasPermsData]
+    (permission: string) => permissions.includes(permission),
+    [permissions]
   );
 
   const hasAnyPermission = useCallback(
-    (...perms: string[]) => !hasPermsData || perms.some((p) => permissions.includes(p)),
-    [permissions, hasPermsData]
+    (...perms: string[]) => perms.some((p) => permissions.includes(p)),
+    [permissions]
   );
 
   const hasAllPermissions = useCallback(
-    (...perms: string[]) => !hasPermsData || perms.every((p) => permissions.includes(p)),
-    [permissions, hasPermsData]
+    (...perms: string[]) => perms.every((p) => permissions.includes(p)),
+    [permissions]
   );
 
   return (

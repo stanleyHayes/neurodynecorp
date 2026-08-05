@@ -65,8 +65,10 @@ export interface SeedRepositories {
  */
 export async function seedAll(repos: SeedRepositories): Promise<void> {
   await seedQuestions(repos.questions);
-  await seedCollection("roles", repos.roles, roles);
-  await seedCollection("users", repos.users, users);
+  // System roles: insert or refresh permissions so seed permission changes apply
+  // to existing databases (e.g. clients gaining specifications:update).
+  await seedSystemRoles(repos.roles, roles);
+  await seedUsersWithPermissionRefresh(repos.users, users);
   await seedCollection("projects", repos.projects, projects);
   await seedCollection("portfolio_projects", repos.projects, portfolioProjects);
   await seedCollection("specifications", repos.specs, specifications);
@@ -112,6 +114,64 @@ async function seedCollection<T>(
   if (inserted > 0) {
     console.log(`  ✓ Seeded ${inserted} ${name}`);
   }
+}
+
+async function seedSystemRoles(
+  repo: MongoRoleRepository,
+  items: typeof roles,
+): Promise<void> {
+  let inserted = 0;
+  let refreshed = 0;
+  for (const role of items) {
+    try {
+      await repo.create(role);
+      inserted++;
+    } catch (err: any) {
+      if (err?.code !== 11000) {
+        console.error(`  ✗ Failed to seed roles:`, err.message);
+        throw err;
+      }
+      if (role.isSystem) {
+        await repo.update({ ...role, updatedAt: new Date() });
+        refreshed++;
+      }
+    }
+  }
+  if (inserted > 0) console.log(`  ✓ Seeded ${inserted} roles`);
+  if (refreshed > 0) console.log(`  ✓ Refreshed permissions on ${refreshed} system roles`);
+}
+
+async function seedUsersWithPermissionRefresh(
+  repo: MongoUserRepository,
+  items: typeof users,
+): Promise<void> {
+  let inserted = 0;
+  let refreshed = 0;
+  for (const user of items) {
+    try {
+      await repo.create(user);
+      inserted++;
+    } catch (err: any) {
+      if (err?.code !== 11000) {
+        console.error(`  ✗ Failed to seed users:`, err.message);
+        throw err;
+      }
+      // Keep seeded demo accounts aligned with current role permission sets.
+      const existing = await repo.findById(user.id);
+      if (existing) {
+        await repo.update({
+          ...existing,
+          permissions: [...user.permissions],
+          role: user.role,
+          roleId: user.roleId,
+          updatedAt: new Date(),
+        });
+        refreshed++;
+      }
+    }
+  }
+  if (inserted > 0) console.log(`  ✓ Seeded ${inserted} users`);
+  if (refreshed > 0) console.log(`  ✓ Refreshed permissions on ${refreshed} seeded users`);
 }
 
 /**

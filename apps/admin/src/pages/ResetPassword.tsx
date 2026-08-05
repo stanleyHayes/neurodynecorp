@@ -1,5 +1,5 @@
-import { useState } from "react";
-import { Link } from "react-router";
+import { useMemo, useState } from "react";
+import { Link, useSearchParams } from "react-router";
 import {
   Typography,
   Alert,
@@ -20,8 +20,11 @@ const cards = [
 
 const api = new ApiClient(import.meta.env.VITE_API_URL || "http://localhost:4000");
 
-export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
+export default function ResetPassword() {
+  const [params] = useSearchParams();
+  const token = useMemo(() => params.get("token") ?? "", [params]);
+  const [password, setPassword] = useState("");
+  const [confirm, setConfirm] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [done, setDone] = useState(false);
   const [error, setError] = useState("");
@@ -29,12 +32,24 @@ export default function ForgotPassword() {
   const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
+    if (password.length < 8) {
+      setError("Password must be at least 8 characters.");
+      return;
+    }
+    if (password !== confirm) {
+      setError("Passwords do not match.");
+      return;
+    }
+    if (!token) {
+      setError("Reset token is missing. Use the link from your email.");
+      return;
+    }
     setSubmitting(true);
     try {
-      await api.forgotPassword(email.trim());
+      await api.resetPassword(token, password);
       setDone(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Request failed");
+      setError(err instanceof Error ? err.message : "Reset failed");
     } finally {
       setSubmitting(false);
     }
@@ -47,16 +62,19 @@ export default function ForgotPassword() {
       cards={cards}
     >
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>
-        Reset your password
+        Choose a new password
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        Enter your account email and we will send a reset link if it exists.
+        Enter and confirm your new password below.
       </Typography>
 
       {done ? (
         <Alert severity="success" sx={{ mb: 3, borderRadius: 1 }}>
-          If an account exists for that email, a reset link has been sent. Check your inbox
-          (and spam) for a message from NeuroDyne.
+          Password updated. You can{" "}
+          <MuiLink component={Link} to="/login" sx={{ fontWeight: 600 }}>
+            sign in
+          </MuiLink>{" "}
+          with your new password.
         </Alert>
       ) : (
         <form onSubmit={onSubmit} noValidate>
@@ -65,29 +83,42 @@ export default function ForgotPassword() {
               {error}
             </Alert>
           )}
+          {!token && (
+            <Alert severity="warning" sx={{ mb: 2, borderRadius: 1 }}>
+              This page needs a valid reset token from your email link.
+            </Alert>
+          )}
           <TextField
-            label="Email"
-            type="email"
+            label="New password"
+            type="password"
             required
             fullWidth
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            sx={{ mb: 2 }}
+          />
+          <TextField
+            label="Confirm password"
+            type="password"
+            required
+            fullWidth
+            value={confirm}
+            onChange={(e) => setConfirm(e.target.value)}
             sx={{ mb: 2 }}
           />
           <Button
             type="submit"
             variant="contained"
             fullWidth
-            disabled={submitting || !email.trim()}
+            disabled={submitting || !token}
             sx={{ py: 1.25, fontWeight: 600 }}
           >
-            {submitting ? <CircularProgress size={22} color="inherit" /> : "Send reset link"}
+            {submitting ? <CircularProgress size={22} color="inherit" /> : "Update password"}
           </Button>
         </form>
       )}
 
       <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
-        Remember your password?{" "}
         <MuiLink component={Link} to="/login" sx={{ color: "#6C63FF", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
           Back to sign in
         </MuiLink>

@@ -105,11 +105,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [api]);
 
   const permissions = user?.permissions ?? [];
-  const hasPermsData = permissions.length > 0;
 
+  // Fail closed: empty permissions means no access.
   const hasPermission = useCallback(
-    (permission: string) => !hasPermsData || permissions.includes(permission),
-    [permissions, hasPermsData]
+    (permission: string) => permissions.includes(permission),
+    [permissions]
   );
 
   return (

@@ -41,6 +41,8 @@ export interface InvoiceRepository {
   findById(id: string): Promise<Invoice | null>;
   create(invoice: Invoice): Promise<Invoice>;
   update(id: string, data: Partial<Invoice>): Promise<Invoice>;
+  /** Atomically mark unpaid → paid. Returns null if missing or already paid. */
+  markPaidIfUnpaid(id: string, paymentId: string, paidAt: Date): Promise<Invoice | null>;
   listByClient(
     clientId: string,
     page: number,
@@ -124,30 +126,27 @@ export class BillingService {
   async markPaid(invoiceId: string, paymentId: string): Promise<Invoice> {
     this.logger.info({ invoiceId, paymentId }, "Marking invoice as paid");
 
-    const invoice = await this.invoiceRepo.findById(invoiceId);
-    if (!invoice) {
+    const now = new Date();
+    // Atomic conditional update avoids concurrent double invoice.paid events.
+    const updated = await this.invoiceRepo.markPaidIfUnpaid(invoiceId, paymentId, now);
+    if (!updated) {
+      const existing = await this.invoiceRepo.findById(invoiceId);
+      if (!existing) {
+        throw new InvoiceNotFoundError(invoiceId);
+      }
+      if (existing.status === "paid") {
+        throw new InvoiceAlreadyPaidError(invoiceId);
+      }
       throw new InvoiceNotFoundError(invoiceId);
     }
 
-    if (invoice.status === "paid") {
-      throw new InvoiceAlreadyPaidError(invoiceId);
-    }
-
-    const now = new Date();
-    const updated = await this.invoiceRepo.update(invoiceId, {
-      status: "paid",
-      paidAt: now,
-      paymentId,
-      updatedAt: now,
-    });
-
     await this.events.publish("invoice.paid", {
       invoiceId,
-      projectId: invoice.projectId,
-      clientId: invoice.clientId,
+      projectId: updated.projectId,
+      clientId: updated.clientId,
       paymentId,
-      total: invoice.total,
-      currency: invoice.currency,
+      total: updated.total,
+      currency: updated.currency,
     });
 
     this.logger.info({ invoiceId, paymentId }, "Invoice marked as paid");
@@ -160,6 +159,14 @@ export class BillingService {
     pageSize = 20,
   ): Promise<{ invoices: Invoice[]; total: number }> {
     return this.invoiceRepo.listByClient(clientId, page, pageSize);
+  }
+
+  async getById(invoiceId: string): Promise<Invoice> {
+    const invoice = await this.invoiceRepo.findById(invoiceId);
+    if (!invoice) {
+      throw new InvoiceNotFoundError(invoiceId);
+    }
+    return invoice;
   }
 
   // ---------------------------------------------------------------------------

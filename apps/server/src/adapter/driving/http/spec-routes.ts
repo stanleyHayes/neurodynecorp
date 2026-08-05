@@ -9,9 +9,13 @@ import type { Specification } from "../../../app/spec-service.js";
 
 // ---- Validation schemas ----
 
-const generateSpecSchema = z.object({
-  projectId: z.string().min(1),
-});
+const generateSpecSchema = z
+  .object({
+    projectId: z.string().min(1).optional(),
+    project_id: z.string().min(1).optional(),
+  })
+  .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
+  .transform((d) => ({ projectId: (d.projectId ?? d.project_id)! }));
 
 const addNoteSchema = z.object({
   content: z.string().min(1).max(5000),
@@ -102,11 +106,33 @@ function escapePdf(text: string): string {
   return text.replace(/\\/g, "\\\\").replace(/\(/g, "\\(").replace(/\)/g, "\\)");
 }
 
+/** Returns the owning client's userId for a project, or null if unknown. */
+type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
+
 // ---- Route factory ----
 
-export function createSpecRoutes(specService: SpecService, tokenService: TokenService): Router {
+export function createSpecRoutes(
+  specService: SpecService,
+  tokenService: TokenService,
+  getProjectOwnerId: ProjectOwnerLookup,
+): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
+
+  async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
+    if (req.userRole === "client") {
+      const ownerId = await getProjectOwnerId(projectId);
+      if (!ownerId || ownerId !== req.userId) throw new NotFoundError("project", projectId);
+    }
+  }
+
+  async function assertSpecAccess(req: Request, spec: Specification): Promise<void> {
+    try {
+      await assertProjectAccess(req, spec.projectId);
+    } catch {
+      throw new NotFoundError("Specification", spec.id);
+    }
+  }
 
   // POST /api/v1/specifications - generate spec
   router.post("/", auth, async (req: Request, res: Response, next: NextFunction) => {
@@ -115,6 +141,8 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
       if (!parsed.success) {
         throw new ValidationError("Invalid specification data", parsed.error.flatten());
       }
+
+      await assertProjectAccess(req, parsed.data.projectId);
 
       const spec = await specService.generateSpec(parsed.data.projectId);
       res.status(201).json(spec);
@@ -137,6 +165,8 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
         throw new ValidationError("project_id query parameter is required");
       }
 
+      await assertProjectAccess(req, projectId);
+
       const spec = await specService.getByProject(projectId);
       res.status(200).json(spec);
     } catch (err) {
@@ -151,6 +181,7 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
   router.get("/:id", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const spec = await specService.getSpec(String(req.params.id));
+      await assertSpecAccess(req, spec);
       res.status(200).json(spec);
     } catch (err) {
       if (err instanceof SpecNotFoundError) {
@@ -167,6 +198,8 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
     requirePermission("specifications:update"),
     async (req: Request, res: Response, next: NextFunction) => {
       try {
+        const existing = await specService.getSpec(String(req.params.id));
+        await assertSpecAccess(req, existing);
         const spec = await specService.approveSpec(String(req.params.id), req.userId!);
         res.status(200).json(spec);
       } catch (err) {
@@ -186,6 +219,8 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
     async (req: Request, res: Response, next: NextFunction) => {
       try {
         rejectSchema.parse(req.body); // validate but reason is optional metadata
+        const existing = await specService.getSpec(String(req.params.id));
+        await assertSpecAccess(req, existing);
         const spec = await specService.rejectSpec(String(req.params.id));
         res.status(200).json(spec);
       } catch (err) {
@@ -209,6 +244,8 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
           throw new ValidationError("Invalid note data", parsed.error.flatten());
         }
 
+        const existing = await specService.getSpec(String(req.params.id));
+        await assertSpecAccess(req, existing);
         const spec = await specService.addInternalNote(String(req.params.id), req.userId!, parsed.data.content);
         res.status(201).json(spec);
       } catch (err) {
@@ -224,6 +261,7 @@ export function createSpecRoutes(specService: SpecService, tokenService: TokenSe
   router.get("/:id/pdf", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const spec = await specService.getSpec(String(req.params.id));
+      await assertSpecAccess(req, spec);
       const pdf = buildSpecPdf(spec);
 
       res.set({

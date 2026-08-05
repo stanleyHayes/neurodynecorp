@@ -29,6 +29,25 @@
 - [x] **CI pnpm mismatch.** GitHub Actions pinned pnpm 9 while `packageManager` is pnpm@11.20.0; workflows
   now follow `packageManager`. Admin route permissions are enforced on direct URL access (not only
   sidebar hide), and Dashboard/Analytics show honest placeholder notices like Finance.
+- [x] **Backend authz / IDOR hardening.** Task CRUD and sprint reads now require `tasks:*` permissions and
+  project-owner checks for clients. User `PATCH` no longer accepts `role` (escalation must use
+  `/roles/assign`). Notifications mark-read/delete are ownership-scoped. Message thread lists by
+  `projectId` filter to participants for non-staff. Invoice list requires `finance:read` for staff and
+  ignores clientId spoofing by clients. Spec and file GETs enforce project ownership. Invoice
+  `markPaid` is an atomic conditional update to prevent duplicate `invoice.paid` events.
+- [x] **Backend authz pass 2.** Questionnaire save/complete enforce project ownership. API keys and
+  webhooks require `apikeys:*` / `webhooks:*` (no longer any-auth). Webhook URLs are SSRF-checked.
+  Realtime project subscribe is ownership-gated; Socket.IO client message broadcast removed. Clients
+  get `specifications:read/update` so approve/reject matches README. Admin/client `hasPermission`
+  fails closed on empty permission arrays. Non-admins cannot assign the admin role.
+- [x] **API client ↔ server contract fixes.** Shared client now sends camelCase bodies/params the
+  server validates (`projectId`, PATCH tasks, `/invoices/:id/paid`). Server schemas also accept
+  snake_case aliases for questionnaire/spec/task/invoice/team so older callers keep working.
+- [x] **Backend authz / ops pass 3.** Socket.IO CORS uses the server allowlist (not `*`). Stripe/
+  Paystack payment webhooks verify signatures and mark invoices paid. Password reset API + admin/
+  client UI wired; Resend adapter always exposes welcome/reset methods. Auth public endpoints are
+  rate-limited. Invoice `GET /:id` added with ownership checks. Mobile `hasPermission` fails closed.
+  In-memory cache fallback when Redis is down (so reset tokens work locally).
 
 This plan lists **features named in the spec that are NOT yet present in the codebase** (or only
 partially present), so they can be built out. It is the complement to

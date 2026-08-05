@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
-import { ValidationError } from "../../../middleware/error-handler.js";
+import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Thread, Message } from "../../../domain/entity/message.js";
 
 // ---- Validation schemas ----
@@ -37,10 +37,14 @@ interface RealtimeEmitter {
 
 // ---- Route factory ----
 
+/** Returns the owning client's userId for a project, or null if unknown. */
+type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
+
 export function createMessageRoutes(
   messageService: MessageService,
   tokenService: TokenService,
   realtime?: RealtimeEmitter,
+  getProjectOwnerId?: ProjectOwnerLookup,
 ): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
@@ -56,12 +60,24 @@ export function createMessageRoutes(
   // Staff roles retain cross-thread visibility for support purposes.
   const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
 
+  function isStaff(req: Request): boolean {
+    return !!req.userRole && STAFF_ROLES.has(req.userRole);
+  }
+
+  async function assertProjectAccess(req: Request, projectId: string): Promise<void> {
+    if (req.userRole === "client" && getProjectOwnerId) {
+      const ownerId = await getProjectOwnerId(projectId);
+      if (!ownerId || ownerId !== req.userId) {
+        throw new NotFoundError("project", projectId);
+      }
+    }
+  }
+
   async function loadThreadForCaller(req: Request) {
     const thread = await messageService.getThread(String(req.params.threadId));
     if (!thread) return { thread: null, allowed: false };
-    const isStaff = req.userRole ? STAFF_ROLES.has(req.userRole) : false;
     const isParticipant = !!req.userId && thread.participantIds.includes(req.userId);
-    return { thread, allowed: isStaff || isParticipant };
+    return { thread, allowed: isStaff(req) || isParticipant };
   }
 
   router.post("/threads", async (req: Request, res: Response, next: NextFunction) => {
@@ -70,6 +86,8 @@ export function createMessageRoutes(
       if (!parsed.success) {
         throw new ValidationError("Invalid thread data", parsed.error.flatten());
       }
+
+      await assertProjectAccess(req, parsed.data.projectId);
 
       const thread = await messageService.createThread({
         ...(parsed.data as any),
@@ -86,9 +104,18 @@ export function createMessageRoutes(
     try {
       const projectId = req.query["projectId"] as string | undefined;
 
-      const threads = projectId
+      if (projectId) {
+        await assertProjectAccess(req, projectId);
+      }
+
+      let threads = projectId
         ? await messageService.listThreadsByProject(projectId)
         : await messageService.listThreadsByParticipant(req.userId!);
+
+      // Non-staff must never see other projects' threads via ?projectId=.
+      if (!isStaff(req)) {
+        threads = threads.filter((t) => t.participantIds.includes(req.userId!));
+      }
 
       res.status(200).json({ threads });
     } catch (err) {

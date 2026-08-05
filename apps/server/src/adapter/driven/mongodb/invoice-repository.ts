@@ -149,6 +149,26 @@ export class MongoInvoiceRepository implements InvoiceRepository {
     return { ...idOrInvoice, updatedAt: doc.updated_at };
   }
 
+  /**
+   * Conditionally set status=paid only when the invoice is not already paid.
+   * Returns the updated invoice, or null if missing / already paid.
+   */
+  async markPaidIfUnpaid(id: string, paymentId: string, paidAt: Date): Promise<Invoice | null> {
+    const doc = await this.col.findOneAndUpdate(
+      { _id: new ObjectId(id), status: { $ne: "paid" } },
+      {
+        $set: {
+          status: "paid",
+          paid_at: paidAt,
+          payment_reference: paymentId,
+          updated_at: paidAt,
+        },
+      },
+      { returnDocument: "after" },
+    );
+    return doc ? fromDoc(doc) : null;
+  }
+
   async delete(id: string): Promise<void> {
     await this.col.deleteOne({ _id: new ObjectId(id) });
   }

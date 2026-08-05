@@ -41,6 +41,8 @@ export interface CloudConfig {
 export interface EmailConfig {
   resendApiKey: string;
   fromAddress: string;
+  /** Base URL used in password-reset emails (portal origin + path prefix). */
+  passwordResetBaseUrl: string;
 }
 
 export interface MetricsConfig {
@@ -144,6 +146,10 @@ export function loadConfig(): AppConfig {
     email: {
       resendApiKey: env("NEURODYNE_RESEND_API_KEY", ""),
       fromAddress: env("NEURODYNE_EMAIL_FROM", "noreply@neurodynecorp.com"),
+      passwordResetBaseUrl: env(
+        "NEURODYNE_PASSWORD_RESET_BASE_URL",
+        "http://localhost:5173",
+      ),
     },
     metrics: {
       enabled: envBool("NEURODYNE_METRICS_ENABLED", true),

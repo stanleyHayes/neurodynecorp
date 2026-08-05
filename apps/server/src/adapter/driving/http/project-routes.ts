@@ -99,9 +99,15 @@ const updateStatusSchema = z.object({
   status: z.enum(["lead", "under_review", "approved", "in_development", "qa", "delivered"]),
 });
 
-const assignTeamSchema = z.object({
-  teamMemberIds: z.array(z.string().min(1)),
-});
+const assignTeamSchema = z
+  .object({
+    teamMemberIds: z.array(z.string().min(1)).optional(),
+    team_member_ids: z.array(z.string().min(1)).optional(),
+  })
+  .refine((d) => (d.teamMemberIds ?? d.team_member_ids)?.length, {
+    message: "teamMemberIds is required",
+  })
+  .transform((d) => ({ teamMemberIds: d.teamMemberIds ?? d.team_member_ids! }));
 
 const updateProgressSchema = z.object({
   progress: z.number().int().min(0).max(100),

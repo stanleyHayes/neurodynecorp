@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError, ConflictError, UnauthorizedError } from "../../../middleware/error-handler.js";
+import { rateLimit } from "../../../middleware/rate-limit.js";
 import type { AuthService } from "../../../app/auth-service.js";
 import { UserExistsError, InvalidCredentialsError, UserInactiveError, InvalidTokenError } from "../../../app/auth-service.js";
 
@@ -36,8 +37,21 @@ const loginSchema = z.object({
   password: z.string().min(1),
 });
 
-const refreshSchema = z.object({
-  refreshToken: z.string().min(1),
+const refreshSchema = z
+  .object({
+    refreshToken: z.string().min(1).optional(),
+    refresh_token: z.string().min(1).optional(),
+  })
+  .refine((d) => d.refreshToken ?? d.refresh_token, { message: "refreshToken is required" })
+  .transform((d) => ({ refreshToken: (d.refreshToken ?? d.refresh_token)! }));
+
+const forgotPasswordSchema = z.object({
+  email: z.string().email(),
+});
+
+const resetPasswordSchema = z.object({
+  token: z.string().min(1),
+  password: z.string().min(8).max(128),
 });
 
 const updateProfileSchema = z.object({
@@ -62,9 +76,14 @@ function sanitizeUser(user: Record<string, unknown>) {
 export function createAuthRoutes(authService: AuthService, tokenService: TokenService): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
+  const authPublicLimit = rateLimit("auth-public", {
+    max: 20,
+    windowMs: 60_000,
+    message: "Too many auth attempts. Please try again shortly.",
+  });
 
   // POST /api/v1/auth/register
-  router.post("/register", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/register", authPublicLimit, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = registerSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -95,7 +114,7 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
   });
 
   // POST /api/v1/auth/login
-  router.post("/login", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/login", authPublicLimit, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = loginSchema.safeParse(req.body);
       if (!parsed.success) {
@@ -127,6 +146,39 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
       res.status(200).json(tokens);
     } catch (err) {
       if (err instanceof InvalidTokenError || err instanceof UserInactiveError) {
+        return next(new UnauthorizedError(err.message));
+      }
+      next(err);
+    }
+  });
+
+  // POST /api/v1/auth/forgot-password — always 200 (no email enumeration)
+  router.post("/forgot-password", authPublicLimit, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const parsed = forgotPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        throw new ValidationError("Invalid email", parsed.error.flatten());
+      }
+      await authService.requestPasswordReset(parsed.data.email);
+      res.status(200).json({
+        message: "If an account exists for that email, a reset link has been sent.",
+      });
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // POST /api/v1/auth/reset-password
+  router.post("/reset-password", authPublicLimit, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const parsed = resetPasswordSchema.safeParse(req.body);
+      if (!parsed.success) {
+        throw new ValidationError("Invalid reset data", parsed.error.flatten());
+      }
+      await authService.resetPassword(parsed.data.token, parsed.data.password);
+      res.status(200).json({ message: "Password updated. You can sign in with your new password." });
+    } catch (err) {
+      if (err instanceof InvalidTokenError) {
         return next(new UnauthorizedError(err.message));
       }
       next(err);

@@ -1,3 +1,4 @@
+import { randomBytes } from "crypto";
 import type { Logger } from "pino";
 import type { User } from "../domain/entity/user";
 import { createUser } from "../domain/entity/user";
@@ -33,7 +34,7 @@ export interface EmailService {
 export interface CacheService {
   get<T>(key: string): Promise<T | null>;
   set(key: string, value: unknown, ttlSeconds?: number): Promise<void>;
-  del(key: string): Promise<void>;
+  delete(key: string): Promise<void>;
 }
 
 export interface EventPublisher {
@@ -216,6 +217,47 @@ export class AuthService {
     if (!user) return null;
 
     return this.userRepo.update(userId, input);
+  }
+
+  /**
+   * Issues a one-time reset token (1h TTL). Always resolves — does not reveal
+   * whether the email exists.
+   */
+  async requestPasswordReset(email: string): Promise<void> {
+    const normalized = email.trim().toLowerCase();
+    this.logger.info({ email: normalized }, "Password reset requested");
+
+    const user = await this.userRepo.findByEmail(normalized);
+    if (!user || !user.isActive) {
+      return;
+    }
+
+    const token = randomBytes(32).toString("hex");
+    await this.cache.set(`pwdreset:${token}`, { userId: user.id }, 60 * 60);
+
+    try {
+      await this.emailService.sendPasswordReset(user.email, token);
+    } catch (err) {
+      this.logger.error({ err, email: user.email }, "Failed to send password reset email");
+    }
+  }
+
+  async resetPassword(token: string, newPassword: string): Promise<void> {
+    const cached = await this.cache.get<{ userId: string }>(`pwdreset:${token}`);
+    if (!cached?.userId) {
+      throw new InvalidTokenError("Password reset token is invalid or expired");
+    }
+
+    const user = await this.userRepo.findById(cached.userId);
+    if (!user || !user.isActive) {
+      throw new InvalidTokenError("Password reset token is invalid or expired");
+    }
+
+    const passwordHash = await this.hasher.hash(newPassword);
+    await this.userRepo.update(user.id, { passwordHash });
+    await this.cache.delete(`pwdreset:${token}`);
+
+    this.logger.info({ userId: user.id }, "Password reset completed");
   }
 
   // ---------------------------------------------------------------------------

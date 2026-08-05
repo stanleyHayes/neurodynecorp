@@ -185,6 +185,9 @@ const QA_PERMISSIONS = [
 const CLIENT_PERMISSIONS: string[] = [
   perm("dashboard", "read"),
   perm("projects", "read"),
+  // Clients approve/reject specs (README + portal); read required by weight rules.
+  perm("specifications", "read"),
+  perm("specifications", "update"),
   perm("messages", "read"),
   perm("messages", "create"),
   perm("billing", "read"),

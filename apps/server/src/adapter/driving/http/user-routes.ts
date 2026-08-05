@@ -14,10 +14,11 @@ const listUsersSchema = z.object({
   search: z.string().optional(),
 });
 
+// Role changes must go through POST /roles/assign (requires roles:update).
+// Accepting role here let anyone with team:update escalate to admin.
 const updateUserSchema = z.object({
   firstName: z.string().min(1).max(100).optional(),
   lastName: z.string().min(1).max(100).optional(),
-  role: z.enum(["admin", "project_manager", "developer", "qa", "client"]).optional(),
   phone: z.string().optional(),
   company: z.string().optional(),
   isActive: z.boolean().optional(),

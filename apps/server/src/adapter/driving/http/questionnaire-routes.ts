@@ -18,19 +18,32 @@ const adaptiveSchema = z.object({
   ),
 });
 
-const saveResponseSchema = z.object({
-  projectId: z.string().min(1),
-  answers: z.array(
-    z.object({
-      questionId: z.string().min(1),
-      value: z.unknown(),
-    }),
-  ),
-});
+const saveResponseSchema = z
+  .object({
+    projectId: z.string().min(1).optional(),
+    project_id: z.string().min(1).optional(),
+    answers: z.array(
+      z.object({
+        questionId: z.string().min(1),
+        value: z.unknown(),
+      }),
+    ),
+  })
+  .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
+  .transform((d) => ({
+    projectId: (d.projectId ?? d.project_id)!,
+    answers: d.answers,
+  }));
 
-const completeSchema = z.object({
-  projectId: z.string().min(1),
-});
+const completeSchema = z
+  .object({
+    projectId: z.string().min(1).optional(),
+    project_id: z.string().min(1).optional(),
+  })
+  .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
+  .transform((d) => ({ projectId: (d.projectId ?? d.project_id)! }));
+
+const STAFF_ROLES = new Set(["admin", "project_manager", "developer", "qa"]);
 
 // ---- Route factory ----
 
@@ -40,6 +53,10 @@ export function createQuestionnaireRoutes(
 ): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
+
+  function isStaff(req: Request): boolean {
+    return !!req.userRole && STAFF_ROLES.has(req.userRole);
+  }
 
   // GET /api/v1/questionnaire/questions (public)
   router.get("/questions", async (req: Request, res: Response, next: NextFunction) => {
@@ -81,6 +98,7 @@ export function createQuestionnaireRoutes(
         parsed.data.projectId,
         req.userId!,
         parsed.data.answers as QuestionnaireAnswer[],
+        { isStaff: isStaff(req) },
       );
       res.status(201).json(response);
     } catch (err) {
@@ -99,9 +117,16 @@ export function createQuestionnaireRoutes(
         throw new ValidationError("Invalid completion data", parsed.error.flatten());
       }
 
-      const response = await questionnaireService.completeQuestionnaire(parsed.data.projectId);
+      const response = await questionnaireService.completeQuestionnaire(
+        parsed.data.projectId,
+        req.userId!,
+        { isStaff: isStaff(req) },
+      );
       res.status(200).json(response);
     } catch (err) {
+      if (err instanceof ProjectNotFoundError) {
+        return next(new NotFoundError("Project"));
+      }
       if (err instanceof QuestionnaireNotFoundError) {
         return next(new NotFoundError("Questionnaire response"));
       }

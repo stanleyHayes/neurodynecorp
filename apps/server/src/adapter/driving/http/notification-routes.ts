@@ -2,7 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, type TokenService } from "../../../middleware/auth.js";
-import { ValidationError } from "../../../middleware/error-handler.js";
+import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import type { Notification } from "../../../domain/entity/notification.js";
 
 // ---- Validation schemas ----
@@ -15,6 +15,7 @@ const listNotificationsSchema = z.object({
 // Notification CRUD is thin enough to operate directly on the repository.
 
 export interface NotificationService {
+  findById(id: string): Promise<Notification | null>;
   findByUserId(userId: string): Promise<Notification[]>;
   findUnreadByUserId(userId: string): Promise<Notification[]>;
   countUnreadByUserId(userId: string): Promise<number>;
@@ -30,6 +31,15 @@ export function createNotificationRoutes(notificationService: NotificationServic
   const auth = authMiddleware(tokenService);
 
   router.use(auth);
+
+  async function loadOwnNotification(req: Request, id: string): Promise<Notification> {
+    const notification = await notificationService.findById(id);
+    // 404 for both missing and other-user so ids cannot be probed.
+    if (!notification || notification.userId !== req.userId) {
+      throw new NotFoundError("Notification", id);
+    }
+    return notification;
+  }
 
   // GET /api/v1/notifications
   router.get("/", async (req: Request, res: Response, next: NextFunction) => {
@@ -64,7 +74,9 @@ export function createNotificationRoutes(notificationService: NotificationServic
   // PATCH /api/v1/notifications/:id/read
   router.patch("/:id/read", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await notificationService.markAsRead(String(req.params.id));
+      const id = String(req.params.id);
+      await loadOwnNotification(req, id);
+      await notificationService.markAsRead(id);
       res.status(204).end();
     } catch (err) {
       next(err);
@@ -84,7 +96,9 @@ export function createNotificationRoutes(notificationService: NotificationServic
   // DELETE /api/v1/notifications/:id
   router.delete("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
-      await notificationService.delete(String(req.params.id));
+      const id = String(req.params.id);
+      await loadOwnNotification(req, id);
+      await notificationService.delete(id);
       res.status(204).end();
     } catch (err) {
       next(err);
