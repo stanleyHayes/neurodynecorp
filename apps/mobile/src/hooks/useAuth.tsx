@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from "react";
 import { API_URL } from "../config";
 import { authStorage } from "../storage/auth-storage";
-import { updateProfile as updateProfileRequest } from "../api/client";
+import { getProfile, updateProfile as updateProfileRequest } from "../api/client";
 
 interface User {
   id: string;
@@ -35,13 +35,29 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   useEffect(() => {
     let active = true;
-    authStorage.getUser().then((stored) => {
+    (async () => {
+      const stored = await authStorage.getUser();
       if (!active) return;
       if (stored) {
-        try { setUser(JSON.parse(stored) as User); } catch { void authStorage.clearSession(); }
+        try {
+          setUser(JSON.parse(stored) as User);
+        } catch {
+          void authStorage.clearSession();
+        }
       }
       setIsLoading(false);
-    });
+
+      const token = await authStorage.getToken();
+      if (!token || !active) return;
+      try {
+        const profile = (await getProfile()) as User;
+        if (!active) return;
+        await authStorage.setUser(profile);
+        setUser(profile);
+      } catch {
+        // 401 handled by api client refresh / session clear.
+      }
+    })();
     return () => { active = false; };
   }, []);
 
@@ -62,7 +78,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
 
       const data = await res.json();
-      await authStorage.setSession(data.accessToken ?? data.access_token, data.user);
+      await authStorage.setSession(
+        data.accessToken ?? data.access_token,
+        data.user,
+        data.refreshToken ?? data.refresh_token,
+      );
       setUser(data.user as User);
     } finally {
       setIsLoading(false);

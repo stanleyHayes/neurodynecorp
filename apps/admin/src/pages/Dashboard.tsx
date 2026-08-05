@@ -24,67 +24,20 @@ import SectionLabel from "@/components/shared/AnimatedGrid";
 import ChartCard from "@/components/shared/ChartCard";
 import { AXIS_STYLE, GRID_STYLE, TOOLTIP_STYLE, fmtTooltipK } from "@/data/chartTheme";
 
-// TODO: Replace with analytics aggregation API when available
-const revenueTimeSeries = [
-  { month: "Apr", revenue: 42000, costs: 28000, profit: 14000 },
-  { month: "May", revenue: 55000, costs: 34000, profit: 21000 },
-  { month: "Jun", revenue: 48000, costs: 31000, profit: 17000 },
-  { month: "Jul", revenue: 62000, costs: 38000, profit: 24000 },
-  { month: "Aug", revenue: 58000, costs: 35000, profit: 23000 },
-  { month: "Sep", revenue: 71000, costs: 42000, profit: 29000 },
-  { month: "Oct", revenue: 68000, costs: 40000, profit: 28000 },
-  { month: "Nov", revenue: 82000, costs: 48000, profit: 34000 },
-  { month: "Dec", revenue: 78000, costs: 45000, profit: 33000 },
-  { month: "Jan", revenue: 95000, costs: 55000, profit: 40000 },
-  { month: "Feb", revenue: 110000, costs: 62000, profit: 48000 },
-  { month: "Mar", revenue: 125000, costs: 68000, profit: 57000 },
-];
-
-const projectsByStatus = [
-  { name: "In Progress", value: 4, color: "#F59E0B" },
-  { name: "Completed", value: 3, color: "#10B981" },
-  { name: "Review", value: 2, color: "#8B5CF6" },
-  { name: "Planning", value: 2, color: "#94A3B8" },
-  { name: "On Hold", value: 1, color: "#EF4444" },
-];
-
-const taskCompletion = [
-  { week: "W1", completed: 8, created: 12 },
-  { week: "W2", completed: 11, created: 9 },
-  { week: "W3", completed: 6, created: 10 },
-  { week: "W4", completed: 14, created: 8 },
-  { week: "W5", completed: 9, created: 11 },
-  { week: "W6", completed: 12, created: 7 },
-  { week: "W7", completed: 10, created: 13 },
-  { week: "W8", completed: 15, created: 9 },
-  { week: "W9", completed: 7, created: 12 },
-  { week: "W10", completed: 13, created: 10 },
-  { week: "W11", completed: 11, created: 8 },
-  { week: "W12", completed: 16, created: 11 },
-];
+// Empty until analytics aggregation API ships — do not invent metrics.
+const revenueTimeSeries: { month: string; revenue: number; costs: number; profit: number }[] = [];
+const projectsByStatus: { name: string; value: number; color: string }[] = [];
+const taskCompletion: { week: string; completed: number; created: number }[] = [];
 
 const stats = [
-  { label: "Total Leads", value: "24", change: "+5 this week", icon: <TrendingUpOutlinedIcon />, color: "#6C63FF" },
-  { label: "Active Projects", value: "12", change: "3 in QA", icon: <FolderOutlinedIcon />, color: "#00D4AA" },
-  { label: "Team Members", value: "18", change: "2 new this month", icon: <GroupsOutlinedIcon />, color: "#8B85FF" },
-  { label: "Revenue (MTD)", value: "$185K", change: "+22% vs last month", icon: <AttachMoneyOutlinedIcon />, color: "#F59E0B" },
+  { label: "Total Leads", value: "—", change: "aggregation API pending", icon: <TrendingUpOutlinedIcon />, color: "#6C63FF" },
+  { label: "Active Projects", value: "—", change: "aggregation API pending", icon: <FolderOutlinedIcon />, color: "#00D4AA" },
+  { label: "Team Members", value: "—", change: "aggregation API pending", icon: <GroupsOutlinedIcon />, color: "#8B85FF" },
+  { label: "Revenue (MTD)", value: "—", change: "aggregation API pending", icon: <AttachMoneyOutlinedIcon />, color: "#F59E0B" },
 ];
 
-const pipeline = [
-  { stage: "Lead", count: 8, color: "#94A3B8" },
-  { stage: "Under Review", count: 4, color: "#6C63FF" },
-  { stage: "Approved", count: 3, color: "#00D4AA" },
-  { stage: "In Development", count: 7, color: "#F59E0B" },
-  { stage: "QA", count: 3, color: "#8B5CF6" },
-  { stage: "Delivered", count: 15, color: "#10B981" },
-];
-
-const recentProjects = [
-  { title: "FinTech Mobile App", client: "Apex Finance", status: "In Development", progress: 45 },
-  { title: "Healthcare Portal", client: "MedCore", status: "QA", progress: 80 },
-  { title: "Supply Chain AI", client: "LogiTrack", status: "Under Review", progress: 10 },
-  { title: "E-Learning Platform", client: "EduNova", status: "Lead", progress: 0 },
-];
+const pipeline: { stage: string; count: number; color: string }[] = [];
+const recentProjects: { title: string; client: string; status: string; progress: number }[] = [];
 
 const fmtK = (v: number) => `$${(v / 1000).toFixed(0)}K`;
 

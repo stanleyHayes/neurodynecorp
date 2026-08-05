@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useMemo, useEffect, type ReactNode } from "react";
 import { ApiClient } from "@neurodyne/shared";
 import { API_URL } from "@/config";
 
@@ -52,6 +52,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [isLoading, setIsLoading] = useState(false);
 
   const getToken = useCallback(() => localStorage.getItem(TOKEN_KEY), []);
+  const getRefreshToken = useCallback(() => localStorage.getItem(REFRESH_KEY), []);
 
   const handleUnauthorized = useCallback(() => {
     localStorage.removeItem(TOKEN_KEY);
@@ -61,14 +62,44 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     window.location.href = "/login";
   }, []);
 
+  const handleTokensRefreshed = useCallback((accessToken: string, refreshToken: string) => {
+    localStorage.setItem(TOKEN_KEY, accessToken);
+    localStorage.setItem(REFRESH_KEY, refreshToken);
+  }, []);
+
   const [api] = useState(
     () =>
       new ApiClient({
         baseUrl: API_URL,
         getToken,
+        getRefreshToken,
+        onTokensRefreshed: handleTokensRefreshed,
         onUnauthorized: handleUnauthorized,
       })
   );
+
+  // Rehydrate permissions/profile so role patches and seed refreshes apply.
+  useEffect(() => {
+    if (!localStorage.getItem(TOKEN_KEY)) return;
+    let cancelled = false;
+    (async () => {
+      try {
+        const profile = (await api.getProfile()) as User;
+        if (cancelled) return;
+        if (!ALLOWED_ROLES.includes(profile.role)) {
+          handleUnauthorized();
+          return;
+        }
+        localStorage.setItem(USER_KEY, JSON.stringify(profile));
+        setUser(profile);
+      } catch {
+        // 401 handled by ApiClient refresh / onUnauthorized.
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [api, handleUnauthorized]);
 
   const login = useCallback(
     async (email: string, password: string) => {

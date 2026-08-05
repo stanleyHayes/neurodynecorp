@@ -5,25 +5,71 @@ interface RequestOptions {
   body?: unknown;
   headers?: Record<string, string>;
   params?: Record<string, string>;
+  /** Internal: set after a successful refresh retry to avoid loops. */
+  _retried?: boolean;
 }
 
 export class ApiClient {
   private baseUrl: string;
   private getToken: () => string | null;
+  private getRefreshToken?: () => string | null;
+  private onTokensRefreshed?: (accessToken: string, refreshToken: string) => void;
   private onUnauthorized?: () => void;
+  private refreshInFlight: Promise<boolean> | null = null;
 
   constructor(config: {
     baseUrl?: string;
     getToken: () => string | null;
+    getRefreshToken?: () => string | null;
+    onTokensRefreshed?: (accessToken: string, refreshToken: string) => void;
     onUnauthorized?: () => void;
   }) {
     this.baseUrl = config.baseUrl ?? DEFAULT_BASE_URL;
     this.getToken = config.getToken;
+    this.getRefreshToken = config.getRefreshToken;
+    this.onTokensRefreshed = config.onTokensRefreshed;
     this.onUnauthorized = config.onUnauthorized;
   }
 
+  private async tryRefresh(): Promise<boolean> {
+    if (this.refreshInFlight) return this.refreshInFlight;
+
+    this.refreshInFlight = (async () => {
+      const refreshToken = this.getRefreshToken?.();
+      if (!refreshToken) return false;
+
+      try {
+        const res = await fetch(`${this.baseUrl}/api/v1/auth/refresh`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ refreshToken }),
+        });
+        if (!res.ok) return false;
+
+        const data = (await res.json()) as {
+          accessToken?: string;
+          refreshToken?: string;
+          access_token?: string;
+          refresh_token?: string;
+        };
+        const access = data.accessToken ?? data.access_token;
+        const nextRefresh = data.refreshToken ?? data.refresh_token ?? refreshToken;
+        if (!access) return false;
+
+        this.onTokensRefreshed?.(access, nextRefresh);
+        return true;
+      } catch {
+        return false;
+      } finally {
+        this.refreshInFlight = null;
+      }
+    })();
+
+    return this.refreshInFlight;
+  }
+
   private async request<T>(path: string, options: RequestOptions = {}): Promise<T> {
-    const { method = "GET", body, headers = {}, params } = options;
+    const { method = "GET", body, headers = {}, params, _retried } = options;
     let url = `${this.baseUrl}${path}`;
     if (params) {
       const searchParams = new URLSearchParams();
@@ -50,10 +96,24 @@ export class ApiClient {
     });
 
     if (res.status === 401) {
-      // A 401 from an authenticated request means the stored session expired.
-      // Public auth endpoints (notably login) have no token and must surface
-      // their validation error without redirecting or refreshing the page.
-      if (token) this.onUnauthorized?.();
+      // Public auth endpoints must surface their own errors (no logout/redirect).
+      const isAuthPublic =
+        path.startsWith("/api/v1/auth/login") ||
+        path.startsWith("/api/v1/auth/register") ||
+        path.startsWith("/api/v1/auth/refresh") ||
+        path.startsWith("/api/v1/auth/forgot-password") ||
+        path.startsWith("/api/v1/auth/reset-password");
+
+      if (token && !isAuthPublic && !_retried) {
+        const refreshed = await this.tryRefresh();
+        if (refreshed) {
+          return this.request<T>(path, { ...options, _retried: true });
+        }
+        this.onUnauthorized?.();
+      } else if (token && !isAuthPublic) {
+        this.onUnauthorized?.();
+      }
+
       const error = await res.json().catch(() => ({ error: "Unauthorized" }));
       throw new ApiError(error.error ?? "Unauthorized", 401);
     }
@@ -63,6 +123,7 @@ export class ApiClient {
       throw new ApiError(error.error ?? "Request failed", res.status);
     }
 
+    if (res.status === 204) return undefined as T;
     return res.json();
   }
 

@@ -36,8 +36,9 @@ interface InvoiceRow {
   paid_at?: string;
 }
 
-function formatCurrency(cents: number, currency = "USD"): string {
-  return new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 0 }).format(cents / 100);
+/** Amounts from the API are major currency units (e.g. 45000 = $45,000), not cents. */
+function formatCurrency(amount: number, currency = "USD"): string {
+  return new Intl.NumberFormat("en-US", { style: "currency", currency, minimumFractionDigits: 0 }).format(amount);
 }
 
 function formatDate(dateStr: string): string {

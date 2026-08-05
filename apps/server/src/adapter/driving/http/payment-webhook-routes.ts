@@ -10,6 +10,18 @@ export interface PaymentWebhookConfig {
   paystackWebhookSecret: string;
 }
 
+/** Invoice totals are major units; Stripe/Paystack report minor units. */
+function amountsMatch(paidMinor: number, invoiceMajor: number, currency: string): boolean {
+  const expectedMinor = Math.round(Number(invoiceMajor) * 100);
+  // Tolerate 1 minor-unit rounding drift across FX/tax providers.
+  if (Math.abs(paidMinor - expectedMinor) <= 1) return true;
+  // Some NGN paths already send major units — accept exact major match too.
+  if (currency.toUpperCase() === "NGN" && Math.abs(paidMinor - Number(invoiceMajor)) <= 1) {
+    return true;
+  }
+  return false;
+}
+
 /**
  * Provider payment webhooks (Stripe / Paystack). Mount Stripe with
  * `express.raw({ type: "application/json" })` so the signature can be verified.
@@ -55,7 +67,17 @@ export function createPaymentWebhookHandlers(
         const invoiceId = intent.metadata?.["invoiceId"] ?? intent.metadata?.["invoice_id"];
         if (invoiceId) {
           try {
-            await billingService.markPaid(invoiceId, intent.id);
+            const invoice = await billingService.getById(invoiceId);
+            const paidMinor = intent.amount_received ?? intent.amount ?? 0;
+            const currency = (intent.currency ?? invoice.currency ?? "usd").toUpperCase();
+            if (!amountsMatch(paidMinor, invoice.total, currency)) {
+              logger.warn(
+                { invoiceId, paidMinor, invoiceTotal: invoice.total, currency },
+                "Stripe payment amount mismatch — refusing markPaid",
+              );
+            } else {
+              await billingService.markPaid(invoiceId, intent.id);
+            }
           } catch (err) {
             if (!(err instanceof InvoiceAlreadyPaidError) && !(err instanceof InvoiceNotFoundError)) {
               throw err;
@@ -108,11 +130,27 @@ export function createPaymentWebhookHandlers(
       };
 
       if (event.event === "charge.success") {
-        const invoiceId = event.data?.metadata?.["invoiceId"] ?? event.data?.metadata?.["invoice_id"];
-        const reference = event.data?.reference ?? `paystack-${Date.now()}`;
+        const data = event.data as {
+          reference?: string;
+          amount?: number;
+          currency?: string;
+          metadata?: Record<string, string>;
+        } | undefined;
+        const invoiceId = data?.metadata?.["invoiceId"] ?? data?.metadata?.["invoice_id"];
+        const reference = data?.reference ?? `paystack-${Date.now()}`;
         if (invoiceId) {
           try {
-            await billingService.markPaid(invoiceId, reference);
+            const invoice = await billingService.getById(invoiceId);
+            const paidMinor = data?.amount ?? 0;
+            const currency = (data?.currency ?? invoice.currency ?? "NGN").toUpperCase();
+            if (!amountsMatch(paidMinor, invoice.total, currency)) {
+              logger.warn(
+                { invoiceId, paidMinor, invoiceTotal: invoice.total, currency },
+                "Paystack payment amount mismatch — refusing markPaid",
+              );
+            } else {
+              await billingService.markPaid(invoiceId, reference);
+            }
           } catch (err) {
             if (!(err instanceof InvoiceAlreadyPaidError) && !(err instanceof InvoiceNotFoundError)) {
               throw err;

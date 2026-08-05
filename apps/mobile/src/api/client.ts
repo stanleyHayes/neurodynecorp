@@ -5,8 +5,42 @@ async function getToken(): Promise<string | null> {
   return authStorage.getToken();
 }
 
-async function request<T>(path: string, options: { method?: string; body?: any } = {}): Promise<T> {
-  const { method = "GET", body } = options;
+let refreshInFlight: Promise<boolean> | null = null;
+
+async function tryRefresh(): Promise<boolean> {
+  if (refreshInFlight) return refreshInFlight;
+
+  refreshInFlight = (async () => {
+    const refreshToken = await authStorage.getRefreshToken();
+    if (!refreshToken) return false;
+    try {
+      const res = await fetch(`${API_URL}/api/v1/auth/refresh`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ refreshToken }),
+      });
+      if (!res.ok) return false;
+      const data = await res.json();
+      const access = data.accessToken ?? data.access_token;
+      const nextRefresh = data.refreshToken ?? data.refresh_token ?? refreshToken;
+      if (!access) return false;
+      await authStorage.setTokens(access, nextRefresh);
+      return true;
+    } catch {
+      return false;
+    } finally {
+      refreshInFlight = null;
+    }
+  })();
+
+  return refreshInFlight;
+}
+
+async function request<T>(
+  path: string,
+  options: { method?: string; body?: any; _retried?: boolean } = {},
+): Promise<T> {
+  const { method = "GET", body, _retried } = options;
   const token = await getToken();
 
   const headers: Record<string, string> = { "Content-Type": "application/json" };
@@ -17,6 +51,15 @@ async function request<T>(path: string, options: { method?: string; body?: any }
     headers,
     body: body ? JSON.stringify(body) : undefined,
   });
+
+  if (res.status === 401 && token && !_retried) {
+    const refreshed = await tryRefresh();
+    if (refreshed) {
+      return request<T>(path, { ...options, _retried: true });
+    }
+    await authStorage.clearSession();
+    throw new Error("Your session has expired. Please sign in again.");
+  }
 
   if (res.status === 401 && token) {
     await authStorage.clearSession();

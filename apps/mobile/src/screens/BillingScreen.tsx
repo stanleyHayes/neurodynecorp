@@ -146,7 +146,10 @@ export default function BillingScreen() {
     .filter((inv) => inv.status === "paid" || inv.status === "Paid")
     .reduce((sum, inv) => sum + (inv.total ?? inv.amount ?? 0), 0);
   const totalOutstanding = invoices
-    .filter((inv) => inv.status === "pending" || inv.status === "Pending")
+    .filter((inv) => {
+      const s = (inv.status ?? "").toLowerCase();
+      return s !== "paid" && s !== "cancelled" && s !== "canceled" && s !== "refunded";
+    })
     .reduce((sum, inv) => sum + (inv.total ?? inv.amount ?? 0), 0);
 
   if (loading) return <SkeletonBilling />;

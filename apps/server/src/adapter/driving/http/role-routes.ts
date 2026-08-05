@@ -13,6 +13,7 @@ import {
 } from "../../../domain/entity/permission.js";
 import type { User } from "../../../domain/entity/user.js";
 import { asKnownRole } from "../../../middleware/rbac-helpers.js";
+import { toApiUser } from "./user-serializer.js";
 
 function toApiRole(role: RBACRole) {
   return {
@@ -237,8 +238,7 @@ export function createRoleRoutes(
         updatedAt: new Date(),
       });
 
-      const { passwordHash: _, ...safe } = updated;
-      res.status(200).json(safe);
+      res.status(200).json(toApiUser(updated as unknown as Record<string, unknown>));
     } catch (err) {
       next(err);
     }
@@ -267,8 +267,7 @@ export function createRoleRoutes(
         updatedAt: new Date(),
       });
 
-      const { passwordHash: _, ...safe } = updated;
-      res.status(200).json(safe);
+      res.status(200).json(toApiUser(updated as unknown as Record<string, unknown>));
     } catch (err) {
       next(err);
     }

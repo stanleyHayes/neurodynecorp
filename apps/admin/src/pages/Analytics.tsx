@@ -26,21 +26,8 @@ import SectionLabel from "@/components/shared/AnimatedGrid";
 import ChartCard from "@/components/shared/ChartCard";
 import { AXIS_STYLE, GRID_STYLE, TOOLTIP_STYLE, fmtTooltipK, fmtTooltipPct } from "@/data/chartTheme";
 
-// TODO: Replace with analytics aggregation API when available
-const revenueTimeSeries = [
-  { month: "Apr", revenue: 42000, costs: 28000, profit: 14000 },
-  { month: "May", revenue: 55000, costs: 34000, profit: 21000 },
-  { month: "Jun", revenue: 48000, costs: 31000, profit: 17000 },
-  { month: "Jul", revenue: 62000, costs: 38000, profit: 24000 },
-  { month: "Aug", revenue: 58000, costs: 35000, profit: 23000 },
-  { month: "Sep", revenue: 71000, costs: 42000, profit: 29000 },
-  { month: "Oct", revenue: 68000, costs: 40000, profit: 28000 },
-  { month: "Nov", revenue: 82000, costs: 48000, profit: 34000 },
-  { month: "Dec", revenue: 78000, costs: 45000, profit: 33000 },
-  { month: "Jan", revenue: 95000, costs: 55000, profit: 40000 },
-  { month: "Feb", revenue: 110000, costs: 62000, profit: 48000 },
-  { month: "Mar", revenue: 125000, costs: 68000, profit: 57000 },
-];
+// Empty until analytics aggregation API ships.
+const revenueTimeSeries: { month: string; revenue: number; costs: number; profit: number }[] = [];
 
 const projectsByStatus = [
   { name: "In Progress", value: 4, color: "#F59E0B" },
@@ -120,10 +107,10 @@ const team = [
 const fmtK = (v: number) => `$${(v / 1000).toFixed(0)}K`;
 
 const kpiStats = [
-  { label: "Revenue MTD", value: "$125K", change: "+22%", icon: <TrendingUpOutlinedIcon />, color: "#6C63FF" },
-  { label: "Growth Rate", value: "18%", change: "+3% vs Q3", icon: <ShowChartOutlinedIcon />, color: "#00D4AA" },
-  { label: "Avg Project Value", value: "$58K", change: "12 active", icon: <PieChartOutlinedIcon />, color: "#8B85FF" },
-  { label: "Client Retention", value: "92%", change: "1 churned", icon: <GroupsOutlinedIcon />, color: "#10B981" },
+  { label: "Revenue MTD", value: "—", change: "aggregation API pending", icon: <TrendingUpOutlinedIcon />, color: "#6C63FF" },
+  { label: "Growth Rate", value: "—", change: "aggregation API pending", icon: <ShowChartOutlinedIcon />, color: "#00D4AA" },
+  { label: "Avg Project Value", value: "—", change: "aggregation API pending", icon: <PieChartOutlinedIcon />, color: "#8B85FF" },
+  { label: "Client Retention", value: "—", change: "aggregation API pending", icon: <GroupsOutlinedIcon />, color: "#10B981" },
 ];
 
 export default function Analytics() {
@@ -211,7 +198,7 @@ export default function Analytics() {
 
         <ChartCard title="Profit Margin Trend" color="#10B981" index="06" colInRow={1} totalCols={2} animDelay={0.6} height={280}>
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={revenueTimeSeries.map((d) => ({ ...d, margin: Math.round((d.profit / d.revenue) * 100) }))}>
+            <LineChart data={revenueTimeSeries.map((d) => ({ ...d, margin: d.revenue ? Math.round((d.profit / d.revenue) * 100) : 0 }))}>
               <CartesianGrid {...GRID_STYLE} />
               <XAxis dataKey="month" tick={AXIS_STYLE} />
               <YAxis tick={AXIS_STYLE} tickFormatter={(v) => `${v}%`} />
