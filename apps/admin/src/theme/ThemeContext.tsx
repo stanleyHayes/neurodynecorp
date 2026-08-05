@@ -6,9 +6,14 @@ type Mode = "dark" | "light";
 interface ThemeContextValue {
   mode: Mode;
   toggleMode: () => void;
+  setMode: (mode: Mode) => void;
 }
 
-const ThemeContext = createContext<ThemeContextValue>({ mode: "dark", toggleMode: () => {} });
+const ThemeContext = createContext<ThemeContextValue>({
+  mode: "dark",
+  toggleMode: () => {},
+  setMode: () => {},
+});
 
 export const useThemeMode = () => useContext(ThemeContext);
 
@@ -97,10 +102,15 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     });
   };
 
+  const applyMode = (next: Mode) => {
+    localStorage.setItem(STORAGE_KEY, next);
+    setMode(next);
+  };
+
   const theme = useMemo(() => makeTheme(mode), [mode]);
 
   return (
-    <ThemeContext.Provider value={{ mode, toggleMode }}>
+    <ThemeContext.Provider value={{ mode, toggleMode, setMode: applyMode }}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}

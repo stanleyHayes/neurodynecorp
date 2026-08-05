@@ -158,7 +158,13 @@ export function createTestimonialRoutes(service: ContentService<any>, tokenServi
 
 export function createServiceItemRoutes(service: ContentService<any>, tokenService: TokenService) {
   return createCrudRoutes("services", service, tokenService, {
-    createFn: (data) => createServiceItem({ ...data, status: data.status ?? "active", features: data.features ?? [], order: data.order ?? 0 }),
+    createFn: (data) => createServiceItem({
+      ...data,
+      status: data.status ?? "active",
+      features: data.features ?? [],
+      order: data.order ?? 0,
+      projectCount: data.projectCount ?? 0,
+    }),
     publicRead: true,
   });
 }

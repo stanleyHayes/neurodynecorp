@@ -11,6 +11,7 @@ interface User {
   permissions: string[];
   avatar?: string;
   company?: string;
+  phone?: string;
 }
 
 interface AuthState {
@@ -21,6 +22,7 @@ interface AuthState {
   login: (email: string, password: string) => Promise<void>;
   register: (data: { email: string; password: string; first_name: string; last_name: string; company?: string; phone?: string }) => Promise<void>;
   logout: () => void;
+  updateProfile: (data: { first_name: string; last_name: string; phone?: string; company?: string }) => Promise<void>;
   hasPermission: (permission: string) => boolean;
   permissions: string[];
 }
@@ -96,6 +98,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (data: { first_name: string; last_name: string; phone?: string; company?: string }) => {
+    const updated = (await api.updateProfile(data)) as User;
+    localStorage.setItem(USER_KEY, JSON.stringify(updated));
+    setUser(updated);
+  }, [api]);
+
   const permissions = user?.permissions ?? [];
   const hasPermsData = permissions.length > 0;
 
@@ -106,7 +114,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, isLoading, api, login, register, logout, hasPermission, permissions }}
+      value={{ user, isAuthenticated: !!user, isLoading, api, login, register, logout, updateProfile, hasPermission, permissions }}
     >
       {children}
     </AuthContext.Provider>

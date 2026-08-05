@@ -165,7 +165,7 @@ export function createWebhookRoutes(repo: MongoWebhookRepository, tokenService: 
           status: response.ok ? "success" : "failed",
           responseCode: response.status,
         });
-      } catch (err) {
+      } catch {
         delivery = await repo.updateDelivery({
           ...delivery,
           status: "failed",

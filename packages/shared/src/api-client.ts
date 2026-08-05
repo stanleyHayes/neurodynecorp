@@ -77,7 +77,10 @@ export class ApiClient {
     return this.request<{ access_token: string; refresh_token: string }>("/api/v1/auth/refresh", { method: "POST", body: { refresh_token: refreshToken } });
   }
   getProfile() {
-    return this.request<{ user_id: string }>("/api/v1/auth/profile");
+    return this.request<UserData>("/api/v1/auth/profile");
+  }
+  updateProfile(data: { first_name?: string; last_name?: string; phone?: string; company?: string }) {
+    return this.request<UserData>("/api/v1/auth/profile", { method: "PATCH", body: data });
   }
 
   // Projects
@@ -626,7 +629,7 @@ interface RBACRole { id: string; name: string; description: string; permissions:
 interface PaginatedResponse<T> { items: T[]; total: number; page: number; page_size: number }
 interface Milestone { id: string; name: string; description: string; due_date: string; completed_at?: string; status: "pending" | "in_progress" | "completed" | "overdue" }
 interface Attachment { id: string; file_name: string; file_url: string; file_size: number; mime_type: string; uploaded_at: string }
-interface Project { id: string; client_id: string; title: string; description: string; type: string; status: string; features: unknown[]; progress: number; assigned_team: string[]; specification_id?: string; milestones: Milestone[]; attachments: Attachment[]; created_at: string; updated_at: string }
+interface Project { id: string; client_id: string; title: string; description: string; type: string; status: string; features: unknown[]; progress: number; assigned_team: string[]; assigned_team_members?: { id: string; first_name: string; last_name: string; email: string; role: string; avatar?: string }[]; specification_id?: string; milestones: Milestone[]; attachments: Attachment[]; created_at: string; updated_at: string }
 interface CreateProjectData { title: string; description: string; type: string; features?: unknown[]; user_roles?: string[]; budget_range?: { min: number; max: number; currency: string }; timeline?: { duration_weeks: number; preferred_urgency: string } }
 interface Specification { id: string; project_id: string; version: number; status: string; overview: string; objectives: string[]; feature_breakdown: unknown[]; created_at: string; updated_at: string }
 interface Question { id: string; text: string; type: string; options?: string[]; required: boolean; order: number; category: string; help_text?: string }

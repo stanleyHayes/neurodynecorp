@@ -3,7 +3,6 @@
  * Uses pre-generated MongoDB ObjectId hex strings so relationships are consistent.
  */
 
-import { ObjectId } from "mongodb";
 import { createHash } from "crypto";
 import type { User } from "../../../domain/entity/user.js";
 import type { Project } from "../../../domain/entity/project.js";

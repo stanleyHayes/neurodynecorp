@@ -16,10 +16,17 @@ import MessagesScreen from "../screens/MessagesScreen";
 import BillingScreen from "../screens/BillingScreen";
 import NotificationsScreen from "../screens/NotificationsScreen";
 import ProfileScreen from "../screens/ProfileScreen";
+import ProjectDetailScreen from "../screens/ProjectDetailScreen";
 import LoginScreen from "../screens/LoginScreen";
 
+export type RootStackParamList = {
+  Main: undefined;
+  ProjectDetail: { projectId: string };
+  Login: undefined;
+};
+
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<RootStackParamList>();
 
 const darkTheme = {
   ...DefaultTheme,
@@ -134,7 +141,21 @@ export default function AppNavigator({ onReady }: AppNavigatorProps) {
     <NavigationContainer theme={darkTheme} onReady={onReady}>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {isAuthenticated ? (
-          <Stack.Screen name="Main" component={MainTabs} />
+          <>
+            <Stack.Screen name="Main" component={MainTabs} />
+            <Stack.Screen
+              name="ProjectDetail"
+              component={ProjectDetailScreen}
+              options={{
+                headerShown: true,
+                title: "Project",
+                headerStyle: { backgroundColor: colors.surface },
+                headerTintColor: colors.text,
+                headerTitleStyle: { fontFamily: fonts.bold },
+                headerBackTitle: "Back",
+              }}
+            />
+          </>
         ) : (
           <Stack.Screen name="Login" component={LoginScreen} />
         )}

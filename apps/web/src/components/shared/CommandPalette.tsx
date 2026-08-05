@@ -125,7 +125,7 @@ export default function CommandPalette() {
       { id: "projects", label: "Projects", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/projects"); close(); }, keywords: "case studies portfolio systems rentos auraedu" },
       // Actions
       { id: "start", label: "Start a Project", group: "ACTIONS", icon: <RocketLaunchOutlinedIcon />, shortcut: "↵", action: () => { navigate("/start-project"); close(); }, keywords: "begin new build hire quote" },
-      { id: "book", label: "Book a Discovery Call", group: "ACTIONS", icon: <VideoCallOutlinedIcon />, action: () => { navigate("/contact"); close(); }, keywords: "calendly meeting schedule chat" },
+      { id: "book", label: "Book a Discovery Call", group: "ACTIONS", icon: <VideoCallOutlinedIcon />, action: () => { navigate("/book"); close(); }, keywords: "calendly meeting schedule chat reading" },
       { id: "theme", label: mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode", group: "ACTIONS", icon: mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />, action: () => { toggleTheme(); close(); } },
       // External
       { id: "github", label: "GitHub", group: "SOCIAL", icon: <GitHubIcon />, action: () => { window.open("https://github.com/stanleyHayes", "_blank"); close(); } },

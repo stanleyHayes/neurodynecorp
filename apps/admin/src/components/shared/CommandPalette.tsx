@@ -21,6 +21,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import KeyboardCommandKeyIcon from "@mui/icons-material/KeyboardCommandKey";
 import LogoutOutlinedIcon from "@mui/icons-material/LogoutOutlined";
 import { playSound } from "@/hooks/useSound";
+import { useAuth } from "@/context/AuthContext";
 
 const MotionBox = motion.create(Box);
 
@@ -40,6 +41,7 @@ export default function CommandPalette() {
   const [activeIdx, setActiveIdx] = useState(0);
   const inputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
+  const { logout } = useAuth();
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -96,9 +98,9 @@ export default function CommandPalette() {
       { id: "new-member", label: "New Team Member", group: "CREATE", icon: <AddOutlinedIcon />, action: () => { navigate("/team/new"); close(); }, keywords: "user staff add hire" },
       // Settings
       { id: "settings", label: "Settings", group: "ACCOUNT", icon: <SettingsOutlinedIcon />, action: () => { navigate("/settings"); close(); } },
-      { id: "logout", label: "Sign Out", group: "ACCOUNT", icon: <LogoutOutlinedIcon />, action: () => { navigate("/login"); close(); }, keywords: "logout exit leave" },
+      { id: "logout", label: "Sign Out", group: "ACCOUNT", icon: <LogoutOutlinedIcon />, action: () => { logout(); navigate("/login"); close(); }, keywords: "logout exit leave" },
     ],
-    [navigate]
+    [navigate, logout]
   );
 
   const filtered = useMemo(() => {

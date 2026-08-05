@@ -506,7 +506,9 @@ async function main(): Promise<void> {
   // ── Mount routes ────────────────────────────────────────────────────────────
 
   app.use("/api/v1/auth", createAuthRoutes(authService, tokenService as Any));
-  app.use("/api/v1/projects", createProjectRoutes(projectService, tokenService as Any));
+  app.use("/api/v1/projects", createProjectRoutes(projectService, tokenService as Any, {
+    findById: (id: string) => userRepo.findById(id),
+  }));
   app.use("/api/v1/specifications", createSpecRoutes(specService, tokenService as Any));
   app.use("/api/v1/questionnaire", createQuestionnaireRoutes(questionnaireService, tokenService as Any));
   app.use("/api/v1/project-intakes", createProjectIntakeRoutes(

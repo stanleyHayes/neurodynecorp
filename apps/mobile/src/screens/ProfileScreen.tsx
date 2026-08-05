@@ -6,6 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
+  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -20,9 +21,17 @@ import {
 } from "../config";
 
 export default function ProfileScreen({ navigation }: { navigation?: any }) {
-  const { user, logout } = useAuth();
+  const { user, logout, updateProfile } = useAuth();
   const [privacyLoading, setPrivacyLoading] = useState(false);
   const [pendingErasure, setPendingErasure] = useState(false);
+  const [editing, setEditing] = useState(false);
+  const [saving, setSaving] = useState(false);
+  const [form, setForm] = useState({
+    first_name: "",
+    last_name: "",
+    phone: "",
+    company: "",
+  });
 
   const firstName = user?.first_name ?? "";
   const lastName = user?.last_name ?? "";
@@ -30,6 +39,16 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
   const email = user?.email ?? "";
   const company = user?.company ?? "";
   const initials = `${firstName.charAt(0)}${lastName.charAt(0)}`.toUpperCase() || "U";
+
+  useEffect(() => {
+    if (!user) return;
+    setForm({
+      first_name: user.first_name ?? "",
+      last_name: user.last_name ?? "",
+      phone: user.phone ?? "",
+      company: user.company ?? "",
+    });
+  }, [user]);
 
   useEffect(() => {
     listMyPrivacyRequests()
@@ -48,6 +67,28 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
       Alert.alert("Request failed", error instanceof Error ? error.message : "Please try again later.");
     } finally {
       setPrivacyLoading(false);
+    }
+  };
+
+  const saveProfile = async () => {
+    if (!form.first_name.trim() || !form.last_name.trim()) {
+      Alert.alert("Missing name", "First and last name are required.");
+      return;
+    }
+    setSaving(true);
+    try {
+      await updateProfile({
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim(),
+      });
+      setEditing(false);
+      Alert.alert("Profile updated", "Your account details were saved.");
+    } catch (error) {
+      Alert.alert("Update failed", error instanceof Error ? error.message : "Please try again later.");
+    } finally {
+      setSaving(false);
     }
   };
 
@@ -78,12 +119,62 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
   };
 
   return (
-    <ScrollView style={styles.container} contentContainerStyle={styles.content}>
+    <ScrollView style={styles.container} contentContainerStyle={styles.content} keyboardShouldPersistTaps="handled">
       <View style={styles.header}>
         <View style={styles.avatar}><Text style={styles.avatarText}>{initials}</Text></View>
         <Text style={styles.name}>{fullName}</Text>
         {email ? <Text style={styles.email}>{email}</Text> : null}
         {company ? <Text style={styles.company}>{company}</Text> : null}
+      </View>
+
+      <Text style={styles.sectionLabel}>PROFILE</Text>
+      <View style={styles.section}>
+        {editing ? (
+          <View style={styles.editBlock}>
+            <Text style={styles.fieldLabel}>First name</Text>
+            <TextInput
+              style={styles.input}
+              value={form.first_name}
+              onChangeText={(value) => setForm((current) => ({ ...current, first_name: value }))}
+              autoCapitalize="words"
+              maxLength={100}
+            />
+            <Text style={styles.fieldLabel}>Last name</Text>
+            <TextInput
+              style={styles.input}
+              value={form.last_name}
+              onChangeText={(value) => setForm((current) => ({ ...current, last_name: value }))}
+              autoCapitalize="words"
+              maxLength={100}
+            />
+            <Text style={styles.fieldLabel}>Phone</Text>
+            <TextInput
+              style={styles.input}
+              value={form.phone}
+              onChangeText={(value) => setForm((current) => ({ ...current, phone: value }))}
+              keyboardType="phone-pad"
+              maxLength={30}
+            />
+            <Text style={styles.fieldLabel}>Company</Text>
+            <TextInput
+              style={styles.input}
+              value={form.company}
+              onChangeText={(value) => setForm((current) => ({ ...current, company: value }))}
+              maxLength={200}
+            />
+            <Text style={styles.helper}>Email cannot be changed here. Contact support if you need a new sign-in address.</Text>
+            <View style={styles.editActions}>
+              <TouchableOpacity style={styles.secondaryButton} onPress={() => setEditing(false)} disabled={saving}>
+                <Text style={styles.secondaryButtonText}>Cancel</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.primaryButton} onPress={() => void saveProfile()} disabled={saving}>
+                {saving ? <ActivityIndicator color="#fff" /> : <Text style={styles.primaryButtonText}>Save</Text>}
+              </TouchableOpacity>
+            </View>
+          </View>
+        ) : (
+          <MenuItem label="Edit profile" onPress={() => setEditing(true)} />
+        )}
       </View>
 
       <Text style={styles.sectionLabel}>ACCOUNT</Text>
@@ -150,6 +241,24 @@ const styles = StyleSheet.create({
   menuItem: { backgroundColor: colors.surface, padding: 16, borderBottomWidth: StyleSheet.hairlineWidth, borderBottomColor: colors.border, flexDirection: "row", justifyContent: "space-between", alignItems: "center" },
   menuText: { fontSize: 15, color: colors.text, fontWeight: "500" },
   chevron: { color: colors.textSecondary, fontSize: 24 },
+  editBlock: { backgroundColor: colors.surface, padding: 16 },
+  fieldLabel: { color: colors.textSecondary, fontSize: 11, letterSpacing: 1.2, textTransform: "uppercase", marginBottom: 6, marginTop: 8 },
+  input: {
+    borderWidth: 1,
+    borderColor: colors.border,
+    borderRadius: 6,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+    color: colors.text,
+    backgroundColor: colors.background,
+    marginBottom: 4,
+  },
+  helper: { color: colors.textSecondary, fontSize: 12, marginTop: 10, marginBottom: 12, lineHeight: 18 },
+  editActions: { flexDirection: "row", gap: 10 },
+  secondaryButton: { flex: 1, borderWidth: 1, borderColor: colors.border, borderRadius: 6, padding: 12, alignItems: "center" },
+  secondaryButtonText: { color: colors.textSecondary, fontWeight: "600" },
+  primaryButton: { flex: 1, backgroundColor: colors.primary, borderRadius: 6, padding: 12, alignItems: "center" },
+  primaryButtonText: { color: "#fff", fontWeight: "700" },
   dangerZone: { marginTop: 28, padding: 16, borderWidth: 1, borderColor: "rgba(239,68,68,.35)", borderRadius: 8, backgroundColor: "rgba(239,68,68,.06)" },
   dangerTitle: { color: colors.error, fontSize: 16, fontWeight: "700" },
   dangerCopy: { color: colors.textSecondary, fontSize: 13, lineHeight: 19, marginTop: 6 },

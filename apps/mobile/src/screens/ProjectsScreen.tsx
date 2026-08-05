@@ -8,10 +8,13 @@ import {
   Animated,
   Easing,
 } from "react-native";
+import { useNavigation } from "@react-navigation/native";
+import type { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
 import { listProjects } from "../api/client";
+import type { RootStackParamList } from "../navigation/AppNavigator";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
@@ -113,6 +116,7 @@ function SkeletonProjects() {
 /* ── main screen ─────────────────────────────────────────────── */
 
 export default function ProjectsScreen() {
+  const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<any[]>([]);
 
@@ -144,11 +148,13 @@ export default function ProjectsScreen() {
         const sc = statusColor(project.status);
         const progress = project.progress ?? 0;
         const nextMilestone = getNextMilestone(project);
+        const teamCount = (project.assigned_team_members ?? []).length;
         return (
           <TouchableOpacity
             key={project.id}
             style={styles.card}
             activeOpacity={0.7}
+            onPress={() => navigation.navigate("ProjectDetail", { projectId: project.id })}
           >
             <Brackets />
 
@@ -179,6 +185,7 @@ export default function ProjectsScreen() {
 
             <Text style={styles.milestone}>
               NEXT: {nextMilestone.toUpperCase()}
+              {teamCount > 0 ? `  ·  TEAM ${teamCount}` : ""}
             </Text>
           </TouchableOpacity>
         );

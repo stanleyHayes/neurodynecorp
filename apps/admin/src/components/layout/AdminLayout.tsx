@@ -63,13 +63,15 @@ export default function AdminLayout() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { api, logout } = useAuth();
+  const { api, logout, user } = useAuth();
   const { on } = useSocket();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const displayName = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.email || "Account";
+  const initials = `${user?.first_name?.[0] ?? ""}${user?.last_name?.[0] ?? ""}`.toUpperCase() || "AC";
 
   // Fetch unread count on mount and when navigating back from notifications
   const fetchUnreadCount = useCallback(async () => {
@@ -194,14 +196,14 @@ export default function AdminLayout() {
               }}
             >
               <Avatar sx={{ bgcolor: "#6C63FF30", color: "#6C63FF", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
-                AA
+                {initials}
               </Avatar>
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
-                  Ayo Adeyemi
+                  {displayName}
                 </Typography>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#6C63FF", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
-                  ADMIN
+                  {user?.role.replaceAll("_", " ").toUpperCase()}
                 </Typography>
               </Box>
             </Box>

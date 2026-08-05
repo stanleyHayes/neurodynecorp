@@ -1,13 +1,7 @@
-import { useState, type FormEvent } from "react";
 import { Link } from "react-router";
 import {
-  Box,
-  Button,
-  TextField,
   Typography,
   Alert,
-  CircularProgress,
-  Stack,
   Link as MuiLink,
 } from "@mui/material";
 import { Speed, Shield, BarChart } from "@mui/icons-material";
@@ -20,30 +14,6 @@ const cards = [
 ];
 
 export default function ForgotPassword() {
-  const [email, setEmail] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [sent, setSent] = useState(false);
-  const [error, setError] = useState("");
-
-  const handleSubmit = async (e: FormEvent) => {
-    e.preventDefault();
-    setError("");
-    if (!email.trim()) {
-      setError("Please enter your email address.");
-      return;
-    }
-    setLoading(true);
-    try {
-      // TODO: integrate real password reset API
-      await new Promise((r) => setTimeout(r, 1500));
-      setSent(true);
-    } catch (err) {
-      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
     <AuthLayout
       brandTitle="NeuroDyne Admin"
@@ -54,44 +24,16 @@ export default function ForgotPassword() {
         Reset your password
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 4 }}>
-        Enter your email and we'll send you a link to reset your password.
+        Self-service password reset is not available yet.
       </Typography>
 
-      {sent ? (
-        <Alert severity="success" sx={{ mb: 3, borderRadius: 1 }}>
-          If an account exists with that email, you'll receive a password reset link shortly.
-        </Alert>
-      ) : (
-        <>
-          {error && (
-            <Alert severity="error" sx={{ mb: 3, borderRadius: 1 }}>{error}</Alert>
-          )}
-
-          <Box component="form" onSubmit={handleSubmit}>
-            <Stack spacing={2.5}>
-              <TextField label="Email address" type="email" fullWidth required autoComplete="email" autoFocus value={email} onChange={(e) => setEmail(e.target.value)} />
-              <Button
-                type="submit"
-                variant="contained"
-                fullWidth
-                size="large"
-                disabled={loading}
-                sx={{
-                  py: 1.5,
-                  fontSize: "1rem",
-                  fontWeight: 700,
-                  borderRadius: 1,
-                  background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
-                  boxShadow: "0 4px 16px rgba(108, 99, 255, 0.3)",
-                  "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(108, 99, 255, 0.4)" },
-                }}
-              >
-                {loading ? <CircularProgress size={24} color="inherit" /> : "Send Reset Link"}
-              </Button>
-            </Stack>
-          </Box>
-        </>
-      )}
+      <Alert severity="info" sx={{ mb: 3, borderRadius: 1 }}>
+        Ask another administrator to reset your account, or email{" "}
+        <MuiLink href="mailto:support@neurodynecorp.com" sx={{ fontWeight: 600 }}>
+          support@neurodynecorp.com
+        </MuiLink>
+        .
+      </Alert>
 
       <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
         Remember your password?{" "}

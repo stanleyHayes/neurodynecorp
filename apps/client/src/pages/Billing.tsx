@@ -10,7 +10,6 @@ import {
   TableHead,
   TableRow,
   Chip,
-  Button,
   Grid,
   Skeleton,
 } from "@mui/material";
@@ -183,7 +182,9 @@ export default function Billing() {
                       </TableCell>
                       <TableCell align="right">
                         {(inv.status === "pending" || inv.status === "sent") && (
-                          <Button size="small" variant="contained">Pay Now</Button>
+                          <Typography variant="caption" color="text.secondary">
+                            Contact your PM to arrange payment
+                          </Typography>
                         )}
                       </TableCell>
                     </TableRow>

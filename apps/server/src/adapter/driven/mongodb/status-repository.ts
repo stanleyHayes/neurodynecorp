@@ -155,7 +155,7 @@ export class MongoStatusRepository {
 
   async updateComponent(component: StatusComponent): Promise<StatusComponent> {
     const doc = componentToDoc({ ...component, updatedAt: new Date() });
-    const { _id, created_at, ...rest } = doc;
+    const { _id, created_at: _created_at, ...rest } = doc;
     await this.components.updateOne({ _id }, { $set: rest });
     return componentFromDoc(doc);
   }
@@ -185,7 +185,7 @@ export class MongoStatusRepository {
 
   async updateIncident(incident: Incident): Promise<Incident> {
     const doc = incidentToDoc({ ...incident, updatedAt: new Date() });
-    const { _id, created_at, ...rest } = doc;
+    const { _id, created_at: _created_at, ...rest } = doc;
     await this.incidents.updateOne({ _id }, { $set: rest });
     return incidentFromDoc(doc);
   }

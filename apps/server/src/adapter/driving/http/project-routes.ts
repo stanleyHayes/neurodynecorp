@@ -5,10 +5,29 @@ import { authMiddleware, requirePermission, type TokenService } from "../../../m
 import { ValidationError, NotFoundError, AppError } from "../../../middleware/error-handler.js";
 import type { ProjectService } from "../../../app/project-service.js";
 import { ProjectNotFoundError, InvalidStatusTransitionError } from "../../../app/project-service.js";
-import type { Project } from "../../../domain/entity/project.js";
+
+export interface ProjectTeamMemberLookup {
+  findById(id: string): Promise<{
+    id: string;
+    email?: string;
+    firstName?: string;
+    lastName?: string;
+    role?: string;
+    avatar?: string;
+  } | null>;
+}
+
+type ApiTeamMember = {
+  id: string;
+  first_name: string;
+  last_name: string;
+  email: string;
+  role: string;
+  avatar?: string;
+};
 
 // Serialize Project entity to API response format (snake_case, title instead of name)
-function toApiProject(p: any) {
+function toApiProject(p: any, teamMembers: ApiTeamMember[] = []) {
   return {
     id: p.id,
     client_id: p.clientId,
@@ -23,9 +42,11 @@ function toApiProject(p: any) {
     timeline: p.timeline,
     attachments: p.attachments ?? [],
     assigned_team: p.assignedTeam,
+    // Public/display profile for assigned staff — safe for clients who lack team:read.
+    assigned_team_members: teamMembers,
     specification_id: p.specificationId,
     progress: p.progress,
-    milestones: p.milestones.map((m) => ({
+    milestones: p.milestones.map((m: any) => ({
       id: m.id,
       name: m.name,
       description: m.description,
@@ -94,9 +115,56 @@ const listProjectsSchema = z.object({
   pageSize: z.coerce.number().int().positive().max(100).optional().default(20),
 });
 
+async function resolveTeamMembers(
+  userLookup: ProjectTeamMemberLookup | undefined,
+  teamIds: string[] | undefined,
+  cache: Map<string, ApiTeamMember>,
+): Promise<ApiTeamMember[]> {
+  if (!userLookup || !teamIds?.length) return [];
+
+  const members: ApiTeamMember[] = [];
+  for (const id of teamIds) {
+    const cached = cache.get(id);
+    if (cached) {
+      members.push(cached);
+      continue;
+    }
+    try {
+      const user = await userLookup.findById(id);
+      if (!user) continue;
+      const member: ApiTeamMember = {
+        id: user.id,
+        first_name: user.firstName ?? "",
+        last_name: user.lastName ?? "",
+        email: user.email ?? "",
+        role: user.role ?? "member",
+        ...(user.avatar ? { avatar: user.avatar } : {}),
+      };
+      cache.set(id, member);
+      members.push(member);
+    } catch {
+      // Skip unresolved members rather than failing the project response.
+    }
+  }
+  return members;
+}
+
+async function serializeProject(
+  project: any,
+  userLookup: ProjectTeamMemberLookup | undefined,
+  cache = new Map<string, ApiTeamMember>(),
+) {
+  const teamMembers = await resolveTeamMembers(userLookup, project.assignedTeam, cache);
+  return toApiProject(project, teamMembers);
+}
+
 // ---- Route factory ----
 
-export function createProjectRoutes(projectService: ProjectService, tokenService: TokenService): Router {
+export function createProjectRoutes(
+  projectService: ProjectService,
+  tokenService: TokenService,
+  userLookup?: ProjectTeamMemberLookup,
+): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
 
@@ -115,7 +183,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         ...(parsed.data as any),
         clientId: req.userId!,
       });
-      res.status(201).json(toApiProject(project));
+      res.status(201).json(await serializeProject(project, userLookup));
     } catch (err) {
       next(err);
     }
@@ -143,8 +211,10 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
       }
 
       const result = await projectService.listProjects(filter as Parameters<typeof projectService.listProjects>[0]);
+      const cache = new Map<string, ApiTeamMember>();
+      const items = await Promise.all(result.projects.map((p) => serializeProject(p, userLookup, cache)));
       res.status(200).json({
-        items: result.projects.map(toApiProject),
+        items,
         total: result.total,
         page: parsed.data.page,
         page_size: parsed.data.pageSize,
@@ -163,7 +233,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
       if (req.userRole === "client" && project.clientId !== req.userId) {
         return next(new NotFoundError("Project", String(req.params.id)));
       }
-      res.status(200).json(toApiProject(project));
+      res.status(200).json(await serializeProject(project, userLookup));
     } catch (err) {
       if (err instanceof ProjectNotFoundError) {
         return next(new NotFoundError("Project", String(req.params.id)));
@@ -184,7 +254,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.updateStatus(String(req.params.id), parsed.data.status);
-        res.status(200).json(toApiProject(project));
+        res.status(200).json(await serializeProject(project, userLookup));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", String(req.params.id)));
@@ -209,7 +279,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.assignTeam(String(req.params.id), parsed.data.teamMemberIds);
-        res.status(200).json(toApiProject(project));
+        res.status(200).json(await serializeProject(project, userLookup));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", String(req.params.id)));
@@ -231,7 +301,7 @@ export function createProjectRoutes(projectService: ProjectService, tokenService
         }
 
         const project = await projectService.updateProgress(String(req.params.id), parsed.data.progress);
-        res.status(200).json(toApiProject(project));
+        res.status(200).json(await serializeProject(project, userLookup));
       } catch (err) {
         if (err instanceof ProjectNotFoundError) {
           return next(new NotFoundError("Project", String(req.params.id)));

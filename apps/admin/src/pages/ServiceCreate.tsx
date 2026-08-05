@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Typography, TextField, MenuItem, Stack, Button } from "@mui/material";
+import { Box, Typography, TextField, MenuItem, Stack, Button, Alert, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
@@ -13,6 +13,7 @@ import StorageOutlinedIcon from "@mui/icons-material/StorageOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
+import { useAuth } from "@/context/AuthContext";
 
 const BORDER = "rgba(108, 99, 255, 0.12)";
 
@@ -27,7 +28,11 @@ const ICONS = [
 
 const iconMap: Record<string, React.ReactNode> = Object.fromEntries(ICONS.map((i) => [i.value, i.icon]));
 
-const STATUSES = ["Active", "Coming Soon", "Inactive"];
+const STATUSES = [
+  { label: "Active", value: "active" },
+  { label: "Coming Soon", value: "coming_soon" },
+  { label: "Inactive", value: "inactive" },
+];
 
 const COLORS = [
   { label: "Purple", value: "#6C63FF" },
@@ -53,21 +58,53 @@ const btnSx = {
 };
 
 const statusColor: Record<string, string> = {
-  Active: "#10B981",
-  "Coming Soon": "#F59E0B",
-  Inactive: "#94A3B8",
+  active: "#10B981",
+  coming_soon: "#F59E0B",
+  inactive: "#94A3B8",
+};
+
+const statusLabel: Record<string, string> = {
+  active: "Active",
+  coming_soon: "Coming Soon",
+  inactive: "Inactive",
 };
 
 export default function ServiceCreate() {
   const navigate = useNavigate();
+  const { api } = useAuth();
 
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("code");
-  const [status, setStatus] = useState("Active");
+  const [status, setStatus] = useState("active");
   const [color, setColor] = useState("#00D4AA");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const canSubmit = title.trim() && description.trim();
+  const canSubmit = Boolean(title.trim() && description.trim());
+
+  const handleSubmit = async () => {
+    if (!canSubmit || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      await api.createService({
+        title: title.trim(),
+        description: description.trim(),
+        icon,
+        status,
+        color,
+        features: [],
+        projectCount: 0,
+        order: 0,
+      });
+      navigate("/services");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to save service.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Box>
@@ -89,19 +126,30 @@ export default function ServiceCreate() {
         iconLabel="OFFERINGS"
       />
 
-      {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
           <Button variant="outlined" size="small" onClick={() => navigate("/services")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
             Cancel
           </Button>
-          <Button variant="outlined" size="small" startIcon={<SaveOutlinedIcon />} disabled={!canSubmit} sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}>
-            Save Service
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#10B981" }} /> : <SaveOutlinedIcon />}
+            disabled={!canSubmit || submitting}
+            onClick={handleSubmit}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+          >
+            {submitting ? "Saving…" : "Save Service"}
           </Button>
         </Stack>
       </Box>
 
-      {/* Form */}
+      {error && (
+        <Box sx={{ px: 3, pt: 2 }}>
+          <Alert severity="error" onClose={() => setError(null)}>{error}</Alert>
+        </Box>
+      )}
+
       <SectionLabel>Service Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
         <Cell color="#00D4AA" index="00" colInRow={0} totalCols={2} animDelay={0}>
@@ -116,14 +164,14 @@ export default function ServiceCreate() {
               {ICONS.map((i) => (
                 <MenuItem key={i.value} value={i.value}>
                   <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-                    <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 18 }, color: color, display: "flex" }}>{i.icon}</Box>
+                    <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 18 }, color, display: "flex" }}>{i.icon}</Box>
                     <span>{i.label}</span>
                   </Stack>
                 </MenuItem>
               ))}
             </TextField>
             <TextField select fullWidth size="small" label="Status" value={status} onChange={(e) => setStatus(e.target.value)} sx={inputSx}>
-              {STATUSES.map((s) => <MenuItem key={s} value={s}>{s}</MenuItem>)}
+              {STATUSES.map((s) => <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>)}
             </TextField>
             <TextField select fullWidth size="small" label="Accent Color" value={color} onChange={(e) => setColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
@@ -139,7 +187,6 @@ export default function ServiceCreate() {
         </Cell>
       </Box>
 
-      {/* Preview */}
       {canSubmit && (
         <>
           <SectionLabel>Preview</SectionLabel>
@@ -151,7 +198,7 @@ export default function ServiceCreate() {
               <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
                 <Typography variant="subtitle1" sx={{ fontWeight: 700 }}>{title}</Typography>
                 <Box sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${statusColor[status]}18`, color: statusColor[status], border: `1px solid ${statusColor[status]}30`, px: 1, py: 0.25, borderRadius: 1 }}>
-                  {status}
+                  {statusLabel[status]}
                 </Box>
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6 }}>{description}</Typography>

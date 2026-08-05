@@ -1,6 +1,7 @@
 import React, { createContext, useContext, useState, useCallback, useEffect, useMemo, type ReactNode } from "react";
 import { API_URL } from "../config";
 import { authStorage } from "../storage/auth-storage";
+import { updateProfile as updateProfileRequest } from "../api/client";
 
 interface User {
   id: string;
@@ -12,6 +13,7 @@ interface User {
   permissions: string[];
   avatar?: string;
   company?: string;
+  phone?: string;
 }
 
 interface AuthState {
@@ -20,6 +22,7 @@ interface AuthState {
   isLoading: boolean;
   login: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
+  updateProfile: (data: { first_name: string; last_name: string; phone?: string; company?: string }) => Promise<void>;
   hasPermission: (permission: string) => boolean;
   permissions: string[];
 }
@@ -71,6 +74,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (data: { first_name: string; last_name: string; phone?: string; company?: string }) => {
+    const updated = (await updateProfileRequest(data)) as User;
+    await authStorage.setUser(updated);
+    setUser(updated);
+  }, []);
+
   const permissions = useMemo(() => user?.permissions ?? [], [user?.permissions]);
   const hasPermsData = permissions.length > 0;
 
@@ -81,7 +90,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   return (
     <AuthContext.Provider
-      value={{ user, isAuthenticated: !!user, isLoading, login, logout, hasPermission, permissions }}
+      value={{ user, isAuthenticated: !!user, isLoading, login, logout, updateProfile, hasPermission, permissions }}
     >
       {children}
     </AuthContext.Provider>

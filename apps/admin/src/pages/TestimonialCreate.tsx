@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Box, Typography, TextField, MenuItem, Stack, Button, Avatar, Rating } from "@mui/material";
+import { Box, Typography, TextField, MenuItem, Stack, Button, Avatar, Rating, Alert, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import FormatQuoteOutlinedIcon from "@mui/icons-material/FormatQuoteOutlined";
@@ -8,6 +8,7 @@ import StarOutlinedIcon from "@mui/icons-material/StarOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
+import { useAuth } from "@/context/AuthContext";
 
 const BORDER = "rgba(108, 99, 255, 0.12)";
 
@@ -37,6 +38,7 @@ const btnSx = {
 
 export default function TestimonialCreate() {
   const navigate = useNavigate();
+  const { api } = useAuth();
 
   const [name, setName] = useState("");
   const [role, setRole] = useState("");
@@ -44,8 +46,10 @@ export default function TestimonialCreate() {
   const [content, setContent] = useState("");
   const [rating, setRating] = useState<number>(5);
   const [avatarColor, setAvatarColor] = useState("#6C63FF");
+  const [submitting, setSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
-  const canSubmit = name.trim() && role.trim() && company.trim() && content.trim();
+  const canSubmit = Boolean(name.trim() && role.trim() && company.trim() && content.trim());
 
   const initials = name
     .trim()
@@ -54,6 +58,28 @@ export default function TestimonialCreate() {
     .join("")
     .toUpperCase()
     .slice(0, 2);
+
+  const handleSubmit = async (status: "active" | "hidden") => {
+    if (!canSubmit || submitting) return;
+    setSubmitting(true);
+    setError(null);
+    try {
+      await api.createTestimonial({
+        name: name.trim(),
+        role: role.trim(),
+        company: company.trim(),
+        content: content.trim(),
+        rating,
+        avatarColor,
+        status,
+      });
+      navigate("/testimonials");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Failed to save testimonial.");
+    } finally {
+      setSubmitting(false);
+    }
+  };
 
   return (
     <Box>
@@ -75,22 +101,39 @@ export default function TestimonialCreate() {
         iconLabel="SOCIAL PROOF"
       />
 
-      {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
           <Button variant="outlined" size="small" onClick={() => navigate("/testimonials")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
             Cancel
           </Button>
-          <Button variant="outlined" size="small" startIcon={<SaveOutlinedIcon />} disabled={!canSubmit} sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#F59E0B" }} /> : <SaveOutlinedIcon />}
+            disabled={!canSubmit || submitting}
+            onClick={() => handleSubmit("hidden")}
+            sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+          >
             Save Hidden
           </Button>
-          <Button variant="outlined" size="small" disabled={!canSubmit} sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}>
+          <Button
+            variant="outlined"
+            size="small"
+            disabled={!canSubmit || submitting}
+            onClick={() => handleSubmit("active")}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+          >
             Publish
           </Button>
         </Stack>
       </Box>
 
-      {/* Form */}
+      {error && (
+        <Box sx={{ px: 3, pt: 2 }}>
+          <Alert severity="error" onClose={() => setError(null)}>{error}</Alert>
+        </Box>
+      )}
+
       <SectionLabel>Client Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
         <Cell color="#8B85FF" index="00" colInRow={0} totalCols={2} animDelay={0}>
@@ -141,7 +184,6 @@ export default function TestimonialCreate() {
         />
       </Cell>
 
-      {/* Preview */}
       {canSubmit && (
         <>
           <SectionLabel>Preview</SectionLabel>

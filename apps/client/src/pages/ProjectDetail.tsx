@@ -240,26 +240,41 @@ export default function ProjectDetail() {
         if (cancelled) return;
         setProject(data);
 
-        // Resolve team member IDs to user data
-        const teamIds: string[] = data.assigned_team ?? [];
-        if (teamIds.length > 0) {
-          const members = await Promise.all(
-            teamIds.map(async (uid: string) => {
-              try {
-                const u = await api.getUser(uid);
-                return {
-                  id: u.id,
-                  name: `${u.first_name} ${u.last_name}`,
-                  email: u.email,
-                  role: u.role?.replace(/_/g, " ") ?? "Member",
-                  avatar: u.avatar,
-                } as TeamMember;
-              } catch {
-                return { id: uid, name: "Unknown", email: "", role: "Member" } as TeamMember;
-              }
-            })
-          );
-          if (!cancelled) setTeamMembers(members);
+        // Resolve team from project payload (includes display profiles for clients)
+        const embedded = data.assigned_team_members ?? [];
+        if (embedded.length > 0) {
+          if (!cancelled) {
+            setTeamMembers(
+              embedded.map((u: any) => ({
+                id: u.id,
+                name: `${u.first_name ?? ""} ${u.last_name ?? ""}`.trim() || "Unknown",
+                email: u.email ?? "",
+                role: u.role?.replace(/_/g, " ") ?? "Member",
+                avatar: u.avatar,
+              })),
+            );
+          }
+        } else {
+          const teamIds: string[] = data.assigned_team ?? [];
+          if (teamIds.length > 0) {
+            const members = await Promise.all(
+              teamIds.map(async (uid: string) => {
+                try {
+                  const u = await api.getUser(uid);
+                  return {
+                    id: u.id,
+                    name: `${u.first_name} ${u.last_name}`,
+                    email: u.email,
+                    role: u.role?.replace(/_/g, " ") ?? "Member",
+                    avatar: u.avatar,
+                  } as TeamMember;
+                } catch {
+                  return { id: uid, name: "Unknown", email: "", role: "Member" } as TeamMember;
+                }
+              })
+            );
+            if (!cancelled) setTeamMembers(members);
+          }
         }
 
         // Decision Log (sovereign-grade audit trail) — best-effort, never blocks the page.

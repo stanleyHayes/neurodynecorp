@@ -4,7 +4,6 @@
  * historically accurate project data.
  */
 
-import { ObjectId } from "mongodb";
 import { createHash } from "crypto";
 import type { Project } from "../../../domain/entity/project.js";
 

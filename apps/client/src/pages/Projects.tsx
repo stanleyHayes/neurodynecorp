@@ -46,28 +46,20 @@ export default function Projects() {
         if (cancelled) return;
         setProjects(items);
 
-        // Collect unique team member IDs across all projects
-        const allIds = new Set<string>();
+        const map: Record<string, ResolvedUser> = {};
         for (const p of items) {
-          for (const uid of (p.assigned_team ?? [])) {
-            allIds.add(uid);
+          for (const member of (p.assigned_team_members ?? [])) {
+            if (map[member.id]) continue;
+            const initials = `${member.first_name?.[0] ?? ""}${member.last_name?.[0] ?? ""}`.toUpperCase() || "?";
+            map[member.id] = {
+              id: member.id,
+              initials,
+              name: `${member.first_name ?? ""} ${member.last_name ?? ""}`.trim() || "Unknown",
+              role: member.role?.replace(/_/g, " ") ?? "",
+            };
           }
         }
-
-        if (allIds.size > 0) {
-          const entries = await Promise.all(
-            Array.from(allIds).map(async (uid) => {
-              try {
-                const u = await api.getUser(uid);
-                const initials = `${u.first_name?.[0] ?? ""}${u.last_name?.[0] ?? ""}`.toUpperCase();
-                return [uid, { id: uid, initials, name: `${u.first_name} ${u.last_name}`, role: u.role?.replace(/_/g, " ") ?? "" }] as const;
-              } catch {
-                return [uid, { id: uid, initials: "?", name: "Unknown", role: "" }] as const;
-              }
-            })
-          );
-          if (!cancelled) setUserMap(Object.fromEntries(entries));
-        }
+        if (!cancelled) setUserMap(map);
       } catch {
         // handled by API client
       } finally {

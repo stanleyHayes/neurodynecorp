@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, useCallback, type ReactNode } from "react";
+import { createContext, useContext, useState, useCallback, useMemo, type ReactNode } from "react";
 import { ApiClient } from "@neurodyne/shared";
 import { API_URL } from "@/config";
 
@@ -13,6 +13,8 @@ interface User {
   role_id?: string;
   permissions: string[];
   avatar?: string;
+  phone?: string;
+  company?: string;
 }
 
 interface AuthState {
@@ -22,6 +24,7 @@ interface AuthState {
   api: ApiClient;
   login: (email: string, password: string) => Promise<void>;
   logout: () => void;
+  updateProfile: (data: { first_name: string; last_name: string; phone?: string; company?: string }) => Promise<void>;
   hasRole: (role: string) => boolean;
   hasPermission: (permission: string) => boolean;
   hasAnyPermission: (...permissions: string[]) => boolean;
@@ -96,12 +99,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     setUser(null);
   }, []);
 
+  const updateProfile = useCallback(async (data: { first_name: string; last_name: string; phone?: string; company?: string }) => {
+    const updated = (await api.updateProfile(data)) as User;
+    localStorage.setItem(USER_KEY, JSON.stringify(updated));
+    setUser(updated);
+  }, [api]);
+
   const hasRole = useCallback(
     (role: string) => user?.role === role,
     [user]
   );
 
-  const permissions = user?.permissions ?? [];
+  const permissions = useMemo(() => user?.permissions ?? [], [user?.permissions]);
   // If the user has no permissions array (legacy/pre-RBAC data), grant all access
   const hasPermsData = permissions.length > 0;
 
@@ -129,6 +138,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         api,
         login,
         logout,
+        updateProfile,
         hasRole,
         hasPermission,
         hasAnyPermission,

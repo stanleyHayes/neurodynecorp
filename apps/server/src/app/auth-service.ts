@@ -54,6 +54,13 @@ export interface RegisterInput {
   company?: string;
 }
 
+export interface UpdateProfileInput {
+  firstName?: string;
+  lastName?: string;
+  phone?: string;
+  company?: string;
+}
+
 export interface AuthTokens {
   accessToken: string;
   refreshToken: string;
@@ -198,6 +205,17 @@ export class AuthService {
     }
 
     return this.generateTokens(user);
+  }
+
+  async getProfile(userId: string): Promise<User | null> {
+    return this.userRepo.findById(userId);
+  }
+
+  async updateProfile(userId: string, input: UpdateProfileInput): Promise<User | null> {
+    const user = await this.userRepo.findById(userId);
+    if (!user) return null;
+
+    return this.userRepo.update(userId, input);
   }
 
   // ---------------------------------------------------------------------------

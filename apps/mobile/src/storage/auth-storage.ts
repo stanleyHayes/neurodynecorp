@@ -13,6 +13,9 @@ export const authStorage = {
       SecureStore.setItemAsync(USER_KEY, JSON.stringify(user)),
     ]);
   },
+  setUser: async (user: unknown) => {
+    await SecureStore.setItemAsync(USER_KEY, JSON.stringify(user));
+  },
   clearSession: async () => {
     await Promise.all([
       SecureStore.deleteItemAsync(TOKEN_KEY),

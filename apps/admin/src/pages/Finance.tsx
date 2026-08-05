@@ -1,5 +1,4 @@
-import { Box, Typography, Chip, Stack } from "@mui/material";
-import ActionBar from "@/components/shared/ActionBar";
+import { Alert, Box, Typography, Chip, Stack } from "@mui/material";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
@@ -81,7 +80,11 @@ export default function Finance() {
         iconLabel="LEDGER ACTIVE"
       />
 
-      <ActionBar label="New Invoice" subtitle="CREATE INVOICE" color="#10B981" onClick={() => {}} />
+      <Box sx={{ px: 3, pt: 2 }}>
+        <Alert severity="info">
+          Charts below are illustrative placeholders until the finance aggregation API ships. Invoice creation is not available from this page yet.
+        </Alert>
+      </Box>
 
       <SectionLabel>Financial Overview</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr 1fr" } }}>

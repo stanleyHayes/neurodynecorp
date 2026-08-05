@@ -54,12 +54,14 @@ export default function DashboardLayout() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { api, logout } = useAuth();
+  const { api, logout, user } = useAuth();
   const { on } = useSocket();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const [unreadCount, setUnreadCount] = useState(0);
+  const displayName = [user?.first_name, user?.last_name].filter(Boolean).join(" ") || user?.email || "Account";
+  const initials = `${user?.first_name?.[0] ?? ""}${user?.last_name?.[0] ?? ""}`.toUpperCase() || "AC";
 
   // Fetch unread count on mount
   const fetchUnreadCount = useCallback(async () => {
@@ -202,14 +204,14 @@ export default function DashboardLayout() {
               }}
             >
               <Avatar sx={{ bgcolor: "#00D4AA30", color: "#00D4AA", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
-                DK
+                {initials}
               </Avatar>
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
-                  David Kim
+                  {displayName}
                 </Typography>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#00D4AA", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
-                  CLIENT
+                  {user?.role.replaceAll("_", " ").toUpperCase() ?? "CLIENT"}
                 </Typography>
               </Box>
             </Box>

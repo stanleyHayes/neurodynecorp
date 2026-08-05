@@ -1,33 +1,28 @@
-import { useState, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
 import { useSearchParams, useNavigate } from "react-router";
 import {
   Box,
   Typography,
-  Switch,
-  FormControlLabel,
   TextField,
   Button,
   Avatar,
   Stack,
-  IconButton,
-  InputAdornment,
   ToggleButton,
   ToggleButtonGroup,
+  Alert,
+  CircularProgress,
 } from "@mui/material";
 import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import PaletteOutlinedIcon from "@mui/icons-material/PaletteOutlined";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
-import VisibilityOutlinedIcon from "@mui/icons-material/VisibilityOutlined";
-import VisibilityOffOutlinedIcon from "@mui/icons-material/VisibilityOffOutlined";
-import CameraAltOutlinedIcon from "@mui/icons-material/CameraAltOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
-import AutoModeOutlinedIcon from "@mui/icons-material/AutoModeOutlined";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
+import { useAuth } from "@/context/AuthContext";
+import { useThemeMode } from "@/theme/ThemeContext";
 
 const BORDER = "rgba(108, 99, 255, 0.12)";
 
@@ -40,11 +35,6 @@ const fieldSx = {
   },
   "& .MuiInputLabel-root": { fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" },
   "& .MuiOutlinedInput-input": { fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem" },
-};
-
-const switchSx = {
-  "& .MuiSwitch-switchBase.Mui-checked": { color: "#00D4AA" },
-  "& .MuiSwitch-switchBase.Mui-checked + .MuiSwitch-track": { bgcolor: "#00D4AA60" },
 };
 
 function Label({ children, color = "#6C63FF" }: { children: string; color?: string }) {
@@ -83,6 +73,48 @@ const tabs: SettingsTab[] = [
 // ── Tab panels ───────────────────────────────────────────────────────────────
 
 function ProfileTab() {
+  const { user, updateProfile } = useAuth();
+  const [form, setForm] = useState({ first_name: "", last_name: "", phone: "", company: "" });
+  const [saving, setSaving] = useState(false);
+  const [message, setMessage] = useState<{ severity: "success" | "error"; text: string } | null>(null);
+
+  useEffect(() => {
+    if (!user) return;
+    setForm({
+      first_name: user.first_name ?? "",
+      last_name: user.last_name ?? "",
+      phone: user.phone ?? "",
+      company: user.company ?? "",
+    });
+  }, [user]);
+
+  const displayName = [form.first_name, form.last_name].filter(Boolean).join(" ") || user?.email || "Account";
+  const initials = `${form.first_name[0] ?? ""}${form.last_name[0] ?? ""}`.toUpperCase() || "AC";
+  const hasRequiredNames = Boolean(form.first_name.trim() && form.last_name.trim());
+
+  const handleSubmit = async (event: FormEvent) => {
+    event.preventDefault();
+    if (!hasRequiredNames) {
+      setMessage({ severity: "error", text: "First and last name are required." });
+      return;
+    }
+    setSaving(true);
+    setMessage(null);
+    try {
+      await updateProfile({
+        first_name: form.first_name.trim(),
+        last_name: form.last_name.trim(),
+        phone: form.phone.trim(),
+        company: form.company.trim(),
+      });
+      setMessage({ severity: "success", text: "Profile updated successfully." });
+    } catch (error) {
+      setMessage({ severity: "error", text: error instanceof Error ? error.message : "Unable to update your profile." });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "auto 1fr" } }}>
       <Cell color="#6C63FF" index="P0" colInRow={0} totalCols={2} minH={200}>
@@ -99,26 +131,11 @@ function ProfileTab() {
                 border: "2px solid #6C63FF30",
               }}
             >
-              AM
+              {initials}
             </Avatar>
-            <IconButton
-              size="small"
-              sx={{
-                position: "absolute",
-                bottom: 0,
-                right: 0,
-                bgcolor: "#6C63FF",
-                color: "#fff",
-                width: 28,
-                height: 28,
-                "&:hover": { bgcolor: "#5A52E0" },
-              }}
-            >
-              <CameraAltOutlinedIcon sx={{ fontSize: 14 }} />
-            </IconButton>
           </Box>
           <Box sx={{ textAlign: "center" }}>
-            <Typography sx={{ fontWeight: 600 }} variant="subtitle2">Ayo Adeyemi</Typography>
+            <Typography sx={{ fontWeight: 600 }} variant="subtitle2">{displayName}</Typography>
             <Typography
               sx={{
                 fontFamily: "'Outfit', sans-serif",
@@ -128,26 +145,29 @@ function ProfileTab() {
                 opacity: 0.7,
               }}
             >
-              ADMIN
+              {user?.role.replaceAll("_", " ").toUpperCase()}
             </Typography>
           </Box>
         </Stack>
       </Cell>
 
       <Cell color="#6C63FF" index="P1" colInRow={1} totalCols={2} minH={200}>
-        <Stack spacing={2.5} sx={{ maxWidth: 500 }}>
+        <Stack component="form" onSubmit={handleSubmit} spacing={2.5} sx={{ maxWidth: 500 }}>
           <Label>Personal Information</Label>
+          {message && <Alert severity={message.severity} onClose={() => setMessage(null)}>{message.text}</Alert>}
           <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
-            <TextField label="First Name" defaultValue="Ayo" size="small" fullWidth sx={fieldSx} />
-            <TextField label="Last Name" defaultValue="Adeyemi" size="small" fullWidth sx={fieldSx} />
+            <TextField required label="First Name" value={form.first_name} onChange={(e) => setForm((current) => ({ ...current, first_name: e.target.value }))} size="small" fullWidth sx={fieldSx} slotProps={{ htmlInput: { maxLength: 100 } }} />
+            <TextField required label="Last Name" value={form.last_name} onChange={(e) => setForm((current) => ({ ...current, last_name: e.target.value }))} size="small" fullWidth sx={fieldSx} slotProps={{ htmlInput: { maxLength: 100 } }} />
           </Stack>
-          <TextField label="Email" defaultValue="admin@neurodynecorp.com" size="small" fullWidth sx={fieldSx} />
-          <TextField label="Phone" defaultValue="+1-555-0100" size="small" fullWidth sx={fieldSx} />
-          <TextField label="Company" defaultValue="NeuroDyne Corp" size="small" fullWidth sx={fieldSx} />
+          <TextField label="Email" value={user?.email ?? ""} size="small" fullWidth disabled helperText="Contact an administrator to change your sign-in email." sx={fieldSx} />
+          <TextField label="Phone" type="tel" value={form.phone} onChange={(e) => setForm((current) => ({ ...current, phone: e.target.value }))} size="small" fullWidth sx={fieldSx} slotProps={{ htmlInput: { maxLength: 30 } }} />
+          <TextField label="Company" value={form.company} onChange={(e) => setForm((current) => ({ ...current, company: e.target.value }))} size="small" fullWidth sx={fieldSx} slotProps={{ htmlInput: { maxLength: 200 } }} />
           <Box sx={{ pt: 0.5 }}>
             <Button
               variant="contained"
               size="small"
+              type="submit"
+              disabled={saving || !hasRequiredNames}
               sx={{
                 fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.75rem",
@@ -157,7 +177,7 @@ function ProfileTab() {
                 "&:hover": { background: "linear-gradient(135deg, #5A52E0, #7A73FF)" },
               }}
             >
-              Save Changes
+              {saving ? <><CircularProgress size={14} color="inherit" sx={{ mr: 1 }} />Saving…</> : "Save Changes"}
             </Button>
           </Box>
         </Stack>
@@ -167,118 +187,23 @@ function ProfileTab() {
 }
 
 function SecurityTab() {
-  const [showCurrent, setShowCurrent] = useState(false);
-  const [showNew, setShowNew] = useState(false);
-
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
       <Cell color="#EF4444" index="S0" colInRow={0} totalCols={2} minH={180}>
-        <Stack spacing={2.5} sx={{ maxWidth: 400 }}>
+        <Stack spacing={2}>
           <Label color="#EF4444">Change Password</Label>
-          <TextField
-            label="Current Password"
-            type={showCurrent ? "text" : "password"}
-            size="small"
-            fullWidth
-            sx={fieldSx}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => setShowCurrent(!showCurrent)} edge="end">
-                      {showCurrent ? <VisibilityOffOutlinedIcon fontSize="small" /> : <VisibilityOutlinedIcon fontSize="small" />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            label="New Password"
-            type={showNew ? "text" : "password"}
-            size="small"
-            fullWidth
-            sx={fieldSx}
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton size="small" onClick={() => setShowNew(!showNew)} edge="end">
-                      {showNew ? <VisibilityOffOutlinedIcon fontSize="small" /> : <VisibilityOutlinedIcon fontSize="small" />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-          <TextField
-            label="Confirm New Password"
-            type={showNew ? "text" : "password"}
-            size="small"
-            fullWidth
-            sx={fieldSx}
-          />
-          <Box sx={{ pt: 0.5 }}>
-            <Button
-              variant="contained"
-              size="small"
-              sx={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: "0.75rem",
-                letterSpacing: "0.08em",
-                px: 3,
-                background: "linear-gradient(135deg, #EF4444, #F87171)",
-                "&:hover": { background: "linear-gradient(135deg, #DC2626, #EF4444)" },
-              }}
-            >
-              Update Password
-            </Button>
-          </Box>
+          <Alert severity="info">
+            Password changes from Settings are not available yet. Use an administrator-assisted reset for now.
+          </Alert>
         </Stack>
       </Cell>
 
       <Cell color="#F59E0B" index="S1" colInRow={1} totalCols={2} minH={180}>
-        <Stack spacing={3}>
+        <Stack spacing={2}>
           <Label color="#F59E0B">Session & Security</Label>
-          <Stack spacing={1.5}>
-            <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Two-factor authentication</Typography>} />
-            <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Login email alerts</Typography>} />
-            <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Remember devices for 30 days</Typography>} />
-          </Stack>
-          <Box>
-            <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5, mb: 0.5 }}>
-              LAST LOGIN
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              Today at 2:00 PM from 192.168.1.x
-            </Typography>
-          </Box>
-          <Box sx={{ borderTop: `1px solid ${BORDER}`, pt: 2.5 }}>
-            <Stack sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }} direction={{ xs: "column", sm: "row" }} spacing={2}>
-              <Box>
-                <Typography variant="body2" sx={{ fontWeight: 600, color: "#EF4444", mb: 0.25 }}>Delete Account</Typography>
-                <Typography variant="caption" color="text.secondary" sx={{ opacity: 0.5 }}>
-                  Permanently remove your account and all data.
-                </Typography>
-              </Box>
-              <Button
-                variant="outlined"
-                size="small"
-                startIcon={<DeleteOutlineIcon sx={{ fontSize: 14 }} />}
-                sx={{
-                  fontFamily: "'Outfit', sans-serif",
-                  fontSize: "0.65rem",
-                  letterSpacing: "0.08em",
-                  color: "#EF4444",
-                  borderColor: "#EF444430",
-                  flexShrink: 0,
-                  "&:hover": { borderColor: "#EF4444", bgcolor: "#EF444410" },
-                }}
-              >
-                Delete
-              </Button>
-            </Stack>
-          </Box>
+          <Alert severity="info">
+            Two-factor authentication, login alerts, and account deletion are not wired to the API yet.
+          </Alert>
         </Stack>
       </Cell>
     </Box>
@@ -286,17 +211,7 @@ function SecurityTab() {
 }
 
 function AppearanceTab() {
-  const [theme, setTheme] = useState("dark");
-  const [accent, setAccent] = useState("#6C63FF");
-
-  const accents = [
-    { value: "#6C63FF", label: "Indigo" },
-    { value: "#00D4AA", label: "Teal" },
-    { value: "#F59E0B", label: "Amber" },
-    { value: "#EF4444", label: "Red" },
-    { value: "#8B5CF6", label: "Violet" },
-    { value: "#EC4899", label: "Pink" },
-  ];
+  const { mode, setMode } = useThemeMode();
 
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
@@ -304,9 +219,9 @@ function AppearanceTab() {
         <Stack spacing={3}>
           <Label color="#8B5CF6">Theme</Label>
           <ToggleButtonGroup
-            value={theme}
+            value={mode}
             exclusive
-            onChange={(_, v) => v && setTheme(v)}
+            onChange={(_, v) => v && setMode(v)}
             sx={{
               "& .MuiToggleButton-root": {
                 flex: 1,
@@ -331,56 +246,19 @@ function AppearanceTab() {
             <ToggleButton value="light">
               <LightModeOutlinedIcon sx={{ mr: 1, fontSize: 18 }} /> Light
             </ToggleButton>
-            <ToggleButton value="system">
-              <AutoModeOutlinedIcon sx={{ mr: 1, fontSize: 18 }} /> System
-            </ToggleButton>
           </ToggleButtonGroup>
-          <Box>
-            <Typography
-              sx={{
-                fontFamily: "'Outfit', sans-serif",
-                fontSize: "0.6rem",
-                color: "text.secondary",
-                opacity: 0.5,
-                letterSpacing: "0.1em",
-                textTransform: "uppercase",
-                mb: 1.5,
-              }}
-            >
-              Accent Color
-            </Typography>
-            <Stack direction="row" spacing={1.5}>
-              {accents.map((a) => (
-                <Box
-                  key={a.value}
-                  onClick={() => setAccent(a.value)}
-                  sx={{
-                    width: 32,
-                    height: 32,
-                    borderRadius: "50%",
-                    bgcolor: a.value,
-                    cursor: "pointer",
-                    border: accent === a.value ? "2px solid #fff" : "2px solid transparent",
-                    boxShadow: accent === a.value ? `0 0 12px ${a.value}60` : "none",
-                    transition: "all 0.2s",
-                    "&:hover": { transform: "scale(1.15)" },
-                  }}
-                />
-              ))}
-            </Stack>
-          </Box>
+          <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.6 }}>
+            Theme preference is saved on this device and matches the header toggle.
+          </Typography>
         </Stack>
       </Cell>
 
       <Cell color="#00D4AA" index="A1" colInRow={1} totalCols={2} minH={180}>
-        <Stack spacing={3}>
+        <Stack spacing={2}>
           <Label color="#00D4AA">Display Preferences</Label>
-          <Stack spacing={1.5}>
-            <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Compact sidebar</Typography>} />
-            <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Show animations</Typography>} />
-            <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Show grid indices</Typography>} />
-            <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">High contrast mode</Typography>} />
-          </Stack>
+          <Alert severity="info">
+            Compact sidebar, animations, and contrast preferences are not persisted yet. Use the theme control above for light/dark mode.
+          </Alert>
         </Stack>
       </Cell>
     </Box>
@@ -389,42 +267,16 @@ function AppearanceTab() {
 
 function NotificationsTab() {
   return (
-    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" } }}>
-      <Cell color="#6C63FF" index="N0" colInRow={0} totalCols={3}>
+    <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr" } }}>
+      <Cell color="#F59E0B" index="N0" colInRow={0} totalCols={1}>
         <Stack spacing={2}>
           <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-            <NotificationsOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} />
-            <Label>In-App</Label>
+            <NotificationsOutlinedIcon sx={{ fontSize: 18, color: "#F59E0B" }} />
+            <Label color="#F59E0B">Notification Preferences</Label>
           </Stack>
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Project updates</Typography>} />
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Task assignments</Typography>} />
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">New messages</Typography>} />
-          <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Invoice events</Typography>} />
-        </Stack>
-      </Cell>
-
-      <Cell color="#00D4AA" index="N1" colInRow={1} totalCols={3}>
-        <Stack spacing={2}>
-          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-            <PersonOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA" }} />
-            <Label color="#00D4AA">Email</Label>
-          </Stack>
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Daily summary</Typography>} />
-          <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Weekly digest</Typography>} />
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Critical alerts</Typography>} />
-          <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Marketing updates</Typography>} />
-        </Stack>
-      </Cell>
-
-      <Cell color="#8B85FF" index="N2" colInRow={2} totalCols={3}>
-        <Stack spacing={2}>
-          <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-            <LockOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF" }} />
-            <Label color="#8B85FF">Integrations</Label>
-          </Stack>
-          <FormControlLabel control={<Switch defaultChecked size="small" sx={switchSx} />} label={<Typography variant="body2">Slack notifications</Typography>} />
-          <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Discord webhooks</Typography>} />
-          <FormControlLabel control={<Switch size="small" sx={switchSx} />} label={<Typography variant="body2">Microsoft Teams</Typography>} />
+          <Alert severity="info">
+            In-app, email, and integration notification preferences are not persisted yet. You will continue receiving the default notification set.
+          </Alert>
         </Stack>
       </Cell>
     </Box>

@@ -40,6 +40,15 @@ const refreshSchema = z.object({
   refreshToken: z.string().min(1),
 });
 
+const updateProfileSchema = z.object({
+  first_name: z.string().trim().min(1).max(100).optional(),
+  last_name: z.string().trim().min(1).max(100).optional(),
+  phone: z.string().trim().max(30).optional(),
+  company: z.string().trim().max(200).optional(),
+}).strict().refine((data) => Object.keys(data).length > 0, {
+  message: "At least one profile field is required",
+});
+
 import { toApiUser } from "./user-serializer.js";
 
 // ---- Helpers ----
@@ -127,15 +136,34 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
   // GET /api/v1/auth/profile (protected)
   router.get("/profile", auth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      // Profile retrieval delegates to the user repo through the auth service's userRepo
-      // For now, we re-use the service; the caller wires the userRepo lookup
-      // This is a thin adapter - it calls whatever is provided
-      const { userRepo } = authService as unknown as { userRepo: { findById(id: string): Promise<unknown> } };
-      const user = await userRepo.findById(req.userId!);
+      const user = await authService.getProfile(req.userId!);
       if (!user) {
         throw new NotFoundError("User", req.userId);
       }
-      res.status(200).json(sanitizeUser(user as Record<string, unknown>));
+      res.status(200).json(sanitizeUser(user as unknown as Record<string, unknown>));
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  // PATCH /api/v1/auth/profile (protected, self-service)
+  router.patch("/profile", auth, async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const parsed = updateProfileSchema.safeParse(req.body);
+      if (!parsed.success) {
+        throw new ValidationError("Invalid profile update data", parsed.error.flatten());
+      }
+
+      const user = await authService.updateProfile(req.userId!, {
+        firstName: parsed.data.first_name,
+        lastName: parsed.data.last_name,
+        phone: parsed.data.phone || undefined,
+        company: parsed.data.company || undefined,
+      });
+      if (!user) {
+        throw new NotFoundError("User", req.userId);
+      }
+      res.status(200).json(sanitizeUser(user as unknown as Record<string, unknown>));
     } catch (err) {
       next(err);
     }

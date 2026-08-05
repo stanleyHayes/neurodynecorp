@@ -69,6 +69,14 @@ export interface Project {
   timeline: Timeline;
   progress: number;
   assigned_team: string[];
+  assigned_team_members?: {
+    id: string;
+    first_name: string;
+    last_name: string;
+    email: string;
+    role: string;
+    avatar?: string;
+  }[];
   specification_id?: string;
   milestones: Milestone[];
   created_at: string;

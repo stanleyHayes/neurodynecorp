@@ -1,4 +1,3 @@
-import { ObjectId } from "mongodb";
 import { createHash } from "crypto";
 import type {
   BlogPost,

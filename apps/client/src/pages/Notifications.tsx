@@ -78,6 +78,16 @@ export default function Notifications() {
     }
   };
 
+  const handleMarkRead = async (id: string, alreadyRead: boolean) => {
+    if (alreadyRead) return;
+    try {
+      await api.markNotificationRead(id);
+      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
+    } catch {
+      // silent
+    }
+  };
+
   return (
     <Box>
       <PageBanner
@@ -114,10 +124,13 @@ export default function Notifications() {
               {notifications.map((notif) => (
                 <ListItem
                   key={notif.id}
+                  onClick={() => handleMarkRead(notif.id, notif.read)}
                   sx={{
                     bgcolor: notif.read ? "transparent" : "rgba(108, 99, 255, 0.05)",
                     borderRadius: 2,
                     mb: 1,
+                    cursor: notif.read ? "default" : "pointer",
+                    "&:hover": notif.read ? undefined : { bgcolor: "rgba(108, 99, 255, 0.08)" },
                   }}
                 >
                   <ListItemIcon>{iconMap[notif.type] ?? <InfoIcon />}</ListItemIcon>

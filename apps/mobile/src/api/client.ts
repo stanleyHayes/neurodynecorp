@@ -38,6 +38,15 @@ export function getProfile() {
   return request<any>("/api/v1/auth/profile");
 }
 
+export function updateProfile(data: {
+  first_name?: string;
+  last_name?: string;
+  phone?: string;
+  company?: string;
+}) {
+  return request<any>("/api/v1/auth/profile", { method: "PATCH", body: data });
+}
+
 export function createPrivacyRequest(type: "export" | "erasure", email?: string) {
   return request<any>("/api/v1/privacy/requests", { method: "POST", body: { type, email } });
 }

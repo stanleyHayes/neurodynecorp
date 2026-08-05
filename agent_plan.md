@@ -4,6 +4,29 @@
 **Implemented in:** NeuroDyne Corp monorepo (`apps/server` Express/Mongo hexagonal, `apps/web|client|admin` React/Vite/MUI, `apps/mobile` Expo)
 **Date:** 2026-06-13
 
+## Operational repairs (5 August 2026)
+
+- [x] **Admin self-service profile update.** Replaced the hard-coded settings form with authenticated
+  account data, added validated `GET/PATCH /api/v1/auth/profile` service methods, persisted name/phone/
+  company changes without requiring team-management permission, synchronized the auth context and header,
+  and added save/error/loading feedback. Removed the non-functional avatar upload affordance. Admin and
+  server lint now have no errors; admin typecheck/build, server tests/strict typecheck, and diff checks pass.
+- [x] **Admin dead create forms.** Wired `ServiceCreate`, `TestimonialCreate`, and `TeamCreate` to the API
+  (create service/testimonial; register + role assign for staff). Appearance settings now drive real
+  `ThemeContext` mode. Stubbed security/notification tabs no longer pretend to save. Finance no-op
+  "New Invoice" replaced with an honest placeholder notice. Command palette Sign Out clears the session.
+- [x] **Client identity + settings.** Header no longer hardcodes "David Kim"; Settings profile saves via
+  `PATCH /auth/profile`; command palette Sign Out clears tokens; notification rows mark-as-read on click;
+  fake "Pay Now" replaced with contact-PM copy.
+- [x] **Client team visibility (backend).** Project list/detail now embed `assigned_team_members` display
+  profiles so clients (who lack `team:read`) can see assigned staff without IDOR-prone user lookups.
+- [x] **Honest password-reset UX.** Admin/client Forgot Password no longer fakes a successful email send;
+  both surfaces tell users to contact support until a real reset API exists. Web command palette
+  "Book a Discovery Call" now routes to `/book` instead of `/contact`.
+- [x] **Mobile ↔ client portal parity (core).** Mobile profile can save name/phone/company via the same
+  `PATCH /auth/profile` path; Projects open a detail screen with progress, milestones, and embedded
+  `assigned_team_members` (fixing dead project taps).
+
 This plan lists **features named in the spec that are NOT yet present in the codebase** (or only
 partially present), so they can be built out. It is the complement to
 [`docs/PLATFORM_GAP_AUDIT.md`](docs/PLATFORM_GAP_AUDIT.md), which covers cross-cutting capabilities

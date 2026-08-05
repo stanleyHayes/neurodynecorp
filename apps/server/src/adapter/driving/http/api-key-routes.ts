@@ -18,7 +18,7 @@ const createApiKeySchema = z.object({
 // Never expose the hashed key. Provide a masked display for the listing.
 
 function toMetadata(k: ApiKey) {
-  const { hashedKey, ...rest } = k;
+  const { hashedKey: _hashedKey, ...rest } = k;
   return { ...rest, display: "ndk_" + k.prefix + "..." };
 }
 
