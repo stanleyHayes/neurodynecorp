@@ -1,4 +1,4 @@
-import { Box, Typography, Chip, Stack, Skeleton } from "@mui/material";
+import { Alert, Box, Typography, Chip, Stack, Skeleton } from "@mui/material";
 import DashboardOutlinedIcon from "@mui/icons-material/DashboardOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
@@ -100,6 +100,12 @@ export default function Dashboard() {
         iconColor="#6C63FF"
         iconLabel="DASHBOARD ACTIVE"
       />
+
+      <Box sx={{ px: 3, pt: 2 }}>
+        <Alert severity="info">
+          Charts and headline stats below are illustrative placeholders until the analytics aggregation API ships.
+        </Alert>
+      </Box>
 
       {/* Stats */}
       <SectionLabel>Key Metrics</SectionLabel>

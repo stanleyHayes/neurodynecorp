@@ -26,6 +26,9 @@
 - [x] **Mobile ↔ client portal parity (core).** Mobile profile can save name/phone/company via the same
   `PATCH /auth/profile` path; Projects open a detail screen with progress, milestones, and embedded
   `assigned_team_members` (fixing dead project taps).
+- [x] **CI pnpm mismatch.** GitHub Actions pinned pnpm 9 while `packageManager` is pnpm@11.20.0; workflows
+  now follow `packageManager`. Admin route permissions are enforced on direct URL access (not only
+  sidebar hide), and Dashboard/Analytics show honest placeholder notices like Finance.
 
 This plan lists **features named in the spec that are NOT yet present in the codebase** (or only
 partially present), so they can be built out. It is the complement to

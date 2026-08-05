@@ -1,4 +1,4 @@
-import { Box, Typography, Stack } from "@mui/material";
+import { Alert, Box, Typography, Stack } from "@mui/material";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import ShowChartOutlinedIcon from "@mui/icons-material/ShowChartOutlined";
@@ -138,6 +138,12 @@ export default function Analytics() {
         iconColor="#8B85FF"
         iconLabel="DATA LIVE"
       />
+
+      <Box sx={{ px: 3, pt: 2 }}>
+        <Alert severity="info">
+          Metrics below are illustrative placeholders until the analytics aggregation API ships.
+        </Alert>
+      </Box>
 
       {/* KPI Stats */}
       <SectionLabel>Key Indicators</SectionLabel>

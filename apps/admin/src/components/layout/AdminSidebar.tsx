@@ -49,6 +49,7 @@ import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import { useAuth } from "@/context/AuthContext";
+import { ROUTE_PERMISSIONS } from "@/config/route-permissions";
 
 export const DRAWER_WIDTH = 260;
 export const COLLAPSED_WIDTH = 68;
@@ -65,42 +66,6 @@ interface MenuGroup {
   title: string;
   items: MenuItem[];
 }
-
-/** Map from route path to the permission required to view it */
-const ROUTE_PERMISSIONS: Record<string, string> = {
-  "/": "dashboard:read",
-  "/pipeline": "pipeline:read",
-  "/project-intakes": "projects:read",
-  "/analytics": "analytics:read",
-  "/clients": "clients:read",
-  "/projects": "projects:read",
-  "/specifications": "specifications:read",
-  "/tasks": "tasks:read",
-  "/blog": "blog:read",
-  "/portfolio": "portfolio:read",
-  "/testimonials": "testimonials:read",
-  "/services": "services:read",
-  "/contact-submissions": "contact_submissions:read",
-  "/team": "team:read",
-  "/messages": "messages:read",
-  "/notifications": "notifications:read",
-  "/finance": "finance:read",
-  "/roles": "roles:read",
-  "/status": "incidents:read",
-  "/feature-flags": "feature_flags:read",
-  "/audit-log": "audit:read",
-  "/feedback": "feedback:read",
-  "/diagnostics": "diagnostic:read",
-  "/rfp": "rfp:read",
-  "/bookings": "booking:read",
-  "/tickets": "tickets:read",
-  "/knowledge-base": "kb:read",
-  "/glossary": "kb:read",
-  "/newsletter": "newsletter:read",
-  "/privacy-requests": "dsr:read",
-  "/changelog": "changelog:read",
-  "/settings": "settings:read",
-};
 
 const menuGroups: MenuGroup[] = [
   {
