@@ -517,6 +517,19 @@ async function main(): Promise<void> {
       return null;
     }
   };
+  const getProjectParticipantAllowlist = async (projectId: string): Promise<string[]> => {
+    try {
+      const p = await projectService.getProject(projectId);
+      const ids = new Set<string>();
+      if ((p as Any)?.clientId) ids.add((p as Any).clientId);
+      for (const memberId of ((p as Any)?.assignedTeam ?? []) as string[]) {
+        if (memberId) ids.add(memberId);
+      }
+      return [...ids];
+    } catch {
+      return [];
+    }
+  };
   const canAccessProject = async (input: {
     userId: string;
     role: string;
@@ -537,6 +550,12 @@ async function main(): Promise<void> {
   // ── Express app ─────────────────────────────────────────────────────────────
 
   const app = express();
+
+  // Honour X-Forwarded-* only when explicitly behind a reverse proxy.
+  // Without this, rate-limit keys must not trust spoofed X-Forwarded-For.
+  if (process.env["NEURODYNE_TRUST_PROXY"] === "1" || process.env["NEURODYNE_TRUST_PROXY"] === "true") {
+    app.set("trust proxy", 1);
+  }
 
   app.use(helmet());
   // In dev, accept any localhost / 127.0.0.1 origin so any Vite port works.
@@ -619,7 +638,16 @@ async function main(): Promise<void> {
     { apiKey: process.env["OPENAI_API_KEY"], model: process.env["OPENAI_INTAKE_MODEL"] },
   ));
   app.use("/api/v1/notifications", createNotificationRoutes(notificationService, tokenService as Any));
-  app.use("/api/v1/messages", createMessageRoutes(messageService, tokenService as Any, sioHub, getProjectOwnerId));
+  app.use(
+    "/api/v1/messages",
+    createMessageRoutes(
+      messageService,
+      tokenService as Any,
+      sioHub,
+      getProjectOwnerId,
+      getProjectParticipantAllowlist,
+    ),
+  );
   app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/decisions", createDecisionRoutes(decisionRepo, tokenService as Any, getProjectOwnerId));
   app.use("/api/v1/risks", createRiskRoutes(riskRepo, tokenService as Any, getProjectOwnerId));
@@ -678,28 +706,16 @@ async function main(): Promise<void> {
   app.use("/api/v1/newsletter", publicWrite("newsletter", 15), createNewsletterRoutes(newsletterRepo, emailService as Any, tokenService as Any));
   app.use("/api/v1/changelog", createChangelogRoutes(changelogRepo, tokenService as Any));
 
-  // ── Public activity feed (anonymized, derived from recent events) ─────────
+  // ── Public activity feed (anonymized; never load contact PII collections) ──
   app.get("/api/v1/activity", async (_req, res, next) => {
     try {
-      const [recentProjects, recentPosts, recentSubmissions] = await Promise.all([
-        projectRepo.findAll().catch(() => []),
-        blogPostRepo.findAll({ status: "published" }).catch(() => []),
-        contactSubmissionRepo.findAll().catch(() => []),
-      ]);
+      // Only published posts + a coarse project status pulse. Do not call
+      // contactSubmissionRepo.findAll() — that pulled every lead into memory.
+      const recentPosts = await blogPostRepo.findAll({ status: "published" }).catch(() => []);
 
       const events: Array<{ type: string; text: string; ts: string; color: string }> = [];
 
-      for (const p of (recentProjects as any[]).slice(0, 8)) {
-        const status = String(p.status ?? "lead").replace(/_/g, " ");
-        events.push({
-          type: "project",
-          text: `Project moved to ${status}`,
-          ts: new Date(p.updatedAt ?? p.createdAt ?? Date.now()).toISOString(),
-          color: status.includes("delivered") ? "#10B981" : status.includes("development") ? "#F59E0B" : "#6C63FF",
-        });
-      }
-
-      for (const post of (recentPosts as any[]).slice(0, 4)) {
+      for (const post of (recentPosts as any[]).slice(0, 8)) {
         events.push({
           type: "blog",
           text: `New post: ${post.title}`,
@@ -708,14 +724,13 @@ async function main(): Promise<void> {
         });
       }
 
-      for (const sub of (recentSubmissions as any[]).slice(0, 4)) {
-        events.push({
-          type: "contact",
-          text: "New project briefed",
-          ts: new Date(sub.createdAt ?? Date.now()).toISOString(),
-          color: "#10B981",
-        });
-      }
+      // Lightweight anonymized pulse without dumping the projects collection.
+      events.push({
+        type: "project",
+        text: "Delivery pipeline active",
+        ts: new Date().toISOString(),
+        color: "#6C63FF",
+      });
 
       events.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());
       res.json({ events: events.slice(0, 12) });

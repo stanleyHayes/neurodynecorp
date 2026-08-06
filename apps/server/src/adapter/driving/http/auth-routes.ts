@@ -141,7 +141,7 @@ export function createAuthRoutes(authService: AuthService, tokenService: TokenSe
   });
 
   // POST /api/v1/auth/refresh
-  router.post("/refresh", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/refresh", authPublicLimit, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = refreshSchema.safeParse(req.body);
       if (!parsed.success) {

@@ -90,6 +90,17 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
         throw new NotFoundError("User", String(req.params.id));
       }
 
+      // Only admins may deactivate (or reactivate) admin accounts — PMs with
+      // team:update must not be able to lock out the platform owner.
+      if (
+        parsed.data.isActive !== undefined &&
+        existing.role === "admin" &&
+        req.userRole !== "admin"
+      ) {
+        res.status(403).json({ error: "Only admins can change admin account status" });
+        return;
+      }
+
       const updated = await userService.update({
         ...existing,
         ...parsed.data,
@@ -104,6 +115,14 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
   // DELETE /api/v1/users/:id (deactivate)
   router.delete("/:id", requirePermission("team:delete"), async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const existing = await userService.findById(String(req.params.id));
+      if (!existing) {
+        throw new NotFoundError("User", String(req.params.id));
+      }
+      if (existing.role === "admin" && req.userRole !== "admin") {
+        res.status(403).json({ error: "Only admins can deactivate admin accounts" });
+        return;
+      }
       await userService.delete(String(req.params.id));
       res.status(204).end();
     } catch (err) {

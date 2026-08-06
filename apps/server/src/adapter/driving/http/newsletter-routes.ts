@@ -26,9 +26,13 @@ const preferencesSchema = z.object({
 });
 
 const unsubscribeSchema = z.object({
-  token: z.string().optional(),
-  email: z.string().email().optional(),
+  token: z.string().min(16),
 });
+
+function publicSubscriber(s: NewsletterSubscriber) {
+  const { token: _token, ...rest } = s;
+  return rest;
+}
 
 // ── Route factory ────────────────────────────────────────────────────────────
 
@@ -122,24 +126,20 @@ export function createNewsletterRoutes(
       if (!subscriber) throw new NotFoundError("newsletter subscriber", parsed.data.token);
 
       const updated = await repo.update({ ...subscriber, segments: parsed.data.segments });
-      res.json(updated);
+      res.json(publicSubscriber(updated));
     } catch (err) {
       next(err);
     }
   });
 
-  // POST /unsubscribe — PUBLIC
+  // POST /unsubscribe — PUBLIC (token required; email-only would let anyone drop any address)
   router.post("/unsubscribe", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = unsubscribeSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
-      const { token, email } = parsed.data;
-      let subscriber: NewsletterSubscriber | null = null;
-      if (token) subscriber = await repo.findByToken(token);
-      else if (email) subscriber = await repo.findByEmail(email);
-
-      if (!subscriber) throw new NotFoundError("newsletter subscriber", token ?? email);
+      const subscriber = await repo.findByToken(parsed.data.token);
+      if (!subscriber) throw new NotFoundError("newsletter subscriber", parsed.data.token);
 
       await repo.update({ ...subscriber, status: "unsubscribed" });
       res.json({ status: "unsubscribed" });
@@ -148,12 +148,12 @@ export function createNewsletterRoutes(
     }
   });
 
-  // GET / — admin list (newsletter:read)
+  // GET / — admin list (newsletter:read) — never expose preference tokens
   router.get("/", auth, requirePermission("newsletter:read"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const filter: { status?: string } = {};
       if (req.query.status) filter.status = req.query.status as string;
-      const items = await repo.findAll(Object.keys(filter).length ? filter : undefined);
+      const items = (await repo.findAll(Object.keys(filter).length ? filter : undefined)).map(publicSubscriber);
       res.json({ items, total: items.length });
     } catch (err) {
       next(err);

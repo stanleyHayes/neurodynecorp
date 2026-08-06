@@ -27,9 +27,12 @@ interface Bucket {
 
 const stores = new Map<string, Map<string, Bucket>>();
 
+/**
+ * Prefer Express `req.ip` (honours `trust proxy` when configured).
+ * Do not trust a bare spoofed X-Forwarded-For when the app is not behind a
+ * trusted proxy — that lets attackers rotate keys and bypass limits.
+ */
 function clientIp(req: Request): string {
-  const fwd = req.headers["x-forwarded-for"];
-  if (typeof fwd === "string" && fwd.length > 0) return fwd.split(",")[0]!.trim();
   return req.ip ?? req.socket.remoteAddress ?? "unknown";
 }
 

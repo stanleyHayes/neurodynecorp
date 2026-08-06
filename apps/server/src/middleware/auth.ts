@@ -44,6 +44,29 @@ export function authMiddleware(tokenService: TokenService) {
   };
 }
 
+/**
+ * Attach identity when a valid Bearer token is present; otherwise continue
+ * anonymously. Used for public CMS reads where staff tokens unlock drafts.
+ */
+export function optionalAuthMiddleware(tokenService: TokenService) {
+  return (req: Request, _res: Response, next: NextFunction): void => {
+    const header = req.headers.authorization;
+    if (!header || !header.startsWith("Bearer ")) {
+      next();
+      return;
+    }
+    try {
+      const payload = tokenService.validateAccessToken(header.slice(7));
+      req.userId = payload.userId;
+      req.userRole = payload.role as Role;
+      req.userPermissions = payload.permissions ?? [];
+    } catch {
+      // Invalid token on a public route — treat as anonymous, do not 401.
+    }
+    next();
+  };
+}
+
 // ---- Role guard (kept for backward compatibility) ----
 
 export function requireRole(...roles: Role[]) {

@@ -2,6 +2,7 @@ import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { ValidationError } from "../../../middleware/error-handler.js";
+import { isHoneypotTriggered, rateLimit } from "../../../middleware/rate-limit.js";
 
 // ---- Validation schemas ----
 
@@ -48,10 +49,21 @@ export interface ContactService {
 
 export function createContactRoutes(contactService: ContactService): Router {
   const router = Router();
+  const limiter = rateLimit("contact", {
+    max: 10,
+    windowMs: 60_000,
+    message: "Too many contact submissions. Please try again shortly.",
+  });
 
   // POST /api/v1/contact (public)
-  router.post("/", async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/", limiter, async (req: Request, res: Response, next: NextFunction) => {
     try {
+      // Bots that fill the hidden honeypot get a success response with no write.
+      if (isHoneypotTriggered(req)) {
+        res.status(201).json({ message: "Thank you for your inquiry. We will be in touch shortly." });
+        return;
+      }
+
       const parsed = contactFormSchema.safeParse(req.body);
       if (!parsed.success) {
         throw new ValidationError("Invalid contact form data", parsed.error.flatten());

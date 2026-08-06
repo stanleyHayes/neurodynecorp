@@ -53,12 +53,15 @@ interface RealtimeEmitter {
 
 /** Returns the owning client's userId for a project, or null if unknown. */
 type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
+/** Allowed participant ids for a project (owner + assigned team). */
+type ProjectParticipantAllowlist = (projectId: string) => Promise<string[]>;
 
 export function createMessageRoutes(
   messageService: MessageService,
   tokenService: TokenService,
   realtime?: RealtimeEmitter,
   getProjectOwnerId?: ProjectOwnerLookup,
+  getProjectParticipantAllowlist?: ProjectParticipantAllowlist,
 ): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
@@ -101,9 +104,25 @@ export function createMessageRoutes(
 
       await assertProjectAccess(req, parsed.data.projectId);
 
+      let participantIds = [...new Set([req.userId!, ...parsed.data.participantIds])];
+      // Clients may only add themselves + project owner/team — never arbitrary users.
+      if (isClientActor(req.userRole)) {
+        const allow = new Set<string>([req.userId!]);
+        if (getProjectParticipantAllowlist) {
+          for (const id of await getProjectParticipantAllowlist(parsed.data.projectId)) {
+            allow.add(id);
+          }
+        } else if (getProjectOwnerId) {
+          const ownerId = await getProjectOwnerId(parsed.data.projectId);
+          if (ownerId) allow.add(ownerId);
+        }
+        participantIds = participantIds.filter((id) => allow.has(id));
+        if (!participantIds.includes(req.userId!)) participantIds.push(req.userId!);
+      }
+
       const thread = await messageService.createThread({
         ...parsed.data,
-        participantIds: [...new Set([req.userId!, ...parsed.data.participantIds])],
+        participantIds,
       });
       res.status(201).json(toApiThread(thread));
     } catch (err) {

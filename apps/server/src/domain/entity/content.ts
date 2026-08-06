@@ -21,7 +21,8 @@ export interface BlogPost {
 
 export function createBlogPost(input: Omit<BlogPost, "id" | "createdAt" | "updatedAt">): BlogPost {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  // id/timestamps must win over any client-supplied fields in `input`.
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }
 
 // ── Testimonial ────────────────────────────────────────────────────────────
@@ -41,7 +42,7 @@ export interface Testimonial {
 
 export function createTestimonial(input: Omit<Testimonial, "id" | "createdAt" | "updatedAt">): Testimonial {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }
 
 // ── Service ────────────────────────────────────────────────────────────────
@@ -62,7 +63,7 @@ export interface ServiceItem {
 
 export function createServiceItem(input: Omit<ServiceItem, "id" | "createdAt" | "updatedAt">): ServiceItem {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }
 
 // ── Portfolio / Case Study ─────────────────────────────────────────────────
@@ -98,7 +99,7 @@ export interface CaseStudy {
 
 export function createCaseStudy(input: Omit<CaseStudy, "id" | "createdAt" | "updatedAt">): CaseStudy {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }
 
 // ── Contact Submission ─────────────────────────────────────────────────────
@@ -119,5 +120,5 @@ export interface ContactSubmission {
 
 export function createContactSubmission(input: Omit<ContactSubmission, "id" | "createdAt" | "updatedAt">): ContactSubmission {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }

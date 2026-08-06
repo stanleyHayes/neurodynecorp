@@ -20,5 +20,5 @@ export interface KbArticle {
 
 export function createKbArticle(input: Omit<KbArticle, "id" | "createdAt" | "updatedAt">): KbArticle {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }

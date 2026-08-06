@@ -4,6 +4,15 @@
 **Implemented in:** NeuroDyne Corp monorepo (`apps/server` Express/Mongo hexagonal, `apps/web|client|admin` React/Vite/MUI, `apps/mobile` Expo)
 **Date:** 2026-06-13
 
+## Hardening loop (6 August 2026)
+
+**Goal:** Walk the monorepo end-to-end eliminating authz/IDOR/mass-assignment holes,
+tightening production guards, then fixing admin → client → mobile → web contract bugs.
+**Cadence:** Agent loop every 15 minutes (`AGENT_LOOP_TICK_harden`) until stopped.
+**Priority:** server security first, then portal contracts, then Go API parity.
+
+- [x] **Pass 1 — public CMS draft leak, content CREATE schemas, admin lockout, rate-limit IP spoofing, contact limiter, newsletter token unsubscribe, activity PII load, client message participant allowlist, auth refresh rate limit.**
+
 ## Operational repairs (5 August 2026)
 
 - [x] **Admin self-service profile update.** Replaced the hard-coded settings form with authenticated

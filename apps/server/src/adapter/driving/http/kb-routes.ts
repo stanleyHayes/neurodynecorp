@@ -1,7 +1,12 @@
 import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
-import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
+import {
+  authMiddleware,
+  optionalAuthMiddleware,
+  requirePermission,
+  type TokenService,
+} from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import { createKbArticle, type KbArticle } from "../../../domain/entity/kb.js";
 
@@ -42,13 +47,21 @@ const helpfulSchema = z.object({
 export function createKbRoutes(repo: KbRepository, tokenService: TokenService): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
+  const optionalAuth = optionalAuthMiddleware(tokenService);
 
-  // GET / — PUBLIC list
-  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  function canManageKb(req: Request): boolean {
+    return !!req.userId && (req.userPermissions ?? []).includes("kb:read");
+  }
+
+  // GET / — PUBLIC list (always published for anonymous; staff token unlocks drafts)
+  router.get("/", optionalAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const filter: { status?: string; category?: string; q?: string } = {
-        status: (req.query["status"] as string) ?? "published",
-      };
+      const filter: { status?: string; category?: string; q?: string } = {};
+      if (canManageKb(req) && req.query["status"]) {
+        filter.status = req.query["status"] as string;
+      } else {
+        filter.status = "published";
+      }
       if (req.query["category"]) filter.category = req.query["category"] as string;
       if (req.query["q"]) filter.q = req.query["q"] as string;
       const items = await repo.findAll(filter);
@@ -68,11 +81,13 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
     }
   });
 
-  // GET /slug/:slug — PUBLIC single article by slug
-  router.get("/slug/:slug", async (req: Request, res: Response, next: NextFunction) => {
+  // GET /slug/:slug — PUBLIC single PUBLISHED article by slug (drafts 404 unless staff)
+  router.get("/slug/:slug", optionalAuth, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const item = await repo.findBySlug(String(req.params.slug));
-      if (!item) throw new NotFoundError("kb", String(req.params.slug));
+      if (!item || (item.status !== "published" && !canManageKb(req))) {
+        throw new NotFoundError("kb", String(req.params.slug));
+      }
       res.json(item);
     } catch (err) {
       next(err);
