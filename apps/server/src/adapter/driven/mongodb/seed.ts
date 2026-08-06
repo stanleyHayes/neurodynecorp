@@ -27,6 +27,7 @@ import {
   messages,
   questionnaireResponses,
   roles,
+  IDS,
 } from "./seed-data.js";
 import {
   blogPosts,
@@ -71,6 +72,7 @@ export async function seedAll(repos: SeedRepositories): Promise<void> {
   await seedUsersWithPermissionRefresh(repos.users, users);
   await seedCollection("projects", repos.projects, projects);
   await seedCollection("portfolio_projects", repos.projects, portfolioProjects);
+  await linkSeededSpecifications(repos.projects);
   await seedCollection("specifications", repos.specs, specifications);
   await seedCollection("sprints", repos.sprints, sprints);
   await seedCollection("tasks", repos.tasks, tasks);
@@ -87,6 +89,22 @@ export async function seedAll(repos: SeedRepositories): Promise<void> {
 }
 
 // ── Helpers ─────────────────────────────────────────────────────────────────
+
+/** Ensure demo projects point at their seeded specs (idempotent for existing DBs). */
+async function linkSeededSpecifications(repo: MongoProjectRepository): Promise<void> {
+  const links: { projectId: string; specificationId: string }[] = [
+    { projectId: IDS.proj1, specificationId: IDS.spec1 },
+    { projectId: IDS.proj2, specificationId: IDS.spec2 },
+  ];
+  let linked = 0;
+  for (const { projectId, specificationId } of links) {
+    const project = await repo.findById(projectId);
+    if (!project || project.specificationId === specificationId) continue;
+    await repo.update(projectId, { specificationId });
+    linked++;
+  }
+  if (linked > 0) console.log(`  ✓ Linked specification_id on ${linked} demo projects`);
+}
 
 /**
  * Generic helper: inserts all items, skipping duplicates.

@@ -103,8 +103,10 @@ import { MongoKbRepository } from "./adapter/driven/mongodb/kb-repository.js";
 import { MongoGlossaryRepository } from "./adapter/driven/mongodb/glossary-repository.js";
 import { MongoNewsletterRepository } from "./adapter/driven/mongodb/newsletter-repository.js";
 import { MongoChangelogRepository } from "./adapter/driven/mongodb/changelog-repository.js";
+import { MongoFileRepository } from "./adapter/driven/mongodb/file-repository.js";
 import { rateLimit } from "./middleware/rate-limit.js";
 import { isStaffRole } from "./middleware/rbac-helpers.js";
+import { ObjectId } from "mongodb";
 
 import { JwtTokenService } from "./adapter/driven/auth/jwt.js";
 import { BcryptPasswordHasher } from "./adapter/driven/auth/password.js";
@@ -189,6 +191,7 @@ async function main(): Promise<void> {
   const glossaryRepo = new MongoGlossaryRepository(mongoClient);
   const newsletterRepo = new MongoNewsletterRepository(mongoClient);
   const changelogRepo = new MongoChangelogRepository(mongoClient);
+  const fileRepo = new MongoFileRepository(mongoClient);
 
   // Auth
   const passwordHasher = new BcryptPasswordHasher();
@@ -450,11 +453,28 @@ async function main(): Promise<void> {
   const fileServiceAdapter = {
     upload: async (buf: Buffer, name: string, mime: string, uploadedBy: string, projectId?: string) => {
       const { url, publicId } = await fileStorage.upload(buf, name, mime);
-      return { id: crypto.randomUUID(), fileName: name, fileURL: url, publicId, fileSize: buf.length, mimeType: mime, uploadedBy, projectId, createdAt: new Date() };
+      const record = {
+        id: new ObjectId().toHexString(),
+        fileName: name,
+        fileURL: url,
+        publicId,
+        fileSize: buf.length,
+        mimeType: mime,
+        uploadedBy,
+        projectId,
+        createdAt: new Date(),
+      };
+      return fileRepo.create(record);
     },
-    getById: async (_id: string) => null as Any,
-    listByProject: async (_projectId: string) => [] as Any[],
-    delete: async (id: string) => { await fileStorage.delete(id); },
+    getById: (id: string) => fileRepo.findById(id),
+    listByProject: (projectId: string) => fileRepo.listByProject(projectId),
+    delete: async (id: string) => {
+      const existing = await fileRepo.findById(id);
+      if (existing?.publicId) {
+        await fileStorage.delete(existing.publicId).catch(() => undefined);
+      }
+      await fileRepo.delete(id);
+    },
   };
 
   const contactService = {

@@ -81,13 +81,15 @@ export interface ProjectLookup {
     id: string,
   ): Promise<{
     id: string;
-    title: string;
+    name?: string;
+    title?: string;
     description: string;
     type: string;
-    features: { id: string; name: string; description: string; priority: string; complexity: string }[];
+    features: { id: string; name: string; description: string; priority: string; complexity?: string }[];
     budgetRange: { min: number; max: number; currency: string };
-    timeline: { durationWeeks: number; preferredUrgency: string };
+    timeline: { durationWeeks?: number; estimatedWeeks?: number; preferredUrgency?: string };
   } | null>;
+  update(id: string, data: { specificationId?: string }): Promise<unknown>;
 }
 
 // ---------------------------------------------------------------------------
@@ -142,8 +144,11 @@ export class SpecService {
     }
 
     const featureBreakdown = this.buildFeatureBreakdown(project.features);
-    const timelineEstimate = this.buildTimelineEstimate(project.timeline.durationWeeks, featureBreakdown);
+    const durationWeeks =
+      project.timeline.durationWeeks ?? project.timeline.estimatedWeeks ?? 0;
+    const timelineEstimate = this.buildTimelineEstimate(durationWeeks, featureBreakdown);
     const costEstimate = this.buildCostEstimate(project.budgetRange, featureBreakdown);
+    const projectTitle = project.name ?? project.title ?? "Untitled project";
 
     const now = new Date();
     const spec: Specification = {
@@ -151,7 +156,7 @@ export class SpecService {
       projectId,
       version: 1,
       status: "generated",
-      overview: `Technical specification for "${project.title}" - ${project.description}`,
+      overview: `Technical specification for "${projectTitle}" - ${project.description}`,
       objectives: this.extractObjectives(questionnaire),
       featureBreakdown,
       timelineEstimate,
@@ -179,6 +184,10 @@ export class SpecService {
     };
 
     const created = await this.specRepo.create(spec);
+
+    // Keep the project pointer in sync so admin/client lists that filter on
+    // specification_id actually surface the generated spec.
+    await this.projectRepo.update(projectId, { specificationId: created.id });
 
     await this.events.publish("spec.generated", {
       specId: created.id,
@@ -300,7 +309,7 @@ export class SpecService {
   // ---------------------------------------------------------------------------
 
   private buildFeatureBreakdown(
-    features: { name: string; description: string; priority: string; complexity: string }[],
+    features: { name: string; description: string; priority: string; complexity?: string }[],
   ): FeatureSpec[] {
     const complexityHours: Record<string, number> = {
       low: 20,
@@ -314,7 +323,8 @@ export class SpecService {
       description: f.description,
       subFeatures: [],
       priority: f.priority,
-      estimatedHours: complexityHours[f.complexity] ?? 60,
+      // Domain features use priority, not a separate complexity field.
+      estimatedHours: complexityHours[f.complexity ?? f.priority] ?? 60,
     }));
   }
 

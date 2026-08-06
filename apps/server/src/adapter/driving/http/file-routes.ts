@@ -26,7 +26,7 @@ export interface FileService {
     uploadedBy: string,
     projectId?: string,
   ): Promise<UploadedFile>;
-  getById(id: string): Promise<UploadedFile>;
+  getById(id: string): Promise<UploadedFile | null>;
   listByProject(projectId: string): Promise<UploadedFile[]>;
   delete(id: string): Promise<void>;
 }
@@ -53,6 +53,32 @@ declare global {
 
 /** Returns the owning client's userId for a project, or null if unknown. */
 type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
+
+/** Dual-case payload for ApiClient (url/filename/size) and camelCase consumers. */
+function toApiFile(file: UploadedFile): Record<string, unknown> {
+  return {
+    id: file.id,
+    fileName: file.fileName,
+    file_name: file.fileName,
+    filename: file.fileName,
+    fileURL: file.fileURL,
+    file_url: file.fileURL,
+    url: file.fileURL,
+    publicId: file.publicId,
+    public_id: file.publicId,
+    fileSize: file.fileSize,
+    file_size: file.fileSize,
+    size: file.fileSize,
+    mimeType: file.mimeType,
+    mime_type: file.mimeType,
+    uploadedBy: file.uploadedBy,
+    uploaded_by: file.uploadedBy,
+    projectId: file.projectId,
+    project_id: file.projectId,
+    createdAt: file.createdAt,
+    created_at: file.createdAt,
+  };
+}
 
 // ---- Route factory ----
 
@@ -117,7 +143,7 @@ export function createFileRoutes(
           req.userId!,
           projectId,
         );
-        res.status(201).json(uploaded);
+        res.status(201).json(toApiFile(uploaded));
       } catch (err) {
         next(err);
       }
@@ -135,7 +161,7 @@ export function createFileRoutes(
       await assertProjectAccess(req, projectId);
 
       const files = await fileService.listByProject(projectId);
-      res.status(200).json(files);
+      res.status(200).json(files.map(toApiFile));
     } catch (err) {
       next(err);
     }
@@ -145,13 +171,17 @@ export function createFileRoutes(
   router.get("/:id", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const file = await fileService.getById(String(req.params.id));
+      if (!file) {
+        res.status(404).json({ error: "File not found" });
+        return;
+      }
       try {
         await assertFileAccess(req, file);
       } catch {
         res.status(404).json({ error: "File not found" });
         return;
       }
-      res.status(200).json(file);
+      res.status(200).json(toApiFile(file));
     } catch (err) {
       next(err);
     }

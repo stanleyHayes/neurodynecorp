@@ -9,25 +9,27 @@ import type { QuestionnaireAnswer } from "../../../app/questionnaire-service.js"
 
 // ---- Validation schemas ----
 
+const answerSchema = z
+  .object({
+    questionId: z.string().min(1).optional(),
+    question_id: z.string().min(1).optional(),
+    value: z.unknown(),
+  })
+  .refine((d) => d.questionId ?? d.question_id, { message: "questionId is required" })
+  .transform((d) => ({
+    questionId: (d.questionId ?? d.question_id)!,
+    value: d.value,
+  }));
+
 const adaptiveSchema = z.object({
-  answers: z.array(
-    z.object({
-      questionId: z.string().min(1),
-      value: z.unknown(),
-    }),
-  ),
+  answers: z.array(answerSchema),
 });
 
 const saveResponseSchema = z
   .object({
     projectId: z.string().min(1).optional(),
     project_id: z.string().min(1).optional(),
-    answers: z.array(
-      z.object({
-        questionId: z.string().min(1),
-        value: z.unknown(),
-      }),
-    ),
+    answers: z.array(answerSchema),
   })
   .refine((d) => d.projectId ?? d.project_id, { message: "projectId is required" })
   .transform((d) => ({
@@ -63,7 +65,7 @@ export function createQuestionnaireRoutes(
     try {
       const category = req.query["category"] as string | undefined;
       const questions = await questionnaireService.getQuestions(category);
-      res.status(200).json(questions);
+      res.status(200).json({ questions });
     } catch (err) {
       next(err);
     }
@@ -80,7 +82,7 @@ export function createQuestionnaireRoutes(
       const questions = await questionnaireService.getAdaptiveQuestions(
         parsed.data.answers as QuestionnaireAnswer[],
       );
-      res.status(200).json(questions);
+      res.status(200).json({ questions });
     } catch (err) {
       next(err);
     }

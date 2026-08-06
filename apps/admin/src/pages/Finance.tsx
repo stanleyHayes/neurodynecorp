@@ -1,10 +1,17 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   Alert,
   Box,
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogTitle,
+  MenuItem,
+  Stack,
+  TextField,
   Typography,
   Chip,
-  Stack,
   Table,
   TableBody,
   TableCell,
@@ -28,6 +35,7 @@ import {
   Cell as RCell,
 } from "recharts";
 import PageBanner from "@/components/shared/PageBanner";
+import ActionBar from "@/components/shared/ActionBar";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import ChartCard from "@/components/shared/ChartCard";
@@ -35,6 +43,15 @@ import { AXIS_STYLE, GRID_STYLE, TOOLTIP_STYLE, fmtTooltipK } from "@/data/chart
 import { useAuth } from "@/context/AuthContext";
 
 const CLIENT_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981"];
+
+const inputSx = {
+  "& .MuiOutlinedInput-root": {
+    bgcolor: "rgba(108, 99, 255, 0.04)",
+    "& fieldset": { borderColor: "rgba(139,92,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(139,92,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#10B981" },
+  },
+};
 
 function fmtMoney(amount: number, currency = "USD") {
   return new Intl.NumberFormat("en-US", {
@@ -44,28 +61,113 @@ function fmtMoney(amount: number, currency = "USD") {
   }).format(amount);
 }
 
+function defaultDueDate() {
+  const d = new Date();
+  d.setDate(d.getDate() + 30);
+  return d.toISOString().slice(0, 10);
+}
+
 export default function Finance() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
   const [invoices, setInvoices] = useState<any[]>([]);
   const [error, setError] = useState("");
 
-  useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await api.listInvoices({ pageSize: "100" });
-        if (!cancelled) setInvoices((res as any).items ?? []);
-      } catch (err: any) {
-        if (!cancelled) setError(err?.message ?? "Failed to load invoices");
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
+  const [createOpen, setCreateOpen] = useState(false);
+  const [projects, setProjects] = useState<{ id: string; title: string; client_id: string }[]>([]);
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
+  const [form, setForm] = useState({
+    project_id: "",
+    client_id: "",
+    description: "",
+    quantity: "1",
+    unit_price: "",
+    tax: "0",
+    currency: "USD",
+    due_date: defaultDueDate(),
+  });
+
+  const loadInvoices = useCallback(async () => {
+    setLoading(true);
+    setError("");
+    try {
+      const res = await api.listInvoices({ pageSize: "100" });
+      setInvoices((res as any).items ?? []);
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to load invoices");
+    } finally {
+      setLoading(false);
+    }
   }, [api]);
+
+  useEffect(() => {
+    void loadInvoices();
+  }, [loadInvoices]);
+
+  const openCreate = async () => {
+    setCreateError("");
+    setForm({
+      project_id: "",
+      client_id: "",
+      description: "",
+      quantity: "1",
+      unit_price: "",
+      tax: "0",
+      currency: "USD",
+      due_date: defaultDueDate(),
+    });
+    try {
+      const res = await api.listProjects({ pageSize: "100" });
+      const items = ((res as any).items ?? []).map((p: any) => ({
+        id: p.id,
+        title: p.title ?? p.name ?? p.id,
+        client_id: p.client_id ?? p.clientId ?? "",
+      }));
+      setProjects(items);
+      if (items[0]) {
+        setForm((f) => ({
+          ...f,
+          project_id: items[0].id,
+          client_id: items[0].client_id,
+          description: `${items[0].title} — milestone invoice`,
+        }));
+      }
+    } catch {
+      setProjects([]);
+    }
+    setCreateOpen(true);
+  };
+
+  const handleCreate = async () => {
+    setCreating(true);
+    setCreateError("");
+    try {
+      const quantity = Number(form.quantity);
+      const unitPrice = Number(form.unit_price);
+      const tax = Number(form.tax);
+      if (!form.project_id || !form.client_id) throw new Error("Select a project");
+      if (!form.description.trim()) throw new Error("Line item description is required");
+      if (!Number.isFinite(quantity) || quantity <= 0) throw new Error("Quantity must be positive");
+      if (!Number.isFinite(unitPrice) || unitPrice < 0) throw new Error("Unit price is required");
+      if (!form.due_date) throw new Error("Due date is required");
+
+      await api.createInvoice({
+        project_id: form.project_id,
+        client_id: form.client_id,
+        items: [{ description: form.description.trim(), quantity, unit_price: unitPrice }],
+        tax: Number.isFinite(tax) ? tax : 0,
+        currency: form.currency || "USD",
+        due_date: form.due_date,
+      });
+      setCreateOpen(false);
+      await loadInvoices();
+    } catch (err: any) {
+      setCreateError(err?.message ?? "Failed to create invoice");
+    } finally {
+      setCreating(false);
+    }
+  };
 
   const paid = invoices.filter((i) => i.status === "paid");
   const outstanding = invoices.filter(
@@ -138,6 +240,8 @@ export default function Finance() {
         iconLabel="LEDGER ACTIVE"
       />
 
+      <ActionBar label="New Invoice" subtitle="CREATE BILLING RECORD" color="#10B981" onClick={() => void openCreate()} />
+
       <Box sx={{ px: 3, pt: 2 }}>
         <Alert severity="info">
           Totals below are derived from live invoices. Cost/profit margins still need a cost aggregation source.
@@ -194,7 +298,7 @@ export default function Finance() {
       <Box sx={{ px: 3, pb: 4 }}>
         {invoices.length === 0 ? (
           <Typography variant="body2" color="text.secondary">
-            {loading ? "Loading…" : "No invoices found. Create invoices via the API or seed data."}
+            {loading ? "Loading…" : "No invoices found. Use New Invoice to create one."}
           </Typography>
         ) : (
           <TableContainer>
@@ -233,6 +337,112 @@ export default function Finance() {
           </TableContainer>
         )}
       </Box>
+
+      <Dialog open={createOpen} onClose={() => !creating && setCreateOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle>Create Invoice</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            {createError && <Alert severity="error">{createError}</Alert>}
+            <TextField
+              select
+              label="Project"
+              value={form.project_id}
+              onChange={(e) => {
+                const project = projects.find((p) => p.id === e.target.value);
+                setForm((f) => ({
+                  ...f,
+                  project_id: e.target.value,
+                  client_id: project?.client_id ?? f.client_id,
+                  description: project ? `${project.title} — milestone invoice` : f.description,
+                }));
+              }}
+              fullWidth
+              size="small"
+              sx={inputSx}
+            >
+              {projects.length === 0 ? (
+                <MenuItem value="" disabled>No projects available</MenuItem>
+              ) : (
+                projects.map((p) => (
+                  <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>
+                ))
+              )}
+            </TextField>
+            <TextField
+              label="Client ID"
+              value={form.client_id}
+              onChange={(e) => setForm((f) => ({ ...f, client_id: e.target.value }))}
+              fullWidth
+              size="small"
+              sx={inputSx}
+              helperText="Filled from the selected project; override only if needed."
+            />
+            <TextField
+              label="Line item description"
+              value={form.description}
+              onChange={(e) => setForm((f) => ({ ...f, description: e.target.value }))}
+              fullWidth
+              size="small"
+              sx={inputSx}
+            />
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <TextField
+                label="Quantity"
+                type="number"
+                value={form.quantity}
+                onChange={(e) => setForm((f) => ({ ...f, quantity: e.target.value }))}
+                fullWidth
+                size="small"
+                sx={inputSx}
+              />
+              <TextField
+                label="Unit price"
+                type="number"
+                value={form.unit_price}
+                onChange={(e) => setForm((f) => ({ ...f, unit_price: e.target.value }))}
+                fullWidth
+                size="small"
+                sx={inputSx}
+              />
+            </Stack>
+            <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+              <TextField
+                label="Tax"
+                type="number"
+                value={form.tax}
+                onChange={(e) => setForm((f) => ({ ...f, tax: e.target.value }))}
+                fullWidth
+                size="small"
+                sx={inputSx}
+              />
+              <TextField
+                label="Currency"
+                value={form.currency}
+                onChange={(e) => setForm((f) => ({ ...f, currency: e.target.value.toUpperCase().slice(0, 3) }))}
+                fullWidth
+                size="small"
+                sx={inputSx}
+              />
+              <TextField
+                label="Due date"
+                type="date"
+                value={form.due_date}
+                onChange={(e) => setForm((f) => ({ ...f, due_date: e.target.value }))}
+                fullWidth
+                size="small"
+                sx={inputSx}
+                slotProps={{ inputLabel: { shrink: true } }}
+              />
+            </Stack>
+          </Stack>
+        </DialogContent>
+        <DialogActions sx={{ px: 3, pb: 2 }}>
+          <Button onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
+          <Button variant="contained" onClick={() => void handleCreate()} disabled={creating}>
+            {creating ? "Creating…" : "Create"}
+          </Button>
+        </DialogActions>
+      </Dialog>
     </Box>
   );
 }

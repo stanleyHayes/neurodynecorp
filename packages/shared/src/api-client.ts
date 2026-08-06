@@ -208,12 +208,30 @@ export class ApiClient {
     return this.request<{ questions: Question[] }>("/api/v1/questionnaire/questions", { params: category ? { category } : undefined });
   }
   getAdaptiveQuestions(answers: AnswerInput[]) {
-    return this.request<{ questions: Question[] }>("/api/v1/questionnaire/adaptive", { method: "POST", body: { answers } });
+    return this.request<{ questions: Question[] }>("/api/v1/questionnaire/adaptive", {
+      method: "POST",
+      body: {
+        answers: answers.map((a) => ({
+          questionId: a.question_id,
+          question_id: a.question_id,
+          value: a.value,
+          values: a.values,
+        })),
+      },
+    });
   }
   saveQuestionnaireResponse(projectId: string, answers: AnswerInput[]) {
     return this.request<QuestionnaireResponse>("/api/v1/questionnaire/responses", {
       method: "POST",
-      body: { projectId, answers },
+      body: {
+        projectId,
+        answers: answers.map((a) => ({
+          questionId: a.question_id,
+          question_id: a.question_id,
+          value: a.value,
+          values: a.values,
+        })),
+      },
     });
   }
   completeQuestionnaire(projectId: string) {
@@ -336,7 +354,7 @@ export class ApiClient {
           unitPrice: item.unit_price,
           total: item.quantity * item.unit_price,
         })),
-        tax: data.tax,
+        tax: data.tax ?? 0,
         currency: data.currency,
         dueDate: data.due_date,
       },
@@ -373,7 +391,12 @@ export class ApiClient {
       body: formData,
     });
     if (!res.ok) throw new ApiError("Upload failed", res.status);
-    return res.json();
+    const data = (await res.json()) as Record<string, unknown>;
+    return {
+      url: String(data.url ?? data.fileURL ?? data.file_url ?? ""),
+      filename: String(data.filename ?? data.fileName ?? data.file_name ?? ""),
+      size: Number(data.size ?? data.fileSize ?? data.file_size ?? 0),
+    };
   }
 
   // Contact
@@ -776,7 +799,7 @@ interface Thread { id: string; project_id: string; subject: string; participants
 interface Message { id: string; project_id: string; thread_id: string; sender_id: string; content: string; file_urls?: string[]; created_at: string }
 interface Task { id: string; project_id: string; sprint_id?: string; title: string; description?: string; status: string; priority: string; assignee_id?: string; labels: string[]; created_at: string; updated_at: string }
 interface Invoice { id: string; project_id: string; client_id: string; invoice_number: string; status: string; total: number; currency: string; due_date: string; paid_at?: string; created_at: string }
-interface CreateInvoiceData { project_id: string; client_id: string; invoice_number: string; items: { description: string; quantity: number; unit_price: number }[]; tax: number; currency?: string; due_date?: string }
+interface CreateInvoiceData { project_id: string; client_id: string; items: { description: string; quantity: number; unit_price: number }[]; tax?: number; currency?: string; due_date: string }
 interface ContentList { items: any[]; total: number }
 interface DiagnosticOption { value: string; label: string }
 interface DiagnosticQuestion { id: string; text: string; helpText?: string; type: "single" | "multi"; options: DiagnosticOption[]; dependsOn?: { questionId: string; expectedValue: string }; order: number }

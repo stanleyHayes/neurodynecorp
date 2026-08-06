@@ -117,8 +117,18 @@ export function createProjectIntakeRoutes(repo: Repo, tokens: TokenService, mail
       const tokenValid = !ownerId && typeof req.body.resumeToken === "string" && item?.resumeTokenHash === hashResumeToken(req.body.resumeToken);
       if (!item || (ownerId ? item.ownerId !== ownerId : item.ownerId || !tokenValid)) return res.status(404).json({ error: "Project intake not found" });
       if (item.status === "submitted") return res.status(409).json({ error: "Submitted project intakes cannot be changed" });
-      const { resumeToken: _ignored, ...body } = req.body;
-      const updated = await repo.update({ ...item, ...body, answers: parsed.data.answers ?? item.answers });
+      // Only apply Zod-validated fields — never spread raw req.body (mass-assignment).
+      const updated = await repo.update({
+        ...item,
+        ...(parsed.data.category !== undefined ? { category: parsed.data.category } : {}),
+        ...(parsed.data.title !== undefined ? { title: parsed.data.title } : {}),
+        ...(parsed.data.contactName !== undefined ? { contactName: parsed.data.contactName } : {}),
+        ...(parsed.data.contactEmail !== undefined ? { contactEmail: parsed.data.contactEmail } : {}),
+        ...(parsed.data.company !== undefined ? { company: parsed.data.company } : {}),
+        ...(parsed.data.currentSection !== undefined ? { currentSection: parsed.data.currentSection } : {}),
+        answers: parsed.data.answers ?? item.answers,
+        updatedAt: new Date(),
+      });
       res.json(safe(updated));
     } catch (e) { next(e); }
   };

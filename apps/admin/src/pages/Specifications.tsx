@@ -95,28 +95,31 @@ export default function Specifications() {
     setLoading(true);
     setError(null);
     try {
-      // Fetch all projects, then fetch specs for projects that have specification_id
+      // Prefer project.specification_id; fall back to GET ?project_id= so seeded
+      // specs still appear when the project pointer was never written.
       const projectsRes = await api.listProjects({ pageSize: "100" });
       const projects = (projectsRes.items ?? []) as unknown as ApiProject[];
 
-      const specPromises = projects
-        .filter((p) => p.specification_id)
-        .map(async (p) => {
-          try {
-            const spec = (await api.getSpec(p.specification_id!)) as unknown as ApiSpec;
-            return {
-              id: spec.id,
-              project: p.title,
-              projectId: p.id,
-              client: p.client_id,
-              version: spec.version,
-              status: spec.status,
-              date: spec.created_at?.slice(0, 10) ?? "",
-            } as SpecDisplay;
-          } catch {
-            return null;
-          }
-        });
+      const specPromises = projects.map(async (p) => {
+        try {
+          const spec = (
+            p.specification_id
+              ? await api.getSpec(p.specification_id)
+              : await api.getSpecByProject(p.id)
+          ) as unknown as ApiSpec;
+          return {
+            id: spec.id,
+            project: p.title || p.id,
+            projectId: p.id,
+            client: p.client_id,
+            version: spec.version,
+            status: spec.status,
+            date: spec.created_at?.slice(0, 10) ?? "",
+          } as SpecDisplay;
+        } catch {
+          return null;
+        }
+      });
 
       const results = await Promise.all(specPromises);
       setSpecs(results.filter((s): s is SpecDisplay => s !== null));

@@ -110,6 +110,7 @@ export const portfolioProjects: Project[] = [
     timeline: { startDate: d("2025-06-01"), endDate: d("2026-06-01"), estimatedWeeks: 52 },
     attachments: [],
     assignedTeam: [],
+    specificationId: IDS.spec1,
     progress: 65,
     milestones: [
       { id: oid(), name: "Data pipeline MVP", description: "Core data ingestion and processing pipeline", dueDate: d("2025-09-01"), status: "completed", completedAt: d("2025-08-28") },
@@ -204,6 +205,7 @@ export const portfolioProjects: Project[] = [
     timeline: { startDate: d("2025-01-01"), endDate: d("2026-01-01"), estimatedWeeks: 52 },
     attachments: [],
     assignedTeam: [],
+    specificationId: IDS.spec2,
     progress: 55,
     milestones: [
       { id: oid(), name: "Property engine", description: "Listing management and search infrastructure", dueDate: d("2025-04-01"), status: "completed", completedAt: d("2025-03-28") },

@@ -92,5 +92,8 @@ export class MongoDBClient {
       { key: { sprint_id: 1 } },
       { key: { assignee_id: 1 } },
     ]);
+
+    // Files - project_id + created_at
+    await this.db.collection("files").createIndex({ project_id: 1, created_at: -1 });
   }
 }
