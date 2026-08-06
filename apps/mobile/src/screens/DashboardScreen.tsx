@@ -10,7 +10,7 @@ import {
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
-import { listProjects, listInvoices, listNotifications } from "../api/client";
+import { listProjects, listInvoices, listNotifications, listFiles } from "../api/client";
 import { useAuth } from "../hooks/useAuth";
 
 /* ── helpers ─────────────────────────────────────────────────── */
@@ -132,7 +132,7 @@ export default function DashboardScreen() {
   const [stats, setStats] = useState([
     { label: "ACTIVE PROJECTS", value: "0" },
     { label: "PENDING INVOICES", value: "0" },
-    { label: "UNREAD MESSAGES", value: "0" },
+    { label: "UNREAD NOTIFICATIONS", value: "0" },
     { label: "DOCUMENTS", value: "0" },
   ]);
 
@@ -149,19 +149,35 @@ export default function DashboardScreen() {
 
         if (cancelled) return;
 
-        const activeProjects = projectsRes.items.filter(
-          (p: any) => p.status !== "completed" && p.status !== "cancelled",
+        const projectItems = projectsRes.items ?? [];
+        const activeProjects = projectItems.filter(
+          (p: any) => p.status !== "completed" && p.status !== "cancelled" && p.status !== "delivered",
         );
-        const pendingInvoices = invoicesRes.items.filter(
-          (inv: any) => inv.status === "pending" || inv.status === "Pending",
+        const pendingInvoices = (invoicesRes.items ?? []).filter((inv: any) =>
+          ["sent", "overdue", "pending"].includes(String(inv.status ?? "").toLowerCase()),
         );
 
-        setProjects(projectsRes.items.slice(0, 5));
+        let documentCount = 0;
+        await Promise.all(
+          projectItems.map(async (p: any) => {
+            try {
+              const filesRes = await listFiles(p.id);
+              const files = Array.isArray(filesRes) ? filesRes : ((filesRes as any).items ?? []);
+              documentCount += files.length;
+            } catch {
+              documentCount += p.attachments?.length ?? 0;
+            }
+          }),
+        );
+
+        if (cancelled) return;
+
+        setProjects(projectItems.slice(0, 5));
         setStats([
           { label: "ACTIVE PROJECTS", value: String(activeProjects.length) },
           { label: "PENDING INVOICES", value: String(pendingInvoices.length) },
-          { label: "UNREAD MESSAGES", value: String((notificationsRes as any).unread ?? 0) },
-          { label: "DOCUMENTS", value: String(projectsRes.total) },
+          { label: "UNREAD NOTIFICATIONS", value: String((notificationsRes as any).unread ?? 0) },
+          { label: "DOCUMENTS", value: String(documentCount) },
         ]);
       } catch {
         // keep defaults on error

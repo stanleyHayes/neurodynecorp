@@ -142,6 +142,10 @@ export function markAllNotificationsRead() {
   return request<void>("/api/v1/notifications/read-all", { method: "POST" });
 }
 
+export function deleteNotification(id: string) {
+  return request<void>(`/api/v1/notifications/${id}`, { method: "DELETE" });
+}
+
 export function getUnreadNotificationCount() {
   return request<{ unread: number }>("/api/v1/notifications/unread-count");
 }

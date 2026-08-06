@@ -50,7 +50,7 @@ const ROUTE_PERMISSIONS: Record<string, string> = {
   "/documents": "documents:read",
   "/billing": "billing:read",
   "/security": "settings:read",
-  "/webhooks": "settings:read",
+  "/webhooks": "webhooks:read",
   "/help": "dashboard:read",
   "/settings": "settings:read",
 };

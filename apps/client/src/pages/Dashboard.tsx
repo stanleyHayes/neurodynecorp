@@ -68,13 +68,28 @@ export default function Dashboard() {
 
         if (cancelled) return;
 
-        setProjects(projectRes.items ?? []);
-        setPendingInvoices((invoiceRes.items ?? []).filter((inv: any) => inv.status === "pending" || inv.status === "sent").length);
+        const projectItems = projectRes.items ?? [];
+        setProjects(projectItems);
+        setPendingInvoices(
+          (invoiceRes.items ?? []).filter((inv: any) =>
+            ["sent", "overdue", "pending"].includes(String(inv.status ?? "").toLowerCase()),
+          ).length,
+        );
         setUnreadMessages(notifRes.unread ?? 0);
 
-        // Count total attachments across projects as document count
-        const docs = (projectRes.items ?? []).reduce((sum: number, p: any) => sum + (p.attachments?.length ?? 0), 0);
-        setDocumentCount(docs);
+        let docs = 0;
+        await Promise.all(
+          projectItems.map(async (p: any) => {
+            try {
+              const filesRes = await api.listFiles(p.id);
+              const files = Array.isArray(filesRes) ? filesRes : (filesRes.items ?? []);
+              docs += files.length;
+            } catch {
+              docs += p.attachments?.length ?? 0;
+            }
+          }),
+        );
+        if (!cancelled) setDocumentCount(docs);
       } catch {
         // Errors are handled by the API client (e.g. redirect on 401)
       } finally {
@@ -92,7 +107,7 @@ export default function Dashboard() {
   const statCards = [
     { label: "Active Projects", value: String(activeProjects.length), icon: <AssignmentOutlinedIcon />, color: "#6C63FF" },
     { label: "Pending Invoices", value: String(pendingInvoices), icon: <ReceiptLongOutlinedIcon />, color: "#00D4AA" },
-    { label: "Unread Messages", value: String(unreadMessages), icon: <MailOutlinedIcon />, color: "#8B85FF" },
+    { label: "Unread Notifications", value: String(unreadMessages), icon: <MailOutlinedIcon />, color: "#8B85FF" },
     { label: "Documents", value: String(documentCount), icon: <InsertDriveFileOutlinedIcon />, color: "#33DDBB" },
   ];
 

@@ -5,11 +5,8 @@ import {
   CardContent,
   TextField,
   Button,
-  Stack,
   Grid,
   Divider,
-  Switch,
-  FormControlLabel,
   Avatar,
   Alert,
   CircularProgress,
@@ -27,12 +24,6 @@ export default function Settings() {
     last_name: "",
     phone: "",
     company: "",
-  });
-  const [notifs, setNotifs] = useState({
-    email_updates: true,
-    status_changes: true,
-    new_messages: true,
-    invoices: true,
   });
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ severity: "success" | "error" | "info"; text: string } | null>(null);
@@ -87,9 +78,9 @@ export default function Settings() {
       <AnimatedCard delay={0} sx={{ p: 3, mb: 3 }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 3 }}>Profile</Typography>
-          <Stack direction="row" spacing={3} sx={{ alignItems: "center", mb: 3 }}>
+          <Box sx={{ display: "flex", alignItems: "center", mb: 3 }}>
             <Avatar sx={{ width: 72, height: 72, bgcolor: "primary.main", fontSize: "1.5rem" }}>{initials || "?"}</Avatar>
-          </Stack>
+          </Box>
           {message && (
             <Alert severity={message.severity} sx={{ mb: 2 }} onClose={() => setMessage(null)}>
               {message.text}
@@ -161,15 +152,9 @@ export default function Settings() {
       <AnimatedCard delay={1} sx={{ p: 3, mb: 3 }}>
         <CardContent>
           <Typography variant="h6" sx={{ mb: 2 }}>Notification Preferences</Typography>
-          <Alert severity="info" sx={{ mb: 2 }}>
-            Notification preferences are not persisted yet. You will continue receiving the default notification set.
+          <Alert severity="info">
+            Per-channel notification preferences are not available yet. You will continue receiving the default notification set (project updates, messages, and invoice alerts). Contact your project manager if you need delivery changes.
           </Alert>
-          <Stack spacing={1}>
-            <FormControlLabel control={<Switch checked={notifs.email_updates} onChange={(e) => setNotifs({ ...notifs, email_updates: e.target.checked })} />} label="Email updates" />
-            <FormControlLabel control={<Switch checked={notifs.status_changes} onChange={(e) => setNotifs({ ...notifs, status_changes: e.target.checked })} />} label="Project status changes" />
-            <FormControlLabel control={<Switch checked={notifs.new_messages} onChange={(e) => setNotifs({ ...notifs, new_messages: e.target.checked })} />} label="New messages" />
-            <FormControlLabel control={<Switch checked={notifs.invoices} onChange={(e) => setNotifs({ ...notifs, invoices: e.target.checked })} />} label="Invoice reminders" />
-          </Stack>
         </CardContent>
       </AnimatedCard>
 

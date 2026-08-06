@@ -15,6 +15,7 @@ import {
   listNotifications,
   markNotificationRead,
   markAllNotificationsRead,
+  deleteNotification,
 } from "../api/client";
 import { useSocket } from "../hooks/useSocket";
 
@@ -208,6 +209,15 @@ export default function NotificationsScreen() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await deleteNotification(id);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch {
+      // silently fail
+    }
+  };
+
   if (loading) return <SkeletonNotifications />;
 
   return (
@@ -265,7 +275,16 @@ export default function NotificationsScreen() {
                   <Text style={styles.body} numberOfLines={2}>
                     {notification.body ?? notification.message ?? ""}
                   </Text>
-                  <Text style={styles.time}>{time}</Text>
+                  <View style={styles.footerRow}>
+                    <Text style={styles.time}>{time}</Text>
+                    <TouchableOpacity
+                      onPress={() => void handleDelete(notification.id)}
+                      hitSlop={{ top: 8, bottom: 8, left: 8, right: 8 }}
+                      accessibilityLabel="Dismiss notification"
+                    >
+                      <Text style={styles.dismissText}>DISMISS</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             </TouchableOpacity>
@@ -382,8 +401,19 @@ const styles = StyleSheet.create({
     marginBottom: 6,
     lineHeight: 17,
   },
+  footerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   time: {
     fontFamily: fonts.regular,
+    fontSize: 9,
+    color: colors.textSecondary,
+    letterSpacing: 1.5,
+  },
+  dismissText: {
+    fontFamily: fonts.bold,
     fontSize: 9,
     color: colors.textSecondary,
     letterSpacing: 1.5,

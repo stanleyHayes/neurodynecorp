@@ -59,14 +59,23 @@ export default function Billing() {
     setPayError("");
     try {
       const checkout = await api.checkoutInvoice(invoiceId);
-      const dest = checkout.client_secret ?? checkout.clientSecret;
+      const provider = String(checkout.provider ?? "").toLowerCase();
+      const dest =
+        (checkout as any).authorization_url ??
+        (checkout as any).authorizationUrl ??
+        checkout.client_secret ??
+        checkout.clientSecret;
       if (typeof dest === "string" && dest.startsWith("http")) {
         window.open(dest, "_blank", "noopener,noreferrer");
-      } else {
-        setPayError(
-          `Payment intent ${checkout.payment_intent_id ?? checkout.paymentIntentId} created via ${checkout.provider}. Complete payment with your provider SDK.`,
-        );
+        return;
       }
+      if (provider === "stripe" || (typeof dest === "string" && dest.startsWith("pi_"))) {
+        setPayError(
+          "Card checkout for this invoice requires Stripe Elements (not yet wired in the portal). Contact your project manager to complete payment, or use Paystack when that provider is configured.",
+        );
+        return;
+      }
+      setPayError("No checkout URL was returned for this invoice.");
     } catch (err: any) {
       setPayError(err?.message ?? "Unable to start checkout");
     } finally {

@@ -352,7 +352,7 @@ export default function Security() {
                           component="span"
                           sx={{ fontFamily: "monospace", fontSize: "0.8rem" }}
                         >
-                          {k.masked ?? k.prefix ?? k.masked_key ?? "••••••••"}
+                          {k.display ?? k.masked ?? k.masked_key ?? (k.prefix ? `ndk_${k.prefix}...` : "••••••••")}
                         </Typography>
                       </TableCell>
                       <TableCell>{formatDate(k.lastUsedAt ?? k.last_used_at)}</TableCell>

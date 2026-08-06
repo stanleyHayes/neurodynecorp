@@ -11,6 +11,7 @@ import {
   Button,
   Stack,
   Skeleton,
+  IconButton,
 } from "@mui/material";
 import NotificationsActiveIcon from "@mui/icons-material/NotificationsActive";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -18,6 +19,7 @@ import InfoIcon from "@mui/icons-material/Info";
 import WarningIcon from "@mui/icons-material/Warning";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import AnimatedCard from "@/components/shared/AnimatedCard";
 import EmptyState from "@/components/shared/EmptyState";
@@ -88,6 +90,15 @@ export default function Notifications() {
     }
   };
 
+  const handleDelete = async (id: string) => {
+    try {
+      await api.deleteNotification(id);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
+    } catch {
+      // silent
+    }
+  };
+
   return (
     <Box>
       <PageBanner
@@ -151,6 +162,17 @@ export default function Notifications() {
                       </>
                     }
                   />
+                  <IconButton
+                    size="small"
+                    aria-label="Dismiss notification"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      void handleDelete(notif.id);
+                    }}
+                    sx={{ color: "text.secondary", opacity: 0.5, "&:hover": { opacity: 1, color: "error.main" } }}
+                  >
+                    <DeleteOutlineOutlinedIcon fontSize="small" />
+                  </IconButton>
                 </ListItem>
               ))}
             </List>

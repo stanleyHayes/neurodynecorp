@@ -17,6 +17,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 - [x] **Pass 4 — project create client ownership, feedback score null 400, contact status updates, role permission matrix from API, invoice send + draft pay gate, admin new message thread, mobile thread open/send.**
 - [x] **Pass 5 — spec generate questionnaire completedAt/array fix, ProjectDetail status/team/progress controls, SpecDetail approve/reject, client createThread, Documents listFiles, upload projectId support.**
 - [x] **Pass 6 — files list `{items}` shape, listUsers dual keys, user activate/deactivate + camelCase PATCH, Pipeline status moves, client spec approve, notification dismiss, mobile documents/files + honest Stripe pay.**
+- [x] **Pass 7 — client webhooks gated on `webhooks:read`, dashboard invoice/doc/notification stats match APIs, Stripe pay honesty, settings fake toggles removed, API key `display`, client/mobile notification dismiss.**
 
 ## Operational repairs (5 August 2026)
 

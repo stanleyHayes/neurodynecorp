@@ -33,6 +33,7 @@ import ListAltOutlinedIcon from "@mui/icons-material/ListAltOutlined";
 import AutorenewOutlinedIcon from "@mui/icons-material/AutorenewOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import ContentCopyOutlinedIcon from "@mui/icons-material/ContentCopyOutlined";
+import { Navigate } from "react-router";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
@@ -65,10 +66,12 @@ function formatDate(value: any): string {
 }
 
 export default function Webhooks() {
-  const { api } = useAuth();
+  const { api, hasPermission } = useAuth();
+  const canManageWebhooks = hasPermission("webhooks:read");
 
   const [loading, setLoading] = useState(true);
   const [webhooks, setWebhooks] = useState<any[]>([]);
+  const [loadError, setLoadError] = useState("");
 
   // Add endpoint dialog
   const [addOpen, setAddOpen] = useState(false);
@@ -97,21 +100,28 @@ export default function Webhooks() {
 
   async function load() {
     setLoading(true);
+    setLoadError("");
     try {
       const res: any = await api.get("/api/v1/webhooks");
       const items = res?.items ?? res?.data ?? res ?? [];
       setWebhooks(Array.isArray(items) ? items : []);
-    } catch {
+    } catch (err: any) {
       setWebhooks([]);
+      setLoadError(err?.message ?? "Unable to load webhooks");
     } finally {
       setLoading(false);
     }
   }
 
   useEffect(() => {
+    if (!canManageWebhooks) return;
     load();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api]);
+  }, [api, canManageWebhooks]);
+
+  if (!canManageWebhooks) {
+    return <Navigate to="/" replace />;
+  }
 
   function openAdd() {
     setNewUrl("");
@@ -251,6 +261,10 @@ export default function Webhooks() {
           <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
             <CircularProgress />
           </Box>
+        ) : loadError ? (
+          <Alert severity="error" sx={{ mb: 2 }}>
+            {loadError}
+          </Alert>
         ) : webhooks.length === 0 ? (
           <Card>
             <CardContent sx={{ textAlign: "center", py: 8 }}>
