@@ -46,6 +46,15 @@ function statusMeta(raw: string | undefined) {
   if (s.includes("maintenance")) {
     return { color: "#6C63FF", label: "Under Maintenance", Icon: BuildCircleOutlinedIcon };
   }
+  if (s === "investigating" || s === "identified") {
+    return { color: "#F59E0B", label: s === "identified" ? "Identified" : "Investigating", Icon: WarningAmberOutlinedIcon };
+  }
+  if (s === "monitoring") {
+    return { color: "#6C63FF", label: "Monitoring", Icon: BuildCircleOutlinedIcon };
+  }
+  if (s === "resolved") {
+    return { color: "#10B981", label: "Resolved", Icon: CheckCircleOutlinedIcon };
+  }
   return { color: "#10B981", label: "Operational", Icon: CheckCircleOutlinedIcon };
 }
 
@@ -230,7 +239,7 @@ export default function Status() {
                 <Typography sx={OVERLINE_SX}>Active Incidents</Typography>
                 <Stack spacing={2} sx={{ mt: 2 }}>
                   {activeIncidents.map((inc: any, i: number) => {
-                    const meta = statusMeta(inc.impact ?? inc.status);
+                    const meta = statusMeta(inc.status);
                     return (
                       <Card
                         key={inc.id ?? i}
@@ -245,7 +254,16 @@ export default function Status() {
                             <Typography variant="h6" sx={{ fontWeight: 700 }}>
                               {inc.title ?? inc.name ?? "Incident"}
                             </Typography>
-                            <StatusChip status={inc.impact ?? inc.status} />
+                            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+                              {inc.impact && inc.impact !== "none" && (
+                                <Chip
+                                  label={String(inc.impact).replace(/_/g, " ")}
+                                  size="small"
+                                  sx={{ textTransform: "capitalize", fontSize: "0.7rem" }}
+                                />
+                              )}
+                              <StatusChip status={inc.status} />
+                            </Stack>
                           </Stack>
                           {inc.startedAt || inc.createdAt ? (
                             <Typography variant="caption" color="text.secondary">
@@ -323,7 +341,7 @@ export default function Status() {
                                 {inc.resolvedAt ? ` — resolved ${formatDate(inc.resolvedAt)}` : ""}
                               </Typography>
                             </Box>
-                            <StatusChip status={inc.impact ?? inc.status} />
+                            <StatusChip status={inc.status} />
                           </Stack>
                           {Array.isArray(inc.updates) && inc.updates.length > 0 && (
                             <Stack spacing={1.5} sx={{ mt: 2 }}>

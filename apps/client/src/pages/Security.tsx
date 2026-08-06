@@ -643,8 +643,8 @@ export default function Security() {
               />
               <TextField
                 label="Scopes (optional)"
-                placeholder="read, write"
-                helperText="Comma-separated. Leave blank for default scopes."
+                placeholder="projects:read, messages:create"
+                helperText="Comma-separated permission strings (e.g. projects:read). Leave blank for default scopes."
                 fullWidth
                 value={genScopes}
                 onChange={(e) => setGenScopes(e.target.value)}

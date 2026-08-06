@@ -106,7 +106,7 @@ export default function PrivacyRequests() {
   const [error, setError] = useState("");
   const [savingId, setSavingId] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
-  const [toast, setToast] = useState("");
+  const [toast, setToast] = useState<{ msg: string; severity: "success" | "error" } | null>(null);
 
   const load = useCallback(async () => {
     try {
@@ -142,9 +142,9 @@ export default function PrivacyRequests() {
             (r.id ?? r._id) === id ? { ...r, ...body } : r,
           ),
         );
-        setToast(successMsg);
+        setToast({ msg: successMsg, severity: "success" });
       } catch (err: any) {
-        setToast(err?.message ?? "Update failed");
+        setToast({ msg: err?.message ?? "Update failed", severity: "error" });
       } finally {
         setSavingId(null);
       }
@@ -280,9 +280,10 @@ export default function PrivacyRequests() {
                                   if (status === "completed") {
                                     const note = (notes[id] ?? "").trim();
                                     if (note.length < 8) {
-                                      setToast(
-                                        "Add fulfillment notes (8+ characters) before marking completed",
-                                      );
+                                      setToast({
+                                        msg: "Add fulfillment notes (8+ characters) before marking completed",
+                                        severity: "error",
+                                      });
                                       return;
                                     }
                                     body.fulfillmentNote = note;
@@ -354,16 +355,16 @@ export default function PrivacyRequests() {
       <Snackbar
         open={!!toast}
         autoHideDuration={3000}
-        onClose={() => setToast("")}
+        onClose={() => setToast(null)}
         anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
       >
         <Alert
-          severity="success"
+          severity={toast?.severity ?? "success"}
           variant="filled"
-          onClose={() => setToast("")}
+          onClose={() => setToast(null)}
           sx={{ width: "100%" }}
         >
-          {toast}
+          {toast?.msg}
         </Alert>
       </Snackbar>
     </Box>

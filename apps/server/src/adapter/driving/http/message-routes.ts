@@ -56,17 +56,30 @@ type ProjectOwnerLookup = (projectId: string) => Promise<string | null>;
 /** Allowed participant ids for a project (owner + assigned team). */
 type ProjectParticipantAllowlist = (projectId: string) => Promise<string[]>;
 
+/** Resolve display names for user ids (message sender enrichment). */
+type UserDisplayLookup = (ids: string[]) => Promise<Map<string, string>>;
+
 export function createMessageRoutes(
   messageService: MessageService,
   tokenService: TokenService,
   realtime?: RealtimeEmitter,
   getProjectOwnerId?: ProjectOwnerLookup,
   getProjectParticipantAllowlist?: ProjectParticipantAllowlist,
+  lookupUserDisplayNames?: UserDisplayLookup,
 ): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
 
   router.use(auth);
+
+  async function enrichMessages(messages: Message[]) {
+    if (!lookupUserDisplayNames || messages.length === 0) {
+      return messages.map((m) => toApiMessage(m));
+    }
+    const ids = [...new Set(messages.map((m) => m.senderId).filter(Boolean))];
+    const names = await lookupUserDisplayNames(ids);
+    return messages.map((m) => toApiMessage(m, names.get(m.senderId)));
+  }
 
   // POST /api/v1/messages/threads
 
@@ -235,7 +248,7 @@ export function createMessageRoutes(
         }
       }
 
-      res.status(201).json(toApiMessage(message));
+      res.status(201).json((await enrichMessages([message]))[0]);
     } catch (err) {
       next(err);
     }
@@ -250,7 +263,7 @@ export function createMessageRoutes(
         return;
       }
       const messages = await messageService.getMessages(String(req.params.threadId));
-      const items = messages.map(toApiMessage);
+      const items = await enrichMessages(messages);
       // `items` matches ApiClient / portal list consumers; `messages` kept as alias.
       res.status(200).json({ messages: items, items, total: items.length });
     } catch (err) {

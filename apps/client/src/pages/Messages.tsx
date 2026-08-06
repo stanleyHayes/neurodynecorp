@@ -45,6 +45,8 @@ interface Msg {
   id: string;
   sender_id?: string;
   senderId?: string;
+  sender_name?: string;
+  senderName?: string;
   content: string;
   created_at?: string;
   createdAt?: string;
@@ -349,7 +351,9 @@ export default function Messages() {
                             }}
                           >
                             <Typography sx={{ fontWeight: 600 }} variant="caption">
-                              {isMine ? "You" : msg.sender_id}
+                              {isMine
+                                ? "You"
+                                : (msg.sender_name ?? msg.senderName ?? "Team member")}
                             </Typography>
                             <Typography variant="body2">{msg.content}</Typography>
                             <Typography variant="caption" color="text.secondary">

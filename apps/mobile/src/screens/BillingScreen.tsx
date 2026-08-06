@@ -17,6 +17,19 @@ import { checkoutInvoice, listInvoices } from "../api/client";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
+function formatCurrency(amount: number, currency = "USD"): string {
+  try {
+    return new Intl.NumberFormat("en-US", {
+      style: "currency",
+      currency,
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 2,
+    }).format(amount);
+  } catch {
+    return `${currency} ${amount.toLocaleString()}`;
+  }
+}
+
 function Brackets({ color = BORDER }: { color?: string }) {
   const corners = cornerBrackets(color);
   return (
@@ -152,6 +165,8 @@ export default function BillingScreen() {
     })
     .reduce((sum, inv) => sum + (inv.total ?? inv.amount ?? 0), 0);
 
+  const currency = invoices[0]?.currency ?? "USD";
+
   if (loading) return <SkeletonBilling />;
 
   return (
@@ -162,14 +177,14 @@ export default function BillingScreen() {
           <Brackets />
           <Text style={styles.summaryLabel}>TOTAL PAID</Text>
           <Text style={[styles.summaryValue, { color: colors.success }]}>
-            ${totalPaid.toLocaleString()}
+            {formatCurrency(totalPaid, currency)}
           </Text>
         </View>
         <View style={styles.summaryCell}>
           <Brackets />
           <Text style={styles.summaryLabel}>OUTSTANDING</Text>
           <Text style={[styles.summaryValue, { color: colors.warning }]}>
-            ${totalOutstanding.toLocaleString()}
+            {formatCurrency(totalOutstanding, currency)}
           </Text>
         </View>
       </View>
@@ -183,6 +198,7 @@ export default function BillingScreen() {
         const badgeColor = isPaid ? colors.success : colors.warning;
         const invoiceId = invoice.invoice_number ?? invoice.id ?? "";
         const amount = invoice.total ?? invoice.amount ?? 0;
+        const invCurrency = invoice.currency ?? currency;
         const description =
           invoice.description ??
           invoice.items?.[0]?.description ??
@@ -238,7 +254,7 @@ export default function BillingScreen() {
             <View style={styles.cardFooter}>
               <View>
                 <Text style={styles.amount}>
-                  ${amount.toLocaleString()}
+                  {formatCurrency(amount, invCurrency)}
                 </Text>
                 <Text style={styles.date}>{date}</Text>
               </View>

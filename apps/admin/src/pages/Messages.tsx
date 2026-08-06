@@ -126,14 +126,16 @@ export default function Messages() {
       const mapped: ChatMessage[] = items.map((m: any) => {
         const senderId = m.sender_id ?? m.senderId ?? "";
         const mine = senderId === myId;
+        const senderLabel =
+          m.sender_name ?? m.senderName ?? (senderId ? senderId.slice(0, 8) : "Unknown");
         return {
           id: m.id,
-          sender: mine ? "You" : senderId.slice(0, 8),
+          sender: mine ? "You" : senderLabel,
           senderId,
           content: m.content,
           time: formatClock(m.created_at ?? m.createdAt),
           isMine: mine,
-          avatar: mine ? myAvatar : initials(senderId),
+          avatar: mine ? myAvatar : initials(senderLabel),
         };
       });
       setMessages((prev) => ({ ...prev, [threadId]: mapped }));

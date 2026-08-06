@@ -28,6 +28,7 @@ import {
   MenuItem,
   Divider,
   CircularProgress,
+  Alert,
 } from "@mui/material";
 import { useParams, useNavigate } from "react-router";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -199,6 +200,7 @@ export default function ProjectDetail() {
   // Support ticket UI state
   const [raiseOpen, setRaiseOpen] = useState(false);
   const [raiseForm, setRaiseForm] = useState({ subject: "", body: "", category: "question", priority: "normal" });
+  const [raiseError, setRaiseError] = useState("");
   const [raising, setRaising] = useState(false);
   const [activeTicket, setActiveTicket] = useState<any>(null);
   const [replyText, setReplyText] = useState("");
@@ -218,6 +220,7 @@ export default function ProjectDetail() {
   const raiseTicket = async () => {
     if (!id || !raiseForm.subject.trim() || !raiseForm.body.trim()) return;
     setRaising(true);
+    setRaiseError("");
     try {
       await api.createTicket({
         projectId: id,
@@ -229,8 +232,8 @@ export default function ProjectDetail() {
       setRaiseOpen(false);
       setRaiseForm({ subject: "", body: "", category: "question", priority: "normal" });
       await reloadTickets();
-    } catch {
-      /* surfaced via disabled/loading; keep dialog open */
+    } catch (err: any) {
+      setRaiseError(err?.message ?? "Unable to submit ticket. Please try again.");
     } finally {
       setRaising(false);
     }
@@ -838,7 +841,7 @@ export default function ProjectDetail() {
           <CardContent>
             <Stack direction="row" sx={{ justifyContent: "space-between", alignItems: "center", mb: 1 }}>
               <Typography variant="h6">Support</Typography>
-              <Button variant="contained" size="small" onClick={() => setRaiseOpen(true)}>
+              <Button variant="contained" size="small" onClick={() => { setRaiseError(""); setRaiseOpen(true); }}>
                 Raise a ticket
               </Button>
             </Stack>
@@ -1275,6 +1278,7 @@ export default function ProjectDetail() {
         <DialogTitle>Raise a ticket</DialogTitle>
         <DialogContent>
           <Stack spacing={2} sx={{ mt: 1 }}>
+            {raiseError && <Alert severity="error">{raiseError}</Alert>}
             <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="Subject" value={raiseForm.subject} onChange={(e) => setRaiseForm({ ...raiseForm, subject: e.target.value })} fullWidth />
             <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Describe it" value={raiseForm.body} onChange={(e) => setRaiseForm({ ...raiseForm, body: e.target.value })} fullWidth multiline minRows={4} />
             <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>

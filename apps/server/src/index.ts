@@ -655,6 +655,18 @@ async function main(): Promise<void> {
       sioHub,
       getProjectOwnerId,
       getProjectParticipantAllowlist,
+      async (ids: string[]) => {
+        const names = new Map<string, string>();
+        await Promise.all(
+          ids.map(async (id) => {
+            const u = await userRepo.findById(id);
+            if (!u) return;
+            const label = `${u.firstName} ${u.lastName}`.trim() || u.email;
+            if (label) names.set(id, label);
+          }),
+        );
+        return names;
+      },
     ),
   );
   app.use("/api/v1/tasks", createTaskRoutes(taskServiceAdapter, tokenService as Any, getProjectOwnerId));

@@ -1,4 +1,5 @@
 import { Box, Typography, Stack, Button, Chip } from "@mui/material";
+import { Link as RouterLink } from "react-router";
 import HudCorners from "@/components/shared/HudCorners";
 import { motion } from "framer-motion";
 import VideoCallOutlinedIcon from "@mui/icons-material/VideoCallOutlined";
@@ -13,12 +14,6 @@ const CALENDLY_URL = "";
 const CONTACT_EMAIL = "stanley@neurodynecorp.com";
 
 export default function BookACall() {
-  const subject = encodeURIComponent("15-min discovery call");
-  const body = encodeURIComponent(
-    "Hey Stanley,\n\nI'd like to chat about a project. Here are some times that work for me:\n\n— \n\nThanks,\n"
-  );
-  const mailto = `mailto:${CONTACT_EMAIL}?subject=${subject}&body=${body}`;
-
   return (
     <MotionBox
       initial={{ opacity: 0, y: 20 }}
@@ -95,10 +90,11 @@ export default function BookACall() {
           </Button>
         ) : (
           <Button
-            href={mailto}
+            component={RouterLink}
+            to="/book"
             onClick={() => playSound("click")}
             variant="contained"
-            startIcon={<EmailOutlinedIcon />}
+            startIcon={<EventAvailableOutlinedIcon />}
             sx={{
               fontFamily: "monospace",
               fontWeight: 700,
@@ -109,13 +105,14 @@ export default function BookACall() {
               "&:hover": { boxShadow: "0 8px 24px rgba(0,212,170,0.4)" },
             }}
           >
-            Email Stanley directly
+            Request a time
           </Button>
         )}
         <Button
           href={`mailto:${CONTACT_EMAIL}`}
           onClick={() => playSound("hover")}
           variant="outlined"
+          startIcon={<EmailOutlinedIcon />}
           sx={{
             fontFamily: "monospace",
             fontSize: "0.75rem",
