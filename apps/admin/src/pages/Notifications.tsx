@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Typography, Chip, Stack, Button } from "@mui/material";
+import { Box, Typography, Chip, Stack, Button, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
@@ -10,6 +10,7 @@ import CheckCircleOutlinedIcon from "@mui/icons-material/CheckCircleOutlined";
 import TaskAltOutlinedIcon from "@mui/icons-material/TaskAltOutlined";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import DoneAllOutlinedIcon from "@mui/icons-material/DoneAllOutlined";
+import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import PageSkeleton from "@/components/shared/PageSkeleton";
@@ -105,6 +106,13 @@ export default function Notifications() {
     try {
       await api.markNotificationRead(id);
       setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
+    } catch { /* silent */ }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await api.deleteNotification(id);
+      setNotifications((prev) => prev.filter((n) => n.id !== id));
     } catch { /* silent */ }
   };
 
@@ -246,6 +254,17 @@ export default function Notifications() {
                     >
                       {timeAgo(notif.createdAt)}
                     </Typography>
+                    <IconButton
+                      size="small"
+                      aria-label="Dismiss notification"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        void handleDelete(notif.id);
+                      }}
+                      sx={{ color: "text.secondary", opacity: 0.5, "&:hover": { opacity: 1, color: "#EF4444" } }}
+                    >
+                      <DeleteOutlineOutlinedIcon sx={{ fontSize: 18 }} />
+                    </IconButton>
                   </Stack>
                 </Cell>
               </MotionBox>

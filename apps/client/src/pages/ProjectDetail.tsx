@@ -144,9 +144,12 @@ export default function ProjectDetail() {
   const [directory, setDirectory] = useState<any[]>([]);
   const [budget, setBudget] = useState<any[]>([]);
   const [error, setError] = useState(false);
+  const [spec, setSpec] = useState<any | null>(null);
+  const [specActing, setSpecActing] = useState(false);
+  const [specError, setSpecError] = useState("");
 
   // Approval (sign-off) UI state
-  const [activeApproval, setActiveApproval] = useState<any>(null);
+  const [activeApproval, setActiveApproval] = useState<any | null>(null);
   const [decisionComment, setDecisionComment] = useState("");
   const [deciding, setDeciding] = useState(false);
 
@@ -172,6 +175,23 @@ export default function ProjectDetail() {
       /* keep dialog open */
     } finally {
       setDeciding(false);
+    }
+  };
+
+  const handleSpecDecision = async (action: "approve" | "reject") => {
+    if (!spec?.id) return;
+    setSpecActing(true);
+    setSpecError("");
+    try {
+      const updated =
+        action === "approve"
+          ? await api.approveSpec(spec.id)
+          : await api.rejectSpec(spec.id);
+      setSpec({ ...spec, ...updated, status: (updated as any).status ?? (action === "approve" ? "approved" : "rejected") });
+    } catch (err: any) {
+      setSpecError(err?.message ?? `Failed to ${action} specification`);
+    } finally {
+      setSpecActing(false);
     }
   };
 
@@ -307,6 +327,14 @@ export default function ProjectDetail() {
           if (!cancelled) setApprovals(ap.items ?? []);
         } catch {
           /* no approvals / not accessible — leave empty */
+        }
+
+        // Project specification — best-effort.
+        try {
+          const sp = await api.getSpecByProject(id!);
+          if (!cancelled) setSpec(sp);
+        } catch {
+          if (!cancelled) setSpec(null);
         }
 
         // Stakeholder map — best-effort.
@@ -466,16 +494,84 @@ export default function ProjectDetail() {
       </Box>
 
       {tab === 0 && (
-        <AnimatedCard delay={1} sx={{ p: 2 }}>
-          <CardContent>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Description
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              {project.description}
-            </Typography>
-          </CardContent>
-        </AnimatedCard>
+        <Stack spacing={2}>
+          <AnimatedCard delay={1} sx={{ p: 2 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 2 }}>
+                Description
+              </Typography>
+              <Typography variant="body1" color="text.secondary">
+                {project.description}
+              </Typography>
+            </CardContent>
+          </AnimatedCard>
+
+          <AnimatedCard delay={2} sx={{ p: 2 }}>
+            <CardContent>
+              <Typography variant="h6" sx={{ mb: 1 }}>
+                Specification
+              </Typography>
+              {!spec ? (
+                <Typography variant="body2" color="text.secondary">
+                  No specification has been generated for this project yet.
+                </Typography>
+              ) : (
+                <Stack spacing={1.5}>
+                  <Stack direction="row" spacing={1} sx={{ alignItems: "center", flexWrap: "wrap" }}>
+                    <Chip
+                      label={(spec.status ?? "draft").toString().replace(/_/g, " ")}
+                      size="small"
+                      color={
+                        spec.status === "approved"
+                          ? "success"
+                          : spec.status === "rejected"
+                            ? "error"
+                            : "warning"
+                      }
+                    />
+                    <Typography variant="caption" color="text.secondary">
+                      v{spec.version ?? 1}
+                    </Typography>
+                  </Stack>
+                  {spec.overview && (
+                    <Typography variant="body2" color="text.secondary">
+                      {spec.overview}
+                    </Typography>
+                  )}
+                  {["generated", "under_review", "reviewed", "draft"].includes(
+                    String(spec.status ?? "").toLowerCase(),
+                  ) && (
+                    <Stack direction="row" spacing={1}>
+                      <Button
+                        size="small"
+                        variant="contained"
+                        color="success"
+                        disabled={specActing}
+                        onClick={() => void handleSpecDecision("approve")}
+                      >
+                        {specActing ? <CircularProgress size={14} /> : "Approve Spec"}
+                      </Button>
+                      <Button
+                        size="small"
+                        variant="outlined"
+                        color="error"
+                        disabled={specActing}
+                        onClick={() => void handleSpecDecision("reject")}
+                      >
+                        Reject Spec
+                      </Button>
+                    </Stack>
+                  )}
+                  {specError && (
+                    <Typography variant="caption" color="error">
+                      {specError}
+                    </Typography>
+                  )}
+                </Stack>
+              )}
+            </CardContent>
+          </AnimatedCard>
+        </Stack>
       )}
 
       {tab === 1 && (

@@ -8,6 +8,7 @@ import {
   Linking,
   Animated,
   Easing,
+  Alert,
 } from "react-native";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
@@ -191,13 +192,31 @@ export default function BillingScreen() {
 
         const handlePay = async () => {
           try {
+            if (status === "draft") {
+              Alert.alert("Not ready", "This invoice has not been sent yet.");
+              return;
+            }
             const checkout = await checkoutInvoice(invoice.id);
-            const dest = checkout.client_secret ?? checkout.clientSecret;
+            const provider = String(checkout.provider ?? "").toLowerCase();
+            const dest =
+              checkout.authorization_url ??
+              checkout.authorizationUrl ??
+              checkout.client_secret ??
+              checkout.clientSecret;
             if (typeof dest === "string" && dest.startsWith("http")) {
               await Linking.openURL(dest);
+              return;
             }
-          } catch {
-            // checkout failed — leave invoice list as-is
+            if (provider === "stripe" || (typeof dest === "string" && dest.startsWith("pi_"))) {
+              Alert.alert(
+                "Complete payment in the portal",
+                "Card checkout for this invoice requires the client web portal. Open Billing there to finish payment.",
+              );
+              return;
+            }
+            Alert.alert("Payment unavailable", "No checkout URL was returned for this invoice.");
+          } catch (err: any) {
+            Alert.alert("Payment failed", err?.message ?? "Unable to start checkout");
           }
         };
 
@@ -223,7 +242,7 @@ export default function BillingScreen() {
                 </Text>
                 <Text style={styles.date}>{date}</Text>
               </View>
-              {!isPaid && status !== "cancelled" && status !== "refunded" && (
+              {!isPaid && status !== "cancelled" && status !== "refunded" && status !== "draft" && (
                 <TouchableOpacity
                   style={styles.payButton}
                   activeOpacity={0.7}
@@ -231,6 +250,9 @@ export default function BillingScreen() {
                 >
                   <Text style={styles.payButtonText}>PAY SECURELY</Text>
                 </TouchableOpacity>
+              )}
+              {status === "draft" && (
+                <Text style={styles.date}>Awaiting send</Text>
               )}
             </View>
           </View>

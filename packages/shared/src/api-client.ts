@@ -284,6 +284,9 @@ export class ApiClient {
   markAllNotificationsRead() {
     return this.request<{ status: string }>("/api/v1/notifications/read-all", { method: "POST" });
   }
+  deleteNotification(id: string) {
+    return this.request<void>(`/api/v1/notifications/${id}`, { method: "DELETE" });
+  }
   getUnreadNotificationCount() {
     return this.request<{ unread: number }>("/api/v1/notifications/unread-count");
   }
@@ -745,14 +748,28 @@ export class ApiClient {
   }
 
   // Users (admin)
-  listUsers(params?: Record<string, string>) {
-    return this.request<{ users: UserData[] }>("/api/v1/users", { params });
+  async listUsers(params?: Record<string, string>) {
+    const res = await this.request<{ users?: UserData[]; items?: UserData[] }>("/api/v1/users", { params });
+    const users = res.users ?? res.items ?? [];
+    return { users, items: users };
   }
   getUser(id: string) {
     return this.request<UserData>(`/api/v1/users/${id}`);
   }
-  updateUser(id: string, data: Partial<UserData>) {
-    return this.request<UserData>(`/api/v1/users/${id}`, { method: "PATCH", body: data });
+  updateUser(id: string, data: Partial<UserData> & { isActive?: boolean; firstName?: string; lastName?: string }) {
+    const body: Record<string, unknown> = {};
+    const firstName = data.firstName ?? data.first_name;
+    const lastName = data.lastName ?? data.last_name;
+    const isActive = data.isActive ?? data.is_active;
+    if (firstName !== undefined) body.firstName = firstName;
+    if (lastName !== undefined) body.lastName = lastName;
+    if (data.phone !== undefined) body.phone = data.phone;
+    if (data.company !== undefined) body.company = data.company;
+    if (isActive !== undefined) body.isActive = isActive;
+    return this.request<UserData>(`/api/v1/users/${id}`, { method: "PATCH", body });
+  }
+  deleteUser(id: string) {
+    return this.request<void>(`/api/v1/users/${id}`, { method: "DELETE" });
   }
 
   // Roles (RBAC)

@@ -51,7 +51,10 @@ export default function Documents() {
           // Prefer files API (uploads land here); fall back to project.attachments.
           try {
             const filesRes = await api.listFiles(project.id);
-            for (const f of filesRes.items ?? []) {
+            const files = Array.isArray(filesRes)
+              ? filesRes
+              : (filesRes.items ?? []);
+            for (const f of files) {
               docs.push({
                 name: f.file_name ?? f.fileName ?? f.filename ?? f.name ?? "Unknown",
                 mimeType: f.mime_type ?? f.mimeType ?? "file",

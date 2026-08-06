@@ -161,7 +161,8 @@ export function createFileRoutes(
       await assertProjectAccess(req, projectId);
 
       const files = await fileService.listByProject(projectId);
-      res.status(200).json(files.map(toApiFile));
+      const items = files.map(toApiFile);
+      res.status(200).json({ items, total: items.length });
     } catch (err) {
       next(err);
     }

@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from "react";
-import { Box, Typography, Chip, Stack, Alert } from "@mui/material";
+import { useCallback, useEffect, useMemo, useState } from "react";
+import { Box, Typography, Chip, Stack, Alert, TextField, MenuItem, CircularProgress } from "@mui/material";
+import { useNavigate } from "react-router";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
 import FolderOutlinedIcon from "@mui/icons-material/FolderOutlined";
@@ -16,8 +17,6 @@ const STAGE_ORDER = [
   "in_development",
   "qa",
   "delivered",
-  "on_hold",
-  "cancelled",
 ] as const;
 
 const STAGE_COLORS: Record<string, string> = {
@@ -53,23 +52,43 @@ function formatBudget(p: any): string {
 
 export default function Pipeline() {
   const { api } = useAuth();
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<any[]>([]);
+  const [movingId, setMovingId] = useState<string | null>(null);
+  const [error, setError] = useState("");
+
+  const load = useCallback(async () => {
+    try {
+      setLoading(true);
+      const res = await api.listProjects({ pageSize: "100" });
+      setProjects((res as any).items ?? []);
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to load pipeline");
+    } finally {
+      setLoading(false);
+    }
+  }, [api]);
 
   useEffect(() => {
-    let cancelled = false;
-    (async () => {
-      try {
-        const res = await api.listProjects();
-        if (!cancelled) setProjects((res as any).items ?? []);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    })();
-    return () => {
-      cancelled = true;
-    };
-  }, [api]);
+    void load();
+  }, [load]);
+
+  const moveProject = async (projectId: string, status: string) => {
+    setMovingId(projectId);
+    setError("");
+    try {
+      await api.updateProjectStatus(projectId, status);
+      setProjects((prev) =>
+        prev.map((p) => (p.id === projectId ? { ...p, status } : p)),
+      );
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to update status");
+      await load();
+    } finally {
+      setMovingId(null);
+    }
+  };
 
   const pipelineStages = useMemo(() => {
     const byStatus = new Map<string, any[]>();
@@ -78,8 +97,12 @@ export default function Pipeline() {
       if (!byStatus.has(status)) byStatus.set(status, []);
       byStatus.get(status)!.push(p);
     }
-    const known = STAGE_ORDER.filter((s) => byStatus.has(s) || ["lead", "under_review", "approved", "in_development", "qa", "delivered"].includes(s));
-    const extras = [...byStatus.keys()].filter((s) => !STAGE_ORDER.includes(s as any));
+    const known = STAGE_ORDER.filter(
+      (s) => byStatus.has(s) || STAGE_ORDER.includes(s),
+    );
+    const extras = [...byStatus.keys()].filter(
+      (s) => !(STAGE_ORDER as readonly string[]).includes(s),
+    );
     return [...known, ...extras].map((status) => ({
       name: labelStatus(status),
       status,
@@ -90,6 +113,7 @@ export default function Pipeline() {
         client: (p.client_id ?? p.clientId ?? "—").toString().slice(0, 12),
         type: p.type ?? "Project",
         budget: formatBudget(p),
+        status: String(p.status ?? "lead"),
       })),
     }));
   }, [projects]);
@@ -123,7 +147,14 @@ export default function Pipeline() {
       />
 
       <Box sx={{ px: 3, pt: 2 }}>
-        <Alert severity="info">Pipeline columns are grouped from live project statuses.</Alert>
+        <Alert severity="info">
+          Change a card&apos;s status to move it between columns. Click the title to open the project.
+        </Alert>
+        {error && (
+          <Alert severity="error" sx={{ mt: 1 }} onClose={() => setError("")}>
+            {error}
+          </Alert>
+        )}
       </Box>
 
       <SectionLabel>Pipeline Metrics</SectionLabel>
@@ -163,12 +194,47 @@ export default function Pipeline() {
               ) : (
                 stage.projects.map((project, pi) => (
                   <Cell key={project.id} color={stage.color} colInRow={si} totalCols={pipelineStages.length} animDelay={0.5 + (si + pi) * 0.05}>
-                    <Typography variant="subtitle2" sx={{ fontWeight: 600, mb: 0.5, fontSize: "0.8rem" }}>{project.title}</Typography>
+                    <Typography
+                      variant="subtitle2"
+                      sx={{
+                        fontWeight: 600,
+                        mb: 0.5,
+                        fontSize: "0.8rem",
+                        cursor: "pointer",
+                        "&:hover": { color: stage.color },
+                      }}
+                      onClick={() => navigate(`/projects/${project.id}`)}
+                    >
+                      {project.title}
+                    </Typography>
                     <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mb: 1 }}>{project.client}</Typography>
-                    <Stack direction="row" spacing={0.5}>
+                    <Stack direction="row" spacing={0.5} sx={{ mb: 1, flexWrap: "wrap", gap: 0.5 }}>
                       <Chip label={project.type} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", height: 20 }} variant="outlined" />
                       <Chip label={project.budget} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", height: 20, bgcolor: `${stage.color}15`, color: stage.color }} />
                     </Stack>
+                    <TextField
+                      select
+                      size="small"
+                      fullWidth
+                      value={(STAGE_ORDER as readonly string[]).includes(project.status) ? project.status : "lead"}
+                      disabled={movingId === project.id}
+                      onChange={(e) => void moveProject(project.id, e.target.value)}
+                      sx={{
+                        "& .MuiOutlinedInput-root": {
+                          fontFamily: "'Outfit', sans-serif",
+                          fontSize: "0.65rem",
+                        },
+                      }}
+                      InputProps={{
+                        endAdornment: movingId === project.id ? <CircularProgress size={12} /> : undefined,
+                      }}
+                    >
+                      {STAGE_ORDER.map((s) => (
+                        <MenuItem key={s} value={s} sx={{ fontSize: "0.78rem" }}>
+                          {labelStatus(s)}
+                        </MenuItem>
+                      ))}
+                    </TextField>
                   </Cell>
                 ))
               )}

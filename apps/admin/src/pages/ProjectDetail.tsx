@@ -684,7 +684,7 @@ export default function ProjectDetail() {
         api
           .listUsers({ isActive: "true" })
           .then((res: any) => {
-            const items = (res.items ?? []) as ApiUser[];
+            const items = ((res as any).items ?? (res as any).users ?? []) as ApiUser[];
             setStaffOptions(
               items.filter((u) => u.role !== "client" && u.is_active !== false),
             );

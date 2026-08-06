@@ -16,13 +16,24 @@ const listUsersSchema = z.object({
 
 // Role changes must go through POST /roles/assign (requires roles:update).
 // Accepting role here let anyone with team:update escalate to admin.
-const updateUserSchema = z.object({
-  firstName: z.string().min(1).max(100).optional(),
-  lastName: z.string().min(1).max(100).optional(),
-  phone: z.string().optional(),
-  company: z.string().optional(),
-  isActive: z.boolean().optional(),
-});
+const updateUserSchema = z
+  .object({
+    firstName: z.string().min(1).max(100).optional(),
+    lastName: z.string().min(1).max(100).optional(),
+    first_name: z.string().min(1).max(100).optional(),
+    last_name: z.string().min(1).max(100).optional(),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+    isActive: z.boolean().optional(),
+    is_active: z.boolean().optional(),
+  })
+  .transform((d) => ({
+    firstName: d.firstName ?? d.first_name,
+    lastName: d.lastName ?? d.last_name,
+    phone: d.phone,
+    company: d.company,
+    isActive: d.isActive ?? d.is_active,
+  }));
 
 // ---- Service interface ----
 
@@ -101,9 +112,14 @@ export function createUserRoutes(userService: UserService, tokenService: TokenSe
         return;
       }
 
+      const data = parsed.data;
       const updated = await userService.update({
         ...existing,
-        ...parsed.data,
+        ...(data.firstName !== undefined ? { firstName: data.firstName } : {}),
+        ...(data.lastName !== undefined ? { lastName: data.lastName } : {}),
+        ...(data.phone !== undefined ? { phone: data.phone } : {}),
+        ...(data.company !== undefined ? { company: data.company } : {}),
+        ...(data.isActive !== undefined ? { isActive: data.isActive } : {}),
         updatedAt: new Date(),
       });
       res.status(200).json(sanitizeUser(updated));

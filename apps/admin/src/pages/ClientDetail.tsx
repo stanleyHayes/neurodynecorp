@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box, Typography, Chip, Avatar, Stack, Alert } from "@mui/material";
+import { Box, Typography, Chip, Avatar, Stack, Alert, Button, CircularProgress } from "@mui/material";
 import { useParams, useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -67,6 +67,8 @@ export default function ClientDetail() {
   const [projects, setProjects] = useState<ApiProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [toggling, setToggling] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const fetchData = useCallback(async () => {
     if (!id) return;
@@ -89,6 +91,23 @@ export default function ClientDetail() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const toggleActive = async () => {
+    if (!user || !id) return;
+    setToggling(true);
+    setActionError("");
+    try {
+      const updated = await api.updateUser(id, { isActive: !user.is_active });
+      setUser({
+        ...user,
+        is_active: (updated as any).is_active ?? (updated as any).isActive ?? !user.is_active,
+      });
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to update client status");
+    } finally {
+      setToggling(false);
+    }
+  };
 
   if (loading) {
     return <PageSkeleton stats={3} rows={4} />;
@@ -136,6 +155,20 @@ export default function ClientDetail() {
         iconColor={avatarColor}
         iconLabel={clientStatus.toUpperCase()}
       />
+
+      <Box sx={{ px: 3, pb: 1, display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}>
+        <Button
+          size="small"
+          variant="outlined"
+          color={user.is_active ? "warning" : "success"}
+          disabled={toggling}
+          startIcon={toggling ? <CircularProgress size={12} /> : undefined}
+          onClick={() => void toggleActive()}
+        >
+          {user.is_active ? "Deactivate Client" : "Activate Client"}
+        </Button>
+        {actionError && <Alert severity="error" sx={{ py: 0 }}>{actionError}</Alert>}
+      </Box>
 
       {/* Stats */}
       <SectionLabel>Overview</SectionLabel>

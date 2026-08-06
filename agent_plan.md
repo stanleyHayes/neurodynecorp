@@ -16,6 +16,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 - [x] **Pass 3 — admin AuthProvider wrap (CommandPalette crash), password-reset ApiClient constructor, status components GET + incident update shape, KB status=all, BlogCreate save/publish, project create casing + clientId list filter, DSR complete fulfillmentNote.**
 - [x] **Pass 4 — project create client ownership, feedback score null 400, contact status updates, role permission matrix from API, invoice send + draft pay gate, admin new message thread, mobile thread open/send.**
 - [x] **Pass 5 — spec generate questionnaire completedAt/array fix, ProjectDetail status/team/progress controls, SpecDetail approve/reject, client createThread, Documents listFiles, upload projectId support.**
+- [x] **Pass 6 — files list `{items}` shape, listUsers dual keys, user activate/deactivate + camelCase PATCH, Pipeline status moves, client spec approve, notification dismiss, mobile documents/files + honest Stripe pay.**
 
 ## Operational repairs (5 August 2026)
 

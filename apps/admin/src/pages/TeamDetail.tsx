@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Typography, Chip, Avatar, Stack } from "@mui/material";
+import { Box, Typography, Chip, Avatar, Stack, Button, Alert, CircularProgress } from "@mui/material";
 import { useParams, useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
@@ -184,6 +184,8 @@ export default function TeamDetail() {
   const [user, setUser] = useState<UserData | null>(null);
   const [currentProjects, setCurrentProjects] = useState<ProjectData[]>([]);
   const [pastProjects, setPastProjects] = useState<ProjectData[]>([]);
+  const [toggling, setToggling] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -217,6 +219,26 @@ export default function TeamDetail() {
   useEffect(() => {
     load();
   }, [load]);
+
+  const toggleActive = async () => {
+    if (!user || !id) return;
+    const currentlyActive = user.isActive ?? user.is_active ?? true;
+    setToggling(true);
+    setActionError("");
+    try {
+      const updated = await api.updateUser(id, { isActive: !currentlyActive });
+      setUser({
+        ...user,
+        ...updated,
+        isActive: (updated as any).isActive ?? (updated as any).is_active ?? !currentlyActive,
+        is_active: (updated as any).is_active ?? (updated as any).isActive ?? !currentlyActive,
+      });
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to update account status");
+    } finally {
+      setToggling(false);
+    }
+  };
 
   if (loading) {
     return <PageSkeleton stats={4} rows={6} />;
@@ -315,12 +337,26 @@ export default function TeamDetail() {
                   </Stack>
                 )}
               </Box>
-              <Chip
-                label={active ? "Active" : "Inactive"}
-                size="small"
-                sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: active ? "#10B98118" : "#94A3B818", color: active ? "#10B981" : "#94A3B8", border: `1px solid ${active ? "#10B98130" : "#94A3B830"}` }}
-              />
+              <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+                <Chip
+                  label={active ? "Active" : "Inactive"}
+                  size="small"
+                  sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", bgcolor: active ? "#10B98118" : "#94A3B818", color: active ? "#10B981" : "#94A3B8", border: `1px solid ${active ? "#10B98130" : "#94A3B830"}` }}
+                />
+                <Button
+                  size="small"
+                  variant="outlined"
+                  color={active ? "warning" : "success"}
+                  disabled={toggling}
+                  startIcon={toggling ? <CircularProgress size={12} /> : undefined}
+                  onClick={() => void toggleActive()}
+                  sx={{ fontSize: "0.65rem" }}
+                >
+                  {active ? "Deactivate" : "Activate"}
+                </Button>
+              </Stack>
             </Stack>
+            {actionError && <Alert severity="error" sx={{ mt: 1 }}>{actionError}</Alert>}
           </Cell>
         </Box>
 

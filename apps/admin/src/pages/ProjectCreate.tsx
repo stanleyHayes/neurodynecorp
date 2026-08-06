@@ -82,7 +82,7 @@ export default function ProjectCreate() {
       try {
         const res = await api.listUsers({ role: "client" });
         if (cancelled) return;
-        const items = (res as any).items ?? [];
+        const items = (res as any).items ?? (res as any).users ?? [];
         setClients(
           items.map((u: any) => ({
             id: u.id,

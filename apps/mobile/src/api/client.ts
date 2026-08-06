@@ -121,6 +121,8 @@ export function checkoutInvoice(id: string) {
     provider: string;
     clientSecret: string;
     client_secret?: string;
+    authorization_url?: string;
+    authorizationUrl?: string;
     paymentIntentId: string;
     payment_intent_id?: string;
   }>(`/api/v1/invoices/${id}/checkout`, { method: "POST" });
@@ -161,4 +163,8 @@ export function sendMessage(threadId: string, content: string) {
     method: "POST",
     body: { content },
   });
+}
+
+export function listFiles(projectId: string) {
+  return request<{ items?: any[] } | any[]>(`/api/v1/files?projectId=${encodeURIComponent(projectId)}`);
 }
