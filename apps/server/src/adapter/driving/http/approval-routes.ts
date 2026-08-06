@@ -108,18 +108,23 @@ export function createApprovalRoutes(
     }
   });
 
-  // POST /:id/decision — the owning client (the approver) OR staff records a decision. Decided once.
+  // POST /:id/decision — only the owning client may sign off (staff create/withdraw, not decide).
   router.post("/:id/decision", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = decisionSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
       const approval = await repo.findById(String(req.params.id));
       if (!approval) throw new NotFoundError("approval", String(req.params.id));
-      try {
-        await assertProjectAccess(req, approval.projectId);
-      } catch {
+
+      // Deliverable acceptance is a client act — developers/PMs must not forge it.
+      if (!isClientActor(req.userRole)) {
         throw new NotFoundError("approval", String(req.params.id));
       }
+      const ownerId = await getProjectOwnerId(approval.projectId);
+      if (!ownerId || ownerId !== req.userId) {
+        throw new NotFoundError("approval", String(req.params.id));
+      }
+
       // Atomic decide-once: the DB conditional update is the single source of truth,
       // so concurrent deciders can't both win and clobber each other's decision.
       const updated = await repo.decideIfPending(String(req.params.id), {

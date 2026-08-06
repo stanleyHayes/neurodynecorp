@@ -37,6 +37,8 @@ import ShieldOutlinedIcon from "@mui/icons-material/ShieldOutlined";
 import HistoryOutlinedIcon from "@mui/icons-material/HistoryOutlined";
 import { useAuth } from "@/context/AuthContext";
 
+const CAN_MANAGE_API_KEYS = "apikeys:read";
+
 const overlineSx = {
   fontFamily: "monospace",
   fontSize: "0.7rem",
@@ -78,7 +80,8 @@ function privacyStatusColor(status: string): "success" | "warning" | "error" | "
 }
 
 export default function Security() {
-  const { api, user } = useAuth();
+  const { api, user, hasPermission } = useAuth();
+  const canManageApiKeys = hasPermission(CAN_MANAGE_API_KEYS) || hasPermission("apikeys:create");
 
   // ── Shared feedback ──────────────────────────────────────────────────────
   const [toast, setToast] = useState<{ msg: string; severity: "success" | "error" | "info" } | null>(null);
@@ -93,6 +96,11 @@ export default function Security() {
   const [newKey, setNewKey] = useState<string | null>(null);
 
   const loadKeys = async () => {
+    if (!canManageApiKeys) {
+      setApiKeys([]);
+      setKeysLoading(false);
+      return;
+    }
     setKeysLoading(true);
     try {
       const res: any = await api.get("/api/v1/api-keys");
@@ -108,7 +116,7 @@ export default function Security() {
   useEffect(() => {
     loadKeys();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [api]);
+  }, [api, canManageApiKeys]);
 
   const handleGenerate = async () => {
     if (!genName.trim()) {
@@ -274,12 +282,13 @@ export default function Security() {
           Security &amp; Privacy
         </Typography>
         <Typography variant="body2" color="text.secondary">
-          Manage API keys, data privacy requests, and active sessions.
+          Manage data privacy requests, sessions{canManageApiKeys ? ", and API keys" : ""}.
         </Typography>
       </Stack>
 
       <Stack spacing={3} sx={{ maxWidth: 960 }}>
-        {/* ── Card 1: API Keys ──────────────────────────────────────────── */}
+        {/* ── Card 1: API Keys (staff with apikeys:* only) ─────────────── */}
+        {canManageApiKeys && (
         <Card>
           <CardContent>
             <Stack
@@ -364,6 +373,7 @@ export default function Security() {
             )}
           </CardContent>
         </Card>
+        )}
 
         {/* ── Card 2: Data & Privacy ────────────────────────────────────── */}
         <Card>

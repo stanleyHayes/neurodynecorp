@@ -3,6 +3,7 @@ import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
 import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
+import { rateLimit } from "../../../middleware/rate-limit.js";
 import { createDsrRequest, type DsrRequest } from "../../../domain/entity/dsr.js";
 
 // ── Repository interface ─────────────────────────────────────────────────────
@@ -15,33 +16,52 @@ interface DsrRepository {
   update(request: DsrRequest): Promise<DsrRequest>;
 }
 
+interface UserEmailLookup {
+  findById(id: string): Promise<{ email?: string } | null>;
+}
+
 // ── Validation schemas ───────────────────────────────────────────────────────
 
 const createDsrSchema = z.object({
   type: z.enum(["export", "erasure"]),
-  email: z.string().email().optional(),
+  // email from body is ignored — always bound to the authenticated account.
 });
 
 const updateDsrSchema = z.object({
   status: z.enum(["received", "in_progress", "completed", "rejected"]).optional(),
   notes: z.string().optional(),
+  /** Required when marking completed — proves an export URL or erasure evidence. */
+  fulfillmentNote: z.string().min(8).max(2000).optional(),
 });
 
 // ── Route factory ────────────────────────────────────────────────────────────
 
-export function createDsrRoutes(repo: DsrRepository, tokenService: TokenService): Router {
+export function createDsrRoutes(
+  repo: DsrRepository,
+  tokenService: TokenService,
+  users: UserEmailLookup,
+): Router {
   const router = Router();
   const auth = authMiddleware(tokenService);
+  const createLimit = rateLimit("dsr-create", {
+    max: 5,
+    windowMs: 60 * 60 * 1000,
+    message: "Too many privacy requests. Please try again later.",
+  });
 
   // POST / — authenticated user creates own request
-  router.post("/", auth, async (req: Request, res: Response, next: NextFunction) => {
+  router.post("/", auth, createLimit, async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = createDsrSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
 
+      const account = await users.findById(req.userId!);
+      const email = account?.email?.trim().toLowerCase() ?? "";
+      if (!email) throw new ValidationError("Account email is required to file a privacy request", {});
+
       const request = createDsrRequest({
         userId: req.userId!,
-        email: parsed.data.email ?? "",
+        email,
         type: parsed.data.type,
         status: "received",
       });
@@ -83,10 +103,26 @@ export function createDsrRoutes(repo: DsrRepository, tokenService: TokenService)
       const existing = await repo.findById(String(req.params.id));
       if (!existing) throw new NotFoundError("dsr", String(req.params.id));
 
+      if (parsed.data.status === "completed") {
+        const evidence = (parsed.data.fulfillmentNote ?? parsed.data.notes ?? "").trim();
+        if (evidence.length < 8) {
+          throw new ValidationError(
+            "Marking a DSR completed requires a fulfillmentNote describing the export package or erasure evidence",
+            {},
+          );
+        }
+      }
+
       const now = new Date();
+      const { fulfillmentNote, ...rest } = parsed.data;
+      const notes = fulfillmentNote
+        ? [existing.notes, rest.notes, `Fulfillment: ${fulfillmentNote}`].filter(Boolean).join("\n")
+        : rest.notes ?? existing.notes;
+
       const updated: DsrRequest = {
         ...existing,
-        ...parsed.data,
+        ...rest,
+        notes,
         id: existing.id,
         updatedAt: now,
       };

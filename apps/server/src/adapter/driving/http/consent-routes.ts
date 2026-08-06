@@ -42,13 +42,17 @@ export function createConsentRoutes(repo: MongoConsentRepository, tokenService: 
       });
 
       const created = await repo.create(record);
-      res.status(201).json(created);
+      // Never echo IP / User-Agent back to the client.
+      res.status(201).json({
+        categories: created.categories,
+        policyVersion: created.policyVersion,
+      });
     } catch (err) {
       next(err);
     }
   });
 
-  // GET /api/v1/consent/current — PUBLIC: latest record for anonymousId
+  // GET /api/v1/consent/current — PUBLIC: categories only (no IP / UA)
   router.get("/current", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const anonymousId = req.query.anonymousId as string | undefined;
@@ -61,7 +65,10 @@ export function createConsentRoutes(repo: MongoConsentRepository, tokenService: 
         res.json({ categories: null });
         return;
       }
-      res.json(record);
+      res.json({
+        categories: record.categories,
+        policyVersion: record.policyVersion,
+      });
     } catch (err) {
       next(err);
     }

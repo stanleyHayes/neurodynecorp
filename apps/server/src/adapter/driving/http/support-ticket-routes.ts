@@ -1,7 +1,7 @@
 import { Router } from "express";
 import { z } from "zod";
 import type { Request, Response, NextFunction } from "express";
-import { authMiddleware, requireRole, type TokenService } from "../../../middleware/auth.js";
+import { authMiddleware, requirePermission, type TokenService } from "../../../middleware/auth.js";
 import { isClientActor, isStaffRole } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError } from "../../../middleware/error-handler.js";
 import {
@@ -80,7 +80,7 @@ export function createSupportTicketRoutes(
     }
   });
 
-  // GET / — project-scoped (?projectId=, owning client or staff) OR global staff inbox.
+  // GET / — project-scoped (?projectId=, owning client or staff) OR global inbox (tickets:read).
   router.get("/", async (req: Request, res: Response, next: NextFunction) => {
     try {
       const projectId = req.query.projectId ? String(req.query.projectId) : "";
@@ -90,9 +90,14 @@ export function createSupportTicketRoutes(
         res.json({ items, total: items.length });
         return;
       }
-      // No projectId: global list is staff-only; clients get an empty set.
+      // Global inbox requires tickets:read (PM/admin). Developers without it get 403.
       if (isClientActor(req.userRole)) {
         res.json({ items: [], total: 0 });
+        return;
+      }
+      const perms = req.userPermissions ?? [];
+      if (!perms.includes("tickets:read") && req.userRole !== "admin") {
+        res.status(403).json({ error: "Insufficient permissions", missing: ["tickets:read"] });
         return;
       }
       const filter: { status?: string; limit?: number } = {};
@@ -146,8 +151,8 @@ export function createSupportTicketRoutes(
     }
   });
 
-  // PATCH /:id — staff only: advance status.
-  router.patch("/:id", requireRole("admin", "project_manager"), async (req: Request, res: Response, next: NextFunction) => {
+  // PATCH /:id — staff with tickets:update (or admin/PM role) advance status.
+  router.patch("/:id", requirePermission("tickets:update"), async (req: Request, res: Response, next: NextFunction) => {
     try {
       const parsed = statusSchema.safeParse(req.body);
       if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());

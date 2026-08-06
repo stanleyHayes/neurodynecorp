@@ -20,7 +20,7 @@ const createFlagSchema = z.object({
 });
 
 const updateFlagSchema = z.object({
-  key: z.string().min(1).optional(),
+  // key renames are disallowed — treat as create + delete instead.
   description: z.string().optional(),
   enabled: z.boolean().optional(),
   rolloutPercentage: z.number().min(0).max(100).optional(),
@@ -33,14 +33,18 @@ export function createFeatureFlagRoutes(repo: MongoFeatureFlagRepository, tokenS
   const router = Router();
   const auth = authMiddleware(tokenService);
 
-  // GET / — PUBLIC: map of enabled flags + maintenance state
-  router.get("/", async (req: Request, res: Response, next: NextFunction) => {
+  // Public surface may only advertise these keys (no internal roadmap flags).
+  const PUBLIC_FLAG_ALLOWLIST = new Set([MAINTENANCE_KEY, "cookie_banner", "status_banner"]);
+
+  // GET / — PUBLIC: allowlisted flags + maintenance only
+  router.get("/", async (_req: Request, res: Response, next: NextFunction) => {
     try {
       const all = await repo.findAll();
       const flags: { [key: string]: boolean } = {};
       let maintenance: { enabled: boolean; message?: string } = { enabled: false };
 
       for (const flag of all) {
+        if (!PUBLIC_FLAG_ALLOWLIST.has(flag.key)) continue;
         if (flag.enabled) flags[flag.key] = true;
         if (flag.key === MAINTENANCE_KEY) {
           maintenance = { enabled: flag.enabled, message: flag.description };

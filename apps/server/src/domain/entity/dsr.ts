@@ -16,5 +16,5 @@ export interface DsrRequest {
 
 export function createDsrRequest(input: Omit<DsrRequest, "id" | "createdAt" | "updatedAt">): DsrRequest {
   const now = new Date();
-  return { id: new ObjectId().toHexString(), ...input, createdAt: now, updatedAt: now };
+  return { ...input, id: new ObjectId().toHexString(), createdAt: now, updatedAt: now };
 }

@@ -12,6 +12,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 **Priority:** server security first, then portal contracts, then Go API parity.
 
 - [x] **Pass 1 — public CMS draft leak, content CREATE schemas, admin lockout, rate-limit IP spoofing, contact limiter, newsletter token unsubscribe, activity PII load, client message participant allowlist, auth refresh rate limit.**
+- [x] **Pass 2 — WS query JWT ban, client-only approval decisions, tickets:read inbox gate, public flag allowlist + maintenance guard, consent PII strip, DSR email bind + fulfillment evidence, trust mfa:false, hide client API keys without apikeys:*.**
 
 ## Operational repairs (5 August 2026)
 

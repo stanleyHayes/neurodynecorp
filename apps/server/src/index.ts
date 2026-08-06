@@ -56,7 +56,7 @@ import {
 // ── Gap-audit modules (trust / ops / compliance / growth) ──
 import { createAuditRoutes, createAuditRecorder } from "./adapter/driving/http/audit-routes.js";
 import { createStatusRoutes } from "./adapter/driving/http/status-routes.js";
-import { createFeatureFlagRoutes } from "./adapter/driving/http/feature-flag-routes.js";
+import { createFeatureFlagRoutes, createMaintenanceGuard } from "./adapter/driving/http/feature-flag-routes.js";
 import { createWebhookRoutes } from "./adapter/driving/http/webhook-routes.js";
 import { createApiKeyRoutes } from "./adapter/driving/http/api-key-routes.js";
 import { createDsrRoutes } from "./adapter/driving/http/dsr-routes.js";
@@ -115,6 +115,7 @@ import { RedisCacheService } from "./adapter/driven/redis/cache.js";
 import { KafkaEventPublisher } from "./adapter/driven/kafka/publisher.js";
 import { KafkaEventSubscriber } from "./adapter/driven/kafka/subscriber.js";
 import { CloudinaryFileStorage } from "./adapter/driven/cloudinary/storage.js";
+import { optionalAuthMiddleware } from "./middleware/auth.js";
 
 // App-layer services
 import { AuthService } from "./app/auth-service.js";
@@ -624,6 +625,14 @@ async function main(): Promise<void> {
 
   // ── Mount routes ────────────────────────────────────────────────────────────
 
+  // Maintenance mode: optional auth so admins can pass; public auth/status stay up.
+  const maintenanceGuard = createMaintenanceGuard(featureFlagRepo);
+  const MAINTENANCE_EXEMPT = ["/auth", "/status", "/flags", "/trust", "/consent", "/newsletter", "/payments"];
+  app.use("/api/v1", optionalAuthMiddleware(tokenService as Any), (req, res, next) => {
+    if (MAINTENANCE_EXEMPT.some((p) => req.path.startsWith(p))) return next();
+    return maintenanceGuard(req, res, next);
+  });
+
   app.use("/api/v1/auth", createAuthRoutes(authService, tokenService as Any));
   app.use("/api/v1/projects", createProjectRoutes(projectService, tokenService as Any, {
     findById: (id: string) => userRepo.findById(id),
@@ -695,7 +704,12 @@ async function main(): Promise<void> {
   app.use("/api/v1/flags", createFeatureFlagRoutes(featureFlagRepo, tokenService as Any));
   app.use("/api/v1/webhooks", createWebhookRoutes(webhookRepo, tokenService as Any));
   app.use("/api/v1/api-keys", createApiKeyRoutes(apiKeyRepo, tokenService as Any));
-  app.use("/api/v1/privacy/requests", createDsrRoutes(dsrRepo, tokenService as Any));
+  app.use(
+    "/api/v1/privacy/requests",
+    createDsrRoutes(dsrRepo, tokenService as Any, {
+      findById: (id: string) => userRepo.findById(id),
+    }),
+  );
   app.use("/api/v1/consent", publicWrite("consent", 30), createConsentRoutes(consentRepo, tokenService as Any));
   app.use("/api/v1/feedback", publicWrite("feedback", 20), createFeedbackRoutes(feedbackRepo, tokenService as Any));
   app.use("/api/v1/diagnostic", publicWrite("diagnostic", 20), createDiagnosticRoutes(diagnosticRepo, tokenService as Any, emailService as Any, config.email.fromAddress));
@@ -770,7 +784,7 @@ async function main(): Promise<void> {
   app.get("/api/v1/trust", (_req, res) => {
     res.json({
       security: {
-        mfa: true,
+        mfa: false,
         auditLogging: true,
         encryptionInTransit: true,
         rbac: true,

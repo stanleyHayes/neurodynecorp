@@ -45,8 +45,29 @@ export class WebSocketHub {
     this.wss = new WebSocketServer({ server, path: "/ws" });
 
     this.wss.on("connection", (ws, req) => {
+      // Never accept JWTs in the query string — they leak via proxy logs / Referer.
+      // Prefer Authorization, then Sec-WebSocket-Protocol: bearer,<token>.
       const url = new globalThis.URL(req.url ?? "/", `http://${req.headers.host}`);
-      const token = url.searchParams.get("token");
+      if (url.searchParams.has("token")) {
+        ws.close(4001, "Query-string tokens are not allowed; use Authorization or Sec-WebSocket-Protocol");
+        return;
+      }
+
+      let token: string | undefined;
+      const authHeader = req.headers.authorization;
+      if (typeof authHeader === "string" && authHeader.startsWith("Bearer ")) {
+        token = authHeader.slice(7).trim();
+      }
+      if (!token) {
+        const protoHeader = req.headers["sec-websocket-protocol"];
+        const proto = typeof protoHeader === "string" ? protoHeader : "";
+        const parts = proto
+          .split(",")
+          .map((p) => p.trim())
+          .filter(Boolean);
+        const bearerIdx = parts.findIndex((p) => p.toLowerCase() === "bearer");
+        if (bearerIdx >= 0 && parts[bearerIdx + 1]) token = parts[bearerIdx + 1];
+      }
 
       if (!token) {
         ws.close(4001, "Missing authentication token");
