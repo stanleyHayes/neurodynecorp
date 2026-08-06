@@ -147,6 +147,7 @@ export default function ProjectDetail() {
   const [spec, setSpec] = useState<any | null>(null);
   const [specActing, setSpecActing] = useState(false);
   const [specError, setSpecError] = useState("");
+  const [documents, setDocuments] = useState<any[]>([]);
 
   // Approval (sign-off) UI state
   const [activeApproval, setActiveApproval] = useState<any | null>(null);
@@ -259,6 +260,21 @@ export default function ProjectDetail() {
         const data = await api.getProject(id!);
         if (cancelled) return;
         setProject(data);
+
+        // Files API is the source of truth for uploads; fall back to project.attachments.
+        try {
+          const filesRes = await api.listFiles(id!);
+          const files = Array.isArray(filesRes) ? filesRes : (filesRes.items ?? []);
+          if (!cancelled) {
+            setDocuments(
+              files.length > 0
+                ? files
+                : (data.attachments ?? []),
+            );
+          }
+        } catch {
+          if (!cancelled) setDocuments(data.attachments ?? []);
+        }
 
         // Resolve team from project payload (includes display profiles for clients)
         const embedded = data.assigned_team_members ?? [];
@@ -417,7 +433,7 @@ export default function ProjectDetail() {
   }
 
   const milestones = project.milestones ?? [];
-  const attachments = project.attachments ?? [];
+  const attachments = documents;
   const completedMilestones = milestones.filter(
     (m: any) => m.status === "completed" || m.completed_at
   ).length;
@@ -628,10 +644,10 @@ export default function ProjectDetail() {
               <List>
                 {attachments.map((doc: any) => (
                   <ListItem
-                    key={doc.id ?? doc.file_name}
+                    key={doc.id ?? doc.file_name ?? doc.fileName ?? doc.filename}
                     secondaryAction={
-                      doc.file_url ? (
-                        <Button size="small" startIcon={<DownloadIcon />} href={doc.file_url} target="_blank">
+                      (doc.file_url ?? doc.fileURL ?? doc.url) ? (
+                        <Button size="small" startIcon={<DownloadIcon />} href={doc.file_url ?? doc.fileURL ?? doc.url} target="_blank">
                           Download
                         </Button>
                       ) : (
@@ -642,8 +658,12 @@ export default function ProjectDetail() {
                     }
                   >
                     <ListItemText
-                      primary={doc.file_name ?? doc.name}
-                      secondary={doc.uploaded_at ? formatDate(doc.uploaded_at) : undefined}
+                      primary={doc.file_name ?? doc.fileName ?? doc.filename ?? doc.name}
+                      secondary={
+                        (doc.uploaded_at ?? doc.uploadedAt ?? doc.created_at ?? doc.createdAt)
+                          ? formatDate(doc.uploaded_at ?? doc.uploadedAt ?? doc.created_at ?? doc.createdAt)
+                          : undefined
+                      }
                     />
                   </ListItem>
                 ))}

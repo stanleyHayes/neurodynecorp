@@ -93,7 +93,8 @@ export default function FeedbackWidget() {
     setError("");
     try {
       const payload: Record<string, unknown> = {
-        type,
+        // Scores must use type "nps" so /feedback/stats includes them.
+        type: nps !== null ? "nps" : type,
         message: message.trim(),
       };
       if (nps !== null) payload.score = nps;

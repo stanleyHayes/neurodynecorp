@@ -12,6 +12,7 @@ const MotionBox = motion.create(Box);
 export default function NewsletterCTA() {
   const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"pending" | "already_subscribed" | null>(null);
   const [loading, setLoading] = useState(false);
   const [failed, setFailed] = useState(false);
 
@@ -23,8 +24,9 @@ export default function NewsletterCTA() {
     setLoading(true);
     setFailed(false);
     try {
-      await api.post("/api/v1/newsletter/subscribe", { email, source: "web" });
+      const res = await api.post<{ status?: string }>("/api/v1/newsletter/subscribe", { email, source: "web" });
       playSound("success");
+      setSubmitStatus(res?.status === "already_subscribed" ? "already_subscribed" : "pending");
       setSubmitted(true);
       setEmail("");
     } catch {
@@ -98,7 +100,9 @@ export default function NewsletterCTA() {
             "& .MuiAlert-icon": { color: "#10B981" },
           }}
         >
-          You're in. Look for the first note this Friday.
+          {submitStatus === "already_subscribed"
+            ? "You're already on the list. Check your inbox if you still need to confirm."
+            : "Check your email to confirm — you're not subscribed until you click the link."}
         </Alert>
       ) : (
         <Stack

@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useCallback } from "react";
-import { Box, Typography, Chip, Stack, TextField, InputAdornment } from "@mui/material";
+import { Box, Typography, Chip, Stack, TextField, InputAdornment, Button, CircularProgress, Alert } from "@mui/material";
 import { useNavigate } from "react-router";
 import SearchIcon from "@mui/icons-material/Search";
 import WorkOutlineOutlinedIcon from "@mui/icons-material/WorkOutlineOutlined";
@@ -30,6 +30,8 @@ export default function Portfolio() {
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [togglingId, setTogglingId] = useState<string | null>(null);
+  const [actionError, setActionError] = useState("");
 
   const loadCaseStudies = useCallback(async () => {
     try {
@@ -47,6 +49,22 @@ export default function Portfolio() {
   useEffect(() => {
     loadCaseStudies();
   }, [loadCaseStudies]);
+
+  const togglePublish = async (study: any) => {
+    const next = study.status === "published" ? "draft" : "published";
+    setTogglingId(study.id);
+    setActionError("");
+    try {
+      const updated = await api.updateCaseStudy(study.id, { status: next });
+      setCaseStudies((prev) =>
+        prev.map((c) => (c.id === study.id ? { ...c, ...updated, status: updated.status ?? next } : c)),
+      );
+    } catch (err: any) {
+      setActionError(err?.message ?? "Failed to update case study status");
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const filtered = useMemo(
     () =>
@@ -105,6 +123,12 @@ export default function Portfolio() {
       />
 
       <ActionBar label="New Case Study" subtitle="ADD PROJECT SHOWCASE" color="#6C63FF" onClick={() => navigate("/portfolio/new")} />
+
+      {actionError && (
+        <Alert severity="error" sx={{ mx: 3, mb: 2 }} onClose={() => setActionError("")}>
+          {actionError}
+        </Alert>
+      )}
 
       <SectionLabel>Portfolio Metrics</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr 1fr" } }}>
@@ -176,9 +200,21 @@ export default function Portfolio() {
                   <Chip key={tag} label={tag} size="small" variant="outlined" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", height: 22 }} />
                 ))}
               </Stack>
-              <Stack direction="row" spacing={2}>
-                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: study.color, fontWeight: 600 }}>{study.impact}</Typography>
-                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{study.createdAt}</Typography>
+              <Stack direction="row" spacing={2} sx={{ alignItems: "center", justifyContent: "space-between" }}>
+                <Stack direction="row" spacing={2}>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: study.color, fontWeight: 600 }}>{study.impact}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>{study.createdAt}</Typography>
+                </Stack>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  disabled={togglingId === study.id}
+                  onClick={() => void togglePublish(study)}
+                  startIcon={togglingId === study.id ? <CircularProgress size={12} /> : undefined}
+                  sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", textTransform: "none" }}
+                >
+                  {study.status === "published" ? "Unpublish" : "Publish"}
+                </Button>
               </Stack>
             </Cell>
           );

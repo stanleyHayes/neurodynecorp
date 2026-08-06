@@ -30,14 +30,18 @@ const overlineSx = {
   opacity: 0.6,
 };
 
-const TYPE_OPTIONS = ["nps", "rating", "comment", "bug", "feature"];
+const TYPE_OPTIONS = [
+  { value: "nps", label: "NPS" },
+  { value: "general", label: "General" },
+  { value: "bug", label: "Bug" },
+  { value: "idea", label: "Idea" },
+] as const;
 
 const typeColor: Record<string, string> = {
   nps: "#6C63FF",
-  rating: "#00D4AA",
-  comment: "#10B981",
+  general: "#10B981",
   bug: "#EF4444",
-  feature: "#F59E0B",
+  idea: "#F59E0B",
 };
 
 function npsColor(nps: number): string {
@@ -215,8 +219,8 @@ export default function FeedbackInbox() {
               >
                 <MenuItem value="">All types</MenuItem>
                 {TYPE_OPTIONS.map((t) => (
-                  <MenuItem key={t} value={t}>
-                    {t.toUpperCase()}
+                  <MenuItem key={t.value} value={t.value}>
+                    {t.label.toUpperCase()}
                   </MenuItem>
                 ))}
               </Select>

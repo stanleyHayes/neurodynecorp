@@ -19,6 +19,16 @@ const STAGE_ORDER = [
   "delivered",
 ] as const;
 
+/** Mirrors server STATUS_TRANSITIONS in project-service.ts */
+const STATUS_TRANSITIONS: Record<string, string[]> = {
+  lead: ["under_review"],
+  under_review: ["approved", "lead"],
+  approved: ["in_development"],
+  in_development: ["qa"],
+  qa: ["in_development", "delivered"],
+  delivered: [],
+};
+
 const STAGE_COLORS: Record<string, string> = {
   lead: "#94A3B8",
   under_review: "#6C63FF",
@@ -217,8 +227,12 @@ export default function Pipeline() {
                       size="small"
                       fullWidth
                       value={(STAGE_ORDER as readonly string[]).includes(project.status) ? project.status : "lead"}
-                      disabled={movingId === project.id}
-                      onChange={(e) => void moveProject(project.id, e.target.value)}
+                      disabled={movingId === project.id || (STATUS_TRANSITIONS[project.status] ?? []).length === 0}
+                      onChange={(e) => {
+                        const next = e.target.value;
+                        if (next === project.status) return;
+                        void moveProject(project.id, next);
+                      }}
                       sx={{
                         "& .MuiOutlinedInput-root": {
                           fontFamily: "'Outfit', sans-serif",
@@ -228,8 +242,16 @@ export default function Pipeline() {
                       InputProps={{
                         endAdornment: movingId === project.id ? <CircularProgress size={12} /> : undefined,
                       }}
+                      helperText={
+                        (STATUS_TRANSITIONS[project.status] ?? []).length === 0
+                          ? "Terminal stage"
+                          : undefined
+                      }
                     >
-                      {STAGE_ORDER.map((s) => (
+                      <MenuItem value={project.status} sx={{ fontSize: "0.78rem" }}>
+                        {labelStatus(project.status)} (current)
+                      </MenuItem>
+                      {(STATUS_TRANSITIONS[project.status] ?? []).map((s) => (
                         <MenuItem key={s} value={s} sx={{ fontSize: "0.78rem" }}>
                           {labelStatus(s)}
                         </MenuItem>
