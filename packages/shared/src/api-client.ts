@@ -167,7 +167,22 @@ export class ApiClient {
     return this.request<Project>(`/api/v1/projects/${id}`);
   }
   createProject(data: CreateProjectData) {
-    return this.request<Project>("/api/v1/projects", { method: "POST", body: data });
+    // Server validates camelCase; map shared snake_case fields before send.
+    const body: Record<string, unknown> = {
+      title: data.title,
+      description: data.description,
+      type: data.type,
+      features: data.features ?? [],
+    };
+    if (data.user_roles) body.userRoles = data.user_roles;
+    if (data.budget_range) body.budgetRange = data.budget_range;
+    if (data.timeline) {
+      body.timeline = {
+        durationWeeks: data.timeline.duration_weeks,
+        preferredUrgency: data.timeline.preferred_urgency,
+      };
+    }
+    return this.request<Project>("/api/v1/projects", { method: "POST", body });
   }
   updateProjectStatus(id: string, status: string) {
     return this.request<Project>(`/api/v1/projects/${id}/status`, { method: "PATCH", body: { status } });

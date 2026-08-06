@@ -274,13 +274,21 @@ export default function PrivacyRequests() {
                                     : "received"
                                 }
                                 disabled={isSaving}
-                                onChange={(e) =>
-                                  patchRequest(
-                                    id,
-                                    { status: e.target.value },
-                                    "Status updated",
-                                  )
-                                }
+                                onChange={(e) => {
+                                  const status = e.target.value;
+                                  const body: Record<string, unknown> = { status };
+                                  if (status === "completed") {
+                                    const note = (notes[id] ?? "").trim();
+                                    if (note.length < 8) {
+                                      setToast(
+                                        "Add fulfillment notes (8+ characters) before marking completed",
+                                      );
+                                      return;
+                                    }
+                                    body.fulfillmentNote = note;
+                                  }
+                                  patchRequest(id, body, "Status updated");
+                                }}
                                 sx={{
                                   fontFamily: "'Outfit', sans-serif",
                                   fontSize: "0.72rem",

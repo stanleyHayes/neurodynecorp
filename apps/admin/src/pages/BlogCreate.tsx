@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from "react";
-import { Box, Typography, TextField, MenuItem, Stack, Button, Chip, CircularProgress } from "@mui/material";
+import { Box, Typography, TextField, MenuItem, Stack, Button, Chip, CircularProgress, Alert } from "@mui/material";
 import { useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import EditNoteOutlinedIcon from "@mui/icons-material/EditNoteOutlined";
@@ -9,6 +9,7 @@ import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import MarkdownRenderer from "@/components/shared/MarkdownRenderer";
+import { useAuth } from "@/context/AuthContext";
 
 const MarkdownEditor = lazy(() => import("@/components/shared/MarkdownEditor"));
 
@@ -35,6 +36,7 @@ const inputSx = {
 
 export default function BlogCreate() {
   const navigate = useNavigate();
+  const { api, user } = useAuth();
   const [tab, setTab] = useState<"edit" | "preview">("edit");
 
   const [title, setTitle] = useState("");
@@ -43,8 +45,38 @@ export default function BlogCreate() {
   const [color, setColor] = useState("#6C63FF");
   const [readTime, setReadTime] = useState("");
   const [content, setContent] = useState("");
+  const [saving, setSaving] = useState(false);
+  const [error, setError] = useState("");
 
-  const canSubmit = title.trim() && excerpt.trim() && content.trim();
+  const canSubmit = Boolean(title.trim() && excerpt.trim() && content.trim()) && !saving;
+
+  const handleSave = async (status: "draft" | "published") => {
+    if (!title.trim() || !excerpt.trim() || !content.trim()) return;
+    setSaving(true);
+    setError("");
+    try {
+      const author =
+        [user?.first_name, user?.last_name].filter(Boolean).join(" ").trim() ||
+        user?.email ||
+        "Admin";
+      const created = await api.createBlogPost({
+        title: title.trim(),
+        excerpt: excerpt.trim(),
+        content: content.trim(),
+        category,
+        readTime: readTime.trim() || "5 min",
+        status,
+        author,
+        authorId: user?.id ?? "",
+      });
+      const id = created?.id ?? created?._id;
+      navigate(id ? `/blog/${id}` : "/blog");
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to save blog post");
+    } finally {
+      setSaving(false);
+    }
+  };
 
   return (
     <Box>
@@ -145,8 +177,9 @@ export default function BlogCreate() {
           <Button
             variant="outlined"
             size="small"
-            startIcon={<SaveOutlinedIcon />}
+            startIcon={saving ? <CircularProgress size={14} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit}
+            onClick={() => handleSave("draft")}
             sx={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
@@ -163,6 +196,7 @@ export default function BlogCreate() {
             variant="outlined"
             size="small"
             disabled={!canSubmit}
+            onClick={() => handleSave("published")}
             sx={{
               fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
@@ -177,6 +211,12 @@ export default function BlogCreate() {
           </Button>
         </Stack>
       </Box>
+
+      {error && (
+        <Alert severity="error" sx={{ mx: 3, mb: 2 }} onClose={() => setError("")}>
+          {error}
+        </Alert>
+      )}
 
       {/* Edit pane */}
       {tab === "edit" && (

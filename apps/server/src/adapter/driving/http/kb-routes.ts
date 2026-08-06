@@ -58,7 +58,9 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
     try {
       const filter: { status?: string; category?: string; q?: string } = {};
       if (canManageKb(req) && req.query["status"]) {
-        filter.status = req.query["status"] as string;
+        const status = String(req.query["status"]);
+        // "all" means no status filter so staff can see drafts + published
+        if (status !== "all") filter.status = status;
       } else {
         filter.status = "published";
       }

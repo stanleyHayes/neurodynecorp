@@ -75,7 +75,7 @@ export default function ClientDetail() {
     try {
       const [userData, projectsRes] = await Promise.all([
         api.getUser(id),
-        api.listProjects({ client_id: id }),
+        api.listProjects({ clientId: id }),
       ]);
       setUser(userData as unknown as ApiUser);
       setProjects((projectsRes.items ?? []) as unknown as ApiProject[]);

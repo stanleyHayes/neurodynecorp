@@ -62,39 +62,82 @@ function toApiProject(p: any, teamMembers: ApiTeamMember[] = []) {
 
 // ---- Validation schemas ----
 
-const createProjectSchema = z.object({
-  title: z.string().min(1).max(200),
-  description: z.string().min(1).max(5000),
-  type: z.string().min(1),
-  features: z
-    .array(
-      z.object({
-        id: z.string(),
-        name: z.string(),
-        description: z.string(),
-        priority: z.string(),
-        complexity: z.string(),
-      }),
-    )
-    .optional(),
-  userRoles: z.array(z.string()).optional(),
-  integrations: z.array(z.string()).optional(),
-  budgetRange: z
-    .object({
-      min: z.number().nonnegative(),
-      max: z.number().nonnegative(),
-      currency: z.string().length(3),
-    })
-    .optional(),
-  timeline: z
-    .object({
-      expectedStart: z.coerce.date().optional(),
-      expectedEnd: z.coerce.date().optional(),
-      durationWeeks: z.number().int().positive(),
-      preferredUrgency: z.string(),
-    })
-    .optional(),
-});
+const createProjectSchema = z
+  .object({
+    title: z.string().min(1).max(200),
+    description: z.string().min(1).max(5000),
+    type: z.string().min(1),
+    features: z
+      .array(
+        z.object({
+          id: z.string(),
+          name: z.string(),
+          description: z.string(),
+          priority: z.string(),
+          complexity: z.string(),
+        }),
+      )
+      .optional(),
+    userRoles: z.array(z.string()).optional(),
+    user_roles: z.array(z.string()).optional(),
+    integrations: z.array(z.string()).optional(),
+    budgetRange: z
+      .object({
+        min: z.number().nonnegative(),
+        max: z.number().nonnegative(),
+        currency: z.string().length(3),
+      })
+      .optional(),
+    budget_range: z
+      .object({
+        min: z.number().nonnegative(),
+        max: z.number().nonnegative(),
+        currency: z.string().length(3),
+      })
+      .optional(),
+    timeline: z
+      .object({
+        expectedStart: z.coerce.date().optional(),
+        expectedEnd: z.coerce.date().optional(),
+        durationWeeks: z.number().int().positive().optional(),
+        preferredUrgency: z.string().optional(),
+        duration_weeks: z.number().int().positive().optional(),
+        preferred_urgency: z.string().optional(),
+      })
+      .optional(),
+  })
+  .transform((d) => {
+    let timeline:
+      | {
+          expectedStart?: Date;
+          expectedEnd?: Date;
+          durationWeeks: number;
+          preferredUrgency: string;
+        }
+      | undefined;
+    if (d.timeline) {
+      const durationWeeks = d.timeline.durationWeeks ?? d.timeline.duration_weeks;
+      const preferredUrgency = d.timeline.preferredUrgency ?? d.timeline.preferred_urgency;
+      if (durationWeeks != null && preferredUrgency) {
+        timeline = {
+          expectedStart: d.timeline.expectedStart,
+          expectedEnd: d.timeline.expectedEnd,
+          durationWeeks,
+          preferredUrgency,
+        };
+      }
+    }
+    return {
+      title: d.title,
+      description: d.description,
+      type: d.type,
+      features: d.features,
+      userRoles: d.userRoles ?? d.user_roles,
+      integrations: d.integrations,
+      budgetRange: d.budgetRange ?? d.budget_range,
+      timeline,
+    };
+  });
 
 const updateStatusSchema = z.object({
   status: z.enum(["lead", "under_review", "approved", "in_development", "qa", "delivered"]),
@@ -118,6 +161,8 @@ const listProjectsSchema = z.object({
   status: z.enum(["lead", "under_review", "approved", "in_development", "qa", "delivered"]).optional(),
   type: z.string().optional(),
   search: z.string().optional(),
+  clientId: z.string().min(1).optional(),
+  client_id: z.string().min(1).optional(),
   page: z.coerce.number().int().positive().optional().default(1),
   pageSize: z.coerce.number().int().positive().max(100).optional().default(20),
 });
@@ -212,9 +257,12 @@ export function createProjectRoutes(
         pageSize: parsed.data.pageSize,
       };
 
-      // Clients can only see their own projects
+      // Clients can only see their own projects; staff may filter by client
       if (isClientActor(req.userRole)) {
         filter["clientId"] = req.userId!;
+      } else {
+        const clientId = parsed.data.clientId ?? parsed.data.client_id;
+        if (clientId) filter["clientId"] = clientId;
       }
 
       const result = await projectService.listProjects(filter as Parameters<typeof projectService.listProjects>[0]);

@@ -18,7 +18,10 @@ const cards = [
   { icon: <ChatBubbleOutlined sx={{ fontSize: 28 }} />, title: "Direct Communication", desc: "Message your project team and provide feedback without leaving the portal." },
 ];
 
-const api = new ApiClient(import.meta.env.VITE_API_URL || "http://localhost:4000");
+const api = new ApiClient({
+  baseUrl: import.meta.env.VITE_API_URL || "http://localhost:4000",
+  getToken: () => null,
+});
 
 export default function ForgotPassword() {
   const [email, setEmail] = useState("");

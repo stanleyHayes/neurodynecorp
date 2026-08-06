@@ -18,7 +18,10 @@ const cards = [
   { icon: <BarChart sx={{ fontSize: 28 }} />, title: "Billing & Analytics", desc: "Track revenue, invoices, and client engagement from one dashboard." },
 ];
 
-const api = new ApiClient(import.meta.env.VITE_API_URL || "http://localhost:4000");
+const api = new ApiClient({
+  baseUrl: import.meta.env.VITE_API_URL || "http://localhost:4000",
+  getToken: () => null,
+});
 
 export default function ResetPassword() {
   const [params] = useSearchParams();

@@ -13,6 +13,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 
 - [x] **Pass 1 — public CMS draft leak, content CREATE schemas, admin lockout, rate-limit IP spoofing, contact limiter, newsletter token unsubscribe, activity PII load, client message participant allowlist, auth refresh rate limit.**
 - [x] **Pass 2 — WS query JWT ban, client-only approval decisions, tickets:read inbox gate, public flag allowlist + maintenance guard, consent PII strip, DSR email bind + fulfillment evidence, trust mfa:false, hide client API keys without apikeys:*.**
+- [x] **Pass 3 — admin AuthProvider wrap (CommandPalette crash), password-reset ApiClient constructor, status components GET + incident update shape, KB status=all, BlogCreate save/publish, project create casing + clientId list filter, DSR complete fulfillmentNote.**
 
 ## Operational repairs (5 August 2026)
 

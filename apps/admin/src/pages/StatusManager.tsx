@@ -101,11 +101,11 @@ export default function StatusManager() {
     try {
       setLoading(true);
       setError("");
-      const [comps, incs] = await Promise.all([
-        api.get("/api/v1/status/components"),
+      const [statusRes, incs] = await Promise.all([
+        api.get("/api/v1/status"),
         api.get("/api/v1/status/incidents"),
       ]);
-      setComponents(asArray(comps));
+      setComponents(asArray(statusRes));
       setIncidents(asArray(incs));
     } catch (err: any) {
       setError(err?.message ?? "Failed to load status data");
@@ -197,7 +197,7 @@ export default function StatusManager() {
       setSavingUpdate(true);
       await api.patch(`/api/v1/status/incidents/${id}`, {
         status: updateStatus,
-        body: updateBody.trim(),
+        update: { status: updateStatus, body: updateBody.trim() },
       });
       setUpdateTarget(null);
       setUpdateBody("");
