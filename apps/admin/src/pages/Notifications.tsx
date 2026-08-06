@@ -74,7 +74,17 @@ export default function Notifications() {
   const load = useCallback(async () => {
     try {
       const res = await api.listNotifications();
-      setNotifications((res.items ?? []) as unknown as NotificationItem[]);
+      const items = (res.items ?? []).map((n: any) => ({
+        id: n.id,
+        type: n.type ?? "system",
+        title: n.title ?? "",
+        message: n.message ?? n.body ?? "",
+        read: Boolean(n.read),
+        createdAt: n.createdAt ?? n.created_at ?? new Date().toISOString(),
+        resourceId: n.resourceId ?? n.resource_id,
+        resourceType: n.resourceType ?? n.resource_type,
+      })) as NotificationItem[];
+      setNotifications(items);
     } catch {
       // handled by API client
     } finally {

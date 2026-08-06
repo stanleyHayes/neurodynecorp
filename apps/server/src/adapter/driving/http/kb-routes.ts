@@ -31,6 +31,8 @@ const createKbSchema = z.object({
   order: z.number().optional(),
 });
 
+const updateKbSchema = createKbSchema.partial();
+
 const helpfulSchema = z.object({
   helpful: z.boolean(),
 });
@@ -117,9 +119,19 @@ export function createKbRoutes(repo: KbRepository, tokenService: TokenService): 
   // PATCH /:id — update (kb:update)
   router.patch("/:id", auth, requirePermission("kb:update"), async (req: Request, res: Response, next: NextFunction) => {
     try {
+      const parsed = updateKbSchema.safeParse(req.body);
+      if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
       const existing = await repo.findById(String(req.params.id));
       if (!existing) throw new NotFoundError("kb", String(req.params.id));
-      const updated = await repo.update({ ...existing, ...req.body, id: existing.id });
+      const updated = await repo.update({
+        ...existing,
+        ...parsed.data,
+        id: existing.id,
+        helpfulYes: existing.helpfulYes,
+        helpfulNo: existing.helpfulNo,
+        createdAt: existing.createdAt,
+        updatedAt: new Date(),
+      });
       res.json(updated);
     } catch (err) {
       next(err);

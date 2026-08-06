@@ -89,7 +89,31 @@ function createCrudRoutes<T extends { id: string }>(
     try {
       const existing = await service.findById(String(req.params.id));
       if (!existing) throw new NotFoundError(resource, String(req.params.id));
-      const updated = await service.update({ ...existing, ...req.body, id: existing.id });
+      let patch: Record<string, unknown> = {};
+      if (opts?.updateSchema) {
+        const parsed = opts.updateSchema.safeParse(req.body);
+        if (!parsed.success) throw new ValidationError("Invalid data", parsed.error.flatten());
+        patch = parsed.data as Record<string, unknown>;
+      } else {
+        // Never spread raw req.body — strip identity / audit fields at minimum.
+        const {
+          id: _id,
+          _id: __id,
+          createdAt: _createdAt,
+          created_at: _created_at,
+          updatedAt: _updatedAt,
+          updated_at: _updated_at,
+          ...rest
+        } = req.body as Record<string, unknown>;
+        patch = rest;
+      }
+      const updated = await service.update({
+        ...existing,
+        ...patch,
+        id: existing.id,
+        createdAt: (existing as { createdAt?: Date }).createdAt,
+        updatedAt: new Date(),
+      } as T);
       res.json(updated);
     } catch (err) {
       next(err);
@@ -119,6 +143,86 @@ import {
   createContactSubmission,
 } from "../../../domain/entity/content.js";
 
+const blogUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    slug: z.string().optional(),
+    excerpt: z.string().optional(),
+    content: z.string().optional(),
+    category: z.string().optional(),
+    status: z.enum(["published", "draft", "archived"]).optional(),
+    author: z.string().optional(),
+    authorId: z.string().optional(),
+    readTime: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    coverImage: z.string().optional(),
+  })
+  .strict();
+
+const testimonialUpdateSchema = z
+  .object({
+    name: z.string().optional(),
+    role: z.string().optional(),
+    company: z.string().optional(),
+    content: z.string().optional(),
+    rating: z.number().optional(),
+    status: z.enum(["active", "hidden"]).optional(),
+    avatarColor: z.string().optional(),
+  })
+  .strict();
+
+const serviceUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    description: z.string().optional(),
+    icon: z.string().optional(),
+    features: z.array(z.string()).optional(),
+    status: z.enum(["active", "coming_soon", "inactive"]).optional(),
+    projectCount: z.number().optional(),
+    color: z.string().optional(),
+    order: z.number().optional(),
+  })
+  .strict();
+
+const caseStudyUpdateSchema = z
+  .object({
+    title: z.string().optional(),
+    slug: z.string().optional(),
+    client: z.string().optional(),
+    category: z.string().optional(),
+    tags: z.array(z.string()).optional(),
+    description: z.string().optional(),
+    impact: z.string().optional(),
+    results: z.array(z.string()).optional(),
+    status: z.enum(["published", "draft"]).optional(),
+    coverImage: z.string().optional(),
+    color: z.string().optional(),
+    sector: z.string().optional(),
+    serviceLine: z.string().optional(),
+    scale: z.string().optional(),
+    stage: z.string().optional(),
+    brief: z.string().optional(),
+    constraints: z.array(z.string()).optional(),
+    architecture: z.string().optional(),
+    shipped: z.array(z.string()).optional(),
+    retained: z.array(z.string()).optional(),
+    learnt: z.array(z.string()).optional(),
+  })
+  .strict();
+
+const contactUpdateSchema = z
+  .object({
+    name: z.string().optional(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+    company: z.string().optional(),
+    subject: z.string().optional(),
+    projectType: z.string().optional(),
+    message: z.string().optional(),
+    status: z.enum(["new", "read", "replied", "archived"]).optional(),
+  })
+  .strict();
+
 export function createBlogRoutes(
   service: ContentService<any> & { findBySlug?: (slug: string) => Promise<any | null> },
   tokenService: TokenService,
@@ -131,6 +235,7 @@ export function createBlogRoutes(
       tags: data.tags ?? [],
       readTime: data.readTime ?? "5 min",
     }),
+    updateSchema: blogUpdateSchema,
     publicRead: true,
     filterKeys: ["status", "category"],
     extraRoutes: service.findBySlug
@@ -152,6 +257,7 @@ export function createBlogRoutes(
 export function createTestimonialRoutes(service: ContentService<any>, tokenService: TokenService) {
   return createCrudRoutes("testimonials", service, tokenService, {
     createFn: (data) => createTestimonial({ ...data, status: data.status ?? "active" }),
+    updateSchema: testimonialUpdateSchema,
     publicRead: true,
   });
 }
@@ -165,6 +271,7 @@ export function createServiceItemRoutes(service: ContentService<any>, tokenServi
       order: data.order ?? 0,
       projectCount: data.projectCount ?? 0,
     }),
+    updateSchema: serviceUpdateSchema,
     publicRead: true,
   });
 }
@@ -181,6 +288,7 @@ export function createCaseStudyRoutes(
       tags: data.tags ?? [],
       results: data.results ?? [],
     }),
+    updateSchema: caseStudyUpdateSchema,
     publicRead: true,
     filterKeys: ["status", "category", "sector", "serviceLine", "scale", "stage"],
     extraRoutes: service.findBySlug
@@ -202,6 +310,7 @@ export function createCaseStudyRoutes(
 export function createContactSubmissionRoutes(service: ContentService<any>, tokenService: TokenService) {
   return createCrudRoutes("contact_submissions", service, tokenService, {
     createFn: (data) => createContactSubmission({ ...data, status: data.status ?? "new" }),
+    updateSchema: contactUpdateSchema,
     publicRead: false,
   });
 }
