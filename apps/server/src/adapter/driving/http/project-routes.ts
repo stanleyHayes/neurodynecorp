@@ -151,10 +151,10 @@ const assignTeamSchema = z
     teamMemberIds: z.array(z.string().min(1)).optional(),
     team_member_ids: z.array(z.string().min(1)).optional(),
   })
-  .refine((d) => (d.teamMemberIds ?? d.team_member_ids)?.length, {
+  .refine((d) => d.teamMemberIds !== undefined || d.team_member_ids !== undefined, {
     message: "teamMemberIds is required",
   })
-  .transform((d) => ({ teamMemberIds: d.teamMemberIds ?? d.team_member_ids! }));
+  .transform((d) => ({ teamMemberIds: d.teamMemberIds ?? d.team_member_ids ?? [] }));
 
 const updateProgressSchema = z.object({
   progress: z.number().int().min(0).max(100),

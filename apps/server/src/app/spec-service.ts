@@ -73,7 +73,10 @@ export interface SpecificationRepository {
 }
 
 export interface QuestionnaireResponseRepository {
-  findByProjectId(projectId: string): Promise<QuestionnaireResponse | null>;
+  /** May return one response or a list (Mongo adapter returns newest-first). */
+  findByProjectId(
+    projectId: string,
+  ): Promise<QuestionnaireResponse | QuestionnaireResponse[] | null>;
 }
 
 export interface ProjectLookup {
@@ -138,8 +141,16 @@ export class SpecService {
       throw new ProjectNotFoundError(projectId);
     }
 
-    const questionnaire = await this.responseRepo.findByProjectId(projectId);
-    if (!questionnaire || !questionnaire.completed) {
+    const raw = await this.responseRepo.findByProjectId(projectId);
+    const candidates = Array.isArray(raw) ? raw : raw ? [raw] : [];
+    const questionnaire =
+      candidates.find((r) => (r as { completed?: boolean }).completed || r.completedAt) ??
+      candidates[0] ??
+      null;
+    const completed =
+      !!questionnaire &&
+      ((questionnaire as { completed?: boolean }).completed === true || !!questionnaire.completedAt);
+    if (!questionnaire || !completed) {
       throw new QuestionnaireIncompleteError(projectId);
     }
 

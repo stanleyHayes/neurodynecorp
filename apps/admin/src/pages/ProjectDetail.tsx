@@ -26,6 +26,7 @@ interface ApiProject {
   features: unknown[];
   progress: number;
   assigned_team: string[];
+  assigned_team_members?: { id: string; first_name: string; last_name: string; email: string; role: string }[];
   specification_id?: string;
   created_at: string;
   updated_at: string;
@@ -51,6 +52,12 @@ interface ApiSpec {
 }
 
 const statusColors: Record<string, string> = {
+  lead: "#94A3B8",
+  under_review: "#8B5CF6",
+  approved: "#6C63FF",
+  in_development: "#F59E0B",
+  qa: "#00D4AA",
+  delivered: "#10B981",
   "In Progress": "#F59E0B",
   in_progress: "#F59E0B",
   active: "#F59E0B",
@@ -64,6 +71,15 @@ const statusColors: Record<string, string> = {
   Review: "#8B5CF6",
   review: "#8B5CF6",
 };
+
+const PROJECT_STATUSES = [
+  { value: "lead", label: "Lead" },
+  { value: "under_review", label: "Under Review" },
+  { value: "approved", label: "Approved" },
+  { value: "in_development", label: "In Development" },
+  { value: "qa", label: "QA" },
+  { value: "delivered", label: "Delivered" },
+] as const;
 
 const specStatusColors: Record<string, string> = {
   Draft: "#94A3B8",
@@ -155,6 +171,10 @@ export default function ProjectDetail() {
   const [specs, setSpecs] = useState<ApiSpec[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [staffOptions, setStaffOptions] = useState<ApiUser[]>([]);
+  const [opsSaving, setOpsSaving] = useState(false);
+  const [progressDraft, setProgressDraft] = useState("");
+  const [teamDraft, setTeamDraft] = useState<string[]>([]);
 
   // Decision Log state
   const [decisions, setDecisions] = useState<any[]>([]);
@@ -596,6 +616,57 @@ export default function ProjectDetail() {
     }
   };
 
+  const handleStatusChange = async (status: string) => {
+    if (!id || !project) return;
+    setOpsSaving(true);
+    try {
+      const updated = (await api.updateProjectStatus(id, status)) as unknown as ApiProject;
+      setProject({ ...project, ...updated, status: updated.status ?? status });
+      setToast("Status updated");
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "Failed to update status");
+    } finally {
+      setOpsSaving(false);
+    }
+  };
+
+  const handleProgressSave = async () => {
+    if (!id || !project) return;
+    const progress = Number(progressDraft);
+    if (!Number.isFinite(progress) || progress < 0 || progress > 100) {
+      setToast("Progress must be 0–100");
+      return;
+    }
+    setOpsSaving(true);
+    try {
+      await api.updateProgress(id, Math.round(progress));
+      setProject({ ...project, progress: Math.round(progress) });
+      setToast("Progress updated");
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "Failed to update progress");
+    } finally {
+      setOpsSaving(false);
+    }
+  };
+
+  const handleTeamSave = async () => {
+    if (!id || !project) return;
+    setOpsSaving(true);
+    try {
+      const updated = (await api.assignTeam(id, teamDraft)) as unknown as ApiProject;
+      setProject({
+        ...project,
+        ...updated,
+        assigned_team: updated.assigned_team ?? teamDraft,
+      });
+      setToast("Team assignment saved");
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "Failed to assign team");
+    } finally {
+      setOpsSaving(false);
+    }
+  };
+
   const fetchData = useCallback(async () => {
     if (!id) return;
     setLoading(true);
@@ -603,9 +674,23 @@ export default function ProjectDetail() {
     try {
       const projectData = (await api.getProject(id)) as unknown as ApiProject;
       setProject(projectData);
+      setProgressDraft(String(projectData.progress ?? 0));
+      setTeamDraft(projectData.assigned_team ?? []);
 
       // Fetch client and spec in parallel
       const promises: Promise<void>[] = [];
+
+      promises.push(
+        api
+          .listUsers({ isActive: "true" })
+          .then((res: any) => {
+            const items = (res.items ?? []) as ApiUser[];
+            setStaffOptions(
+              items.filter((u) => u.role !== "client" && u.is_active !== false),
+            );
+          })
+          .catch(() => setStaffOptions([])),
+      );
 
       if (projectData.client_id) {
         promises.push(
@@ -693,6 +778,71 @@ export default function ProjectDetail() {
         iconColor={color}
         iconLabel={displayStatus.toUpperCase()}
       />
+
+      <SectionLabel>Project Controls</SectionLabel>
+      <Cell color={color} index="OP" animDelay={0.05}>
+        <Stack spacing={2}>
+          <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
+            <TextField
+              select
+              size="small"
+              label="Status"
+              value={PROJECT_STATUSES.some((s) => s.value === project.status) ? project.status : "lead"}
+              disabled={opsSaving}
+              onChange={(e) => void handleStatusChange(e.target.value)}
+              sx={{ minWidth: 200 }}
+            >
+              {PROJECT_STATUSES.map((s) => (
+                <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>
+              ))}
+            </TextField>
+            <TextField
+              size="small"
+              label="Progress %"
+              type="number"
+              value={progressDraft}
+              disabled={opsSaving}
+              onChange={(e) => setProgressDraft(e.target.value)}
+              slotProps={{ htmlInput: { min: 0, max: 100 } }}
+              sx={{ width: 140 }}
+            />
+            <Button
+              variant="outlined"
+              size="small"
+              disabled={opsSaving}
+              onClick={() => void handleProgressSave()}
+            >
+              Save Progress
+            </Button>
+          </Stack>
+          <TextField
+            select
+            size="small"
+            label="Assigned team"
+            value={teamDraft}
+            disabled={opsSaving}
+            onChange={(e) => setTeamDraft(e.target.value as unknown as string[])}
+            SelectProps={{ multiple: true }}
+            helperText={staffOptions.length === 0 ? "No staff users available" : "Select team members then save"}
+          >
+            {staffOptions.map((u) => (
+              <MenuItem key={u.id} value={u.id}>
+                {[u.first_name, u.last_name].filter(Boolean).join(" ") || u.email} ({u.role})
+              </MenuItem>
+            ))}
+          </TextField>
+          <Box>
+            <Button
+              variant="outlined"
+              size="small"
+              disabled={opsSaving}
+              onClick={() => void handleTeamSave()}
+            >
+              Save Team
+            </Button>
+          </Box>
+        </Stack>
+      </Cell>
 
       {/* Stats */}
       <SectionLabel>Overview</SectionLabel>

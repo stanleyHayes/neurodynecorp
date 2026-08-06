@@ -399,10 +399,15 @@ export class ApiClient {
   }
 
   // File Upload
-  async uploadFile(file: File, folder = "uploads"): Promise<{ url: string; filename: string; size: number }> {
+  async uploadFile(
+    file: File,
+    folder = "uploads",
+    projectId?: string,
+  ): Promise<{ url: string; filename: string; size: number; id?: string }> {
     const formData = new FormData();
     formData.append("file", file);
-    formData.append("folder", folder);
+    if (folder) formData.append("folder", folder);
+    if (projectId) formData.append("projectId", projectId);
     const token = this.getToken();
     const res = await fetch(`${this.baseUrl}/api/v1/files/upload`, {
       method: "POST",
@@ -412,10 +417,16 @@ export class ApiClient {
     if (!res.ok) throw new ApiError("Upload failed", res.status);
     const data = (await res.json()) as Record<string, unknown>;
     return {
+      id: data.id ? String(data.id) : undefined,
       url: String(data.url ?? data.fileURL ?? data.file_url ?? ""),
       filename: String(data.filename ?? data.fileName ?? data.file_name ?? ""),
       size: Number(data.size ?? data.fileSize ?? data.file_size ?? 0),
     };
+  }
+  listFiles(projectId: string) {
+    return this.request<{ items: any[]; total: number }>("/api/v1/files", {
+      params: { projectId },
+    });
   }
 
   // Contact

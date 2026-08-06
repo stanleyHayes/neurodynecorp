@@ -45,17 +45,32 @@ export default function Documents() {
       try {
         const res = await api.listProjects();
         const docs: DocumentRow[] = [];
+        const projects = res.items ?? [];
 
-        for (const project of (res.items ?? [])) {
-          const attachments = project.attachments ?? [];
-          for (const att of attachments as any[]) {
-            docs.push({
-              name: att.file_name ?? att.fileName ?? att.name ?? "Unknown",
-              mimeType: att.mime_type ?? att.mimeType ?? "file",
-              project: project.title,
-              date: att.uploaded_at ?? att.uploadedAt ?? project.created_at,
-              url: att.file_url ?? att.fileURL,
-            });
+        for (const project of projects) {
+          // Prefer files API (uploads land here); fall back to project.attachments.
+          try {
+            const filesRes = await api.listFiles(project.id);
+            for (const f of filesRes.items ?? []) {
+              docs.push({
+                name: f.file_name ?? f.fileName ?? f.filename ?? f.name ?? "Unknown",
+                mimeType: f.mime_type ?? f.mimeType ?? "file",
+                project: project.title,
+                date: f.created_at ?? f.createdAt ?? f.uploaded_at ?? project.created_at,
+                url: f.url ?? f.file_url ?? f.fileURL,
+              });
+            }
+          } catch {
+            const attachments = project.attachments ?? [];
+            for (const att of attachments as any[]) {
+              docs.push({
+                name: att.file_name ?? att.fileName ?? att.name ?? "Unknown",
+                mimeType: att.mime_type ?? att.mimeType ?? "file",
+                project: project.title,
+                date: att.uploaded_at ?? att.uploadedAt ?? project.created_at,
+                url: att.file_url ?? att.fileURL,
+              });
+            }
           }
         }
 

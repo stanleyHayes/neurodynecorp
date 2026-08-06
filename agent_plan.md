@@ -15,6 +15,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 - [x] **Pass 2 — WS query JWT ban, client-only approval decisions, tickets:read inbox gate, public flag allowlist + maintenance guard, consent PII strip, DSR email bind + fulfillment evidence, trust mfa:false, hide client API keys without apikeys:*.**
 - [x] **Pass 3 — admin AuthProvider wrap (CommandPalette crash), password-reset ApiClient constructor, status components GET + incident update shape, KB status=all, BlogCreate save/publish, project create casing + clientId list filter, DSR complete fulfillmentNote.**
 - [x] **Pass 4 — project create client ownership, feedback score null 400, contact status updates, role permission matrix from API, invoice send + draft pay gate, admin new message thread, mobile thread open/send.**
+- [x] **Pass 5 — spec generate questionnaire completedAt/array fix, ProjectDetail status/team/progress controls, SpecDetail approve/reject, client createThread, Documents listFiles, upload projectId support.**
 
 ## Operational repairs (5 August 2026)
 

@@ -1,11 +1,13 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box, Typography, Chip, Stack, Alert } from "@mui/material";
+import { Box, Typography, Chip, Stack, Alert, Button, CircularProgress } from "@mui/material";
 import { useParams, useNavigate } from "react-router";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import ScheduleOutlinedIcon from "@mui/icons-material/ScheduleOutlined";
+import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutline";
+import CancelOutlinedIcon from "@mui/icons-material/CancelOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
@@ -77,6 +79,8 @@ export default function SpecDetail() {
   const [project, setProject] = useState<ApiProject | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [deciding, setDeciding] = useState(false);
+  const [actionError, setActionError] = useState("");
 
   const fetchData = useCallback(async () => {
     if (!id) return;
@@ -104,6 +108,38 @@ export default function SpecDetail() {
   useEffect(() => {
     fetchData();
   }, [fetchData]);
+
+  const canDecide = ["generated", "under_review", "reviewed", "draft"].includes(
+    (spec?.status ?? "").toLowerCase(),
+  );
+
+  const handleApprove = async () => {
+    if (!id) return;
+    setDeciding(true);
+    setActionError("");
+    try {
+      const updated = (await api.approveSpec(id)) as unknown as ApiSpec;
+      setSpec((prev) => (prev ? { ...prev, ...updated, status: updated.status ?? "approved" } : prev));
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Failed to approve");
+    } finally {
+      setDeciding(false);
+    }
+  };
+
+  const handleReject = async () => {
+    if (!id) return;
+    setDeciding(true);
+    setActionError("");
+    try {
+      const updated = (await api.rejectSpec(id)) as unknown as ApiSpec;
+      setSpec((prev) => (prev ? { ...prev, ...updated, status: updated.status ?? "rejected" } : prev));
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Failed to reject");
+    } finally {
+      setDeciding(false);
+    }
+  };
 
   if (loading) {
     return <PageSkeleton stats={0} rows={6} />;
@@ -158,6 +194,32 @@ export default function SpecDetail() {
         iconColor={color}
         iconLabel={displayStatus.toUpperCase()}
       />
+
+      {canDecide && (
+        <Box sx={{ px: 3, py: 1.5, display: "flex", gap: 1, alignItems: "center", flexWrap: "wrap" }}>
+          <Button
+            variant="outlined"
+            size="small"
+            color="success"
+            startIcon={deciding ? <CircularProgress size={14} /> : <CheckCircleOutlineIcon />}
+            disabled={deciding}
+            onClick={() => void handleApprove()}
+          >
+            Approve
+          </Button>
+          <Button
+            variant="outlined"
+            size="small"
+            color="error"
+            startIcon={<CancelOutlinedIcon />}
+            disabled={deciding}
+            onClick={() => void handleReject()}
+          >
+            Reject
+          </Button>
+          {actionError && <Alert severity="error" sx={{ py: 0 }}>{actionError}</Alert>}
+        </Box>
+      )}
 
       {/* Meta cards */}
       <SectionLabel color={color}>Document Info</SectionLabel>

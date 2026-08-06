@@ -14,10 +14,17 @@ import {
   Badge,
   CardContent,
   Skeleton,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  MenuItem,
+  Alert,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
 import ChatBubbleOutlineIcon from "@mui/icons-material/ChatBubbleOutlined";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import PageBanner from "@/components/shared/PageBanner";
 import AnimatedCard from "@/components/shared/AnimatedCard";
 import EmptyState from "@/components/shared/EmptyState";
@@ -64,6 +71,24 @@ export default function Messages() {
   const [messages, setMessages] = useState<Msg[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
+  const [createOpen, setCreateOpen] = useState(false);
+  const [projects, setProjects] = useState<{ id: string; title: string }[]>([]);
+  const [newProjectId, setNewProjectId] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
+
+  const reloadThreads = useCallback(async () => {
+    const res = await api.listThreads();
+    const allThreads = ((res as any).threads ?? (res as any).items ?? []) as Thread[];
+    allThreads.sort((a, b) => {
+      const bt = new Date(b.created_at || b.createdAt || 0).getTime();
+      const at = new Date(a.created_at || a.createdAt || 0).getTime();
+      return bt - at;
+    });
+    setThreads(allThreads);
+    return allThreads;
+  }, [api]);
 
   // Load threads from all projects
   useEffect(() => {
@@ -71,20 +96,9 @@ export default function Messages() {
 
     async function load() {
       try {
-        const res = await api.listThreads();
-        const allThreads = ((res as any).threads ?? (res as any).items ?? []) as Thread[];
-
-        allThreads.sort((a, b) => {
-          const bt = new Date(b.created_at || b.createdAt || 0).getTime();
-          const at = new Date(a.created_at || a.createdAt || 0).getTime();
-          return bt - at;
-        });
-
-        if (!cancelled) {
-          setThreads(allThreads);
-          if (allThreads.length > 0) {
-            setSelectedThread(allThreads[0].id);
-          }
+        const allThreads = await reloadThreads();
+        if (!cancelled && allThreads.length > 0) {
+          setSelectedThread(allThreads[0].id);
         }
       } catch {
         // handled by API client
@@ -95,7 +109,7 @@ export default function Messages() {
 
     load();
     return () => { cancelled = true; };
-  }, [api]);
+  }, [reloadThreads]);
 
   // Load messages when thread changes
   const loadMessages = useCallback(async (threadId: string) => {
@@ -115,6 +129,44 @@ export default function Messages() {
       loadMessages(selectedThread);
     }
   }, [selectedThread, loadMessages]);
+
+  const openCreate = async () => {
+    setCreateError("");
+    setNewTitle("");
+    setNewProjectId("");
+    try {
+      const res = await api.listProjects({ pageSize: "100" });
+      const items = ((res as any).items ?? []).map((p: any) => ({
+        id: p.id,
+        title: p.title ?? p.name ?? p.id,
+      }));
+      setProjects(items);
+      if (items[0]) {
+        setNewProjectId(items[0].id);
+        setNewTitle(`${items[0].title} — discussion`);
+      }
+    } catch {
+      setProjects([]);
+    }
+    setCreateOpen(true);
+  };
+
+  const handleCreateThread = async () => {
+    if (!newProjectId || !newTitle.trim()) return;
+    setCreating(true);
+    setCreateError("");
+    try {
+      const created = await api.createThread(newProjectId, newTitle.trim(), []);
+      setCreateOpen(false);
+      const all = await reloadThreads();
+      const id = (created as any).id ?? all[0]?.id;
+      if (id) setSelectedThread(id);
+    } catch (err: any) {
+      setCreateError(err?.message ?? "Failed to create thread");
+    } finally {
+      setCreating(false);
+    }
+  };
 
   const handleSend = async () => {
     const text = newMessage.trim();
@@ -142,6 +194,62 @@ export default function Messages() {
         description="Communicate with your project team in real-time threads."
       />
 
+      <Box sx={{ px: 3, pb: 1, display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          size="small"
+          startIcon={<AddOutlinedIcon />}
+          onClick={() => void openCreate()}
+        >
+          New Thread
+        </Button>
+      </Box>
+
+      <Dialog open={createOpen} onClose={() => !creating && setCreateOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle>Start a conversation</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            {createError && <Alert severity="error">{createError}</Alert>}
+            <TextField
+              select
+              label="Project"
+              value={newProjectId}
+              onChange={(e) => {
+                const project = projects.find((p) => p.id === e.target.value);
+                setNewProjectId(e.target.value);
+                if (project) setNewTitle(`${project.title} — discussion`);
+              }}
+              fullWidth
+              size="small"
+            >
+              {projects.length === 0 ? (
+                <MenuItem value="" disabled>No projects available</MenuItem>
+              ) : (
+                projects.map((p) => (
+                  <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>
+                ))
+              )}
+            </TextField>
+            <TextField
+              label="Subject"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              fullWidth
+              size="small"
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={() => void handleCreateThread()}
+            disabled={creating || !newProjectId || !newTitle.trim()}
+          >
+            {creating ? "Creating…" : "Create"}
+          </Button>
+        </DialogActions>
+      </Dialog>
+
       <AnimatedCard animDelay={0}>
         <CardContent sx={{ p: 0, "&:last-child": { pb: 0 } }}>
           <Box sx={{ display: "flex", minHeight: 480, maxHeight: "calc(100vh - 420px)" }}>
@@ -163,7 +271,7 @@ export default function Messages() {
                 <EmptyState
                   icon={<ChatBubbleOutlineIcon />}
                   title="No message threads yet"
-                  description="When your project team starts a conversation, threads will appear here."
+                  description="Start a conversation on one of your projects, or wait for your team to open a thread."
                   color="#00D4AA"
                 />
               ) : (
