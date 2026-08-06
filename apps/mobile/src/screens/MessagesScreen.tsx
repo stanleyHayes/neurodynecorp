@@ -7,11 +7,15 @@ import {
   TouchableOpacity,
   Animated,
   Easing,
+  TextInput,
+  KeyboardAvoidingView,
+  Platform,
+  ActivityIndicator,
 } from "react-native";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
-import { listProjects, listThreads } from "../api/client";
+import { listProjects, listThreads, getMessages, sendMessage } from "../api/client";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
@@ -80,19 +84,12 @@ function SkeletonMessages() {
       <Text style={styles.sectionTitle}>MESSAGES</Text>
       {[0, 1, 2].map((i) => (
         <View key={i} style={styles.card}>
+          <Brackets />
           <View style={styles.row}>
-            <SkeletonBlock
-              width={40}
-              height={40}
-              style={{ marginRight: 12 }}
-            />
-            <View style={{ flex: 1 }}>
-              <SkeletonBlock
-                width="70%"
-                height={13}
-                style={{ marginBottom: 6 }}
-              />
-              <SkeletonBlock width="90%" height={11} />
+            <SkeletonBlock width={40} height={40} />
+            <View style={[styles.content, { marginLeft: 12 }]}>
+              <SkeletonBlock width="70%" height={12} style={{ marginBottom: 8 }} />
+              <SkeletonBlock width="90%" height={10} />
             </View>
           </View>
         </View>
@@ -100,8 +97,6 @@ function SkeletonMessages() {
     </View>
   );
 }
-
-/* ── time formatting ─────────────────────────────────────────── */
 
 function formatTimeAgo(dateStr: string): string {
   if (!dateStr) return "";
@@ -118,11 +113,25 @@ function formatTimeAgo(dateStr: string): string {
   }
 }
 
+function formatClock(dateStr?: string): string {
+  if (!dateStr) return "";
+  try {
+    return new Date(dateStr).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+  } catch {
+    return "";
+  }
+}
+
 /* ── main screen ─────────────────────────────────────────────── */
 
 export default function MessagesScreen() {
   const [loading, setLoading] = useState(true);
   const [threads, setThreads] = useState<any[]>([]);
+  const [selected, setSelected] = useState<any | null>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [messagesLoading, setMessagesLoading] = useState(false);
+  const [draft, setDraft] = useState("");
+  const [sending, setSending] = useState(false);
 
   useEffect(() => {
     let cancelled = false;
@@ -159,10 +168,104 @@ export default function MessagesScreen() {
     }
 
     fetchData();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
+  useEffect(() => {
+    if (!selected?.id) return;
+    let cancelled = false;
+    setMessagesLoading(true);
+    getMessages(selected.id)
+      .then((res) => {
+        if (cancelled) return;
+        setMessages(res.items ?? []);
+      })
+      .catch(() => {
+        if (!cancelled) setMessages([]);
+      })
+      .finally(() => {
+        if (!cancelled) setMessagesLoading(false);
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [selected?.id]);
+
+  const handleSend = async () => {
+    if (!selected?.id || !draft.trim() || sending) return;
+    const text = draft.trim();
+    setSending(true);
+    setDraft("");
+    try {
+      const sent = await sendMessage(selected.id, text);
+      setMessages((prev) => [...prev, sent]);
+      setThreads((prev) =>
+        prev.map((t) =>
+          t.id === selected.id ? { ...t, last_message: text } : t,
+        ),
+      );
+    } catch {
+      setDraft(text);
+    } finally {
+      setSending(false);
+    }
+  };
+
   if (loading) return <SkeletonMessages />;
+
+  if (selected) {
+    const subject =
+      selected.subject ?? selected.title ?? selected.projectName ?? "Thread";
+    return (
+      <KeyboardAvoidingView
+        style={styles.container}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        keyboardVerticalOffset={80}
+      >
+        <TouchableOpacity onPress={() => setSelected(null)} style={styles.backRow}>
+          <Text style={styles.backText}>← BACK</Text>
+        </TouchableOpacity>
+        <Text style={styles.sectionTitle}>{subject.toUpperCase()}</Text>
+
+        <ScrollView style={styles.threadBody} showsVerticalScrollIndicator={false}>
+          {messagesLoading ? (
+            <ActivityIndicator color={colors.primaryLight} style={{ marginTop: 24 }} />
+          ) : messages.length === 0 ? (
+            <Text style={styles.emptySubtext}>No messages yet. Say hello.</Text>
+          ) : (
+            messages.map((m) => (
+              <View key={m.id} style={styles.messageBubble}>
+                <Text style={styles.messageBody}>{m.content}</Text>
+                <Text style={styles.messageTime}>
+                  {formatClock(m.created_at ?? m.createdAt)}
+                </Text>
+              </View>
+            ))
+          )}
+        </ScrollView>
+
+        <View style={styles.composer}>
+          <TextInput
+            style={styles.input}
+            value={draft}
+            onChangeText={setDraft}
+            placeholder="Write a message…"
+            placeholderTextColor={colors.textSecondary}
+            multiline
+          />
+          <TouchableOpacity
+            style={[styles.sendBtn, (!draft.trim() || sending) && styles.sendBtnDisabled]}
+            disabled={!draft.trim() || sending}
+            onPress={() => void handleSend()}
+          >
+            <Text style={styles.sendText}>{sending ? "…" : "SEND"}</Text>
+          </TouchableOpacity>
+        </View>
+      </KeyboardAvoidingView>
+    );
+  }
 
   if (threads.length === 0) {
     return (
@@ -199,14 +302,13 @@ export default function MessagesScreen() {
             key={thread.id}
             style={styles.card}
             activeOpacity={0.7}
+            onPress={() => setSelected(thread)}
           >
             <Brackets color={unread > 0 ? colors.primaryDark : BORDER} />
 
             <View style={styles.row}>
               <View style={styles.avatar}>
-                <Text style={styles.avatarText}>
-                  {subject.charAt(0)}
-                </Text>
+                <Text style={styles.avatarText}>{subject.charAt(0)}</Text>
               </View>
 
               <View style={styles.content}>
@@ -250,6 +352,74 @@ const styles = StyleSheet.create({
     textTransform: "uppercase",
     marginBottom: 14,
   },
+  backRow: {
+    marginBottom: 8,
+  },
+  backText: {
+    fontFamily: fonts.regular,
+    fontSize: 11,
+    color: colors.primaryLight,
+    letterSpacing: 2,
+  },
+  threadBody: {
+    flex: 1,
+    marginBottom: 12,
+  },
+  messageBubble: {
+    backgroundColor: colors.surface,
+    borderWidth: 1,
+    borderColor: BORDER,
+    padding: 12,
+    marginBottom: 8,
+  },
+  messageBody: {
+    fontFamily: fonts.regular,
+    fontSize: 14,
+    color: colors.text,
+    marginBottom: 6,
+  },
+  messageTime: {
+    fontFamily: fonts.regular,
+    fontSize: 10,
+    color: colors.textSecondary,
+    letterSpacing: 1,
+  },
+  composer: {
+    flexDirection: "row",
+    alignItems: "flex-end",
+    gap: 8,
+    borderTopWidth: 1,
+    borderTopColor: BORDER,
+    paddingTop: 10,
+  },
+  input: {
+    flex: 1,
+    minHeight: 40,
+    maxHeight: 100,
+    borderWidth: 1,
+    borderColor: BORDER,
+    backgroundColor: colors.surface,
+    color: colors.text,
+    fontFamily: fonts.regular,
+    fontSize: 14,
+    paddingHorizontal: 10,
+    paddingVertical: 8,
+  },
+  sendBtn: {
+    borderWidth: 1,
+    borderColor: colors.primaryDark,
+    paddingHorizontal: 12,
+    paddingVertical: 10,
+  },
+  sendBtnDisabled: {
+    opacity: 0.4,
+  },
+  sendText: {
+    fontFamily: fonts.regular,
+    fontSize: 11,
+    color: colors.primaryLight,
+    letterSpacing: 2,
+  },
   card: {
     position: "relative",
     backgroundColor: colors.surface,
@@ -279,6 +449,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    minWidth: 0,
   },
   header: {
     flexDirection: "row",
@@ -287,16 +458,16 @@ const styles = StyleSheet.create({
   },
   subject: {
     fontFamily: fonts.bold,
-    fontSize: 13,
+    fontSize: 14,
     color: colors.text,
     flex: 1,
+    marginRight: 8,
   },
   time: {
     fontFamily: fonts.regular,
-    fontSize: 9,
+    fontSize: 10,
     color: colors.textSecondary,
-    letterSpacing: 1.5,
-    marginLeft: 8,
+    letterSpacing: 1,
   },
   preview: {
     fontFamily: fonts.regular,
@@ -304,18 +475,19 @@ const styles = StyleSheet.create({
     color: colors.textSecondary,
   },
   badge: {
-    width: 22,
-    height: 22,
-    borderWidth: 1,
-    borderColor: colors.primary,
-    justifyContent: "center",
+    minWidth: 20,
+    height: 20,
+    borderRadius: 10,
+    backgroundColor: colors.primaryDark,
     alignItems: "center",
+    justifyContent: "center",
     marginLeft: 8,
+    paddingHorizontal: 6,
   },
   badgeText: {
     fontFamily: fonts.bold,
-    color: colors.primary,
     fontSize: 10,
+    color: "#fff",
   },
   emptyCard: {
     position: "relative",
@@ -327,8 +499,8 @@ const styles = StyleSheet.create({
   },
   emptyText: {
     fontFamily: fonts.bold,
-    fontSize: 13,
-    color: colors.textSecondary,
+    fontSize: 12,
+    color: colors.text,
     letterSpacing: 2,
     marginBottom: 8,
   },

@@ -81,6 +81,8 @@ const createProjectSchema = z
     userRoles: z.array(z.string()).optional(),
     user_roles: z.array(z.string()).optional(),
     integrations: z.array(z.string()).optional(),
+    clientId: z.string().min(1).optional(),
+    client_id: z.string().min(1).optional(),
     budgetRange: z
       .object({
         min: z.number().nonnegative(),
@@ -136,6 +138,7 @@ const createProjectSchema = z
       integrations: d.integrations,
       budgetRange: d.budgetRange ?? d.budget_range,
       timeline,
+      clientId: d.clientId ?? d.client_id,
     };
   });
 
@@ -231,9 +234,20 @@ export function createProjectRoutes(
         throw new ValidationError("Invalid project data", parsed.error.flatten());
       }
 
+      const { clientId: requestedClientId, ...projectFields } = parsed.data as {
+        clientId?: string;
+        [key: string]: unknown;
+      };
+
+      // Clients always own their own projects. Staff may assign a client owner.
+      let clientId = req.userId!;
+      if (!isClientActor(req.userRole) && requestedClientId) {
+        clientId = requestedClientId;
+      }
+
       const project = await projectService.createProject({
-        ...(parsed.data as any),
-        clientId: req.userId!,
+        ...(projectFields as any),
+        clientId,
       });
       res.status(201).json(await serializeProject(project, userLookup));
     } catch (err) {

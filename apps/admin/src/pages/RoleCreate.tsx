@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -28,7 +28,7 @@ import { useAuth } from "@/context/AuthContext";
 
 const BORDER = "rgba(108, 99, 255, 0.12)";
 
-const RESOURCES = [
+const FALLBACK_RESOURCES = [
   "dashboard", "pipeline", "analytics", "clients", "projects",
   "specifications", "tasks", "blog", "portfolio", "testimonials",
   "services", "contact_submissions", "team", "messages", "finance",
@@ -84,8 +84,22 @@ export default function RoleCreate() {
   const [name, setName] = useState("");
   const [description, setDescription] = useState("");
   const [permissions, setPermissions] = useState<Set<string>>(new Set());
+  const [resources, setResources] = useState<string[]>(FALLBACK_RESOURCES);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    let cancelled = false;
+    api
+      .listAllPermissions()
+      .then((res) => {
+        if (!cancelled && res.resources?.length) setResources(res.resources);
+      })
+      .catch(() => undefined);
+    return () => {
+      cancelled = true;
+    };
+  }, [api]);
 
   const canSubmit = name.trim() && permissions.size > 0;
 
@@ -215,7 +229,7 @@ export default function RoleCreate() {
         <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 2 }}>
           Higher actions automatically include lower ones (delete includes update, create, and read)
         </Typography>
-        {RESOURCES.map((resource) => {
+        {resources.map((resource) => {
           const resourcePerms = ACTIONS.map((a) => `${resource}:${a}`);
           const allChecked = resourcePerms.every((p) => permissions.has(p));
           const someChecked = resourcePerms.some((p) => permissions.has(p));

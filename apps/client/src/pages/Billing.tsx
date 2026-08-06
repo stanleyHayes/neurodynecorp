@@ -213,15 +213,21 @@ export default function Billing() {
                       <TableCell align="right">
                         {inv.status !== "paid" &&
                           inv.status !== "cancelled" &&
-                          inv.status !== "refunded" && (
-                          <Button
-                            size="small"
-                            variant="outlined"
-                            disabled={payingId === inv.id}
-                            onClick={() => handlePay(inv.id)}
-                          >
-                            {payingId === inv.id ? "Starting…" : "Pay"}
-                          </Button>
+                          inv.status !== "refunded" &&
+                          inv.status !== "draft" && (
+                            <Button
+                              size="small"
+                              variant="outlined"
+                              disabled={payingId === inv.id}
+                              onClick={() => handlePay(inv.id)}
+                            >
+                              {payingId === inv.id ? "Starting…" : "Pay"}
+                            </Button>
+                          )}
+                        {inv.status === "draft" && (
+                          <Typography variant="caption" color="text.secondary">
+                            Awaiting send
+                          </Typography>
                         )}
                       </TableCell>
                     </TableRow>

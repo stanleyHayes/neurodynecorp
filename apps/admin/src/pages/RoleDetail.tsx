@@ -44,7 +44,7 @@ interface RBACRole {
 
 const BORDER = "rgba(108, 99, 255, 0.12)";
 
-const RESOURCES = [
+const FALLBACK_RESOURCES = [
   "dashboard", "pipeline", "analytics", "clients", "projects",
   "specifications", "tasks", "blog", "portfolio", "testimonials",
   "services", "contact_submissions", "team", "messages", "finance",
@@ -102,6 +102,7 @@ export default function RoleDetail() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [editing, setEditing] = useState(false);
+  const [resources, setResources] = useState<string[]>(FALLBACK_RESOURCES);
 
   // Form state
   const [formName, setFormName] = useState("");
@@ -113,7 +114,11 @@ export default function RoleDetail() {
     if (!id) return;
     try {
       setLoading(true);
-      const res = await api.listRoles();
+      const [res, perms] = await Promise.all([
+        api.listRoles(),
+        api.listAllPermissions().catch(() => null),
+      ]);
+      if (perms?.resources?.length) setResources(perms.resources);
       const found = (res.roles ?? []).find((r: RBACRole) => r.id === id);
       if (found) {
         setRole(found);
@@ -370,7 +375,7 @@ export default function RoleDetail() {
             <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 2 }}>
               Higher actions automatically include lower ones (delete includes update, create, and read)
             </Typography>
-            {RESOURCES.map((resource) => {
+            {resources.map((resource) => {
               const resourcePerms = ACTIONS.map((a) => `${resource}:${a}`);
               const allChecked = resourcePerms.every((p) => formPermissions.has(p));
               const someChecked = resourcePerms.some((p) => formPermissions.has(p));
@@ -434,7 +439,7 @@ export default function RoleDetail() {
           {/* Read-only permission view */}
           <SectionLabel>Permissions by Resource</SectionLabel>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" } }}>
-            {RESOURCES.filter((resource) => ACTIONS.some((a) => role.permissions.includes(`${resource}:${a}`))).map((resource, i) => {
+            {resources.filter((resource) => ACTIONS.some((a) => role.permissions.includes(`${resource}:${a}`))).map((resource, i) => {
               const activeActions = ACTIONS.filter((a) => role.permissions.includes(`${resource}:${a}`));
               return (
                 <Cell

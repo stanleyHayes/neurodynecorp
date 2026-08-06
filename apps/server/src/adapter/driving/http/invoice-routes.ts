@@ -5,7 +5,7 @@ import { authMiddleware, requirePermission, type TokenService } from "../../../m
 import { isClientActor } from "../../../middleware/rbac-helpers.js";
 import { ValidationError, NotFoundError, AppError } from "../../../middleware/error-handler.js";
 import type { BillingService } from "../../../app/billing-service.js";
-import { InvoiceNotFoundError, InvoiceAlreadyPaidError } from "../../../app/billing-service.js";
+import { InvoiceNotFoundError, InvoiceAlreadyPaidError, InvalidInvoiceTransitionError } from "../../../app/billing-service.js";
 import type { InvoiceLineItem } from "../../../app/billing-service.js";
 import type { PaymentGateway } from "../../../domain/port/index.js";
 
@@ -232,6 +232,9 @@ export function createInvoiceRoutes(
       if (invoice.status === "paid") {
         return next(new AppError("Invoice is already paid", 409));
       }
+      if (invoice.status === "draft") {
+        return next(new AppError("Invoice must be sent before payment", 409));
+      }
       const blocked = new Set(["cancelled", "canceled", "refunded"]);
       if (blocked.has(String(invoice.status))) {
         return next(new AppError("Invoice cannot be paid in its current status", 409));
@@ -273,6 +276,26 @@ export function createInvoiceRoutes(
       next(err);
     }
   });
+
+  // POST /api/v1/invoices/:id/send — draft → sent
+  router.post(
+    "/:id/send",
+    requirePermission("finance:create"),
+    async (req: Request, res: Response, next: NextFunction) => {
+      try {
+        const invoice = await billingService.markSent(String(req.params.id));
+        res.status(200).json(toApiInvoice(invoice as unknown as Record<string, any>));
+      } catch (err) {
+        if (err instanceof InvoiceNotFoundError) {
+          return next(new NotFoundError("Invoice", String(req.params.id)));
+        }
+        if (err instanceof InvalidInvoiceTransitionError) {
+          return next(new AppError(err.message, 409));
+        }
+        next(err);
+      }
+    },
+  );
 
   // POST /api/v1/invoices/:id/paid
   router.post(

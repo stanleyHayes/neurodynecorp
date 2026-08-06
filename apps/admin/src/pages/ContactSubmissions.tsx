@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Box, Typography, Chip, Stack, TextField, InputAdornment, Alert } from "@mui/material";
+import { Box, Typography, Chip, Stack, TextField, InputAdornment, Alert, MenuItem, CircularProgress } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ContactMailOutlinedIcon from "@mui/icons-material/ContactMailOutlined";
 import FiberNewOutlinedIcon from "@mui/icons-material/FiberNewOutlined";
@@ -17,6 +17,7 @@ import EmptyState from "@/components/shared/EmptyState";
 import { useAuth } from "@/context/AuthContext";
 
 const PER_PAGE = 5;
+const STATUS_OPTIONS = ["new", "read", "replied", "archived"] as const;
 
 const statusColor: Record<string, string> = {
   new: "#6C63FF",
@@ -44,6 +45,8 @@ export default function ContactSubmissions() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [savingId, setSavingId] = useState<string | null>(null);
+  const [toast, setToast] = useState("");
 
   const loadSubmissions = useCallback(async () => {
     try {
@@ -61,6 +64,20 @@ export default function ContactSubmissions() {
   useEffect(() => {
     loadSubmissions();
   }, [loadSubmissions]);
+
+  const updateStatus = async (id: string, status: string) => {
+    setSavingId(id);
+    setToast("");
+    try {
+      await api.updateContactSubmission(id, { status });
+      setSubmissions((prev) => prev.map((s) => (s.id === id ? { ...s, status } : s)));
+      setToast(`Marked as ${status}`);
+    } catch (err: any) {
+      setToast(err?.message ?? "Failed to update status");
+    } finally {
+      setSavingId(null);
+    }
+  };
 
   const filtered = useMemo(
     () =>
@@ -128,6 +145,15 @@ export default function ContactSubmissions() {
       </Box>
 
       <SectionLabel>All Submissions</SectionLabel>
+      {toast && (
+        <Alert
+          severity={toast.startsWith("Marked") ? "success" : "error"}
+          sx={{ mx: 3, mb: 1 }}
+          onClose={() => setToast("")}
+        >
+          {toast}
+        </Alert>
+      )}
       <Cell color="#6C63FF" index="04">
         <TextField
           fullWidth
@@ -168,13 +194,35 @@ export default function ContactSubmissions() {
           <Cell key={sub.id} color={color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} animDelay={0.3 + i * 0.05}>
             <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row">
               <Box sx={{ flex: 1, minWidth: 0 }}>
-                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5 }}>
+                <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 600 }}>{sub.subject}</Typography>
-                  <Chip
-                    label={capitalize(sub.status)}
+                  <TextField
+                    select
                     size="small"
-                    sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }}
-                  />
+                    value={
+                      (STATUS_OPTIONS as readonly string[]).includes(sub.status)
+                        ? sub.status
+                        : "new"
+                    }
+                    disabled={savingId === sub.id}
+                    onChange={(e) => void updateStatus(sub.id, e.target.value)}
+                    sx={{
+                      minWidth: 120,
+                      "& .MuiOutlinedInput-root": {
+                        fontFamily: "'Outfit', sans-serif",
+                        fontSize: "0.65rem",
+                        color,
+                        "& fieldset": { borderColor: `${color}40` },
+                      },
+                    }}
+                  >
+                    {STATUS_OPTIONS.map((s) => (
+                      <MenuItem key={s} value={s} sx={{ fontSize: "0.78rem" }}>
+                        {capitalize(s)}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                  {savingId === sub.id && <CircularProgress size={14} />}
                 </Stack>
 
                 <Stack direction="row" spacing={2} sx={{ mb: 1 }}>

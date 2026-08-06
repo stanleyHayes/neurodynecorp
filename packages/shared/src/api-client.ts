@@ -174,6 +174,7 @@ export class ApiClient {
       type: data.type,
       features: data.features ?? [],
     };
+    if (data.client_id) body.clientId = data.client_id;
     if (data.user_roles) body.userRoles = data.user_roles;
     if (data.budget_range) body.budgetRange = data.budget_range;
     if (data.timeline) {
@@ -380,6 +381,9 @@ export class ApiClient {
       method: "POST",
       body: { paymentId: paymentId ?? `manual-${Date.now()}` },
     });
+  }
+  sendInvoice(id: string) {
+    return this.request<Invoice>(`/api/v1/invoices/${id}/send`, { method: "POST" });
   }
   checkoutInvoice(id: string) {
     return this.request<{
@@ -803,7 +807,7 @@ interface PaginatedResponse<T> { items: T[]; total: number; page: number; page_s
 interface Milestone { id: string; name: string; description: string; due_date: string; completed_at?: string; status: "pending" | "in_progress" | "completed" | "overdue" }
 interface Attachment { id: string; file_name: string; file_url: string; file_size: number; mime_type: string; uploaded_at: string }
 interface Project { id: string; client_id: string; title: string; description: string; type: string; status: string; features: unknown[]; progress: number; assigned_team: string[]; assigned_team_members?: { id: string; first_name: string; last_name: string; email: string; role: string; avatar?: string }[]; specification_id?: string; milestones: Milestone[]; attachments: Attachment[]; created_at: string; updated_at: string }
-interface CreateProjectData { title: string; description: string; type: string; features?: unknown[]; user_roles?: string[]; budget_range?: { min: number; max: number; currency: string }; timeline?: { duration_weeks: number; preferred_urgency: string } }
+interface CreateProjectData { title: string; description: string; type: string; features?: unknown[]; client_id?: string; user_roles?: string[]; budget_range?: { min: number; max: number; currency: string }; timeline?: { duration_weeks: number; preferred_urgency: string } }
 interface Specification { id: string; project_id: string; version: number; status: string; overview: string; objectives: string[]; feature_breakdown: unknown[]; created_at: string; updated_at: string }
 interface Question { id: string; text: string; type: string; options?: string[]; required: boolean; order: number; category: string; help_text?: string }
 interface AnswerInput { question_id: string; value: string; values?: string[] }

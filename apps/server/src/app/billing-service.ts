@@ -69,6 +69,13 @@ export class InvoiceAlreadyPaidError extends Error {
   }
 }
 
+export class InvalidInvoiceTransitionError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = "InvalidInvoiceTransitionError";
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Service
 // ---------------------------------------------------------------------------
@@ -151,6 +158,27 @@ export class BillingService {
     });
 
     this.logger.info({ invoiceId, paymentId }, "Invoice marked as paid");
+    return updated;
+  }
+
+  async markSent(invoiceId: string): Promise<Invoice> {
+    const existing = await this.invoiceRepo.findById(invoiceId);
+    if (!existing) throw new InvoiceNotFoundError(invoiceId);
+    if (existing.status === "paid") {
+      throw new InvalidInvoiceTransitionError("Paid invoices cannot be marked sent");
+    }
+    if (existing.status !== "draft" && existing.status !== "sent") {
+      throw new InvalidInvoiceTransitionError(
+        `Cannot send invoice in status "${existing.status}"`,
+      );
+    }
+    if (existing.status === "sent") return existing;
+
+    const updated = await this.invoiceRepo.update(invoiceId, {
+      status: "sent",
+      updatedAt: new Date(),
+    });
+    this.logger.info({ invoiceId }, "Invoice marked as sent");
     return updated;
   }
 

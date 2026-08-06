@@ -169,6 +169,24 @@ export default function Finance() {
     }
   };
 
+  const handleSend = async (id: string) => {
+    try {
+      await api.sendInvoice(id);
+      await loadInvoices();
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to send invoice");
+    }
+  };
+
+  const handleMarkPaid = async (id: string) => {
+    try {
+      await api.markInvoicePaid(id);
+      await loadInvoices();
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to mark invoice paid");
+    }
+  };
+
   const paid = invoices.filter((i) => i.status === "paid");
   const outstanding = invoices.filter(
     (i) => i.status !== "paid" && i.status !== "cancelled" && i.status !== "refunded",
@@ -310,6 +328,7 @@ export default function Finance() {
                   <TableCell>Amount</TableCell>
                   <TableCell>Status</TableCell>
                   <TableCell>Due</TableCell>
+                  <TableCell align="right">Actions</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
@@ -329,6 +348,28 @@ export default function Finance() {
                       {inv.due_date || inv.dueDate
                         ? new Date(inv.due_date ?? inv.dueDate).toLocaleDateString()
                         : "—"}
+                    </TableCell>
+                    <TableCell align="right">
+                      {inv.status === "draft" && (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => void handleSend(inv.id)}
+                          sx={{ fontSize: "0.65rem" }}
+                        >
+                          Send
+                        </Button>
+                      )}
+                      {inv.status === "sent" && (
+                        <Button
+                          size="small"
+                          variant="outlined"
+                          onClick={() => void handleMarkPaid(inv.id)}
+                          sx={{ fontSize: "0.65rem" }}
+                        >
+                          Mark paid
+                        </Button>
+                      )}
                     </TableCell>
                   </TableRow>
                 ))}

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Box,
   Typography,
@@ -53,6 +53,11 @@ const btnSx = {
   letterSpacing: "0.1em",
 };
 
+interface ClientOption {
+  id: string;
+  label: string;
+}
+
 export default function ProjectCreate() {
   const navigate = useNavigate();
   const { api } = useAuth();
@@ -60,6 +65,8 @@ export default function ProjectCreate() {
   const [title, setTitle] = useState("");
   const [description, setDescription] = useState("");
   const [type, setType] = useState("web_app");
+  const [clientId, setClientId] = useState("");
+  const [clients, setClients] = useState<ClientOption[]>([]);
   const [budgetMin, setBudgetMin] = useState("");
   const [budgetMax, setBudgetMax] = useState("");
   const [currency, setCurrency] = useState("USD");
@@ -69,7 +76,32 @@ export default function ProjectCreate() {
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
 
-  const canSubmit = title.trim() && description.trim();
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      try {
+        const res = await api.listUsers({ role: "client" });
+        if (cancelled) return;
+        const items = (res as any).items ?? [];
+        setClients(
+          items.map((u: any) => ({
+            id: u.id,
+            label:
+              [u.first_name, u.last_name].filter(Boolean).join(" ").trim() ||
+              u.email ||
+              u.id,
+          })),
+        );
+      } catch {
+        if (!cancelled) setClients([]);
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, [api]);
+
+  const canSubmit = Boolean(title.trim() && description.trim() && clientId);
 
   const handleSave = async () => {
     if (!canSubmit) return;
@@ -80,6 +112,7 @@ export default function ProjectCreate() {
         title,
         description,
         type,
+        client_id: clientId,
         features: [],
         ...(budgetMin || budgetMax
           ? {
@@ -163,36 +196,46 @@ export default function ProjectCreate() {
         </Cell>
         <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
+            <TextField
+              select
+              fullWidth
+              size="small"
+              label="Client"
+              value={clientId}
+              onChange={(e) => setClientId(e.target.value)}
+              sx={inputSx}
+              helperText={clients.length === 0 ? "No clients found — create a client first" : undefined}
+            >
+              {clients.length === 0 ? (
+                <MenuItem value="" disabled>No clients available</MenuItem>
+              ) : (
+                clients.map((c) => (
+                  <MenuItem key={c.id} value={c.id}>{c.label}</MenuItem>
+                ))
+              )}
+            </TextField>
             <TextField select fullWidth size="small" label="Project Type" value={type} onChange={(e) => setType(e.target.value)} sx={inputSx}>
               {PROJECT_TYPES.map((t) => (
                 <MenuItem key={t.value} value={t.value}>{t.label}</MenuItem>
               ))}
             </TextField>
-          </Stack>
-        </Cell>
-      </Box>
-
-      <SectionLabel>Budget & Timeline</SectionLabel>
-      <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#00D4AA" index="02" colInRow={0} totalCols={2} animDelay={0.2}>
-          <Stack spacing={2}>
-            <TextField select fullWidth size="small" label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value)} sx={inputSx}>
-              {CURRENCIES.map((c) => (
-                <MenuItem key={c} value={c}>{c}</MenuItem>
-              ))}
-            </TextField>
-            <TextField fullWidth size="small" label="Budget Min" type="number" value={budgetMin} onChange={(e) => setBudgetMin(e.target.value)} sx={inputSx} />
-            <TextField fullWidth size="small" label="Budget Max" type="number" value={budgetMax} onChange={(e) => setBudgetMax(e.target.value)} sx={inputSx} />
-          </Stack>
-        </Cell>
-        <Cell color="#8B85FF" index="03" colInRow={1} totalCols={2} animDelay={0.3}>
-          <Stack spacing={2}>
-            <TextField fullWidth size="small" label="Duration (weeks)" type="number" value={durationWeeks} onChange={(e) => setDurationWeeks(e.target.value)} sx={inputSx} />
-            <TextField select fullWidth size="small" label="Preferred Urgency" value={urgency} onChange={(e) => setUrgency(e.target.value)} sx={inputSx}>
-              {URGENCIES.map((u) => (
-                <MenuItem key={u.value} value={u.value}>{u.label}</MenuItem>
-              ))}
-            </TextField>
+            <Stack direction="row" spacing={2}>
+              <TextField fullWidth size="small" label="Budget Min" type="number" value={budgetMin} onChange={(e) => setBudgetMin(e.target.value)} sx={inputSx} />
+              <TextField fullWidth size="small" label="Budget Max" type="number" value={budgetMax} onChange={(e) => setBudgetMax(e.target.value)} sx={inputSx} />
+            </Stack>
+            <Stack direction="row" spacing={2}>
+              <TextField select fullWidth size="small" label="Currency" value={currency} onChange={(e) => setCurrency(e.target.value)} sx={inputSx}>
+                {CURRENCIES.map((c) => (
+                  <MenuItem key={c} value={c}>{c}</MenuItem>
+                ))}
+              </TextField>
+              <TextField fullWidth size="small" label="Duration (weeks)" type="number" value={durationWeeks} onChange={(e) => setDurationWeeks(e.target.value)} sx={inputSx} />
+              <TextField select fullWidth size="small" label="Urgency" value={urgency} onChange={(e) => setUrgency(e.target.value)} sx={inputSx}>
+                {URGENCIES.map((u) => (
+                  <MenuItem key={u.value} value={u.value}>{u.label}</MenuItem>
+                ))}
+              </TextField>
+            </Stack>
           </Stack>
         </Cell>
       </Box>

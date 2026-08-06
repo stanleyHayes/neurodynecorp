@@ -13,6 +13,7 @@ import {
   Chip,
   CircularProgress,
   Divider,
+  Alert,
 } from "@mui/material";
 import { motion, AnimatePresence } from "framer-motion";
 import ChatBubbleOutlineOutlinedIcon from "@mui/icons-material/ChatBubbleOutlineOutlined";
@@ -52,6 +53,7 @@ export default function FeedbackWidget() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState("");
 
   const reset = () => {
     setType("idea");
@@ -60,6 +62,7 @@ export default function FeedbackWidget() {
     setEmail("");
     setLoading(false);
     setDone(false);
+    setError("");
   };
 
   const handleClose = () => {
@@ -87,17 +90,18 @@ export default function FeedbackWidget() {
   const handleSubmit = async () => {
     if (!canSubmit) return;
     setLoading(true);
+    setError("");
     try {
-      await api.post("/api/v1/feedback", {
+      const payload: Record<string, unknown> = {
         type,
-        score: nps,
         message: message.trim(),
-        email: email.trim() || undefined,
-      });
+      };
+      if (nps !== null) payload.score = nps;
+      if (email.trim()) payload.email = email.trim();
+      await api.post("/api/v1/feedback", payload);
       setDone(true);
-    } catch {
-      // best-effort: still acknowledge so the visitor isn't blocked
-      setDone(true);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Could not send feedback. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -315,6 +319,11 @@ export default function FeedbackWidget() {
               </MotionBox>
             )}
           </AnimatePresence>
+          {error && (
+            <Alert severity="error" sx={{ mt: 2 }} onClose={() => setError("")}>
+              {error}
+            </Alert>
+          )}
         </DialogContent>
 
         {!done && (

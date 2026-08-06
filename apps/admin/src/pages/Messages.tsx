@@ -13,10 +13,18 @@ import {
   Badge,
   InputAdornment,
   Chip,
+  Button,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  MenuItem,
+  Alert,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatOutlinedIcon from "@mui/icons-material/ChatOutlined";
 import SearchIcon from "@mui/icons-material/Search";
+import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import CircleIcon from "@mui/icons-material/Circle";
 import PageBanner from "@/components/shared/PageBanner";
 import SectionLabel from "@/components/shared/AnimatedGrid";
@@ -83,6 +91,13 @@ export default function Messages() {
   const [messages, setMessages] = useState<Record<string, ChatMessage[]>>({});
   const [typingUser, setTypingUser] = useState<string | null>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const [createOpen, setCreateOpen] = useState(false);
+  const [projects, setProjects] = useState<{ id: string; title: string; clientId: string }[]>([]);
+  const [newProjectId, setNewProjectId] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [creating, setCreating] = useState(false);
+  const [createError, setCreateError] = useState("");
 
   const { connected, subscribeProject, sendTyping, on } = useSocket();
 
@@ -233,6 +248,47 @@ export default function Messages() {
     if (thread) sendTyping(thread.projectId, selectedThread);
   }, [selectedThread, sendTyping, threads]);
 
+  const openCreate = async () => {
+    setCreateError("");
+    setNewTitle("");
+    setNewProjectId("");
+    try {
+      const res = await api.listProjects({ pageSize: "100" });
+      const items = ((res as any).items ?? []).map((p: any) => ({
+        id: p.id,
+        title: p.title ?? p.name ?? p.id,
+        clientId: p.client_id ?? p.clientId ?? "",
+      }));
+      setProjects(items);
+      if (items[0]) {
+        setNewProjectId(items[0].id);
+        setNewTitle(`${items[0].title} — discussion`);
+      }
+    } catch {
+      setProjects([]);
+    }
+    setCreateOpen(true);
+  };
+
+  const handleCreateThread = async () => {
+    if (!newProjectId || !newTitle.trim()) return;
+    setCreating(true);
+    setCreateError("");
+    try {
+      const project = projects.find((p) => p.id === newProjectId);
+      const participants = [myId, project?.clientId].filter(Boolean) as string[];
+      const created = await api.createThread(newProjectId, newTitle.trim(), participants);
+      setCreateOpen(false);
+      await loadThreads();
+      const id = (created as any).id;
+      if (id) setSelectedThread(id);
+    } catch (err: any) {
+      setCreateError(err?.message ?? "Failed to create thread");
+    } finally {
+      setCreating(false);
+    }
+  };
+
   const filtered = search
     ? threads.filter(
         (t) =>
@@ -257,6 +313,63 @@ export default function Messages() {
       />
 
       <SectionLabel>Active Conversations</SectionLabel>
+
+      <Box sx={{ px: 3, pb: 1, display: "flex", justifyContent: "flex-end" }}>
+        <Button
+          size="small"
+          startIcon={<AddOutlinedIcon />}
+          onClick={() => void openCreate()}
+          sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em" }}
+        >
+          New Thread
+        </Button>
+      </Box>
+
+      <Dialog open={createOpen} onClose={() => !creating && setCreateOpen(false)} fullWidth maxWidth="sm">
+        <DialogTitle>Start a conversation</DialogTitle>
+        <DialogContent>
+          <Stack spacing={2} sx={{ mt: 1 }}>
+            {createError && <Alert severity="error">{createError}</Alert>}
+            <TextField
+              select
+              label="Project"
+              value={newProjectId}
+              onChange={(e) => {
+                const project = projects.find((p) => p.id === e.target.value);
+                setNewProjectId(e.target.value);
+                if (project) setNewTitle(`${project.title} — discussion`);
+              }}
+              fullWidth
+              size="small"
+            >
+              {projects.length === 0 ? (
+                <MenuItem value="" disabled>No projects available</MenuItem>
+              ) : (
+                projects.map((p) => (
+                  <MenuItem key={p.id} value={p.id}>{p.title}</MenuItem>
+                ))
+              )}
+            </TextField>
+            <TextField
+              label="Subject"
+              value={newTitle}
+              onChange={(e) => setNewTitle(e.target.value)}
+              fullWidth
+              size="small"
+            />
+          </Stack>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setCreateOpen(false)} disabled={creating}>Cancel</Button>
+          <Button
+            variant="contained"
+            onClick={() => void handleCreateThread()}
+            disabled={creating || !newProjectId || !newTitle.trim()}
+          >
+            {creating ? "Creating…" : "Create"}
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <Box
         sx={{
