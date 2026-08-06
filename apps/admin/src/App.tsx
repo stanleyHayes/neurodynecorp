@@ -79,10 +79,10 @@ export default function App() {
       {!splashDone && <SplashScreen onComplete={handleSplashComplete} />}
       <CursorTrail />
       <SoundToggle />
-      <BrowserRouter>
-        <CommandPalette />
-        <KeyboardNav />
-        <AuthProvider>
+      <AuthProvider>
+        <BrowserRouter>
+          <CommandPalette />
+          <KeyboardNav />
           <Routes>
             <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
@@ -139,8 +139,8 @@ export default function App() {
             </Route>
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </AuthProvider>
-      </BrowserRouter>
+        </BrowserRouter>
+      </AuthProvider>
       </ErrorBoundary>
     </ThemeProvider>
   );
