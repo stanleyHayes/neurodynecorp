@@ -19,6 +19,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 - [x] **Pass 6 — files list `{items}` shape, listUsers dual keys, user activate/deactivate + camelCase PATCH, Pipeline status moves, client spec approve, notification dismiss, mobile documents/files + honest Stripe pay.**
 - [x] **Pass 7 — client webhooks gated on `webhooks:read`, dashboard invoice/doc/notification stats match APIs, Stripe pay honesty, settings fake toggles removed, API key `display`, client/mobile notification dismiss.**
 - [x] **Pass 8 — newsletter confirm UX, feedback NPS type + inbox filters, pipeline legal transitions, client project documents via files API, blog edit/publish, portfolio publish toggle.**
+- [x] **Pass 9 — intake category clears answers, contact min length, project status transitions, TeamCreate admin gate + deactivate on fail, testimonial/service status toggles, mobile createThread.**
 
 ## Operational repairs (5 August 2026)
 

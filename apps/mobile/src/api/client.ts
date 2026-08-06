@@ -169,6 +169,13 @@ export function sendMessage(threadId: string, content: string) {
   });
 }
 
+export function createThread(projectId: string, title: string, participantIds: string[] = []) {
+  return request<any>("/api/v1/messages/threads", {
+    method: "POST",
+    body: { projectId, title, participantIds },
+  });
+}
+
 export function listFiles(projectId: string) {
   return request<{ items?: any[] } | any[]>(`/api/v1/files?projectId=${encodeURIComponent(projectId)}`);
 }

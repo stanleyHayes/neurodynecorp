@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback, useMemo } from "react";
-import { Box, Typography, Chip, Stack, Avatar, TextField, InputAdornment, Alert } from "@mui/material";
+import { Box, Typography, Chip, Stack, Avatar, TextField, InputAdornment, Alert, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
 import SearchIcon from "@mui/icons-material/Search";
 import FormatQuoteOutlinedIcon from "@mui/icons-material/FormatQuoteOutlined";
@@ -47,6 +47,7 @@ export default function Testimonials() {
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
   const [page, setPage] = useState(0);
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const loadTestimonials = useCallback(async () => {
     try {
@@ -64,6 +65,23 @@ export default function Testimonials() {
   useEffect(() => {
     loadTestimonials();
   }, [loadTestimonials]);
+
+  const toggleVisibility = async (t: Testimonial) => {
+    const next = t.status === "active" ? "hidden" : "active";
+    setTogglingId(t.id);
+    try {
+      const updated = await api.updateTestimonial(t.id, { status: next });
+      setTestimonials((prev) =>
+        prev.map((item) =>
+          item.id === t.id ? { ...item, ...updated, status: (updated.status ?? next) as Testimonial["status"] } : item,
+        ),
+      );
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to update testimonial");
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   const filtered = useMemo(
     () =>
@@ -187,11 +205,23 @@ export default function Testimonials() {
                   <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.8, mt: 1, fontStyle: "italic", lineHeight: 1.6 }}>
                     "{t.content}"
                   </Typography>
-                  <Stack direction="row" spacing={0.5} sx={{ mt: 1 }}>
-                    {Array.from({ length: 5 }).map((_, si) => (
-                      <StarOutlinedIcon key={si} sx={{ fontSize: 14, color: si < t.rating ? "#F59E0B" : "rgba(148,163,184,0.3)" }} />
-                    ))}
-                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, ml: 1 }}>{new Date(t.createdAt).toLocaleDateString()}</Typography>
+                  <Stack direction="row" spacing={0.5} sx={{ mt: 1, alignItems: "center", justifyContent: "space-between" }}>
+                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center" }}>
+                      {Array.from({ length: 5 }).map((_, si) => (
+                        <StarOutlinedIcon key={si} sx={{ fontSize: 14, color: si < t.rating ? "#F59E0B" : "rgba(148,163,184,0.3)" }} />
+                      ))}
+                      <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, ml: 1 }}>{new Date(t.createdAt).toLocaleDateString()}</Typography>
+                    </Stack>
+                    <Button
+                      size="small"
+                      variant="outlined"
+                      disabled={togglingId === t.id}
+                      onClick={() => void toggleVisibility(t)}
+                      startIcon={togglingId === t.id ? <CircularProgress size={12} /> : undefined}
+                      sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", textTransform: "none" }}
+                    >
+                      {t.status === "active" ? "Hide" : "Show"}
+                    </Button>
                   </Stack>
                 </Box>
               </Stack>

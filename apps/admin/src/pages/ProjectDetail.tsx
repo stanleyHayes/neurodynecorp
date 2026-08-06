@@ -81,6 +81,16 @@ const PROJECT_STATUSES = [
   { value: "delivered", label: "Delivered" },
 ] as const;
 
+/** Mirrors server STATUS_TRANSITIONS in project-service.ts */
+const STATUS_TRANSITIONS: Record<string, string[]> = {
+  lead: ["under_review"],
+  under_review: ["approved", "lead"],
+  approved: ["in_development"],
+  in_development: ["qa"],
+  qa: ["in_development", "delivered"],
+  delivered: [],
+};
+
 const specStatusColors: Record<string, string> = {
   Draft: "#94A3B8",
   draft: "#94A3B8",
@@ -788,12 +798,26 @@ export default function ProjectDetail() {
               size="small"
               label="Status"
               value={PROJECT_STATUSES.some((s) => s.value === project.status) ? project.status : "lead"}
-              disabled={opsSaving}
-              onChange={(e) => void handleStatusChange(e.target.value)}
+              disabled={opsSaving || (STATUS_TRANSITIONS[project.status] ?? []).length === 0}
+              onChange={(e) => {
+                const next = e.target.value;
+                if (next === project.status) return;
+                void handleStatusChange(next);
+              }}
               sx={{ minWidth: 200 }}
+              helperText={
+                (STATUS_TRANSITIONS[project.status] ?? []).length === 0
+                  ? "Terminal stage"
+                  : undefined
+              }
             >
-              {PROJECT_STATUSES.map((s) => (
-                <MenuItem key={s.value} value={s.value}>{s.label}</MenuItem>
+              <MenuItem value={project.status}>
+                {PROJECT_STATUSES.find((s) => s.value === project.status)?.label ?? project.status} (current)
+              </MenuItem>
+              {(STATUS_TRANSITIONS[project.status] ?? []).map((value) => (
+                <MenuItem key={value} value={value}>
+                  {PROJECT_STATUSES.find((s) => s.value === value)?.label ?? value}
+                </MenuItem>
               ))}
             </TextField>
             <TextField

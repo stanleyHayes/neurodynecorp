@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
-import { Box, Typography, Chip, Stack, Alert } from "@mui/material";
+import { Box, Typography, Chip, Stack, Alert, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router";
 import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
@@ -59,6 +59,7 @@ export default function Services() {
   const [services, setServices] = useState<Service[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
+  const [togglingId, setTogglingId] = useState<string | null>(null);
 
   const loadServices = useCallback(async () => {
     try {
@@ -76,6 +77,23 @@ export default function Services() {
   useEffect(() => {
     loadServices();
   }, [loadServices]);
+
+  const toggleActive = async (service: Service) => {
+    const next = service.status === "active" ? "inactive" : "active";
+    setTogglingId(service.id);
+    try {
+      const updated = await api.updateService(service.id, { status: next });
+      setServices((prev) =>
+        prev.map((s) =>
+          s.id === service.id ? { ...s, ...updated, status: (updated.status ?? next) as Service["status"] } : s,
+        ),
+      );
+    } catch (err: any) {
+      setError(err?.message ?? "Failed to update service");
+    } finally {
+      setTogglingId(null);
+    }
+  };
 
   if (loading) {
     return <PageSkeleton stats={3} rows={6} grid cols={3} />;
@@ -154,11 +172,23 @@ export default function Services() {
                 <Chip label={display} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
               </Stack>
               <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7, lineHeight: 1.6, mb: 1.5 }}>{service.description}</Typography>
-              <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
-                <FolderOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
-                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
-                  {service.projectCount} project{service.projectCount !== 1 ? "s" : ""}
-                </Typography>
+              <Stack sx={{ alignItems: "center", justifyContent: "space-between" }} direction="row" spacing={1}>
+                <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
+                  <FolderOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>
+                    {service.projectCount} project{service.projectCount !== 1 ? "s" : ""}
+                  </Typography>
+                </Stack>
+                <Button
+                  size="small"
+                  variant="outlined"
+                  disabled={togglingId === service.id}
+                  onClick={() => void toggleActive(service)}
+                  startIcon={togglingId === service.id ? <CircularProgress size={12} /> : undefined}
+                  sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", textTransform: "none" }}
+                >
+                  {service.status === "active" ? "Deactivate" : "Activate"}
+                </Button>
               </Stack>
             </Cell>
           );

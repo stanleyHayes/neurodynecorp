@@ -11,11 +11,12 @@ import {
   KeyboardAvoidingView,
   Platform,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
 import { BORDER, cornerBrackets } from "../theme/styles";
-import { listProjects, listThreads, getMessages, sendMessage } from "../api/client";
+import { listProjects, listThreads, getMessages, sendMessage, createThread } from "../api/client";
 
 /* ── helpers ─────────────────────────────────────────────────── */
 
@@ -127,39 +128,46 @@ function formatClock(dateStr?: string): string {
 export default function MessagesScreen() {
   const [loading, setLoading] = useState(true);
   const [threads, setThreads] = useState<any[]>([]);
+  const [projects, setProjects] = useState<any[]>([]);
   const [selected, setSelected] = useState<any | null>(null);
   const [messages, setMessages] = useState<any[]>([]);
   const [messagesLoading, setMessagesLoading] = useState(false);
   const [draft, setDraft] = useState("");
   const [sending, setSending] = useState(false);
+  const [composing, setComposing] = useState(false);
+  const [newProjectId, setNewProjectId] = useState("");
+  const [newTitle, setNewTitle] = useState("");
+  const [creating, setCreating] = useState(false);
+
+  const reloadThreads = async () => {
+    const projectsRes = await listProjects();
+    setProjects(projectsRes.items ?? []);
+    const allThreads: any[] = [];
+    for (const project of projectsRes.items ?? []) {
+      try {
+        const res = await listThreads(project.id);
+        if (res.threads && Array.isArray(res.threads)) {
+          for (const thread of res.threads) {
+            allThreads.push({
+              ...thread,
+              projectName: project.title ?? project.name,
+            });
+          }
+        }
+      } catch {
+        // skip projects with no threads
+      }
+    }
+    setThreads(allThreads);
+    return allThreads;
+  };
 
   useEffect(() => {
     let cancelled = false;
 
     async function fetchData() {
       try {
-        const projectsRes = await listProjects();
-        if (cancelled) return;
-
-        const allThreads: any[] = [];
-        for (const project of projectsRes.items) {
-          try {
-            const res = await listThreads(project.id);
-            if (cancelled) return;
-            if (res.threads && Array.isArray(res.threads)) {
-              for (const thread of res.threads) {
-                allThreads.push({
-                  ...thread,
-                  projectName: project.title ?? project.name,
-                });
-              }
-            }
-          } catch {
-            // skip projects with no threads
-          }
-        }
-
-        setThreads(allThreads);
+        await reloadThreads();
       } catch {
         // keep empty on error
       } finally {
@@ -193,6 +201,43 @@ export default function MessagesScreen() {
     };
   }, [selected?.id]);
 
+  const openCompose = async () => {
+    try {
+      const projectsRes = await listProjects();
+      const items = projectsRes.items ?? [];
+      setProjects(items);
+      if (items[0]) {
+        setNewProjectId(items[0].id);
+        setNewTitle(`${items[0].title ?? items[0].name ?? "Project"} — discussion`);
+      } else {
+        setNewProjectId("");
+        setNewTitle("");
+      }
+      setComposing(true);
+    } catch {
+      Alert.alert("Unable to start", "Could not load your projects.");
+    }
+  };
+
+  const handleCreateThread = async () => {
+    if (!newProjectId || !newTitle.trim() || creating) return;
+    setCreating(true);
+    try {
+      const created = await createThread(newProjectId, newTitle.trim(), []);
+      const all = await reloadThreads();
+      setComposing(false);
+      const match =
+        all.find((t) => t.id === created?.id) ??
+        all[0] ??
+        { ...created, projectName: projects.find((p) => p.id === newProjectId)?.title };
+      if (match?.id) setSelected(match);
+    } catch (err: any) {
+      Alert.alert("Could not create thread", err?.message ?? "Try again.");
+    } finally {
+      setCreating(false);
+    }
+  };
+
   const handleSend = async () => {
     if (!selected?.id || !draft.trim() || sending) return;
     const text = draft.trim();
@@ -214,6 +259,49 @@ export default function MessagesScreen() {
   };
 
   if (loading) return <SkeletonMessages />;
+
+  if (composing) {
+    return (
+      <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+        <TouchableOpacity onPress={() => setComposing(false)} style={styles.backRow}>
+          <Text style={styles.backText}>← BACK</Text>
+        </TouchableOpacity>
+        <Text style={styles.sectionTitle}>NEW CONVERSATION</Text>
+        <Text style={styles.emptySubtext}>Choose a project, then start the thread.</Text>
+        {(projects.length === 0 ? (
+          <Text style={styles.emptySubtext}>No projects available.</Text>
+        ) : (
+          projects.map((p) => (
+            <TouchableOpacity
+              key={p.id}
+              style={[styles.card, newProjectId === p.id && styles.cardSelected]}
+              onPress={() => {
+                setNewProjectId(p.id);
+                setNewTitle(`${p.title ?? p.name ?? "Project"} — discussion`);
+              }}
+            >
+              <Brackets color={newProjectId === p.id ? colors.primaryDark : BORDER} />
+              <Text style={styles.subject}>{String(p.title ?? p.name ?? p.id).toUpperCase()}</Text>
+            </TouchableOpacity>
+          ))
+        ))}
+        <TextInput
+          style={[styles.input, { marginTop: 12, marginBottom: 12 }]}
+          value={newTitle}
+          onChangeText={setNewTitle}
+          placeholder="Thread title"
+          placeholderTextColor={colors.textSecondary}
+        />
+        <TouchableOpacity
+          style={[styles.sendBtn, (!newProjectId || !newTitle.trim() || creating) && styles.sendBtnDisabled]}
+          disabled={!newProjectId || !newTitle.trim() || creating}
+          onPress={() => void handleCreateThread()}
+        >
+          <Text style={styles.sendText}>{creating ? "…" : "START THREAD"}</Text>
+        </TouchableOpacity>
+      </ScrollView>
+    );
+  }
 
   if (selected) {
     const subject =
@@ -275,8 +363,11 @@ export default function MessagesScreen() {
           <Brackets />
           <Text style={styles.emptyText}>NO CONVERSATIONS YET</Text>
           <Text style={styles.emptySubtext}>
-            Messages will appear here when you start a conversation on a project.
+            Start a conversation on one of your projects.
           </Text>
+          <TouchableOpacity style={[styles.sendBtn, { marginTop: 16 }]} onPress={() => void openCompose()}>
+            <Text style={styles.sendText}>NEW CONVERSATION</Text>
+          </TouchableOpacity>
         </View>
       </View>
     );
@@ -284,7 +375,12 @@ export default function MessagesScreen() {
 
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
-      <Text style={styles.sectionTitle}>MESSAGES</Text>
+      <View style={styles.headerRow}>
+        <Text style={styles.sectionTitle}>MESSAGES</Text>
+        <TouchableOpacity onPress={() => void openCompose()}>
+          <Text style={styles.newLink}>NEW</Text>
+        </TouchableOpacity>
+      </View>
 
       {threads.map((thread) => {
         const unread = thread.unread_count ?? 0;
@@ -351,6 +447,22 @@ const styles = StyleSheet.create({
     letterSpacing: 3,
     textTransform: "uppercase",
     marginBottom: 14,
+  },
+  headerRow: {
+    flexDirection: "row",
+    alignItems: "center",
+    justifyContent: "space-between",
+    marginBottom: 4,
+  },
+  newLink: {
+    fontFamily: fonts.bold,
+    fontSize: 11,
+    color: colors.primaryLight,
+    letterSpacing: 2,
+    marginBottom: 14,
+  },
+  cardSelected: {
+    borderColor: colors.primaryDark,
   },
   backRow: {
     marginBottom: 8,

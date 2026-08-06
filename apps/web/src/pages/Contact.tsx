@@ -213,7 +213,11 @@ export default function Contact() {
         ? "That email doesn't look right."
         : "",
     subject: !form.subject.trim() ? "Add a subject." : "",
-    message: !form.message.trim() ? "Tell us what you need." : "",
+    message: !form.message.trim()
+      ? "Tell us what you need."
+      : form.message.trim().length < 10
+        ? "Please write at least 10 characters."
+        : "",
   };
   const hasErrors = Object.values(errors).some(Boolean);
 

@@ -57,7 +57,9 @@ function splitName(fullName: string): { first_name: string; last_name: string } 
 
 export default function TeamCreate() {
   const navigate = useNavigate();
-  const { api } = useAuth();
+  const { api, hasRole } = useAuth();
+  const canAssignAdmin = hasRole("admin");
+  const availableRoles = ROLES.filter((r) => r.value !== "admin" || canAssignAdmin);
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -81,8 +83,13 @@ export default function TeamCreate() {
 
   const handleSubmit = async () => {
     if (!canSubmit || submitting) return;
+    if (role === "admin" && !canAssignAdmin) {
+      setError("Only admins can create another admin account.");
+      return;
+    }
     setSubmitting(true);
     setError(null);
+    let createdUserId: string | null = null;
     try {
       const { first_name, last_name } = splitName(name);
       const created = await api.register({
@@ -91,17 +98,30 @@ export default function TeamCreate() {
         email: email.trim(),
         password,
       });
+      createdUserId = created.user.id;
 
       const rolesRes = await api.listRoles();
       const targetRole = (rolesRes.roles ?? []).find((r) => r.name === role);
       if (!targetRole) {
-        throw new Error(`Role "${roleLabel}" was not found. The account was created as a client — assign a role from Roles.`);
+        throw new Error(`Role "${roleLabel}" was not found.`);
       }
 
       await api.assignRole(created.user.id, targetRole.id);
       navigate("/team");
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : "Failed to add team member.");
+      if (createdUserId) {
+        try {
+          await api.updateUser(createdUserId, { isActive: false });
+        } catch {
+          /* best-effort cleanup */
+        }
+      }
+      const base = err instanceof Error ? err.message : "Failed to add team member.";
+      setError(
+        createdUserId
+          ? `${base} The new account was deactivated so it is not left as an unassigned client.`
+          : base,
+      );
     } finally {
       setSubmitting(false);
     }
@@ -185,10 +205,11 @@ export default function TeamCreate() {
         <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField select fullWidth size="small" label="Role" value={role} onChange={(e) => setRole(e.target.value)} sx={inputSx}>
-              {ROLES.map((r) => <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>)}
+              {availableRoles.map((r) => <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>)}
             </TextField>
             <Typography variant="body2" color="text.secondary" sx={{ opacity: 0.7 }}>
               The account is created first, then the selected staff role and its default permissions are assigned.
+              {!canAssignAdmin && " Admin role assignment requires an admin account."}
             </Typography>
           </Stack>
         </Cell>
