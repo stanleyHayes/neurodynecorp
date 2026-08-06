@@ -37,8 +37,12 @@ interface Thread {
   title?: string;
   participants: string[];
   last_message: string;
+  last_message_at?: string;
+  lastMessageAt?: string;
   created_at?: string;
   createdAt?: string;
+  updated_at?: string;
+  updatedAt?: string;
 }
 
 interface Msg {
@@ -84,8 +88,12 @@ export default function Messages() {
     const res = await api.listThreads();
     const allThreads = ((res as any).threads ?? (res as any).items ?? []) as Thread[];
     allThreads.sort((a, b) => {
-      const bt = new Date(b.created_at || b.createdAt || 0).getTime();
-      const at = new Date(a.created_at || a.createdAt || 0).getTime();
+      const bt = new Date(
+        (b as any).last_message_at || (b as any).lastMessageAt || b.updated_at || b.updatedAt || b.created_at || b.createdAt || 0,
+      ).getTime();
+      const at = new Date(
+        (a as any).last_message_at || (a as any).lastMessageAt || a.updated_at || a.updatedAt || a.created_at || a.createdAt || 0,
+      ).getTime();
       return bt - at;
     });
     setThreads(allThreads);

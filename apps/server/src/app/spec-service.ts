@@ -88,6 +88,7 @@ export interface ProjectLookup {
     title?: string;
     description: string;
     type: string;
+    specificationId?: string;
     features: { id: string; name: string; description: string; priority: string; complexity?: string }[];
     budgetRange: { min: number; max: number; currency: string };
     timeline: { durationWeeks?: number; estimatedWeeks?: number; preferredUrgency?: string };
@@ -139,6 +140,15 @@ export class SpecService {
     const project = await this.projectRepo.findById(projectId);
     if (!project) {
       throw new ProjectNotFoundError(projectId);
+    }
+
+    const existing = await this.specRepo.findByProjectId(projectId);
+    if (existing) {
+      this.logger.info({ projectId, specId: existing.id }, "Specification already exists — returning existing");
+      if (!project.specificationId) {
+        await this.projectRepo.update(projectId, { specificationId: existing.id });
+      }
+      return existing;
     }
 
     const raw = await this.responseRepo.findByProjectId(projectId);

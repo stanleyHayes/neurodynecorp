@@ -73,8 +73,8 @@ function formatDate(value?: string): string {
 function privacyStatusColor(status: string): "success" | "warning" | "error" | "info" | "default" {
   const s = (status || "").toLowerCase();
   if (s === "completed" || s === "done" || s === "fulfilled") return "success";
-  if (s === "pending" || s === "queued") return "warning";
-  if (s === "processing" || s === "in_progress") return "info";
+  if (s === "received" || s === "pending" || s === "queued") return "warning";
+  if (s === "in_progress" || s === "processing") return "info";
   if (s === "rejected" || s === "failed" || s === "cancelled") return "error";
   return "default";
 }

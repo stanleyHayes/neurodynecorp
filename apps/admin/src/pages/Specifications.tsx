@@ -180,9 +180,19 @@ export default function Specifications() {
       <ActionBar label="New Spec" subtitle="GENERATE SPECIFICATION" color="#8B5CF6" onClick={async () => {
         try {
           const res = await api.listProjects({ pageSize: "100" });
-          const projects = (res.items ?? []).filter((p: any) => !p.specification_id);
-          setGenProjects(projects.map((p: any) => ({ id: p.id, title: p.title })));
-          setGenProjectId(projects[0]?.id ?? "");
+          const projects = (res.items ?? []) as any[];
+          const eligible: { id: string; title: string }[] = [];
+          for (const p of projects) {
+            if (p.specification_id) continue;
+            try {
+              await api.getSpecByProject(p.id);
+              // Spec exists even without pointer — skip to avoid duplicates.
+            } catch {
+              eligible.push({ id: p.id, title: p.title });
+            }
+          }
+          setGenProjects(eligible);
+          setGenProjectId(eligible[0]?.id ?? "");
           setGenError("");
           setGenOpen(true);
         } catch {

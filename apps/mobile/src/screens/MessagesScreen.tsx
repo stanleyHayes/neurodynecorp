@@ -158,7 +158,13 @@ export default function MessagesScreen() {
         // skip projects with no threads
       }
     }
-    setThreads(allThreads);
+    setThreads(
+      allThreads.sort((a, b) => {
+        const bt = new Date(b.last_message_at ?? b.lastMessageAt ?? b.updated_at ?? b.updatedAt ?? b.created_at ?? b.createdAt ?? 0).getTime();
+        const at = new Date(a.last_message_at ?? a.lastMessageAt ?? a.updated_at ?? a.updatedAt ?? a.created_at ?? a.createdAt ?? 0).getTime();
+        return bt - at;
+      }),
+    );
     return allThreads;
   };
 

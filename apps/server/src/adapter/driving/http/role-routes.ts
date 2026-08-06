@@ -19,6 +19,8 @@ function toApiRole(role: RBACRole) {
   return {
     ...role,
     is_system: role.isSystem,
+    created_at: role.createdAt,
+    updated_at: role.updatedAt,
   };
 }
 

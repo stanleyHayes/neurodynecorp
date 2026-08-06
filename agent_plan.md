@@ -21,6 +21,7 @@ tightening production guards, then fixing admin → client → mobile → web co
 - [x] **Pass 8 — newsletter confirm UX, feedback NPS type + inbox filters, pipeline legal transitions, client project documents via files API, blog edit/publish, portfolio publish toggle.**
 - [x] **Pass 9 — intake category clears answers, contact min length, project status transitions, TeamCreate admin gate + deactivate on fail, testimonial/service status toggles, mobile createThread.**
 - [x] **Pass 10 — message sender names, BookACall → /book, status incident chips, privacy toast severity, API key scope hints, mobile invoice currency, ticket raise errors.**
+- [x] **Pass 11 — public changelog from API, DSR status colors, role date dual-case, thread sort by activity, mobile privacy request list, idempotent spec generate.**
 
 ## Operational repairs (5 August 2026)
 

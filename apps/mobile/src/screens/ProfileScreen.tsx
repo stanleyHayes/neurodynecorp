@@ -24,6 +24,7 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
   const { user, logout, updateProfile } = useAuth();
   const [privacyLoading, setPrivacyLoading] = useState(false);
   const [pendingErasure, setPendingErasure] = useState(false);
+  const [privacyRequests, setPrivacyRequests] = useState<any[]>([]);
   const [editing, setEditing] = useState(false);
   const [saving, setSaving] = useState(false);
   const [form, setForm] = useState({
@@ -50,10 +51,22 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
     });
   }, [user]);
 
+  const refreshPrivacyRequests = async () => {
+    try {
+      const { items } = await listMyPrivacyRequests();
+      setPrivacyRequests(items ?? []);
+      setPendingErasure(
+        (items ?? []).some(
+          (item) => item.type === "erasure" && ["received", "in_progress"].includes(item.status),
+        ),
+      );
+    } catch {
+      /* keep prior state */
+    }
+  };
+
   useEffect(() => {
-    listMyPrivacyRequests()
-      .then(({ items }) => setPendingErasure(items.some((item) => item.type === "erasure" && ["received", "in_progress"].includes(item.status))))
-      .catch(() => undefined);
+    void refreshPrivacyRequests();
   }, []);
 
   const openUrl = (url: string) => void Linking.openURL(url);
@@ -62,6 +75,7 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
     setPrivacyLoading(true);
     try {
       await createPrivacyRequest("export", email);
+      await refreshPrivacyRequests();
       Alert.alert("Export requested", "We received your request and will notify you when your account data is ready.");
     } catch (error) {
       Alert.alert("Request failed", error instanceof Error ? error.message : "Please try again later.");
@@ -105,7 +119,7 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
             setPrivacyLoading(true);
             try {
               await createPrivacyRequest("erasure", email);
-              setPendingErasure(true);
+              await refreshPrivacyRequests();
               Alert.alert("Deletion requested", "Your request is now recorded. We will verify and process it, normally within 30 days.");
             } catch (error) {
               Alert.alert("Request failed", error instanceof Error ? error.message : "Please try again later.");
@@ -192,6 +206,21 @@ export default function ProfileScreen({ navigation }: { navigation?: any }) {
         <MenuItem label="Request a copy of my data" onPress={() => void requestExport()} disabled={privacyLoading} />
         <MenuItem label="Account deletion information" onPress={() => openUrl(ACCOUNT_DELETION_URL)} />
       </View>
+
+      {privacyRequests.length > 0 && (
+        <>
+          <Text style={styles.sectionLabel}>YOUR PRIVACY REQUESTS</Text>
+          <View style={styles.section}>
+            {privacyRequests.map((req) => (
+              <View key={req.id} style={styles.menuItem}>
+                <Text style={styles.menuText}>
+                  {(req.type ?? "request").replace(/_/g, " ")} · {(req.status ?? "received").replace(/_/g, " ")}
+                </Text>
+              </View>
+            ))}
+          </View>
+        </>
+      )}
 
       <View style={styles.dangerZone}>
         <Text style={styles.dangerTitle}>Delete account</Text>
