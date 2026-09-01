@@ -77,7 +77,7 @@ export default function SEO({
           name: SITE_NAME,
           url: SITE_URL,
           logo: `${SITE_URL}/favicon.svg`,
-          email: "hello@neurodynecorp.com",
+          email: "info@neurodyne.dev",
           founder: { "@type": "Person", name: "Stanley Asoku Hayford" },
           areaServed: ["Ghana", "Africa", "Worldwide"],
           sameAs: [],

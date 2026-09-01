@@ -23,31 +23,6 @@ export interface LabsProduct {
 
 export const LABS_PRODUCTS: LabsProduct[] = [
   {
-    slug: "ilivvon",
-    name: "ILIVVON",
-    kicker: "HEALTH INTELLIGENCE",
-    tagline: "A health intelligence platform connecting clinics, patients, and payers across an interoperable record.",
-    status: "In development",
-    color: "#00D4AA",
-    problem:
-      "African clinics run on fragmented paper records, disconnected billing, and no shared patient history. Care is duplicated, claims are slow, and there is no intelligence layer over the data that is already being generated every day.",
-    platform:
-      "ILIVVON is a health intelligence platform that unifies the clinical record, automates NHIS and private claims, and adds a predictive layer over patient and operational data — built mobile-first and resilient on low-bandwidth networks.",
-    features: [
-      { title: "Unified patient record", body: "One interoperable EHR shared across the clinic network, with consent-aware access." },
-      { title: "Claims automation", body: "NHIS and private claims captured, validated, and submitted with status tracking end-to-end." },
-      { title: "Telemedicine", body: "Asynchronous and live consults that work on constrained connections." },
-      { title: "Intelligence layer", body: "Operational dashboards and predictive signals over the network's own data — never another clinic's." },
-    ],
-    sectors: ["Health", "Insurance", "Government / Public Health"],
-    architecture: [
-      "Mobile-first PWA with aggressive offline caching for low-bandwidth realities",
-      "Consent-aware access control and a full audit trail on every record view",
-      "Interoperability via standard health data exchange formats",
-      "Data residency options for on-shore hosting where regulation requires",
-    ],
-  },
-  {
     slug: "24h-economy-intelligence",
     name: "24H+ Authority Intelligence",
     kicker: "INVESTMENT INTELLIGENCE",

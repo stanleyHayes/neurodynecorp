@@ -1,9 +1,6 @@
 import { Box, Typography, Container, Stack, Chip } from "@mui/material";
 import { motion } from "framer-motion";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import StarBorderOutlinedIcon from "@mui/icons-material/StarBorderOutlined";
-import CallSplitOutlinedIcon from "@mui/icons-material/CallSplitOutlined";
-import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
 import CommunityBlock from "@/components/shared/CommunityBlock";
@@ -15,68 +12,48 @@ interface Repo {
   description: string;
   language: string;
   langColor: string;
-  stars: number;
-  forks: number;
-  href: string;
+  stage: "Planned" | "In preparation" | "Published";
+  href?: string;
   tags: string[];
 }
 
 const repos: Repo[] = [
   {
-    name: "neurodyne-spec-engine",
-    description: "Adaptive questionnaire engine that turns 30-minute intake answers into a delivery-ready software spec. Pluggable rule packs, JSON output.",
-    language: "Go",
-    langColor: "#00ADD8",
-    stars: 142,
-    forks: 18,
-    href: "https://github.com/stanleyHayes",
-    tags: ["AI", "Specs", "DSL"],
+    name: "github-actions-field-guide",
+    description: "A practical, security-first guide to GitHub Actions, from its event model through reusable workflows, OIDC deployment, releases and operational governance.",
+    language: "Markdown",
+    langColor: "#6C63FF",
+    stage: "In preparation",
+    tags: ["CI/CD", "OIDC", "DevOps"],
   },
   {
-    name: "hexagonal-go-template",
-    description: "Production-grade hexagonal architecture starter for Go services — domain, ports, adapters, and a clean testing setup out of the box.",
-    language: "Go",
-    langColor: "#00ADD8",
-    stars: 89,
-    forks: 24,
-    href: "https://github.com/stanleyHayes",
-    tags: ["Architecture", "Template", "Go"],
+    name: "bash-field-guide",
+    description: "A plain-language learning series on Bash as the connective tissue of local development, CI runners, containers and production operations.",
+    language: "Markdown",
+    langColor: "#00D4AA",
+    stage: "In preparation",
+    tags: ["Bash", "Learning", "Operations"],
   },
   {
-    name: "react-cell-grid",
-    description: "The grid-cell UI primitive used across all NeuroDyne apps. Animated corner brackets, hover glow, and zero runtime CSS.",
-    language: "TypeScript",
-    langColor: "#3178C6",
-    stars: 67,
-    forks: 8,
-    href: "https://github.com/stanleyHayes",
-    tags: ["UI", "React", "Design system"],
+    name: "engineering-standards-kit",
+    description: "Reusable engineering standards, conventional-commit guidance, testing practices and delivery checklists extracted into a project-neutral starter kit.",
+    language: "Documentation",
+    langColor: "#F59E0B",
+    stage: "Planned",
+    tags: ["Standards", "Quality", "Templates"],
   },
   {
-    name: "kafka-promo-engine",
-    description: "Reference implementation of a high-throughput, event-driven promotion engine. 10K+ events/sec on commodity hardware.",
-    language: "Go",
-    langColor: "#00ADD8",
-    stars: 54,
-    forks: 12,
-    href: "https://github.com/stanleyHayes",
-    tags: ["Kafka", "Events", "Backend"],
-  },
-  {
-    name: "mdx-doc-kit",
-    description: "Minimal markdown editor + renderer pair tuned for product docs. Code highlighting, tables, image upload — Jira-style toolbar.",
-    language: "TypeScript",
-    langColor: "#3178C6",
-    stars: 41,
-    forks: 5,
-    href: "https://github.com/stanleyHayes",
-    tags: ["Markdown", "Editor", "MDX"],
+    name: "designforge-handbook",
+    description: "An engineering handbook for moving from product intent to architecture, implementation evidence and release-quality verification.",
+    language: "Documentation",
+    langColor: "#8B85FF",
+    stage: "Planned",
+    tags: ["Architecture", "Delivery", "Handbook"],
   },
 ];
 
 export default function OpenSource() {
-  const totalStars = repos.reduce((s, r) => s + r.stars, 0);
-  const totalForks = repos.reduce((s, r) => s + r.forks, 0);
+  const preparing = repos.filter((repo) => repo.stage === "In preparation").length;
 
   return (
     <>
@@ -88,7 +65,7 @@ export default function OpenSource() {
       <PageHero
         icon={<GitHubIcon />}
         title="Open Source"
-        description="Tools and references we've extracted from real client work. Use them, fork them, send PRs."
+        description="The tools and field guides we're preparing to release publicly. Publication links appear only when a repository is genuinely live."
         tag="BUILD // IN PUBLIC"
         accentWord="Source"
         iconColor="#6C63FF"
@@ -100,8 +77,8 @@ export default function OpenSource() {
         <Stack direction="row" spacing={4} sx={{ justifyContent: "center", mb: 8, flexWrap: "wrap", gap: 4 }}>
           {[
             { label: "Repositories", value: repos.length },
-            { label: "Stars", value: totalStars },
-            { label: "Forks", value: totalForks },
+            { label: "In preparation", value: preparing },
+            { label: "Published", value: repos.filter((repo) => repo.stage === "Published").length },
           ].map((s) => (
             <Box key={s.label} sx={{ textAlign: "center" }}>
               <Typography sx={{ fontWeight: 800, fontSize: "2rem", background: "linear-gradient(135deg, #6C63FF, #00D4AA)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
@@ -125,10 +102,10 @@ export default function OpenSource() {
               transition={{ duration: 0.4, delay: Math.min(i * 0.05, 0.3) }}
             >
               <Box
-                component="a"
+                component={r.href ? "a" : "article"}
                 href={r.href}
-                target="_blank"
-                rel="noopener noreferrer"
+                target={r.href ? "_blank" : undefined}
+                rel={r.href ? "noopener noreferrer" : undefined}
                 sx={{
                   display: "block",
                   p: 3,
@@ -153,7 +130,7 @@ export default function OpenSource() {
                     {r.name}
                   </Typography>
                 </Stack>
-                <OpenInNewIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.4 }} />
+                <Chip label={r.stage} size="small" sx={{ borderRadius: 0, fontFamily: "monospace", fontSize: "0.56rem", height: 20 }} />
               </Stack>
 
               <Typography sx={{ color: "text.secondary", lineHeight: 1.7, mb: 2, fontSize: "0.9rem" }}>
@@ -165,18 +142,6 @@ export default function OpenSource() {
                   <Box sx={{ width: 10, height: 10, borderRadius: "50%", bgcolor: r.langColor }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
                     {r.language}
-                  </Typography>
-                </Stack>
-                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
-                  <StarBorderOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.6 }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
-                    {r.stars}
-                  </Typography>
-                </Stack>
-                <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
-                  <CallSplitOutlinedIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.6 }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary" }}>
-                    {r.forks}
                   </Typography>
                 </Stack>
                 <Box sx={{ flex: 1 }} />

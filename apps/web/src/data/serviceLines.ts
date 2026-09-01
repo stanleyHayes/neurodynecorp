@@ -39,7 +39,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     ],
     timeline: "4–8 weeks",
     priceBand: "Indicative: USD 15k–60k depending on scope",
-    sampleWork: ["24-Hour Economy Investment Intelligence Platform", "ILIVVON Health Intelligence Platform"],
+    sampleWork: ["24-Hour Economy Investment Intelligence Platform", "Health Platform"],
     faq: [
       { q: "Is this a sales pitch for a build?", a: "No. The audit stands alone and is useful even if we never build for you. The architecture is yours." },
       { q: "Who needs to be involved?", a: "A sponsor, your senior technical lead, and access to the people who actually operate the systems." },

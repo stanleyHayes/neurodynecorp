@@ -214,7 +214,7 @@ export default function Trust() {
                   <EmailOutlinedIcon sx={{ color: "text.secondary", fontSize: 20 }} />
                   <Typography
                     component="a"
-                    href="mailto:security@neurodynecorp.com"
+                    href="mailto:info@neurodyne.dev"
                     sx={{
                       fontFamily: "monospace",
                       color: "primary.main",
@@ -222,7 +222,7 @@ export default function Trust() {
                       "&:hover": { textDecoration: "underline" },
                     }}
                   >
-                    security@neurodynecorp.com
+                    info@neurodyne.dev
                   </Typography>
                 </Stack>
 

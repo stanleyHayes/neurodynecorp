@@ -48,7 +48,7 @@ Where a Service has not yet reached full conformance, we document known gaps and
     content: `We value feedback on the accessibility of our services. If you encounter a barrier, need information in an alternative format, or require assistance, please contact us. We aim to acknowledge accessibility feedback promptly and to provide a meaningful response within a reasonable time.
 
 NeuroDyne Corp
-Email: accessibility@neurodynecorp.com`,
+Email: info@neurodyne.dev`,
   },
   {
     title: "7. Ongoing Review",

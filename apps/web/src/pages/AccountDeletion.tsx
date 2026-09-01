@@ -42,7 +42,7 @@ export default function AccountDeletion() {
               <Typography color="text.secondary">
                 Email us from the address associated with your account. We will verify ownership before processing the request.
               </Typography>
-              <Button href="mailto:privacy@neurodynecorp.com?subject=NeuroDyne%20account%20deletion%20request" variant="outlined" startIcon={<MailOutlineIcon />} sx={{ alignSelf: "flex-start" }}>
+              <Button href="mailto:info@neurodyne.dev?subject=NeuroDyne%20account%20deletion%20request" variant="outlined" startIcon={<MailOutlineIcon />} sx={{ alignSelf: "flex-start" }}>
                 Email the privacy team
               </Button>
             </Stack>

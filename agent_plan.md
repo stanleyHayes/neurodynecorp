@@ -467,3 +467,17 @@ client API expansion.
 > frontend pages. Pick a slice to start; I'll implement it against the existing hexagonal patterns
 > (entity + Mongo repo + HTTP routes under `/api/v1`, RBAC resource in `permission.ts`, shared
 > `ApiClient` helpers, admin manager where relevant).
+
+## Public project catalogue reconciliation (1 September 2026)
+
+- [x] Inventoried project repositories and build specifications across Downloads, Desktop,
+  `/Desktop/Dev/Projects`, `/Users/shayford/aura`, and `/Users/shayford/dev/TS/peoplewhoinspire`.
+- [x] Reclassified the public catalogue into honest `Completed`, `In progress`, and `Planned`
+  lifecycle states and expanded it to 34 evidence-backed entries, including completed AURA,
+  People Who Inspire, and UPOSA dossiers.
+- [x] Removed the user-designated Xcreativs product set from every public-web source reference;
+  the final exclusion scan reports no matches under `apps/web/src`.
+- [x] Replaced unsupported open-source repository metrics with four grounded release initiatives,
+  explicitly labelled `In preparation` or `Planned` until a real public repository exists.
+- [x] Verification: `pnpm --filter @neurodyne/web typecheck`, production build, and
+  `git diff --check` pass.

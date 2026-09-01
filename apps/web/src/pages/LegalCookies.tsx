@@ -52,7 +52,7 @@ Please note that disabling strictly necessary cookies may cause parts of the web
     content: `Questions about our use of cookies can be directed to:
 
 NeuroDyne Corp
-Email: privacy@neurodynecorp.com`,
+Email: info@neurodyne.dev`,
   },
 ];
 

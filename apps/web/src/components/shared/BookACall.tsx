@@ -11,7 +11,7 @@ const MotionBox = motion.create(Box);
 
 // Set this to your Calendly URL when you have one (e.g. https://calendly.com/stanleyhayford/15min)
 const CALENDLY_URL = "";
-const CONTACT_EMAIL = "stanley@neurodynecorp.com";
+const CONTACT_EMAIL = "info@neurodyne.dev";
 
 export default function BookACall() {
   return (

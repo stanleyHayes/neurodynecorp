@@ -545,7 +545,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const [hoveredPath, setHoveredPath] = useState<string | null>(null);
   const activeMobileItem = NAV_ITEMS.find((item) => isActive(item.path));
 
-  // Kedland-style header: at the top of a page the bar SETTLES into the layout
+  // Settled header: at the top of a page the bar rests inside the layout
   // as a full-width edge-to-edge bar; once the reader moves down it contracts
   // into an inset FLOATING capsule, and expands back on return to the top.
   // Scroll reads are rAF-throttled, and the initial read covers a browser
@@ -572,7 +572,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
     };
   }, []);
 
-  // Matches kedland's easing/duration, and collapses to an instant swap when
+  // Uses the shared easing/duration, and collapses to an instant swap when
   // the reader has asked for reduced motion.
   const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
   const shellTransition = prefersReducedMotion
@@ -695,7 +695,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   alignItems: "center",
                   gap: 0.15,
                   // Settled (full-width) bar: centre the nav and let the action
-                  // group fall to the right edge, as kedland does. In the
+                  // group fall to the right edge. In the
                   // floating capsule everything stays compact together.
                   mx: "auto",
                 }}

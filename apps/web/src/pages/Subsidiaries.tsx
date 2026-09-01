@@ -27,13 +27,6 @@ interface Subsidiary {
 
 const SUBSIDIARIES: Subsidiary[] = [
   {
-    name: "ILIVVON Health Systems Ltd",
-    status: "In formation",
-    focus: "Operating company for the ILIVVON health intelligence platform across clinic networks and payers.",
-    relationship: "Spun out of NeuroDyne Labs; the parent retains core IP and a strategic stake.",
-    leadership: "Led by the Labs founding team, transitioning to a dedicated managing director.",
-  },
-  {
     name: "JDPlus Group",
     status: "Active",
     focus: "Parent platform for the JDPlus ecosystem — AC sales & service, susu collections, loans, and commerce.",

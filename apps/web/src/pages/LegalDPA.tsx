@@ -49,7 +49,7 @@ This summary is provided for convenience only. The signed DPA is the legally bin
     title: "7. Requesting a Signed DPA",
     content: `Controllers who require a countersigned DPA can request one from us. Our standard DPA is suitable for most engagements and can be executed alongside your master services agreement. Where your organisation requires its own template, our legal team will review it.
 
-To request a signed DPA, contact dpo@neurodynecorp.com with your organisation's legal name, the services in scope, and any specific regulatory requirements. We aim to respond promptly and will coordinate execution through your preferred signing method.`,
+To request a signed DPA, contact info@neurodyne.dev with your organisation's legal name, the services in scope, and any specific regulatory requirements. We aim to respond promptly and will coordinate execution through your preferred signing method.`,
   },
 ];
 
@@ -105,10 +105,10 @@ export default function LegalDPA() {
         <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
           To request a signed DPA, email{" "}
           <MuiLink
-            href="mailto:dpo@neurodynecorp.com"
+            href="mailto:info@neurodyne.dev"
             sx={{ color: "secondary.main" }}
           >
-            dpo@neurodynecorp.com
+            info@neurodyne.dev
           </MuiLink>
           .
         </Typography>

@@ -79,7 +79,7 @@ const sections = [
     content: `For questions about these Terms of Service, please contact us at:
 
 NeuroDyne Corp
-Email: legal@neurodynecorp.com`,
+Email: info@neurodyne.dev`,
   },
 ];
 

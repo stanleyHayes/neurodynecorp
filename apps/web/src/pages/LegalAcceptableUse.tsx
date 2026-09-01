@@ -45,7 +45,7 @@ Penetration testing, security research, and load testing against our environment
   },
   {
     title: "6. Reporting Violations",
-    content: `If you become aware of any violation of this policy, or of a security or abuse concern, please report it promptly to abuse@neurodynecorp.com. We investigate all credible reports and treat them confidentially where appropriate.`,
+    content: `If you become aware of any violation of this policy, or of a security or abuse concern, please report it promptly to info@neurodyne.dev. We investigate all credible reports and treat them confidentially where appropriate.`,
   },
   {
     title: "7. Enforcement",
@@ -56,8 +56,8 @@ Penetration testing, security research, and load testing against our environment
     content: `Questions about this Acceptable Use Policy can be directed to:
 
 NeuroDyne Corp
-Email: legal@neurodynecorp.com
-Abuse reports: abuse@neurodynecorp.com`,
+Email: info@neurodyne.dev
+Abuse reports: info@neurodyne.dev`,
   },
 ];
 

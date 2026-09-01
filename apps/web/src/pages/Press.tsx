@@ -22,11 +22,6 @@ const RELEASES: Release[] = [
     summary: "The firm is building the investment-intelligence platform underpinning Ghana's 24-hour economy programme.",
   },
   {
-    date: "2026-03",
-    title: "ILIVVON health intelligence platform enters development with Fastcare Clinics",
-    summary: "A unified clinical record, claims automation, and an intelligence layer for African clinic networks.",
-  },
-  {
     date: "2026-01",
     title: "NeuroDyne crosses 36 shipped platforms across fintech, govtech, health and edtech",
     summary: "Reflecting on the portfolio as the firm approaches a phase of national-scale work.",
@@ -147,10 +142,10 @@ export default function Press() {
               <EmailOutlinedIcon sx={{ color: "text.secondary", fontSize: 18 }} />
               <Typography
                 component="a"
-                href="mailto:press@neurodynecorp.com"
+                href="mailto:info@neurodyne.dev"
                 sx={{ fontFamily: "monospace", color: "primary.main", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}
               >
-                press@neurodynecorp.com
+                info@neurodyne.dev
               </Typography>
             </Stack>
             <Overline>Typical response within two business days</Overline>

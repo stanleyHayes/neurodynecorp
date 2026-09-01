@@ -150,7 +150,7 @@ export default function LegalSubprocessors() {
           {`To request notification of changes to this list, or for questions about our sub-processors, contact:
 
 NeuroDyne Corp
-Email: privacy@neurodynecorp.com`}
+Email: info@neurodyne.dev`}
         </Typography>
       </Container>
     </Box>

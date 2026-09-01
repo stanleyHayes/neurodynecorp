@@ -61,7 +61,7 @@ All third-party service providers are contractually obligated to protect your da
 • Data portability
 • Withdraw consent at any time
 
-To exercise these rights, please contact us at privacy@neurodynecorp.com.`,
+To exercise these rights, please contact us at info@neurodyne.dev.`,
   },
   {
     title: "7. Cookies & Tracking",
@@ -76,7 +76,7 @@ To exercise these rights, please contact us at privacy@neurodynecorp.com.`,
     content: `If you have questions or concerns about this Privacy Policy, please contact us at:
 
 NeuroDyne Corp
-Email: privacy@neurodynecorp.com`,
+Email: info@neurodyne.dev`,
   },
 ];
 

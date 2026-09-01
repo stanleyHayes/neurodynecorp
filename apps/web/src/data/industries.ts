@@ -49,7 +49,7 @@ export const INDUSTRIES: Industry[] = [
       "Automated claims capture, validation, and submission",
       "Predictive operational layers over network data — never another clinic's",
     ],
-    work: ["ILIVVON Health Intelligence Platform", "FastCare Clinics — Healthcare Management Platform"],
+    work: ["Health Platform", "FastCare Clinics — Healthcare Management Platform"],
   },
   {
     slug: "financial-services",
@@ -85,7 +85,7 @@ export const INDUSTRIES: Industry[] = [
       "Consent-aware member records and full audit logging",
       "Integration with clinical and payment systems",
     ],
-    work: ["NHIS claims flows (via ILIVVON / FastCare)"],
+    work: ["NHIS claims flows via the Health Platform and FastCare"],
   },
   {
     slug: "retail-commerce",

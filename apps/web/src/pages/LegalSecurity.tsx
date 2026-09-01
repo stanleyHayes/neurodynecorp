@@ -108,10 +108,10 @@ export default function LegalSecurity() {
             </MuiLink>
             . You can also reach our security team directly at{" "}
             <MuiLink
-              href="mailto:security@neurodynecorp.com"
+              href="mailto:info@neurodyne.dev"
               sx={{ color: "secondary.main" }}
             >
-              security@neurodynecorp.com
+              info@neurodyne.dev
             </MuiLink>
             .
           </Typography>

@@ -121,7 +121,7 @@ const socials = [
   { icon: <TwitterIcon fontSize="small" />, label: "Twitter", href: "https://twitter.com" },
   { icon: <YouTubeIcon fontSize="small" />, label: "YouTube", href: "https://youtube.com" },
   { icon: <DiscordIcon fontSize="small" />, label: "Community", href: "https://discord.com" },
-  { icon: <EmailIcon fontSize="small" />, label: "Email", href: "mailto:hello@neurodynecorp.com" },
+  { icon: <EmailIcon fontSize="small" />, label: "Email", href: "mailto:info@neurodyne.dev" },
 ];
 
 function BackToTop() {

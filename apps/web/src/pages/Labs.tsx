@@ -24,7 +24,7 @@ export default function Labs() {
     <Box>
       <SEO
         title="NeuroDyne Labs"
-        description="NeuroDyne Labs is the IP arm of NeuroDyne Corp — we build and own defensible, national-scale platforms through a Mandate → Build → License → Spin-out operating loop. Home of ILIVVON."
+        description="NeuroDyne Labs is the IP arm of NeuroDyne Corp — we build and own defensible, national-scale platforms through a Mandate → Build → License → Spin-out operating loop."
         canonical="https://neurodyne.dev/labs"
         ogUrl="https://neurodyne.dev/labs"
       />

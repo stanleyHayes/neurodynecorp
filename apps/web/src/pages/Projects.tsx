@@ -18,6 +18,10 @@ const MotionBox = motion.create(Box);
 export default function Projects() {
   const [filter, setFilter] = useState<ProjectCategory | "All">("All");
   const shown = filter === "All" ? PROJECTS : PROJECTS.filter((p) => p.category === filter);
+  const lifecycle = (["Completed", "In progress", "Planned"] as const).map((status) => ({
+    status,
+    count: PROJECTS.filter((project) => project.status === status).length,
+  }));
 
   return (
     <>
@@ -40,12 +44,31 @@ export default function Projects() {
           />
         </Box>
 
+        <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, mt: { xs: 4, md: 6 }, position: "relative", zIndex: 1 }}>
+          {lifecycle.map(({ status, count }) => (
+            <Chip
+              key={status}
+              label={`${String(count).padStart(2, "0")} ${status}`}
+              sx={{
+                borderRadius: 0,
+                fontFamily: "monospace",
+                fontSize: "0.66rem",
+                letterSpacing: "0.08em",
+                textTransform: "uppercase",
+                bgcolor: status === "Completed" ? "rgba(0,212,170,0.10)" : status === "Planned" ? "rgba(245,158,11,0.10)" : "rgba(108,99,255,0.10)",
+                border: "1px solid",
+                borderColor: "divider",
+              }}
+            />
+          ))}
+        </Stack>
+
         {/* Filter */}
         <Box
           role="group"
           aria-label="Filter projects by category"
           sx={{
-            display: "flex", flexWrap: "wrap", gap: 0.75, mt: { xs: 4, md: 6 }, p: 0.75,
+            display: "flex", flexWrap: "wrap", gap: 0.75, mt: 2, p: 0.75,
             position: "relative", zIndex: 1, width: "fit-content", maxWidth: "100%",
             border: "1px solid", borderColor: "divider", bgcolor: "background.paper",
             boxShadow: "0 14px 36px rgba(30, 38, 80, 0.08)",
