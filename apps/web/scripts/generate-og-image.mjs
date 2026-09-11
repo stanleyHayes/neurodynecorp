@@ -70,28 +70,31 @@ const svg = `
   </g>
 
   <!-- Company name -->
-  <text x="380" y="270" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="white" letter-spacing="-1">NeuroDyne Corp</text>
+  <text x="380" y="250" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="72" font-weight="700" fill="white" letter-spacing="-1">Neurodyne</text>
 
-  <!-- Tagline -->
-  <text x="380" y="330" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="28" fill="#9CA3AF" letter-spacing="0.5">Productized Software Engineering Platform</text>
+  <!-- Positioning headline -->
+  <text x="380" y="312" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="34" font-weight="600" fill="#E5E7EB" letter-spacing="-0.5">Building Africa&#8217;s Digital Infrastructure.</text>
 
-  <!-- Service pills -->
-  <g transform="translate(380, 370)">
-    <rect x="0" y="0" width="170" height="36" rx="18" fill="#6C63FF" opacity="0.15"/>
-    <text x="85" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#8B85FF" text-anchor="middle">Custom Software</text>
+  <!-- Brand line -->
+  <text x="380" y="352" font-family="system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif" font-size="22" fill="#9CA3AF" letter-spacing="0.5">Infrastructure for an Intelligent Africa.</text>
 
-    <rect x="185" y="0" width="190" height="36" rx="18" fill="#00D4AA" opacity="0.15"/>
-    <text x="280" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#33DDBB" text-anchor="middle">Mobile Development</text>
+  <!-- Pillars, not services. These mirror PILLARS in src/content/company.ts. -->
+  <g transform="translate(380, 386)">
+    <rect x="0" y="0" width="250" height="36" rx="0" fill="#6C63FF" opacity="0.15"/>
+    <text x="125" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#8B85FF" text-anchor="middle">AI &amp; Developer Infrastructure</text>
 
-    <rect x="390" y="0" width="150" height="36" rx="18" fill="#6C63FF" opacity="0.15"/>
-    <text x="465" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#8B85FF" text-anchor="middle">AI / ML Systems</text>
+    <rect x="264" y="0" width="240" height="36" rx="0" fill="#00D4AA" opacity="0.15"/>
+    <text x="384" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#33DDBB" text-anchor="middle">Digital Public Infrastructure</text>
 
-    <rect x="555" y="0" width="150" height="36" rx="18" fill="#00D4AA" opacity="0.15"/>
-    <text x="630" y="23" font-family="system-ui, sans-serif" font-size="14" fill="#33DDBB" text-anchor="middle">Blockchain</text>
+    <rect x="0" y="48" width="130" height="36" rx="0" fill="#8B85FF" opacity="0.15"/>
+    <text x="65" y="71" font-family="system-ui, sans-serif" font-size="14" fill="#8B85FF" text-anchor="middle">Platforms</text>
+
+    <rect x="144" y="48" width="130" height="36" rx="0" fill="#F59E0B" opacity="0.15"/>
+    <text x="209" y="71" font-family="system-ui, sans-serif" font-size="14" fill="#F59E0B" text-anchor="middle">Labs</text>
   </g>
 
   <!-- URL at bottom -->
-  <text x="600" y="570" font-family="system-ui, sans-serif" font-size="20" fill="#4B5563" text-anchor="middle" letter-spacing="2">neurodynecorp.com</text>
+  <text x="600" y="570" font-family="system-ui, sans-serif" font-size="20" fill="#4B5563" text-anchor="middle" letter-spacing="2">Built in Ghana. Built for Africa.  ·  neurodyne.dev</text>
 
   <!-- Bottom accent line -->
   <rect x="0" y="${HEIGHT - 4}" width="${WIDTH}" height="4" fill="url(#accent)"/>

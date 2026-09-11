@@ -1,0 +1,8 @@
+# Security contact information for neurodyne.dev
+# https://www.rfc-editor.org/rfc/rfc9116
+
+Contact: mailto:security@neurodyne.dev
+Expires: 2027-09-11T11:43:35Z
+Preferred-Languages: en
+Canonical: https://neurodyne.dev/.well-known/security.txt
+Policy: https://neurodyne.dev/legal/security

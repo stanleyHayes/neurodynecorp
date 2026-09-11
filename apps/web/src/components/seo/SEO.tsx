@@ -15,10 +15,10 @@ interface SEOProps {
   noIndex?: boolean;
 }
 
-const SITE_NAME = "NeuroDyne Corp";
+const SITE_NAME = "Neurodyne";
 const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://neurodyne.dev").replace(/\/$/, "");
 const DEFAULT_DESCRIPTION =
-  "NeuroDyne Corp — Productized Software Engineering by Stanley Asoku Hayford. 36+ shipped projects across fintech, govtech, healthcare, edtech, and AI for Africa and beyond.";
+  "Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets.";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
 
 export { SITE_URL };
@@ -26,7 +26,7 @@ export { SITE_URL };
 export default function SEO({
   title,
   description = DEFAULT_DESCRIPTION,
-  keywords = "software development, custom software, mobile apps, AI, machine learning, fintech, govtech, healthcare, edtech, Africa, Stanley Hayford",
+  keywords = "African digital infrastructure, AI infrastructure Africa, Ghana developer infrastructure, African developer tools, digital public infrastructure, Neurodyne Ghana, Neurodyne Africa, mobile money integration, African API registry, interoperability standards",
   ogTitle,
   ogDescription,
   ogImage = DEFAULT_OG_IMAGE,
@@ -61,7 +61,7 @@ export default function SEO({
 
       {/* Twitter */}
       <meta name="twitter:card" content={twitterCard} />
-      <meta name="twitter:site" content="@NeuroDyneCorp" />
+      <meta name="twitter:site" content="@sa_hayford" />
       <meta name="twitter:title" content={finalOgTitle} />
       <meta name="twitter:description" content={finalOgDescription} />
       <meta name="twitter:image" content={ogImage} />
@@ -78,9 +78,20 @@ export default function SEO({
           url: SITE_URL,
           logo: `${SITE_URL}/favicon.svg`,
           email: "info@neurodyne.dev",
+          description:
+            "Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets.",
           founder: { "@type": "Person", name: "Stanley Asoku Hayford" },
-          areaServed: ["Ghana", "Africa", "Worldwide"],
-          sameAs: [],
+          foundingLocation: { "@type": "Place", name: "Accra, Ghana" },
+          address: { "@type": "PostalAddress", addressCountry: "GH", addressLocality: "Accra" },
+          areaServed: ["Ghana", "Africa"],
+          // Only profiles that actually exist. An empty or invented sameAs is
+          // worse than a short one: search engines use it to disambiguate this
+          // Neurodyne from unrelated organisations with the same name.
+          sameAs: [
+            "https://github.com/stanleyHayes",
+            "https://linkedin.com/in/stanley-asoku-hayford",
+            "https://x.com/sa_hayford",
+          ],
         }).replace(/</g, "\\u003c")}
       </script>
 
