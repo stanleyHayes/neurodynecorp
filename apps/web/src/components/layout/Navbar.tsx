@@ -39,6 +39,19 @@ const Z_DRAWER = Z_HEADER + 1;
 const Z_GRID_OVERLAY = 1400;
 
 /**
+ * Docked -> floating easing. The header's own geometry and its inner padding
+ * must share one curve, or the bar finishes moving before its contents do.
+ */
+const HEADER_EASE = "0.32s cubic-bezier(0.4, 0, 0.2, 1)";
+const HEADER_TRANSITION = [
+  `top ${HEADER_EASE}`,
+  `left ${HEADER_EASE}`,
+  `right ${HEADER_EASE}`,
+  `border-radius ${HEADER_EASE}`,
+  `box-shadow ${HEADER_EASE}`,
+].join(", ");
+
+/**
  * Shared surface for the navbar's round icon buttons (theme toggle, hamburger).
  *
  * Defined once because the two must look identical; duplicating the border and
@@ -632,7 +645,11 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
     setDrawerOpen(false);
   }, [location.pathname]);
   useEffect(() => {
-    const update = () => setScrolled(window.scrollY > 48);
+    // Hysteresis: undock at 64, redock at 32. A single threshold was fine while
+    // the change snapped, but now that it animates, scrolling slowly across one
+    // boundary would run the transition back and forth continuously.
+    const update = () =>
+      setScrolled((was) => (was ? window.scrollY > 32 : window.scrollY > 64));
     update();
     window.addEventListener("scroll", update, { passive: true });
     return () => window.removeEventListener("scroll", update);
@@ -654,15 +671,32 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           borderColor: "divider",
           bgcolor: "background.paper",
           boxShadow: scrolled ? 8 : 0,
-          borderRadius: scrolled ? 4 : 0,
+          // Floating, it is a true pill — which is what PillNav is named for.
+          // Docked, it spans the full viewport width and stays square.
+          //
+          // The string value is deliberate. `shape.borderRadius` is 0, and MUI
+          // multiplies a NUMERIC radius by it, so the previous `4` resolved to
+          // 0px and this bar was never actually rounded when floating.
+          borderRadius: scrolled ? "999px" : 0,
+          // Ease between docked and floating instead of snapping. border-radius
+          // is animatable, so the pill grows out of the square bar rather than
+          // popping. The inner padding below is on the same curve so the
+          // contents drift inward with the edges.
+          transition: HEADER_TRANSITION,
+          "@media (prefers-reduced-motion: reduce)": { transition: "none" },
         }}
       >
         <Box
           sx={{
             maxWidth: 1440,
             mx: "auto",
-            px: { xs: 2, md: 3 },
+            // Extra horizontal room while floating, so the logo and the action
+            // buttons sit clear of the pill's curved ends rather than against
+            // them.
+            px: scrolled ? { xs: 3, md: 4 } : { xs: 2, md: 3 },
             py: 1.25,
+            transition: `padding ${HEADER_EASE}`,
+            "@media (prefers-reduced-motion: reduce)": { transition: "none" },
             display: "flex",
             alignItems: "center",
             gap: 2,
