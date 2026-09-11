@@ -39,7 +39,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     ],
     timeline: "4–8 weeks",
     priceBand: "Indicative: USD 15k–60k depending on scope",
-    sampleWork: ["24-Hour Economy Investment Intelligence Platform", "Health Platform"],
+    sampleWork: ["Institutional systems and data mapping", "18–36 month target architecture design"],
     faq: [
       { q: "Is this a sales pitch for a build?", a: "No. The audit stands alone and is useful even if we never build for you. The architecture is yours." },
       { q: "Who needs to be involved?", a: "A sponsor, your senior technical lead, and access to the people who actually operate the systems." },
@@ -51,11 +51,11 @@ export const SERVICE_LINES: ServiceLine[] = [
     kicker: "MISSION-CRITICAL BUILDS",
     color: "#00D4AA",
     positioning:
-      "Selective, not open. Mission-critical builds for institutions, with security, compliance, and governance designed in from the first line.",
+      "Mission-critical builds for institutions, with security, compliance, and governance designed in from the first line.",
     methodology: [
       { title: "Engagement model", body: "Milestone-paid, phased delivery with a managed workspace from day one." },
       { title: "Technology posture", body: "Production-grade stacks chosen for hiring availability and operational simplicity in-region." },
-      { title: "Security & compliance", body: "MFA, audit logging, RBAC, and data-residency options reviewed by an external practitioner before go-live." },
+      { title: "Security & compliance", body: "MFA, audit logging, RBAC, and data-residency options designed in from the first line, so the system is independently reviewable before go-live." },
       { title: "Governance", body: "Decision logs, risk registers, and approval workflows that satisfy procurement and audit." },
     ],
     deliverables: [
@@ -67,9 +67,9 @@ export const SERVICE_LINES: ServiceLine[] = [
     ],
     timeline: "12–24+ weeks, phased",
     priceBand: "Indicative: scoped per mandate; milestone-based",
-    sampleWork: ["24-Hour Economy Investment Intelligence Platform", "FastCare Clinics — Healthcare Management Platform"],
+    sampleWork: ["Milestone-phased institutional delivery", "Audit-grade access control and logging"],
     faq: [
-      { q: "Why selective?", a: "Mission-critical builds carry real commercial and reputational risk. We take what we can do well." },
+      { q: "Do you take on every enquiry?", a: "No. Mission-critical builds carry real commercial and reputational risk. Only work that can be done well is taken on." },
       { q: "Can you host on-shore?", a: "Yes. Where regulation requires data residency, we deploy to a self-hosted equivalent." },
     ],
   },
@@ -83,7 +83,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     methodology: [
       { title: "Use-case scoping", body: "We start from a measurable outcome, not a model. No capability claims we can't evaluate." },
       { title: "Data sovereignty", body: "Choice of hosted or self-hosted models depending on document sensitivity." },
-      { title: "Evaluation", body: "Every model ships with an evaluation harness and drift monitoring." },
+      { title: "Evaluation", body: "Nothing ships without an evaluation harness and drift monitoring attached to it." },
       { title: "Integration", body: "Embedded into existing workflows, not bolted on as a separate tool." },
     ],
     deliverables: [
@@ -94,10 +94,10 @@ export const SERVICE_LINES: ServiceLine[] = [
     ],
     timeline: "6–16 weeks",
     priceBand: "Indicative: USD 20k–80k depending on scope",
-    sampleWork: ["ML scoring (24H+ programme)", "Document intelligence pilots"],
+    sampleWork: ["Document intelligence pipelines", "Evaluated scoring models"],
     faq: [
       { q: "Will it hallucinate?", a: "Assistants are grounded on your own corpus and constrained. We measure accuracy before anything ships." },
-      { q: "Do you train on our data?", a: "Only with explicit agreement, and never across clients. Your data stays yours." },
+      { q: "Do you train on our data?", a: "Your data is used only for your own system, and only with your explicit written agreement. It is never used to train anything outside your engagement. Your data stays yours." },
     ],
   },
   {
@@ -106,47 +106,47 @@ export const SERVICE_LINES: ServiceLine[] = [
     kicker: "TRANSITIONAL, CONTROLLED",
     color: "#33DDBB",
     positioning:
-      "We take web and digital platform work where it earns strategic position — not as agency work. The 36+ shipped platforms are the precedent.",
+      "We take web and digital platform work where it earns strategic position — not as agency work.",
     methodology: [
       { title: "Strategic fit", body: "We take platform work that opens a sector, builds IP, or deepens a relationship." },
       { title: "Design system", body: "Disciplined, restrained, accessible — a single type system and a small palette, used precisely." },
-      { title: "Performance", body: "Benchmarked against real network conditions, not lab defaults. Lighthouse 95+ targets." },
+      { title: "Performance", body: "Benchmarked against real network conditions, not lab defaults — and budgeted before the first component is written." },
       { title: "Continuity", body: "Architected for continuous additions, not a one-time build." },
     ],
     deliverables: [
       "Production web platform",
       "Design system and component library",
       "SEO, performance, and accessibility baked in",
-      "CMS-backed content the team owns",
+      "CMS-backed content your own team owns",
     ],
     timeline: "6–14 weeks",
     priceBand: "Indicative: USD 10k–50k depending on scope",
-    sampleWork: ["36+ shipped platforms across fintech, govtech, health, edtech"],
+    sampleWork: ["Design-system-led platform builds", "CMS-backed content architecture"],
     faq: [
       { q: "Do you do pure marketing sites?", a: "Rarely. We take platforms where they earn strategic position for the firm or the client." },
     ],
   },
   {
     slug: "advisory",
-    name: "Strategy, Advisory & Thought Leadership",
-    kicker: "THE AUTHORITY ENGINE",
+    name: "Strategy & Advisory",
+    kicker: "STRATEGY ALTITUDE",
     color: "#F59E0B",
     positioning:
-      "The authority engine. Retained advisory, board seats, and published thinking that shapes how intelligent digital systems get built in the region.",
+      "Retained advisory at the altitude of strategy — architecture posture, sequencing, and the build-versus-buy calls that decide how a digital system ages.",
     methodology: [
       { title: "Retainer model", body: "Ongoing advisory at the altitude of strategy, not staff augmentation." },
-      { title: "Advisory boards", body: "We sit on boards where our perspective compounds over time." },
-      { title: "Publication", body: "Field notes, theses, and whitepapers as continuous infrastructure, not periodic slides." },
+      { title: "Decision scope", body: "Engagements are scoped to decisions — architecture, sequencing, build versus buy — rather than to headcount or hours." },
+      { title: "Written output", body: "Recommendations arrive as decision records and architecture notes your own board can read, not as periodic slides." },
     ],
     deliverables: [
       "Retained strategic advisory",
-      "Board and advisory participation",
-      "Published theses and whitepapers",
       "Architecture and posture reviews",
+      "Decision records and written recommendations",
+      "Sequenced technology roadmaps",
     ],
     timeline: "Ongoing retainer",
     priceBand: "Indicative: monthly retainer, scoped to engagement",
-    sampleWork: ["Published thinking in Insights", "Sector whitepapers"],
+    sampleWork: ["Architecture and posture review", "Sequenced technology roadmaps"],
     faq: [
       { q: "How is this different from the audit?", a: "The audit is a one-time engagement; advisory is an ongoing relationship at strategy altitude." },
     ],

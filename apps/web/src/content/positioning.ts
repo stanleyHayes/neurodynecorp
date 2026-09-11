@@ -1,105 +1,35 @@
 /**
- * NeuroDyne Corp — brand positioning content.
+ * Engineering doctrine, open standards and research areas.
  *
- * Single source of truth for the marketing narrative: NeuroDyne is an
- * engineering company building intelligent digital infrastructure for
- * organizations, industries, and nations — not a software agency.
+ * The company's *positioning* now lives in `@/content/company` (CANON, HERO,
+ * PILLARS, WHY_AFRICA, VISION_PHASES, FOUNDER, PARTNER_PATHWAYS). What remains
+ * here is the longer-form thinking those pages draw on — how the engineering is
+ * approached, the open-standards initiative, and the open research questions.
+ *
+ * See docs/NEURODYNE_POSITIONING.md before changing any of it.
  */
-
-export const BRAND = {
-  positioning:
-    "NeuroDyne is an engineering company building intelligent digital infrastructure for organizations, industries, and nations. Through software engineering, artificial intelligence, cloud technologies, and open standards, we create interoperable systems that enable the next generation of digital transformation.",
-  hero: {
-    title: "Engineering the Operating Systems of Tomorrow.",
-    lead: "NeuroDyne designs intelligent digital infrastructure that powers organizations, industries, and nations.",
-    sub: "From AI-powered enterprise platforms to open data standards and digital transformation frameworks, we build the systems that make modern societies work.",
-    primaryCta: { label: "Explore Our Solutions", to: "/solutions" },
-    secondaryCta: { label: "Start a Project", to: "/start-project" },
-  },
-  intro: {
-    title: "More Than Software",
-    body: [
-      "Technology shouldn't be a collection of disconnected applications.",
-      "Hospitals, schools, governments, businesses, financial institutions, and creators all deserve technology that works together seamlessly.",
-      "At NeuroDyne, we design digital ecosystems rather than isolated software. Every platform we build is designed to integrate, scale, and evolve.",
-    ],
-  },
-} as const;
-
-// ── What We Do ───────────────────────────────────────────────────────────────
-
-export const WHAT_WE_DO = [
-  {
-    slug: "digital-transformation",
-    title: "Digital Transformation",
-    blurb: "Helping organizations modernize operations using software, AI and automation.",
-  },
-  {
-    slug: "enterprise-software",
-    title: "Enterprise Software",
-    blurb: "Custom platforms built for performance, security and long-term growth.",
-  },
-  {
-    slug: "artificial-intelligence",
-    title: "Artificial Intelligence",
-    blurb: "Practical AI that improves productivity, decision making and customer experiences.",
-  },
-  {
-    slug: "open-standards",
-    title: "Open Standards",
-    blurb: "Building open specifications that allow different software systems to communicate effortlessly.",
-  },
-  {
-    slug: "research-innovation",
-    title: "Research & Innovation",
-    blurb: "Exploring the future of computing, digital identity, interoperability and intelligent systems.",
-  },
-] as const;
-
-// ── Why NeuroDyne ────────────────────────────────────────────────────────────
-
-export const WHY_NEURODYNE = [
-  { title: "Engineering First", body: "We believe great software begins with great engineering." },
-  { title: "Open by Design", body: "Whenever possible, we build technologies based on open standards rather than vendor lock-in." },
-  { title: "AI Native", body: "Artificial intelligence isn't an add-on. It is part of our engineering process." },
-  { title: "Built to Scale", body: "Whether serving one company or millions of users, every system is engineered for reliability." },
-  { title: "Long-Term Partnerships", body: "We don't disappear after launch. We become technology partners throughout your organization's growth." },
-] as const;
-
-// ── Featured initiatives (industry operating systems) ────────────────────────
-
-export const INITIATIVES = [
-  { slug: "neurodyne-os", name: "NeuroDyne OS", blurb: "The operating system for digital organizations.", status: "In development" },
-  { slug: "open-standards", name: "Open Data Standards Initiative", blurb: "Building interoperable standards for industries across Africa.", status: "Active" },
-  { slug: "creator-os", name: "Creator OS", blurb: "Digital infrastructure for creators.", status: "In development" },
-  { slug: "education-os", name: "Education OS", blurb: "Operating system for schools.", status: "Piloting" },
-  { slug: "health-os", name: "Health OS", blurb: "Unified healthcare ecosystem.", status: "Research" },
-  { slug: "rentos", name: "RentOS", blurb: "The future of intelligent property management.", status: "In development" },
-  { slug: "career-os", name: "Career OS", blurb: "The complete employment lifecycle platform.", status: "In development" },
-] as const;
 
 // ── About ────────────────────────────────────────────────────────────────────
 
 export const ABOUT = {
   intro: [
-    "Technology is changing every industry.",
-    "Unfortunately, much of today's software remains fragmented, incompatible, and difficult to scale. Organizations often rely on disconnected systems that create inefficiencies, duplicate data, and limit innovation.",
-    "NeuroDyne was founded to solve this challenge.",
-    "We are an engineering company focused on building intelligent digital infrastructure that connects people, organizations, and industries through scalable software, artificial intelligence, and open standards.",
-    "Rather than creating isolated applications, we build complete ecosystems that simplify operations, improve interoperability, and prepare organizations for the future.",
-    "Our work combines software engineering, cloud architecture, artificial intelligence, user experience, cybersecurity, and data engineering into solutions designed to stand the test of time.",
+    "Africa's digital economy is being built on infrastructure that was designed somewhere else.",
+    "Payment systems assume cards where the continent runs on mobile money. Identity systems assume one authority where Ghana has several. API design assumes stable, documented endpoints where most services offer none. The result is that every company here rebuilds the same foundations before it can build anything of its own.",
+    "Neurodyne exists to build those foundations once, properly, and in the open.",
+    "We are a Ghanaian technology company building AI-native platforms, developer infrastructure and digital systems for African businesses, communities and institutions. Our products — housing, fundraising, education, property recovery — are not separate bets. They are the environments where identity, payments, verification and interoperability have to work before that infrastructure can be offered to anyone else.",
+    "The company is founder-led and early. What is built is described as built; what is being designed is described as being designed. That distinction is the point.",
   ],
   vision:
-    "To become Africa's leading engineering company for intelligent digital infrastructure, creating technology that enables every organization to operate seamlessly in a connected world.",
+    "Infrastructure that businesses, developers and public institutions across African markets rely on — the way infrastructure is relied on, without much thought about who built it.",
   mission:
-    "To design and build secure, scalable, and intelligent software platforms that accelerate digital transformation while promoting openness, interoperability, and innovation.",
-  philosophy: ["Simple", "Reliable", "Interoperable", "Secure", "Intelligent", "Human-Centered", "Open", "Scalable"],
+    "To build AI and digital infrastructure for Africa: reusable identity, payments, verification, data standards and developer tools, proven inside real products and then opened to everyone else.",
+  philosophy: ["Open", "Interoperable", "Verifiable", "Secure", "Intelligent", "Low-bandwidth", "Local-first", "Durable"],
   values: [
+    { title: "Evidence Over Marketing", body: "Nothing is claimed that cannot be pointed at. Understating is survivable; overstating is not." },
     { title: "Engineering Excellence", body: "Quality is never accidental." },
-    { title: "Continuous Learning", body: "Innovation comes from curiosity." },
-    { title: "Openness", body: "We believe collaboration builds stronger technology." },
-    { title: "Integrity", body: "Trust is earned through transparency." },
-    { title: "Impact", body: "Technology should solve meaningful problems." },
+    { title: "Openness", body: "Infrastructure that cannot be inspected is not infrastructure. It is a dependency." },
+    { title: "Built for Here", body: "Mobile money, intermittent bandwidth, plural identity and informal commerce are the design constraints, not edge cases." },
+    { title: "Built for Decades", body: "Infrastructure is judged over decades, not launches." },
   ],
 } as const;
 
@@ -280,28 +210,6 @@ export const SOLUTIONS = [
     blurb: "Human-centered interfaces engineered as systems, not screens.",
     capabilities: ["Design Systems", "Web", "Mobile", "Accessibility", "Research"],
   },
-] as const;
-
-// ── Industries ───────────────────────────────────────────────────────────────
-
-export const INDUSTRY_LIST = [
-  "Healthcare",
-  "Education",
-  "Government",
-  "Financial Services",
-  "Retail & Commerce",
-  "Agriculture",
-  "Transportation",
-  "Construction",
-  "Manufacturing",
-  "Media & Creators",
-  "Hospitality",
-  "NGOs",
-  "Telecommunications",
-  "Energy",
-  "Professional Services",
-  "Sports",
-  "Real Estate",
 ] as const;
 
 // ── Open Standards (NOSI) ────────────────────────────────────────────────────

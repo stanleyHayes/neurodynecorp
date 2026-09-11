@@ -6,6 +6,8 @@
  * matters for Ghana and the wider region.
  */
 
+import type { Maturity } from "@/content/maturity";
+
 export type ProjectCategory =
   | "Industry OS"
   | "Government"
@@ -21,13 +23,36 @@ export interface ProjectSection {
   body: string[];
 }
 
+/**
+ * How a piece of work relates to Neurodyne.
+ *
+ * - `platform`    a Neurodyne product. Carries a maturity label.
+ * - `open-source` Neurodyne work published publicly under an open licence.
+ * - `labs`        a documented concept: specified and designed, not yet built.
+ *                 Always RESEARCH. This is a blueprint library, not a roadmap —
+ *                 nothing here is a commitment to ship.
+ * - `client-work` built for another organisation. No maturity label: it is not
+ *                 ours to mature, and the client, not Neurodyne, decides its
+ *                 fate. Clients are anonymised unless written permission to
+ *                 name them is on file.
+ */
+export type ProductTier = "platform" | "open-source" | "labs" | "client-work";
+
 export interface Project {
   slug: string;
   name: string;
   tagline: string;
   category: ProjectCategory;
   industry: string;
-  status: "Completed" | "In progress" | "Planned";
+  tier: ProductTier;
+  /** Required for `platform` and `labs`; absent for `client-work`. */
+  maturity?: Maturity;
+  /**
+   * For `client-work` only: whether this was commissioned work or work done in
+   * partnership / support of a cause. Both are real engineering; conflating
+   * them would misrepresent the commercial relationship in either direction.
+   */
+  engagement?: "Client project" | "Partnership" | "Non-profit" | "In discussion";
   year: string;
   accent: string;
   /** Short card summary for the index page. */
@@ -47,15 +72,14 @@ export interface Project {
   provenPrimitives?: string[];
 }
 
-export const PROJECTS: Project[] = [
-  // ── Flagship industry operating systems ───────────────────────────────────
-  {
+export const PROJECTS: Project[] = [{
     slug: "rentos",
     name: "RentOS",
     tagline: "The operating system for Ghana's rental housing market.",
     category: "Industry OS",
     industry: "Housing & Real Estate",
-    status: "In progress",
+    tier: "platform",
+    maturity: "PRIVATE BETA",
     year: "2025—",
     accent: "#00D4AA",
     summary:
@@ -95,7 +119,8 @@ export const PROJECTS: Project[] = [
     tagline: "A multi-tenant operating system for schools.",
     category: "Education",
     industry: "Education",
-    status: "In progress",
+    tier: "platform",
+    maturity: "IN DEVELOPMENT",
     year: "2024—",
     accent: "#6C63FF",
     summary:
@@ -125,7 +150,6 @@ export const PROJECTS: Project[] = [
     impact: [
       "Ghana's education sector is digitising school by school, each one paying to solve problems every other school also has. A shared, configurable platform converts that duplicated spend into shared infrastructure.",
       "When attendance, assessment and fees live in one model, early-warning becomes possible: the student drifting toward dropout is visible while there is still time to intervene.",
-      "Piloted with Ghanaian schools including a senior high school and a basic school — deliberately different institutions, to prove the model holds across the sector rather than for one customer.",
     ],
     stack: ["Go", "Hexagonal microservices", "Python", "FastAPI", "Next.js 16", "React 19", "Expo", "PostgreSQL", "NATS JetStream"],
     provenPrimitives: ["Multi-tenancy", "Configuration over customization", "Service isolation", "AI orchestration", "Event streaming"],
@@ -136,7 +160,8 @@ export const PROJECTS: Project[] = [
     tagline: "Industrial-scale video production, engineered as a pipeline.",
     category: "Media & Creators",
     industry: "Media & Creators",
-    status: "In progress",
+    tier: "client-work",
+    engagement: "Client project",
     year: "2025—",
     accent: "#8B85FF",
     summary:
@@ -171,11 +196,12 @@ export const PROJECTS: Project[] = [
   {
     slug: "nadaa",
     name: "NADAA",
-    tagline: "Ghana's national disaster alert and response platform.",
+    tagline: "A disaster alert and response system designed for national scale.",
     category: "Government",
     industry: "Public Safety",
-    status: "In progress",
-    year: "2025—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2025",
     accent: "#EF4444",
     summary:
       "Flood risk monitoring, citizen reporting, dispatcher command and agency coordination — one system connecting citizens to NADMO, assemblies and hospitals.",
@@ -209,52 +235,14 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Multi-channel notification", "Geospatial modelling", "Incident command workflows", "Inter-agency coordination"],
   },
   {
-    slug: "24-hour-economy",
-    name: "24-Hour Economy Investment Platform",
-    tagline: "Investment intelligence for a national economic programme.",
-    category: "Government",
-    industry: "Government & Finance",
-    status: "In progress",
-    year: "2025—",
-    accent: "#F59E0B",
-    summary:
-      "Investor pipeline, project tracking, risk prediction and AI insight for the Republic of Ghana's 24-Hour Economy Programme.",
-    problem: [
-      "A national economic programme lives or dies on execution visibility. Investor conversations, project pipelines, directorate workstreams and risk all move in parallel — usually tracked in disconnected spreadsheets and inboxes.",
-      "Without a single operational picture, leadership cannot answer basic questions reliably: which projects are stalling, where capital is committed versus deployed, which partnerships need intervention this week.",
-      "Public accountability compounds the problem: a programme of national significance must be able to report on itself accurately.",
-    ],
-    approach: [
-      "One platform tracks investors, projects and directorate activity through a shared pipeline model, so status is derived from records rather than reassembled by hand.",
-      "A machine-learning service scores project risk, surfacing likely trouble before it becomes visible in outcomes.",
-      "AI-powered insight summarises pipeline movement for decision makers, and multi-channel notifications (SMS, WhatsApp, email) keep distributed stakeholders synchronised.",
-      "A public marketing surface and a mobile application extend the same data outward, so transparency is a property of the system rather than a separate reporting exercise.",
-    ],
-    capabilities: [
-      "Investor and partnership pipeline management",
-      "Project tracking across directorates",
-      "ML-based risk prediction",
-      "AI-generated programme insights",
-      "SMS / WhatsApp / email notifications",
-      "Public site and mobile application",
-    ],
-    audience: ["Programme secretariat", "Government directorates", "Investors", "Policy leadership"],
-    impact: [
-      "Ghana's 24-Hour Economy programme is a national industrial-policy initiative. Software that makes execution measurable is directly in service of the country's economic strategy.",
-      "Risk prediction converts oversight from retrospective reporting into forward-looking intervention.",
-      "Systems that make government programmes legible to their own leadership are the foundation of public accountability.",
-    ],
-    stack: ["Node.js", "Express", "MongoDB", "Redis", "React", "Vite", "Next.js", "Python", "FastAPI", "Expo"],
-    provenPrimitives: ["Pipeline modelling", "Risk scoring", "Executive analytics", "Multi-channel notification"],
-  },
-  {
     slug: "auraops",
     name: "AuraOps",
     tagline: "Zero-trust remote monitoring and management.",
     category: "Enterprise",
     industry: "IT Operations & Security",
-    status: "In progress",
-    year: "2025—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2025",
     accent: "#EF4444",
     summary:
       "Endpoint telemetry, patching, remote sessions and AI-assisted diagnostics — governed by a control plane with signed agent communication.",
@@ -293,8 +281,9 @@ export const PROJECTS: Project[] = [
     tagline: "The employment lifecycle, from offer to fully onboarded.",
     category: "Enterprise",
     industry: "Employment & HR",
-    status: "In progress",
-    year: "2025—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2025",
     accent: "#00D4AA",
     summary:
       "Multi-tenant employee onboarding with SCIM provisioning, HRIS sync, and an AI assistant that answers only from the company's own documents.",
@@ -326,16 +315,17 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Multi-tenancy", "Identity provisioning", "Grounded RAG", "Process modelling"],
   },
   {
-    slug: "back2u",
-    name: "Back2u",
-    tagline: "A verified lost-and-found ecosystem.",
+    slug: "bak2me",
+    name: "Bak2Me",
+    tagline: "A property recovery and trust network.",
     category: "Commerce",
     industry: "Consumer Safety",
-    status: "Completed",
+    tier: "platform",
+    maturity: "PRIVATE BETA",
     year: "2024—",
     accent: "#8B85FF",
     summary:
-      "AI matching across image, text, location and time — with proof-of-ownership verification, escrow rewards and police-report generation.",
+      "Verified recovery points, ownership proof, chain-of-custody records and fraud scoring — built as a trust network rather than a lost-item listing board, because a user-confirmed return is not evidence enough to pay out a reward.",
     problem: [
       "Lost property recovery fails on two problems: matching and trust. Finding the right item among thousands of reports is hard; proving it is actually yours is harder.",
       "Existing channels — noticeboards, social media groups, institutional lost-and-found desks — solve neither, and create a route for opportunistic claiming.",
@@ -369,11 +359,12 @@ export const PROJECTS: Project[] = [
   {
     slug: "oguaa",
     name: "Oguaa",
-    tagline: "The digital home of Cape Coast.",
+    tagline: "A civic platform designed for Cape Coast.",
     category: "Civic & Impact",
     industry: "Community & Culture",
-    status: "In progress",
-    year: "2024—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2024",
     accent: "#F59E0B",
     summary:
       "One listings engine powering artists, heritage, memorials, businesses, festivals, safety reporting and a diaspora register for a single city.",
@@ -411,8 +402,9 @@ export const PROJECTS: Project[] = [
     tagline: "Local business discovery, built for Ghana.",
     category: "Commerce",
     industry: "Local Commerce",
-    status: "In progress",
-    year: "2024—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2024",
     accent: "#F59E0B",
     summary:
       "Business listings, reviews, ordering and discovery with Ghana-specific design, Twi language support and offline-capable mobile.",
@@ -446,53 +438,17 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Search & discovery", "Offline-first mobile", "Localisation", "Reviews & reputation"],
   },
   {
-    slug: "health-platform",
-    name: "Health Platform",
-    tagline: "Hospital and patient systems wired into national health infrastructure.",
-    category: "Healthcare",
-    industry: "Healthcare",
-    status: "In progress",
-    year: "2024—",
-    accent: "#00D4AA",
-    summary:
-      "Referrals, visits and patient records across hospital and patient applications, integrated with NHIS claims and DHIMS2 reporting.",
-    problem: [
-      "A patient referred from one Ghanaian facility to another typically carries their own history on paper, or not at all. The receiving clinician starts from an incomplete picture.",
-      "Facilities must report into DHIMS2 and claim through NHIS — both of which become manual, error-prone work when the clinical system doesn't speak those languages natively.",
-      "Patients have no view of their own health record at all.",
-    ],
-    approach: [
-      "Separate hospital and patient applications on a shared model, so clinicians and patients see the same record from their own perspective.",
-      "NHIS and DHIMS2 integration are built as first-class modules rather than export scripts — national reporting and insurance claiming are part of the clinical workflow, not a separate month-end exercise.",
-      "Referral and visit workflows are modelled explicitly so that continuity of care survives the handoff between facilities.",
-    ],
-    capabilities: [
-      "Hospital portal: referrals, visits, records",
-      "Patient portal and mobile application",
-      "NHIS insurance claim integration",
-      "DHIMS2 district health reporting",
-      "Referral workflow across facilities",
-    ],
-    audience: ["Hospitals and clinics", "Clinicians", "Patients", "Ghana Health Service"],
-    impact: [
-      "Interoperability with NHIS and DHIMS2 is the difference between a system a Ghanaian facility can actually adopt and one it cannot.",
-      "Accurate, timely district health reporting improves the data on which national health policy is made.",
-      "Giving patients access to their own record is a precondition for continuity of care in a system where people move between facilities.",
-    ],
-    stack: ["React", "Vite", "Expo", "Node.js", "NHIS integration", "DHIMS2 integration"],
-    provenPrimitives: ["Health data interoperability", "Referral workflows", "Regulatory reporting"],
-  },
-  {
-    slug: "ubuntu-fund",
-    name: "Ubuntu Fund",
-    tagline: "Crowdfunding infrastructure with trust built in.",
+    slug: "ujimora",
+    name: "Ujimora",
+    tagline: "Fundraising infrastructure for African causes and diaspora giving.",
     category: "Civic & Impact",
     industry: "Philanthropy & Finance",
-    status: "In progress",
+    tier: "platform",
+    maturity: "PRIVATE BETA",
     year: "2024—",
     accent: "#6C63FF",
     summary:
-      "Campaigns, wallets and donations with transactional integrity, campaign limits and fraud controls at the core.",
+      "Connects African causes, communities and organisations with local and diaspora supporters — campaign tiers, progressive KYC, an auditable ledger, payout orchestration and fraud controls at the core.",
     problem: [
       "Online giving depends entirely on trust, and trust is exactly what informal fundraising cannot establish. Donors have no way to verify that a campaign is what it claims to be.",
       "Fraudulent campaigns damage the entire donation ecosystem, making legitimate causes harder to fund.",
@@ -526,7 +482,8 @@ export const PROJECTS: Project[] = [
     tagline: "Digital presence for a Pan-African non-profit.",
     category: "Civic & Impact",
     industry: "Non-profit",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "Non-profit",
     year: "2024—",
     accent: "#00D4AA",
     summary:
@@ -563,7 +520,8 @@ export const PROJECTS: Project[] = [
     tagline: "A leadership media platform with a content backbone.",
     category: "Media & Creators",
     industry: "Media & Community",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "Non-profit",
     year: "2024—",
     accent: "#8B85FF",
     summary:
@@ -597,11 +555,12 @@ export const PROJECTS: Project[] = [
   {
     slug: "yenara",
     name: "Yén Ara",
-    tagline: "A national framework for personal and civic transformation.",
+    tagline: "A framework for personal and civic transformation.",
     category: "Civic & Impact",
     industry: "Civic Education",
-    status: "In progress",
-    year: "2025—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2025",
     accent: "#F59E0B",
     summary:
       "A five-volume curriculum — self, home, school, work, nation — delivered with pledges, a behaviour code and organisational analytics.",
@@ -637,7 +596,8 @@ export const PROJECTS: Project[] = [
     tagline: "Advertising intelligence for the rest of the market.",
     category: "Commerce",
     industry: "Advertising & Marketing",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "Client project",
     year: "2024—",
     accent: "#38BDF8",
     summary:
@@ -673,10 +633,11 @@ export const PROJECTS: Project[] = [
   {
     slug: "aura",
     name: "AURA",
-    tagline: "Smart space management for Ashesi University.",
+    tagline: "Smart space management for a private university campus.",
     category: "Education",
     industry: "Higher Education",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "In discussion",
     year: "2026",
     accent: "#F59E0B",
     summary: "A web and mobile resource-allocation platform that combines timetables, reservations and maintenance windows to calculate trustworthy, real-time campus availability.",
@@ -689,12 +650,13 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Interval-based availability", "Concurrency-safe approval", "Academic timetable ingestion"],
   },
   {
-    slug: "ashesi-scheduleflow",
-    name: "Ashesi ScheduleFlow",
+    slug: "scheduleflow",
+    name: "ScheduleFlow",
     tagline: "Conflict-free academic scheduling with an auditable institutional workflow.",
     category: "Education",
     industry: "Higher Education",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "In discussion",
     year: "2026",
     accent: "#6C63FF",
     summary: "A scheduling engine and administration platform that assembles, validates, approves and exports university timetables with zero hard conflicts.",
@@ -707,12 +669,13 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Constraint engines", "Institutional approvals", "Auditable publication"],
   },
   {
-    slug: "uposa",
-    name: "UPOSA Alumni Platform",
+    slug: "alumni-platform",
+    name: "Alumni Platform",
     tagline: "A digital home for alumni, school legacy and collective support.",
     category: "Education",
     industry: "Alumni & Education",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "Client project",
     year: "2025—2026",
     accent: "#00D4AA",
     summary: "A public site and alumni operations platform for registration, year-group directories, events, projects, news, volunteering and donations.",
@@ -730,8 +693,9 @@ export const PROJECTS: Project[] = [
     tagline: "Owned business infrastructure beneath a creator's social attention.",
     category: "Media & Creators",
     industry: "Creator Economy",
-    status: "In progress",
-    year: "2026—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#38BDF8",
     summary: "A multi-tenant platform for creator-owned publishing, community, commerce, events, sponsorships and operations without replacing discovery networks.",
     problem: ["Creators build audiences on platforms they do not control, then operate community, sales and partnerships through disconnected tools."],
@@ -748,8 +712,9 @@ export const PROJECTS: Project[] = [
     tagline: "Infrastructure for creator-led fan nations.",
     category: "Media & Creators",
     industry: "Creator Economy",
-    status: "In progress",
-    year: "2026—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#EF4444",
     summary: "A creator-first fan platform spanning public identity, community, content, paid access, mobile experiences and operational dashboards.",
     problem: ["Fan communities are scattered across social feeds, messaging groups and payment tools, leaving creators without a coherent operating model."],
@@ -766,7 +731,8 @@ export const PROJECTS: Project[] = [
     tagline: "A trustworthy geographic data platform for Ghana.",
     category: "Government",
     industry: "Geospatial Infrastructure",
-    status: "In progress",
+    tier: "open-source",
+    maturity: "IN DEVELOPMENT",
     year: "2026—",
     accent: "#00D4AA",
     summary: "Versioned geography data, search, geocoding, APIs and operator tools built around Ghana's regions, districts and places.",
@@ -784,7 +750,8 @@ export const PROJECTS: Project[] = [
     tagline: "Certified tourist-guide supply for Ghana.",
     category: "Commerce",
     industry: "Tourism",
-    status: "In progress",
+    tier: "client-work",
+    engagement: "Client project",
     year: "2026—",
     accent: "#F59E0B",
     summary: "A marketplace where visitors book certified guides while operators manage assignments, payments, safety, quality and supply in real time.",
@@ -802,7 +769,8 @@ export const PROJECTS: Project[] = [
     tagline: "An owned commercial platform for a creator-led brand.",
     category: "Media & Creators",
     industry: "Creator Economy",
-    status: "In progress",
+    tier: "client-work",
+    engagement: "Partnership",
     year: "2026—",
     accent: "#8B85FF",
     summary: "A public brand, client portal and operations stack connecting content, community, partnerships, events, ticketing, education and enquiries.",
@@ -820,7 +788,8 @@ export const PROJECTS: Project[] = [
     tagline: "First-party media, commercial operations and ticketing.",
     category: "Media & Creators",
     industry: "Media & Entertainment",
-    status: "Completed",
+    tier: "client-work",
+    engagement: "Partnership",
     year: "2026",
     accent: "#EF4444",
     summary: "A standalone public brand and administration platform for content, enquiries, campaigns, bookings, analytics and direct event ticketing.",
@@ -833,31 +802,14 @@ export const PROJECTS: Project[] = [
     provenPrimitives: ["Social media ingestion", "First-party ticketing", "Creator operations"],
   },
   {
-    slug: "terios-wellness",
-    name: "Terios Wellness",
-    tagline: "A complete digital practice for integrative wellness.",
-    category: "Healthcare",
-    industry: "Wellness",
-    status: "Completed",
-    year: "2026",
-    accent: "#00D4AA",
-    summary: "A public website, secure client portal and practice dashboard sharing one operational API for care, commerce and content.",
-    problem: ["Wellness practices often split discovery, bookings, client documents, payments and follow-up across consumer tools with weak continuity and governance."],
-    approach: ["Three purpose-built surfaces share a Go API, role-scoped data, signed documents and production monitoring while preserving the practice's visual identity."],
-    capabilities: ["CMS-backed public site", "Client accounts and documents", "Bookings and forms", "Signature workflows", "Payments", "Practice operations dashboard"],
-    audience: ["Wellness clients", "Practitioners", "Practice staff", "Prospective clients"],
-    impact: ["Gives a care practice a coherent, privacy-conscious client journey from first contact through ongoing service."],
-    stack: ["Go", "MongoDB", "Next.js", "Cloudinary", "Stripe", "Render", "Vercel"],
-    provenPrimitives: ["Practice management", "Document signatures", "Production health monitoring"],
-  },
-  {
     slug: "altar-os",
     name: "ALTAR OS",
     tagline: "An operating system for churches and ministry communities.",
     category: "Civic & Impact",
     industry: "Faith & Community",
-    status: "In progress",
-    year: "2026—",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#F59E0B",
     summary: "A planned and partially built platform for congregation identity, ministry operations, giving, communication, programmes and pastoral workflows.",
     problem: ["Church operations span people, programmes, care, finance and communication, yet the institutional record is often fragmented across paper and consumer messaging tools."],
@@ -874,8 +826,9 @@ export const PROJECTS: Project[] = [
     tagline: "From career discovery to preparation, opportunity, growth and legacy.",
     category: "Civic & Impact",
     industry: "Employment & Skills",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#6C63FF",
     summary: "A build-ready career platform designed to support the full arc of a person's working life rather than stopping at job search.",
     problem: ["Job boards optimise for vacancies, leaving career discovery, preparation, transitions and long-term development fragmented."],
@@ -892,8 +845,9 @@ export const PROJECTS: Project[] = [
     tagline: "Enter, scan, shop, pay and walk out.",
     category: "Commerce",
     industry: "Physical Retail",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#F59E0B",
     summary: "A Ghana-first, multi-store checkout platform that begins with smartphones and existing barcodes, then progressively supports smart carts and store hardware.",
     problem: ["Traditional checkout queues create friction for shoppers and operational cost for retailers, while hardware-first automation is too expensive for most African stores."],
@@ -910,8 +864,9 @@ export const PROJECTS: Project[] = [
     tagline: "Gather, give, remember—and return to the moment each year.",
     category: "Civic & Impact",
     industry: "Life Events & Community",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#8B85FF",
     summary: "A private, shareable platform for life events, wishlists, tributes, contributions, gifting and yearly remembrance.",
     problem: ["The people, gifts, messages and memories around important life moments are scattered across chats, payment receipts and temporary social posts."],
@@ -928,8 +883,9 @@ export const PROJECTS: Project[] = [
     tagline: "One shipment identity across every handoff.",
     category: "Industry OS",
     industry: "Logistics",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#00D4AA",
     summary: "A Ghana-first logistics layer connecting homes, parcel points, terminals, carriers, destination hubs and last-mile delivery.",
     problem: ["Domestic parcels move through informal handoffs, paper tickets and phone calls, forcing customers and merchants to coordinate transport infrastructure themselves."],
@@ -946,8 +902,9 @@ export const PROJECTS: Project[] = [
     tagline: "Turn conversations into action, knowledge and community.",
     category: "Enterprise",
     industry: "Communication & Collaboration",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#38BDF8",
     summary: "An AI-native communication platform for messaging, structured communities, collaborative work, knowledge, commerce, mini-apps and developer APIs.",
     problem: ["Important decisions and commitments disappear into message history, while overloaded users must manually convert conversation into tasks and durable knowledge."],
@@ -964,8 +921,9 @@ export const PROJECTS: Project[] = [
     tagline: "Digitise institutional trust, not merely signatures.",
     category: "Government",
     industry: "Document Trust",
-    status: "Planned",
-    year: "Planned",
+    tier: "labs",
+    maturity: "RESEARCH",
+    year: "Specified 2026",
     accent: "#EF4444",
     summary: "A digital institutional seal and document-trust network for policy-driven approvals, verification, revocation and public-sector auditability.",
     problem: ["A visible signature image cannot prove that an institution authorised a document, that the signer had authority, or that approval remains valid."],
@@ -978,11 +936,11 @@ export const PROJECTS: Project[] = [
   },
 ];
 
+/** Only categories that actually have entries — no empty filter chips. */
 export const PROJECT_CATEGORIES: ProjectCategory[] = [
   "Industry OS",
   "Government",
   "Education",
-  "Healthcare",
   "Media & Creators",
   "Commerce",
   "Enterprise",
@@ -991,4 +949,24 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = [
 
 export function getProject(slug: string): Project | undefined {
   return PROJECTS.find((p) => p.slug === slug);
+}
+
+/** Neurodyne's own products. The narrow, flagship surface. */
+export const PLATFORMS = PROJECTS.filter((p) => p.tier === "platform");
+
+/**
+ * Documented concepts: specified and designed, not built. Presented as a
+ * blueprint library rather than a roadmap, so a long list reads as depth of
+ * thinking rather than as fifteen half-finished products.
+ */
+export const LABS = PROJECTS.filter((p) => p.tier === "labs");
+
+/** Neurodyne work published publicly under an open licence. */
+export const OPEN_SOURCE = PROJECTS.filter((p) => p.tier === "open-source");
+
+/** Work delivered for other organisations. Clients anonymised by default. */
+export const CLIENT_WORK = PROJECTS.filter((p) => p.tier === "client-work");
+
+export function projectsByTier(tier: ProductTier): Project[] {
+  return PROJECTS.filter((p) => p.tier === tier);
 }
