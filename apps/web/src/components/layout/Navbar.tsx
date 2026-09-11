@@ -38,6 +38,32 @@ const Z_DRAWER = Z_HEADER + 1;
 /** The full-screen destination grid outranks everything. */
 const Z_GRID_OVERLAY = 1400;
 
+/**
+ * Shared surface for the navbar's round icon buttons (theme toggle, hamburger).
+ *
+ * Defined once because the two must look identical; duplicating the border and
+ * background values is how they drift apart on the next tweak.
+ *
+ * Note the string radii here and on the navbar's pill button. The theme sets
+ * `shape.borderRadius: 0`, and MUI multiplies a NUMERIC `borderRadius` by that
+ * value — so `borderRadius: 50` resolves to 0px, not a circle. Strings bypass
+ * the multiplier and are the only reliable way to round a control while the
+ * rest of the site stays square.
+ */
+const roundIconButtonSx = (isDark: boolean) => ({
+  width: 40,
+  height: 40,
+  borderRadius: "50%",
+  border: `1px solid ${isDark ? "rgba(255,255,255,0.25)" : "rgba(12,22,46,0.16)"}`,
+  background: isDark ? "rgba(255,255,255,0.05)" : "rgba(12,22,46,0.03)",
+  color: isDark ? "rgba(247,250,255,0.9)" : "rgba(6,18,39,0.78)",
+  transition: "border-color 0.3s, background 0.3s, color 0.3s",
+  "&:hover": {
+    borderColor: isDark ? "rgba(255,255,255,0.42)" : "rgba(12,22,46,0.28)",
+    background: isDark ? "rgba(255,255,255,0.08)" : "rgba(12,22,46,0.06)",
+  },
+});
+
 /* ═══════════════════════════════════════════════════════════════════
    AUDIO ENGINE  (Web Audio API — no external files)
    ═══════════════════════════════════════════════════════════════════ */
@@ -509,19 +535,7 @@ function ThemeToggle() {
         whileTap={{ scale: 0.88, rotate: isDark ? 180 : -180 }}
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 15 }}
-        sx={{
-          width: 40,
-          height: 40,
-          borderRadius: 50,
-          border: `1px solid ${isDark ? "rgba(255,255,255,0.25)" : "rgba(12,22,46,0.16)"}`,
-          background: isDark ? "rgba(255,255,255,0.05)" : "rgba(12,22,46,0.03)",
-          color: isDark ? "rgba(247,250,255,0.9)" : "rgba(6,18,39,0.78)",
-          transition: "border-color 0.3s, background 0.3s, color 0.3s",
-          "&:hover": {
-            borderColor: isDark ? "rgba(255,255,255,0.42)" : "rgba(12,22,46,0.28)",
-            background: isDark ? "rgba(255,255,255,0.08)" : "rgba(12,22,46,0.06)",
-          },
-        }}
+        sx={roundIconButtonSx(isDark)}
       >
         <AnimatePresence mode="wait">
           {isDark ? (
@@ -610,6 +624,8 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const mobile = useMediaQuery("(max-width: 1199px)");
+  const { mode } = useThemeMode();
+  const isDark = mode === "dark";
   const location = useLocation();
   useEffect(() => {
     setOpen(null);
@@ -770,7 +786,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                 to="/partners"
                 variant="contained"
                 endIcon={<ArrowForwardIcon />}
-                sx={{ ml: 1 }}
+                sx={{ ml: 1, borderRadius: "999px" }}
               >
                 Partner with us
               </Button>
@@ -778,8 +794,12 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           )}
           <ThemeToggle />
           {mobile && (
-            <IconButton aria-label="Open navigation menu" onClick={() => setDrawerOpen(true)}>
-              <MenuIcon />
+            <IconButton
+              aria-label="Open navigation menu"
+              onClick={() => setDrawerOpen(true)}
+              sx={roundIconButtonSx(isDark)}
+            >
+              <MenuIcon sx={{ fontSize: 20 }} />
             </IconButton>
           )}
         </Box>
