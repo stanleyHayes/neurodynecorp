@@ -21,6 +21,23 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 const BORDER = "rgba(108, 99, 255, 0.15)";
 const GLOW = "rgba(108, 99, 255, 0.6)";
 
+/**
+ * Stacking order for the navigation surfaces.
+ *
+ * These have to be declared together, because the failure mode is invisible in
+ * code read file-by-file: MUI's Drawer defaults to zIndex 1200, and the fixed
+ * header sits at 1300. That meant the header painted *over* the open drawer,
+ * covering its top strip — which is exactly where the close button lives, so a
+ * drawer opened from the hamburger could not be closed by tapping the X.
+ *
+ * The rule: a surface that overlays the page must outrank the header.
+ */
+const Z_HEADER = 1300;
+/** Above the header — the drawer and its backdrop must cover it. */
+const Z_DRAWER = Z_HEADER + 1;
+/** The full-screen destination grid outranks everything. */
+const Z_GRID_OVERLAY = 1400;
+
 /* ═══════════════════════════════════════════════════════════════════
    AUDIO ENGINE  (Web Audio API — no external files)
    ═══════════════════════════════════════════════════════════════════ */
@@ -616,7 +633,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
           top: scrolled ? 10 : 0,
           left: scrolled ? 12 : 0,
           right: scrolled ? 12 : 0,
-          zIndex: 1300,
+          zIndex: Z_HEADER,
           border: "1px solid",
           borderColor: "divider",
           bgcolor: "background.paper",
@@ -771,6 +788,9 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
         anchor="right"
         open={drawerOpen}
         onClose={() => setDrawerOpen(false)}
+        // Without this the header (Z_HEADER) paints over the drawer, hiding
+        // the close button behind it.
+        sx={{ zIndex: Z_DRAWER }}
         slotProps={{ paper: { sx: { width: "min(100%, 460px)" } } }}
       >
         <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", p: 2 }}>
@@ -879,7 +899,7 @@ export default function Navbar() {
       {/* ── Full-screen grid overlay ── */}
       <AnimatePresence>
         {(phase === "grid" || phase === "selecting" || phase === "collapsing") && (
-          <Modal open aria-label="Choose a destination" sx={{ zIndex: 1400 }}>
+          <Modal open aria-label="Choose a destination" sx={{ zIndex: Z_GRID_OVERLAY }}>
             <motion.div
               tabIndex={-1}
               role="dialog"
@@ -892,7 +912,7 @@ export default function Navbar() {
               style={{
                 position: "fixed",
                 inset: 0,
-                zIndex: 1400,
+                zIndex: Z_GRID_OVERLAY,
                 display: "grid",
                 gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
                 gridTemplateRows: isMobile
