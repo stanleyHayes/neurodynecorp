@@ -17,12 +17,12 @@ export default function ServiceDetail() {
   if (!svc) {
     return (
       <Container maxWidth="md" sx={{ py: { xs: 10, md: 16 }, textAlign: "center" }}>
-        <SEO title="Service not found" />
+        <SEO title="Service not found" noIndex />
         <Overline>404 // SERVICES</Overline>
         <Typography variant="h4" sx={{ fontWeight: 800, mt: 2, mb: 2 }}>
           That service line isn't here
         </Typography>
-        <Button component={Link} to="/services" startIcon={<ArrowBackIcon />} variant="outlined">
+        <Button component={Link} to="/company/engineering-services" startIcon={<ArrowBackIcon />} variant="outlined">
           Back to Services
         </Button>
       </Container>
@@ -34,8 +34,8 @@ export default function ServiceDetail() {
       <SEO
         title={svc.name}
         description={svc.positioning}
-        canonical={`https://neurodyne.dev/services/${svc.slug}`}
-        ogUrl={`https://neurodyne.dev/services/${svc.slug}`}
+        canonical={`https://neurodyne.dev/company/engineering-services/${svc.slug}`}
+        ogUrl={`https://neurodyne.dev/company/engineering-services/${svc.slug}`}
         structuredData={{
           "@context": "https://schema.org",
           "@type": "Service",
@@ -56,7 +56,7 @@ export default function ServiceDetail() {
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <Stack spacing={{ xs: 6, md: 8 }}>
-          <Button component={Link} to="/services" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start", color: "text.secondary" }}>
+          <Button component={Link} to="/company/engineering-services" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start", color: "text.secondary" }}>
             All services
           </Button>
 
@@ -112,12 +112,12 @@ export default function ServiceDetail() {
             </InfoCard>
           </Box>
 
-          {/* Sample work */}
+          {/* Engagement scope */}
           <Box>
-            <SectionHeading tag="§ 02 — PRECEDENT" title="Sample work" color="#8B85FF" />
+            <SectionHeading tag="§ 02 — SCOPE" title="What an engagement covers" color="#8B85FF" />
             <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
               {svc.sampleWork.map((w) => (
-                <Chip key={w} label={w} variant="outlined" component="a" href="/portfolio" clickable sx={{ borderColor: "#8B85FF55" }} />
+                <Chip key={w} label={w} variant="outlined" sx={{ borderColor: "#8B85FF55" }} />
               ))}
             </Stack>
           </Box>
@@ -138,7 +138,7 @@ export default function ServiceDetail() {
           <Divider />
 
           <CTABand
-            to="/start-project"
+            to="/company/engineering-services/brief"
             tag="ENGAGE"
             title="Start an engagement on this service line"
             description="Tell us your brief through the intake. We'll route it and propose a tailored scope."

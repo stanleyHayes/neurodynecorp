@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Link, useSearchParams } from "react-router";
 import {
   Box,
   Typography,
@@ -15,7 +16,6 @@ import {
 import { motion, AnimatePresence } from "framer-motion";
 import EmailIcon from "@mui/icons-material/Email";
 import LocationOnIcon from "@mui/icons-material/LocationOn";
-import PhoneIcon from "@mui/icons-material/Phone";
 import SendIcon from "@mui/icons-material/Send";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -42,23 +42,29 @@ const scanlinePulse = keyframes`
   100% { transform: translateY(100%); }
 `;
 
+/* Inquiry taxonomy from the 2026 positioning brief. `value` is what the API
+   stores; `label` is also the value Partners.tsx passes in `?type=`, so the two
+   must stay in step — see PARTNER_PATHWAYS[].inquiryType in @/content/company. */
 const PROJECT_TYPES = [
-  { value: "web_app", label: "Web Application" },
-  { value: "mobile_app", label: "Mobile App" },
-  { value: "ai_system", label: "AI / ML System" },
-  { value: "blockchain", label: "Blockchain" },
+  { value: "government_institution", label: "Government / Institution" },
+  { value: "enterprise", label: "Enterprise" },
+  { value: "developer", label: "Developer" },
+  { value: "open_source", label: "Open Source" },
+  { value: "research", label: "Research" },
+  { value: "investment", label: "Investment" },
+  { value: "startup_partnership", label: "Startup Partnership" },
+  { value: "general", label: "General" },
 ];
 
 const CONTACT_DATA = [
   { icon: <EmailIcon />, label: "Email", value: "info@neurodyne.dev", href: "mailto:info@neurodyne.dev", copyable: true, color: "#6C63FF", index: "08" },
-  { icon: <PhoneIcon />, label: "Phone", value: "+233 (0) 55 000 0000", href: "tel:+233550000000", copyable: true, color: "#00D4AA", index: "09" },
-  { icon: <LocationOnIcon />, label: "Location", value: "Accra, Ghana", href: undefined, copyable: false, color: "#8B85FF", index: "10" },
+  { icon: <LocationOnIcon />, label: "Location", value: "Accra, Ghana", href: undefined, copyable: false, color: "#8B85FF", index: "09" },
 ];
 
 const STEPS = [
-  { step: "01", text: "We review your message within 24 hours", color: "#6C63FF", index: "11" },
-  { step: "02", text: "A team member reaches out to discuss details", color: "#00D4AA", index: "12" },
-  { step: "03", text: "We deliver a proposal tailored to your needs", color: "#8B85FF", index: "13" },
+  { step: "01", text: "Your message is read by the engineer who would do the work", color: "#6C63FF", index: "10" },
+  { step: "02", text: "If it is a fit, you get a direct reply with questions", color: "#00D4AA", index: "11" },
+  { step: "03", text: "Scope, constraints and cost are worked out together", color: "#8B85FF", index: "12" },
 ];
 
 // ── Reusable Cell ───────────────────────────────────────────────────────────
@@ -190,6 +196,14 @@ const fieldSx = {
 
 export default function Contact() {
   const { submit, isSubmitting, isSubmitted, error } = useContactForm();
+  const [searchParams] = useSearchParams();
+
+  // /partners links here as `?type=Government+/+Institution` — match the label
+  // rather than the value so the pathway pages can stay in the vocabulary a
+  // reader sees. An unrecognised value simply leaves the field unselected.
+  const presetType =
+    PROJECT_TYPES.find((t) => t.label === searchParams.get("type"))?.value ?? "";
+
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -197,7 +211,7 @@ export default function Contact() {
     company: "",
     subject: "",
     message: "",
-    projectType: "",
+    projectType: presetType,
   });
   const [copied, setCopied] = useState<string | null>(null);
   const [attempted, setAttempted] = useState(false);
@@ -466,7 +480,7 @@ export default function Contact() {
               </Cell>
             </Box>
 
-            {/* Row 3: Subject | Project Type */}
+            {/* Row 3: Subject | Inquiry type */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
               <Cell color="#6C63FF" index="05" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.2}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
@@ -478,7 +492,7 @@ export default function Contact() {
               <Cell color="#00D4AA" index="06" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.25}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
                   <CategoryOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Project Type</Typography>
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Inquiry type</Typography>
                   <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#00D4AA15", color: "#00D4AA", border: "none" }} />
                 </Stack>
                 <TextField
@@ -704,8 +718,8 @@ export default function Contact() {
 
       {/* ═══ CTA CELL ═══ */}
       <Box
-        component="a"
-        href="/start-project"
+        component={Link}
+        to="/partners"
         sx={{
           display: "flex",
           alignItems: "center",

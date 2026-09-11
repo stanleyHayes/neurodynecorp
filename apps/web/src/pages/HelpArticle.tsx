@@ -96,7 +96,7 @@ export default function HelpArticle() {
   if (notFound || !article) {
     return (
       <Box sx={{ py: { xs: 6, md: 10 } }}>
-        <SEO title="Article not found" description="The help article you're looking for could not be found." />
+        <SEO title="Article not found" description="The help article you're looking for could not be found." noIndex />
         <Container maxWidth="lg">
           <Stack spacing={3} sx={{ alignItems: "flex-start", py: 8 }}>
             <Typography sx={OVERLINE}>SUPPORT // 404</Typography>

@@ -43,26 +43,26 @@ interface Section {
 const SECTIONS: Section[] = [
   {
     title: "Security Posture",
-    blurb: "Defence-in-depth baked into every service we ship and operate.",
+    blurb: "Defence-in-depth is part of how each service is built and operated.",
     Icon: VerifiedUserOutlinedIcon,
     accent: "#6C63FF",
     items: [
-      { label: "Multi-factor authentication (MFA)", detail: "Enforced for all admin and privileged accounts.", Icon: VpnKeyOutlinedIcon },
-      { label: "Audit logging", detail: "Tamper-evident logs for sensitive actions and access events.", Icon: HistoryToggleOffOutlinedIcon },
-      { label: "Encryption in transit", detail: "TLS 1.2+ on every endpoint; HSTS enabled by default.", Icon: LockOutlinedIcon },
-      { label: "Role-based access control (RBAC)", detail: "Least-privilege roles and granular permissions per user.", Icon: GroupsOutlinedIcon },
+      { label: "Audit logging", detail: "Sensitive actions and access events are written to an append-only audit log — entries are created, never edited or deleted.", Icon: HistoryToggleOffOutlinedIcon },
+      { label: "Encryption in transit", detail: "Traffic is served over HTTPS, with standard security headers set by the API.", Icon: LockOutlinedIcon },
+      { label: "Role-based access control (RBAC)", detail: "Least-privilege roles and granular per-permission checks on protected routes.", Icon: GroupsOutlinedIcon },
+      { label: "Authentication", detail: "Token-based sign-in with per-role authorisation. Multi-factor authentication is not enabled today — it is on the roadmap, not in place.", Icon: VpnKeyOutlinedIcon },
     ],
   },
   {
-    title: "Compliance & Data Protection",
-    blurb: "Privacy-first by design, aligned to the regulations that matter for our clients.",
+    title: "Data Protection by Design",
+    blurb: "Privacy-first engineering, built around the data-protection regimes that matter in the markets we build for. These are the practices followed, not a certified compliance position.",
     Icon: GavelOutlinedIcon,
     accent: "#00D4AA",
     items: [
-      { label: "GDPR aligned", detail: "Data-subject rights, lawful basis, and DPA support on request.", Icon: ShieldOutlinedIcon },
-      { label: "Ghana Data Protection Act 2012 (Act 843)", detail: "Processing aligned with Ghana's Data Protection Commission requirements.", Icon: GavelOutlinedIcon },
-      { label: "Data residency options", detail: "Choose regional hosting to meet local data-residency obligations.", Icon: PublicOutlinedIcon },
-      { label: "Data minimisation", detail: "We collect only what a feature needs and retain it no longer than necessary.", Icon: StorageOutlinedIcon },
+      { label: "Built around GDPR principles", detail: "Data-subject rights, lawful basis, and a data-processing agreement available on request.", Icon: ShieldOutlinedIcon },
+      { label: "Designed to align with Ghana's Data Protection Act 2012 (Act 843)", detail: "Data handling is designed around the requirements set out by Ghana's Data Protection Commission.", Icon: GavelOutlinedIcon },
+      { label: "Data residency options", detail: "Deployments can be placed in a specific region where local data-residency obligations apply.", Icon: PublicOutlinedIcon },
+      { label: "Data minimisation", detail: "Only what a feature needs is collected, and it is retained no longer than necessary.", Icon: StorageOutlinedIcon },
     ],
   },
 ];
@@ -72,19 +72,20 @@ export default function Trust() {
     <Box sx={{ py: { xs: 6, md: 10 } }}>
       <SEO
         title="Trust Center"
-        description="NeuroDyne Corp Trust Center — our security posture, compliance with GDPR and Ghana's Data Protection Act 2012 (Act 843), sub-processors, and how to reach our security team."
+        description="NeuroDyne Corp Trust Center — the security practices followed, a data-protection approach designed to align with GDPR and Ghana's Data Protection Act 2012 (Act 843), sub-processors, and how to report a security issue."
       />
       <Container maxWidth="lg">
         <Typography sx={OVERLINE_SX}>Trust Center</Typography>
         <Typography variant="h3" sx={{ fontWeight: 700, mt: 1.5, mb: 2 }}>
-          Security, privacy & compliance
+          Security, privacy & data protection
         </Typography>
         <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, maxWidth: 760, mb: { xs: 4, md: 6 } }}>
-          How we protect your data and keep our platform trustworthy. Transparency is part of the product.
+          The practices used to protect your data, written plainly. NeuroDyne holds no security or privacy
+          certification — what follows is how systems are actually built and operated, so you can assess it yourself.
         </Typography>
 
         <Stack spacing={{ xs: 3, md: 4 }}>
-          {/* Posture + Compliance cards */}
+          {/* Security posture + data-protection cards */}
           <Box
             sx={{
               display: "grid",
@@ -206,8 +207,8 @@ export default function Trust() {
                   </Typography>
                 </Stack>
                 <Typography variant="body2" color="text.secondary" sx={{ mb: 2.5, maxWidth: 680 }}>
-                  Found a vulnerability? We appreciate responsible disclosure. Email our security team and
-                  we'll respond promptly. Please do not publicly disclose until we've had a chance to remediate.
+                  Found a vulnerability? Responsible disclosure is welcome. Email the address below — it reaches the
+                  founder directly. Please do not publicly disclose until there has been a chance to remediate.
                 </Typography>
 
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 2.5 }}>

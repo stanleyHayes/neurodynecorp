@@ -145,8 +145,8 @@ export default function Diagnostic() {
       <SEO
         title="Engagement Readiness Diagnostic"
         description="A short, branching diagnostic that routes your brief to the right engagement path with NeuroDyne Corp — and gives you a one-page readiness summary."
-        canonical="https://neurodyne.dev/diagnostic"
-        ogUrl="https://neurodyne.dev/diagnostic"
+        canonical="https://neurodyne.dev/company/engineering-services/diagnostic"
+        ogUrl="https://neurodyne.dev/company/engineering-services/diagnostic"
       />
 
       <PageHero
@@ -305,10 +305,10 @@ export default function Diagnostic() {
 
                   {result.route === "decline_referral" ? (
                     <CTABand
-                      to="/insights"
+                      to="/research"
                       tag="RESOURCES"
                       title="Resources to move you forward"
-                      description="Start with our field notes and theses. When your brief firms up — budget, sponsor, timeline — come back and we'll route you properly."
+                      description="Start with the research and technical writing. When your brief firms up — budget, sponsor, timeline — come back and it can be routed properly."
                       color="#F59E0B"
                     />
                   ) : (

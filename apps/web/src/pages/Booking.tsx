@@ -109,7 +109,7 @@ export default function Booking() {
             ) : (
               <Alert severity="info">
                 Conversations go further when we've seen your brief first. Consider running the{" "}
-                <Link to="/diagnostic">2-minute readiness diagnostic</Link> — or request a time below and we'll take it from there.
+                <Link to="/company/engineering-services/diagnostic">2-minute readiness diagnostic</Link> — or request a time below and we'll take it from there.
               </Alert>
             )}
 
@@ -150,7 +150,7 @@ export default function Booking() {
             </Box>
 
             <CTABand
-              to="/diagnostic"
+              to="/company/engineering-services/diagnostic"
               tag="NOT YET QUALIFIED?"
               title="Run the readiness diagnostic first"
               description="Two minutes. It routes your brief and sets the right length for this conversation."

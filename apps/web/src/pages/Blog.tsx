@@ -279,7 +279,7 @@ export default function Blog() {
     <>
       <SEO
         title="Blog"
-        description="Engineering insights, tutorials, and thought leadership from the NeuroDyne Corp team."
+        description="Writing on engineering, AI and digital infrastructure for African markets."
         canonical="https://neurodyne.dev/blog"
         ogUrl="https://neurodyne.dev/blog"
       />
@@ -361,7 +361,7 @@ export default function Blog() {
         <EmptyState
           icon={<ArticleIcon />}
           title="No blog posts published yet"
-          description="Check back soon for engineering insights, tutorials, and thought leadership from our team."
+          description="Nothing published yet. Writing on engineering, AI and digital infrastructure for African markets will appear here."
           color="#8B85FF"
         />
       ) : filtered.length === 0 ? (

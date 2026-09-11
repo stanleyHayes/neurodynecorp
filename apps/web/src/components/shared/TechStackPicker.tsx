@@ -101,7 +101,7 @@ export default function TechStackPicker() {
         Pick your stack
       </Typography>
       <Typography sx={{ color: "text.secondary", opacity: 0.7, mb: 4, maxWidth: 480 }}>
-        Tap pieces below. We'll suggest a battle-tested architecture as you build.
+        Tap pieces below. A starting architecture is suggested as you build.
       </Typography>
 
       {/* Category groups */}
@@ -175,7 +175,7 @@ export default function TechStackPicker() {
 
       <Button
         component={Link}
-        to="/start-project"
+        to="/company/engineering-services/brief"
         variant="contained"
         startIcon={<RocketLaunchOutlinedIcon />}
         sx={{

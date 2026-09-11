@@ -23,7 +23,7 @@ const CATEGORIES: Category[] = [
     items: [
       { q: "How do engagements start?", a: "By qualification, not enquiry. You complete the Engagement Readiness Diagnostic; we route you to the right path and a qualified conversation." },
       { q: "Do you take any project?", a: "No. We're selective on mission-critical builds and take web/platform work where it earns strategic position." },
-      { q: "What does the audit produce?", a: "A current-state map, a five-dimension readiness assessment, a target architecture for 18–36 months, and a costed roadmap." },
+      { q: "What does the audit produce?", a: "A current-state map, a five-dimension readiness assessment, a target architecture, and a costed roadmap with sequencing. The planning horizon is set with you during scoping rather than fixed in advance." },
     ],
   },
   {
@@ -31,7 +31,7 @@ const CATEGORIES: Category[] = [
     color: "#00D4AA",
     items: [
       { q: "How do you price?", a: "Audits are fixed-scope; builds are milestone-paid; advisory is retainer-based. We publish indicative bands on each service page." },
-      { q: "What currencies do you work in?", a: "USD, GHS, and EUR where relevant. Multi-currency exposure is tracked in the client portal's budget view." },
+      { q: "What currencies do you work in?", a: "USD, GHS, and EUR where relevant. The billing currency and any rate assumptions are fixed in the engagement agreement before work starts." },
       { q: "Is the scope estimator a quote?", a: "No. It's an indicative signal that we understand the brief. Final scope is set after a qualified conversation." },
     ],
   },
@@ -39,40 +39,40 @@ const CATEGORIES: Category[] = [
     name: "Intellectual property",
     color: "#8B85FF",
     items: [
-      { q: "Who owns what we build?", a: "Client engagements: you own the deliverables. Labs platforms: the IP stays with the firm and is licensed. We make the distinction explicit up front." },
-      { q: "Can we extract our data?", a: "Yes. Sophisticated clients get scoped API keys to pull deliverables, decisions, milestones, and audit logs at any time." },
+      { q: "Who owns what we build?", a: "Client engagements: you own the deliverables. Labs platforms: the IP stays with the firm and would be licensed to you rather than transferred. We make the distinction explicit up front." },
+      { q: "Can we extract our data?", a: "Yes. Deliverables, decisions, milestones, and audit logs are yours, and a full export can be requested at any point during or after the engagement. Export is a contractual commitment, not a feature you have to negotiate for." },
     ],
   },
   {
-    name: "Government work",
+    name: "Public-sector work",
     color: "#F59E0B",
     items: [
-      { q: "Do you work with governments?", a: "Yes — national-scale digital systems are core. We support RFP/tender intake with SLA-tracked acknowledgement." },
-      { q: "Can data stay on-shore?", a: "Yes. Where regulation requires data residency, we deploy to a self-hosted equivalent rather than a default cloud region." },
+      { q: "Do you take public-sector work?", a: "Yes. Public-sector and national-scale systems are a deliberate focus of the practice, and RFP or tender documents can be sent through the contact page. To be clear: this is stated as intent and capability, not as a list of government engagements already delivered." },
+      { q: "Can data stay on-shore?", a: "It can be built that way. Where regulation requires data residency, hosting region and a self-hosted deployment path are treated as architecture constraints and agreed in writing before the build starts — not offered as a pre-existing arrangement." },
     ],
   },
   {
     name: "Timelines",
     color: "#33DDBB",
     items: [
-      { q: "How long does an audit take?", a: "Typically 4–8 weeks depending on scope." },
-      { q: "How fast can a build go live?", a: "Mission-critical builds are phased over 12–24+ weeks. Each phase is independently shippable." },
+      { q: "How long does an audit take?", a: "Audits are scoped per engagement rather than sold against a fixed calendar. The duration and the review points are agreed in writing before work begins." },
+      { q: "How fast can a build go live?", a: "Builds are phased so that each phase is independently shippable rather than held for one large launch. The phase plan and its dates are set with you at the start of the engagement, not quoted as a general timeline." },
     ],
   },
   {
-    name: "Team & composition",
+    name: "Who does the work",
     color: "#6C63FF",
     items: [
-      { q: "Who works on my engagement?", a: "A named team surfaced in your portal's Team Directory, with roles, contact, and availability." },
-      { q: "Where is the team based?", a: "Ghana and West Africa, working with international clients and multilateral institutions." },
+      { q: "Who works on my engagement?", a: "NeuroDyne is founder-led by one engineer. The person who scopes the work is the person who designs, builds, and ships it — there is no handover to an unnamed delivery team." },
+      { q: "Where are you based?", a: "Ghana. Engagements are delivered remotely, and the practice is oriented toward institutions building in Ghana and West Africa." },
     ],
   },
   {
-    name: "Security & compliance",
+    name: "Security & data protection",
     color: "#00D4AA",
     items: [
-      { q: "How do you handle security?", a: "MFA enforced, full audit logging, RBAC, encryption in transit. Auth and audit are reviewed by an external practitioner before any client goes live." },
-      { q: "What regulations do you align to?", a: "GDPR and Ghana's Data Protection Act 2012 (Act 843), with DPA and sub-processor disclosure on request." },
+      { q: "How do you handle security?", a: "Role-based access control with per-permission checks, an append-only audit log on sensitive actions, and encryption in transit. Multi-factor authentication is not enabled yet, and there is no third-party certification or external audit to point to — every control is written out on the Trust Center so you can assess it directly." },
+      { q: "What regulations do you align to?", a: "Work is designed to align with GDPR and Ghana's Data Protection Act 2012 (Act 843). That is a design posture rather than a certified compliance position; a data-processing agreement and sub-processor disclosure are available on request." },
     ],
   },
   {
@@ -80,7 +80,7 @@ const CATEGORIES: Category[] = [
     color: "#8B85FF",
     items: [
       { q: "What happens after launch?", a: "Handover runbooks, training, a post-engagement report, and an agreed support plan. The engagement workspace stays as your record." },
-      { q: "Do you offer ongoing support?", a: "Yes — via SLA-tracked support tickets in the portal and, where fitting, a retained advisory relationship." },
+      { q: "Do you offer ongoing support?", a: "Yes — through support tickets in the client portal and, where it fits, a retained advisory relationship. Response expectations are agreed in the support plan itself rather than advertised as a blanket SLA." },
     ],
   },
 ];
@@ -104,7 +104,7 @@ export default function FAQ() {
     <Box>
       <SEO
         title="FAQ"
-        description="Frequently asked questions about NeuroDyne Corp — engagement model, pricing, IP, government work, timelines, team, security & compliance, and post-launch support."
+        description="Frequently asked questions about NeuroDyne Corp — engagement model, pricing, IP, public-sector work, timelines, who does the work, security and data protection, and post-launch support."
         canonical="https://neurodyne.dev/faq"
         ogUrl="https://neurodyne.dev/faq"
         structuredData={faqStructuredData}

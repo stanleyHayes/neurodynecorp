@@ -77,8 +77,8 @@ export default function ProjectDiscovery() {
       title="Start a software or website project"
       description="Plan your website, platform, mobile app, e-commerce, public-service, or digital product with NeuroDyne. Save your discovery brief, refine it with the brief copilot, and continue later."
       keywords="start software project, website project brief, app development Ghana, web development Ghana, software discovery, digital product agency Africa"
-      canonical="https://neurodyne.dev/start-project"
-      ogUrl="https://neurodyne.dev/start-project"
+      canonical="https://neurodyne.dev/company/engineering-services/brief"
+      ogUrl="https://neurodyne.dev/company/engineering-services/brief"
       structuredData={{
         "@context": "https://schema.org",
         "@type": "Service",
@@ -86,7 +86,7 @@ export default function ProjectDiscovery() {
         provider: { "@type": "Organization", name: "NeuroDyne Corp", url: "https://neurodyne.dev" },
         serviceType: "Software and website project discovery",
         areaServed: ["Ghana", "Africa", "Worldwide"],
-        url: "https://neurodyne.dev/start-project",
+        url: "https://neurodyne.dev/company/engineering-services/brief",
       }}
     />
     <Container maxWidth="xl">

@@ -17,8 +17,8 @@ export default function Research() {
   return (
     <>
       <SEO
-        title="Research | NeuroDyne Corp"
-        description="Applied research in AI, distributed systems, digital identity, interoperability, knowledge graphs, digital twins and edge computing — grounded in African deployment realities."
+        title="Research"
+        description="Applied research in AI, distributed systems, digital identity, interoperability, knowledge graphs, digital twins and edge computing — grounded in African infrastructure realities."
       />
 
       <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
@@ -28,9 +28,9 @@ export default function Research() {
             icon={<ScienceOutlinedIcon />}
             iconLabel="NDC-LAB"
             tag="Research Lab"
-            title="Research that becomes infrastructure"
+            title="Research meant to become infrastructure"
             accentWord="infrastructure"
-            description="We publish what we learn. Every research thread here exists because a real deployment demanded an answer we couldn't buy."
+            description="Research threads here come out of building. Each one exists because a system under construction ran into a question that couldn't be bought off the shelf."
             iconColor="#8B85FF"
           />
         </Box>
@@ -82,16 +82,16 @@ export default function Research() {
       <Container maxWidth="lg" sx={{ pb: { xs: 8, md: 12 } }}>
         <SectionHeading
           tag="How we work"
-          title="Research with a deployment attached"
-          lead="We don't research in isolation. Each thread is tied to a live operating system — schools, housing, creators, public finance — so findings are tested against real constraints: intermittent connectivity, low-spec devices, thin budgets, and regulation."
+          title="Research with a build attached"
+          lead="Research here isn't done in isolation. Each thread is tied to a system being built — schools, housing, creators, public finance — so questions are tested against real constraints: intermittent connectivity, low-spec devices, thin budgets, and regulation."
           align="center"
           color="#8B85FF"
         />
         <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ mt: 4 }}>
           {[
-            { k: "Publish", v: "Findings, schemas and reference implementations released openly where they help the ecosystem." },
-            { k: "Partner", v: "We collaborate with universities, government units and industry bodies on applied problems." },
-            { k: "Productize", v: "Proven results graduate into platform capabilities other teams can reuse." },
+            { k: "Publish", v: "Findings, schemas and reference implementations are intended to be released openly where they help the ecosystem. Nothing is published yet." },
+            { k: "Collaborate", v: "Open to applied research collaboration with universities, public-sector units and industry bodies. No such partnerships are in place today." },
+            { k: "Productize", v: "Results that hold up under real constraints are intended to graduate into platform capabilities." },
           ].map((c, i) => (
             <Box
               key={c.k}
@@ -108,10 +108,10 @@ export default function Research() {
 
         <Box sx={{ mt: { xs: 6, md: 8 } }}>
           <CTABand
-            to="/open-standards"
+            to="/infrastructure"
             tag="Related"
             title="Research feeds the standards"
-            description="What we learn becomes schemas, APIs and validation tools in the NeuroDyne Open Standards Initiative."
+            description="Research here is intended to become schemas, APIs and validation tools in the NeuroDyne Open Standards Initiative."
             color="#00D4AA"
           />
         </Box>

@@ -9,7 +9,7 @@ export default function AccountDeletion() {
   return (
     <>
       <SEO
-        title="Delete your NeuroDyne account"
+        title="Delete your Neurodyne account"
         description="Request deletion of your NeuroDyne account and associated personal data."
         canonical="https://neurodyne.dev/account-deletion"
         ogUrl="https://neurodyne.dev/account-deletion"

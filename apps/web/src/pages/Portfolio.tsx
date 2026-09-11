@@ -15,7 +15,6 @@ interface PortfolioItem {
   id: string;
   slug?: string;
   title: string;
-  client: string;
   category: string;
   tags: string[];
   description: string;
@@ -100,15 +99,15 @@ export default function Portfolio() {
     <>
       <SEO
         title="Case Dossiers"
-        description="NeuroDyne Corp case dossiers — declassified briefs on engagements across Government, Health, Financial Services, Commerce, and Education. Filter by sector, service line, scale, and stage."
-        canonical="https://neurodyne.dev/portfolio"
-        ogUrl="https://neurodyne.dev/portfolio"
+        description="NeuroDyne Corp case dossiers — write-ups of engineering work delivered for other organisations, with client identities withheld. Filter by sector, service line, scale, and stage."
+        canonical="https://neurodyne.dev/company/engineering-services/work"
+        ogUrl="https://neurodyne.dev/company/engineering-services/work"
       />
 
       <PageHero
         icon={<WorkIcon />}
         title="Case Dossiers"
-        description="Engagements rendered as declassified briefs — the constraint set, the architecture chosen, what shipped, and what we kept. Filterable by sector, service line, scale, and stage."
+        description="Engineering work delivered for other organisations, written up as anonymised briefs — the constraint set, the architecture chosen, what shipped, and what was retained. Filterable by sector, service line, scale, and stage."
         tag="OPERATIONS // LOG"
         accentWord="Dossiers"
         iconColor="#33DDBB"
@@ -173,7 +172,7 @@ export default function Portfolio() {
             <EmptyState
               icon={<WorkIcon />}
               title={anyFilterActive ? "No dossiers match these filters" : "No case dossiers published yet"}
-              description={anyFilterActive ? "Try clearing a filter to widen the search." : "Check back soon to explore our archive of delivered engagements."}
+              description={anyFilterActive ? "Try clearing a filter to widen the search." : "Published briefs will appear here once they are written up."}
               color="#33DDBB"
             />
           ) : (

@@ -13,7 +13,9 @@ import PageHero from "@/components/shared/PageHero";
 import { SectionHeading, Overline, CTABand } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
 import HudCorners from "@/components/shared/HudCorners";
+import GitHubIcon from "@mui/icons-material/GitHub";
 import { ABOUT } from "@/content/positioning";
+import { FOUNDER, CANON } from "@/content/company";
 
 const MotionBox = motion.create(Box);
 const ACCENTS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#38BDF8"];
@@ -22,8 +24,8 @@ export default function About() {
   return (
     <>
       <SEO
-        title="About | NeuroDyne Corp"
-        description="NeuroDyne is an engineering company building intelligent digital infrastructure that connects people, organizations, and industries through scalable software, AI, and open standards."
+        title="About Neurodyne"
+        description="Neurodyne is a Ghanaian technology company building AI-native platforms, developer infrastructure and digital systems for African businesses, communities and institutions."
       />
 
       <Container maxWidth="lg" sx={{ pt: 0, pb: { xs: 6, md: 10 }, position: "relative" }}>
@@ -32,10 +34,10 @@ export default function About() {
           <PageHero
             icon={<InfoOutlinedIcon />}
             iconLabel="NDC-ABT"
-            tag="About NeuroDyne"
-            title="An engineering company, not a software agency"
-            accentWord="engineering company"
-            description="Much of today's software is fragmented, incompatible and hard to scale. NeuroDyne was founded to solve that."
+            tag="About Neurodyne"
+            title="An infrastructure company, built in Ghana"
+            accentWord="infrastructure company"
+            description="Africa's digital economy is being built on infrastructure designed somewhere else. Neurodyne exists to build the foundations here, once, and in the open."
             iconColor="#8B85FF"
           />
         </Box>
@@ -142,7 +144,7 @@ export default function About() {
             ))}
           </Box>
           <Box sx={{ textAlign: "center", mt: 4 }}>
-            <Button component={Link} to="/philosophy" endIcon={<ArrowForwardIcon />} sx={{ borderRadius: 0, fontWeight: 700 }}>
+            <Button component={Link} to="/vision" endIcon={<ArrowForwardIcon />} sx={{ borderRadius: 0, fontWeight: 700 }}>
               The full engineering doctrine
             </Button>
           </Box>
@@ -201,9 +203,8 @@ export default function About() {
                   conditions works nowhere that matters to us.
                 </Typography>
                 <Typography color="text.secondary" sx={{ lineHeight: 1.95, fontSize: "1.02rem" }}>
-                  That is why our portfolio spans housing, education, disaster response, healthcare interoperability,
-                  commerce, culture and public investment — and why every one of those systems contributes reusable
-                  infrastructure back to the next.
+                  That is why the platforms span housing, fundraising, education and property recovery — and why every
+                  one of them contributes reusable infrastructure back to the next.
                 </Typography>
               </Stack>
             </Grid>
@@ -211,12 +212,96 @@ export default function About() {
         </Container>
       </Box>
 
+      {/* ── Founder ──────────────────────────────────────────────────────── */}
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+        <Container maxWidth="lg">
+          <Grid container spacing={{ xs: 4, md: 8 }}>
+            <Grid size={{ xs: 12, md: 5 }}>
+              <Overline>Who is building this</Overline>
+              <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em" }}>
+                {FOUNDER.name}
+              </Typography>
+              <Typography sx={{ mt: 0.75, color: "#00D4AA", fontWeight: 600, fontSize: "0.92rem" }}>
+                {FOUNDER.role} · {FOUNDER.location}
+              </Typography>
+              <Stack direction="row" spacing={2} sx={{ mt: 2.5 }}>
+                {FOUNDER.links.map((l) => (
+                  <Button
+                    key={l.label}
+                    component="a"
+                    href={l.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    startIcon={<GitHubIcon />}
+                    sx={{ borderRadius: 0, px: 0, fontWeight: 700, fontSize: "0.82rem" }}
+                  >
+                    {l.label}
+                  </Button>
+                ))}
+              </Stack>
+            </Grid>
+            <Grid size={{ xs: 12, md: 7 }}>
+              <Typography sx={{ fontSize: "1.05rem", lineHeight: 1.75, fontWeight: 500 }}>
+                {FOUNDER.summary}
+              </Typography>
+              <Stack spacing={2} sx={{ mt: 2.5 }}>
+                {FOUNDER.bio.map((para, i) => (
+                  <Typography key={i} color="text.secondary" sx={{ lineHeight: 1.9, fontSize: "0.97rem" }}>
+                    {para}
+                  </Typography>
+                ))}
+              </Stack>
+              <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1, mt: 3 }}>
+                {FOUNDER.focus.map((f) => (
+                  <Box
+                    key={f}
+                    component="span"
+                    sx={{
+                      fontFamily: "monospace",
+                      fontSize: "0.65rem",
+                      letterSpacing: "0.1em",
+                      textTransform: "uppercase",
+                      border: "1px solid",
+                      borderColor: "divider",
+                      color: "text.secondary",
+                      px: 1.2,
+                      py: 0.5,
+                    }}
+                  >
+                    {f}
+                  </Box>
+                ))}
+              </Stack>
+            </Grid>
+          </Grid>
+        </Container>
+      </Box>
+
+      {/* ── Geography ────────────────────────────────────────────────────── */}
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 6, md: 9 }, textAlign: "center" }}>
+        <Container maxWidth="md">
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 900,
+              letterSpacing: "-0.02em",
+              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              backgroundClip: "text",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+            }}
+          >
+            {CANON.geography}
+          </Typography>
+        </Container>
+      </Box>
+
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
         <CTABand
-          to="/projects"
+          to="/products"
           tag="See the work"
-          title="Systems we've engineered"
-          description="Housing, schools, disaster response, healthcare, public investment — and the primitives each one proved out."
+          title="What has actually been built"
+          description="Four platforms, the experiments behind them, and the engineering work delivered for other organisations — each carrying the stage it is actually at."
         />
       </Container>
     </>

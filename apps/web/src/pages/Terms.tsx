@@ -13,7 +13,7 @@ const sections = [
   },
   {
     title: "2. Services",
-    content: `NeuroDyne Corp provides productized software engineering services including custom software development, mobile development, AI/ML systems, blockchain solutions, and related consulting. The specific scope, timeline, and deliverables for each project will be defined in a separate Statement of Work (SOW) or project agreement.`,
+    content: `Neurodyne builds AI and digital infrastructure, operates its own platforms, and provides engineering services including platform architecture, AI systems and technical advisory. The specific scope, timeline and deliverables for each engagement will be defined in a separate Statement of Work (SOW) or project agreement.`,
   },
   {
     title: "3. Intellectual Property",

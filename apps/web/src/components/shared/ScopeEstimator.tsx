@@ -181,7 +181,7 @@ export default function ScopeEstimator() {
           {/* Lead capture */}
           {submitted ? (
             <Alert icon={<CheckCircleOutlineIcon />} severity="success" sx={{ borderRadius: 2 }}>
-              Got it — your configuration is on its way to our team. We'll be in touch to turn this into a real scope.
+              Got it — your configuration has been sent through. You'll get a reply to turn this into a real scope.
             </Alert>
           ) : (
             <Box>
@@ -209,7 +209,7 @@ export default function ScopeEstimator() {
         <Box sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 14, 26, 0.4)", border: "1px solid rgba(108, 99, 255, 0.2)" }}>
           <Typography sx={{ fontWeight: 700, mb: 1 }}>{line.name} is scoped as a relationship, not a configurator.</Typography>
           <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>{line.priceBand}. {line.positioning}</Typography>
-          <Button component={Link} to="/diagnostic" variant="outlined" sx={{ borderColor: `${accent}66`, color: accent }}>
+          <Button component={Link} to="/company/engineering-services/diagnostic" variant="outlined" sx={{ borderColor: `${accent}66`, color: accent }}>
             Start with the readiness diagnostic
           </Button>
         </Box>

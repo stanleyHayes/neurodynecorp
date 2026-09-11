@@ -34,21 +34,28 @@ export function SectionHeading({
   lead,
   color = "#6C63FF",
   align = "left",
+  component = "h2",
 }: {
   tag?: string;
   title: ReactNode;
   lead?: ReactNode;
   color?: string;
   align?: "left" | "center";
+  /** Outline level. Defaults to h2 — override only to nest deeper. */
+  component?: "h2" | "h3" | "h4";
 }) {
   return (
     <Stack spacing={1.5} sx={{ mb: { xs: 3, md: 4 }, textAlign: align, alignItems: align === "center" ? "center" : "flex-start" }}>
       {tag && <Overline color={color}>{tag}</Overline>}
-      <Typography variant="h4" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
+      {/* `variant` is the type scale; `component` is the document outline. A
+          section heading is an h2 under the page's h1 regardless of how big it
+          looks, and the lead is body copy — rendering it as an h6 put ordinary
+          prose into the outline and announced it as a heading. */}
+      <Typography variant="h4" component={component} sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
         {title}
       </Typography>
       {lead && (
-        <Typography variant="h6" color="text.secondary" sx={{ fontWeight: 400, maxWidth: 760, opacity: 0.8 }}>
+        <Typography variant="h6" component="p" color="text.secondary" sx={{ fontWeight: 400, maxWidth: 760, opacity: 0.8 }}>
           {lead}
         </Typography>
       )}

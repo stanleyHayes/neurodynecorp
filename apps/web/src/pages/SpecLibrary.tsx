@@ -19,27 +19,34 @@ interface Spec {
   id: string;
   title: string;
   category: string;
-  pages: number;
-  domain: string;
   color: string;
   excerpt: string;
   content: string;
 }
 
-const FINTECH_SPEC = `# FinanceFlow — AI-Powered Analytics Platform
+const FINTECH_SPEC = `# Financial Analytics Platform — Illustrative Spec Template
 
-**Version:** 1.2 · **Status:** Approved · **Pages:** 18
+**Type:** Illustrative template · **Status:** Example only — not a client document
+
+> This is a worked example of how a Neurodyne specification is structured. It is not
+> a real engagement, there is no client behind it, and every target below is a
+> placeholder that would be filled in with the client during intake.
 
 ## 1. Executive Summary
 
-FinanceFlow needed a real-time analytics dashboard to replace their batch-reporting system. The platform ingests transaction data from 12 sources, normalizes it, and surfaces actionable insights through ML-driven anomaly detection.
+A hypothetical organisation wants to replace batch reporting with a near-real-time
+analytics dashboard. The platform ingests transaction data from multiple sources,
+normalises it, and surfaces insights through anomaly detection.
 
 ## 2. Objectives
 
-- Cut report generation time from 4 hours to under 30 seconds
-- Detect transaction anomalies within 2 minutes of occurrence
-- Support 50,000 concurrent dashboard sessions
-- Maintain SOC-2 compliance throughout the pipeline
+*In a real spec, each objective carries a number agreed with the client and a way
+to measure it. The placeholders below show the shape, not a promise.*
+
+- Reduce report generation time from the current baseline to a target agreed at intake
+- Detect transaction anomalies within an agreed time window of occurrence
+- Support the concurrency ceiling the client's usage data justifies
+- Meet whatever regulatory obligations the client identifies for the pipeline
 
 ## 3. Architecture
 
@@ -51,32 +58,36 @@ FinanceFlow needed a real-time analytics dashboard to replace their batch-report
 ### Backend
 - **Go** services with hexagonal architecture
 - **gRPC** internal communication, **REST** edge gateway
-- **Kafka** ingestion pipeline (12 source topics → 1 normalized topic)
+- **Kafka** ingestion pipeline (source topics → normalized topic)
 
 ### Data
 - **PostgreSQL** for transactional state
-- **ClickHouse** for analytical queries (sub-second on 2B rows)
+- **ClickHouse** for analytical queries
 - **Redis** for session and rate-limit state
 
 ## 4. Feature Breakdown
 
+*Effort columns in a real spec come from scoping the client's actual requirements.
+The values here are illustrative only.*
+
 | Feature | Effort | Priority |
 |---------|--------|----------|
-| Multi-source ingestion | 3 weeks | Critical |
-| Anomaly detection model | 4 weeks | Critical |
-| Real-time dashboard | 5 weeks | High |
-| Export & scheduled reports | 2 weeks | Medium |
-| Audit trail | 2 weeks | High |
+| Multi-source ingestion | TBD at scoping | Critical |
+| Anomaly detection model | TBD at scoping | Critical |
+| Real-time dashboard | TBD at scoping | High |
+| Export & scheduled reports | TBD at scoping | Medium |
+| Audit trail | TBD at scoping | High |
 
 ## 5. Timeline
 
-> 16 weeks total · 4 sprints of 4 weeks each
+> Sprint count and duration are set during scoping, once the feature breakdown above
+> has real effort estimates against it.
 
 ## 6. Assumptions
 
 1. Source systems expose webhooks or polling APIs with stable schemas
-2. Client provides historical data for ML model training (≥6 months)
-3. SOC-2 Type 1 audit completed within 6 months of go-live
+2. Client provides sufficient historical data for model training
+3. Any compliance or audit milestones are owned by the client and scheduled explicitly
 
 ## 7. Role Permissions
 
@@ -85,57 +96,72 @@ FinanceFlow needed a real-time analytics dashboard to replace their batch-report
 - **Auditor** — read-only with full audit log
 `;
 
-const HEALTHCARE_SPEC = `# HealthTrack — Patient Monitoring Platform
+const HEALTHCARE_SPEC = `# Patient Monitoring Platform — Illustrative Spec Template
 
-**Version:** 2.0 · **Status:** Approved · **Pages:** 22
+**Type:** Illustrative template · **Status:** Example only — not a client document
+
+> This is a worked example of how a Neurodyne specification is structured for a
+> regulated domain. It is not a real engagement and describes no delivered system.
+> Neurodyne holds no healthcare certifications; any regulatory obligations in a real
+> project belong to the client and are scoped explicitly.
 
 ## 1. Executive Summary
 
-HIPAA-compliant patient monitoring system. Wearables stream vitals to the cloud; ML pipeline flags concerning patterns; care teams get instant push alerts.
+A hypothetical patient monitoring system. Wearables stream vitals to the cloud, a
+processing pipeline flags concerning patterns, and care teams receive push alerts.
 
 ## 2. Objectives
 
-- 95% early detection rate on clinically-significant events
-- HIPAA Type 2 compliance from day one
-- Support 30K active patients across 50 facilities
-- Sub-200ms alert delivery from anomaly to care-team device
+*Placeholders. In a real spec each of these is a number the client sets and a
+clinician signs off on.*
+
+- Detection sensitivity target defined with the client's clinical team
+- Regulatory scope (framework, jurisdiction, evidence required) agreed before build
+- Patient and facility scale sized from the client's own figures
+- Alert delivery latency budget set against clinical requirements
 
 ## 3. Architecture
 
 - **React Native** patient-facing app (iOS + Android)
 - **Node.js** + **TypeScript** API tier
-- **MongoDB** (encrypted at rest, document-level encryption for PHI)
-- **TensorFlow** ML pipeline running in isolated VPC
+- **MongoDB** (encrypted at rest, document-level encryption for sensitive fields)
+- Model pipeline running in an isolated VPC
 - **PubSub** for alert fanout
 
-## 4. Compliance Notes
+## 4. Engineering Controls
 
-- All PHI encrypted at rest with envelope encryption (AES-256-GCM + KMS)
+*Controls a spec of this kind would specify. They are design choices, not a
+certification, and not a claim about any deployed system.*
+
+- Sensitive data encrypted at rest with envelope encryption (AES-256-GCM + KMS)
 - TLS 1.3 enforced; mTLS between internal services
-- Annual penetration testing scheduled
-- BAAs with all sub-processors
+- Security review and testing cadence agreed with the client and written into scope
+- Data-processing agreements with any sub-processors the client approves
 
 ## 5. Key Risks
 
 - Wearable battery drain — mitigated with batched uploads
 - Network unavailability — local-first architecture, sync on reconnect
-- Model drift — quarterly retraining with care-team feedback loop
+- Model drift — retraining cadence with a care-team feedback loop
 `;
 
-const SAAS_SPEC = `# Multi-Tenant SaaS Starter Spec
+const SAAS_SPEC = `# Multi-Tenant SaaS Starter — Illustrative Spec Template
 
-**Version:** 1.0 · **Status:** Generated · **Pages:** 14
+**Type:** Illustrative template · **Status:** Example only — not a client document
+
+> A reusable architecture blueprint, not a record of delivered work.
 
 ## 1. Overview
 
-Reusable architecture for B2B multi-tenant SaaS products. Schema-per-tenant model, JWT auth with refresh rotation, feature-flagged tier system.
+Reusable architecture for B2B multi-tenant SaaS products. Schema-per-tenant model,
+JWT auth with refresh rotation, feature-flagged tier system.
 
 ## 2. Core Features
 
 - Tenant onboarding wizard
 - Per-tenant RBAC with custom roles
 - Stripe billing with metered usage
-- Audit log streaming to S3
+- Audit log streaming to object storage
 - Admin console for tenant management
 
 ## 3. Tech Stack
@@ -146,6 +172,8 @@ Reusable architecture for B2B multi-tenant SaaS products. Schema-per-tenant mode
 - **Auth:** JWT + refresh tokens, OAuth 2.0 federated SSO
 
 ## 4. Sprint Plan
+
+*Illustrative sequencing. Real sprint plans come out of scoping.*
 
 | Sprint | Focus |
 |--------|-------|
@@ -158,32 +186,26 @@ Reusable architecture for B2B multi-tenant SaaS products. Schema-per-tenant mode
 const SPECS: Spec[] = [
   {
     id: "fintech",
-    title: "Fintech Analytics Platform",
-    category: "Fintech",
-    pages: 18,
-    domain: "Financial services",
+    title: "Financial Analytics Platform",
+    category: "Template",
     color: "#6C63FF",
-    excerpt: "Real-time analytics dashboard, anomaly detection, SOC-2 compliant pipeline.",
+    excerpt: "How a spec for a real-time analytics platform is structured: objectives, architecture, effort breakdown, assumptions.",
     content: FINTECH_SPEC,
   },
   {
     id: "healthcare",
-    title: "Patient Monitoring System",
-    category: "Healthcare",
-    pages: 22,
-    domain: "HIPAA-regulated",
+    title: "Patient Monitoring Platform",
+    category: "Template",
     color: "#00D4AA",
-    excerpt: "Wearables → ML anomaly detection → care-team alerts. HIPAA Type 2 from day one.",
+    excerpt: "How a spec for a regulated domain is structured, including where compliance scope and engineering controls are written down.",
     content: HEALTHCARE_SPEC,
   },
   {
     id: "saas",
     title: "Multi-Tenant SaaS Starter",
-    category: "B2B SaaS",
-    pages: 14,
-    domain: "Generic SaaS",
+    category: "Template",
     color: "#8B85FF",
-    excerpt: "Tenant onboarding, RBAC, Stripe billing, audit log. Reusable architecture blueprint.",
+    excerpt: "Tenant onboarding, RBAC, billing, audit log. A reusable architecture blueprint.",
     content: SAAS_SPEC,
   },
 ];
@@ -195,20 +217,51 @@ export default function SpecLibrary() {
     <>
       <SEO
         title="Spec Library"
-        description="Sanitized example software specifications generated by NeuroDyne Corp's AI-assisted spec engine."
+        description="Illustrative specification templates showing how NeuroDyne Corp structures a software spec. Not client work — no client names and no engagement data."
       />
 
       <PageHero
         icon={<LibraryBooksOutlinedIcon />}
         title="Spec Library"
-        description="Sanitized example specs from real engagements. See exactly what our AI-assisted intake produces."
-        tag="EXAMPLES // PUBLIC"
+        description="Illustrative specification templates. These are not client documents — they show how a Neurodyne spec is structured, from objectives through architecture to assumptions."
+        tag="TEMPLATES // PUBLIC"
         accentWord="Library"
         iconColor="#8B85FF"
-        iconLabel="3 EXAMPLES"
+        iconLabel="3 TEMPLATES"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 } }}>
+        <Box
+          sx={{
+            position: "relative",
+            p: 2.5,
+            mb: 5,
+            border: "1px solid rgba(108, 99, 255, 0.2)",
+            bgcolor: "rgba(108, 99, 255, 0.04)",
+          }}
+        >
+          <Typography
+            sx={{
+              fontFamily: "monospace",
+              fontSize: "0.6rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "text.secondary",
+              opacity: 0.7,
+              mb: 1,
+            }}
+          >
+            Illustrative only
+          </Typography>
+          <Typography sx={{ color: "text.secondary", fontSize: "0.9rem", lineHeight: 1.7 }}>
+            Every document below is a template written for this page. There is no client
+            behind any of them, and the figures are placeholders rather than measured
+            results. They are published because the structure is the useful part: what a
+            specification covers, in what order, and where the numbers belong once a real
+            project supplies them.
+          </Typography>
+        </Box>
+
         <Stack
           sx={{
             display: "grid",
@@ -245,7 +298,7 @@ export default function SpecLibrary() {
               </Box>
               <Stack direction="row" spacing={0.75} sx={{ mb: 1.5 }}>
                 <Chip label={s.category} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: `${s.color}15`, color: s.color, border: `1px solid ${s.color}30` }} />
-                <Chip label={`${s.pages} pages`} size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
+                <Chip label="not client work" size="small" variant="outlined" sx={{ fontFamily: "monospace", fontSize: "0.6rem" }} />
               </Stack>
               <Typography sx={{ fontWeight: 700, fontSize: "1.1rem", mb: 1 }}>
                 {s.title}
@@ -271,7 +324,7 @@ export default function SpecLibrary() {
                   "&:hover": { borderColor: s.color, bgcolor: `${s.color}10` },
                 }}
               >
-                Preview Spec
+                Preview Template
               </Button>
             </MotionBox>
           ))}
@@ -305,7 +358,7 @@ export default function SpecLibrary() {
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: selected.color, boxShadow: `0 0 8px ${selected.color}` }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6 }}>
-                    SPEC PREVIEW
+                    TEMPLATE PREVIEW
                   </Typography>
                   <Chip label={selected.category} size="small" sx={{ fontFamily: "monospace", fontSize: "0.55rem", bgcolor: `${selected.color}15`, color: selected.color, border: `1px solid ${selected.color}30` }} />
                 </Stack>
@@ -343,7 +396,7 @@ export default function SpecLibrary() {
               {/* Footer CTA */}
               <Box sx={{ px: 3, py: 2, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.04)" }}>
                 <Typography sx={{ fontSize: "0.85rem", color: "text.secondary", opacity: 0.85 }}>
-                  Like the format? <Box component="a" href="/start-project" sx={{ color: selected.color, fontWeight: 600, textDecoration: "none", borderBottom: `1px solid ${selected.color}40`, "&:hover": { borderColor: selected.color } }}>Brief us</Box> and we'll generate one for your project.
+                  Want a spec in this format for your own project? <Box component="a" href="/start-project" sx={{ color: selected.color, fontWeight: 600, textDecoration: "none", borderBottom: `1px solid ${selected.color}40`, "&:hover": { borderColor: selected.color } }}>Start a brief</Box>.
                 </Typography>
               </Box>
             </Box>

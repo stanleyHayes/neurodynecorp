@@ -13,7 +13,7 @@ const overline = {
 const sections = [
   {
     title: "1. Our Approach to Security",
-    content: `Security is foundational to how NeuroDyne Corp designs, builds, and operates software for government, enterprise, and the public. We apply defence-in-depth principles, secure-by-default configurations, and the principle of least privilege across our systems. Our practices are informed by recognised frameworks, including the OWASP guidance and ISO 27001 control objectives, and are reviewed regularly.`,
+    content: `Security is foundational to how Neurodyne designs, builds and operates software, including systems intended for institutional and regulated environments. We apply defence-in-depth principles, secure-by-default configurations, and the principle of least privilege across our systems. Our practices are informed by recognised frameworks, including the OWASP guidance and ISO 27001 control objectives, and are reviewed regularly.`,
   },
   {
     title: "2. Data Protection",

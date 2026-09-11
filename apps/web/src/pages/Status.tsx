@@ -20,6 +20,7 @@ import WarningAmberOutlinedIcon from "@mui/icons-material/WarningAmberOutlined";
 import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import BuildCircleOutlinedIcon from "@mui/icons-material/BuildCircleOutlined";
 import NotificationsActiveOutlinedIcon from "@mui/icons-material/NotificationsActiveOutlined";
+import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import SEO from "@/components/seo/SEO";
 import { api } from "@/api/client";
 
@@ -34,9 +35,17 @@ const OVERLINE_SX = {
   opacity: 0.6,
 };
 
-/** Maps a free-form status string to a colour + icon + label. */
-function statusMeta(raw: string | undefined) {
-  const s = (raw ?? "").toLowerCase();
+/** Neutral state used whenever health is not actually known. Never green. */
+const UNKNOWN_META = { color: "#94A3B8", label: "Status Unknown", Icon: HelpOutlineOutlinedIcon };
+
+/**
+ * Maps a free-form status string to a colour + icon + label.
+ * Anything missing, empty or unrecognised resolves to the neutral unknown state —
+ * the page must never render a healthy signal it has not been told about.
+ */
+function statusMeta(raw: string | undefined | null) {
+  const s = (raw ?? "").trim().toLowerCase();
+  if (!s) return UNKNOWN_META;
   if (s.includes("major") || s.includes("critical") || s.includes("outage") || s.includes("down")) {
     return { color: "#EF4444", label: "Major Outage", Icon: ErrorOutlineOutlinedIcon };
   }
@@ -55,14 +64,17 @@ function statusMeta(raw: string | undefined) {
   if (s === "resolved") {
     return { color: "#10B981", label: "Resolved", Icon: CheckCircleOutlinedIcon };
   }
-  return { color: "#10B981", label: "Operational", Icon: CheckCircleOutlinedIcon };
+  if (s.includes("operational") || s.includes("healthy") || s === "ok" || s === "up" || s === "online" || s === "normal") {
+    return { color: "#10B981", label: "Operational", Icon: CheckCircleOutlinedIcon };
+  }
+  return UNKNOWN_META;
 }
 
 function StatusChip({ status }: { status?: string }) {
   const { color, label } = statusMeta(status);
   return (
     <Chip
-      label={status ? label : "Operational"}
+      label={label}
       size="small"
       sx={{
         bgcolor: `${color}1A`,
@@ -94,6 +106,8 @@ export default function Status() {
   const [components, setComponents] = useState<any[]>([]);
   const [activeIncidents, setActiveIncidents] = useState<any[]>([]);
   const [history, setHistory] = useState<any[]>([]);
+  const [statusUnavailable, setStatusUnavailable] = useState(false);
+  const [historyUnavailable, setHistoryUnavailable] = useState(false);
 
   const [email, setEmail] = useState("");
   const [subscribing, setSubscribing] = useState(false);
@@ -110,12 +124,19 @@ export default function Status() {
           api.get<any>("/api/v1/status/incidents").catch(() => null),
         ]);
         if (!active) return;
+        // A null payload means the status service could not be reached. Report that
+        // honestly rather than falling through to a default healthy rendering.
+        setStatusUnavailable(!status);
         setOverall(status?.overallStatus ?? null);
         setComponents(Array.isArray(status?.components) ? status.components : []);
         setActiveIncidents(Array.isArray(status?.activeIncidents) ? status.activeIncidents : []);
+        setHistoryUnavailable(!incidents);
         setHistory(Array.isArray(incidents?.items) ? incidents.items : []);
       } catch {
         if (active) {
+          setStatusUnavailable(true);
+          setHistoryUnavailable(true);
+          setOverall(null);
           setComponents([]);
           setActiveIncidents([]);
           setHistory([]);
@@ -147,14 +168,25 @@ export default function Status() {
     }
   }
 
-  const banner = statusMeta(overall);
+  // The status API reports "operational" even when no component has ever been
+  // registered, so an empty page would otherwise render a green all-clear for
+  // services nothing is actually watching. Treat "nothing published" as unknown.
+  const hasPublishedSignal = components.length > 0 || activeIncidents.length > 0;
+  const banner = statusUnavailable || !hasPublishedSignal ? UNKNOWN_META : statusMeta(overall);
   const BannerIcon = banner.Icon;
+  const bannerDetail = statusUnavailable
+    ? "The status service could not be reached, so current service health is unknown. This page does not assume healthy."
+    : !hasPublishedSignal
+      ? "No services have been registered on this status page yet, so there is nothing here being actively monitored."
+      : activeIncidents.length > 0
+        ? `${activeIncidents.length} active incident${activeIncidents.length > 1 ? "s" : ""} being tracked.`
+        : "No active incidents reported for the components listed below.";
 
   return (
     <Box sx={{ py: { xs: 6, md: 10 } }}>
       <SEO
         title="System Status"
-        description="Real-time operational status of NeuroDyne Corp services, active incidents, and incident history."
+        description="Current reported status of NeuroDyne Corp services, active incidents, and incident history."
       />
       <Container maxWidth="lg">
         <Typography sx={OVERLINE_SX}>System Status</Typography>
@@ -186,12 +218,10 @@ export default function Status() {
                     <BannerIcon sx={{ fontSize: 44, color: banner.color }} />
                     <Box>
                       <Typography variant="h5" sx={{ fontWeight: 700, color: banner.color }}>
-                        {overall ? banner.label : "All Systems Operational"}
+                        {banner.label}
                       </Typography>
                       <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
-                        {activeIncidents.length > 0
-                          ? `${activeIncidents.length} active incident${activeIncidents.length > 1 ? "s" : ""} being tracked.`
-                          : "No active incidents reported."}
+                        {bannerDetail}
                       </Typography>
                     </Box>
                   </Stack>
@@ -206,7 +236,11 @@ export default function Status() {
                 <CardContent sx={{ p: 0 }}>
                   {components.length === 0 ? (
                     <Box sx={{ p: 4, textAlign: "center" }}>
-                      <Typography color="text.secondary">No components to display.</Typography>
+                      <Typography color="text.secondary">
+                        {statusUnavailable
+                          ? "Component health could not be retrieved."
+                          : "No components to display."}
+                      </Typography>
                     </Box>
                   ) : (
                     components.map((c: any, i: number) => (
@@ -315,7 +349,9 @@ export default function Status() {
                 <Card sx={{ mt: 2, borderRadius: 3, border: "1px solid", borderColor: "divider" }}>
                   <CardContent sx={{ textAlign: "center", py: 5 }}>
                     <Typography color="text.secondary">
-                      No incidents recorded. All quiet on the wire.
+                      {historyUnavailable
+                        ? "Incident history could not be retrieved right now."
+                        : "No incidents recorded."}
                     </Typography>
                   </CardContent>
                 </Card>

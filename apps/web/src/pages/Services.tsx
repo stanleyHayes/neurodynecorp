@@ -15,7 +15,6 @@ import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
 import EmptyState from "@/components/shared/EmptyState";
 import ScopeEstimator from "@/components/shared/ScopeEstimator";
-import TrustBadges from "@/components/shared/TrustBadges";
 import TechStackPicker from "@/components/shared/TechStackPicker";
 import { Container } from "@mui/material";
 import { SectionHeading, CardGrid, Overline } from "@/components/shared/Marketing";
@@ -50,7 +49,7 @@ const BORDER = "rgba(108, 99, 255, 0.12)";
 const ctaItem = {
   title: "Start a Project",
   tag: "INITIATE",
-  description: "Tell us about your vision and we'll craft a tailored solution.",
+  description: "Describe what you need built and get a scoped, honest response.",
   color: "#00D4AA",
   index: "06",
 };
@@ -289,16 +288,16 @@ export default function Services() {
   return (
     <>
       <SEO
-        title="Services"
-        description="Custom Software, Mobile Development, AI/ML Systems, Blockchain Solutions, and DevOps & Infrastructure services by NeuroDyne Corp."
-        canonical="https://neurodyne.dev/services"
-        ogUrl="https://neurodyne.dev/services"
+        title="Engineering Services"
+        description="Engineering capability offered by NeuroDyne Corp: custom software, mobile, AI/ML systems, blockchain, and DevOps and infrastructure."
+        canonical="https://neurodyne.dev/company/engineering-services"
+        ogUrl="https://neurodyne.dev/company/engineering-services"
       />
 
       <PageHero
         icon={<MiscellaneousServicesOutlinedIcon />}
-        title="Our Services"
-        description="Full-spectrum engineering expertise across every major technology domain."
+        title="Engineering Services"
+        description="The engineering capability offered directly, across the domains below."
         tag="CAPABILITIES // MATRIX"
         accentWord="Services"
         iconColor="#00D4AA"
@@ -313,7 +312,7 @@ export default function Services() {
         <EmptyState
           icon={<MiscellaneousServicesOutlinedIcon />}
           title="Services coming soon"
-          description="We're preparing our full-spectrum engineering capabilities. Check back shortly."
+          description="The service catalogue is being prepared. Check back shortly."
           color="#00D4AA"
         />
       ) : (
@@ -348,8 +347,8 @@ export default function Services() {
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <SectionHeading
           tag="§ — SERVICE LINES"
-          title="Five ways we engage"
-          lead="Beyond the capability matrix, the firm engages along five strategic service lines. Each has its own dedicated page."
+          title="Five ways to engage"
+          lead="Beyond the capability matrix, engineering work is offered along five service lines. Each has its own dedicated page."
           color="#6C63FF"
         />
         <CardGrid columns={3}>
@@ -385,9 +384,6 @@ export default function Services() {
         </CardGrid>
       </Container>
 
-      {/* Trust badges */}
-      <TrustBadges />
-
       {/* Scope estimator */}
       <Box sx={{ px: { xs: 3, md: 6 }, py: { xs: 6, md: 10 } }}>
         <ScopeEstimator />
@@ -401,7 +397,7 @@ export default function Services() {
       {/* Full-width CTA row */}
       <Box
         component={Link}
-        to="/start-project"
+        to="/company/engineering-services/brief"
         onMouseEnter={() => setCtaHovered(true)}
         onMouseLeave={() => setCtaHovered(false)}
         sx={{

@@ -75,8 +75,8 @@ export default function RFP() {
       <SEO
         title="Submit an RFP or Tender"
         description="Government bodies and enterprises can submit formal RFPs and tenders to NeuroDyne Corp through a structured intake, with an SLA-tracked acknowledgement."
-        canonical="https://neurodyne.dev/rfp"
-        ogUrl="https://neurodyne.dev/rfp"
+        canonical="https://neurodyne.dev/company/engineering-services/rfp"
+        ogUrl="https://neurodyne.dev/company/engineering-services/rfp"
       />
 
       <PageHero

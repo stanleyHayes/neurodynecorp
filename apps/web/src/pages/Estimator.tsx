@@ -11,8 +11,8 @@ export default function Estimator() {
       <SEO
         title="Scope Estimator"
         description="Configure an indicative scope with NeuroDyne Corp — pick a service line, toggle what's in scope, and see indicative components, a weeks-band, a price-band, and a sample architecture."
-        canonical="https://neurodyne.dev/estimator"
-        ogUrl="https://neurodyne.dev/estimator"
+        canonical="https://neurodyne.dev/company/engineering-services/estimator"
+        ogUrl="https://neurodyne.dev/company/engineering-services/estimator"
       />
 
       <PageHero
@@ -29,7 +29,7 @@ export default function Estimator() {
         <Stack spacing={{ xs: 4, md: 5 }}>
           <ScopeEstimator />
           <CTABand
-            to="/diagnostic"
+            to="/company/engineering-services/diagnostic"
             tag="GO DEEPER"
             title="Not sure where you fit?"
             description="Run the two-minute Engagement Readiness Diagnostic and we'll route your brief to the right path."

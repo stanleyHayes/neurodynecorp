@@ -40,10 +40,19 @@ export default function AnimatedCaseStudy({
   const [step, setStep] = useState(0);
   const navigate = useNavigate();
 
+  // No impact on record means nothing is claimed here — never substitute a delivery claim,
+  // and never assert delivery around data we did not measure. Falls back to the recorded
+  // results, then to an explicit "nothing on record" so the slide is never silently blank.
+  const outcome = impact
+    ? `${impact}.${results?.length ? " " + results.slice(0, 2).join(" · ") : ""}`
+    : results?.length
+      ? results.slice(0, 2).join(" · ")
+      : "No outcome on record.";
+
   const slides = [
     description,
-    `Built with ${tags.join(", ")}. Architecture optimized for the constraints in this domain.`,
-    impact ? `Delivered: ${impact}.${results?.length ? " " + results.slice(0, 2).join(" · ") : ""}` : "Delivered on time, on spec.",
+    `Built with ${tags.join(", ")}. Architecture chosen for the constraints in this domain.`,
+    outcome,
   ];
 
   return (

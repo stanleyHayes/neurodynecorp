@@ -12,7 +12,7 @@ const MotionBox = motion.create(Box);
 const links = [
   { icon: <GitHubIcon />, label: "GitHub", href: "https://github.com/stanleyHayes", color: "#fff" },
   { icon: <LinkedInIcon />, label: "LinkedIn", href: "https://linkedin.com/in/stanley-asoku-hayford", color: "#0A66C2" },
-  { icon: <XIcon />, label: "Twitter / X", href: "https://x.com/stanley_hayford", color: "#fff" },
+  { icon: <XIcon />, label: "Twitter / X", href: "https://x.com/sa_hayford", color: "#fff" },
   { icon: <FavoriteOutlinedIcon />, label: "Sponsor", href: "https://github.com/sponsors/stanleyHayes", color: "#FF6B9D" },
 ];
 

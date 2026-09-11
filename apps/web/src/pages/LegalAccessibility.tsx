@@ -13,7 +13,7 @@ const overline = {
 const sections = [
   {
     title: "1. Our Commitment",
-    content: `NeuroDyne Corp is committed to ensuring that our websites, products, and digital services are accessible to the widest possible audience, regardless of ability or technology. Accessibility is a core part of how we design and build software for government, enterprise, and the public across Ghana and West Africa.
+    content: `NeuroDyne Corp is committed to ensuring that our websites, products, and digital services are accessible to the widest possible audience, regardless of ability or technology. Accessibility is a core part of how systems are designed and built here, for the range of devices, bandwidth and assistive technology people actually use across Ghana and West Africa.
 
 We aim to conform to the Web Content Accessibility Guidelines (WCAG) 2.1 at Level AA, the internationally recognised standard for digital accessibility.`,
   },

@@ -18,7 +18,6 @@ interface Dossier {
   id: string;
   slug?: string;
   title: string;
-  client: string;
   category: string;
   tags: string[];
   description: string;
@@ -72,15 +71,15 @@ export default function PortfolioDetail() {
   if (notFound || !dossier) {
     return (
       <Container maxWidth="md" sx={{ py: { xs: 10, md: 16 }, textAlign: "center" }}>
-        <SEO title="Dossier not found" />
+        <SEO title="Dossier not found" noIndex />
         <Overline>404 // CASE DOSSIER</Overline>
         <Typography variant="h4" sx={{ fontWeight: 800, mt: 2, mb: 2 }}>
           That dossier isn't on file
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4 }}>
-          The case dossier you're looking for doesn't exist or hasn't been declassified.
+          The case dossier you're looking for doesn't exist or hasn't been published yet.
         </Typography>
-        <Button component={Link} to="/portfolio" startIcon={<ArrowBackIcon />} variant="outlined">
+        <Button component={Link} to="/company/engineering-services/work" startIcon={<ArrowBackIcon />} variant="outlined">
           Back to Case Dossiers
         </Button>
       </Container>
@@ -88,8 +87,8 @@ export default function PortfolioDetail() {
   }
 
   const color = dossier.color || "#6C63FF";
+  // Client identities are withheld: no named-client row is rendered.
   const facts: { label: string; value?: string }[] = [
-    { label: "Client", value: dossier.client },
     { label: "Sector", value: dossier.sector ?? dossier.category },
     { label: "Service line", value: dossier.serviceLine },
     { label: "Scale", value: dossier.scale },
@@ -102,16 +101,15 @@ export default function PortfolioDetail() {
       <SEO
         title={`${dossier.title} — Case Dossier`}
         description={dossier.brief || dossier.description}
-        canonical={`https://neurodyne.dev/portfolio/${dossier.slug ?? dossier.id}`}
-        ogUrl={`https://neurodyne.dev/portfolio/${dossier.slug ?? dossier.id}`}
+        canonical={`https://neurodyne.dev/company/engineering-services/work/${dossier.slug ?? dossier.id}`}
+        ogUrl={`https://neurodyne.dev/company/engineering-services/work/${dossier.slug ?? dossier.id}`}
         ogType="article"
         structuredData={{
           "@context": "https://schema.org",
-          "@type": "CreativeWork",
-          name: dossier.title,
+          "@type": "Article",
+          headline: `${dossier.title} — Case Dossier`,
           about: dossier.sector ?? dossier.category,
           description: dossier.brief || dossier.description,
-          creator: { "@type": "Organization", name: "NeuroDyne Corp" },
         }}
       />
 
@@ -121,12 +119,12 @@ export default function PortfolioDetail() {
         description={dossier.brief || dossier.description}
         tag={`CASE DOSSIER // ${(dossier.stage ?? "ARCHIVE").toUpperCase()}`}
         iconColor={color}
-        iconLabel="DECLASSIFIED"
+        iconLabel="CASE FILE"
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <Stack spacing={{ xs: 5, md: 7 }}>
-          <Button component={Link} to="/portfolio" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start", color: "text.secondary" }}>
+          <Button component={Link} to="/company/engineering-services/work" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start", color: "text.secondary" }}>
             All case dossiers
           </Button>
 
@@ -182,7 +180,7 @@ export default function PortfolioDetail() {
           {/* What shipped */}
           {hasList(dossier.shipped) && (
             <Box>
-              <SectionHeading tag="§ — WHAT SHIPPED" title="What we delivered" color={color} />
+              <SectionHeading tag="§ — WHAT SHIPPED" title="What shipped" color={color} />
               <Stack spacing={1.5}>
                 {dossier.shipped!.map((s) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={s} direction="row" spacing={1.5}>
@@ -209,7 +207,7 @@ export default function PortfolioDetail() {
               </InfoCard>
             )}
             {hasList(dossier.learnt) && (
-              <InfoCard accent="#33DDBB" icon={<LightbulbOutlinedIcon />} title="What we learnt">
+              <InfoCard accent="#33DDBB" icon={<LightbulbOutlinedIcon />} title="What was learnt">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.learnt!.map((l) => (
                     <Stack sx={{ alignItems: "flex-start" }} key={l} direction="row" spacing={1.5}>
@@ -253,10 +251,10 @@ export default function PortfolioDetail() {
           <Divider />
 
           <CTABand
-            to="/start-project"
+            to="/company/engineering-services/brief"
             tag="ENGAGE"
-            title="Want an engagement like this?"
-            description="Tell us your brief through the intake. We'll route it and show you the closest precedent."
+            title="Want work like this?"
+            description="Send your brief through the intake and it will be reviewed against the closest precedent."
             color={color}
           />
         </Stack>
