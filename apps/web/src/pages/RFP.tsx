@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState } from "react";
-import { Box, Container, Stack, Typography, TextField, Button, Alert, CircularProgress, Divider } from "@mui/material";
+import { Box, Container, Stack, Typography, TextField, Button, Alert, Divider } from "@mui/material";
 import { Link } from "react-router";
 import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
@@ -170,10 +171,10 @@ export default function RFP() {
                 variant="contained"
                 onClick={submit}
                 disabled={!canSubmit}
-                startIcon={submitting ? <CircularProgress size={16} sx={{ color: "#fff" }} /> : <SendOutlinedIcon />}
+                startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
                 sx={{ mt: 1.5, bgcolor: "#6C63FF", "&:hover": { bgcolor: "#5a52e0" } }}
               >
-                {submitting ? "Submitting…" : "Submit RFP"}
+                Submit RFP
               </Button>
             </Box>
           </Stack>

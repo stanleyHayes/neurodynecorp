@@ -32,12 +32,13 @@ export default function Honeycomb({
   items: HoneycombItem[];
   /** Hexagon width in px. Height is derived (width × 1.1547). */
   cell?: number;
-  /** Cells in the wide (even) rows. Odd rows carry one fewer. */
+  /** Maximum cells per row. Alternate rows shift right by half a cell. */
   perRow?: number;
   gap?: number;
 }) {
   const theme = useTheme();
-  const isCompact = useMediaQuery(theme.breakpoints.down("md"));
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
+  const isCompact = useMediaQuery(theme.breakpoints.down("lg"));
 
   // ── Compact fallback: plain stacked cards ───────────────────────────────
   if (isCompact) {
@@ -64,15 +65,11 @@ export default function Honeycomb({
     );
   }
 
-  // ── Comb: split into alternating rows of perRow / perRow-1 ──────────────
+  // Equal-length staggered rows keep six items in two rows of three.
+  // The row parity determines the offset, never its item count.
   const rows: HoneycombItem[][] = [];
-  let i = 0;
-  let wide = true;
-  while (i < items.length) {
-    const size = wide ? perRow : Math.max(1, perRow - 1);
-    rows.push(items.slice(i, i + size));
-    i += size;
-    wide = !wide;
+  for (let index = 0; index < items.length; index += perRow) {
+    rows.push(items.slice(index, index + perRow));
   }
 
   // Pointy-top hexagon: height = width x 2/sqrt3. Rows tessellate at exactly
@@ -88,7 +85,9 @@ export default function Honeycomb({
   // made later rows paint over the bottom points of the row above, which
   // truncated the hexagons into house shapes.
   const pitchX = cell + gap;
-  const combWidth = perRow * pitchX - gap;
+  const combWidth = Math.max(
+    ...rows.map((row, index) => row.length * pitchX - gap + (index % 2 ? pitchX / 2 : 0)),
+  );
   const combHeight = (rows.length - 1) * rowStep + height;
 
   return (
@@ -107,9 +106,8 @@ export default function Honeycomb({
           sx={{
             position: "absolute",
             top: ri * rowStep,
-            // Narrow rows are indented by half a pitch so they sit in the
-            // notches of the row above; both row types stay centred overall.
-            left: row.length < perRow ? pitchX / 2 : 0,
+            // Alternate rows sit in the notches, including incomplete rows.
+            left: ri % 2 ? pitchX / 2 : 0,
             display: "flex",
             gap: `${gap}px`,
           }}
@@ -119,7 +117,7 @@ export default function Honeycomb({
             return (
               <MotionBox
                 key={item.key}
-                initial={{ opacity: 0, scale: 0.9 }}
+                initial={reducedMotion ? false : { opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true, margin: "-40px" }}
                 transition={{ duration: 0.4, delay: (ri * perRow + ci) * 0.05 }}
@@ -137,7 +135,7 @@ export default function Honeycomb({
                   // edge is drawn as a slightly larger clipped layer behind.
                   bgcolor: `${accent}55`,
                   transition: "transform 0.28s ease",
-                  "&:hover": { transform: "translateY(-4px)" },
+
                   "&:hover .comb-face": { background: `${accent}1F` },
                 }}
               >
@@ -148,9 +146,10 @@ export default function Honeycomb({
                     position: "absolute",
                     inset: 1.5,
                     clipPath: HEX_CLIP,
-                    background: theme.palette.mode === "dark"
-                      ? `linear-gradient(160deg, ${accent}14, rgba(10,14,26,0.92))`
-                      : `linear-gradient(160deg, ${accent}12, rgba(255,255,255,0.94))`,
+                    background:
+                      theme.palette.mode === "dark"
+                        ? `linear-gradient(160deg, ${accent}14, rgba(10,14,26,0.92))`
+                        : `linear-gradient(160deg, ${accent}12, rgba(255,255,255,0.94))`,
                     transition: "background 0.28s ease",
                   }}
                 />
@@ -162,12 +161,12 @@ export default function Honeycomb({
                     // centre band, so text is held inside the inscribed
                     // rectangle rather than bleeding past the angled edges.
                     width: cell * 0.66,
-                    maxHeight: height * 0.6,
-                    overflow: "hidden",
+                    height: height * 0.62,
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                    justifyContent: "center",
+                    justifyContent: "flex-start",
+                    pt: 1,
                   }}
                 >
                   {item.content}

@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState } from "react";
-import { Box, Container, Stack, Typography, TextField, Button, Alert, CircularProgress, Chip } from "@mui/material";
+import { Box, Container, Stack, Typography, TextField, Button, Alert, Chip } from "@mui/material";
 import { Link, useSearchParams } from "react-router";
 import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
 import CheckCircleOutlineIcon from "@mui/icons-material/CheckCircleOutlined";
@@ -142,10 +143,10 @@ export default function Booking() {
                 variant="contained"
                 onClick={submit}
                 disabled={!canSubmit}
-                startIcon={submitting ? <CircularProgress size={16} sx={{ color: "#fff" }} /> : <SendOutlinedIcon />}
+                startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
                 sx={{ mt: 1.5, bgcolor: "#00D4AA", color: "#04221c", fontWeight: 700, "&:hover": { bgcolor: "#00b896" } }}
               >
-                {submitting ? "Requesting…" : `Request a ${duration}-minute reading`}
+                {`Request a ${duration}-minute reading`}
               </Button>
             </Box>
 

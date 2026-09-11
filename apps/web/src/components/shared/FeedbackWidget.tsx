@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -11,7 +12,6 @@ import {
   DialogContent,
   DialogActions,
   Chip,
-  CircularProgress,
   Divider,
   Alert,
 } from "@mui/material";
@@ -346,7 +346,7 @@ export default function FeedbackWidget() {
               disabled={!canSubmit}
               variant="contained"
               startIcon={
-                loading ? <CircularProgress size={16} sx={{ color: "#fff" }} /> : undefined
+                loading ? <ContentSkeleton compact /> : undefined
               }
               sx={{
                 fontFamily: "monospace",
@@ -361,7 +361,7 @@ export default function FeedbackWidget() {
                 },
               }}
             >
-              {loading ? "Sending..." : "Send feedback"}
+              Send feedback
             </Button>
           </DialogActions>
         )}

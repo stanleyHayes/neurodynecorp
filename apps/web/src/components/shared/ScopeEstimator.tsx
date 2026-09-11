@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState, useMemo } from "react";
-import { Box, Typography, Stack, Chip, Button, TextField, Alert, CircularProgress } from "@mui/material";
+import { Box, Typography, Stack, Chip, Button, TextField, Alert } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import AttachMoneyIcon from "@mui/icons-material/AttachMoney";
@@ -194,10 +195,10 @@ export default function ScopeEstimator() {
                   variant="contained"
                   onClick={submit}
                   disabled={!canSubmit}
-                  startIcon={submitting ? <CircularProgress size={16} sx={{ color: "#fff" }} /> : <SendOutlinedIcon />}
+                  startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
                   sx={{ fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.06em", background: "linear-gradient(135deg, #6C63FF, #00D4AA)", whiteSpace: "nowrap", "&:hover": { boxShadow: "0 8px 30px rgba(108,99,255,0.4)" } }}
                 >
-                  {submitting ? "Sending…" : "Send scope"}
+                  Send scope
                 </Button>
               </Stack>
               {error && <Alert severity="error" sx={{ mt: 1 }}>{error}</Alert>}

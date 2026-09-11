@@ -138,8 +138,13 @@ failure and an invented one is worse.
 
 ## Information architecture
 
-Primary navigation: **Products · Infrastructure · Open Source · Developers ·
-Research · Company · Blog**. Primary CTA: **Partner With Us**.
+Primary navigation: **Products · Infrastructure · Developers · Research · Company**.
+Primary CTA: **Partner With Us** (six visible destinations in total). Open Source
+is under Developers; Labs and Blog are under Research. Company includes About,
+Vision, Engineering Services, Changelog, Trust & Security and Client Login.
+The opening navigation grid additionally exposes Home and fills its rows, with
+the partnership action spanning the bottom row. Navigation content lives in
+`src/content/navigation.tsx`.
 
 | Route | Contents |
 |---|---|
@@ -181,3 +186,17 @@ Phase 3 Ecosystem → Phase 4 Digital Infrastructure.
 Each phase carries a `state` (`Current` / `Underway` / `Ahead`). The `/vision`
 page must render that state visibly: a visitor has to be able to see that
 Neurodyne is at phases 1–2 and that 3–4 are ambition, not achievement.
+
+## Interface direction
+
+Buttons and cards use zero border radius. Dense content should use connected
+grids with shared borders, rather than detached rounded panels. Honeycomb
+layouts are for shorter content and must preserve a half-cell row offset; use
+a readable rectangular grid on compact screens. Dropdown destinations carry
+a title, icon, description and decorative SVG watermark.
+
+Navigation destinations use Outfit. Network loading uses content skeletons;
+errors explain a recovery path rather than printing raw transport messages.
+The engineering-services overview is derived from `src/data/serviceLines.ts`,
+which also supplies the detail pages. Do not substitute the older CMS catalogue
+without reconciling it against these positioning and credibility rules.

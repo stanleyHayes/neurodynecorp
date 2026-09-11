@@ -1,3 +1,9 @@
+import EditorialGrid from "@/components/shared/EditorialGrid";
+import { STANDARDS_AUDIENCES } from "@/content/interface";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import BusinessOutlinedIcon from "@mui/icons-material/BusinessOutlined";
+import AfricaConditionsGrid from "@/components/shared/AfricaConditionsGrid";
 import { ReactNode } from "react";
 import { Box, Button, Chip, Container, Grid, Stack, Typography } from "@mui/material";
 import { Link } from "react-router";
@@ -108,7 +114,7 @@ export default function Infrastructure() {
       {/* ── The thesis ───────────────────────────────────────────────────── */}
       <Box
         component="section"
-        sx={{ position: "relative", py: { xs: 7, md: 11 }, overflow: "hidden" }}
+        sx={{ position: "relative", py: { xs: 5, md: 6 }, overflow: "hidden" }}
       >
         <WatermarkConstellation
           items={[{ icon: <HubOutlinedIcon />, at: { top: "-12%", right: "0%" }, size: 400 }]}
@@ -173,7 +179,7 @@ export default function Infrastructure() {
       {/* ── The four pillars ─────────────────────────────────────────────── */}
       <Box
         component="section"
-        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}
+        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}
       >
         <Container maxWidth="lg">
           <SectionTitle
@@ -298,7 +304,7 @@ export default function Infrastructure() {
           position: "relative",
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           overflow: "hidden",
         }}
       >
@@ -395,36 +401,7 @@ export default function Infrastructure() {
               A standard written by one company is a file format. NOSI is intended to be reviewed and
               revised by the people who would have to live with it.
             </Typography>
-            <Grid container spacing={2}>
-              {NOSI.join.map((who, i) => (
-                <Grid key={who} size={{ xs: 6, sm: 4, md: 2 }}>
-                  <MotionBox
-                    {...rise((i % 6) * 0.04)}
-                    sx={{
-                      position: "relative",
-                      height: "100%",
-                      p: 2.25,
-                      border: "1px solid",
-                      borderColor: "divider",
-                      bgcolor: "background.paper",
-                    }}
-                  >
-                    <Box
-                      aria-hidden
-                      sx={{
-                        position: "absolute",
-                        top: 0,
-                        left: 0,
-                        width: 3,
-                        height: "100%",
-                        bgcolor: i % 2 ? "primary.main" : "#00D4AA",
-                      }}
-                    />
-                    <Typography sx={{ fontWeight: 700, fontSize: "0.95rem" }}>{who}</Typography>
-                  </MotionBox>
-                </Grid>
-              ))}
-            </Grid>
+            <EditorialGrid items={NOSI.join.map((who, i) => ({ title: who, description: STANDARDS_AUDIENCES[who] ?? "", icon: [<TerminalOutlinedIcon />, <ScienceOutlinedIcon />, <SchoolOutlinedIcon />, <AccountBalanceOutlinedIcon />, <BusinessOutlinedIcon />, <SchoolOutlinedIcon />][i] }))} />
           </Box>
         </Container>
       </Box>
@@ -432,7 +409,7 @@ export default function Infrastructure() {
       {/* ── Shared platform capabilities ─────────────────────────────────── */}
       <Box
         component="section"
-        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}
+        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}
       >
         <Container maxWidth="lg">
           <SectionTitle
@@ -498,7 +475,7 @@ export default function Infrastructure() {
           position: "relative",
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           overflow: "hidden",
         }}
       >
@@ -508,65 +485,7 @@ export default function Infrastructure() {
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <SectionTitle tag="Design conditions" title={WHY_AFRICA.title} lead={WHY_AFRICA.lead} color="#00D4AA" />
 
-          <Stack sx={{ mt: { xs: 3, md: 5 } }}>
-            {WHY_AFRICA.conditions.map((c, i) => (
-              <MotionBox
-                key={c.title}
-                {...rise(0)}
-                sx={{
-                  borderTop: "1px solid",
-                  borderColor: "divider",
-                  py: { xs: 3, md: 4 },
-                  ...(i === WHY_AFRICA.conditions.length - 1 && {
-                    borderBottom: "1px solid",
-                    borderBottomColor: "divider",
-                  }),
-                }}
-              >
-                <Grid container spacing={{ xs: 2, md: 5 }} sx={{ alignItems: "flex-start" }}>
-                  <Grid size={{ xs: 12, md: 4 }}>
-                    <Typography component="span" sx={{ ...MONO, color: "#00D4AA", opacity: 0.85 }}>
-                      Condition {String(i + 1).padStart(2, "0")}
-                    </Typography>
-                    <Typography
-                      variant="h6"
-                      component="h3"
-                      sx={{ fontWeight: 800, mt: 1, letterSpacing: "-0.01em", lineHeight: 1.3 }}
-                    >
-                      {c.title}
-                    </Typography>
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 4 }}>
-                    <Typography component="span" sx={{ ...MONO, color: "text.secondary", opacity: 0.6 }}>
-                      Reality
-                    </Typography>
-                    <Typography color="text.secondary" sx={{ mt: 1, lineHeight: 1.85, fontSize: "0.95rem" }}>
-                      {c.reality}
-                    </Typography>
-                  </Grid>
-
-                  <Grid size={{ xs: 12, md: 4 }}>
-                    <Typography component="span" sx={{ ...MONO, color: "#00D4AA", opacity: 0.85 }}>
-                      Implication for the build
-                    </Typography>
-                    <Typography
-                      sx={{
-                        mt: 1,
-                        lineHeight: 1.85,
-                        fontSize: "0.95rem",
-                        borderLeft: "2px solid",
-                        borderColor: "#00D4AA",
-                        pl: 2,
-                      }}
-                    >
-                      {c.implication}
-                    </Typography>
-                  </Grid>
-                </Grid>
-              </MotionBox>
-            ))}
-          </Stack>
+          <AfricaConditionsGrid />
         </Container>
       </Box>
 
@@ -576,7 +495,7 @@ export default function Infrastructure() {
         sx={{
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           textAlign: "center",
         }}
       >

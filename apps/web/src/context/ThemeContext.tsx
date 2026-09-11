@@ -45,9 +45,10 @@ const sharedTypography = {
 };
 
 const sharedComponents = {
+  MuiIconButton: { styleOverrides: { root: { borderRadius: 0 } } },
   MuiButton: {
     styleOverrides: {
-      root: { borderRadius: 8, padding: "10px 24px", fontSize: "0.95rem" },
+      root: { borderRadius: 0, padding: "10px 24px", fontSize: "0.95rem" },
     },
   },
 };
@@ -74,7 +75,7 @@ function makeTheme(mode: Mode) {
       warning: { main: "#D97706" },
     },
     typography: sharedTypography,
-    shape: { borderRadius: 12 },
+    shape: { borderRadius: 0 },
     components: {
       ...sharedComponents,
       MuiButton: {

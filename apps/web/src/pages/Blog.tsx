@@ -1,4 +1,5 @@
-import { Box, Typography, Stack, CircularProgress, TextField, InputAdornment, Chip } from "@mui/material";
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
+import { Box, Typography, Stack, TextField, InputAdornment, Chip } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
 import ArticleIcon from "@mui/icons-material/Article";
@@ -355,7 +356,7 @@ export default function Blog() {
 
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 12 }}>
-          <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+          <ContentSkeleton rows={6} columns={3} />
         </Box>
       ) : posts.length === 0 ? (
         <EmptyState

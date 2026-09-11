@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import {
@@ -6,7 +7,6 @@ import {
   TextField,
   Button,
   Alert,
-  CircularProgress,
   MenuItem,
   Stack,
   Chip,
@@ -616,13 +616,13 @@ export default function Contact() {
                 }}
                 endIcon={
                   isSubmitting ? (
-                    <CircularProgress size={18} sx={{ color: "#060911" }} />
+                    <ContentSkeleton compact />
                   ) : (
                     <SendIcon sx={{ fontSize: 18 }} />
                   )
                 }
               >
-                {isSubmitting ? "Transmitting..." : "Transmit"}
+                Transmit
               </Button>
             </Box>
           </Box>

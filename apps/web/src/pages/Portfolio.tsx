@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState, useEffect, useMemo } from "react";
-import { Box, Typography, Stack, CircularProgress } from "@mui/material";
+import { Box, Typography, Stack } from "@mui/material";
 import { AnimatePresence } from "framer-motion";
 import WorkIcon from "@mui/icons-material/Work";
 import SEO from "@/components/seo/SEO";
@@ -116,7 +117,7 @@ export default function Portfolio() {
 
       {loading ? (
         <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 12 }}>
-          <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+          <ContentSkeleton rows={6} columns={3} />
         </Box>
       ) : (
         <>

@@ -1,4 +1,6 @@
-import { Box, Container, Typography, Stack, Grid, Button, Divider } from "@mui/material";
+import AfricaConditionsGrid from "@/components/shared/AfricaConditionsGrid";
+import Honeycomb from "@/components/shared/Honeycomb";
+import { Box, Container, Typography, Stack, Grid, Button } from "@mui/material";
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -150,7 +152,7 @@ export default function Home() {
       </Box>
 
       {/* ── The thesis ───────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 }, overflow: "hidden" }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <HubOutlinedIcon />, at: { top: "-10%", right: "2%" }, size: 400 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 3, md: 8 }}>
@@ -208,7 +210,7 @@ export default function Home() {
       </Box>
 
       {/* ── Four strategic pillars ───────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Infrastructure"
@@ -277,7 +279,7 @@ export default function Home() {
       </Box>
 
       {/* ── Flagship platforms ───────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Platforms"
@@ -358,7 +360,7 @@ export default function Home() {
       </Box>
 
       {/* ── Developer infrastructure ─────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 }, overflow: "hidden" }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <TerminalOutlinedIcon />, at: { bottom: "-14%", left: "-3%" }, size: 380 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "center" }}>
@@ -412,38 +414,16 @@ export default function Home() {
       </Box>
 
       {/* ── Why Africa ───────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 }, overflow: "hidden" }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <PublicOutlinedIcon />, at: { top: "-8%", right: "-3%" }, size: 420 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <SectionHeading tag="Why Africa" title={WHY_AFRICA.title} lead={WHY_AFRICA.lead} align="center" />
-          <Grid container spacing={3} sx={{ mt: { xs: 3, md: 5 } }}>
-            {WHY_AFRICA.conditions.map((c, i) => (
-              <Grid key={c.title} size={{ xs: 12, sm: 6, md: 3 }}>
-                <MotionBox
-                  initial={{ opacity: 0, y: 14 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ duration: 0.4, delay: (i % 4) * 0.05 }}
-                  sx={{ height: "100%", borderTop: "2px solid", borderColor: "#00D4AA", pt: 2 }}
-                >
-                  <Typography sx={{ fontWeight: 800, fontSize: "0.98rem", lineHeight: 1.35 }}>
-                    {c.title}
-                  </Typography>
-                  <Typography color="text.secondary" sx={{ mt: 1.25, fontSize: "0.87rem", lineHeight: 1.7 }}>
-                    {c.reality}
-                  </Typography>
-                  <Typography sx={{ mt: 1.25, fontSize: "0.87rem", lineHeight: 1.7, color: "#00D4AA" }}>
-                    {c.implication}
-                  </Typography>
-                </MotionBox>
-              </Grid>
-            ))}
-          </Grid>
+          <AfricaConditionsGrid />
         </Container>
       </Box>
 
       {/* ── Founder ──────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={{ xs: 4, md: 8 }}>
             <Grid size={{ xs: 12, md: 5 }}>
@@ -508,14 +488,14 @@ export default function Home() {
       </Box>
 
       {/* ── Partnership pathways ─────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Partnership"
             title="Ways to work with Neurodyne"
             align="center"
           />
-          <Grid container spacing={3} sx={{ mt: { xs: 3, md: 5 } }}>
+          <Grid container spacing={0} sx={{ mt: 3, borderTop: "1px solid", borderLeft: "1px solid", borderColor: "divider" }}>
             {PARTNER_PATHWAYS.map((p, i) => (
               <Grid key={p.slug} size={{ xs: 12, sm: 6, md: 3 }}>
                 <MotionBox
@@ -533,7 +513,11 @@ export default function Home() {
                     flexDirection: "column",
                     height: "100%",
                     p: 3,
-                    border: "1px solid",
+                    position: "relative",
+                    overflow: "hidden",
+                    borderRadius: 0,
+                    borderRight: "1px solid",
+                    borderBottom: "1px solid",
                     borderColor: "divider",
                     textDecoration: "none",
                     color: "inherit",
@@ -541,7 +525,8 @@ export default function Home() {
                     "&:hover, &:focus-visible": { borderColor: `${p.accent}66` },
                   }}
                 >
-                  <Box aria-hidden sx={{ width: 28, height: 2, background: p.accent, mb: 2 }} />
+                  <Box aria-hidden sx={{ color: p.accent, mb: 2 }}><LayersOutlinedIcon sx={{ fontSize: 30 }} /></Box>
+                  <Box aria-hidden sx={{ position: "absolute", right: -15, bottom: -20, color: p.accent, opacity: .06 }}><HubOutlinedIcon sx={{ fontSize: 160 }} /></Box>
                   <Typography sx={{ fontWeight: 800, fontSize: "1rem", lineHeight: 1.3 }}>
                     {p.audience}
                   </Typography>
@@ -570,42 +555,22 @@ export default function Home() {
       </Box>
 
       {/* ── Research ─────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
-          <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: "flex-start" }}>
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Overline>Research</Overline>
-              <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em", lineHeight: 1.2 }}>
-                Open questions we&rsquo;re working on.
-              </Typography>
-              <Button
-                component={Link}
-                to="/research"
-                endIcon={<ArrowForwardIcon />}
-                sx={{ borderRadius: 0, mt: 2.5, px: 0, fontWeight: 700 }}
-              >
-                Read the research
-              </Button>
-            </Grid>
-            <Grid size={{ xs: 12, md: 8 }}>
-              <Grid container spacing={2}>
-                {RESEARCH_AREAS.slice(0, 6).map((r) => (
-                  <Grid key={r.title} size={{ xs: 12, sm: 6 }}>
-                    <Divider sx={{ mb: 1.5 }} />
-                    <Typography sx={{ fontWeight: 700, fontSize: "0.95rem" }}>{r.title}</Typography>
-                    <Typography color="text.secondary" sx={{ mt: 0.5, fontSize: "0.85rem", lineHeight: 1.65 }}>
-                      {r.blurb}
-                    </Typography>
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
+          <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 2, mb: 3 }}>
+            <Box><Overline>Research</Overline><Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1 }}>Open questions we&rsquo;re working on.</Typography></Box>
+            <Button component={Link} to="/research" endIcon={<ArrowForwardIcon />}>Read the research</Button>
+          </Box>
+          <Honeycomb cell={280} perRow={3} gap={6} items={RESEARCH_AREAS.slice(0, 6).map((r, i) => ({ key: r.title, accent: i % 2 ? "#00D4AA" : "#8B85FF", content: <>
+            <HubOutlinedIcon aria-hidden sx={{ color: i % 2 ? "#00D4AA" : "#8B85FF", mb: 1 }} />
+            <Typography component="h3" sx={{ fontWeight: 800, fontSize: ".92rem", lineHeight: 1.25, minHeight: "2.5em", display: "flex", alignItems: "center" }}>{r.title}</Typography>
+            <Typography color="text.secondary" sx={{ mt: 1, fontSize: ".78rem", lineHeight: 1.5 }}>{r.blurb}</Typography>
+          </> }))} />
         </Container>
       </Box>
 
       {/* ── Closing ──────────────────────────────────────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 10 }, textAlign: "center" }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, textAlign: "center" }}>
         <Container maxWidth="md">
           <Typography
             variant="h4"

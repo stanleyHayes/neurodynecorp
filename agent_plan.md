@@ -4,6 +4,62 @@
 **Implemented in:** NeuroDyne Corp monorepo (`apps/server` Express/Mongo hexagonal, `apps/web|client|admin` React/Vite/MUI, `apps/mobile` Expo)
 **Date:** 2026-06-13
 
+## Public website redesign — 11 September 2026
+
+- **Implemented locally:** six-destination header, connected dropdown hit areas,
+  explicit chevrons, keyboard disclosure and rich destination links with icons,
+  descriptions and SVG watermarks. Mobile uses an accessible drawer with grouped
+  disclosures. Home is present in the full opening grid; partnership spans the
+  final row. The intro traps focus and respects reduced-motion selection.
+- **Implemented locally:** compact footer directory and legal strip, centralized
+  navigation/footer data, compact two-column newsletter layout, and removal of
+  stacked bottom padding. Section spacing tightened on Home, Infrastructure,
+  Developers and Vision. Existing routes, forms and product maturity preserved.
+- **Design correction:** Why Africa uses a continuous shared-border grid on Home
+  and Infrastructure, with distinct icons and watermarks. Partnership uses the
+  same connected-grid language. Rounded standalone panels and numbered hexagon
+  badges were replaced following the founder's feedback. Short research content
+  uses the restored honeycomb with a normal compact-screen fallback.
+- **Classification:** Keep routes, newsletter API/error/success behavior, theme
+  controls and navigation session behavior; Rewrite navigation presentation,
+  footer layout and content grids; Move navigation/footer configuration into
+  content modules. No routes or business content removed.
+- **Follow-up:** square-corner theme for buttons/cards; six research hexagons
+  arranged as two rows of three with parity-based half-cell offsets and aligned
+  title slots. Fixed incomplete-row overlap and removed cell movement on hover.
+  Separating-axis geometry check confirms zero intersections across all six cells.
+- **Validation:** TypeScript and production build pass (65 SEO routes). Focused
+  ESLint passes for navigation/footer/content and shared layout components.
+  Desktop dropdown appearance and ArrowDown/focus behavior inspected in Chrome.
+  Further browser checks hit repeated debugger timeouts; 400px viewport and
+  final intro/honeycomb visual checks remain unverified. Deployment not verified.
+
+### Follow-up — content grids, loaders and service availability
+
+- Rebuilt the NOSI audience section, developer principles and live repository
+  listing as connected grids with icons, descriptions and SVG watermarks.
+  Newsletter now has explicit copy/form columns; footer partnership invitation
+  is a complete panel. Navbar destinations explicitly use Outfit.
+- Replaced public circular page/action loaders with a reduced-motion-aware
+  skeleton component; busy actions retain accessible names. Existing determinate
+  questionnaire completion indicators are steps, not network loaders.
+- Changelog: confirmed local API port 4000 is unavailable; published API returns
+  HTTP 200 with zero entries. Added a separate public GET loader, 12-second timeout,
+  abort cleanup, validated response mapping, retry and open-source/contact recovery
+  paths. Local ignored `.env.local` selects the published read-only origin;
+  forms retain their existing API configuration. No entries fabricated.
+- Engineering Services: replaced the misleading API-error-to-coming-soon flow
+  with the five maintained `SERVICE_LINES` and their deliverables/detail routes.
+  Old CMS presentation is retired: its published catalogue includes outdated
+  positioning/claims. Preserved the brief route, estimator and tech stack picker.
+  Footer now includes all five service lines and semantic/visible active links.
+- Verification: changelog empty/malformed/normalization/order/HTTP-error/abort
+  checks passed; published API allows both local preview origins. Server-rendered
+  footer test confirms only the exact service link is active; newsletter copy and
+  accessible email field render correctly. Typecheck/build and focused lint run.
+  Browser automation remains unavailable (debugger/native-pipe failures), so this
+  pass does not claim completed visual checks at desktop or 400px.
+
 ## Hardening loop (6 August 2026)
 
 **Goal:** Walk the monorepo end-to-end eliminating authz/IDOR/mass-assignment holes,

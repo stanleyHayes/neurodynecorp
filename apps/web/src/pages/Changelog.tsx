@@ -1,21 +1,18 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, Container, Stack, Chip, CircularProgress, Alert } from "@mui/material";
+import { Box, Typography, Container, Stack, Chip, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
 import HistoryEduOutlinedIcon from "@mui/icons-material/HistoryEduOutlined";
-import { api } from "@/api/client";
+import { Link } from "react-router";
+import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import CloudOffOutlinedIcon from "@mui/icons-material/CloudOffOutlined";
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
+import { CHANGELOG_COPY } from "@/content/interface";
+import { loadChangelog, type ChangelogEntry as Entry } from "@/api/changelog";
 
 const MotionBox = motion.create(Box);
-
-interface Entry {
-  id: string;
-  version: string;
-  date: string;
-  type: "feature" | "improvement" | "fix" | "security";
-  title: string;
-  body: string[];
-}
 
 const TYPE_COLORS: Record<string, string> = {
   feature: "#10B981",
@@ -24,59 +21,40 @@ const TYPE_COLORS: Record<string, string> = {
   security: "#EF4444",
 };
 
-function formatDate(value?: string | Date): string {
-  if (!value) return "";
-  const d = new Date(value);
-  if (Number.isNaN(d.getTime())) return String(value);
-  return d.toISOString().slice(0, 10);
-}
-
-function mapEntry(raw: any): Entry {
-  const bodyRaw = raw.body ?? "";
-  const body = Array.isArray(bodyRaw)
-    ? bodyRaw.map(String)
-    : String(bodyRaw)
-        .split(/\n+/)
-        .map((line) => line.replace(/^[-•*]\s*/, "").trim())
-        .filter(Boolean);
-  const type = (raw.category ?? raw.type ?? "improvement") as Entry["type"];
-  return {
-    id: raw.id ?? `${raw.version}-${raw.title}`,
-    version: raw.version ?? "",
-    date: formatDate(raw.publishedAt ?? raw.published_at ?? raw.createdAt ?? raw.created_at),
-    type: TYPE_COLORS[type] ? type : "improvement",
-    title: raw.title ?? "Update",
-    body: body.length > 0 ? body : ["—"],
-  };
-}
-
 export default function Changelog() {
   const [entries, setEntries] = useState<Entry[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
+  const [attempt, setAttempt] = useState(0);
+
   useEffect(() => {
+    const controller = new AbortController();
     let cancelled = false;
-    async function load() {
-      try {
-        const res = await api.get<{ items?: any[] }>("/api/v1/changelog");
-        if (cancelled) return;
-        const items = (res.items ?? []).map(mapEntry);
-        items.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-        setEntries(items);
-      } catch (err) {
-        if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Failed to load changelog");
-        }
-      } finally {
+    const timeout = window.setTimeout(() => controller.abort(), 12000);
+    setLoading(true);
+    setError("");
+    const baseUrl =
+      import.meta.env.VITE_PUBLIC_CONTENT_API_URL ??
+      import.meta.env.VITE_API_URL ??
+      "https://api.neurodyne.dev";
+    void loadChangelog(baseUrl, controller.signal)
+      .then((items) => {
+        if (!cancelled) setEntries(items);
+      })
+      .catch(() => {
+        if (!cancelled) setError("unavailable");
+      })
+      .finally(() => {
+        clearTimeout(timeout);
         if (!cancelled) setLoading(false);
-      }
-    }
-    void load();
+      });
     return () => {
       cancelled = true;
+      clearTimeout(timeout);
+      controller.abort();
     };
-  }, []);
+  }, [attempt]);
 
   return (
     <>
@@ -88,24 +66,66 @@ export default function Changelog() {
       <PageHero
         icon={<HistoryEduOutlinedIcon />}
         title="Changelog"
-        description="Every shipped feature, polish pass, and fix — in reverse order. We ship in the open."
+        description={CHANGELOG_COPY.description}
         tag="WHAT'S // NEW"
         accentWord="log"
         iconColor="#6C63FF"
-        iconLabel="LIVE FEED"
+        iconLabel="RELEASE NOTES"
       />
 
-      <Container maxWidth="md" sx={{ py: { xs: 6, md: 10 } }}>
+      <Container maxWidth="md" sx={{ py: { xs: 4, md: 6 } }}>
         {loading ? (
-          <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>
-            <CircularProgress />
+          <ContentSkeleton />
+        ) : error || entries.length === 0 ? (
+          <Box
+            role={error ? "alert" : "status"}
+            sx={{
+              position: "relative",
+              overflow: "hidden",
+              border: "1px solid",
+              borderColor: "divider",
+              p: { xs: 3, md: 5 },
+            }}
+          >
+            <Box aria-hidden sx={{ position: "absolute", right: -20, bottom: -35, opacity: 0.045 }}>
+              <HistoryEduOutlinedIcon sx={{ fontSize: 260 }} />
+            </Box>
+            <Box sx={{ position: "relative", maxWidth: 570 }}>
+              {error ? (
+                <CloudOffOutlinedIcon sx={{ color: "primary.main", fontSize: 38, mb: 2 }} />
+              ) : (
+                <HistoryEduOutlinedIcon sx={{ color: "primary.main", fontSize: 38, mb: 2 }} />
+              )}
+              <Typography component="h2" variant="h5" sx={{ fontWeight: 700, mb: 1.5 }}>
+                {error ? CHANGELOG_COPY.unavailableTitle : CHANGELOG_COPY.emptyTitle}
+              </Typography>
+              <Typography color="text.secondary" sx={{ lineHeight: 1.75 }}>
+                {error ? CHANGELOG_COPY.unavailableBody : CHANGELOG_COPY.emptyBody}
+              </Typography>
+              <Stack direction={{ xs: "column", sm: "row" }} spacing={1.5} sx={{ mt: 3 }}>
+                {error && (
+                  <Button
+                    variant="contained"
+                    startIcon={<RefreshOutlinedIcon />}
+                    onClick={() => setAttempt((value) => value + 1)}
+                  >
+                    Try again
+                  </Button>
+                )}
+                <Button
+                  component={Link}
+                  to="/open-source"
+                  variant={error ? "outlined" : "contained"}
+                  endIcon={<ArrowForwardIcon />}
+                >
+                  Explore open source
+                </Button>
+                <Button component={Link} to="/contact">
+                  Contact Neurodyne
+                </Button>
+              </Stack>
+            </Box>
           </Box>
-        ) : error ? (
-          <Alert severity="error">{error}</Alert>
-        ) : entries.length === 0 ? (
-          <Typography color="text.secondary" sx={{ textAlign: "center", py: 6 }}>
-            No published changelog entries yet.
-          </Typography>
         ) : (
           <Stack spacing={5}>
             {entries.map((e, i) => (
@@ -136,11 +156,29 @@ export default function Changelog() {
                   }}
                 />
 
-                <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1, flexWrap: "wrap", gap: 1 }}>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", color: "#6C63FF", fontWeight: 700 }}>
+                <Stack
+                  direction="row"
+                  spacing={1.5}
+                  sx={{ alignItems: "center", mb: 1, flexWrap: "wrap", gap: 1 }}
+                >
+                  <Typography
+                    sx={{
+                      fontFamily: "monospace",
+                      fontSize: "0.75rem",
+                      color: "#6C63FF",
+                      fontWeight: 700,
+                    }}
+                  >
                     {e.version}
                   </Typography>
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.5 }}>
+                  <Typography
+                    sx={{
+                      fontFamily: "monospace",
+                      fontSize: "0.65rem",
+                      color: "text.secondary",
+                      opacity: 0.5,
+                    }}
+                  >
                     {e.date}
                   </Typography>
                   <Chip
@@ -164,7 +202,10 @@ export default function Changelog() {
 
                 <Stack spacing={0.75}>
                   {e.body.map((line, idx) => (
-                    <Typography key={idx} sx={{ color: "text.secondary", lineHeight: 1.7, fontSize: "0.92rem" }}>
+                    <Typography
+                      key={idx}
+                      sx={{ color: "text.secondary", lineHeight: 1.7, fontSize: "0.92rem" }}
+                    >
                       — {line}
                     </Typography>
                   ))}

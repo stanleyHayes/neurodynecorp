@@ -50,7 +50,7 @@ export default function Layout() {
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
       <ScrollToTop />
       <Navbar />
-      <Box component="main" sx={{ flex: 1, pb: { xs: 10, md: 12 } }}>
+      <Box component="main" sx={{ flex: 1, pb: 0 }}>
         <Outlet />
       </Box>
       <Footer />

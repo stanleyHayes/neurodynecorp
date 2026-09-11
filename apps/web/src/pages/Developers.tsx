@@ -1,3 +1,5 @@
+import EditorialGrid from "@/components/shared/EditorialGrid";
+import { DEVELOPER_PRINCIPLES } from "@/content/interface";
 import { Box, Container, Typography, Stack, Grid, Button } from "@mui/material";
 import { motion, useReducedMotion } from "framer-motion";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
@@ -100,20 +102,6 @@ const SURFACES: Surface[] = [
   },
 ];
 
-const PRINCIPLES = [
-  {
-    k: "Extracted, not invented",
-    v: "Nothing here gets published because it would look good on a page. Each library comes out of work a Neurodyne platform already had to do for itself.",
-  },
-  {
-    k: "Documented before announced",
-    v: "An interface with no honest description of how it fails is not finished. Documentation ships with the thing, not after it.",
-  },
-  {
-    k: "Versioned and deprecable",
-    v: "Infrastructure other people build on has to be safe to depend on and safe to leave. Versioning and deprecation paths are part of the first release, not a later concern.",
-  },
-];
 
 const USED_MATURITIES: Maturity[] = ["IN DEVELOPMENT", "RESEARCH"];
 
@@ -149,7 +137,7 @@ export default function Developers() {
           position: "relative",
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           overflow: "hidden",
         }}
       >
@@ -235,7 +223,7 @@ export default function Developers() {
       </Box>
 
       {/* ── Status, stated before anything is described ──────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 6, md: 9 } }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Box
             sx={{
@@ -278,7 +266,7 @@ export default function Developers() {
           position: "relative",
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           overflow: "hidden",
         }}
       >
@@ -389,7 +377,7 @@ export default function Developers() {
       </Box>
 
       {/* ── How it gets built ────────────────────────────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Stack spacing={1.5} sx={{ mb: { xs: 3, md: 4 } }}>
             <Overline color="#00D4AA">How it gets built</Overline>
@@ -397,31 +385,12 @@ export default function Developers() {
               Three rules this work is held to
             </Typography>
           </Stack>
-          <Grid container spacing={3}>
-            {PRINCIPLES.map((p, i) => (
-              <Grid key={p.k} size={{ xs: 12, md: 4 }}>
-                <MotionBox
-                  initial={{ opacity: 0, y: rise }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-60px" }}
-                  transition={{ duration: 0.4, delay: reduceMotion ? 0 : i * 0.05 }}
-                  sx={{ height: "100%", borderTop: "2px solid", borderColor: "#00D4AA", pt: 2 }}
-                >
-                  <Typography variant="h6" component="h3" sx={{ fontWeight: 800, fontSize: "1rem", lineHeight: 1.35 }}>
-                    {p.k}
-                  </Typography>
-                  <Typography color="text.secondary" sx={{ mt: 1.25, fontSize: "0.9rem", lineHeight: 1.8 }}>
-                    {p.v}
-                  </Typography>
-                </MotionBox>
-              </Grid>
-            ))}
-          </Grid>
+          <EditorialGrid items={DEVELOPER_PRINCIPLES.map((p, i) => ({ title: p.k, description: p.v, icon: [<DataObjectOutlinedIcon />, <CodeOutlinedIcon />, <HubOutlinedIcon />][i] }))} />
         </Container>
       </Box>
 
       {/* ── The one thing you can actually look at ───────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "center" }}>
             <Grid size={{ xs: 12, md: 7 }}>
@@ -493,7 +462,7 @@ export default function Developers() {
       </Box>
 
       {/* ── Community ────────────────────────────────────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <CommunityBlock />
         </Container>

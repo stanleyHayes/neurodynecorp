@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState, useMemo } from "react";
 import { Link } from "react-router";
 import {
@@ -10,7 +11,6 @@ import {
   Chip,
   TextField,
   InputAdornment,
-  CircularProgress,
 } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
@@ -188,7 +188,7 @@ export default function Help() {
         {/* Results */}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-            <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+            <ContentSkeleton />
           </Box>
         ) : articles.length === 0 ? (
           <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>

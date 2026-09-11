@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState } from "react";
 import {
   Box,
@@ -10,7 +11,6 @@ import {
   Button,
   TextField,
   Divider,
-  CircularProgress,
   Snackbar,
   Alert,
 } from "@mui/material";
@@ -196,7 +196,7 @@ export default function Status() {
 
         {loading ? (
           <Stack sx={{ alignItems: "center", py: 12 }}>
-            <CircularProgress />
+            <ContentSkeleton />
           </Stack>
         ) : (
           <Stack spacing={{ xs: 4, md: 6 }}>
@@ -450,11 +450,13 @@ export default function Status() {
                   />
                   <Button
                     variant="contained"
+                    aria-label="Subscribe"
+                    aria-busy={subscribing}
                     onClick={handleSubscribe}
                     disabled={subscribing}
                     sx={{ px: 4, whiteSpace: "nowrap" }}
                   >
-                    {subscribing ? <CircularProgress size={22} color="inherit" /> : "Subscribe"}
+                    {subscribing ? <ContentSkeleton compact /> : "Subscribe"}
                   </Button>
                 </Stack>
               </CardContent>

@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router";
 import {
@@ -10,7 +11,6 @@ import {
   CardContent,
   Divider,
   Switch,
-  CircularProgress,
   Alert,
   Snackbar,
 } from "@mui/material";
@@ -135,10 +135,7 @@ export default function NewsletterConfirm() {
 
               {status === "loading" && (
                 <Stack spacing={2} sx={{ alignItems: "center", py: 3 }}>
-                  <CircularProgress sx={{ color: "#6C63FF" }} />
-                  <Typography sx={{ color: "text.secondary", opacity: 0.8 }}>
-                    Confirming your subscription...
-                  </Typography>
+                  <ContentSkeleton rows={1} />
                 </Stack>
               )}
 
@@ -234,7 +231,7 @@ export default function NewsletterConfirm() {
                   variant="contained"
                   startIcon={
                     savingPrefs ? (
-                      <CircularProgress size={16} sx={{ color: "#fff" }} />
+                      <ContentSkeleton compact />
                     ) : (
                       <CheckCircleOutlineIcon />
                     )
@@ -252,7 +249,7 @@ export default function NewsletterConfirm() {
                     },
                   }}
                 >
-                  {savingPrefs ? "Saving..." : "Save preferences"}
+                  Save preferences
                 </Button>
               </CardContent>
             </MotionCard>

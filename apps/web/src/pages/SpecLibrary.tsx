@@ -379,7 +379,7 @@ export default function SpecLibrary() {
                   "& h3": { fontWeight: 600, fontSize: "1.05rem", mt: 3, mb: 1 },
                   "& p": { color: "text.secondary", lineHeight: 1.85, mb: 2, fontSize: "0.95rem" },
                   "& ul, & ol": { color: "text.secondary", pl: 3, mb: 2, "& li": { mb: 0.75, lineHeight: 1.7 } },
-                  "& blockquote": { borderLeft: `3px solid ${selected.color}`, pl: 2.5, my: 3, bgcolor: `${selected.color}08`, borderRadius: "0 6px 6px 0", py: 0.5 },
+                  "& blockquote": { borderLeft: `3px solid ${selected.color}`, pl: 2.5, my: 3, bgcolor: `${selected.color}08`, borderRadius: 0, py: 0.5 },
                   "& code": { fontFamily: "monospace", fontSize: "0.85em", bgcolor: "rgba(108, 99, 255, 0.1)", color: "#8B85FF", px: 0.6, borderRadius: 0.5 },
                   "& table": {
                     width: "100%",

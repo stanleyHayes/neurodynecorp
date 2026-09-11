@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState, useMemo } from "react";
 import {
   Box,
@@ -7,7 +8,6 @@ import {
   Chip,
   TextField,
   InputAdornment,
-  CircularProgress,
 } from "@mui/material";
 import SearchOutlinedIcon from "@mui/icons-material/SearchOutlined";
 import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
@@ -196,7 +196,7 @@ export default function Glossary() {
         {/* Results */}
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-            <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+            <ContentSkeleton />
           </Box>
         ) : filtered.length === 0 ? (
           <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>

@@ -157,7 +157,7 @@ export default function Vision() {
       </Container>
 
       {/* ── State key ────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 9 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Overline color="#8B85FF">Key</Overline>
           <Typography
@@ -223,7 +223,7 @@ export default function Vision() {
           position: "relative",
           borderTop: "1px solid",
           borderColor: "divider",
-          py: { xs: 7, md: 11 },
+          py: { xs: 5, md: 6 },
           overflow: "hidden",
         }}
       >
@@ -389,7 +389,7 @@ export default function Vision() {
       </Box>
 
       {/* ── Expansion path ───────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 10 }, overflow: "hidden" }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation
           items={[{ icon: <PublicOutlinedIcon />, at: { top: "-14%", right: "-4%" }, size: 400 }]}
         />
@@ -458,7 +458,7 @@ export default function Vision() {
       </Box>
 
       {/* ── Engineering doctrine ─────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 }, overflow: "hidden" }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation
           tone="brand"
           items={[
@@ -568,7 +568,7 @@ export default function Vision() {
       </Box>
 
       {/* ── Operating principles ─────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Overline color="#00D4AA">Operating principles</Overline>
           <Typography
@@ -624,7 +624,7 @@ export default function Vision() {
       </Box>
 
       {/* ── Closing ──────────────────────────────────────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 7, md: 11 } }}>
+      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="md">
           <Stack spacing={4} sx={{ alignItems: "center", textAlign: "center" }}>
             <Overline>The thesis</Overline>

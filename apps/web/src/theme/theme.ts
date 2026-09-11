@@ -77,13 +77,14 @@ const theme = createTheme({
     },
   },
   shape: {
-    borderRadius: 12,
+    borderRadius: 0,
   },
   components: {
+    MuiIconButton: { styleOverrides: { root: { borderRadius: 0 } } },
     MuiButton: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
+          borderRadius: 0,
           padding: "10px 24px",
           fontSize: "0.95rem",
         },

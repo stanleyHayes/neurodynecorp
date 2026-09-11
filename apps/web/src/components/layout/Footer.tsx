@@ -1,116 +1,13 @@
-import { useState, useEffect, type ElementType, type ReactNode } from "react";
-import { Box, Container, Grid, Typography, Link as MuiLink, IconButton, Stack, useTheme } from "@mui/material";
-import { Link } from "react-router";
-import { motion } from "framer-motion";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import EmailIcon from "@mui/icons-material/Email";
+import { PARTNER_INVITATION } from "@/content/interface";
+import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
+import { useState, useEffect } from "react";
+import { Box, Container, Typography, IconButton, Stack } from "@mui/material";
+import { Link, NavLink } from "react-router";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-// Company
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
-import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined";
-// Services
-import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
-import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
-import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
-// Resources
-import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
-import PlayCircleOutlinedIcon from "@mui/icons-material/PlayCircleOutlined";
-import CalculateOutlinedIcon from "@mui/icons-material/CalculateOutlined";
-import DescriptionOutlinedIcon from "@mui/icons-material/DescriptionOutlined";
-import EventAvailableOutlinedIcon from "@mui/icons-material/EventAvailableOutlined";
-import QuizOutlinedIcon from "@mui/icons-material/QuizOutlined";
-import MenuBookOutlinedIcon from "@mui/icons-material/MenuBookOutlined";
-import SupportAgentOutlinedIcon from "@mui/icons-material/SupportAgentOutlined";
-// Legal & Trust
-import MonitorHeartOutlinedIcon from "@mui/icons-material/MonitorHeartOutlined";
-import VerifiedUserOutlinedIcon from "@mui/icons-material/VerifiedUserOutlined";
-import HubOutlinedIcon from "@mui/icons-material/HubOutlined";
-import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
-import GavelOutlinedIcon from "@mui/icons-material/GavelOutlined";
-import AccessibilityNewOutlinedIcon from "@mui/icons-material/AccessibilityNewOutlined";
-import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
+import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Logo from "@/components/logo/Logo";
-import HudCorners from "@/components/shared/HudCorners";
-
-interface FooterLinkItem {
-  label: string;
-  path: string;
-  icon?: ReactNode;
-}
-
-const IC = { fontSize: 15 } as const;
-
-const footerSections: { title: string; links: FooterLinkItem[] }[] = [
-  {
-    title: "Build",
-    links: [
-      { label: "Products", path: "/products", icon: <FolderOpenOutlinedIcon sx={IC} /> },
-      { label: "Infrastructure", path: "/infrastructure", icon: <DesignServicesOutlinedIcon sx={IC} /> },
-      { label: "Open Source", path: "/open-source", icon: <AccountTreeOutlinedIcon sx={IC} /> },
-      { label: "Developers", path: "/developers", icon: <CodeOutlinedIcon sx={IC} /> },
-      { label: "Labs", path: "/labs", icon: <ScienceOutlinedIcon sx={IC} /> },
-      { label: "Research", path: "/research", icon: <InsightsOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Company",
-    links: [
-      { label: "About", path: "/about", icon: <InfoOutlinedIcon sx={IC} /> },
-      { label: "Vision", path: "/vision", icon: <ArchitectureOutlinedIcon sx={IC} /> },
-      { label: "Partner With Us", path: "/partners", icon: <PlayCircleOutlinedIcon sx={IC} /> },
-      { label: "Blog", path: "/blog", icon: <ArticleOutlinedIcon sx={IC} /> },
-      { label: "Changelog", path: "/changelog", icon: <MenuBookOutlinedIcon sx={IC} /> },
-      { label: "Contact", path: "/contact", icon: <MailOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Engineering Services",
-    links: [
-      { label: "Overview", path: "/company/engineering-services", icon: <DesignServicesOutlinedIcon sx={IC} /> },
-      { label: "Audit & Architecture", path: "/company/engineering-services/audit", icon: <ArchitectureOutlinedIcon sx={IC} /> },
-      { label: "Enterprise & Institutions", path: "/company/engineering-services/enterprise", icon: <AccountBalanceOutlinedIcon sx={IC} /> },
-      { label: "AI & Automation", path: "/company/engineering-services/ai", icon: <PsychologyOutlinedIcon sx={IC} /> },
-      { label: "Scope Estimator", path: "/company/engineering-services/estimator", icon: <CalculateOutlinedIcon sx={IC} /> },
-      { label: "Submit an RFP", path: "/company/engineering-services/rfp", icon: <DescriptionOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Support",
-    links: [
-      { label: "Help Center", path: "/help", icon: <SupportAgentOutlinedIcon sx={IC} /> },
-      { label: "FAQ", path: "/faq", icon: <QuizOutlinedIcon sx={IC} /> },
-      { label: "Glossary", path: "/glossary", icon: <MenuBookOutlinedIcon sx={IC} /> },
-      { label: "Book a Call", path: "/book", icon: <EventAvailableOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Legal & Trust",
-    links: [
-      { label: "Status", path: "/status", icon: <MonitorHeartOutlinedIcon sx={IC} /> },
-      { label: "Trust Center", path: "/trust", icon: <VerifiedUserOutlinedIcon sx={IC} /> },
-      { label: "Security", path: "/legal/security", icon: <SecurityOutlinedIcon sx={IC} /> },
-      { label: "Sub-processors", path: "/legal/subprocessors", icon: <HubOutlinedIcon sx={IC} /> },
-      { label: "Cookie Policy", path: "/legal/cookies", icon: <CookieOutlinedIcon sx={IC} /> },
-      { label: "DPA", path: "/legal/dpa", icon: <GavelOutlinedIcon sx={IC} /> },
-      { label: "Accessibility", path: "/legal/accessibility", icon: <AccessibilityNewOutlinedIcon sx={IC} /> },
-      { label: "Privacy", path: "/privacy", icon: <PrivacyTipOutlinedIcon sx={IC} /> },
-      { label: "Delete Account", path: "/account-deletion", icon: <PrivacyTipOutlinedIcon sx={IC} /> },
-    ],
-  },
-];
-
-const socials = [
-  { icon: <GitHubIcon fontSize="small" />, label: "GitHub", href: "https://github.com/stanleyHayes" },
-  { icon: <EmailIcon fontSize="small" />, label: "Email", href: "mailto:info@neurodyne.dev" },
-];
-
+import { CANON } from "@/content/company";
+import { footerSections, socials } from "@/content/footer";
 function BackToTop() {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -121,7 +18,14 @@ function BackToTop() {
   if (!show) return null;
   return (
     <IconButton
-      onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
+      onClick={() =>
+        window.scrollTo({
+          top: 0,
+          behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches
+            ? "auto"
+            : "smooth",
+        })
+      }
       aria-label="Back to top"
       sx={{
         position: "fixed",
@@ -142,197 +46,204 @@ function BackToTop() {
 }
 
 export default function Footer() {
-  const theme = useTheme();
-  const dark = theme.palette.mode === "dark";
-  const gridLine = dark ? "rgba(108, 99, 255, 0.12)" : "rgba(91, 84, 238, 0.14)";
-  const accent = dark ? "rgba(139, 133, 255, 0.85)" : "rgba(91, 84, 238, 0.9)";
-  const labelColor = dark ? "rgba(148, 163, 184, 0.6)" : "rgba(71, 85, 105, 0.7)";
-
   return (
     <>
       <Box
         component="footer"
         sx={{
+          "& a[aria-current=page]": {
+            color: "primary.main",
+            fontWeight: 750,
+            textDecoration: "underline",
+            textUnderlineOffset: "5px",
+            bgcolor: "action.selected",
+          },
+          borderTop: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.paper",
           position: "relative",
-          mt: 10,
-          borderTop: `1px solid ${gridLine}`,
-          bgcolor: dark ? "rgba(10, 14, 26, 0.6)" : "rgba(248, 250, 252, 0.7)",
-          backgroundImage: dark
-            ? "radial-gradient(1200px 300px at 50% 0%, rgba(108,99,255,0.06), transparent)"
-            : "radial-gradient(1200px 300px at 50% 0%, rgba(91,84,238,0.05), transparent)",
           overflow: "hidden",
         }}
       >
-        <HudCorners color={gridLine} size={22} inset={14} />
-
-        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1, py: { xs: 6, md: 8 } }}>
-          <Grid container spacing={{ xs: 4, md: 3 }}>
-            {/* Brand column */}
-            <Grid size={{ xs: 12, md: 4 }}>
-              <Stack direction="row" sx={{ alignItems: "center", gap: 1.5, mb: 2 }}>
-                <motion.div animate={{ rotate: [0, 360] }} transition={{ duration: 40, repeat: Infinity, ease: "linear" }}>
-                  <Logo size={34} />
-                </motion.div>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontWeight: 800,
-                    letterSpacing: "0.02em",
-                    background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-                    backgroundClip: "text",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                  }}
-                >
-                  NeuroDyne Corp
+        <Container maxWidth="lg" sx={{ py: { xs: 4, md: 5 } }}>
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              gap: 3,
+              alignItems: "center",
+              justifyContent: "space-between",
+              pb: 4,
+            }}
+          >
+            <Box sx={{ maxWidth: 510 }}>
+              <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
+                <Logo size={36} />
+                <Typography variant="h6" component="p" sx={{ fontWeight: 800 }}>
+                  Neurodyne
                 </Typography>
               </Stack>
-
-              <Typography variant="body2" color="text.secondary" sx={{ mb: 3, maxWidth: 320, lineHeight: 1.8 }}>
-                Building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open
-                digital infrastructure for African markets. Founder-led, built and run by Stanley Asoku Hayford.
+              <Typography color="text.secondary" sx={{ fontSize: ".95rem", lineHeight: 1.7 }}>
+                {CANON.short}
               </Typography>
-
-              <Stack direction="row" sx={{ gap: 1, flexWrap: "wrap" }}>
-                {socials.map((s) => (
-                  <IconButton
-                    key={s.label}
-                    component="a"
-                    href={s.href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={s.label}
-                    size="small"
-                    sx={{
-                      width: 38,
-                      height: 38,
-                      borderRadius: 0,
-                      border: `1px solid ${gridLine}`,
-                      color: "text.secondary",
-                      transition: "all 0.25s ease",
-                      "&:hover": { borderColor: accent, color: "primary.main", transform: "translateY(-2px)" },
-                    }}
-                  >
-                    {s.icon}
-                  </IconButton>
-                ))}
-              </Stack>
-            </Grid>
-
-            {/* Nav columns */}
-            {footerSections.map((section) => (
-              <Grid
-                key={section.title}
-                size={{ xs: 6, md: 2 }}
-                sx={{ borderLeft: { md: `1px solid ${gridLine}` }, pl: { md: 3 } }}
-              >
-                <Typography
+            </Box>
+            <Box
+              component={Link}
+              to="/partners"
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 3,
+                color: "text.primary",
+                textDecoration: "none",
+                position: "relative",
+                overflow: "hidden",
+                p: 2.5,
+                width: { xs: "100%", md: 440 },
+                border: "1px solid",
+                borderColor: "primary.main",
+                py: 1.5,
+                "&:hover": { color: "primary.main" },
+              }}
+            >
+              <Box aria-hidden sx={{ position: "absolute", right: 12, bottom: -24, opacity: 0.06 }}>
+                <HandshakeOutlinedIcon sx={{ fontSize: 160 }} />
+              </Box>
+              <Box sx={{ position: "relative" }}>
+                <Typography sx={{ fontSize: ".7rem", color: "primary.main", mb: 0.75 }}>
+                  {PARTNER_INVITATION.eyebrow}
+                </Typography>
+                <Typography sx={{ fontWeight: 700, fontSize: "1.3rem", mb: 0.75 }}>
+                  {PARTNER_INVITATION.title}
+                </Typography>
+                <Typography color="text.secondary" sx={{ fontSize: ".85rem", lineHeight: 1.6 }}>
+                  {PARTNER_INVITATION.description}
+                </Typography>
+                <Box
                   sx={{
-                    fontFamily: "monospace",
-                    fontSize: "0.62rem",
+                    display: "flex",
+                    alignItems: "center",
+                    gap: 2,
+                    mt: 2,
+                    color: "primary.main",
                     fontWeight: 600,
-                    textTransform: "uppercase",
-                    letterSpacing: "0.3em",
-                    color: labelColor,
-                    mb: 2.5,
-                    pb: 1,
-                    borderBottom: `1px solid ${gridLine}`,
                   }}
+                >
+                  {PARTNER_INVITATION.action}
+                  <ArrowForwardIcon sx={{ fontSize: 20 }} />
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            component="nav"
+            aria-label="Footer navigation"
+            sx={{
+              display: "grid",
+              gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1.3fr 1fr" },
+              gap: { xs: 2, md: 4 },
+              borderTop: "1px solid",
+              borderColor: "divider",
+              py: 3,
+            }}
+          >
+            {footerSections.slice(0, 4).map((section) => (
+              <Box key={section.title}>
+                <Typography
+                  component="h2"
+                  sx={{ fontSize: ".74rem", fontWeight: 800, color: "primary.main", mb: 1.5 }}
                 >
                   {section.title}
                 </Typography>
-
-                <Stack sx={{ gap: 1.25 }}>
+                <Box
+                  sx={{
+                    display: "grid",
+                    gridTemplateColumns: { xs: "1fr 1fr", sm: "1fr" },
+                    gap: 0.25,
+                  }}
+                >
                   {section.links.map((link) => (
-                    <MuiLink
-                      key={link.path}
-                      component={Link as ElementType}
+                    <Box
+                      component={NavLink}
+                      end={link.path === "/company/engineering-services"}
                       to={link.path}
-                      underline="none"
+                      key={link.path}
                       sx={{
-                        display: "inline-flex",
+                        display: "flex",
                         alignItems: "center",
-                        gap: 0.9,
+                        gap: 1,
+                        py: 0.65,
+                        fontSize: ".83rem",
+                        textDecoration: "none",
                         color: "text.secondary",
-                        fontSize: "0.9rem",
-                        transition: "color 0.2s ease, transform 0.2s ease",
-                        "& svg": { color: accent, flexShrink: 0 },
-                        "&:hover": { color: "primary.main", transform: "translateX(3px)" },
+                        "& svg": { fontSize: 16, flexShrink: 0 },
+                        "&:hover, &:focus-visible": { color: "primary.main" },
                       }}
                     >
                       {link.icon}
-                      <span>{link.label}</span>
-                    </MuiLink>
+                      {link.label}
+                    </Box>
                   ))}
-                </Stack>
-              </Grid>
+                </Box>
+              </Box>
             ))}
-          </Grid>
-
-          {/* Divider */}
+          </Box>
+          <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: 2 }}>
+            <Typography component="h2" sx={{ fontSize: ".74rem", fontWeight: 800, mb: 1 }}>
+              Legal & trust
+            </Typography>
+            <Box sx={{ display: "flex", flexWrap: "wrap", columnGap: 2, rowGap: 0.5 }}>
+              {[...footerSections[4]!.links, { label: "Terms", path: "/terms" }].map((link) => (
+                <Box
+                  component={NavLink}
+                  end={link.path === "/company/engineering-services"}
+                  to={link.path}
+                  key={link.path}
+                  sx={{
+                    color: "text.secondary",
+                    fontSize: ".76rem",
+                    textDecoration: "none",
+                    py: 0.5,
+                    "&:hover, &:focus-visible": {
+                      color: "primary.main",
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {link.label}
+                </Box>
+              ))}
+            </Box>
+          </Box>
           <Box
             sx={{
-              mt: 6,
-              mb: 3,
-              height: "1px",
-              background: `linear-gradient(90deg, transparent, ${gridLine}, transparent)`,
+              borderTop: "1px solid",
+              borderColor: "divider",
+              pt: 2,
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              gap: 2,
             }}
-          />
-
-          {/* Bottom bar */}
-          <Stack
-            direction={{ xs: "column", sm: "row" }}
-            sx={{ justifyContent: "space-between", alignItems: "center", gap: 1.5 }}
           >
-            <Stack direction="row" sx={{ alignItems: "center", gap: 1.5 }}>
-              <Box
-                aria-hidden
-                sx={{
-                  width: 24,
-                  height: 1,
-                  background: "linear-gradient(90deg, #6C63FF, #00D4AA)",
-                  boxShadow: "0 0 10px rgba(0,212,170,0.3)",
-                }}
-              />
-              <Box>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.66rem", letterSpacing: "0.1em", color: "text.secondary" }}>
-                  &copy; {new Date().getFullYear()} NEURODYNE CORP
-                </Typography>
-                <Typography sx={{ mt: 0.35, fontSize: "0.76rem", color: "text.secondary", opacity: 0.68 }}>
-                  Built in Accra · Engineered for anywhere
-                </Typography>
-              </Box>
+            <Box>
+              <Typography sx={{ fontSize: ".72rem", color: "text.secondary" }}>
+                © {new Date().getFullYear()} Neurodyne Corp
+              </Typography>
+              <Typography sx={{ fontSize: ".72rem", mt: 0.5, color: "text.secondary" }}>
+                {CANON.geography}
+              </Typography>
+            </Box>
+            <Stack direction="row">
+              {socials.map((s) => (
+                <IconButton key={s.label} component="a" href={s.href} aria-label={s.label}>
+                  {s.icon}
+                </IconButton>
+              ))}
             </Stack>
-
-            <Stack
-              direction="row"
-              sx={{
-                gap: 2.5,
-                "& a": {
-                  color: "text.secondary",
-                  fontSize: "0.8rem",
-                  transition: "color 0.2s ease",
-                  "&:hover": { color: "primary.main" },
-                },
-              }}
-            >
-              <MuiLink component={Link as ElementType} to="/privacy" underline="none">
-                Privacy
-              </MuiLink>
-              <MuiLink component={Link as ElementType} to="/terms" underline="none">
-                Terms
-              </MuiLink>
-              <MuiLink component={Link as ElementType} to="/account-deletion" underline="none">
-                Privacy choices
-              </MuiLink>
-              <MuiLink component={Link as ElementType} to="/legal/cookies" underline="none">
-                Cookies
-              </MuiLink>
-            </Stack>
-          </Stack>
+          </Box>
         </Container>
       </Box>
-
       <BackToTop />
     </>
   );

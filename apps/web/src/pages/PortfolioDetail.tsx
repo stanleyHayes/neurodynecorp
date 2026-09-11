@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState } from "react";
-import { Box, Container, Stack, Typography, Chip, Button, CircularProgress, Divider } from "@mui/material";
+import { Box, Container, Stack, Typography, Chip, Button, Divider } from "@mui/material";
 import { useParams, Link } from "react-router";
 import WorkIcon from "@mui/icons-material/Work";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -63,7 +64,7 @@ export default function PortfolioDetail() {
   if (loading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", py: 16 }}>
-        <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+        <ContentSkeleton />
       </Box>
     );
   }

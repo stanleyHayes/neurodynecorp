@@ -1,5 +1,6 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useState, useEffect, useMemo } from "react";
-import { Box, Container, Stack, Typography, TextField, Button, LinearProgress, CircularProgress, Chip, Alert } from "@mui/material";
+import { Box, Container, Stack, Typography, TextField, Button, LinearProgress, Chip, Alert } from "@mui/material";
 import { Link } from "react-router";
 import { motion, AnimatePresence } from "framer-motion";
 import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
@@ -162,7 +163,7 @@ export default function Diagnostic() {
       <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
         {loading ? (
           <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-            <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+            <ContentSkeleton />
           </Box>
         ) : loadError ? (
           <Alert severity="error">
@@ -254,12 +255,12 @@ export default function Diagnostic() {
                   <Button onClick={goBack} startIcon={<ArrowBackIcon />} sx={{ color: "text.secondary" }}>Back</Button>
                   <Button
                     variant="contained"
-                    endIcon={submitting ? <CircularProgress size={16} sx={{ color: "#fff" }} /> : <ArrowForwardIcon />}
+                    endIcon={submitting ? <ContentSkeleton compact /> : <ArrowForwardIcon />}
                     disabled={submitting}
                     onClick={submit}
                     sx={{ bgcolor: "#6C63FF", "&:hover": { bgcolor: "#5a52e0" } }}
                   >
-                    {submitting ? "Scoring…" : "See my routing"}
+                    See my routing
                   </Button>
                 </Stack>
               </MotionBox>

@@ -1,3 +1,4 @@
+import ContentSkeleton from "@/components/shared/ContentSkeleton";
 import { useEffect, useState } from "react";
 import { Link, useParams } from "react-router";
 import {
@@ -8,7 +9,6 @@ import {
   Chip,
   Button,
   Divider,
-  CircularProgress,
 } from "@mui/material";
 import ArrowBackOutlinedIcon from "@mui/icons-material/ArrowBackOutlined";
 import ThumbUpAltOutlinedIcon from "@mui/icons-material/ThumbUpAltOutlined";
@@ -86,7 +86,7 @@ export default function HelpArticle() {
       <Box sx={{ py: { xs: 6, md: 10 } }}>
         <Container maxWidth="lg">
           <Box sx={{ display: "flex", justifyContent: "center", py: 10 }}>
-            <CircularProgress size={32} sx={{ color: "#6C63FF" }} />
+            <ContentSkeleton />
           </Box>
         </Container>
       </Box>

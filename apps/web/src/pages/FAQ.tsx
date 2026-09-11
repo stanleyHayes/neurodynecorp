@@ -144,7 +144,7 @@ export default function FAQ() {
                     sx={{
                       border: "1px solid",
                       borderColor: "divider",
-                      borderRadius: "12px !important",
+                      borderRadius: 0,
                       mb: 1.5,
                       bgcolor: "transparent",
                       "&:before": { display: "none" },

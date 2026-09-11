@@ -1,22 +1,8 @@
 import { useState, useEffect, useCallback, useRef } from "react";
-import {
-  Box,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  IconButton,
-} from "@mui/material";
+import { Box, Typography, useMediaQuery, useTheme, IconButton } from "@mui/material";
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
-import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
-import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-import GitHubIcon from "@mui/icons-material/GitHub";
-import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
-import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
-import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion, AnimatePresence } from "framer-motion";
@@ -28,56 +14,9 @@ import { useThemeMode } from "@/context/ThemeContext";
    CONFIGURATION
    ═══════════════════════════════════════════════════════════════════ */
 
-const CLIENT_PORTAL_URL =
-  import.meta.env.VITE_CLIENT_PORTAL_URL ?? "https://client.neurodyne.dev";
-
-/* Primary navigation follows the 2026 positioning: infrastructure first,
-   engineering services demoted to a secondary area under Company.
-   See docs/NEURODYNE_POSITIONING.md before changing these. */
-interface NavItem {
-  label: string;
-  path: string;
-  index: string;
-  tag: string;
-  icon: React.ReactNode;
-  color: string;
-  children?: { label: string; path: string }[];
-}
-
-const NAV_ITEMS: NavItem[] = [
-  { label: "Products", path: "/products", index: "01", tag: "PLATFORMS", icon: <WidgetsOutlinedIcon />, color: "#8B85FF" },
-  { label: "Infrastructure", path: "/infrastructure", index: "02", tag: "THE LAYER", icon: <AccountTreeOutlinedIcon />, color: "#00D4AA" },
-  { label: "Open Source", path: "/open-source", index: "03", tag: "IN PUBLIC", icon: <GitHubIcon />, color: "#6C63FF" },
-  { label: "Developers", path: "/developers", index: "04", tag: "BUILD WITH US", icon: <TerminalOutlinedIcon />, color: "#6C63FF" },
-  { label: "Research", path: "/research", index: "05", tag: "OPEN QUESTIONS", icon: <ScienceOutlinedIcon />, color: "#33DDBB" },
-  {
-    label: "Company",
-    path: "/about",
-    index: "06",
-    tag: "WHO WE ARE",
-    icon: <InfoOutlinedIcon />,
-    color: "#8B85FF",
-    children: [
-      { label: "About", path: "/about" },
-      { label: "Vision", path: "/vision" },
-      { label: "Engineering Services", path: "/company/engineering-services" },
-      { label: "Changelog", path: "/changelog" },
-      { label: "Trust & Security", path: "/trust" },
-    ],
-  },
-  { label: "Blog", path: "/blog", index: "07", tag: "WRITING", icon: <ArticleOutlinedIcon />, color: "#F59E0B" },
-];
-
-const CTA_ITEM = {
-  label: "Partner With Us",
-  path: "/partners",
-  index: "08",
-  tag: "INITIATE SEQUENCE",
-  icon: <HandshakeOutlinedIcon />,
-  color: "#00D4AA",
-};
-
-const ALL_GRID_ITEMS = [...NAV_ITEMS, CTA_ITEM];
+import { ALL_GRID_ITEMS, NAV_GROUPS, type NavItem } from "@/content/navigation";
+import { Button, Drawer, Modal } from "@mui/material";
+import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
 const BORDER = "rgba(108, 99, 255, 0.15)";
 const GLOW = "rgba(108, 99, 255, 0.6)";
@@ -163,27 +102,26 @@ function playSelect() {
 const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#%&";
 
 function useScramble(text: string, delay: number) {
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
   const [display, setDisplay] = useState(() =>
     text
       .split("")
-      .map((ch) =>
-        ch === " " ? " " : CHARS[Math.floor(Math.random() * CHARS.length)],
-      )
+      .map((ch) => (ch === " " ? " " : CHARS[Math.floor(Math.random() * CHARS.length)]))
       .join(""),
   );
 
   useEffect(() => {
+    if (reducedMotion) {
+      setDisplay(text);
+      return;
+    }
     // Slow shuffle while waiting
     const shuffleId = setInterval(
       () =>
         setDisplay(
           text
             .split("")
-            .map((ch) =>
-              ch === " "
-                ? " "
-                : CHARS[Math.floor(Math.random() * CHARS.length)],
-            )
+            .map((ch) => (ch === " " ? " " : CHARS[Math.floor(Math.random() * CHARS.length)]))
             .join(""),
         ),
       120,
@@ -208,9 +146,7 @@ function useScramble(text: string, delay: number) {
             .split("")
             .map((ch, i) => {
               if (ch === " ") return " ";
-              return i < resolved
-                ? text[i]
-                : CHARS[Math.floor(Math.random() * CHARS.length)];
+              return i < resolved ? text[i] : CHARS[Math.floor(Math.random() * CHARS.length)];
             })
             .join(""),
         );
@@ -222,7 +158,7 @@ function useScramble(text: string, delay: number) {
       clearTimeout(timeoutId);
       if (resolveId) clearInterval(resolveId);
     };
-  }, [text, delay]);
+  }, [text, delay, reducedMotion]);
 
   return display;
 }
@@ -268,11 +204,7 @@ function Brackets({ glow }: { glow: boolean }) {
   const color = glow ? GLOW : BORDER;
   return (
     <>
-      {(
-        Object.keys(BRACKET_POSITIONS) as Array<
-          keyof typeof BRACKET_POSITIONS
-        >
-      ).map((pos) => (
+      {(Object.keys(BRACKET_POSITIONS) as Array<keyof typeof BRACKET_POSITIONS>).map((pos) => (
         <Box
           key={pos}
           sx={{
@@ -301,7 +233,6 @@ function GridCell({
   phase,
   onSelect,
   isCta,
-  isMobile,
 }: {
   item: (typeof ALL_GRID_ITEMS)[number];
   index: number;
@@ -309,8 +240,8 @@ function GridCell({
   phase: Phase;
   onSelect: (path: string) => void;
   isCta: boolean;
-  isMobile: boolean;
 }) {
+  const theme = useTheme();
   const [hovered, setHovered] = useState(false);
   const scrambledLabel = useScramble(item.label, index * 100 + 400);
   const scrambledTag = useScramble(item.tag, index * 100 + 700);
@@ -359,11 +290,10 @@ function GridCell({
         outlineOffset: "-3px",
         borderRight: `1px solid ${BORDER}`,
         borderBottom: `1px solid ${BORDER}`,
-        background: hovered ? "rgba(108, 99, 255, 0.03)" : "#0A0E1A",
-        backgroundImage:
-          "radial-gradient(rgba(108, 99, 255, 0.05) 1px, transparent 1px)",
+        background: hovered ? theme.palette.background.paper : theme.palette.background.default,
+        backgroundImage: "radial-gradient(rgba(108, 99, 255, 0.05) 1px, transparent 1px)",
         backgroundSize: "24px 24px",
-        ...(isCta && !isMobile ? { gridColumn: "1 / -1" } : {}),
+        ...(isCta ? { gridColumn: "1 / -1" } : {}),
       }}
       onMouseEnter={() => {
         setHovered(true);
@@ -413,13 +343,28 @@ function GridCell({
         {item.index}
       </Typography>
 
+      <Box aria-hidden sx={{ color: item.color, mb: 1, "& svg": { fontSize: { xs: 26, md: 36 } } }}>
+        {item.icon}
+      </Box>
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          right: -15,
+          bottom: -25,
+          opacity: 0.07,
+          "& svg": { fontSize: { xs: 110, md: 180 } },
+        }}
+      >
+        {item.icon}
+      </Box>
       {/* ── Tag ── */}
       <Typography
         sx={{
-          fontSize: "0.55rem",
+          fontSize: "0.6rem",
           fontFamily: "monospace",
           color: "text.secondary",
-          opacity: 0.35,
+          opacity: 0.8,
           letterSpacing: "0.3em",
           mb: 1,
           userSelect: "none",
@@ -431,9 +376,8 @@ function GridCell({
       {/* ── Label ── */}
       <Typography
         sx={{
-          fontSize: isCta
-            ? { xs: "1.3rem", md: "1.8rem" }
-            : { xs: "1.5rem", md: "2.4rem" },
+          fontFamily: "Outfit, sans-serif",
+          fontSize: isCta ? { xs: "1.3rem", md: "1.8rem" } : { xs: "1rem", md: "1.8rem" },
           fontWeight: 800,
           color: hovered ? "text.primary" : "text.secondary",
           letterSpacing: "-0.02em",
@@ -451,6 +395,19 @@ function GridCell({
         {scrambledLabel}
       </Typography>
 
+      <Typography
+        sx={{
+          mt: 1,
+          px: 2,
+          maxWidth: 320,
+          textAlign: "center",
+          color: "text.secondary",
+          fontSize: { xs: ".72rem", md: ".85rem" },
+          lineHeight: 1.5,
+        }}
+      >
+        {item.description}
+      </Typography>
       {/* ── Hover glow bar ── */}
       <motion.div
         style={{
@@ -460,8 +417,7 @@ function GridCell({
           right: "10%",
           height: 2,
           borderRadius: 1,
-          background:
-            "linear-gradient(90deg, transparent, #6C63FF, #00D4AA, transparent)",
+          background: "linear-gradient(90deg, transparent, #6C63FF, #00D4AA, transparent)",
           pointerEvents: "none",
         }}
         initial={{ opacity: 0, scaleX: 0 }}
@@ -580,745 +536,287 @@ function ThemeToggle() {
   );
 }
 
+function Destination({ item, onNavigate }: { item: NavItem; onNavigate: () => void }) {
+  const external = item.path.startsWith("http");
+  return (
+    <Box
+      component={external ? "a" : Link}
+      {...(external ? { href: item.path } : { to: item.path })}
+      onClick={onNavigate}
+      sx={{
+        fontFamily: "Outfit, sans-serif",
+        "& .MuiTypography-root": { fontFamily: "Outfit, sans-serif" },
+        position: "relative",
+        overflow: "hidden",
+        display: "flex",
+        gap: 1.5,
+        p: 1.75,
+        color: "text.primary",
+        textDecoration: "none",
+        borderRadius: 1,
+        "&:hover, &:focus-visible": {
+          bgcolor: "action.hover",
+          outline: "2px solid",
+          outlineColor: "primary.main",
+          outlineOffset: -2,
+        },
+      }}
+    >
+      <Box aria-hidden sx={{ color: "primary.main", pt: 0.25 }}>
+        {item.icon}
+      </Box>
+      <Box sx={{ position: "relative", zIndex: 1, pr: 2 }}>
+        <Typography sx={{ fontWeight: 700, fontSize: ".9rem" }}>{item.label}</Typography>
+        <Typography sx={{ color: "text.secondary", fontSize: ".77rem", lineHeight: 1.5, mt: 0.4 }}>
+          {item.description}
+        </Typography>
+      </Box>
+      <Box
+        aria-hidden
+        sx={{
+          position: "absolute",
+          right: -10,
+          bottom: -18,
+          opacity: 0.07,
+          transform: "rotate(-12deg)",
+          "& svg": { fontSize: 90 },
+        }}
+      >
+        {item.icon}
+      </Box>
+    </Box>
+  );
+}
+
 function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
-  const theme = useTheme();
-  const isDark = theme.palette.mode === "dark";
-  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const [open, setOpen] = useState<string | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const prefersReducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
-  const [hoveredPath, setHoveredPath] = useState<string | null>(null);
-  const activeMobileItem = NAV_ITEMS.find((item) => isActive(item.path));
-
-  // Settled header: at the top of a page the bar rests inside the layout
-  // as a full-width edge-to-edge bar; once the reader moves down it contracts
-  // into an inset FLOATING capsule, and expands back on return to the top.
-  // Scroll reads are rAF-throttled, and the initial read covers a browser
-  // restoring scroll position on back-navigation.
+  const mobile = useMediaQuery("(max-width: 1199px)");
+  const location = useLocation();
   useEffect(() => {
-    let frame: number | null = null;
-
-    const update = () => {
-      frame = null;
-      setScrolled(window.scrollY > 48);
-    };
-
-    const onScroll = () => {
-      if (frame !== null) return;
-      frame = requestAnimationFrame(update);
-    };
-
-    window.addEventListener("scroll", onScroll, { passive: true });
+    setOpen(null);
+    setDrawerOpen(false);
+  }, [location.pathname]);
+  useEffect(() => {
+    const update = () => setScrolled(window.scrollY > 48);
     update();
-
-    return () => {
-      if (frame !== null) cancelAnimationFrame(frame);
-      window.removeEventListener("scroll", onScroll);
-    };
+    window.addEventListener("scroll", update, { passive: true });
+    return () => window.removeEventListener("scroll", update);
   }, []);
-
-  // Uses the shared easing/duration, and collapses to an instant swap when
-  // the reader has asked for reduced motion.
-  const EASE = "cubic-bezier(0.22, 1, 0.36, 1)";
-  const shellTransition = prefersReducedMotion
-    ? "none"
-    : `top 0.9s ${EASE}, padding 0.9s ${EASE}`;
-  const barTransition = prefersReducedMotion
-    ? "background 0.3s, border-color 0.3s"
-    : `max-width 0.9s ${EASE}, border-radius 0.9s ${EASE}, padding 0.9s ${EASE}, background 0.7s ease, border-color 0.7s ease, box-shadow 0.7s ease`;
-
   return (
     <>
-      <motion.div
-        initial={{ y: -80, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 220, damping: 26, delay: 0.05 }}
-        style={{
+      <Box
+        component="header"
+        data-header-state={scrolled ? "floating" : "settled"}
+        sx={{
+          fontFamily: "Outfit, sans-serif",
+          "& .MuiTypography-root, & .MuiButton-root": { fontFamily: "Outfit, sans-serif" },
           position: "fixed",
-          top: scrolled ? 12 : 0,
-          left: 0,
-          right: 0,
-          display: "flex",
-          justifyContent: "center",
+          top: scrolled ? 10 : 0,
+          left: scrolled ? 12 : 0,
+          right: scrolled ? 12 : 0,
           zIndex: 1300,
-          pointerEvents: "none",
-          paddingLeft: scrolled ? 12 : 0,
-          paddingRight: scrolled ? 12 : 0,
-          transition: shellTransition,
+          border: "1px solid",
+          borderColor: "divider",
+          bgcolor: "background.paper",
+          boxShadow: scrolled ? 8 : 0,
+          borderRadius: scrolled ? 4 : 0,
         }}
       >
         <Box
-          data-header-state={scrolled ? "floating" : "settled"}
           sx={{
+            maxWidth: 1440,
+            mx: "auto",
+            px: { xs: 2, md: 3 },
+            py: 1.25,
             display: "flex",
             alignItems: "center",
-            gap: { xs: 1, md: 1.2 },
-            px: scrolled ? { xs: 2, md: 2.2 } : { xs: 2, md: 3 },
-            py: scrolled ? 0.85 : 1.15,
-            width: "100%",
-            borderRadius: scrolled ? 50 : 0,
-            background: isDark
-              ? scrolled ? "rgba(7, 20, 35, 0.84)" : "rgba(7, 20, 35, 0.72)"
-              : scrolled ? "rgba(248, 250, 255, 0.94)" : "rgba(248, 250, 255, 0.84)",
-            backdropFilter: "blur(20px) saturate(1.4)",
-            WebkitBackdropFilter: "blur(20px) saturate(1.4)",
-            border: `1px solid ${isDark
-              ? "rgba(255,255,255,0.16)"
-              : "rgba(12,22,46,0.12)"}`,
-            boxShadow: isDark
-              ? scrolled
-                ? "0 12px 36px rgba(0,0,0,0.34)"
-                : "0 8px 24px rgba(0,0,0,0.26)"
-              : scrolled
-                ? "0 10px 28px rgba(4,12,27,0.15)"
-                : "0 8px 20px rgba(4,12,27,0.12)",
-            pointerEvents: "auto",
-            transition: barTransition,
-            maxWidth: scrolled ? "min(1180px, calc(100vw - 24px))" : "none",
-            mx: "auto",
-            borderBottom: scrolled ? undefined : `1px solid ${isDark ? "rgba(255,255,255,0.10)" : "rgba(12,22,46,0.10)"}`,
+            gap: 2,
           }}
         >
-          {/* Logo */}
           <Box
             component={Link}
             to="/"
+            aria-label="Neurodyne home"
             sx={{
               display: "flex",
               alignItems: "center",
-              flexShrink: 0,
-              mr: { xs: 0, md: 1 },
+              gap: 1.25,
+              textDecoration: "none",
+              color: "text.primary",
+              mr: "auto",
             }}
           >
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: isMobile ? 34 : 38,
-                height: isMobile ? 34 : 38,
-                borderRadius: "50%",
-                flexShrink: 0,
-                bgcolor: isDark ? "rgba(255,255,255,0.06)" : "rgba(12,22,46,0.04)",
-                border: `1px solid ${isDark ? "rgba(255,255,255,0.12)" : "rgba(12,22,46,0.10)"}`,
-              }}
-            >
-              <Logo size={isMobile ? 20 : 22} />
-            </Box>
-            {!isMobile && (
-              <Box sx={{ ml: 1.15, lineHeight: 1 }}>
-                <Typography
-                  sx={{
-                    fontSize: "0.95rem",
-                    fontWeight: 800,
-                    letterSpacing: "-0.01em",
-                    color: isDark ? "rgba(245,248,255,0.96)" : "rgba(8,18,40,0.94)",
-                  }}
-                >
-                  NeuroDyne
-                </Typography>
-                <Typography
-                  sx={{
-                    fontSize: "0.6rem",
-                    fontWeight: 500,
-                    letterSpacing: "0.04em",
-                    color: isDark ? "rgba(226,234,255,0.52)" : "rgba(8,18,40,0.5)",
-                  }}
-                >
-                  Infrastructure for an Intelligent Africa.
-                </Typography>
-              </Box>
-            )}
+            <Logo size={32} />
+            <Typography sx={{ fontWeight: 800 }}>Neurodyne</Typography>
           </Box>
-
-          {/* Desktop nav links */}
-          {!isMobile && (
-            <>
-              <Box
-                sx={{
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 0.15,
-                  // Settled (full-width) bar: centre the nav and let the action
-                  // group fall to the right edge. In the
-                  // floating capsule everything stays compact together.
-                  mx: "auto",
-                }}
-                onMouseLeave={() => setHoveredPath(null)}
-              >
-                {NAV_ITEMS.map((item) => {
-                  const active = isActive(item.path);
-                  const hovered = hoveredPath === item.path;
-                  return (
-                    <Box
-                      key={item.path}
-                      sx={{ position: "relative", flexShrink: 0 }}
-                      onFocus={item.children ? () => setHoveredPath(item.path) : undefined}
-                      onBlur={
-                        item.children
-                          ? (e: React.FocusEvent<HTMLDivElement>) => {
-                              // Only close once focus has actually left the group.
-                              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
-                                setHoveredPath((current) => (current === item.path ? null : current));
-                              }
-                            }
-                          : undefined
-                      }
-                      onKeyDown={
-                        item.children
-                          ? (e: React.KeyboardEvent) => {
-                              if (e.key === "Escape") setHoveredPath(null);
-                            }
-                          : undefined
-                      }
-                    >
-                      <Typography
-                        component={Link}
-                        to={item.path}
-                        // The active page was signalled by weight and colour
-                        // only, which never reaches a screen reader.
-                        aria-current={active ? "page" : undefined}
-                        onMouseEnter={() => {
-                          if (hoveredPath !== item.path) playHover();
-                          setHoveredPath(item.path);
-                        }}
-                        onFocus={() => setHoveredPath(item.path)}
-                        onBlur={() => setHoveredPath((current) => (current === item.path ? null : current))}
-                        sx={{
-                          display: "block",
-                          px: 1.45,
-                          py: 0.8,
-                          fontSize: "0.83rem",
-                          fontWeight: active ? 650 : 500,
-                          color: active || hovered
-                            ? (isDark ? "rgba(255,255,255,0.97)" : "rgba(8,22,46,0.95)")
-                            : (isDark ? "rgba(242,246,255,0.68)" : "rgba(8,22,46,0.62)"),
-                          textDecoration: "none",
-                          borderRadius: 0,
-                          whiteSpace: "nowrap",
-                          transition: "color 0.2s, background-color 0.2s",
-                          position: "relative",
-                          zIndex: 2,
-                        }}
-                      >
-                        {item.label}
-                      </Typography>
-                      {hovered && (
-                        <motion.div
-                          layoutId="pill-hover"
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            borderRadius: 999,
-                            background: isDark ? "rgba(255, 255, 255, 0.16)" : "rgba(8, 22, 46, 0.14)",
-                            border: isDark ? "1px solid rgba(255, 255, 255, 0.24)" : "1px solid rgba(8, 22, 46, 0.16)",
-                            zIndex: 1,
-                          }}
-                          transition={{ type: "spring", stiffness: 430, damping: 34, mass: 0.8 }}
-                        />
-                      )}
-                      {!hoveredPath && active && (
-                        <motion.div
-                          layoutId="pill-active"
-                          style={{
-                            position: "absolute",
-                            inset: 0,
-                            borderRadius: 999,
-                            background: isDark ? "rgba(255, 255, 255, 0.13)" : "rgba(8, 22, 46, 0.12)",
-                            border: isDark ? "1px solid rgba(255, 255, 255, 0.2)" : "1px solid rgba(8, 22, 46, 0.15)",
-                            zIndex: 0,
-                          }}
-                          transition={{ type: "spring", stiffness: 400, damping: 30 }}
-                        />
-                      )}
-
-                      {item.children && hovered && (
-                        <Box
-                          component="ul"
-                          aria-label={`${item.label} submenu`}
-                          sx={{
-                            position: "absolute",
-                            top: "calc(100% + 8px)",
-                            left: "50%",
-                            transform: "translateX(-50%)",
-                            zIndex: 30,
-                            listStyle: "none",
-                            m: 0,
-                            p: 0.75,
-                            minWidth: 210,
-                            border: "1px solid",
-                            borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(8,22,46,0.14)",
-                            background: isDark ? "rgba(10,14,26,0.98)" : "rgba(255,255,255,0.99)",
-                            backdropFilter: "blur(12px)",
-                            boxShadow: isDark
-                              ? "0 16px 40px rgba(0,0,0,0.55)"
-                              : "0 16px 40px rgba(8,22,46,0.14)",
-                          }}
-                        >
-                          {item.children.map((child) => (
-                            <Box component="li" key={child.path}>
-                              <Typography
-                                component={Link}
-                                to={child.path}
-                                aria-current={isActive(child.path) ? "page" : undefined}
-                                sx={{
-                                  display: "block",
-                                  px: 1.5,
-                                  py: 0.9,
-                                  fontSize: "0.81rem",
-                                  fontWeight: isActive(child.path) ? 650 : 500,
-                                  whiteSpace: "nowrap",
-                                  textDecoration: "none",
-                                  color: isDark ? "rgba(242,246,255,0.82)" : "rgba(8,22,46,0.78)",
-                                  transition: "background-color .18s, color .18s",
-                                  "&:hover, &:focus-visible": {
-                                    background: isDark ? "rgba(255,255,255,0.08)" : "rgba(8,22,46,0.06)",
-                                    color: isDark ? "#fff" : "rgba(8,22,46,0.98)",
-                                  },
-                                }}
-                              >
-                                {child.label}
-                              </Typography>
-                            </Box>
-                          ))}
-                        </Box>
-                      )}
-                    </Box>
-                  );
-                })}
-              </Box>
-
-              {/* Client portal is a separate app, so this is an external link
-                  rather than a router route. It used to point at /contact. */}
-              <Typography
-                component="a"
-                href={CLIENT_PORTAL_URL}
-                sx={{
-                  display: "block",
-                  px: 1.35,
-                  py: 0.8,
-                  fontSize: "0.83rem",
-                  fontWeight: 500,
-                  color: isDark ? "rgba(242,246,255,0.68)" : "rgba(8,22,46,0.62)",
-                  textDecoration: "none",
-                  borderRadius: 999,
-                  whiteSpace: "nowrap",
-                  transition: "color 0.2s, background-color 0.2s",
-                  "&:hover": {
-                    color: isDark ? "rgba(255,255,255,0.96)" : "rgba(8,22,46,0.9)",
-                    backgroundColor: isDark ? "rgba(255,255,255,0.06)" : "rgba(8,22,46,0.06)",
-                  },
-                }}
-              >
-                Client login
-              </Typography>
-
-              <ThemeToggle />
-
-              {/* CTA */}
-              <Typography
-                component={Link}
-                to="/partners"
-                sx={{
-                  ml: 1,
-                  pl: 2.6,
-                  pr: 0.6,
-                  py: 0.55,
-                  fontSize: "0.83rem",
-                  fontWeight: 700,
-                  letterSpacing: "0.01em",
-                  color: "#FFFFFF",
-                  textDecoration: "none",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: 1.1,
-                  // Reference #3: the CTA is a panel whose leading edge sweeps
-                  // into the bar rather than a detached pill.
-                  borderRadius: "999px",
-                  background: "linear-gradient(120deg, #6C63FF, #00D4AA)",
-                  boxShadow: "0 4px 14px rgba(108,99,255,0.28)",
-                  whiteSpace: "nowrap",
-                  flexShrink: 0,
-                  transition: "transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s ease",
-                  "&:hover": {
-                    transform: "translateY(-1px)",
-                    filter: "brightness(1.06)",
-                    boxShadow: "0 6px 18px rgba(108,99,255,0.38)",
-                  },
-                }}
-              >
-                Partner with us
-                <Box
-                  aria-hidden
-                  sx={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: 30,
-                    height: 30,
-                    borderRadius: "50%",
-                    bgcolor: "rgba(255,255,255,0.92)",
-                    color: "#1B1F3B",
-                    flexShrink: 0,
-                  }}
-                >
-                  <ArrowForwardIcon sx={{ fontSize: 16 }} />
-                </Box>
-              </Typography>
-            </>
-          )}
-
-          {/* Mobile: theme toggle + hamburger */}
-          {isMobile && (
-            <>
-              <Box
-                component={Link}
-                to="/"
-                sx={{
-                  flex: 1,
-                  minWidth: 0,
-                  ml: 0.25,
-                  textDecoration: "none",
-                  display: "flex",
-                  flexDirection: "column",
-                  justifyContent: "center",
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontSize: "0.86rem",
-                    fontWeight: 750,
-                    lineHeight: 1.1,
-                    letterSpacing: "0.01em",
-                    color: "text.primary",
-                  }}
-                >
-                  NeuroDyne
-                </Typography>
-                <Typography
-                  sx={{
-                    mt: 0.45,
-                    fontFamily: "monospace",
-                    fontSize: "0.5rem",
-                    lineHeight: 1,
-                    letterSpacing: "0.14em",
-                    color: "text.secondary",
-                    opacity: 0.68,
-                    textTransform: "uppercase",
-                    whiteSpace: "nowrap",
-                    overflow: "hidden",
-                    textOverflow: "ellipsis",
-                  }}
-                >
-                  {activeMobileItem?.label ?? "AI & digital infrastructure"}
-                </Typography>
-              </Box>
-              <ThemeToggle />
-              <IconButton
-                onClick={() => setDrawerOpen(true)}
-                aria-label="Open navigation menu"
-                size="small"
-                sx={{
-                  color: "text.primary",
-                  border: isDark ? "1px solid rgba(108,99,255,0.2)" : "1px solid rgba(91,84,238,0.15)",
-                  borderRadius: 50,
-                  width: 40,
-                  height: 40,
-                }}
-              >
-                <MenuIcon sx={{ fontSize: 18 }} />
-              </IconButton>
-            </>
-          )}
-        </Box>
-      </motion.div>
-
-      {/* Full-screen mobile menu */}
-      <AnimatePresence>
-        {drawerOpen && (
-          <motion.div
-            key="mobile-grid"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.25 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 9000,
-              background: isDark ? "#060911" : "#F1F5F9",
-              display: "flex",
-              flexDirection: "column",
-              overflow: "hidden",
-            }}
-          >
-            {/* Scanlines */}
+          {!mobile && (
             <Box
-              sx={{
-                position: "absolute",
-                inset: 0,
-                backgroundImage: `repeating-linear-gradient(0deg, transparent, transparent 2px, ${isDark ? "rgba(108,99,255,0.04)" : "rgba(91,84,238,0.03)"} 2px, ${isDark ? "rgba(108,99,255,0.04)" : "rgba(91,84,238,0.03)"} 4px)`,
-                pointerEvents: "none",
-                zIndex: 1,
-              }}
-            />
-
-            {/* Header bar */}
-            <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", px: 2.5, py: 2, position: "relative", zIndex: 10, borderBottom: `1px solid ${isDark ? BORDER : "rgba(91,84,238,0.1)"}` }}>
-              <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-                <Logo size={28} />
-                <Typography
-                  variant="body1"
-                  sx={{ fontWeight: 700, background: "linear-gradient(135deg, #6C63FF, #00D4AA)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}
+              component="nav"
+              aria-label="Main navigation"
+              sx={{ display: "flex", alignItems: "center", gap: 0.5 }}
+              onMouseLeave={() => setOpen(null)}
+            >
+              {NAV_GROUPS.map((item) => (
+                <Box
+                  key={item.path}
+                  sx={{ position: "relative" }}
+                  onMouseEnter={() => setOpen(item.children ? item.path : null)}
+                  onBlur={(e) => {
+                    if (!e.currentTarget.contains(e.relatedTarget)) setOpen(null);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === "Escape") {
+                      setOpen(null);
+                      (e.currentTarget.querySelector("button") as HTMLButtonElement)?.focus();
+                    }
+                  }}
                 >
-                  NeuroDyne
-                </Typography>
-              </Box>
-              <Box sx={{ display: "flex", gap: 1, alignItems: "center" }}>
-                <ThemeToggle />
-                <IconButton
-                  onClick={() => setDrawerOpen(false)}
-                  size="small"
-                  sx={{ color: "text.primary", border: `1px solid ${isDark ? "rgba(108,99,255,0.2)" : "rgba(91,84,238,0.15)"}`, borderRadius: 50, width: 34, height: 34 }}
-                >
-                  <CloseIcon sx={{ fontSize: 18 }} />
-                </IconButton>
-              </Box>
-            </Box>
-
-            {/* Grid cells */}
-            <Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(4, 1fr) 0.7fr", position: "relative", zIndex: 2 }}>
-              {NAV_ITEMS.map((item, i) => {
-                const active = isActive(item.path);
-                const col = i % 2;
-
-                return (
-                  <motion.div
-                    key={item.path}
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 0.05 + i * 0.05, duration: 0.3 }}
-                    onClick={() => { setDrawerOpen(false); }}
-                    style={{ display: "flex", position: "relative", overflow: "hidden", cursor: "pointer" }}
-                  >
-                    <Box
+                  {item.children ? (
+                    <Button
+                      aria-expanded={open === item.path}
+                      aria-controls={open === item.path ? `nav-${item.label}` : undefined}
+                      onClick={() => setOpen(item.path)}
+                      onKeyDown={(e) => {
+                        if (e.key === "ArrowDown") {
+                          e.preventDefault();
+                          setOpen(item.path);
+                          requestAnimationFrame(() =>
+                            document
+                              .querySelector<HTMLAnchorElement>(`#nav-${item.label} a`)
+                              ?.focus(),
+                          );
+                        }
+                      }}
+                      endIcon={
+                        <ExpandMoreIcon
+                          sx={{ transform: open === item.path ? "rotate(180deg)" : "none" }}
+                        />
+                      }
+                      sx={{
+                        color: item.children.some((c) => isActive(c.path))
+                          ? "primary.main"
+                          : "text.primary",
+                        px: 1.5,
+                      }}
+                    >
+                      {item.label}
+                    </Button>
+                  ) : (
+                    <Button
                       component={Link}
                       to={item.path}
-                      aria-current={active ? "page" : undefined}
-                      sx={{
-                        flex: 1,
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        justifyContent: "center",
-                        gap: 1,
-                        textDecoration: "none",
-                        color: "inherit",
-                        borderRight: col < 1 ? `1px solid ${isDark ? BORDER : "rgba(91,84,238,0.1)"}` : "none",
-                        borderBottom: `1px solid ${isDark ? BORDER : "rgba(91,84,238,0.1)"}`,
-                        background: active ? `${item.color}08` : "transparent",
-                        position: "relative",
-                      }}
+                      aria-current={isActive(item.path) ? "page" : undefined}
+                      sx={{ color: isActive(item.path) ? "primary.main" : "text.primary", px: 1.5 }}
                     >
-                      {/* Corner brackets */}
-                      {[
-                        { top: 8, left: 8, bT: true, bL: true },
-                        { top: 8, right: 8, bT: true, bR: true },
-                        { bottom: 8, left: 8, bB: true, bL: true },
-                        { bottom: 8, right: 8, bB: true, bR: true },
-                      ].map((pos, ci) => (
-                        <Box
-                          key={ci}
-                          sx={{
-                            position: "absolute",
-                            ...(pos.top !== undefined && { top: pos.top }),
-                            ...(pos.bottom !== undefined && { bottom: pos.bottom }),
-                            ...(pos.left !== undefined && { left: pos.left }),
-                            ...(pos.right !== undefined && { right: pos.right }),
-                            width: 12,
-                            height: 12,
-                            borderTop: pos.bT ? `2px solid ${item.color}${active ? "70" : "30"}` : "none",
-                            borderBottom: pos.bB ? `2px solid ${item.color}${active ? "70" : "30"}` : "none",
-                            borderLeft: pos.bL ? `2px solid ${item.color}${active ? "70" : "30"}` : "none",
-                            borderRight: pos.bR ? `2px solid ${item.color}${active ? "70" : "30"}` : "none",
-                            filter: active ? `drop-shadow(0 0 4px ${item.color}40)` : "none",
-                            pointerEvents: "none",
-                            zIndex: 2,
-                          }}
-                        />
-                      ))}
-
-                      {/* Index */}
-                      <Typography sx={{ position: "absolute", top: 10, left: 26, fontSize: "0.55rem", fontFamily: "monospace", color: item.color, opacity: 0.4, letterSpacing: "0.15em", zIndex: 2 }}>
-                        {item.index}
-                      </Typography>
-
-                      {/* Icon */}
-                      <Box
-                        sx={{
-                          color: item.color,
-                          "& .MuiSvgIcon-root": { fontSize: 32 },
-                          filter: active
-                            ? `drop-shadow(0 0 10px ${item.color}90) drop-shadow(0 0 24px ${item.color}50)`
-                            : `drop-shadow(0 0 4px ${item.color}40)`,
-                        }}
-                      >
-                        {item.icon}
-                      </Box>
-
-                      {/* Label */}
-                      <Typography
-                        sx={{
-                          fontSize: "0.85rem",
-                          fontWeight: active ? 800 : 600,
-                          color: active ? "text.primary" : "text.secondary",
-                          letterSpacing: "0.08em",
-                          textTransform: "uppercase",
-                        }}
-                      >
-                        {item.label}
-                      </Typography>
-
-                      {/* Active accent */}
-                      {active && (
-                        <Box sx={{ position: "absolute", bottom: 0, left: "15%", right: "15%", height: 2, background: `linear-gradient(90deg, transparent, ${item.color}, transparent)`, opacity: 0.6 }} />
-                      )}
-                    </Box>
-                  </motion.div>
-                );
-              })}
-
-              {/* CTA — full width bottom row */}
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: 0.35, duration: 0.3 }}
-                onClick={() => setDrawerOpen(false)}
-                style={{ gridColumn: "1 / -1", display: "flex", position: "relative", overflow: "hidden", cursor: "pointer" }}
-              >
-                <Box
-                  component={Link}
-                  to={CTA_ITEM.path}
-                  sx={{
-                    flex: 1,
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    gap: 2,
-                    textDecoration: "none",
-                    color: "inherit",
-                    position: "relative",
-                  }}
-                >
-                  {/* Corner brackets */}
-                  {[
-                    { top: 8, left: 8, bT: true, bL: true },
-                    { top: 8, right: 8, bT: true, bR: true },
-                    { bottom: 8, left: 8, bB: true, bL: true },
-                    { bottom: 8, right: 8, bB: true, bR: true },
-                  ].map((pos, ci) => (
+                      {item.label}
+                    </Button>
+                  )}
+                  {item.children && open === item.path && (
                     <Box
-                      key={ci}
+                      id={`nav-${item.label}`}
                       sx={{
                         position: "absolute",
-                        ...(pos.top !== undefined && { top: pos.top }),
-                        ...(pos.bottom !== undefined && { bottom: pos.bottom }),
-                        ...(pos.left !== undefined && { left: pos.left }),
-                        ...(pos.right !== undefined && { right: pos.right }),
-                        width: 12,
-                        height: 12,
-                        borderTop: pos.bT ? `2px solid ${CTA_ITEM.color}30` : "none",
-                        borderBottom: pos.bB ? `2px solid ${CTA_ITEM.color}30` : "none",
-                        borderLeft: pos.bL ? `2px solid ${CTA_ITEM.color}30` : "none",
-                        borderRight: pos.bR ? `2px solid ${CTA_ITEM.color}30` : "none",
-                        pointerEvents: "none",
-                        zIndex: 2,
+                        top: "100%",
+                        right: 0,
+                        width: item.children.length > 3 ? 590 : 340,
+                        pt: 1,
                       }}
-                    />
-                  ))}
-
-                  <Typography sx={{ position: "absolute", top: 10, left: 26, fontSize: "0.55rem", fontFamily: "monospace", color: CTA_ITEM.color, opacity: 0.4, letterSpacing: "0.15em", zIndex: 2 }}>
-                    {CTA_ITEM.index}
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      color: CTA_ITEM.color,
-                      "& .MuiSvgIcon-root": { fontSize: 36 },
-                      filter: `drop-shadow(0 0 8px ${CTA_ITEM.color}60) drop-shadow(0 0 20px ${CTA_ITEM.color}30)`,
-                    }}
-                  >
-                    {CTA_ITEM.icon}
-                  </Box>
-
-                  <Typography
-                    sx={{
-                      fontSize: "1.1rem",
-                      fontWeight: 800,
-                      color: "text.secondary",
-                      letterSpacing: "0.1em",
-                      textTransform: "uppercase",
-                    }}
-                  >
-                    {CTA_ITEM.label}
-                  </Typography>
-                </Box>
-              </motion.div>
-            </Box>
-
-            {/* Secondary links — the Company sub-pages. The grid above is a
-                fixed cell layout with no room to nest a submenu, so these get
-                their own strip rather than being unreachable on mobile. */}
-            <Box
-              component="ul"
-              aria-label="Company"
-              sx={{
-                listStyle: "none",
-                m: 0,
-                px: 2.5,
-                py: 2,
-                display: "flex",
-                flexWrap: "wrap",
-                gap: 0.5,
-                rowGap: 0.25,
-                borderTop: `1px solid ${isDark ? BORDER : "rgba(91,84,238,0.1)"}`,
-                position: "relative",
-                zIndex: 2,
-              }}
-            >
-              {(NAV_ITEMS.find((n) => n.children)?.children ?? []).map((child) => (
-                <Box component="li" key={child.path}>
-                  <Typography
-                    component={Link}
-                    to={child.path}
-                    onClick={() => setDrawerOpen(false)}
-                    aria-current={isActive(child.path) ? "page" : undefined}
-                    sx={{
-                      display: "block",
-                      px: 1.25,
-                      py: 0.7,
-                      fontSize: "0.74rem",
-                      letterSpacing: "0.04em",
-                      textDecoration: "none",
-                      color: isActive(child.path) ? "text.primary" : "text.secondary",
-                      fontWeight: isActive(child.path) ? 700 : 500,
-                      border: "1px solid",
-                      borderColor: isActive(child.path)
-                        ? "rgba(108,99,255,0.4)"
-                        : (isDark ? "rgba(255,255,255,0.1)" : "rgba(8,22,46,0.1)"),
-                    }}
-                  >
-                    {child.label}
-                  </Typography>
+                    >
+                      <Box
+                        sx={{
+                          p: 1,
+                          display: "grid",
+                          gridTemplateColumns: item.children.length > 3 ? "1fr 1fr" : "1fr",
+                          bgcolor: "background.paper",
+                          border: "1px solid",
+                          borderColor: "divider",
+                          borderRadius: 2,
+                          boxShadow: 12,
+                        }}
+                      >
+                        {item.children.map((child) => (
+                          <Destination
+                            key={child.path}
+                            item={child}
+                            onNavigate={() => setOpen(null)}
+                          />
+                        ))}
+                      </Box>
+                    </Box>
+                  )}
                 </Box>
               ))}
+              <Button
+                component={Link}
+                to="/partners"
+                variant="contained"
+                endIcon={<ArrowForwardIcon />}
+                sx={{ ml: 1 }}
+              >
+                Partner with us
+              </Button>
             </Box>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {/* Spacer — transparent, just pushes content below the fixed nav */}
-      <Box sx={{ height: 68, background: "transparent" }} />
+          )}
+          <ThemeToggle />
+          {mobile && (
+            <IconButton aria-label="Open navigation menu" onClick={() => setDrawerOpen(true)}>
+              <MenuIcon />
+            </IconButton>
+          )}
+        </Box>
+      </Box>
+      <Drawer
+        anchor="right"
+        open={drawerOpen}
+        onClose={() => setDrawerOpen(false)}
+        slotProps={{ paper: { sx: { width: "min(100%, 460px)" } } }}
+      >
+        <Box sx={{ display: "flex", alignItems: "center", justifyContent: "space-between", p: 2 }}>
+          <Typography sx={{ fontWeight: 800 }}>Explore Neurodyne</Typography>
+          <IconButton aria-label="Close navigation menu" onClick={() => setDrawerOpen(false)}>
+            <CloseIcon />
+          </IconButton>
+        </Box>
+        <Box
+          component="nav"
+          aria-label="Mobile navigation"
+          sx={{ px: 1, pb: 3, fontFamily: "Outfit, sans-serif" }}
+        >
+          <Destination item={ALL_GRID_ITEMS[0]!} onNavigate={() => setDrawerOpen(false)} />
+          {NAV_GROUPS.map((item) => (
+            <Box key={item.path}>
+              {item.children ? (
+                <Box
+                  component="details"
+                  sx={{
+                    borderTop: "1px solid",
+                    borderColor: "divider",
+                    "& summary": { cursor: "pointer", p: 2, fontWeight: 700 },
+                  }}
+                >
+                  <Box component="summary">{item.label}</Box>
+                  {item.children.map((child) => (
+                    <Destination
+                      key={child.path}
+                      item={child}
+                      onNavigate={() => setDrawerOpen(false)}
+                    />
+                  ))}
+                </Box>
+              ) : (
+                <Destination item={item} onNavigate={() => setDrawerOpen(false)} />
+              )}
+            </Box>
+          ))}
+          <Destination
+            item={ALL_GRID_ITEMS[ALL_GRID_ITEMS.length - 1]!}
+            onNavigate={() => setDrawerOpen(false)}
+          />
+        </Box>
+      </Drawer>
+      <Box sx={{ height: 72 }} />
     </>
   );
 }
@@ -1339,12 +837,11 @@ export default function Navbar() {
   const location = useLocation();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
+  const reducedMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
   const isActive = useCallback(
     (path: string) =>
-      path === "/"
-        ? location.pathname === "/"
-        : location.pathname.startsWith(path),
+      path === "/" ? location.pathname === "/" : location.pathname.startsWith(path),
     [location.pathname],
   );
 
@@ -1352,6 +849,12 @@ export default function Navbar() {
     (path: string) => {
       if (phase !== "grid") return;
 
+      if (reducedMotion) {
+        navigate(path);
+        setPhase("pill");
+        sessionStorage.setItem("ndl-nav", "1");
+        return;
+      }
       setSelectedPath(path);
       setPhase("selecting");
       playSelect();
@@ -1368,53 +871,55 @@ export default function Navbar() {
         }, 800);
       }, 400);
     },
-    [phase, navigate],
+    [phase, navigate, reducedMotion],
   );
 
   return (
     <>
       {/* ── Full-screen grid overlay ── */}
       <AnimatePresence>
-        {(phase === "grid" ||
-          phase === "selecting" ||
-          phase === "collapsing") && (
-          <motion.div
-            key="nav-grid"
-            initial={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.15 }}
-            style={{
-              position: "fixed",
-              inset: 0,
-              zIndex: 1400,
-              display: "grid",
-              gridTemplateColumns: isMobile ? "1fr" : "repeat(3, 1fr)",
-              gridTemplateRows: isMobile
-                ? "repeat(6, 1fr) 0.6fr"
-                : "1fr 1fr 0.35fr",
-              background: "#0A0E1A",
-            }}
-          >
-            {ALL_GRID_ITEMS.map((item, i) => (
-              <GridCell
-                key={item.path}
-                item={item}
-                index={i}
-                isSelected={selectedPath === item.path}
-                phase={phase}
-                onSelect={handleSelect}
-                isCta={i === ALL_GRID_ITEMS.length - 1}
-                isMobile={isMobile}
-              />
-            ))}
-          </motion.div>
+        {(phase === "grid" || phase === "selecting" || phase === "collapsing") && (
+          <Modal open aria-label="Choose a destination" sx={{ zIndex: 1400 }}>
+            <motion.div
+              tabIndex={-1}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Explore Neurodyne"
+              key="nav-grid"
+              initial={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.15 }}
+              style={{
+                position: "fixed",
+                inset: 0,
+                zIndex: 1400,
+                display: "grid",
+                gridTemplateColumns: isMobile ? "repeat(2, 1fr)" : "repeat(4, 1fr)",
+                gridTemplateRows: isMobile
+                  ? "repeat(4, minmax(130px, 1fr)) minmax(100px, .6fr)"
+                  : "1fr 1fr .45fr",
+                overflowY: "auto",
+                background: "#0A0E1A",
+              }}
+            >
+              {ALL_GRID_ITEMS.map((item, i) => (
+                <GridCell
+                  key={item.path}
+                  item={item}
+                  index={i}
+                  isSelected={selectedPath === item.path}
+                  phase={phase}
+                  onSelect={handleSelect}
+                  isCta={i === ALL_GRID_ITEMS.length - 1}
+                />
+              ))}
+            </motion.div>
+          </Modal>
         )}
       </AnimatePresence>
 
       {/* ── Floating pill nav ── */}
-      <AnimatePresence>
-        {phase === "pill" && <PillNav isActive={isActive} />}
-      </AnimatePresence>
+      <AnimatePresence>{phase === "pill" && <PillNav isActive={isActive} />}</AnimatePresence>
     </>
   );
 }
