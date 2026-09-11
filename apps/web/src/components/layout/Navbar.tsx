@@ -9,13 +9,14 @@ import {
 import MenuIcon from "@mui/icons-material/Menu";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CloseIcon from "@mui/icons-material/Close";
-import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import MiscellaneousServicesOutlinedIcon from "@mui/icons-material/MiscellaneousServicesOutlined";
-import WorkOutlineIcon from "@mui/icons-material/WorkOutlined";
-import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
+import WidgetsOutlinedIcon from "@mui/icons-material/WidgetsOutlined";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
+import GitHubIcon from "@mui/icons-material/GitHub";
+import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
+import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
+import HandshakeOutlinedIcon from "@mui/icons-material/HandshakeOutlined";
 import DarkModeOutlinedIcon from "@mui/icons-material/DarkModeOutlined";
 import LightModeOutlinedIcon from "@mui/icons-material/LightModeOutlined";
 import { motion, AnimatePresence } from "framer-motion";
@@ -30,21 +31,49 @@ import { useThemeMode } from "@/context/ThemeContext";
 const CLIENT_PORTAL_URL =
   import.meta.env.VITE_CLIENT_PORTAL_URL ?? "https://client.neurodyne.dev";
 
-const NAV_ITEMS = [
-  { label: "Home", path: "/", index: "01", tag: "MAIN SECTOR", icon: <HomeOutlinedIcon />, color: "#6C63FF" },
-  { label: "About", path: "/about", index: "02", tag: "INTEL BRIEF", icon: <InfoOutlinedIcon />, color: "#8B85FF" },
-  { label: "Solutions", path: "/solutions", index: "03", tag: "CAPABILITIES", icon: <MiscellaneousServicesOutlinedIcon />, color: "#00D4AA" },
-  { label: "Industries", path: "/industries", index: "04", tag: "SECTORS", icon: <DomainOutlinedIcon />, color: "#33DDBB" },
-  { label: "Standards", path: "/open-standards", index: "05", tag: "INTEROPERABILITY", icon: <AccountTreeOutlinedIcon />, color: "#00D4AA" },
-  { label: "Projects", path: "/projects", index: "06", tag: "OPERATIONS LOG", icon: <WorkOutlineIcon />, color: "#8B85FF" },
+/* Primary navigation follows the 2026 positioning: infrastructure first,
+   engineering services demoted to a secondary area under Company.
+   See docs/NEURODYNE_POSITIONING.md before changing these. */
+interface NavItem {
+  label: string;
+  path: string;
+  index: string;
+  tag: string;
+  icon: React.ReactNode;
+  color: string;
+  children?: { label: string; path: string }[];
+}
+
+const NAV_ITEMS: NavItem[] = [
+  { label: "Products", path: "/products", index: "01", tag: "PLATFORMS", icon: <WidgetsOutlinedIcon />, color: "#8B85FF" },
+  { label: "Infrastructure", path: "/infrastructure", index: "02", tag: "THE LAYER", icon: <AccountTreeOutlinedIcon />, color: "#00D4AA" },
+  { label: "Open Source", path: "/open-source", index: "03", tag: "IN PUBLIC", icon: <GitHubIcon />, color: "#6C63FF" },
+  { label: "Developers", path: "/developers", index: "04", tag: "BUILD WITH US", icon: <TerminalOutlinedIcon />, color: "#6C63FF" },
+  { label: "Research", path: "/research", index: "05", tag: "OPEN QUESTIONS", icon: <ScienceOutlinedIcon />, color: "#33DDBB" },
+  {
+    label: "Company",
+    path: "/about",
+    index: "06",
+    tag: "WHO WE ARE",
+    icon: <InfoOutlinedIcon />,
+    color: "#8B85FF",
+    children: [
+      { label: "About", path: "/about" },
+      { label: "Vision", path: "/vision" },
+      { label: "Engineering Services", path: "/company/engineering-services" },
+      { label: "Changelog", path: "/changelog" },
+      { label: "Trust & Security", path: "/trust" },
+    ],
+  },
+  { label: "Blog", path: "/blog", index: "07", tag: "WRITING", icon: <ArticleOutlinedIcon />, color: "#F59E0B" },
 ];
 
 const CTA_ITEM = {
-  label: "Start a Project",
-  path: "/start-project",
-  index: "07",
+  label: "Partner With Us",
+  path: "/partners",
+  index: "08",
   tag: "INITIATE SEQUENCE",
-  icon: <RocketLaunchOutlinedIcon />,
+  icon: <HandshakeOutlinedIcon />,
   color: "#00D4AA",
 };
 
@@ -287,7 +316,19 @@ function GridCell({
   const scrambledTag = useScramble(item.tag, index * 100 + 700);
 
   return (
+    // A div with an onClick is invisible to keyboards and screen readers. This
+    // grid is the first thing a visitor lands on, so it is given a real button
+    // role, a tab stop, an accessible name and Enter/Space activation.
     <motion.div
+      role="button"
+      tabIndex={0}
+      aria-label={`${item.label} — ${item.tag}`}
+      onKeyDown={(e) => {
+        if (e.key === "Enter" || e.key === " ") {
+          e.preventDefault();
+          onSelect(item.path);
+        }
+      }}
       initial={{ opacity: 0 }}
       animate={
         phase === "collapsing"
@@ -315,6 +356,7 @@ function GridCell({
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
+        outlineOffset: "-3px",
         borderRight: `1px solid ${BORDER}`,
         borderBottom: `1px solid ${BORDER}`,
         background: hovered ? "rgba(108, 99, 255, 0.03)" : "#0A0E1A",
@@ -488,6 +530,9 @@ function ThemeToggle() {
         ref={btnRef}
         size="small"
         onClick={handleClick}
+        // Icon-only control: its only child is an SvgIcon, which contributes no
+        // accessible name, so it announced as an unlabelled button.
+        aria-label={isDark ? "Switch to light theme" : "Switch to dark theme"}
         whileTap={{ scale: 0.88, rotate: isDark ? 180 : -180 }}
         whileHover={{ scale: 1.05 }}
         transition={{ type: "spring", stiffness: 400, damping: 15 }}
@@ -680,7 +725,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                     color: isDark ? "rgba(226,234,255,0.52)" : "rgba(8,18,40,0.5)",
                   }}
                 >
-                  Engineering the systems.
+                  Infrastructure for an Intelligent Africa.
                 </Typography>
               </Box>
             )}
@@ -705,10 +750,34 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   const active = isActive(item.path);
                   const hovered = hoveredPath === item.path;
                   return (
-                    <Box key={item.path} sx={{ position: "relative", flexShrink: 0 }}>
+                    <Box
+                      key={item.path}
+                      sx={{ position: "relative", flexShrink: 0 }}
+                      onFocus={item.children ? () => setHoveredPath(item.path) : undefined}
+                      onBlur={
+                        item.children
+                          ? (e: React.FocusEvent<HTMLDivElement>) => {
+                              // Only close once focus has actually left the group.
+                              if (!e.currentTarget.contains(e.relatedTarget as Node)) {
+                                setHoveredPath((current) => (current === item.path ? null : current));
+                              }
+                            }
+                          : undefined
+                      }
+                      onKeyDown={
+                        item.children
+                          ? (e: React.KeyboardEvent) => {
+                              if (e.key === "Escape") setHoveredPath(null);
+                            }
+                          : undefined
+                      }
+                    >
                       <Typography
                         component={Link}
                         to={item.path}
+                        // The active page was signalled by weight and colour
+                        // only, which never reaches a screen reader.
+                        aria-current={active ? "page" : undefined}
                         onMouseEnter={() => {
                           if (hoveredPath !== item.path) playHover();
                           setHoveredPath(item.path);
@@ -762,6 +831,58 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                           transition={{ type: "spring", stiffness: 400, damping: 30 }}
                         />
                       )}
+
+                      {item.children && hovered && (
+                        <Box
+                          component="ul"
+                          aria-label={`${item.label} submenu`}
+                          sx={{
+                            position: "absolute",
+                            top: "calc(100% + 8px)",
+                            left: "50%",
+                            transform: "translateX(-50%)",
+                            zIndex: 30,
+                            listStyle: "none",
+                            m: 0,
+                            p: 0.75,
+                            minWidth: 210,
+                            border: "1px solid",
+                            borderColor: isDark ? "rgba(255,255,255,0.16)" : "rgba(8,22,46,0.14)",
+                            background: isDark ? "rgba(10,14,26,0.98)" : "rgba(255,255,255,0.99)",
+                            backdropFilter: "blur(12px)",
+                            boxShadow: isDark
+                              ? "0 16px 40px rgba(0,0,0,0.55)"
+                              : "0 16px 40px rgba(8,22,46,0.14)",
+                          }}
+                        >
+                          {item.children.map((child) => (
+                            <Box component="li" key={child.path}>
+                              <Typography
+                                component={Link}
+                                to={child.path}
+                                aria-current={isActive(child.path) ? "page" : undefined}
+                                sx={{
+                                  display: "block",
+                                  px: 1.5,
+                                  py: 0.9,
+                                  fontSize: "0.81rem",
+                                  fontWeight: isActive(child.path) ? 650 : 500,
+                                  whiteSpace: "nowrap",
+                                  textDecoration: "none",
+                                  color: isDark ? "rgba(242,246,255,0.82)" : "rgba(8,22,46,0.78)",
+                                  transition: "background-color .18s, color .18s",
+                                  "&:hover, &:focus-visible": {
+                                    background: isDark ? "rgba(255,255,255,0.08)" : "rgba(8,22,46,0.06)",
+                                    color: isDark ? "#fff" : "rgba(8,22,46,0.98)",
+                                  },
+                                }}
+                              >
+                                {child.label}
+                              </Typography>
+                            </Box>
+                          ))}
+                        </Box>
+                      )}
                     </Box>
                   );
                 })}
@@ -797,7 +918,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
               {/* CTA */}
               <Typography
                 component={Link}
-                to="/start-project"
+                to="/partners"
                 sx={{
                   ml: 1,
                   pl: 2.6,
@@ -826,7 +947,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   },
                 }}
               >
-                Start a project
+                Partner with us
                 <Box
                   aria-hidden
                   sx={{
@@ -889,7 +1010,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                     textOverflow: "ellipsis",
                   }}
                 >
-                  {activeMobileItem?.label ?? "Systems engineering"}
+                  {activeMobileItem?.label ?? "AI & digital infrastructure"}
                 </Typography>
               </Box>
               <ThemeToggle />
@@ -966,7 +1087,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
             </Box>
 
             {/* Grid cells */}
-            <Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(3, 1fr) 0.7fr", position: "relative", zIndex: 2 }}>
+            <Box sx={{ flex: 1, display: "grid", gridTemplateColumns: "repeat(2, 1fr)", gridTemplateRows: "repeat(4, 1fr) 0.7fr", position: "relative", zIndex: 2 }}>
               {NAV_ITEMS.map((item, i) => {
                 const active = isActive(item.path);
                 const col = i % 2;
@@ -983,6 +1104,7 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                     <Box
                       component={Link}
                       to={item.path}
+                      aria-current={active ? "page" : undefined}
                       sx={{
                         flex: 1,
                         display: "flex",
@@ -1142,6 +1264,54 @@ function PillNav({ isActive }: { isActive: (path: string) => boolean }) {
                   </Typography>
                 </Box>
               </motion.div>
+            </Box>
+
+            {/* Secondary links — the Company sub-pages. The grid above is a
+                fixed cell layout with no room to nest a submenu, so these get
+                their own strip rather than being unreachable on mobile. */}
+            <Box
+              component="ul"
+              aria-label="Company"
+              sx={{
+                listStyle: "none",
+                m: 0,
+                px: 2.5,
+                py: 2,
+                display: "flex",
+                flexWrap: "wrap",
+                gap: 0.5,
+                rowGap: 0.25,
+                borderTop: `1px solid ${isDark ? BORDER : "rgba(91,84,238,0.1)"}`,
+                position: "relative",
+                zIndex: 2,
+              }}
+            >
+              {(NAV_ITEMS.find((n) => n.children)?.children ?? []).map((child) => (
+                <Box component="li" key={child.path}>
+                  <Typography
+                    component={Link}
+                    to={child.path}
+                    onClick={() => setDrawerOpen(false)}
+                    aria-current={isActive(child.path) ? "page" : undefined}
+                    sx={{
+                      display: "block",
+                      px: 1.25,
+                      py: 0.7,
+                      fontSize: "0.74rem",
+                      letterSpacing: "0.04em",
+                      textDecoration: "none",
+                      color: isActive(child.path) ? "text.primary" : "text.secondary",
+                      fontWeight: isActive(child.path) ? 700 : 500,
+                      border: "1px solid",
+                      borderColor: isActive(child.path)
+                        ? "rgba(108,99,255,0.4)"
+                        : (isDark ? "rgba(255,255,255,0.1)" : "rgba(8,22,46,0.1)"),
+                    }}
+                  >
+                    {child.label}
+                  </Typography>
+                </Box>
+              ))}
             </Box>
           </motion.div>
         )}

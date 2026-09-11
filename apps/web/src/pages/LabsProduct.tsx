@@ -6,6 +6,7 @@ import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
+import MaturityBadge from "@/components/shared/MaturityBadge";
 import { SectionHeading, InfoCard, CardGrid, CTABand, Overline } from "@/components/shared/Marketing";
 import { getLabsProduct } from "@/data/labs";
 
@@ -16,13 +17,13 @@ export default function LabsProduct() {
   if (!product) {
     return (
       <Container maxWidth="md" sx={{ py: { xs: 10, md: 16 }, textAlign: "center" }}>
-        <SEO title="Platform not found" />
+        <SEO title="Not found" noIndex />
         <Overline>404 // LABS</Overline>
         <Typography variant="h4" sx={{ fontWeight: 800, mt: 2, mb: 2 }}>
-          That platform isn't here yet
+          That exploration isn't here
         </Typography>
         <Typography color="text.secondary" sx={{ mb: 4 }}>
-          The Labs product you're looking for doesn't exist or hasn't been published.
+          The Labs entry you're looking for doesn't exist or hasn't been published.
         </Typography>
         <Button component={Link} to="/labs" startIcon={<ArrowBackIcon />} variant="outlined">
           Back to Labs
@@ -39,78 +40,101 @@ export default function LabsProduct() {
         canonical={`https://neurodyne.dev/labs/${product.slug}`}
         ogUrl={`https://neurodyne.dev/labs/${product.slug}`}
         ogType="article"
-        structuredData={{
-          "@context": "https://schema.org",
-          "@type": "SoftwareApplication",
-          name: product.name,
-          applicationCategory: "BusinessApplication",
-          description: product.tagline,
-          publisher: { "@type": "Organization", name: "NeuroDyne Corp" },
-        }}
       />
 
       <PageHero
         icon={<ScienceOutlinedIcon />}
         title={product.name}
         description={product.tagline}
-        tag={`LABS // ${product.kicker}`}
+        tag={`LABS // ${product.industry.toUpperCase()}`}
         accentWord={product.name}
-        iconColor={product.color}
-        iconLabel={product.status.toUpperCase()}
+        iconColor={product.accent}
+        iconLabel={product.maturity ?? "RESEARCH"}
       />
 
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
         <Stack spacing={{ xs: 6, md: 9 }}>
-          <Button component={Link} to="/labs" startIcon={<ArrowBackIcon />} sx={{ alignSelf: "flex-start", color: "text.secondary" }}>
-            All Labs platforms
-          </Button>
+          <Stack
+            direction={{ xs: "column", sm: "row" }}
+            spacing={2}
+            sx={{ alignItems: { xs: "flex-start", sm: "center" }, justifyContent: "space-between" }}
+          >
+            <Button component={Link} to="/labs" startIcon={<ArrowBackIcon />} sx={{ color: "text.secondary" }}>
+              All Labs explorations
+            </Button>
+            {product.maturity ? <MaturityBadge maturity={product.maturity} /> : null}
+          </Stack>
 
-          {/* Problem + Platform */}
+          <Box
+            sx={{
+              p: { xs: 2.5, md: 3 },
+              border: "1px solid",
+              borderColor: "divider",
+              bgcolor: `${product.accent}0A`,
+            }}
+          >
+            <Overline color={product.accent}>Read this as early work</Overline>
+            <Typography variant="body2" color="text.secondary" sx={{ mt: 1, lineHeight: 1.8 }}>
+              {product.name} is a design being explored, not a product you can buy or use today. There is no
+              release date and no commitment to ship it.
+            </Typography>
+          </Box>
+
+          {/* Problem + Approach */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: { xs: 3, md: 4 } }}>
             <InfoCard accent="#6C63FF" title="The problem">
-              <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                {product.problem}
-              </Typography>
+              <Stack spacing={1.5} sx={{ mt: 1 }}>
+                {product.problem.map((p) => (
+                  <Typography key={p} variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                    {p}
+                  </Typography>
+                ))}
+              </Stack>
             </InfoCard>
-            <InfoCard accent={product.color} title="The platform">
-              <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
-                {product.platform}
-              </Typography>
+            <InfoCard accent={product.accent} title="The approach">
+              <Stack spacing={1.5} sx={{ mt: 1 }}>
+                {product.approach.map((a) => (
+                  <Typography key={a} variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
+                    {a}
+                  </Typography>
+                ))}
+              </Stack>
             </InfoCard>
           </Box>
 
           {/* Capabilities */}
           <Box>
-            <SectionHeading tag="§ 01 — CAPABILITIES" title="What it does" color={product.color} />
+            <SectionHeading
+              tag="§ 01 — SCOPE"
+              title="What it is designed to do"
+              lead="Capabilities described here are the intended shape of the system, not a list of shipped features."
+              color={product.accent}
+            />
             <CardGrid columns={2}>
-              {product.features.map((f, i) => (
-                <InfoCard key={f.title} accent={product.color} delay={i * 0.05} icon={<CheckCircleOutlineIcon />} title={f.title}>
-                  <Typography variant="body2" color="text.secondary">
-                    {f.body}
-                  </Typography>
-                </InfoCard>
+              {product.capabilities.map((c, i) => (
+                <InfoCard key={c} accent={product.accent} delay={i * 0.05} icon={<CheckCircleOutlineIcon />} title={c} />
               ))}
             </CardGrid>
           </Box>
 
-          {/* Architecture + Sectors */}
+          {/* Stack + Audience */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1.4fr 0.6fr" }, gap: { xs: 3, md: 4 } }}>
-            <InfoCard accent="#8B85FF" icon={<LayersOutlinedIcon />} title="Technical architecture">
+            <InfoCard accent="#8B85FF" icon={<LayersOutlinedIcon />} title="Technical direction">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
-                {product.architecture.map((a) => (
-                  <Stack sx={{ alignItems: "flex-start" }} key={a} direction="row" spacing={1.5}>
+                {product.stack.map((s) => (
+                  <Stack sx={{ alignItems: "flex-start" }} key={s} direction="row" spacing={1.5}>
                     <CheckCircleOutlineIcon sx={{ color: "#8B85FF", fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">
-                      {a}
+                      {s}
                     </Typography>
                   </Stack>
                 ))}
               </Stack>
             </InfoCard>
-            <InfoCard accent="#33DDBB" title="Sectors served">
+            <InfoCard accent="#33DDBB" title="Designed for">
               <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
-                {product.sectors.map((s) => (
-                  <Chip key={s} label={s} variant="outlined" sx={{ borderColor: "#33DDBB55" }} />
+                {product.audience.map((a) => (
+                  <Chip key={a} label={a} variant="outlined" sx={{ borderColor: "#33DDBB55" }} />
                 ))}
               </Stack>
             </InfoCard>
@@ -118,10 +142,10 @@ export default function LabsProduct() {
 
           <CTABand
             to="/contact"
-            tag="§ 02 — REQUEST ACCESS"
-            title={`Request access to ${product.name}`}
-            description="Tell us about your organisation and how you'd use the platform. Access is granted by qualification."
-            color={product.color}
+            tag="§ 02 — COLLABORATE"
+            title={`Working on the same problem as ${product.name}?`}
+            description="This is early research. If the problem overlaps something you are building, start a conversation."
+            color={product.accent}
           />
         </Stack>
       </Container>

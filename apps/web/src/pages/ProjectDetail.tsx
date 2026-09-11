@@ -1,5 +1,5 @@
 import { Box, Container, Typography, Stack, Grid, Chip, Button, Divider } from "@mui/material";
-import { Link, useParams, Navigate } from "react-router";
+import { Link, useParams, Navigate, useLocation } from "react-router";
 import { motion } from "framer-motion";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
@@ -12,7 +12,8 @@ import SEO from "@/components/seo/SEO";
 import { Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid, IconWatermark } from "@/components/shared/Watermark";
 import HudCorners from "@/components/shared/HudCorners";
-import { getProject, PROJECTS } from "@/content/projects";
+import { getProject, PROJECTS, type Project } from "@/content/projects";
+import MaturityBadge from "@/components/shared/MaturityBadge";
 
 const MotionBox = motion.create(Box);
 
@@ -52,20 +53,41 @@ function Section({
   );
 }
 
+/** Where an entry canonically lives, by tier. */
+const BASE_FOR_TIER: Record<Project["tier"], string> = {
+  platform: "/products",
+  "open-source": "/products",
+  labs: "/labs",
+  "client-work": "/work",
+};
+
 export default function ProjectDetail() {
   const { slug } = useParams<{ slug: string }>();
+  const location = useLocation();
   const project = slug ? getProject(slug) : undefined;
 
-  if (!project) return <Navigate to="/projects" replace />;
+  if (!project) return <Navigate to="/products" replace />;
 
-  const idx = PROJECTS.findIndex((p) => p.slug === project.slug);
-  const next = PROJECTS[(idx + 1) % PROJECTS.length]!;
+  // One component serves /products/:slug, /labs/:slug and /work/:slug. Each
+  // entry has exactly one correct base for its tier, so a request for the wrong
+  // one redirects rather than serving the same page at two URLs — duplicate
+  // content that would compete with itself in search results.
+  const base = BASE_FOR_TIER[project.tier];
+  if (!location.pathname.startsWith(`${base}/`)) {
+    return <Navigate to={`${base}/${project.slug}`} replace />;
+  }
+
+  // "Next" stays inside the tier: sending a reader from a shipped platform to a
+  // research concept (or to someone else's client work) misrepresents both.
+  const siblings = PROJECTS.filter((p) => p.tier === project.tier);
+  const idx = siblings.findIndex((p) => p.slug === project.slug);
+  const next = siblings[(idx + 1) % siblings.length]!;
   const accent = project.accent;
 
   return (
     <>
       <SEO
-        title={`${project.name} | NeuroDyne Corp`}
+        title={project.name}
         description={project.summary}
       />
 
@@ -81,11 +103,11 @@ export default function ProjectDetail() {
         <Container maxWidth="lg" sx={{ py: { xs: 6, md: 10 }, position: "relative", zIndex: 1 }}>
           <Button
             component={Link}
-            to="/projects"
+            to="/products"
             startIcon={<ArrowBackIcon />}
             sx={{ mb: 3, borderRadius: 0, color: "text.secondary", fontSize: "0.8rem" }}
           >
-            All projects
+            All products
           </Button>
 
           <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1.5, alignItems: "center", mb: 2 }}>
@@ -95,8 +117,17 @@ export default function ProjectDetail() {
               {project.industry.toUpperCase()}
             </Typography>
             <Box sx={{ width: 4, height: 4, bgcolor: "text.secondary", opacity: 0.4 }} />
+            {project.maturity ? (
+              <MaturityBadge maturity={project.maturity} size="small" />
+            ) : (
+              // Client work carries no maturity label — its stage belongs to the
+              // client, not to Neurodyne.
+              <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "text.secondary", letterSpacing: "0.1em" }}>
+                {(project.engagement ?? "Client project").toUpperCase()}
+              </Typography>
+            )}
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: accent, letterSpacing: "0.1em" }}>
-              {project.status.toUpperCase()} · {project.year}
+              {project.year}
             </Typography>
           </Stack>
 
@@ -256,7 +287,7 @@ export default function ProjectDetail() {
         <Container maxWidth="lg" sx={{ py: { xs: 5, md: 7 } }}>
           <Box
             component={Link}
-            to={`/projects/${next.slug}`}
+            to={`${BASE_FOR_TIER[next.tier]}/${next.slug}`}
             sx={{
               position: "relative",
               display: "flex",
@@ -274,7 +305,7 @@ export default function ProjectDetail() {
           >
             <HudCorners />
             <Box>
-              <Overline color={next.accent}>Next project</Overline>
+              <Overline color={next.accent}>{project.tier === "client-work" ? "Next engagement" : "Next"}</Overline>
               <Typography variant="h5" sx={{ fontWeight: 800, mt: 1 }}>
                 {next.name}
               </Typography>

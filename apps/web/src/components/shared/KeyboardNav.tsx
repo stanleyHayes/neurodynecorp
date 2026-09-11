@@ -9,14 +9,14 @@ const MotionBox = motion.create(Box);
 const ROUTES: Record<string, { path: string; label: string }> = {
   h: { path: "/", label: "Home" },
   a: { path: "/about", label: "About" },
-  s: { path: "/services", label: "Services" },
-  p: { path: "/portfolio", label: "Portfolio" },
+  s: { path: "/company/engineering-services", label: "Services" },
+  p: { path: "/company/engineering-services/work", label: "Portfolio" },
   b: { path: "/blog", label: "Blog" },
   c: { path: "/contact", label: "Contact" },
-  n: { path: "/start-project", label: "Start a Project" },
-  l: { path: "/philosophy", label: "Philosophy" },
-  o: { path: "/open-standards", label: "Open Standards" },
-  x: { path: "/spec-library", label: "Spec Library" },
+  n: { path: "/company/engineering-services/brief", label: "Start a Project" },
+  l: { path: "/vision", label: "Philosophy" },
+  o: { path: "/infrastructure", label: "Open Standards" },
+  x: { path: "/company/engineering-services/spec-library", label: "Spec Library" },
 };
 
 export default function KeyboardNav() {

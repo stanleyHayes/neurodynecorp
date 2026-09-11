@@ -113,24 +113,24 @@ export default function CommandPalette() {
       // Navigation
       { id: "home", label: "Home", group: "NAVIGATE", icon: <HomeOutlinedIcon />, shortcut: "G H", action: () => { navigate("/"); close(); } },
       { id: "about", label: "About", group: "NAVIGATE", icon: <InfoOutlinedIcon />, shortcut: "G A", action: () => { navigate("/about"); close(); } },
-      { id: "services", label: "Services", group: "NAVIGATE", icon: <MiscellaneousServicesOutlinedIcon />, shortcut: "G S", action: () => { navigate("/services"); close(); } },
-      { id: "portfolio", label: "Portfolio", group: "NAVIGATE", icon: <WorkOutlineOutlinedIcon />, shortcut: "G P", action: () => { navigate("/portfolio"); close(); } },
+      { id: "services", label: "Services", group: "NAVIGATE", icon: <MiscellaneousServicesOutlinedIcon />, shortcut: "G S", action: () => { navigate("/company/engineering-services"); close(); } },
+      { id: "portfolio", label: "Portfolio", group: "NAVIGATE", icon: <WorkOutlineOutlinedIcon />, shortcut: "G P", action: () => { navigate("/company/engineering-services/work"); close(); } },
       { id: "blog", label: "Blog", group: "NAVIGATE", icon: <ArticleOutlinedIcon />, shortcut: "G B", action: () => { navigate("/blog"); close(); } },
       { id: "contact", label: "Contact", group: "NAVIGATE", icon: <MailOutlineIcon />, shortcut: "G C", action: () => { navigate("/contact"); close(); } },
       // Resources
-      { id: "specs", label: "Spec Library", group: "RESOURCES", icon: <LibraryBooksOutlinedIcon />, action: () => { navigate("/spec-library"); close(); }, keywords: "examples sample document specification" },
-      { id: "philosophy", label: "Philosophy", group: "COMPANY", icon: <HistoryEduOutlinedIcon />, action: () => { navigate("/philosophy"); close(); }, keywords: "doctrine principles engineering industries" },
-      { id: "standards", label: "Open Standards", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/open-standards"); close(); }, keywords: "nosi interoperability schemas data standards" },
+      { id: "specs", label: "Spec Library", group: "RESOURCES", icon: <LibraryBooksOutlinedIcon />, action: () => { navigate("/company/engineering-services/spec-library"); close(); }, keywords: "examples sample document specification" },
+      { id: "philosophy", label: "Philosophy", group: "COMPANY", icon: <HistoryEduOutlinedIcon />, action: () => { navigate("/vision"); close(); }, keywords: "doctrine principles engineering industries" },
+      { id: "standards", label: "Open Standards", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/infrastructure"); close(); }, keywords: "nosi interoperability schemas data standards" },
       { id: "research", label: "Research", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/research"); close(); }, keywords: "lab papers ai distributed systems" },
-      { id: "projects", label: "Projects", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/projects"); close(); }, keywords: "case studies portfolio systems rentos auraedu" },
+      { id: "projects", label: "Projects", group: "COMPANY", icon: <GitHubIcon />, action: () => { navigate("/products"); close(); }, keywords: "case studies portfolio systems rentos auraedu" },
       // Actions
-      { id: "start", label: "Start a Project", group: "ACTIONS", icon: <RocketLaunchOutlinedIcon />, shortcut: "↵", action: () => { navigate("/start-project"); close(); }, keywords: "begin new build hire quote" },
+      { id: "start", label: "Partner With Us", group: "ACTIONS", icon: <RocketLaunchOutlinedIcon />, shortcut: "↵", action: () => { navigate("/partners"); close(); }, keywords: "partner collaborate institution investor developer" },
       { id: "book", label: "Book a Discovery Call", group: "ACTIONS", icon: <VideoCallOutlinedIcon />, action: () => { navigate("/book"); close(); }, keywords: "calendly meeting schedule chat reading" },
       { id: "theme", label: mode === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode", group: "ACTIONS", icon: mode === "dark" ? <LightModeOutlinedIcon /> : <DarkModeOutlinedIcon />, action: () => { toggleTheme(); close(); } },
       // External
       { id: "github", label: "GitHub", group: "SOCIAL", icon: <GitHubIcon />, action: () => { window.open("https://github.com/stanleyHayes", "_blank"); close(); } },
       { id: "linkedin", label: "LinkedIn", group: "SOCIAL", icon: <LinkedInIcon />, action: () => { window.open("https://linkedin.com/in/stanley-asoku-hayford", "_blank"); close(); } },
-      { id: "twitter", label: "Twitter / X", group: "SOCIAL", icon: <XIcon />, action: () => { window.open("https://x.com/stanley_hayford", "_blank"); close(); } },
+      { id: "twitter", label: "Twitter / X", group: "SOCIAL", icon: <XIcon />, action: () => { window.open("https://x.com/sa_hayford", "_blank"); close(); } },
     ],
     [navigate, mode, toggleTheme]
   );

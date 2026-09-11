@@ -3,10 +3,6 @@ import { Box, Container, Grid, Typography, Link as MuiLink, IconButton, Stack, u
 import { Link } from "react-router";
 import { motion } from "framer-motion";
 import GitHubIcon from "@mui/icons-material/GitHub";
-import LinkedInIcon from "@mui/icons-material/LinkedIn";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import DiscordIcon from "@mui/icons-material/Forum";
-import YouTubeIcon from "@mui/icons-material/YouTube";
 import EmailIcon from "@mui/icons-material/Email";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 // Company
@@ -14,20 +10,15 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import DesignServicesOutlinedIcon from "@mui/icons-material/DesignServicesOutlined";
 import ScienceOutlinedIcon from "@mui/icons-material/ScienceOutlined";
 import AccountTreeOutlinedIcon from "@mui/icons-material/AccountTreeOutlined";
-import DomainOutlinedIcon from "@mui/icons-material/DomainOutlined";
 import FolderOpenOutlinedIcon from "@mui/icons-material/FolderOpenOutlined";
-import NewspaperOutlinedIcon from "@mui/icons-material/NewspaperOutlined";
 import ArticleOutlinedIcon from "@mui/icons-material/ArticleOutlined";
 import ArchitectureOutlinedIcon from "@mui/icons-material/ArchitectureOutlined";
 // Services
 import CodeOutlinedIcon from "@mui/icons-material/CodeOutlined";
-import RocketLaunchOutlinedIcon from "@mui/icons-material/RocketLaunchOutlined";
 import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import SecurityOutlinedIcon from "@mui/icons-material/SecurityOutlined";
-import PaymentsOutlinedIcon from "@mui/icons-material/PaymentsOutlined";
-import LocalHospitalOutlinedIcon from "@mui/icons-material/LocalHospitalOutlined";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import AccountBalanceOutlinedIcon from "@mui/icons-material/AccountBalanceOutlined";
+import InsightsOutlinedIcon from "@mui/icons-material/InsightsOutlined";
 // Resources
 import MailOutlinedIcon from "@mui/icons-material/MailOutlined";
 import PlayCircleOutlinedIcon from "@mui/icons-material/PlayCircleOutlined";
@@ -58,45 +49,45 @@ const IC = { fontSize: 15 } as const;
 
 const footerSections: { title: string; links: FooterLinkItem[] }[] = [
   {
+    title: "Build",
+    links: [
+      { label: "Products", path: "/products", icon: <FolderOpenOutlinedIcon sx={IC} /> },
+      { label: "Infrastructure", path: "/infrastructure", icon: <DesignServicesOutlinedIcon sx={IC} /> },
+      { label: "Open Source", path: "/open-source", icon: <AccountTreeOutlinedIcon sx={IC} /> },
+      { label: "Developers", path: "/developers", icon: <CodeOutlinedIcon sx={IC} /> },
+      { label: "Labs", path: "/labs", icon: <ScienceOutlinedIcon sx={IC} /> },
+      { label: "Research", path: "/research", icon: <InsightsOutlinedIcon sx={IC} /> },
+    ],
+  },
+  {
     title: "Company",
     links: [
       { label: "About", path: "/about", icon: <InfoOutlinedIcon sx={IC} /> },
-      { label: "Solutions", path: "/solutions", icon: <DesignServicesOutlinedIcon sx={IC} /> },
-      { label: "Philosophy", path: "/philosophy", icon: <ArchitectureOutlinedIcon sx={IC} /> },
-      { label: "Labs", path: "/labs", icon: <ScienceOutlinedIcon sx={IC} /> },
-      { label: "Subsidiaries", path: "/subsidiaries", icon: <AccountTreeOutlinedIcon sx={IC} /> },
-      { label: "Industries", path: "/industries", icon: <DomainOutlinedIcon sx={IC} /> },
-      { label: "Projects", path: "/projects", icon: <FolderOpenOutlinedIcon sx={IC} /> },
-      { label: "Press", path: "/press", icon: <NewspaperOutlinedIcon sx={IC} /> },
+      { label: "Vision", path: "/vision", icon: <ArchitectureOutlinedIcon sx={IC} /> },
+      { label: "Partner With Us", path: "/partners", icon: <PlayCircleOutlinedIcon sx={IC} /> },
       { label: "Blog", path: "/blog", icon: <ArticleOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Services",
-    links: [
-      { label: "Web Development", path: "/services#web", icon: <CodeOutlinedIcon sx={IC} /> },
-      { label: "Mobile Apps", path: "/services#mobile", icon: <RocketLaunchOutlinedIcon sx={IC} /> },
-      { label: "AI / ML Systems", path: "/services#ai-ml", icon: <PsychologyOutlinedIcon sx={IC} /> },
-      { label: "GovTech", path: "/services#govtech", icon: <SecurityOutlinedIcon sx={IC} /> },
-      { label: "Fintech", path: "/services#fintech", icon: <PaymentsOutlinedIcon sx={IC} /> },
-      { label: "Healthcare", path: "/services#healthcare", icon: <LocalHospitalOutlinedIcon sx={IC} /> },
-      { label: "EdTech", path: "/services#edtech", icon: <SchoolOutlinedIcon sx={IC} /> },
-      { label: "GovTech Suite", path: "/services#gov-suite", icon: <AccountBalanceOutlinedIcon sx={IC} /> },
-    ],
-  },
-  {
-    title: "Resources",
-    links: [
+      { label: "Changelog", path: "/changelog", icon: <MenuBookOutlinedIcon sx={IC} /> },
       { label: "Contact", path: "/contact", icon: <MailOutlinedIcon sx={IC} /> },
-      { label: "Start a Project", path: "/start-project", icon: <PlayCircleOutlinedIcon sx={IC} /> },
-      { label: "Scope Estimator", path: "/estimator", icon: <CalculateOutlinedIcon sx={IC} /> },
-      { label: "Submit an RFP", path: "/rfp", icon: <DescriptionOutlinedIcon sx={IC} /> },
-      { label: "Book a Reading", path: "/book", icon: <EventAvailableOutlinedIcon sx={IC} /> },
-      { label: "FAQ", path: "/faq", icon: <QuizOutlinedIcon sx={IC} /> },
-      { label: "Open Standards", path: "/open-standards", icon: <AccountTreeOutlinedIcon sx={IC} /> },
-      { label: "Research", path: "/research", icon: <ScienceOutlinedIcon sx={IC} /> },
-      { label: "Spec Library", path: "/spec-library", icon: <MenuBookOutlinedIcon sx={IC} /> },
+    ],
+  },
+  {
+    title: "Engineering Services",
+    links: [
+      { label: "Overview", path: "/company/engineering-services", icon: <DesignServicesOutlinedIcon sx={IC} /> },
+      { label: "Audit & Architecture", path: "/company/engineering-services/audit", icon: <ArchitectureOutlinedIcon sx={IC} /> },
+      { label: "Enterprise & Institutions", path: "/company/engineering-services/enterprise", icon: <AccountBalanceOutlinedIcon sx={IC} /> },
+      { label: "AI & Automation", path: "/company/engineering-services/ai", icon: <PsychologyOutlinedIcon sx={IC} /> },
+      { label: "Scope Estimator", path: "/company/engineering-services/estimator", icon: <CalculateOutlinedIcon sx={IC} /> },
+      { label: "Submit an RFP", path: "/company/engineering-services/rfp", icon: <DescriptionOutlinedIcon sx={IC} /> },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
       { label: "Help Center", path: "/help", icon: <SupportAgentOutlinedIcon sx={IC} /> },
+      { label: "FAQ", path: "/faq", icon: <QuizOutlinedIcon sx={IC} /> },
+      { label: "Glossary", path: "/glossary", icon: <MenuBookOutlinedIcon sx={IC} /> },
+      { label: "Book a Call", path: "/book", icon: <EventAvailableOutlinedIcon sx={IC} /> },
     ],
   },
   {
@@ -116,11 +107,7 @@ const footerSections: { title: string; links: FooterLinkItem[] }[] = [
 ];
 
 const socials = [
-  { icon: <GitHubIcon fontSize="small" />, label: "GitHub", href: "https://github.com" },
-  { icon: <LinkedInIcon fontSize="small" />, label: "LinkedIn", href: "https://linkedin.com" },
-  { icon: <TwitterIcon fontSize="small" />, label: "Twitter", href: "https://twitter.com" },
-  { icon: <YouTubeIcon fontSize="small" />, label: "YouTube", href: "https://youtube.com" },
-  { icon: <DiscordIcon fontSize="small" />, label: "Community", href: "https://discord.com" },
+  { icon: <GitHubIcon fontSize="small" />, label: "GitHub", href: "https://github.com/stanleyHayes" },
   { icon: <EmailIcon fontSize="small" />, label: "Email", href: "mailto:info@neurodyne.dev" },
 ];
 
@@ -202,11 +189,11 @@ export default function Footer() {
               </Stack>
 
               <Typography variant="body2" color="text.secondary" sx={{ mb: 3, maxWidth: 320, lineHeight: 1.8 }}>
-                A productized software engineering studio founded by Stanley Asoku Hayford. Shipping structured,
-                professional solutions for fintech, govtech, healthcare, and education across Africa and beyond.
+                Building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open
+                digital infrastructure for African markets. Founder-led, built and run by Stanley Asoku Hayford.
               </Typography>
 
-              <Stack direction="row" sx={{ gap: 1, flexWrap: "wrap", mb: 3 }}>
+              <Stack direction="row" sx={{ gap: 1, flexWrap: "wrap" }}>
                 {socials.map((s) => (
                   <IconButton
                     key={s.label}
@@ -229,32 +216,6 @@ export default function Footer() {
                     {s.icon}
                   </IconButton>
                 ))}
-              </Stack>
-
-              {/* status */}
-              <Stack
-                direction="row"
-                sx={{
-                  alignItems: "center",
-                  gap: 1,
-                  px: 1.5,
-                  py: 0.75,
-                  width: "fit-content",
-                  border: `1px solid ${dark ? "rgba(16,185,129,0.3)" : "rgba(5,150,105,0.3)"}`,
-                  borderRadius: 0,
-                }}
-              >
-                <Box sx={{ position: "relative", width: 8, height: 8 }}>
-                  <Box sx={{ position: "absolute", inset: 0, borderRadius: "50%", bgcolor: "success.main" }} />
-                  <motion.div
-                    animate={{ scale: [1, 2.4], opacity: [0.6, 0] }}
-                    transition={{ duration: 1.8, repeat: Infinity }}
-                    style={{ position: "absolute", inset: 0, borderRadius: "50%", background: theme.palette.success.main }}
-                  />
-                </Box>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.72rem", letterSpacing: "0.08em", color: "success.main" }}>
-                  All systems operational
-                </Typography>
               </Stack>
             </Grid>
 
