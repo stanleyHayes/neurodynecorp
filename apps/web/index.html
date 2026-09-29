@@ -3,15 +3,15 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#0A0E1A" />
+    <meta name="theme-color" content="#0A0F1F" />
     <meta name="description" content="Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets." />
 
     <!-- Open Graph defaults -->
     <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="NeuroDyne Corp" />
+    <meta property="og:site_name" content="Neurodyne" />
     <meta property="og:title" content="Neurodyne — Building Africa's Digital Infrastructure" />
     <meta property="og:description" content="Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets." />
-    <meta property="og:image" content="https://neurodyne.dev/og-image.png" />
+    <meta property="og:image" content="https://neurodyne.dev/og-image.jpg" />
     <meta property="og:url" content="https://neurodyne.dev" />
     <meta property="og:locale" content="en_US" />
 
@@ -20,16 +20,41 @@
     <meta name="twitter:site" content="@sa_hayford" />
     <meta name="twitter:title" content="Neurodyne — Building Africa's Digital Infrastructure" />
     <meta name="twitter:description" content="Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets." />
-    <meta name="twitter:image" content="https://neurodyne.dev/og-image.png" />
+    <meta name="twitter:image" content="https://neurodyne.dev/og-image.jpg" />
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16.png" />
     <!-- Body font: Outfit (titles use the self-hosted TT Squares) -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link rel="manifest" href="/manifest.json" />
-    <link rel="apple-touch-icon" href="/favicon.svg" />
-    <meta name="apple-mobile-web-app-title" content="NeuroDyne" />
+    <style>
+      /*
+        Global reduced-motion guard (§20).
+
+        <MotionConfig reducedMotion="user"> in App.tsx governs framer-motion, but
+        it cannot reach CSS @keyframes — and 16 `infinite` CSS animations across
+        the app ran regardless of the preference. This catches every one of them,
+        including anything added later that forgets to ask, and it applies before
+        React mounts so the splash screen is covered too.
+
+        Durations are near-zero rather than `none` so animation end events still
+        fire and nothing waits forever on a callback that never arrives.
+      */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <meta name="apple-mobile-web-app-title" content="Neurodyne" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />

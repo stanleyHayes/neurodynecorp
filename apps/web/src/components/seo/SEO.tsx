@@ -19,7 +19,7 @@ const SITE_NAME = "Neurodyne";
 const SITE_URL = (import.meta.env.VITE_SITE_URL || "https://neurodyne.dev").replace(/\/$/, "");
 const DEFAULT_DESCRIPTION =
   "Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets.";
-const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.png`;
+const DEFAULT_OG_IMAGE = `${SITE_URL}/og-image.jpg`;
 
 export { SITE_URL };
 
@@ -76,7 +76,7 @@ export default function SEO({
           "@type": "Organization",
           name: SITE_NAME,
           url: SITE_URL,
-          logo: `${SITE_URL}/favicon.svg`,
+          logo: `${SITE_URL}/brand/mark-512.png`,
           email: "info@neurodyne.dev",
           description:
             "Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets.",

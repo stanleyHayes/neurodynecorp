@@ -1,153 +1,50 @@
 import { Box, type SxProps, type Theme } from "@mui/material";
 
+/**
+ * The Neural Orbit mark.
+ *
+ * This renders the supplied brand asset. It previously hand-drew an
+ * approximation of the mark in SVG using the old palette, which the brand
+ * specification forbids outright (§26: never redraw or approximate the supplied
+ * logo, never alter its geometry, proportions or node placement). Anything that
+ * needs the mark should use this component rather than reconstructing it.
+ *
+ * The master is transparent, so the same file works on dark and light surfaces
+ * without a per-theme variant.
+ *
+ * No SVG master was supplied. PNG is therefore the interface format, and the
+ * sizes below exist so a 32px navbar mark does not download a 512px image —
+ * `sizes` lets the browser pick, and 3x of the largest interface use is covered.
+ * Replace this with an <svg> import if an SVG master is ever provided.
+ */
+
 interface LogoProps {
   size?: number;
+  /**
+   * Accessible name. Defaults to empty: the mark is almost always inside a link
+   * or heading that already carries the name, and a second announcement of
+   * "Neurodyne" is noise. Pass a label only where the mark stands alone.
+   */
+  alt?: string;
   sx?: SxProps<Theme>;
 }
 
-export default function Logo({ size = 64, sx }: LogoProps) {
+export default function Logo({ size = 64, alt = "", sx }: LogoProps) {
   return (
     <Box
-      component="svg"
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 64 64"
-      fill="none"
-      sx={{ width: size, height: size, ...sx }}
-    >
-      <defs>
-        <linearGradient
-          id="logo-g1"
-          x1="0"
-          y1="0"
-          x2="64"
-          y2="64"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#6C63FF" />
-          <stop offset="100%" stopColor="#00D4AA" />
-        </linearGradient>
-        <linearGradient
-          id="logo-g2"
-          x1="16"
-          y1="16"
-          x2="48"
-          y2="48"
-          gradientUnits="userSpaceOnUse"
-        >
-          <stop offset="0%" stopColor="#8B85FF" />
-          <stop offset="100%" stopColor="#33DDBB" />
-        </linearGradient>
-      </defs>
-      <circle
-        cx="32"
-        cy="32"
-        r="30"
-        stroke="url(#logo-g1)"
-        strokeWidth="2.5"
-        fill="#0A0E1A"
-      />
-      <path
-        d="M22 20c-5 2-8 7-8 13 0 7 5 12 11 13 1 0 2-1 2-2V22c0-1.5-1-2.5-2-2.5"
-        stroke="url(#logo-g2)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M25 26c-3 0-6 2-6 5s2 4 4 4"
-        stroke="url(#logo-g2)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M25 31c-2 1-3 3-3 5"
-        stroke="url(#logo-g2)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M42 20c5 2 8 7 8 13 0 7-5 12-11 13-1 0-2-1-2-2V22c0-1.5 1-2.5 2-2.5"
-        stroke="url(#logo-g1)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M39 26c3 0 6 2 6 5s-2 4-4 4"
-        stroke="url(#logo-g1)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <path
-        d="M39 31c2 1 3 3 3 5"
-        stroke="url(#logo-g1)"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        fill="none"
-      />
-      <circle cx="20" cy="25" r="2" fill="#6C63FF" />
-      <circle cx="44" cy="25" r="2" fill="#00D4AA" />
-      <circle cx="18" cy="35" r="1.5" fill="#8B85FF" />
-      <circle cx="46" cy="35" r="1.5" fill="#33DDBB" />
-      <circle cx="32" cy="17" r="2" fill="url(#logo-g1)" />
-      <circle cx="32" cy="44" r="2" fill="url(#logo-g1)" />
-      <line
-        x1="32"
-        y1="17"
-        x2="20"
-        y2="25"
-        stroke="#6C63FF"
-        strokeWidth="1"
-        opacity="0.6"
-      />
-      <line
-        x1="32"
-        y1="17"
-        x2="44"
-        y2="25"
-        stroke="#00D4AA"
-        strokeWidth="1"
-        opacity="0.6"
-      />
-      <line
-        x1="20"
-        y1="25"
-        x2="18"
-        y2="35"
-        stroke="#8B85FF"
-        strokeWidth="1"
-        opacity="0.4"
-      />
-      <line
-        x1="44"
-        y1="25"
-        x2="46"
-        y2="35"
-        stroke="#33DDBB"
-        strokeWidth="1"
-        opacity="0.4"
-      />
-      <line
-        x1="18"
-        y1="35"
-        x2="32"
-        y2="44"
-        stroke="#6C63FF"
-        strokeWidth="1"
-        opacity="0.4"
-      />
-      <line
-        x1="46"
-        y1="35"
-        x2="32"
-        y2="44"
-        stroke="#00D4AA"
-        strokeWidth="1"
-        opacity="0.4"
-      />
-    </Box>
+      component="img"
+      src="/brand/mark-128.png"
+      srcSet="/brand/mark-64.png 64w, /brand/mark-128.png 128w, /brand/mark-256.png 256w, /brand/mark-512.png 512w"
+      sizes={`${size}px`}
+      width={size}
+      height={size}
+      alt={alt}
+      aria-hidden={alt === "" ? true : undefined}
+      // Decorative in every current placement and never below the fold in a way
+      // that benefits from lazy loading — the navbar mark is the first thing a
+      // visitor sees, so it must not be deferred.
+      decoding="async"
+      sx={{ width: size, height: size, display: "block", flexShrink: 0, ...sx }}
+    />
   );
 }

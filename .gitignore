@@ -58,3 +58,9 @@ credentials.txt
 
 # Local runtime artifacts
 *.rdb
+
+# Brand masters. Supplied separately, 0.66-1.94 MB each, and this repository is
+# public. scripts/build-brand-assets.mjs derives the web assets from them and
+# skips cleanly when they are absent, so only regenerating needs them.
+/neurodyne.png
+/neurodyne_*.png

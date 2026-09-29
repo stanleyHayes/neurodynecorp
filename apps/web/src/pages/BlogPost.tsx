@@ -523,7 +523,7 @@ export default function BlogPost() {
           publisher: {
             "@type": "Organization",
             name: "NeuroDyne Corp",
-            logo: { "@type": "ImageObject", url: `${SITE_URL}/og-image.png` },
+            logo: { "@type": "ImageObject", url: `${SITE_URL}/og-image.jpg` },
           },
           mainEntityOfPage: { "@type": "WebPage", "@id": `${SITE_URL}/blog/${slug}` },
         }}
