@@ -71,7 +71,7 @@ export default function Register() {
   return (
     <AuthLayout
       brandTitle="NeuroDyne"
-      brandSubtitle="Join hundreds of clients who trust NeuroDyne Corp to turn their ideas into production-ready software."
+      brandSubtitle="Track your projects, manage invoices, and work with the team building your software."
       cards={cards}
     >
       <Typography variant="h4" sx={{ fontWeight: 700, mb: 0.5 }}>

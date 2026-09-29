@@ -543,7 +543,7 @@ export default function Security() {
                 </Typography>
               </Stack>
               <Typography variant="body2" color="text.secondary">
-                Authentication uses short-lived JWTs, and multi-factor authentication is mandatory.
+                Authentication uses short-lived JWTs. Multi-factor authentication is not yet available on this portal.
               </Typography>
             </Stack>
 

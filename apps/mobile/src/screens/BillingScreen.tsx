@@ -1,4 +1,5 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useFocusEffect } from "@react-navigation/native";
 import {
   View,
   Text,
@@ -9,6 +10,7 @@ import {
   Animated,
   Easing,
   Alert,
+  RefreshControl,
 } from "react-native";
 import { colors } from "../theme/colors";
 import { fonts } from "../theme/fonts";
@@ -136,46 +138,58 @@ function formatDate(dateStr: string): string {
 export default function BillingScreen() {
   const [loading, setLoading] = useState(true);
   const [invoices, setInvoices] = useState<any[]>([]);
+  const [loadError, setLoadError] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
-    let cancelled = false;
-
-    /**
-     * Fetches EVERY invoice, not the first page.
+  /**
+   * Fetches EVERY invoice, not the first page.
      *
      * The summary row below reports the client's total paid and outstanding
      * balance. `listInvoices()` with no params takes the server's default
      * pageSize of 20, so a client with more than 20 invoices was shown a
      * balance that silently omitted the rest — understating what they owe.
-     * Totals have to be computed over the whole set or not presented as totals.
-     */
-    async function fetchData() {
-      try {
-        const PAGE = 100; // server caps pageSize at 100
-        const first = await listInvoices({ page: "1", pageSize: String(PAGE) });
-        const all = [...first.items];
-        const total = first.total ?? all.length;
+   * Totals have to be computed over the whole set or not presented as totals.
+   */
+  const reload = useCallback(async () => {
+    try {
+      const PAGE = 100; // server caps pageSize at 100
+      const first = await listInvoices({ page: "1", pageSize: String(PAGE) });
+      const all = [...first.items];
+      const total = first.total ?? all.length;
 
-        // Bounded: the page count is derived from the server's own total, and
-        // capped so a bad `total` cannot spin this forever.
-        const pages = Math.min(Math.ceil(total / PAGE), 20);
-        for (let page = 2; page <= pages && all.length < total; page++) {
-          const next = await listInvoices({ page: String(page), pageSize: String(PAGE) });
-          if (!next.items?.length) break;
-          all.push(...next.items);
-        }
-
-        if (!cancelled) setInvoices(all);
-      } catch {
-        // keep empty on error
-      } finally {
-        if (!cancelled) setLoading(false);
+      // Bounded: the page count is derived from the server's own total, and
+      // capped so a bad `total` cannot spin this forever.
+      const pages = Math.min(Math.ceil(total / PAGE), 20);
+      for (let page = 2; page <= pages && all.length < total; page++) {
+        const next = await listInvoices({ page: String(page), pageSize: String(PAGE) });
+        if (!next.items?.length) break;
+        all.push(...next.items);
       }
-    }
 
-    fetchData();
-    return () => { cancelled = true; };
+      setInvoices(all);
+      setLoadError("");
+    } catch {
+      // A swallowed failure here rendered "OUTSTANDING $0.00" — telling a
+      // client who owes money that they owe nothing, in the app's own voice.
+      // Totals only mean anything if the fetch succeeded.
+      setLoadError("Could not load your invoices.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
   }, []);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
+
+  // Returning from Paystack in the browser must not leave a paid invoice
+  // reading OUTSTANDING under a live PAY button.
+  useFocusEffect(
+    useCallback(() => {
+      void reload();
+    }, [reload]),
+  );
 
   const totalPaid = invoices
     .filter((inv) => inv.status === "paid" || inv.status === "Paid")
@@ -191,8 +205,34 @@ export default function BillingScreen() {
 
   if (loading) return <SkeletonBilling />;
 
+  if (loadError) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{loadError}</Text>
+        <TouchableOpacity
+          onPress={() => { setLoading(true); void reload(); }}
+          accessibilityRole="button"
+          accessibilityLabel="Retry loading invoices"
+          style={styles.retryButton}
+        >
+          <Text style={styles.retryText}>RETRY</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => { setRefreshing(true); void reload(); }}
+          tintColor={colors.primary}
+        />
+      }
+    >
       {/* ── Summary Row ──────────────────────────────────────── */}
       <View style={styles.summaryRow}>
         <View style={styles.summaryCell}>
@@ -303,6 +343,10 @@ export default function BillingScreen() {
 /* ── styles ──────────────────────────────────────────────────── */
 
 const styles = StyleSheet.create({
+  centered: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.background, padding: 24 },
+  errorText: { color: colors.error, textAlign: "center", fontFamily: fonts.regular, marginBottom: 16 },
+  retryButton: { borderWidth: 1, borderColor: colors.primary, paddingHorizontal: 20, paddingVertical: 10 },
+  retryText: { color: colors.primary, fontFamily: fonts.regular, fontSize: 12, letterSpacing: 2 },
   container: {
     flex: 1,
     backgroundColor: colors.background,

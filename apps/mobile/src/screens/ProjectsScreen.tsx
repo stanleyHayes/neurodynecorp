@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  RefreshControl,
   Animated,
   Easing,
 } from "react-native";
@@ -119,30 +120,67 @@ export default function ProjectsScreen() {
   const navigation = useNavigation<NativeStackNavigationProp<RootStackParamList>>();
   const [loading, setLoading] = useState(true);
   const [projects, setProjects] = useState<any[]>([]);
+  const [loadError, setLoadError] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
+
+  const reload = useCallback(async () => {
+    try {
+      const res = await listProjects();
+      setProjects(res.items);
+      setLoadError("");
+    } catch {
+      // Swallowing this left the tab as one grey word on a black screen, with
+      // no way to tell a failed load from having no projects, and no retry.
+      setLoadError("Could not load your projects.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
+    }
+  }, []);
 
   useEffect(() => {
-    let cancelled = false;
-
-    async function fetchData() {
-      try {
-        const res = await listProjects();
-        if (!cancelled) setProjects(res.items);
-      } catch {
-        // keep empty on error
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
-    }
-
-    fetchData();
-    return () => { cancelled = true; };
-  }, []);
+    void reload();
+  }, [reload]);
 
   if (loading) return <SkeletonProjects />;
 
+  if (loadError) {
+    return (
+      <View style={styles.centered}>
+        <Text style={styles.errorText}>{loadError}</Text>
+        <TouchableOpacity
+          onPress={() => { setLoading(true); void reload(); }}
+          accessibilityRole="button"
+          accessibilityLabel="Retry loading projects"
+          style={styles.retryButton}
+        >
+          <Text style={styles.retryText}>RETRY</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
+
   return (
-    <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
+    <ScrollView
+      style={styles.container}
+      showsVerticalScrollIndicator={false}
+      refreshControl={
+        <RefreshControl
+          refreshing={refreshing}
+          onRefresh={() => { setRefreshing(true); void reload(); }}
+          tintColor={colors.primary}
+        />
+      }
+    >
       <Text style={styles.sectionTitle}>PROJECTS</Text>
+      {projects.length === 0 && (
+        <View style={styles.emptyCard}>
+          <Text style={styles.emptyText}>No projects yet.</Text>
+          <Text style={styles.emptyHint}>
+            Projects appear here once your engagement begins.
+          </Text>
+        </View>
+      )}
 
       {projects.map((project) => {
         const sc = statusColor(project.status);
@@ -197,6 +235,13 @@ export default function ProjectsScreen() {
 /* ── styles ──────────────────────────────────────────────────── */
 
 const styles = StyleSheet.create({
+  centered: { flex: 1, alignItems: "center", justifyContent: "center", backgroundColor: colors.background, padding: 24 },
+  errorText: { color: colors.error, textAlign: "center", fontFamily: fonts.regular, marginBottom: 16 },
+  retryButton: { borderWidth: 1, borderColor: colors.primary, paddingHorizontal: 20, paddingVertical: 10 },
+  retryText: { color: colors.primary, fontFamily: fonts.regular, fontSize: 12, letterSpacing: 2 },
+  emptyCard: { borderWidth: 1, borderColor: colors.border, padding: 20, marginHorizontal: 16, marginTop: 8 },
+  emptyText: { color: colors.text, fontFamily: fonts.regular, fontSize: 14, marginBottom: 6 },
+  emptyHint: { color: colors.textSecondary, fontFamily: fonts.regular, fontSize: 12, lineHeight: 18 },
   container: {
     flex: 1,
     backgroundColor: colors.background,

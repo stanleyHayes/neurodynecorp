@@ -1,10 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
   View,
   Text,
   ScrollView,
   StyleSheet,
   TouchableOpacity,
+  RefreshControl,
   Animated,
   Easing,
 } from "react-native";
@@ -156,25 +157,29 @@ function formatTimeAgo(dateStr: string): string {
 export default function NotificationsScreen() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
   const { on } = useSocket();
 
-  useEffect(() => {
-    let cancelled = false;
-
-    async function fetchData() {
-      try {
-        const res = await listNotifications();
-        if (!cancelled) setNotifications(res.items);
-      } catch {
-        // keep empty on error
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+  const reload = useCallback(async () => {
+    try {
+      const res = await listNotifications();
+      setNotifications(res.items);
+      setLoadError("");
+    } catch {
+      // Swallowing this left an empty screen with a live MARK ALL READ that
+      // POSTed /notifications/read-all against notifications the user had
+      // never been shown — silently clearing unread state on a failed load.
+      setLoadError("Could not load your notifications.");
+    } finally {
+      setLoading(false);
+      setRefreshing(false);
     }
-
-    fetchData();
-    return () => { cancelled = true; };
   }, []);
+
+  useEffect(() => {
+    void reload();
+  }, [reload]);
 
   // Listen for real-time notifications and prepend to list
   useEffect(() => {
@@ -232,17 +237,48 @@ export default function NotificationsScreen() {
             <Text style={styles.unreadLabel}>UNREAD</Text>
           </View>
         )}
-        <TouchableOpacity
-          style={styles.markAllButton}
-          onPress={handleMarkAllRead}
-          activeOpacity={0.7}
-        >
-          <Text style={styles.markAllText}>MARK ALL READ</Text>
-        </TouchableOpacity>
+        {unreadCount > 0 && (
+          <TouchableOpacity
+            style={styles.markAllButton}
+            onPress={handleMarkAllRead}
+            activeOpacity={0.7}
+            accessibilityRole="button"
+            accessibilityLabel={`Mark all ${unreadCount} notifications as read`}
+          >
+            <Text style={styles.markAllText}>MARK ALL READ</Text>
+          </TouchableOpacity>
+        )}
       </View>
 
       {/* ── notifications list ───────────────────────────────── */}
-      <ScrollView style={styles.list} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        style={styles.list}
+        showsVerticalScrollIndicator={false}
+        refreshControl={
+          <RefreshControl
+            refreshing={refreshing}
+            onRefresh={() => { setRefreshing(true); void reload(); }}
+            tintColor={colors.primary}
+          />
+        }
+      >
+        {loadError !== "" && (
+          <View style={styles.noticeCard}>
+            <Text style={styles.noticeError}>{loadError}</Text>
+            <TouchableOpacity
+              onPress={() => void reload()}
+              accessibilityRole="button"
+              accessibilityLabel="Retry loading notifications"
+            >
+              <Text style={styles.noticeAction}>RETRY</Text>
+            </TouchableOpacity>
+          </View>
+        )}
+        {loadError === "" && notifications.length === 0 && (
+          <View style={styles.noticeCard}>
+            <Text style={styles.noticeText}>You&apos;re all caught up.</Text>
+          </View>
+        )}
         {notifications.map((notification) => {
           const config = typeConfig[notification.type as NotificationType] ?? defaultTypeConfig;
           const { icon, color } = config;
@@ -298,6 +334,10 @@ export default function NotificationsScreen() {
 /* ── styles ──────────────────────────────────────────────────── */
 
 const styles = StyleSheet.create({
+  noticeCard: { borderWidth: 1, borderColor: colors.border, padding: 20, margin: 16 },
+  noticeText: { color: colors.textSecondary, fontFamily: fonts.regular, fontSize: 13 },
+  noticeError: { color: colors.error, fontFamily: fonts.regular, fontSize: 13, marginBottom: 12 },
+  noticeAction: { color: colors.primary, fontFamily: fonts.regular, fontSize: 12, letterSpacing: 2 },
   wrapper: {
     flex: 1,
     backgroundColor: colors.background,

@@ -58,89 +58,20 @@ const roleColors: Record<string, string> = {
 };
 
 // Map roles to relevant skill sets
-const roleSkills: Record<string, string[]> = {
-  developer: ["TypeScript", "React", "Node.js", "Go", "MongoDB", "Docker", "REST APIs", "WebSockets"],
-  admin: ["Infrastructure", "Security", "DevOps", "CI/CD", "AWS", "Monitoring", "Team Management"],
-  project_manager: ["Agile", "Scrum", "Sprint Planning", "Risk Management", "Stakeholder Comms", "Roadmapping", "JIRA"],
-  qa: ["Cypress", "Jest", "Selenium", "Performance Testing", "API Testing", "Test Plans", "CI Integration"],
-};
-
-// Per-user overrides — keyed by email — for title, bio, skills, etc.
-interface UserOverride {
-  title?: string;
-  bio?: string;
-  skills?: string[];
-  responsibilities?: string[];
-  website?: string;
-  location?: string;
-  socials?: { label: string; href: string }[];
-}
-
-const userOverrides: Record<string, UserOverride> = {
-  "stanley@neurodynecorp.com": {
-    title: "Founder & Software Engineer",
-    bio: "Software Engineer with 7+ years building scalable backend systems, APIs, and modern web applications. Currently crafting high-throughput event-driven systems with Go, RabbitMQ, and Kafka. Founder of NeuroDyne Corp.",
-    skills: [
-      "Golang",
-      "Node.js",
-      "React",
-      "TypeScript",
-      "RabbitMQ",
-      "Kafka",
-      "MongoDB",
-      "PostgreSQL",
-      "MySQL",
-      "Redis",
-      "Docker",
-      "Kubernetes",
-      "Prometheus",
-      "Grafana",
-      "React Native",
-      "GraphQL",
-    ],
-    responsibilities: [
-      "Set product vision and engineering direction at NeuroDyne Corp",
-      "Architect high-throughput event-driven backend systems",
-      "Build core platform features across backend, frontend, and mobile",
-      "Lead technical hiring and mentor engineers",
-      "Drive client engagements from spec to delivery",
-    ],
-    website: "stanleyhayford.com",
-    socials: [
-      { label: "LinkedIn", href: "https://linkedin.com/in/stanley-asoku-hayford" },
-      { label: "GitHub", href: "https://github.com/stanleyHayes" },
-      { label: "Twitter", href: "https://x.com/stanley_hayford" },
-    ],
-  },
-};
-
-// Role-specific responsibilities
-const roleResponsibilities: Record<string, string[]> = {
-  developer: [
-    "Build and maintain frontend and backend features",
-    "Write clean, tested, and documented code",
-    "Participate in code reviews and architecture discussions",
-    "Collaborate with QA on bug fixes and test coverage",
-  ],
-  admin: [
-    "Manage platform infrastructure and deployments",
-    "Configure permissions, roles, and security policies",
-    "Monitor system health and incident response",
-    "Onboard new team members and manage access",
-  ],
-  project_manager: [
-    "Plan sprints and manage project timelines",
-    "Facilitate standups, retros, and stakeholder demos",
-    "Track milestones, budgets, and delivery risks",
-    "Coordinate between engineering, QA, and clients",
-  ],
-  qa: [
-    "Design and execute test plans for each sprint",
-    "Automate regression and integration test suites",
-    "Report and verify bug fixes before release",
-    "Validate API contracts and performance benchmarks",
-  ],
-};
+/**
+ * Skills, responsibilities and bios used to be synthesised here — hardcoded
+ * arrays keyed by role, plus a per-email override table carrying one person's
+ * title, bio and sixteen skills.
+ *
+ * They are gone because the User model has no such fields (packages/shared
+ * types.ts: id, email, names, role, permissions, avatar, phone, company,
+ * is_active, created_at). Every skill the dashboard showed was inferred from a
+ * role string, so two different developers rendered identical expertise and the
+ * dashboard asserted people knew tools they had never declared. That is
+ * fabricated data about real colleagues.
+ *
+ * Restore these sections when the user record carries real skills.
+ */
 
 function formatRole(role: string): string {
   return role.split("_").map((w) => w.charAt(0).toUpperCase() + w.slice(1)).join(" ");
@@ -255,10 +186,10 @@ export default function TeamDetail() {
   const name = getName(user);
   const initials = getInitials(user);
   const color = roleColors[user.role] ?? "#94A3B8";
-  const override = userOverrides[user.email] ?? {};
-  const title = override.title ?? formatRole(user.role);
-  const skills = override.skills ?? roleSkills[user.role] ?? [];
-  const responsibilities = override.responsibilities ?? roleResponsibilities[user.role] ?? [];
+  const title = formatRole(user.role);
+  // Only what the user record actually carries.
+  const skills: string[] = [];
+  const responsibilities: string[] = [];
   const active = user.isActive ?? user.is_active ?? true;
   const joined = formatDate(user.createdAt ?? user.created_at);
   const lastLogin = formatDate(user.lastLoginAt);
@@ -276,7 +207,7 @@ export default function TeamDetail() {
       <PageBanner
         icon={<PersonOutlinedIcon />}
         title={name}
-        description={override.bio ?? `${title} at NeuroDyne Corp`}
+        description={`${title} at Neurodyne`}
         tag={`TEAM // ${title.toUpperCase()}`}
         accentWord={name.split(" ")[0]}
         iconColor={color}
@@ -299,43 +230,8 @@ export default function TeamDetail() {
               <Box>
                 <Typography variant="h5" sx={{ fontWeight: 700 }}>{name}</Typography>
                 <Chip label={title} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", mt: 1, bgcolor: `${color}18`, color, border: `1px solid ${color}30` }} />
-                {override.website && (
-                  <Typography
-                    component="a"
-                    href={`https://${override.website}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    sx={{ display: "block", fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color, mt: 1.5, textDecoration: "none", opacity: 0.8, "&:hover": { opacity: 1, textDecoration: "underline" } }}
-                  >
-                    {override.website}
-                  </Typography>
-                )}
-                {override.socials && override.socials.length > 0 && (
-                  <Stack direction="row" spacing={1.5} sx={{ justifyContent: "center", mt: 1.5, flexWrap: "wrap" }}>
-                    {override.socials.map((s) => (
-                      <Typography
-                        key={s.href}
-                        component="a"
-                        href={s.href}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        sx={{
-                          fontFamily: "'Outfit', sans-serif",
-                          fontSize: "0.6rem",
-                          letterSpacing: "0.1em",
-                          textTransform: "uppercase",
-                          color: "text.secondary",
-                          textDecoration: "none",
-                          opacity: 0.6,
-                          "&:hover": { color, opacity: 1 },
-                          transition: "color 0.2s, opacity 0.2s",
-                        }}
-                      >
-                        {s.label}
-                      </Typography>
-                    ))}
-                  </Stack>
-                )}
+                {/* Website and social links were part of the per-email override
+                    table and had no field on the user record behind them. */}
               </Box>
               <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
                 <Chip

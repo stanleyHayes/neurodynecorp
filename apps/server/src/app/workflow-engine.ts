@@ -1,20 +1,22 @@
 import type { Logger } from "pino";
 import { ObjectId } from "mongodb";
 import type { EventPublisher, EmailService } from "./auth-service";
+import type { Notification } from "../domain/entity/notification";
 
 // ---------------------------------------------------------------------------
 // Domain types
 // ---------------------------------------------------------------------------
 
-export interface Notification {
-  id: string;
-  userId: string;
-  type: string;
-  title: string;
-  body: string;
-  read: boolean;
-  createdAt: Date;
-}
+/*
+ * The local `Notification` interface that used to live here declared `body`
+ * where the domain entity declares `message`. Rows were persisted with a field
+ * nobody reads, so every workflow-generated notification rendered with its
+ * title and a blank second line — the sentence naming the project and the
+ * status change never reached anyone.
+ *
+ * The domain entity is imported instead, so the compiler catches the next
+ * divergence rather than shipping it.
+ */
 
 // ---------------------------------------------------------------------------
 // Port interfaces
@@ -131,7 +133,7 @@ export class WorkflowEngine {
         userId: "admin",
         type: "project_update",
         title: "New Project Created",
-        body: `A new project "${event.title}" has been created and requires review.`,
+        message: `A new project "${event.title}" has been created and requires review.`,
         read: false,
         createdAt: new Date(),
       };
@@ -170,7 +172,7 @@ export class WorkflowEngine {
         userId: project.clientId,
         type: "status_change",
         title: "Project Status Updated",
-        body: `Your project "${project.title}" status has changed from "${event.previousStatus}" to "${event.newStatus}".`,
+        message: `Your project "${project.title}" status has changed from "${event.previousStatus}" to "${event.newStatus}".`,
         read: false,
         createdAt: new Date(),
       };

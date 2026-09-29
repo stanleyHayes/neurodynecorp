@@ -81,8 +81,7 @@ export {
 } from "./onboarding-service";
 
 export { WorkflowEngine } from "./workflow-engine";
-export type {
-  Notification,
-  NotificationRepository,
-  EventSubscriber,
-} from "./workflow-engine";
+export type { NotificationRepository, EventSubscriber } from "./workflow-engine";
+// Notification is a domain entity; re-exporting the engine's local copy is how
+// the two definitions drifted apart in the first place.
+export type { Notification } from "../domain/entity/notification";

@@ -2,6 +2,11 @@ import { ObjectId } from "mongodb";
 
 export type NotificationType =
   | "project_update"
+  // Emitted by WorkflowEngine on a project status transition, and mapped by
+  // both the mobile and client notification screens. It was missing from this
+  // union only because the engine declared its own Notification type and so
+  // never type-checked against it.
+  | "status_change"
   | "task_assigned"
   | "task_completed"
   | "comment_added"
