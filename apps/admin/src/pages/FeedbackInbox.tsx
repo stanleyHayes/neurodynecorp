@@ -38,7 +38,7 @@ const TYPE_OPTIONS = [
 ] as const;
 
 const typeColor: Record<string, string> = {
-  nps: "#6C63FF",
+  nps: "#3B82F6",
   general: "#10B981",
   bug: "#EF4444",
   idea: "#F59E0B",
@@ -65,7 +65,7 @@ function formatDate(iso?: string): string {
 function StatCard({
   label,
   value,
-  color = "#6C63FF",
+  color = "#3B82F6",
 }: {
   label: string;
   value: string;
@@ -75,7 +75,7 @@ function StatCard({
     <Card
       variant="outlined"
       sx={{
-        bgcolor: "#111827",
+        bgcolor: "#111a2e",
         borderColor: `${color}30`,
         borderRadius: 2,
         flex: 1,
@@ -159,7 +159,7 @@ export default function FeedbackInbox() {
               <Card
                 variant="outlined"
                 sx={{
-                  bgcolor: "#111827",
+                  bgcolor: "#111a2e",
                   borderColor: `${npsColor(nps)}40`,
                   borderRadius: 2,
                   minWidth: 200,
@@ -200,7 +200,7 @@ export default function FeedbackInbox() {
                     ? Number(stats.averageScore).toFixed(1)
                     : "—"
                 }
-                color="#6C63FF"
+                color="#3B82F6"
               />
             </Stack>
 
@@ -230,7 +230,7 @@ export default function FeedbackInbox() {
 
             <Card
               variant="outlined"
-              sx={{ bgcolor: "#111827", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}
+              sx={{ bgcolor: "#111a2e", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}
             >
               {items.length === 0 ? (
                 <Box sx={{ textAlign: "center", py: 8 }}>

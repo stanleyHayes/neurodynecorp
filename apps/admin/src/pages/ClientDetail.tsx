@@ -35,7 +35,7 @@ interface ApiProject {
   assigned_team: string[];
 }
 
-const AVATAR_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
+const AVATAR_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
 
 const statusColors: Record<string, string> = {
   "In Progress": "#F59E0B",
@@ -131,16 +131,16 @@ export default function ClientDetail() {
 
   const stats = [
     { label: "Total Revenue", value: "—", icon: <AttachMoneyOutlinedIcon />, color: "#F59E0B" },
-    { label: "Active Projects", value: String(projects.length), icon: <FolderOutlinedIcon />, color: "#6C63FF" },
+    { label: "Active Projects", value: String(projects.length), icon: <FolderOutlinedIcon />, color: "#3B82F6" },
     { label: "Total Budget", value: "—", icon: <AttachMoneyOutlinedIcon />, color: "#10B981" },
-    { label: "Client Since", value: user.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#8B85FF" },
+    { label: "Client Since", value: user.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#8B5CF6" },
   ];
 
   return (
     <Box>
       <Box
         onClick={() => navigate("/clients")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO CLIENTS</Typography>
@@ -219,7 +219,7 @@ export default function ClientDetail() {
                       <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Team</Typography>
                       <Stack direction="row" spacing={0.5}>
                         {(project.assigned_team ?? []).map((t) => (
-                          <Avatar key={t} sx={{ width: 22, height: 22, fontSize: 9, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" }}>{t.slice(0, 2).toUpperCase()}</Avatar>
+                          <Avatar key={t} sx={{ width: 22, height: 22, fontSize: 9, bgcolor: "rgba(59,130,246,0.2)", color: "#3B82F6" }}>{t.slice(0, 2).toUpperCase()}</Avatar>
                         ))}
                       </Stack>
                     </Box>
@@ -244,7 +244,7 @@ export default function ClientDetail() {
               <Chip label={clientStatus} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: `${avatarColor}18`, color: avatarColor, border: `1px solid ${avatarColor}30` }} />
             </Stack>
           </Cell>
-          <Cell color="#00D4AA" index="C1" animDelay={0.6}>
+          <Cell color="#06B6D4" index="C1" animDelay={0.6}>
             <Stack spacing={1.5}>
               {[
                 { label: "Company", value: user.company ?? "—" },

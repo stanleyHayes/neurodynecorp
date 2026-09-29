@@ -24,20 +24,20 @@ import Cell from "@/components/shared/AnimatedCard";
 import { useAuth } from "@/context/AuthContext";
 import { useThemeMode } from "@/theme/ThemeContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
+    bgcolor: "rgba(59, 130, 246, 0.04)",
     "& fieldset": { borderColor: BORDER },
-    "&:hover fieldset": { borderColor: "rgba(108, 99, 255, 0.25)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    "&:hover fieldset": { borderColor: "rgba(59, 130, 246, 0.25)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
   "& .MuiInputLabel-root": { fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" },
   "& .MuiOutlinedInput-input": { fontFamily: "'Outfit', sans-serif", fontSize: "0.85rem" },
 };
 
-function Label({ children, color = "#6C63FF" }: { children: string; color?: string }) {
+function Label({ children, color = "#3B82F6" }: { children: string; color?: string }) {
   return (
     <Typography
       sx={{
@@ -64,7 +64,7 @@ interface SettingsTab {
 }
 
 const tabs: SettingsTab[] = [
-  { key: "profile", label: "Profile", icon: <PersonOutlinedIcon sx={{ fontSize: 18 }} />, color: "#6C63FF" },
+  { key: "profile", label: "Profile", icon: <PersonOutlinedIcon sx={{ fontSize: 18 }} />, color: "#3B82F6" },
   { key: "security", label: "Security", icon: <LockOutlinedIcon sx={{ fontSize: 18 }} />, color: "#EF4444" },
   { key: "appearance", label: "Appearance", icon: <PaletteOutlinedIcon sx={{ fontSize: 18 }} />, color: "#8B5CF6" },
   { key: "notifications", label: "Notifications", icon: <NotificationsOutlinedIcon sx={{ fontSize: 18 }} />, color: "#F59E0B" },
@@ -117,7 +117,7 @@ function ProfileTab() {
 
   return (
     <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "auto 1fr" } }}>
-      <Cell color="#6C63FF" index="P0" colInRow={0} totalCols={2} minH={200}>
+      <Cell color="#3B82F6" index="P0" colInRow={0} totalCols={2} minH={200}>
         <Stack spacing={2} sx={{ alignItems: "center", px: { xs: 2, md: 4 } }}>
           <Box sx={{ position: "relative" }}>
             <Avatar
@@ -126,9 +126,9 @@ function ProfileTab() {
                 height: 96,
                 fontSize: 32,
                 fontWeight: 700,
-                bgcolor: "#6C63FF20",
-                color: "#6C63FF",
-                border: "2px solid #6C63FF30",
+                bgcolor: "#3B82F620",
+                color: "#3B82F6",
+                border: "2px solid #3B82F630",
               }}
             >
               {initials}
@@ -140,7 +140,7 @@ function ProfileTab() {
               sx={{
                 fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.6rem",
-                color: "#6C63FF",
+                color: "#3B82F6",
                 letterSpacing: "0.1em",
                 opacity: 0.7,
               }}
@@ -151,7 +151,7 @@ function ProfileTab() {
         </Stack>
       </Cell>
 
-      <Cell color="#6C63FF" index="P1" colInRow={1} totalCols={2} minH={200}>
+      <Cell color="#3B82F6" index="P1" colInRow={1} totalCols={2} minH={200}>
         <Stack component="form" onSubmit={handleSubmit} spacing={2.5} sx={{ maxWidth: 500 }}>
           <Label>Personal Information</Label>
           {message && <Alert severity={message.severity} onClose={() => setMessage(null)}>{message.text}</Alert>}
@@ -173,8 +173,8 @@ function ProfileTab() {
                 fontSize: "0.75rem",
                 letterSpacing: "0.08em",
                 px: 3,
-                background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
-                "&:hover": { background: "linear-gradient(135deg, #5A52E0, #7A73FF)" },
+                background: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
+                "&:hover": { background: "linear-gradient(135deg, #2563EB, #7A73FF)" },
               }}
             >
               {saving ? <><CircularProgress size={14} color="inherit" sx={{ mr: 1 }} />Saving…</> : "Save Changes"}
@@ -253,9 +253,9 @@ function AppearanceTab() {
         </Stack>
       </Cell>
 
-      <Cell color="#00D4AA" index="A1" colInRow={1} totalCols={2} minH={180}>
+      <Cell color="#06B6D4" index="A1" colInRow={1} totalCols={2} minH={180}>
         <Stack spacing={2}>
-          <Label color="#00D4AA">Display Preferences</Label>
+          <Label color="#06B6D4">Display Preferences</Label>
           <Alert severity="info">
             Compact sidebar, animations, and contrast preferences are not persisted yet. Use the theme control above for light/dark mode.
           </Alert>

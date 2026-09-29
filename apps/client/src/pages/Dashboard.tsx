@@ -31,12 +31,12 @@ const statusColors: Record<string, "default" | "primary" | "secondary" | "succes
 };
 
 const activityIcons = [
-  <CheckCircleOutlinedIcon sx={{ color: "#00D4AA" }} />,
+  <CheckCircleOutlinedIcon sx={{ color: "#06B6D4" }} />,
   <BuildOutlinedIcon sx={{ color: "#FFB547" }} />,
-  <PendingOutlinedIcon sx={{ color: "#6C63FF" }} />,
+  <PendingOutlinedIcon sx={{ color: "#3B82F6" }} />,
 ];
 
-const activityColors = ["#00D4AA", "#FFB547", "#6C63FF"];
+const activityColors = ["#06B6D4", "#FFB547", "#3B82F6"];
 
 function timeAgo(dateStr: string): string {
   const diff = Date.now() - new Date(dateStr).getTime();
@@ -105,10 +105,10 @@ export default function Dashboard() {
   const firstName = user?.first_name ?? "there";
 
   const statCards = [
-    { label: "Active Projects", value: String(activeProjects.length), icon: <AssignmentOutlinedIcon />, color: "#6C63FF" },
-    { label: "Pending Invoices", value: String(pendingInvoices), icon: <ReceiptLongOutlinedIcon />, color: "#00D4AA" },
-    { label: "Unread Notifications", value: String(unreadMessages), icon: <MailOutlinedIcon />, color: "#8B85FF" },
-    { label: "Documents", value: String(documentCount), icon: <InsertDriveFileOutlinedIcon />, color: "#33DDBB" },
+    { label: "Active Projects", value: String(activeProjects.length), icon: <AssignmentOutlinedIcon />, color: "#3B82F6" },
+    { label: "Pending Invoices", value: String(pendingInvoices), icon: <ReceiptLongOutlinedIcon />, color: "#06B6D4" },
+    { label: "Unread Notifications", value: String(unreadMessages), icon: <MailOutlinedIcon />, color: "#8B5CF6" },
+    { label: "Documents", value: String(documentCount), icon: <InsertDriveFileOutlinedIcon />, color: "#10B981" },
   ];
 
   // Derive recent activity from the most recently updated projects
@@ -129,7 +129,7 @@ export default function Dashboard() {
         description="Here's an overview of your projects, messages, and recent activity."
         tag="DASHBOARD // OVERVIEW"
         accentWord={firstName}
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="DASH ACTIVE"
       />
 
@@ -200,7 +200,7 @@ export default function Dashboard() {
       >
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <Cell key={i} color="#6C63FF" index={String(i + 5).padStart(2, "0")} colInRow={i} totalCols={3} animDelay={0.4 + i * 0.1}>
+              <Cell key={i} color="#3B82F6" index={String(i + 5).padStart(2, "0")} colInRow={i} totalCols={3} animDelay={0.4 + i * 0.1}>
                 <Box>
                   <Skeleton variant="text" width="60%" sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="40%" sx={{ mb: 2 }} />
@@ -215,7 +215,7 @@ export default function Dashboard() {
                   icon={<FolderOffOutlinedIcon />}
                   title="No active projects"
                   description="When a project is created for your account, it will show up here with live progress tracking."
-                  color="#6C63FF"
+                  color="#3B82F6"
                 />
               </Box>
             )
@@ -226,8 +226,8 @@ export default function Dashboard() {
                   project.status === "in_development"
                     ? "#FFB547"
                     : project.status === "qa"
-                      ? "#00D4AA"
-                      : "#6C63FF"
+                      ? "#06B6D4"
+                      : "#3B82F6"
                 }
                 index={String(i + 5).padStart(2, "0")}
                 colInRow={i % 3}
@@ -241,10 +241,10 @@ export default function Dashboard() {
                         project.status === "in_development"
                           ? "#FFB547"
                           : project.status === "qa"
-                            ? "#00D4AA"
-                            : "#6C63FF",
+                            ? "#06B6D4"
+                            : "#3B82F6",
                       "& .MuiSvgIcon-root": { fontSize: 22 },
-                      filter: `drop-shadow(0 0 6px ${project.status === "in_development" ? "#FFB54740" : project.status === "qa" ? "#00D4AA40" : "#6C63FF40"})`,
+                      filter: `drop-shadow(0 0 6px ${project.status === "in_development" ? "#FFB54740" : project.status === "qa" ? "#06B6D440" : "#3B82F640"})`,
                     }}
                   >
                     <FolderOutlinedIcon />
@@ -278,7 +278,7 @@ export default function Dashboard() {
                     mt: 1.5,
                     height: 3,
                     borderRadius: 2,
-                    bgcolor: "rgba(108, 99, 255, 0.08)",
+                    bgcolor: "rgba(59, 130, 246, 0.08)",
                     overflow: "hidden",
                   }}
                 >
@@ -291,14 +291,14 @@ export default function Dashboard() {
                         project.status === "in_development"
                           ? "linear-gradient(90deg, #FFB547, #FFD080)"
                           : project.status === "qa"
-                            ? "linear-gradient(90deg, #00D4AA, #33DDBB)"
-                            : "linear-gradient(90deg, #6C63FF, #8B85FF)",
+                            ? "linear-gradient(90deg, #06B6D4, #10B981)"
+                            : "linear-gradient(90deg, #3B82F6, #8B5CF6)",
                       boxShadow:
                         project.status === "in_development"
                           ? "0 0 8px #FFB54760"
                           : project.status === "qa"
-                            ? "0 0 8px #00D4AA60"
-                            : "0 0 8px #6C63FF60",
+                            ? "0 0 8px #06B6D460"
+                            : "0 0 8px #3B82F660",
                     }}
                   />
                 </Box>
@@ -316,7 +316,7 @@ export default function Dashboard() {
       >
         {loading
           ? Array.from({ length: 3 }).map((_, i) => (
-              <Cell key={i} color="#6C63FF" index={String(i + 8).padStart(2, "0")} colInRow={i} totalCols={3} animDelay={0.7 + i * 0.1}>
+              <Cell key={i} color="#3B82F6" index={String(i + 8).padStart(2, "0")} colInRow={i} totalCols={3} animDelay={0.7 + i * 0.1}>
                 <Box>
                   <Skeleton variant="circular" width={24} height={24} sx={{ mb: 1 }} />
                   <Skeleton variant="text" width="80%" />
@@ -331,7 +331,7 @@ export default function Dashboard() {
                   icon={<EventNoteOutlinedIcon />}
                   title="No recent activity"
                   description="Activity from your projects will appear here as your team makes progress."
-                  color="#00D4AA"
+                  color="#06B6D4"
                 />
               </Box>
             )

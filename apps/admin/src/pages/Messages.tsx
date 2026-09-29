@@ -74,7 +74,7 @@ function initials(id: string): string {
 
 // ---- Constants ----
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 const THREAD_WIDTH = 340;
 
 // ---- Component ----
@@ -310,7 +310,7 @@ export default function Messages() {
         description="Real-time communication with clients and team members across all projects."
         tag="ADMIN // MESSAGES"
         accentWord="Messages"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="SOCKET.IO ACTIVE"
       />
 
@@ -408,7 +408,7 @@ export default function Messages() {
                   sx: {
                     fontFamily: "'Outfit', sans-serif",
                     fontSize: "0.8rem",
-                    bgcolor: "rgba(108, 99, 255, 0.04)",
+                    bgcolor: "rgba(59, 130, 246, 0.04)",
                     borderRadius: 1,
                     "& fieldset": { borderColor: BORDER },
                   },
@@ -431,7 +431,7 @@ export default function Messages() {
                     borderBottom: `1px solid ${BORDER}`,
                     position: "relative",
                     "&.Mui-selected": {
-                      bgcolor: "rgba(108, 99, 255, 0.06)",
+                      bgcolor: "rgba(59, 130, 246, 0.06)",
                       "&::before": {
                         content: '""',
                         position: "absolute",
@@ -440,11 +440,11 @@ export default function Messages() {
                         bottom: "15%",
                         width: 3,
                         borderRadius: 1,
-                        bgcolor: "#6C63FF",
-                        boxShadow: "0 0 8px #6C63FF80",
+                        bgcolor: "#3B82F6",
+                        boxShadow: "0 0 8px #3B82F680",
                       },
                     },
-                    "&:hover": { bgcolor: "rgba(108, 99, 255, 0.04)" },
+                    "&:hover": { bgcolor: "rgba(59, 130, 246, 0.04)" },
                   }}
                 >
                   <ListItemAvatar>
@@ -455,7 +455,7 @@ export default function Messages() {
                     >
                       <Avatar
                         sx={{
-                          bgcolor: thread.unread > 0 ? "primary.dark" : "rgba(108, 99, 255, 0.15)",
+                          bgcolor: thread.unread > 0 ? "primary.dark" : "rgba(59, 130, 246, 0.15)",
                           width: 40,
                           height: 40,
                           fontSize: 14,
@@ -506,7 +506,7 @@ export default function Messages() {
               display: "flex",
               alignItems: "center",
               justifyContent: "space-between",
-              bgcolor: "rgba(108, 99, 255, 0.02)",
+              bgcolor: "rgba(59, 130, 246, 0.02)",
             }}
           >
             <Box>
@@ -534,9 +534,9 @@ export default function Messages() {
               sx={{
                 fontFamily: "'Outfit', sans-serif",
                 fontSize: "0.6rem",
-                bgcolor: "rgba(108, 99, 255, 0.08)",
-                color: "#6C63FF",
-                border: `1px solid rgba(108, 99, 255, 0.15)`,
+                bgcolor: "rgba(59, 130, 246, 0.08)",
+                color: "#3B82F6",
+                border: `1px solid rgba(59, 130, 246, 0.15)`,
               }}
             />
           </Box>
@@ -559,8 +559,8 @@ export default function Messages() {
                         width: 30,
                         height: 30,
                         fontSize: 11,
-                        bgcolor: "rgba(0, 212, 170, 0.15)",
-                        color: "#00D4AA",
+                        bgcolor: "rgba(6, 182, 212, 0.15)",
+                        color: "#06B6D4",
                         fontFamily: "'Outfit', sans-serif",
                         mt: 0.5,
                       }}
@@ -575,9 +575,9 @@ export default function Messages() {
                         py: 1.2,
                         borderRadius: msg.isMine ? "12px 12px 2px 12px" : "12px 12px 12px 2px",
                         bgcolor: msg.isMine
-                          ? "rgba(108, 99, 255, 0.12)"
+                          ? "rgba(59, 130, 246, 0.12)"
                           : "rgba(255, 255, 255, 0.04)",
-                        border: `1px solid ${msg.isMine ? "rgba(108, 99, 255, 0.2)" : BORDER}`,
+                        border: `1px solid ${msg.isMine ? "rgba(59, 130, 246, 0.2)" : BORDER}`,
                       }}
                     >
                       {!msg.isMine && (
@@ -586,7 +586,7 @@ export default function Messages() {
                             fontFamily: "'Outfit', sans-serif",
                             fontSize: "0.6rem",
                             fontWeight: 700,
-                            color: "#00D4AA",
+                            color: "#06B6D4",
                             letterSpacing: "0.05em",
                             mb: 0.3,
                           }}
@@ -618,8 +618,8 @@ export default function Messages() {
                         width: 30,
                         height: 30,
                         fontSize: 11,
-                        bgcolor: "rgba(108, 99, 255, 0.15)",
-                        color: "#6C63FF",
+                        bgcolor: "rgba(59, 130, 246, 0.15)",
+                        color: "#3B82F6",
                         fontFamily: "'Outfit', sans-serif",
                         mt: 0.5,
                       }}
@@ -636,7 +636,7 @@ export default function Messages() {
                     sx={{
                       fontFamily: "'Outfit', sans-serif",
                       fontSize: "0.65rem",
-                      color: "#00D4AA",
+                      color: "#06B6D4",
                       opacity: 0.7,
                       fontStyle: "italic",
                     }}
@@ -655,7 +655,7 @@ export default function Messages() {
               px: 2,
               py: 1.5,
               borderTop: `1px solid ${BORDER}`,
-              bgcolor: "rgba(108, 99, 255, 0.02)",
+              bgcolor: "rgba(59, 130, 246, 0.02)",
             }}
           >
             <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
@@ -678,7 +678,7 @@ export default function Messages() {
                   input: {
                     sx: {
                       fontSize: "0.85rem",
-                      bgcolor: "rgba(108, 99, 255, 0.04)",
+                      bgcolor: "rgba(59, 130, 246, 0.04)",
                       borderRadius: 1,
                       "& fieldset": { borderColor: BORDER },
                     },
@@ -694,7 +694,7 @@ export default function Messages() {
                   width: 40,
                   height: 40,
                   "&:hover": { bgcolor: "primary.dark" },
-                  "&.Mui-disabled": { bgcolor: "rgba(108, 99, 255, 0.1)", color: "text.secondary" },
+                  "&.Mui-disabled": { bgcolor: "rgba(59, 130, 246, 0.1)", color: "text.secondary" },
                 }}
               >
                 <SendIcon sx={{ fontSize: 18 }} />

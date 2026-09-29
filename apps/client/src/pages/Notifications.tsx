@@ -127,7 +127,7 @@ export default function Notifications() {
               icon={<NotificationsOffOutlinedIcon />}
               title="No notifications"
               description="You're all caught up! Notifications about project updates, messages, and alerts will appear here."
-              color="#6C63FF"
+              color="#3B82F6"
               onRefresh={load}
             />
           ) : (
@@ -137,11 +137,11 @@ export default function Notifications() {
                   key={notif.id}
                   onClick={() => handleMarkRead(notif.id, notif.read)}
                   sx={{
-                    bgcolor: notif.read ? "transparent" : "rgba(108, 99, 255, 0.05)",
+                    bgcolor: notif.read ? "transparent" : "rgba(59, 130, 246, 0.05)",
                     borderRadius: 2,
                     mb: 1,
                     cursor: notif.read ? "default" : "pointer",
-                    "&:hover": notif.read ? undefined : { bgcolor: "rgba(108, 99, 255, 0.08)" },
+                    "&:hover": notif.read ? undefined : { bgcolor: "rgba(59, 130, 246, 0.08)" },
                   }}
                 >
                   <ListItemIcon>{iconMap[notif.type] ?? <InfoIcon />}</ListItemIcon>

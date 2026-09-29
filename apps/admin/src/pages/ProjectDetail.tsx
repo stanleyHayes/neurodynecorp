@@ -54,9 +54,9 @@ interface ApiSpec {
 const statusColors: Record<string, string> = {
   lead: "#94A3B8",
   under_review: "#8B5CF6",
-  approved: "#6C63FF",
+  approved: "#3B82F6",
   in_development: "#F59E0B",
-  qa: "#00D4AA",
+  qa: "#06B6D4",
   delivered: "#10B981",
   "In Progress": "#F59E0B",
   in_progress: "#F59E0B",
@@ -94,8 +94,8 @@ const STATUS_TRANSITIONS: Record<string, string[]> = {
 const specStatusColors: Record<string, string> = {
   Draft: "#94A3B8",
   draft: "#94A3B8",
-  Generated: "#6C63FF",
-  generated: "#6C63FF",
+  Generated: "#3B82F6",
+  generated: "#3B82F6",
   "Under Review": "#F59E0B",
   under_review: "#F59E0B",
   Approved: "#10B981",
@@ -104,7 +104,7 @@ const specStatusColors: Record<string, string> = {
   rejected: "#EF4444",
 };
 
-const AVATAR_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
+const AVATAR_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
 
 const STK_AUTHORITY_LABELS: Record<string, string> = {
   decision_maker: "Decision maker",
@@ -115,7 +115,7 @@ const STK_AUTHORITY_LABELS: Record<string, string> = {
 
 const LATTICE_STATUS_META: Record<string, { label: string; color: string }> = {
   delivered: { label: "Delivered", color: "#10B981" },
-  in_flight: { label: "In flight", color: "#6C63FF" },
+  in_flight: { label: "In flight", color: "#3B82F6" },
   queued: { label: "Queued", color: "#F59E0B" },
   deferred: { label: "Deferred", color: "#94A3B8" },
 };
@@ -136,7 +136,7 @@ function safeHref(url?: string): string | null {
 
 const AVAILABILITY_META: Record<string, { label: string; color: string }> = {
   full_time: { label: "Full-time", color: "#10B981" },
-  part_time: { label: "Part-time", color: "#6C63FF" },
+  part_time: { label: "Part-time", color: "#3B82F6" },
   on_call: { label: "On-call", color: "#F59E0B" },
   unavailable: { label: "Unavailable", color: "#94A3B8" },
 };
@@ -150,7 +150,7 @@ const BUDGET_CATEGORY_LABELS: Record<string, string> = {
 
 const BUDGET_STATUS_META: Record<string, { label: string; color: string }> = {
   planned: { label: "Planned", color: "#94A3B8" },
-  in_progress: { label: "In progress", color: "#6C63FF" },
+  in_progress: { label: "In progress", color: "#3B82F6" },
   invoiced: { label: "Invoiced", color: "#F59E0B" },
   paid: { label: "Paid", color: "#10B981" },
   overdue: { label: "Overdue", color: "#EF4444" },
@@ -765,15 +765,15 @@ export default function ProjectDetail() {
   const stats = [
     { label: "Progress", value: `${project.progress}%`, icon: <TrendingUpOutlinedIcon />, color },
     { label: "Type", value: project.type || "General", icon: <AttachMoneyOutlinedIcon />, color: "#10B981" },
-    { label: "Team Size", value: String(team.length), icon: <GroupOutlinedIcon />, color: "#6C63FF" },
-    { label: "Created", value: project.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#8B85FF" },
+    { label: "Team Size", value: String(team.length), icon: <GroupOutlinedIcon />, color: "#3B82F6" },
+    { label: "Created", value: project.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#8B5CF6" },
   ];
 
   return (
     <Box>
       <Box
         onClick={() => navigate("/projects")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PROJECTS</Typography>
@@ -894,7 +894,7 @@ export default function ProjectDetail() {
             {project.progress}%
           </Typography>
         </Stack>
-        <Box sx={{ width: "100%", bgcolor: "rgba(108,99,255,0.08)", borderRadius: 1, height: 8 }}>
+        <Box sx={{ width: "100%", bgcolor: "rgba(59,130,246,0.08)", borderRadius: 1, height: 8 }}>
           <Skeleton variant="rectangular" width={`${project.progress}%`} height={8} sx={{ borderRadius: 1, bgcolor: color, "&::after": { display: "none" } }} animation={false} />
         </Box>
       </Cell>
@@ -905,7 +905,7 @@ export default function ProjectDetail() {
         <Box>
           {/* Timeline */}
           <SectionLabel>Timeline</SectionLabel>
-          <Cell color="#6C63FF" index="05" animDelay={0.5}>
+          <Cell color="#3B82F6" index="05" animDelay={0.5}>
             <Stack spacing={2}>
               <Box>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Created</Typography>
@@ -975,9 +975,9 @@ export default function ProjectDetail() {
 
           {/* Team */}
           <SectionLabel>Team</SectionLabel>
-          <Cell color="#00D4AA" index="T0" animDelay={0.6}>
+          <Cell color="#06B6D4" index="T0" animDelay={0.6}>
             <Stack spacing={1.5}>
-              <AvatarGroup max={6} sx={{ justifyContent: "center", "& .MuiAvatar-root": { width: 36, height: 36, fontSize: 12, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" } }}>
+              <AvatarGroup max={6} sx={{ justifyContent: "center", "& .MuiAvatar-root": { width: 36, height: 36, fontSize: 12, bgcolor: "rgba(59,130,246,0.2)", color: "#3B82F6" } }}>
                 {teamInitials.map((t) => <Avatar key={t}>{t}</Avatar>)}
               </AvatarGroup>
               <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, textAlign: "center" }}>
@@ -1001,7 +1001,7 @@ export default function ProjectDetail() {
       {/* Decision Log */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Decision Log</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setDlgOpen(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#6C63FF40", color: "#6C63FF", "&:hover": { borderColor: "#6C63FF" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setDlgOpen(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#3B82F640", color: "#3B82F6", "&:hover": { borderColor: "#3B82F6" } }}>
           Log a decision
         </Button>
       </Stack>
@@ -1011,12 +1011,12 @@ export default function ProjectDetail() {
         </Cell>
       ) : (
         decisions.map((d, i) => (
-          <Cell key={d.id} color="#6C63FF" index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
+          <Cell key={d.id} color="#3B82F6" index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
             <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
               <Box sx={{ flex: 1 }}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.5, flexWrap: "wrap" }}>
                   <Typography variant="subtitle2" sx={{ fontWeight: 700 }}>{d.title}</Typography>
-                  <Chip label={d.status} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} />
+                  <Chip label={d.status} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", textTransform: "capitalize", bgcolor: "rgba(59,130,246,0.12)", color: "#8B5CF6" }} />
                 </Stack>
                 <Typography variant="body2" color="text.secondary">{d.rationale}</Typography>
                 {Array.isArray(d.alternatives) && d.alternatives.length > 0 && (
@@ -1081,7 +1081,7 @@ export default function ProjectDetail() {
       {/* Sign-offs (Approvals) */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Sign-offs</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setSignoffDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setSignoffDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#06B6D440", color: "#06B6D4", "&:hover": { borderColor: "#06B6D4" } }}>
           Request sign-off
         </Button>
       </Stack>
@@ -1091,7 +1091,7 @@ export default function ProjectDetail() {
         </Cell>
       ) : (
         approvals.map((a, i) => {
-          const aColor = a.status === "approved" ? "#10B981" : a.status === "rejected" ? "#EF4444" : a.status === "approved_with_conditions" ? "#F59E0B" : "#8B85FF";
+          const aColor = a.status === "approved" ? "#10B981" : a.status === "rejected" ? "#EF4444" : a.status === "approved_with_conditions" ? "#F59E0B" : "#8B5CF6";
           return (
             <Cell key={a.id} color={aColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
               <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
@@ -1127,7 +1127,7 @@ export default function ProjectDetail() {
       {/* Stakeholder Map */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Stakeholder Map</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setStkDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B85FF40", color: "#8B85FF", "&:hover": { borderColor: "#8B85FF" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setStkDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#8B5CF640", color: "#8B5CF6", "&:hover": { borderColor: "#8B5CF6" } }}>
           Add stakeholder
         </Button>
       </Stack>
@@ -1137,7 +1137,7 @@ export default function ProjectDetail() {
         </Cell>
       ) : (
         stakeholders.map((s, i) => {
-          const sideColor = s.side === "client" ? "#00D4AA" : "#6C63FF";
+          const sideColor = s.side === "client" ? "#06B6D4" : "#3B82F6";
           const authLabel = STK_AUTHORITY_LABELS[s.authority] ?? s.authority;
           return (
             <Cell key={s.id} color={sideColor} index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
@@ -1289,7 +1289,7 @@ export default function ProjectDetail() {
                   </Stack>
                   {r.summary && <Typography variant="body2" color="text.secondary">{r.summary}</Typography>}
                   {safeHref(r.url) && (
-                    <Typography component="a" href={safeHref(r.url)!} target="_blank" rel="noopener noreferrer" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+                    <Typography component="a" href={safeHref(r.url)!} target="_blank" rel="noopener noreferrer" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#3B82F6", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
                       {r.url}
                     </Typography>
                   )}
@@ -1346,7 +1346,7 @@ export default function ProjectDetail() {
       {/* Team Directory */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>
         <SectionLabel>Team Directory</SectionLabel>
-        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setMemDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#00D4AA40", color: "#00D4AA", "&:hover": { borderColor: "#00D4AA" } }}>
+        <Button size="small" variant="outlined" startIcon={<AddOutlinedIcon />} onClick={() => setMemDlg(true)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", letterSpacing: "0.1em", borderColor: "#06B6D440", color: "#06B6D4", "&:hover": { borderColor: "#06B6D4" } }}>
           Add member
         </Button>
       </Stack>
@@ -1369,7 +1369,7 @@ export default function ProjectDetail() {
                   {m.focus && <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.8, mt: 0.5 }}>Focus: {m.focus}</Typography>}
                   {m.bio && <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.75, mt: 0.5 }}>{m.bio}</Typography>}
                   {m.email && (
-                    <Typography component="a" href={`mailto:${m.email}`} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#6C63FF", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+                    <Typography component="a" href={`mailto:${m.email}`} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.62rem", color: "#3B82F6", mt: 0.5, display: "inline-block", textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
                       {m.email}
                     </Typography>
                   )}

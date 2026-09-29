@@ -38,7 +38,7 @@ interface ClientDisplay {
   avatarColor: string;
 }
 
-const AVATAR_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
+const AVATAR_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981", "#8B5CF6"];
 
 function mapUserToClient(user: ClientUser, index: number): ClientDisplay {
   return {
@@ -48,7 +48,7 @@ function mapUserToClient(user: ClientUser, index: number): ClientDisplay {
     company: user.company ?? "",
     status: user.is_active ? "Active" : "Churned",
     joined: (user.created_at ?? "").slice(0, 10),
-    avatarColor: AVATAR_COLORS[index % AVATAR_COLORS.length] ?? "#6C63FF",
+    avatarColor: AVATAR_COLORS[index % AVATAR_COLORS.length] ?? "#3B82F6",
   };
 }
 
@@ -102,8 +102,8 @@ export default function Clients() {
   const activeCount = clients.filter((c) => c.status === "Active").length;
 
   const stats = [
-    { label: "Total Clients", value: String(clients.length), change: `${activeCount} active`, icon: <PeopleOutlinedIcon />, color: "#00D4AA" },
-    { label: "Active", value: String(activeCount), change: "currently active", icon: <FolderOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Clients", value: String(clients.length), change: `${activeCount} active`, icon: <PeopleOutlinedIcon />, color: "#06B6D4" },
+    { label: "Active", value: String(activeCount), change: "currently active", icon: <FolderOutlinedIcon />, color: "#3B82F6" },
     { label: "New This Month", value: "—", change: "from API", icon: <PersonAddOutlinedIcon />, color: "#10B981" },
     { label: "Revenue", value: "—", change: "aggregation pending", icon: <AttachMoneyOutlinedIcon />, color: "#F59E0B" },
   ];
@@ -128,11 +128,11 @@ export default function Clients() {
         description="Manage your client relationships, track engagement, and onboard new clients."
         tag="ADMIN // CLIENTS"
         accentWord="Clients"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="CRM ACTIVE"
       />
 
-      <ActionBar label="New Client" subtitle="ONBOARD CLIENT" color="#00D4AA" onClick={() => navigate("/clients/new")} />
+      <ActionBar label="New Client" subtitle="ONBOARD CLIENT" color="#06B6D4" onClick={() => navigate("/clients/new")} />
 
       {/* Stats */}
       <SectionLabel>Client Metrics</SectionLabel>
@@ -153,7 +153,7 @@ export default function Clients() {
 
       {/* Search */}
       <SectionLabel>Client Directory</SectionLabel>
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -167,10 +167,10 @@ export default function Clients() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -182,7 +182,7 @@ export default function Clients() {
           icon={<PeopleOutlinedIcon />}
           title={search ? "No clients match your search" : "No clients yet"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "Add your first client to start managing relationships and tracking engagement."}
-          color="#00D4AA"
+          color="#06B6D4"
           onRefresh={fetchClients}
           onAdd={() => navigate("/clients/new")}
           addLabel="New Client"

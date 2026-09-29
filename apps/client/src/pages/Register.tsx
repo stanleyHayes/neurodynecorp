@@ -18,9 +18,9 @@ import { useAuth } from "@/context/AuthContext";
 import AuthLayout from "@/components/auth/AuthLayout";
 
 const cards = [
-  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Full Project Visibility", desc: "Track your project lifecycle from concept to delivery." },
-  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Documents & Deliverables", desc: "Download specifications, documents, and final assets." },
-  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#00D4AA" }} />, title: "Billing & Payments", desc: "Manage invoices and view your complete payment history." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#06B6D4" }} />, title: "Full Project Visibility", desc: "Track your project lifecycle from concept to delivery." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#06B6D4" }} />, title: "Documents & Deliverables", desc: "Download specifications, documents, and final assets." },
+  { icon: <CheckCircleOutlined sx={{ fontSize: 28, color: "#06B6D4" }} />, title: "Billing & Payments", desc: "Manage invoices and view your complete payment history." },
 ];
 
 export default function Register() {
@@ -141,9 +141,9 @@ export default function Register() {
               fontSize: "1rem",
               fontWeight: 700,
               borderRadius: 1,
-              background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
-              boxShadow: "0 4px 16px rgba(108, 99, 255, 0.3)",
-              "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(108, 99, 255, 0.4)" },
+              background: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
+              boxShadow: "0 4px 16px rgba(59, 130, 246, 0.3)",
+              "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(59, 130, 246, 0.4)" },
             }}
           >
             {isLoading ? <CircularProgress size={24} color="inherit" /> : "Create Account"}
@@ -153,7 +153,7 @@ export default function Register() {
 
       <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
         Already have an account?{" "}
-        <MuiLink component={Link} to="/login" sx={{ color: "#6C63FF", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+        <MuiLink component={Link} to="/login" sx={{ color: "#3B82F6", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
           Sign in
         </MuiLink>
       </Typography>

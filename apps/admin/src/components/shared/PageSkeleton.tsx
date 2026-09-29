@@ -1,6 +1,6 @@
 import { Box, Skeleton } from "@mui/material";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 function SkeletonCard({ height = 120 }: { height?: number }) {
   return (
@@ -15,10 +15,10 @@ function SkeletonCard({ height = 120 }: { height?: number }) {
         minHeight: height,
       }}
     >
-      <Skeleton variant="circular" width={28} height={28} sx={{ bgcolor: "rgba(108,99,255,0.08)" }} />
-      <Skeleton variant="text" width="40%" sx={{ bgcolor: "rgba(108,99,255,0.06)", fontSize: "0.6rem" }} />
-      <Skeleton variant="text" width="30%" sx={{ bgcolor: "rgba(108,99,255,0.10)", fontSize: "2rem" }} />
-      <Skeleton variant="text" width="50%" sx={{ bgcolor: "rgba(108,99,255,0.05)", fontSize: "0.75rem" }} />
+      <Skeleton variant="circular" width={28} height={28} sx={{ bgcolor: "rgba(59,130,246,0.08)" }} />
+      <Skeleton variant="text" width="40%" sx={{ bgcolor: "rgba(59,130,246,0.06)", fontSize: "0.6rem" }} />
+      <Skeleton variant="text" width="30%" sx={{ bgcolor: "rgba(59,130,246,0.10)", fontSize: "2rem" }} />
+      <Skeleton variant="text" width="50%" sx={{ bgcolor: "rgba(59,130,246,0.05)", fontSize: "0.75rem" }} />
     </Box>
   );
 }
@@ -35,12 +35,12 @@ function SkeletonRow({ height = 64 }: { height?: number }) {
         minHeight: height,
       }}
     >
-      <Skeleton variant="circular" width={40} height={40} sx={{ bgcolor: "rgba(108,99,255,0.08)", flexShrink: 0 }} />
+      <Skeleton variant="circular" width={40} height={40} sx={{ bgcolor: "rgba(59,130,246,0.08)", flexShrink: 0 }} />
       <Box sx={{ flex: 1 }}>
-        <Skeleton variant="text" width="60%" sx={{ bgcolor: "rgba(108,99,255,0.10)" }} />
-        <Skeleton variant="text" width="35%" sx={{ bgcolor: "rgba(108,99,255,0.05)", fontSize: "0.75rem" }} />
+        <Skeleton variant="text" width="60%" sx={{ bgcolor: "rgba(59,130,246,0.10)" }} />
+        <Skeleton variant="text" width="35%" sx={{ bgcolor: "rgba(59,130,246,0.05)", fontSize: "0.75rem" }} />
       </Box>
-      <Skeleton variant="rounded" width={70} height={24} sx={{ bgcolor: "rgba(108,99,255,0.06)", borderRadius: 50 }} />
+      <Skeleton variant="rounded" width={70} height={24} sx={{ bgcolor: "rgba(59,130,246,0.06)", borderRadius: 50 }} />
     </Box>
   );
 }
@@ -65,21 +65,21 @@ export default function PageSkeleton({ stats = 4, rows = 6, grid = false, cols =
     <Box>
       {/* Banner skeleton */}
       <Box sx={{ border: `1px solid ${BORDER}`, p: 3, mb: 0 }}>
-        <Skeleton variant="text" width={100} sx={{ bgcolor: "rgba(108,99,255,0.06)", fontSize: "0.6rem", mb: 1 }} />
-        <Skeleton variant="text" width="30%" sx={{ bgcolor: "rgba(108,99,255,0.10)", fontSize: "1.8rem" }} />
-        <Skeleton variant="text" width="50%" sx={{ bgcolor: "rgba(108,99,255,0.05)", fontSize: "0.85rem", mt: 0.5 }} />
+        <Skeleton variant="text" width={100} sx={{ bgcolor: "rgba(59,130,246,0.06)", fontSize: "0.6rem", mb: 1 }} />
+        <Skeleton variant="text" width="30%" sx={{ bgcolor: "rgba(59,130,246,0.10)", fontSize: "1.8rem" }} />
+        <Skeleton variant="text" width="50%" sx={{ bgcolor: "rgba(59,130,246,0.05)", fontSize: "0.85rem", mt: 0.5 }} />
       </Box>
 
       {/* Action bar skeleton */}
       <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", py: 1.5, px: 0.5, mb: 0 }}>
-        <Skeleton variant="text" width={120} sx={{ bgcolor: "rgba(108,99,255,0.06)", fontSize: "0.6rem" }} />
-        <Skeleton variant="rounded" width={130} height={36} sx={{ bgcolor: "rgba(108,99,255,0.08)", borderRadius: 1 }} />
+        <Skeleton variant="text" width={120} sx={{ bgcolor: "rgba(59,130,246,0.06)", fontSize: "0.6rem" }} />
+        <Skeleton variant="rounded" width={130} height={36} sx={{ bgcolor: "rgba(59,130,246,0.08)", borderRadius: 1 }} />
       </Box>
 
       {/* Stats row */}
       {stats > 0 && (
         <>
-          <Skeleton variant="text" width={100} sx={{ bgcolor: "rgba(108,99,255,0.05)", fontSize: "0.55rem", mb: 0.5, mt: 1 }} />
+          <Skeleton variant="text" width={100} sx={{ bgcolor: "rgba(59,130,246,0.05)", fontSize: "0.55rem", mb: 0.5, mt: 1 }} />
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr 1fr", md: `repeat(${stats}, 1fr)` }, mb: 0 }}>
             {Array.from({ length: stats }).map((_, i) => (
               <SkeletonCard key={i} />
@@ -89,7 +89,7 @@ export default function PageSkeleton({ stats = 4, rows = 6, grid = false, cols =
       )}
 
       {/* Content rows */}
-      <Skeleton variant="text" width={80} sx={{ bgcolor: "rgba(108,99,255,0.05)", fontSize: "0.55rem", mb: 0.5, mt: 2 }} />
+      <Skeleton variant="text" width={80} sx={{ bgcolor: "rgba(59,130,246,0.05)", fontSize: "0.55rem", mb: 0.5, mt: 2 }} />
       {grid ? (
         <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: `repeat(${cols}, 1fr)` } }}>
           {Array.from({ length: rows }).map((_, i) => (

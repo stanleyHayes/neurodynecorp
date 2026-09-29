@@ -76,7 +76,7 @@ function authorityColor(authority: string): "primary" | "secondary" | "info" | "
 
 const LATTICE_STATES: { status: string; label: string; color: string }[] = [
   { status: "delivered", label: "Delivered", color: "#10B981" },
-  { status: "in_flight", label: "In flight", color: "#6C63FF" },
+  { status: "in_flight", label: "In flight", color: "#3B82F6" },
   { status: "queued", label: "Queued", color: "#F59E0B" },
   { status: "deferred", label: "Deferred", color: "#94A3B8" },
 ];
@@ -858,7 +858,7 @@ export default function ProjectDetail() {
                   <ListItem
                     key={t.id}
                     onClick={() => { setActiveTicket(t); setReplyText(""); }}
-                    sx={{ cursor: "pointer", borderRadius: 1, "&:hover": { bgcolor: "rgba(108,99,255,0.06)" } }}
+                    sx={{ cursor: "pointer", borderRadius: 1, "&:hover": { bgcolor: "rgba(59,130,246,0.06)" } }}
                     secondaryAction={
                       <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
                         <Chip label={t.priority} size="small" variant="outlined" sx={{ textTransform: "capitalize", fontSize: "0.6rem" }} />
@@ -1318,8 +1318,8 @@ export default function ProjectDetail() {
               ) : (
                 <Stack spacing={1.5}>
                   {(activeTicket.replies ?? []).map((rep: any) => (
-                    <Box key={rep.id} sx={{ p: 1.25, borderRadius: 1.5, bgcolor: rep.staff ? "rgba(0,212,170,0.08)" : "rgba(108,99,255,0.06)", border: "1px solid", borderColor: rep.staff ? "rgba(0,212,170,0.25)" : "rgba(108,99,255,0.15)" }}>
-                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#00D4AA" : "text.secondary", textTransform: "uppercase", mb: 0.5 }}>
+                    <Box key={rep.id} sx={{ p: 1.25, borderRadius: 1.5, bgcolor: rep.staff ? "rgba(6,182,212,0.08)" : "rgba(59,130,246,0.06)", border: "1px solid", borderColor: rep.staff ? "rgba(6,182,212,0.25)" : "rgba(59,130,246,0.15)" }}>
+                      <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#06B6D4" : "text.secondary", textTransform: "uppercase", mb: 0.5 }}>
                         {rep.staff ? "NeuroDyne" : "You"}{rep.createdAt ? ` · ${formatDate(rep.createdAt)}` : ""}
                       </Typography>
                       <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{rep.body}</Typography>

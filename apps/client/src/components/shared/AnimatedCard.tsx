@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 
 const MotionBox = motion.create(Box);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 interface CellProps {
   children: ReactNode;
@@ -21,7 +21,7 @@ interface CellProps {
 
 export default function Cell({
   children,
-  color = "#6C63FF",
+  color = "#3B82F6",
   index,
   colInRow = 0,
   totalCols = 1,

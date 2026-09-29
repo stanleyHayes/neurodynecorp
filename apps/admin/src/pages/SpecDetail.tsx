@@ -39,8 +39,8 @@ interface ApiProject {
 const statusColors: Record<string, string> = {
   Draft: "#94A3B8",
   draft: "#94A3B8",
-  Generated: "#6C63FF",
-  generated: "#6C63FF",
+  Generated: "#3B82F6",
+  generated: "#3B82F6",
   "Under Review": "#F59E0B",
   under_review: "#F59E0B",
   Approved: "#10B981",
@@ -164,8 +164,8 @@ export default function SpecDetail() {
 
   const metaCards = [
     { label: "Version", value: `v${spec.version}`, icon: <DescriptionOutlinedIcon />, color: "#8B5CF6" },
-    { label: "Date", value: spec.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#6C63FF" },
-    { label: "Status", value: displayStatus, icon: <ScheduleOutlinedIcon />, color: "#00D4AA" },
+    { label: "Date", value: spec.created_at?.slice(0, 10) ?? "—", icon: <CalendarTodayOutlinedIcon />, color: "#3B82F6" },
+    { label: "Status", value: displayStatus, icon: <ScheduleOutlinedIcon />, color: "#06B6D4" },
     { label: "Updated", value: spec.updated_at?.slice(0, 10) ?? "—", icon: <AttachMoneyOutlinedIcon />, color: "#F59E0B" },
   ];
 
@@ -240,8 +240,8 @@ export default function SpecDetail() {
       {/* Overview */}
       {spec.overview && (
         <>
-          <SectionLabel color="#6C63FF">Overview</SectionLabel>
-          <Cell color="#6C63FF" index="04" animDelay={0.4}>
+          <SectionLabel color="#3B82F6">Overview</SectionLabel>
+          <Cell color="#3B82F6" index="04" animDelay={0.4}>
             <Typography variant="body1" sx={{ lineHeight: 1.9, color: "text.secondary", opacity: 0.85, maxWidth: 800 }}>
               {spec.overview}
             </Typography>
@@ -254,12 +254,12 @@ export default function SpecDetail() {
         {/* Objectives */}
         {spec.objectives && spec.objectives.length > 0 && (
           <Box>
-            <SectionLabel color="#00D4AA">Objectives</SectionLabel>
-            <Cell color="#00D4AA" index="05" colInRow={0} totalCols={2} animDelay={0.5}>
+            <SectionLabel color="#06B6D4">Objectives</SectionLabel>
+            <Cell color="#06B6D4" index="05" colInRow={0} totalCols={2} animDelay={0.5}>
               <Stack spacing={1}>
                 {spec.objectives.map((obj, i) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
-                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#00D4AA", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#06B6D4", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>
@@ -275,12 +275,12 @@ export default function SpecDetail() {
         {/* Features */}
         {features.length > 0 && (
           <Box>
-            <SectionLabel color="#8B85FF">Features</SectionLabel>
-            <Cell color="#8B85FF" index="06" colInRow={1} totalCols={2} animDelay={0.6}>
+            <SectionLabel color="#8B5CF6">Features</SectionLabel>
+            <Cell color="#8B5CF6" index="06" colInRow={1} totalCols={2} animDelay={0.6}>
               <Stack spacing={1.5}>
                 {features.map((feature, i) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={i} direction="row" spacing={1.5}>
-                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#8B85FF", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
+                    <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#8B5CF6", opacity: 0.5, mt: 0.3, minWidth: 20 }}>
                       {String(i + 1).padStart(2, "0")}
                     </Typography>
                     <Typography variant="body2" sx={{ color: "text.secondary", lineHeight: 1.6 }}>

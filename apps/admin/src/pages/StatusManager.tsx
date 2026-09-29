@@ -42,13 +42,13 @@ const COMPONENT_STATUSES = [
   { value: "degraded", label: "Degraded Performance", color: "#F59E0B" },
   { value: "partial_outage", label: "Partial Outage", color: "#F59E0B" },
   { value: "major_outage", label: "Major Outage", color: "#EF4444" },
-  { value: "maintenance", label: "Under Maintenance", color: "#6C63FF" },
+  { value: "maintenance", label: "Under Maintenance", color: "#3B82F6" },
 ];
 
 const INCIDENT_STATUSES = [
   { value: "investigating", label: "Investigating", color: "#EF4444" },
   { value: "identified", label: "Identified", color: "#F59E0B" },
-  { value: "monitoring", label: "Monitoring", color: "#6C63FF" },
+  { value: "monitoring", label: "Monitoring", color: "#3B82F6" },
   { value: "resolved", label: "Resolved", color: "#10B981" },
 ];
 
@@ -249,7 +249,7 @@ export default function StatusManager() {
               </Stack>
 
               {/* Create component */}
-              <Card variant="outlined" sx={{ mb: 2, bgcolor: "#111827" }}>
+              <Card variant="outlined" sx={{ mb: 2, bgcolor: "#111a2e" }}>
                 <CardContent>
                   <Stack sx={{ alignItems: { sm: "center" } }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                     <TextField
@@ -285,7 +285,7 @@ export default function StatusManager() {
               </Card>
 
               {components.length === 0 ? (
-                <Card variant="outlined" sx={{ bgcolor: "#111827" }}>
+                <Card variant="outlined" sx={{ bgcolor: "#111a2e" }}>
                   <CardContent sx={{ textAlign: "center", py: 5 }}>
                     <MonitorHeartOutlinedIcon sx={{ fontSize: 40, color: "text.secondary", opacity: 0.4, mb: 1 }} />
                     <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7 }}>
@@ -299,7 +299,7 @@ export default function StatusManager() {
                     const id = c.id ?? c._id;
                     const meta = statusMeta(COMPONENT_STATUSES, c.status);
                     return (
-                      <Card key={id} variant="outlined" sx={{ bgcolor: "#111827" }}>
+                      <Card key={id} variant="outlined" sx={{ bgcolor: "#111a2e" }}>
                         <CardContent sx={{ py: 1.5, "&:last-child": { pb: 1.5 } }}>
                           <Stack sx={{ alignItems: { sm: "center" }, justifyContent: "space-between" }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                             <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", minWidth: 0 }}>
@@ -334,7 +334,7 @@ export default function StatusManager() {
               )}
             </Box>
 
-            <Divider sx={{ borderColor: "rgba(108,99,255,0.12)" }} />
+            <Divider sx={{ borderColor: "rgba(59,130,246,0.12)" }} />
 
             {/* ── Incidents ────────────────────────────────────────── */}
             <Box>
@@ -355,7 +355,7 @@ export default function StatusManager() {
                 <ReportProblemOutlinedIcon sx={{ fontSize: 14, color: "#F59E0B" }} /> OPEN ({openIncidents.length})
               </Typography>
               {openIncidents.length === 0 ? (
-                <Card variant="outlined" sx={{ bgcolor: "#111827", mb: 3 }}>
+                <Card variant="outlined" sx={{ bgcolor: "#111a2e", mb: 3 }}>
                   <CardContent sx={{ textAlign: "center", py: 4 }}>
                     <CheckCircleOutlinedIcon sx={{ fontSize: 36, color: "#10B981", opacity: 0.6, mb: 1 }} />
                     <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.7 }}>
@@ -376,7 +376,7 @@ export default function StatusManager() {
                 <CheckCircleOutlinedIcon sx={{ fontSize: 14, color: "#10B981" }} /> RESOLVED ({resolvedIncidents.length})
               </Typography>
               {resolvedIncidents.length === 0 ? (
-                <Card variant="outlined" sx={{ bgcolor: "#111827" }}>
+                <Card variant="outlined" sx={{ bgcolor: "#111a2e" }}>
                   <CardContent sx={{ textAlign: "center", py: 3 }}>
                     <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.6 }}>
                       No resolved incidents yet.
@@ -491,7 +491,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
   const meta = statusMeta(INCIDENT_STATUSES, incident.status);
   const updates: any[] = incident.updates ?? incident.history ?? [];
   return (
-    <Card variant="outlined" sx={{ bgcolor: "#111827", opacity: muted ? 0.75 : 1 }}>
+    <Card variant="outlined" sx={{ bgcolor: "#111a2e", opacity: muted ? 0.75 : 1 }}>
       <CardContent>
         <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1.5}>
           <Box sx={{ minWidth: 0 }}>
@@ -515,7 +515,7 @@ function IncidentCard({ incident, onUpdate, muted }: { incident: any; onUpdate: 
         </Stack>
 
         {updates.length > 0 && (
-          <Stack spacing={1} sx={{ mt: 1.5, pl: 1.5, borderLeft: "2px solid rgba(108,99,255,0.2)" }}>
+          <Stack spacing={1} sx={{ mt: 1.5, pl: 1.5, borderLeft: "2px solid rgba(59,130,246,0.2)" }}>
             {updates.map((u, i) => {
               const um = statusMeta(INCIDENT_STATUSES, u.status);
               return (

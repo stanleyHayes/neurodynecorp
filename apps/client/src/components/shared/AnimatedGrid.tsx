@@ -9,11 +9,11 @@ interface SectionLabelProps {
   color?: string;
 }
 
-export default function SectionLabel({ children, color = "#6C63FF" }: SectionLabelProps) {
+export default function SectionLabel({ children, color = "#3B82F6" }: SectionLabelProps) {
   return (
     <Box
       sx={{
-        borderBottom: "1px solid rgba(108, 99, 255, 0.12)",
+        borderBottom: "1px solid rgba(59, 130, 246, 0.12)",
         py: 2,
         px: 3,
       }}

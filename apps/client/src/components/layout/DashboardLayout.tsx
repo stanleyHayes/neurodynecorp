@@ -29,14 +29,14 @@ import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/hooks/useSocket";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const menuItemSx = {
   py: 1,
   px: 2,
   gap: 1.5,
   "& .MuiListItemIcon-root": { minWidth: 0 },
-  "&:hover": { bgcolor: "rgba(108, 99, 255, 0.06)" },
+  "&:hover": { bgcolor: "rgba(59, 130, 246, 0.06)" },
 };
 
 const pageTitles: Record<string, string> = {
@@ -166,11 +166,11 @@ export default function DashboardLayout() {
                 px: 1.25,
                 py: 0.5,
                 borderRadius: 1,
-                border: "1px solid rgba(108,99,255,0.2)",
-                bgcolor: "rgba(108,99,255,0.04)",
+                border: "1px solid rgba(59,130,246,0.2)",
+                bgcolor: "rgba(59,130,246,0.04)",
                 cursor: "pointer",
                 transition: "all 0.2s",
-                "&:hover": { borderColor: "rgba(108,99,255,0.4)", bgcolor: "rgba(108,99,255,0.08)" },
+                "&:hover": { borderColor: "rgba(59,130,246,0.4)", bgcolor: "rgba(59,130,246,0.08)" },
               }}
             >
               <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", color: "text.secondary", opacity: 0.6, letterSpacing: "0.05em" }}>
@@ -200,17 +200,17 @@ export default function DashboardLayout() {
                 px: 1,
                 borderRadius: 1,
                 transition: "background 0.2s",
-                "&:hover": { bgcolor: "rgba(108, 99, 255, 0.06)" },
+                "&:hover": { bgcolor: "rgba(59, 130, 246, 0.06)" },
               }}
             >
-              <Avatar sx={{ bgcolor: "#00D4AA30", color: "#00D4AA", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
+              <Avatar sx={{ bgcolor: "#06B6D430", color: "#06B6D4", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
                 {initials}
               </Avatar>
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
                   {displayName}
                 </Typography>
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#00D4AA", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", color: "#06B6D4", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
                   {user?.role.replaceAll("_", " ").toUpperCase() ?? "CLIENT"}
                 </Typography>
               </Box>
@@ -243,7 +243,7 @@ export default function DashboardLayout() {
               </Box>
 
               <MenuItem onClick={() => goTo("/settings?tab=profile")} sx={menuItemSx}>
-                <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} /></ListItemIcon>
+                <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#3B82F6" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Profile</ListItemText>
               </MenuItem>
 

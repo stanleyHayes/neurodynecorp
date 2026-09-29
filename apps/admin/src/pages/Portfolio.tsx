@@ -83,10 +83,10 @@ export default function Portfolio() {
   const published = caseStudies.filter((c) => c.status === "published").length;
 
   const stats = [
-    { label: "Case Studies", value: String(caseStudies.length), change: `${published} live`, icon: <WorkOutlineOutlinedIcon />, color: "#6C63FF" },
+    { label: "Case Studies", value: String(caseStudies.length), change: `${published} live`, icon: <WorkOutlineOutlinedIcon />, color: "#3B82F6" },
     { label: "Published", value: String(published), change: "on portfolio page", icon: <PublishOutlinedIcon />, color: "#10B981" },
     { label: "Drafts", value: String(caseStudies.length - published), change: "in progress", icon: <EditNoteOutlinedIcon />, color: "#F59E0B" },
-    { label: "Industries", value: String(new Set(caseStudies.map((c) => c.category)).size), change: "sectors covered", icon: <TrendingUpOutlinedIcon />, color: "#8B85FF" },
+    { label: "Industries", value: String(new Set(caseStudies.map((c) => c.category)).size), change: "sectors covered", icon: <TrendingUpOutlinedIcon />, color: "#8B5CF6" },
   ];
 
   const statusLabel = (s?: string) => (s ? s.charAt(0).toUpperCase() + s.slice(1) : "Draft");
@@ -102,7 +102,7 @@ export default function Portfolio() {
         <Typography
           component="button"
           onClick={loadCaseStudies}
-          sx={{ cursor: "pointer", color: "#6C63FF", background: "none", border: "none", fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", "&:hover": { textDecoration: "underline" } }}
+          sx={{ cursor: "pointer", color: "#3B82F6", background: "none", border: "none", fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", letterSpacing: "0.1em", textTransform: "uppercase", "&:hover": { textDecoration: "underline" } }}
         >
           Retry
         </Typography>
@@ -118,11 +118,11 @@ export default function Portfolio() {
         description="Manage case studies and project showcases on the public site."
         tag="CONTENT // PORTFOLIO"
         accentWord="Portfolio"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="CASE STUDIES"
       />
 
-      <ActionBar label="New Case Study" subtitle="ADD PROJECT SHOWCASE" color="#6C63FF" onClick={() => navigate("/portfolio/new")} />
+      <ActionBar label="New Case Study" subtitle="ADD PROJECT SHOWCASE" color="#3B82F6" onClick={() => navigate("/portfolio/new")} />
 
       {actionError && (
         <Alert severity="error" sx={{ mx: 3, mb: 2 }} onClose={() => setActionError("")}>
@@ -147,7 +147,7 @@ export default function Portfolio() {
       </Box>
 
       <SectionLabel>All Case Studies</SectionLabel>
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -161,10 +161,10 @@ export default function Portfolio() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -175,7 +175,7 @@ export default function Portfolio() {
           icon={<WorkOutlineOutlinedIcon />}
           title={search ? "No case studies match your search" : "No case studies yet"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "Publish your first case study to showcase project impact on the portfolio page."}
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={loadCaseStudies}
           onAdd={() => navigate("/portfolio/new")}
           addLabel="New Case Study"

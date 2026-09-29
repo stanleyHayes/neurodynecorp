@@ -20,7 +20,7 @@ const PER_PAGE = 5;
 const STATUS_OPTIONS = ["new", "read", "replied", "archived"] as const;
 
 const statusColor: Record<string, string> = {
-  new: "#6C63FF",
+  new: "#3B82F6",
   read: "#F59E0B",
   replied: "#10B981",
   archived: "#94A3B8",
@@ -98,8 +98,8 @@ export default function ContactSubmissions() {
   const repliedCount = submissions.filter((c) => c.status === "replied").length;
 
   const stats = [
-    { label: "Total Submissions", value: String(submissions.length), change: `${newCount} unread`, icon: <ContactMailOutlinedIcon />, color: "#6C63FF" },
-    { label: "New", value: String(newCount), change: "needs attention", icon: <FiberNewOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Submissions", value: String(submissions.length), change: `${newCount} unread`, icon: <ContactMailOutlinedIcon />, color: "#3B82F6" },
+    { label: "New", value: String(newCount), change: "needs attention", icon: <FiberNewOutlinedIcon />, color: "#3B82F6" },
     { label: "Read", value: String(readCount), change: "awaiting reply", icon: <MarkEmailReadOutlinedIcon />, color: "#F59E0B" },
     { label: "Replied", value: String(repliedCount), change: "responded to", icon: <ReplyOutlinedIcon />, color: "#10B981" },
   ];
@@ -124,7 +124,7 @@ export default function ContactSubmissions() {
         description="Review and manage inquiries from the public contact form."
         tag="CONTENT // CONTACT"
         accentWord="Contact"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="INBOX"
       />
 
@@ -154,7 +154,7 @@ export default function ContactSubmissions() {
           {toast}
         </Alert>
       )}
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -168,10 +168,10 @@ export default function ContactSubmissions() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -182,7 +182,7 @@ export default function ContactSubmissions() {
           icon={<ContactMailOutlinedIcon />}
           title={search ? "No submissions match your search" : "No contact submissions yet"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "When visitors submit the public contact form, their inquiries will appear here."}
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={loadSubmissions}
           isFiltered={!!search}
         />

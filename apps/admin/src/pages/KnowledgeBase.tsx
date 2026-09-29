@@ -236,7 +236,7 @@ export default function KnowledgeBase() {
                             label={t}
                             size="small"
                             variant="outlined"
-                            sx={{ fontSize: "0.65rem", borderColor: "rgba(108,99,255,0.3)", color: "text.secondary" }}
+                            sx={{ fontSize: "0.65rem", borderColor: "rgba(59,130,246,0.3)", color: "text.secondary" }}
                           />
                         ))}
                         <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", color: "#10B981" }}>

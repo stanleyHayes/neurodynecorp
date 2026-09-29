@@ -5,7 +5,7 @@ import Cell from "@/components/shared/AnimatedCard";
 
 const MotionBox = motion.create(Box);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 interface PageBannerProps {
   icon: ReactNode;
@@ -24,7 +24,7 @@ export default function PageBanner({
   description,
   tag,
   accentWord,
-  iconColor = "#00D4AA",
+  iconColor = "#06B6D4",
   iconLabel,
 }: PageBannerProps) {
   // Split title at accentWord if provided
@@ -57,14 +57,14 @@ export default function PageBanner({
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.04) 2px, rgba(108,99,255,0.04) 4px)",
+            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.04) 2px, rgba(59,130,246,0.04) 4px)",
           pointerEvents: "none",
           zIndex: 50,
         }}
       />
 
       {/* Left cell -- text */}
-      <Cell color="#6C63FF" index="00" colInRow={0} totalCols={2} minH={{ xs: 220, md: 280 }}>
+      <Cell color="#3B82F6" index="00" colInRow={0} totalCols={2} minH={{ xs: 220, md: 280 }}>
         <MotionBox
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
@@ -75,7 +75,7 @@ export default function PageBanner({
               fontSize: "0.6rem",
               fontFamily: "monospace",
               fontWeight: 600,
-              color: "#6C63FF",
+              color: "#3B82F6",
               letterSpacing: "0.25em",
               textTransform: "uppercase",
               mb: 2.5,
@@ -102,7 +102,7 @@ export default function PageBanner({
                 <Box
                   component="span"
                   sx={{
-                    background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                    background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",

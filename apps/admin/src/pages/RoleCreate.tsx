@@ -26,7 +26,7 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const FALLBACK_RESOURCES = [
   "dashboard", "pipeline", "analytics", "clients", "projects",
@@ -64,10 +64,10 @@ function formatResource(r: string): string {
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
 };
 
@@ -159,7 +159,7 @@ export default function RoleCreate() {
     <Box>
       <Box
         onClick={() => navigate("/roles")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
@@ -171,14 +171,14 @@ export default function RoleCreate() {
         description="Create a new role with custom permissions for access control."
         tag="ADMIN // NEW ROLE"
         accentWord="New"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="RBAC"
       />
 
       {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/roles")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/roles")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -187,7 +187,7 @@ export default function RoleCreate() {
             startIcon={saving ? <CircularProgress size={14} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || saving}
             onClick={handleSave}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             Create Role
           </Button>
@@ -203,7 +203,7 @@ export default function RoleCreate() {
       {/* Form */}
       <SectionLabel>Role Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#6C63FF" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#3B82F6" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Role Name" value={name} onChange={(e) => setName(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Description" value={description} onChange={(e) => setDescription(e.target.value)} multiline rows={2} sx={inputSx} />
@@ -225,7 +225,7 @@ export default function RoleCreate() {
 
       {/* Permissions */}
       <SectionLabel>Permissions</SectionLabel>
-      <Cell color="#6C63FF" index="02" animDelay={0.2}>
+      <Cell color="#3B82F6" index="02" animDelay={0.2}>
         <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 2 }}>
           Higher actions automatically include lower ones (delete includes update, create, and read)
         </Typography>
@@ -293,9 +293,9 @@ export default function RoleCreate() {
         <>
           <SectionLabel>Preview</SectionLabel>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr 1fr" } }}>
-            <Cell color="#6C63FF" index="P0" colInRow={0} totalCols={3} animDelay={0.3}>
+            <Cell color="#3B82F6" index="P0" colInRow={0} totalCols={3} animDelay={0.3}>
               <Stack sx={{ alignItems: "center" }} direction="row" spacing={2}>
-                <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 32 }, color: "#6C63FF", filter: "drop-shadow(0 0 10px rgba(108,99,255,0.25))" }}>
+                <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 32 }, color: "#3B82F6", filter: "drop-shadow(0 0 10px rgba(59,130,246,0.25))" }}>
                   <SecurityOutlinedIcon />
                 </Box>
                 <Box>
@@ -310,7 +310,7 @@ export default function RoleCreate() {
                 </Box>
                 <Box>
                   <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em", textTransform: "uppercase" }}>Type</Typography>
-                  <Chip label="Custom" size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.1)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.2)" }} />
+                  <Chip label="Custom" size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(59,130,246,0.1)", color: "#3B82F6", border: "1px solid rgba(59,130,246,0.2)" }} />
                 </Box>
               </Stack>
             </Cell>

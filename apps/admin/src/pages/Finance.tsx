@@ -42,11 +42,11 @@ import ChartCard from "@/components/shared/ChartCard";
 import { AXIS_STYLE, GRID_STYLE, TOOLTIP_STYLE, fmtTooltipK } from "@/data/chartTheme";
 import { useAuth } from "@/context/AuthContext";
 
-const CLIENT_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981"];
+const CLIENT_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981"];
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
+    bgcolor: "rgba(59, 130, 246, 0.04)",
     "& fieldset": { borderColor: "rgba(139,92,246,0.15)" },
     "&:hover fieldset": { borderColor: "rgba(139,92,246,0.3)" },
     "&.Mui-focused fieldset": { borderColor: "#10B981" },
@@ -231,7 +231,7 @@ export default function Finance() {
       value: loading ? "…" : String(invoices.length),
       change: "all statuses",
       icon: <ReceiptLongOutlinedIcon />,
-      color: "#6C63FF",
+      color: "#3B82F6",
     },
     {
       label: "Collection Rate",
@@ -242,7 +242,7 @@ export default function Finance() {
           : "—",
       change: "paid / total",
       icon: <AccountBalanceOutlinedIcon />,
-      color: "#8B85FF",
+      color: "#8B5CF6",
     },
   ];
 
@@ -288,7 +288,7 @@ export default function Finance() {
       </Box>
 
       <SectionLabel>Revenue by Client</SectionLabel>
-      <ChartCard title="Paid invoice totals" color="#00D4AA" index="04" animDelay={0.4} height={280}>
+      <ChartCard title="Paid invoice totals" color="#06B6D4" index="04" animDelay={0.4} height={280}>
         {revenueByClient.length === 0 ? (
           <Box sx={{ height: "100%", display: "grid", placeItems: "center", px: 2 }}>
             <Typography variant="body2" color="text.secondary" align="center">

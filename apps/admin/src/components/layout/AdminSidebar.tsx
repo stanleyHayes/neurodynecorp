@@ -53,7 +53,7 @@ import { ROUTE_PERMISSIONS } from "@/config/route-permissions";
 
 export const DRAWER_WIDTH = 260;
 export const COLLAPSED_WIDTH = 68;
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 interface MenuItem {
   label: string;
@@ -71,16 +71,16 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Overview",
     items: [
-      { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#6C63FF" },
-      { label: "Pipeline", icon: <TimelineOutlinedIcon />, path: "/pipeline", color: "#8B85FF" },
-      { label: "Project Briefs", icon: <AssignmentOutlinedIcon />, path: "/project-intakes", color: "#00D4AA" },
-      { label: "Analytics", icon: <BarChartOutlinedIcon />, path: "/analytics", color: "#8B85FF" },
+      { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#3B82F6" },
+      { label: "Pipeline", icon: <TimelineOutlinedIcon />, path: "/pipeline", color: "#8B5CF6" },
+      { label: "Project Briefs", icon: <AssignmentOutlinedIcon />, path: "/project-intakes", color: "#06B6D4" },
+      { label: "Analytics", icon: <BarChartOutlinedIcon />, path: "/analytics", color: "#8B5CF6" },
     ],
   },
   {
     title: "Manage",
     items: [
-      { label: "Clients", icon: <PeopleOutlinedIcon />, path: "/clients", color: "#00D4AA" },
+      { label: "Clients", icon: <PeopleOutlinedIcon />, path: "/clients", color: "#06B6D4" },
       { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#F59E0B" },
       { label: "Specifications", icon: <DescriptionOutlinedIcon />, path: "/specifications", color: "#8B5CF6" },
       { label: "Tasks", icon: <ViewKanbanOutlinedIcon />, path: "/tasks", color: "#EF4444" },
@@ -89,19 +89,19 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Content",
     items: [
-      { label: "Blog Posts", icon: <ArticleOutlinedIcon />, path: "/blog", color: "#6C63FF" },
-      { label: "Portfolio", icon: <WorkOutlineOutlinedIcon />, path: "/portfolio", color: "#00D4AA" },
-      { label: "Testimonials", icon: <FormatQuoteOutlinedIcon />, path: "/testimonials", color: "#8B85FF" },
-      { label: "Services", icon: <MiscellaneousServicesOutlinedIcon />, path: "/services", color: "#33DDBB" },
+      { label: "Blog Posts", icon: <ArticleOutlinedIcon />, path: "/blog", color: "#3B82F6" },
+      { label: "Portfolio", icon: <WorkOutlineOutlinedIcon />, path: "/portfolio", color: "#06B6D4" },
+      { label: "Testimonials", icon: <FormatQuoteOutlinedIcon />, path: "/testimonials", color: "#8B5CF6" },
+      { label: "Services", icon: <MiscellaneousServicesOutlinedIcon />, path: "/services", color: "#10B981" },
       { label: "Contact", icon: <ContactMailOutlinedIcon />, path: "/contact-submissions", color: "#F59E0B" },
     ],
   },
   {
     title: "Operations",
     items: [
-      { label: "Team", icon: <GroupOutlinedIcon />, path: "/team", color: "#00D4AA" },
-      { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#33DDBB" },
-      { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#00D4AA" },
+      { label: "Team", icon: <GroupOutlinedIcon />, path: "/team", color: "#06B6D4" },
+      { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#10B981" },
+      { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#06B6D4" },
       { label: "Finance", icon: <AttachMoneyOutlinedIcon />, path: "/finance", color: "#10B981" },
       { label: "Roles", icon: <AdminPanelSettingsOutlinedIcon />, path: "/roles", color: "#EF4444" },
     ],
@@ -112,20 +112,20 @@ const menuGroups: MenuGroup[] = [
       { label: "Status", icon: <MonitorHeartOutlinedIcon />, path: "/status", color: "#10B981" },
       { label: "Feature Flags", icon: <FlagOutlinedIcon />, path: "/feature-flags", color: "#F59E0B" },
       { label: "Audit Log", icon: <ReceiptLongOutlinedIcon />, path: "/audit-log", color: "#8B5CF6" },
-      { label: "Feedback / NPS", icon: <FeedbackOutlinedIcon />, path: "/feedback", color: "#00D4AA" },
-      { label: "Diagnostics", icon: <InsightsOutlinedIcon />, path: "/diagnostics", color: "#6C63FF" },
-      { label: "RFPs & Tenders", icon: <GavelOutlinedIcon />, path: "/rfp", color: "#8B85FF" },
-      { label: "Reading Requests", icon: <EventAvailableOutlinedIcon />, path: "/bookings", color: "#00D4AA" },
+      { label: "Feedback / NPS", icon: <FeedbackOutlinedIcon />, path: "/feedback", color: "#06B6D4" },
+      { label: "Diagnostics", icon: <InsightsOutlinedIcon />, path: "/diagnostics", color: "#3B82F6" },
+      { label: "RFPs & Tenders", icon: <GavelOutlinedIcon />, path: "/rfp", color: "#8B5CF6" },
+      { label: "Reading Requests", icon: <EventAvailableOutlinedIcon />, path: "/bookings", color: "#06B6D4" },
       { label: "Support Tickets", icon: <SupportAgentOutlinedIcon />, path: "/tickets", color: "#EF4444" },
-      { label: "Changelog", icon: <NewReleasesOutlinedIcon />, path: "/changelog", color: "#8B85FF" },
+      { label: "Changelog", icon: <NewReleasesOutlinedIcon />, path: "/changelog", color: "#8B5CF6" },
     ],
   },
   {
     title: "Knowledge & Compliance",
     items: [
-      { label: "Knowledge Base", icon: <MenuBookOutlinedIcon />, path: "/knowledge-base", color: "#6C63FF" },
-      { label: "Glossary", icon: <SpellcheckOutlinedIcon />, path: "/glossary", color: "#8B85FF" },
-      { label: "Newsletter", icon: <MailOutlineOutlinedIcon />, path: "/newsletter", color: "#33DDBB" },
+      { label: "Knowledge Base", icon: <MenuBookOutlinedIcon />, path: "/knowledge-base", color: "#3B82F6" },
+      { label: "Glossary", icon: <SpellcheckOutlinedIcon />, path: "/glossary", color: "#8B5CF6" },
+      { label: "Newsletter", icon: <MailOutlineOutlinedIcon />, path: "/newsletter", color: "#10B981" },
       { label: "Privacy Requests", icon: <PolicyOutlinedIcon />, path: "/privacy-requests", color: "#EF4444" },
     ],
   },
@@ -280,10 +280,10 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               ...(pos.right !== undefined && { right: pos.right }),
               width: 12,
               height: 12,
-              borderTop: pos.bT ? "2px solid #6C63FF35" : "none",
-              borderBottom: pos.bB ? "2px solid #6C63FF35" : "none",
-              borderLeft: pos.bL ? "2px solid #6C63FF35" : "none",
-              borderRight: pos.bR ? "2px solid #6C63FF35" : "none",
+              borderTop: pos.bT ? "2px solid #3B82F635" : "none",
+              borderBottom: pos.bB ? "2px solid #3B82F635" : "none",
+              borderLeft: pos.bL ? "2px solid #3B82F635" : "none",
+              borderRight: pos.bR ? "2px solid #3B82F635" : "none",
               pointerEvents: "none",
             }}
           />
@@ -310,7 +310,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               width: collapsed && !isMobile ? 32 : 30,
               height: collapsed && !isMobile ? 32 : 30,
               flexShrink: 0,
-              filter: "drop-shadow(0 0 8px rgba(108, 99, 255, 0.3))",
+              filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.3))",
               transition: "width 0.3s, height 0.3s",
             }}
           />
@@ -318,7 +318,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
             <Typography
               sx={{
                 fontWeight: 800,
-                background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -396,7 +396,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               justifyContent: "space-between",
               gap: 1,
               transition: "all 0.2s",
-              "&:hover": { borderColor: "rgba(108,99,255,0.3)", bgcolor: "rgba(108,99,255,0.04)" },
+              "&:hover": { borderColor: "rgba(59,130,246,0.3)", bgcolor: "rgba(59,130,246,0.04)" },
             }}
           >
             <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>
@@ -426,7 +426,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
               sx={{
                 color: "text.secondary",
                 opacity: 0.5,
-                "&:hover": { opacity: 1, color: "#6C63FF" },
+                "&:hover": { opacity: 1, color: "#3B82F6" },
               }}
             >
               {collapsed ? <ChevronRightIcon fontSize="small" /> : <ChevronLeftIcon fontSize="small" />}
@@ -451,7 +451,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
             bgcolor: "background.paper",
             borderRight: `1px solid ${BORDER}`,
             backgroundImage:
-              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.02) 2px, rgba(108,99,255,0.02) 4px)",
+              "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.02) 2px, rgba(59,130,246,0.02) 4px)",
           },
         }}
       >
@@ -470,7 +470,7 @@ export default function AdminSidebar({ mobileOpen, collapsed, onMobileClose, onT
           bgcolor: "background.paper",
           borderRight: `1px solid ${BORDER}`,
           backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.02) 2px, rgba(108,99,255,0.02) 4px)",
+            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.02) 2px, rgba(59,130,246,0.02) 4px)",
           transition: "width 0.3s",
           overflowX: "hidden",
         },

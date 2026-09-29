@@ -18,7 +18,7 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const PROJECT_TYPES = [
   { label: "Web Application", value: "web_app" },
@@ -40,9 +40,9 @@ const URGENCIES = [
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
     "&.Mui-focused fieldset": { borderColor: "#F59E0B" },
   },
 };
@@ -163,7 +163,7 @@ export default function ProjectCreate() {
       {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/projects")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/projects")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -172,7 +172,7 @@ export default function ProjectCreate() {
             startIcon={saving ? <CircularProgress size={14} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || saving}
             onClick={handleSave}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             Save Project
           </Button>
@@ -194,7 +194,7 @@ export default function ProjectCreate() {
             <TextField fullWidth multiline minRows={3} maxRows={6} size="small" label="Description" placeholder="Describe the project scope and objectives..." value={description} onChange={(e) => setDescription(e.target.value)} sx={inputSx} />
           </Stack>
         </Cell>
-        <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#3B82F6" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField
               select

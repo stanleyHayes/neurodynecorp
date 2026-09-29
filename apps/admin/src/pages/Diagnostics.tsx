@@ -23,9 +23,9 @@ const ROUTE_LABELS: Record<string, string> = {
 };
 
 const ROUTE_COLOR: Record<string, string> = {
-  services: "#6C63FF",
-  labs: "#8B85FF",
-  gov_digital_excellence: "#00D4AA",
+  services: "#3B82F6",
+  labs: "#8B5CF6",
+  gov_digital_excellence: "#06B6D4",
   decline_referral: "#F59E0B",
 };
 
@@ -36,9 +36,9 @@ function formatDate(iso?: string): string {
   return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
-function StatCard({ label, value, color = "#6C63FF" }: { label: string; value: string; color?: string }) {
+function StatCard({ label, value, color = "#3B82F6" }: { label: string; value: string; color?: string }) {
   return (
-    <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
+    <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
       <CardContent>
         <Typography sx={{ ...overlineSx, mb: 1 }}>{label}</Typography>
         <Typography variant="h4" sx={{ fontWeight: 800, color }}>{value}</Typography>
@@ -91,7 +91,7 @@ export default function Diagnostics() {
         ) : (
           <>
             <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
-              <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
+              <StatCard label="Total" value={String(items.length)} color="#3B82F6" />
               <StatCard label="Services" value={String(count("services"))} color={ROUTE_COLOR.services} />
               <StatCard label="Labs" value={String(count("labs"))} color={ROUTE_COLOR.labs} />
               <StatCard label="Gov" value={String(count("gov_digital_excellence"))} color={ROUTE_COLOR.gov_digital_excellence} />
@@ -110,7 +110,7 @@ export default function Diagnostics() {
 
             <Divider sx={{ mb: 2, borderColor: "rgba(255,255,255,0.06)" }} />
 
-            <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
+            <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
               {items.length === 0 ? (
                 <Box sx={{ textAlign: "center", py: 8 }}>
                   <InsightsOutlinedIcon sx={{ fontSize: 48, color: "text.secondary", opacity: 0.3, mb: 1 }} />

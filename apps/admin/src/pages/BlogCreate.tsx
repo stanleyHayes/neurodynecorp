@@ -13,24 +13,24 @@ import { useAuth } from "@/context/AuthContext";
 
 const MarkdownEditor = lazy(() => import("@/components/shared/MarkdownEditor"));
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const CATEGORIES = ["Engineering", "AI/ML", "Tutorial", "Thought Leadership"];
 const COLORS = [
-  { label: "Purple", value: "#6C63FF" },
-  { label: "Teal", value: "#00D4AA" },
-  { label: "Lavender", value: "#8B85FF" },
-  { label: "Mint", value: "#33DDBB" },
+  { label: "Purple", value: "#3B82F6" },
+  { label: "Teal", value: "#06B6D4" },
+  { label: "Lavender", value: "#8B5CF6" },
+  { label: "Mint", value: "#10B981" },
   { label: "Amber", value: "#F59E0B" },
   { label: "Violet", value: "#8B5CF6" },
 ];
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
 };
 
@@ -42,7 +42,7 @@ export default function BlogCreate() {
   const [title, setTitle] = useState("");
   const [excerpt, setExcerpt] = useState("");
   const [category, setCategory] = useState("Engineering");
-  const [color, setColor] = useState("#6C63FF");
+  const [color, setColor] = useState("#3B82F6");
   const [readTime, setReadTime] = useState("");
   const [content, setContent] = useState("");
   const [saving, setSaving] = useState(false);
@@ -82,7 +82,7 @@ export default function BlogCreate() {
     <Box>
       <Box
         onClick={() => navigate("/blog")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>
@@ -94,20 +94,20 @@ export default function BlogCreate() {
         description="Write and preview your blog post with full markdown support."
         tag="CONTENT // NEW POST"
         accentWord="New"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="EDITOR"
       />
 
       {/* Meta fields */}
       <SectionLabel>Post Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#6C63FF" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#3B82F6" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Title" value={title} onChange={(e) => setTitle(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Excerpt" value={excerpt} onChange={(e) => setExcerpt(e.target.value)} multiline rows={2} sx={inputSx} />
           </Stack>
         </Cell>
-        <Cell color="#00D4AA" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#06B6D4" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <Stack direction="row" spacing={2}>
               <TextField select fullWidth size="small" label="Category" value={category} onChange={(e) => setCategory(e.target.value)} sx={inputSx}>
@@ -145,10 +145,10 @@ export default function BlogCreate() {
                 borderRadius: 0,
                 px: 3,
                 py: 1.5,
-                color: tab === t ? "#6C63FF" : "text.secondary",
-                borderBottom: tab === t ? "2px solid #6C63FF" : "2px solid transparent",
+                color: tab === t ? "#3B82F6" : "text.secondary",
+                borderBottom: tab === t ? "2px solid #3B82F6" : "2px solid transparent",
                 opacity: tab === t ? 1 : 0.5,
-                "&:hover": { bgcolor: "rgba(108,99,255,0.04)" },
+                "&:hover": { bgcolor: "rgba(59,130,246,0.04)" },
               }}
             >
               {t}
@@ -167,9 +167,9 @@ export default function BlogCreate() {
               fontFamily: "'Outfit', sans-serif",
               fontSize: "0.65rem",
               letterSpacing: "0.1em",
-              borderColor: "rgba(108,99,255,0.2)",
+              borderColor: "rgba(59,130,246,0.2)",
               color: "text.secondary",
-              "&:hover": { borderColor: "rgba(108,99,255,0.4)" },
+              "&:hover": { borderColor: "rgba(59,130,246,0.4)" },
             }}
           >
             Cancel
@@ -187,7 +187,7 @@ export default function BlogCreate() {
               borderColor: "#F59E0B40",
               color: "#F59E0B",
               "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" },
-              "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 },
+              "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 },
             }}
           >
             Save Draft
@@ -204,7 +204,7 @@ export default function BlogCreate() {
               borderColor: "#10B98140",
               color: "#10B981",
               "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" },
-              "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 },
+              "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 },
             }}
           >
             Publish
@@ -221,9 +221,9 @@ export default function BlogCreate() {
       {/* Edit pane */}
       {tab === "edit" && (
         <Suspense fallback={
-          <Cell color="#6C63FF" index="02" animDelay={0}>
+          <Cell color="#3B82F6" index="02" animDelay={0}>
             <Stack spacing={2} sx={{ alignItems: "center", py: 8 }}>
-              <CircularProgress size={28} sx={{ color: "#6C63FF" }} />
+              <CircularProgress size={28} sx={{ color: "#3B82F6" }} />
               <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color: "text.secondary", opacity: 0.5 }}>Loading editor...</Typography>
             </Stack>
           </Cell>

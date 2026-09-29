@@ -2,8 +2,8 @@ import { useState } from "react";
 import { Box, Typography } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
-const BRACKET_IDLE = "rgba(108, 99, 255, 0.18)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
+const BRACKET_IDLE = "rgba(59, 130, 246, 0.18)";
 
 interface ActionBarProps {
   label: string;
@@ -12,7 +12,7 @@ interface ActionBarProps {
   onClick: () => void;
 }
 
-export default function ActionBar({ label, subtitle, color = "#6C63FF", onClick }: ActionBarProps) {
+export default function ActionBar({ label, subtitle, color = "#3B82F6", onClick }: ActionBarProps) {
   const [hovered, setHovered] = useState(false);
   const bracketColor = hovered ? `${color}70` : BRACKET_IDLE;
 
@@ -91,7 +91,7 @@ export default function ActionBar({ label, subtitle, color = "#6C63FF", onClick 
           fontWeight: 500,
           textTransform: "uppercase",
           letterSpacing: "0.3em",
-          color: hovered ? `${color}90` : "rgba(108, 99, 255, 0.35)",
+          color: hovered ? `${color}90` : "rgba(59, 130, 246, 0.35)",
           transition: "color 0.3s",
         }}
       >

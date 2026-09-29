@@ -1,6 +1,6 @@
 import { ViewStyle } from "react-native";
 
-export const BORDER = "rgba(108, 99, 255, 0.12)";
+export const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const BRACKET_SIZE = 10;
 const BRACKET_THICKNESS = 1.5;

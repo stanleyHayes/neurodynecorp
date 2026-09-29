@@ -10,11 +10,11 @@ interface SplashScreenProps {
 }
 
 const shapes = [
-  { top: "12%", left: "10%", size: 60, delay: 0, color: "rgba(108,99,255,0.06)", type: "circle" },
-  { top: "25%", right: "15%", size: 90, delay: 0.4, color: "rgba(0,212,170,0.05)", type: "square" },
-  { top: "65%", left: "8%", size: 45, delay: 0.7, color: "rgba(139,133,255,0.05)", type: "square" },
-  { top: "78%", right: "10%", size: 70, delay: 0.3, color: "rgba(0,212,170,0.04)", type: "circle" },
-  { top: "45%", left: "75%", size: 30, delay: 0.9, color: "rgba(108,99,255,0.05)", type: "circle" },
+  { top: "12%", left: "10%", size: 60, delay: 0, color: "rgba(59,130,246,0.06)", type: "circle" },
+  { top: "25%", right: "15%", size: 90, delay: 0.4, color: "rgba(6,182,212,0.05)", type: "square" },
+  { top: "65%", left: "8%", size: 45, delay: 0.7, color: "rgba(139,92,246,0.05)", type: "square" },
+  { top: "78%", right: "10%", size: 70, delay: 0.3, color: "rgba(6,182,212,0.04)", type: "circle" },
+  { top: "45%", left: "75%", size: 30, delay: 0.9, color: "rgba(59,130,246,0.05)", type: "circle" },
 ];
 
 export default function SplashScreen({ onComplete, duration = 3500 }: SplashScreenProps) {
@@ -40,7 +40,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
             flexDirection: "column",
             alignItems: "center",
             justifyContent: "center",
-            background: "radial-gradient(ellipse at center, #111827 0%, #0A0E1A 70%)",
+            background: "radial-gradient(ellipse at center, #111a2e 0%, #0A0F1F 70%)",
             overflow: "hidden",
           }}
         >
@@ -50,8 +50,8 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
               position: "absolute",
               inset: 0,
               backgroundImage: `
-                linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px)
+                linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)
               `,
               backgroundSize: "80px 80px",
               pointerEvents: "none",
@@ -92,7 +92,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
               width: 280,
               height: 280,
               borderRadius: "50%",
-              background: "radial-gradient(circle, rgba(108,99,255,0.25) 0%, rgba(0,212,170,0.1) 50%, transparent 70%)",
+              background: "radial-gradient(circle, rgba(59,130,246,0.25) 0%, rgba(6,182,212,0.1) 50%, transparent 70%)",
               filter: "blur(40px)",
             }}
           />
@@ -119,7 +119,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
               sx={{
                 width: 90,
                 height: 90,
-                filter: "drop-shadow(0 0 20px rgba(108,99,255,0.4)) drop-shadow(0 0 60px rgba(0,212,170,0.2))",
+                filter: "drop-shadow(0 0 20px rgba(59,130,246,0.4)) drop-shadow(0 0 60px rgba(6,182,212,0.2))",
               }}
             />
           </MotionBox>
@@ -136,7 +136,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
               sx={{
                 fontWeight: 800,
                 letterSpacing: "0.08em",
-                background: "linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%)",
+                background: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)",
                 backgroundClip: "text",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
@@ -178,7 +178,7 @@ export default function SplashScreen({ onComplete, duration = 3500 }: SplashScre
               mt: 5,
               height: 2,
               borderRadius: 1,
-              background: "linear-gradient(90deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(90deg, #3B82F6, #06B6D4)",
               position: "relative",
               zIndex: 1,
             }}

@@ -100,7 +100,7 @@ export default function Testimonials() {
   const avgRating = testimonials.length > 0 ? (testimonials.reduce((s, t) => s + t.rating, 0) / testimonials.length).toFixed(1) : "0.0";
 
   const stats = [
-    { label: "Total Testimonials", value: String(testimonials.length), change: `${active} visible`, icon: <FormatQuoteOutlinedIcon />, color: "#8B85FF" },
+    { label: "Total Testimonials", value: String(testimonials.length), change: `${active} visible`, icon: <FormatQuoteOutlinedIcon />, color: "#8B5CF6" },
     { label: "Active", value: String(active), change: "shown on site", icon: <VisibilityOutlinedIcon />, color: "#10B981" },
     { label: "Hidden", value: String(testimonials.length - active), change: "not displayed", icon: <VisibilityOffOutlinedIcon />, color: "#94A3B8" },
     { label: "Avg Rating", value: avgRating, change: "out of 5.0", icon: <StarOutlinedIcon />, color: "#F59E0B" },
@@ -126,11 +126,11 @@ export default function Testimonials() {
         description="Manage client testimonials displayed on the public website."
         tag="CONTENT // TESTIMONIALS"
         accentWord="Testimonials"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="SOCIAL PROOF"
       />
 
-      <ActionBar label="New Testimonial" subtitle="ADD CLIENT REVIEW" color="#8B85FF" onClick={() => navigate("/testimonials/new")} />
+      <ActionBar label="New Testimonial" subtitle="ADD CLIENT REVIEW" color="#8B5CF6" onClick={() => navigate("/testimonials/new")} />
 
       <SectionLabel>Testimonial Metrics</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr 1fr" } }}>
@@ -149,7 +149,7 @@ export default function Testimonials() {
       </Box>
 
       <SectionLabel>All Testimonials</SectionLabel>
-      <Cell color="#8B85FF" index="04">
+      <Cell color="#8B5CF6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -163,10 +163,10 @@ export default function Testimonials() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#8B85FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#8B5CF6" },
             },
           }}
         />
@@ -177,7 +177,7 @@ export default function Testimonials() {
           icon={<FormatQuoteOutlinedIcon />}
           title={search ? "No testimonials match your search" : "No testimonials yet"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "Collect your first client testimonial to showcase social proof on your website."}
-          color="#8B85FF"
+          color="#8B5CF6"
           onRefresh={loadTestimonials}
           onAdd={() => navigate("/testimonials/new")}
           addLabel="New Testimonial"

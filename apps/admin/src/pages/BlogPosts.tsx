@@ -76,10 +76,10 @@ export default function BlogPosts() {
       : 0;
 
   const stats = [
-    { label: "Total Posts", value: String(blogPosts.length), change: `${published} live`, icon: <ArticleOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Posts", value: String(blogPosts.length), change: `${published} live`, icon: <ArticleOutlinedIcon />, color: "#3B82F6" },
     { label: "Published", value: String(published), change: "visible on site", icon: <PublishOutlinedIcon />, color: "#10B981" },
     { label: "Drafts", value: String(drafts), change: "in progress", icon: <EditNoteOutlinedIcon />, color: "#F59E0B" },
-    { label: "Avg Read Time", value: `${avgReadTime} min`, change: "across all posts", icon: <AccessTimeIcon />, color: "#8B85FF" },
+    { label: "Avg Read Time", value: `${avgReadTime} min`, change: "across all posts", icon: <AccessTimeIcon />, color: "#8B5CF6" },
   ];
 
   if (loading) {
@@ -102,7 +102,7 @@ export default function BlogPosts() {
         description="Create and manage blog content that appears on the public website."
         tag="CONTENT // BLOG"
         accentWord="Blog"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="CMS ACTIVE"
       />
 
@@ -125,7 +125,7 @@ export default function BlogPosts() {
       </Box>
 
       <SectionLabel>All Posts</SectionLabel>
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -139,10 +139,10 @@ export default function BlogPosts() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -153,7 +153,7 @@ export default function BlogPosts() {
           icon={<ArticleOutlinedIcon />}
           title={search ? "No posts match your search" : "No blog posts yet"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "Write your first blog post to share insights and thought leadership."}
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={loadPosts}
           onAdd={() => navigate("/blog/new")}
           addLabel="New Post"

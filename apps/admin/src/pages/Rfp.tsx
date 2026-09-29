@@ -19,8 +19,8 @@ const STATUSES = ["received", "acknowledged", "in_review", "declined", "closed"]
 
 const STATUS_COLOR: Record<string, string> = {
   received: "#F59E0B",
-  acknowledged: "#00D4AA",
-  in_review: "#6C63FF",
+  acknowledged: "#06B6D4",
+  in_review: "#3B82F6",
   declined: "#EF4444",
   closed: "#94A3B8",
 };
@@ -42,9 +42,9 @@ function slaState(r: any): { label: string; color: string } {
   return { label: "On track", color: "#F59E0B" };
 }
 
-function StatCard({ label, value, color = "#6C63FF" }: { label: string; value: string; color?: string }) {
+function StatCard({ label, value, color = "#3B82F6" }: { label: string; value: string; color?: string }) {
   return (
-    <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
+    <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
       <CardContent>
         <Typography sx={{ ...overlineSx, mb: 1 }}>{label}</Typography>
         <Typography variant="h4" sx={{ fontWeight: 800, color }}>{value}</Typography>
@@ -107,7 +107,7 @@ export default function Rfp() {
         ) : (
           <>
             <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
-              <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
+              <StatCard label="Total" value={String(items.length)} color="#3B82F6" />
               <StatCard label="Awaiting ack" value={String(unacked)} color="#F59E0B" />
               <StatCard label="SLA overdue" value={String(overdue)} color="#EF4444" />
             </Stack>
@@ -124,7 +124,7 @@ export default function Rfp() {
 
             <Divider sx={{ mb: 2, borderColor: "rgba(255,255,255,0.06)" }} />
 
-            <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
+            <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
               {items.length === 0 ? (
                 <Box sx={{ textAlign: "center", py: 8 }}>
                   <GavelOutlinedIcon sx={{ fontSize: 48, color: "text.secondary", opacity: 0.3, mb: 1 }} />
@@ -160,7 +160,7 @@ export default function Rfp() {
                           <TableCell sx={{ maxWidth: 240, fontSize: "0.8rem" }}>
                             {r.title ?? "—"}
                             {r.documentUrl ? (
-                              <Typography component="a" href={r.documentUrl} target="_blank" rel="noopener noreferrer" sx={{ display: "block", fontSize: "0.65rem", color: "#6C63FF", textDecoration: "none" }}>
+                              <Typography component="a" href={r.documentUrl} target="_blank" rel="noopener noreferrer" sx={{ display: "block", fontSize: "0.65rem", color: "#3B82F6", textDecoration: "none" }}>
                                 view document ↗
                               </Typography>
                             ) : null}

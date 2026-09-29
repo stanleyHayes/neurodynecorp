@@ -4,17 +4,17 @@ const theme = createTheme({
   palette: {
     mode: "dark",
     primary: {
-      main: "#6C63FF",
-      light: "#8B85FF",
+      main: "#3B82F6",
+      light: "#8B5CF6",
       dark: "#4B44CC",
     },
     secondary: {
-      main: "#00D4AA",
-      light: "#33DDBB",
+      main: "#06B6D4",
+      light: "#10B981",
       dark: "#00A888",
     },
     background: {
-      default: "#0A0E1A",
+      default: "#0A0F1F",
       paper: "rgba(17, 24, 39, 0.35)",
     },
     text: {
@@ -37,7 +37,7 @@ const theme = createTheme({
         {
           props: { variant: "contained", color: "primary" },
           style: {
-          background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
+          background: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
           "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)" },
         },
         },
@@ -50,7 +50,7 @@ const theme = createTheme({
           background: "rgba(17, 24, 39, 0.35)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
-          border: "1px solid rgba(108, 99, 255, 0.1)",
+          border: "1px solid rgba(59, 130, 246, 0.1)",
           boxShadow: "0 8px 32px rgba(0, 0, 0, 0.2)",
         },
       },

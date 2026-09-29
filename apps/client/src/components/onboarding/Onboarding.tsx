@@ -39,48 +39,48 @@ const slides = [
     title: "Welcome to NeuroDyne",
     subtitle: "Your gateway to professional software engineering",
     description: "We transform your ideas into production-ready software. From concept to delivery, every step is tracked, transparent, and collaborative.",
-    color: "#6C63FF",
-    accent: "#8B85FF",
+    color: "#3B82F6",
+    accent: "#8B5CF6",
   },
   {
     icon: <Timeline sx={{ fontSize: 64 }} />,
     title: "Track Every Milestone",
     subtitle: "Real-time project visibility",
     description: "Follow your project through every phase — specifications, design, development, testing, and deployment. Never be in the dark again.",
-    color: "#00D4AA",
-    accent: "#33DDBB",
+    color: "#06B6D4",
+    accent: "#10B981",
   },
   {
     icon: <ChatBubbleOutlined sx={{ fontSize: 64 }} />,
     title: "Collaborate Seamlessly",
     subtitle: "Direct communication with your team",
     description: "Message your engineering team, provide feedback on deliverables, and approve milestones — all from one place.",
-    color: "#6C63FF",
-    accent: "#8B85FF",
+    color: "#3B82F6",
+    accent: "#8B5CF6",
   },
   {
     icon: <Description sx={{ fontSize: 64 }} />,
     title: "Specs & Documents",
     subtitle: "Everything organized and accessible",
     description: "Access your project specifications, technical documents, design assets, and final deliverables anytime.",
-    color: "#00D4AA",
-    accent: "#33DDBB",
+    color: "#06B6D4",
+    accent: "#10B981",
   },
   {
     icon: <Receipt sx={{ fontSize: 64 }} />,
     title: "Transparent Billing",
     subtitle: "Clear invoices, easy payments",
     description: "View detailed invoices, track payment history, and manage your billing — no surprises, no hidden fees.",
-    color: "#6C63FF",
-    accent: "#8B85FF",
+    color: "#3B82F6",
+    accent: "#8B5CF6",
   },
   {
     icon: <NotificationsActive sx={{ fontSize: 64 }} />,
     title: "Stay in the Loop",
     subtitle: "Instant notifications on what matters",
     description: "Get notified about milestone completions, new messages, invoice updates, and everything important to your project.",
-    color: "#00D4AA",
-    accent: "#33DDBB",
+    color: "#06B6D4",
+    accent: "#10B981",
   },
 ];
 
@@ -133,7 +133,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        background: "linear-gradient(160deg, #0A0E1A 0%, #0F1629 50%, #111827 100%)",
+        background: "linear-gradient(160deg, #0A0F1F 0%, #0F1629 50%, #111a2e 100%)",
         overflow: "hidden",
       }}
     >
@@ -160,7 +160,7 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
             width: p.size,
             height: p.size,
             borderRadius: "50%",
-            background: p.id % 2 === 0 ? "#6C63FF" : "#00D4AA",
+            background: p.id % 2 === 0 ? "#3B82F6" : "#06B6D4",
             pointerEvents: "none",
           }}
         />
@@ -175,8 +175,8 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           position: "absolute",
           inset: 0,
           backgroundImage: `
-            linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px)
+            linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
           pointerEvents: "none",
@@ -295,9 +295,9 @@ export default function Onboarding({ onComplete }: OnboardingProps) {
           disabled={page === 0}
           sx={{
             color: "text.secondary",
-            border: "1px solid rgba(108,99,255,0.15)",
+            border: "1px solid rgba(59,130,246,0.15)",
             "&:disabled": { opacity: 0.3 },
-            "&:hover": { borderColor: "rgba(108,99,255,0.3)" },
+            "&:hover": { borderColor: "rgba(59,130,246,0.3)" },
           }}
         >
           <ArrowBack />

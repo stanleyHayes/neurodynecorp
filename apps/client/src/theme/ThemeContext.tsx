@@ -19,10 +19,10 @@ function makeTheme(mode: Mode) {
   return createTheme({
     palette: {
       mode,
-      primary: { main: "#6C63FF", light: "#8B85FF", dark: "#4B44CC" },
-      secondary: { main: "#00D4AA", light: "#33DDBB", dark: "#00A888" },
+      primary: { main: "#3B82F6", light: "#8B5CF6", dark: "#4B44CC" },
+      secondary: { main: "#06B6D4", light: "#10B981", dark: "#00A888" },
       background: {
-        default: dark ? "#0A0E1A" : "#F5F7FA",
+        default: dark ? "#0A0F1F" : "#F5F7FA",
         paper: dark ? "rgba(17, 24, 39, 0.35)" : "rgba(255, 255, 255, 0.8)",
       },
       text: {
@@ -45,7 +45,7 @@ function makeTheme(mode: Mode) {
         {
           props: { variant: "contained", color: "primary" },
           style: {
-            background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
+            background: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
             "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)" },
           },
         },
@@ -58,7 +58,7 @@ function makeTheme(mode: Mode) {
             background: dark ? "rgba(17, 24, 39, 0.35)" : "rgba(255, 255, 255, 0.8)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
-            border: `1px solid ${dark ? "rgba(108, 99, 255, 0.1)" : "rgba(108, 99, 255, 0.12)"}`,
+            border: `1px solid ${dark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.12)"}`,
             boxShadow: dark ? "0 8px 32px rgba(0, 0, 0, 0.2)" : "0 1px 3px rgba(0,0,0,0.06)",
           },
         },
@@ -69,9 +69,9 @@ function makeTheme(mode: Mode) {
       MuiAppBar: {
         styleOverrides: {
           root: {
-            background: dark ? "rgba(10, 14, 26, 0.85)" : "rgba(245, 247, 250, 0.85)",
+            background: dark ? "rgba(10, 15, 31, 0.85)" : "rgba(245, 247, 250, 0.85)",
             backdropFilter: "blur(20px)",
-            borderBottom: `1px solid ${dark ? "rgba(108, 99, 255, 0.1)" : "rgba(108, 99, 255, 0.12)"}`,
+            borderBottom: `1px solid ${dark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.12)"}`,
             color: dark ? "#F1F5F9" : "#1E293B",
           },
         },

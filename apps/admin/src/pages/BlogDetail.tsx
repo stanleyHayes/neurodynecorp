@@ -35,10 +35,10 @@ const CATEGORIES = ["Engineering", "AI/ML", "Tutorial", "Thought Leadership"];
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
 };
 
@@ -126,14 +126,14 @@ export default function BlogDetail() {
     );
   }
 
-  const color = post.color ?? statusColor[status] ?? "#6C63FF";
+  const color = post.color ?? statusColor[status] ?? "#3B82F6";
   const canSave = Boolean(title.trim() && excerpt.trim() && content.trim()) && !saving;
 
   return (
     <Box>
       <Box
         onClick={() => navigate("/blog")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO BLOG</Typography>

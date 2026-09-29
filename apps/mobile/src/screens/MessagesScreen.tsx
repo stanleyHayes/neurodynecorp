@@ -553,7 +553,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 40,
     height: 40,
-    backgroundColor: "rgba(108, 99, 255, 0.08)",
+    backgroundColor: "rgba(59, 130, 246, 0.08)",
     borderWidth: 1,
     borderColor: BORDER,
     justifyContent: "center",

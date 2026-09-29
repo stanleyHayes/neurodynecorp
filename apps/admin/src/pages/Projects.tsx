@@ -130,7 +130,7 @@ export default function Projects() {
   const onHold = projects.filter((p) => p.status === "On Hold" || p.status === "on_hold").length;
 
   const stats = [
-    { label: "Total Projects", value: String(projects.length), change: `${inProgress} active`, icon: <FolderOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Projects", value: String(projects.length), change: `${inProgress} active`, icon: <FolderOutlinedIcon />, color: "#3B82F6" },
     { label: "In Progress", value: String(inProgress), change: "across clients", icon: <TrendingUpOutlinedIcon />, color: "#F59E0B" },
     { label: "Completed", value: String(completed), change: "this quarter", icon: <CheckCircleOutlinedIcon />, color: "#10B981" },
     { label: "On Hold", value: String(onHold), change: "pending review", icon: <PauseCircleOutlinedIcon />, color: "#EF4444" },
@@ -179,7 +179,7 @@ export default function Projects() {
       </Box>
 
       <SectionLabel>All Projects</SectionLabel>
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -193,10 +193,10 @@ export default function Projects() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -235,12 +235,12 @@ export default function Projects() {
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>PROGRESS</Typography>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", color, fontWeight: 600 }}>{project.progress}%</Typography>
               </Stack>
-              <Box sx={{ width: "100%", bgcolor: "rgba(108,99,255,0.08)", borderRadius: 1, height: 6, mb: 2 }}>
+              <Box sx={{ width: "100%", bgcolor: "rgba(59,130,246,0.08)", borderRadius: 1, height: 6, mb: 2 }}>
                 <Skeleton variant="rectangular" width={`${project.progress}%`} height={6} sx={{ borderRadius: 1, bgcolor: color, "&::after": { display: "none" } }} animation={false} />
               </Box>
 
               <Stack sx={{ justifyContent: "space-between", alignItems: "center" }} direction="row">
-                <AvatarGroup max={4} sx={{ "& .MuiAvatar-root": { width: 24, height: 24, fontSize: 9, bgcolor: "rgba(108,99,255,0.2)", color: "#6C63FF" } }}>
+                <AvatarGroup max={4} sx={{ "& .MuiAvatar-root": { width: 24, height: 24, fontSize: 9, bgcolor: "rgba(59,130,246,0.2)", color: "#3B82F6" } }}>
                   {project.team.map((t) => <Avatar key={t}>{t}</Avatar>)}
                 </AvatarGroup>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5 }}>

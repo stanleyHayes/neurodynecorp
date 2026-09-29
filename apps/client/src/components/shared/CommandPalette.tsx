@@ -143,7 +143,7 @@ export default function CommandPalette() {
             pt: { xs: 8, md: 14 },
             px: 2,
             backdropFilter: "blur(6px)",
-            background: "rgba(10, 14, 26, 0.55)",
+            background: "rgba(10, 15, 31, 0.55)",
           }}
         >
           <MotionBox
@@ -156,13 +156,13 @@ export default function CommandPalette() {
               width: "100%",
               maxWidth: 580,
               bgcolor: "background.paper",
-              border: "1px solid rgba(108,99,255,0.25)",
+              border: "1px solid rgba(59,130,246,0.25)",
               borderRadius: 2,
-              boxShadow: "0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(108,99,255,0.15), 0 0 80px rgba(108,99,255,0.18)",
+              boxShadow: "0 24px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.15), 0 0 80px rgba(59,130,246,0.18)",
               overflow: "hidden",
             }}
           >
-            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", px: 2.5, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
+            <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", px: 2.5, py: 2, borderBottom: "1px solid rgba(59,130,246,0.12)" }}>
               <SearchIcon sx={{ color: "text.secondary", opacity: 0.6, fontSize: 20 }} />
               <InputBase
                 inputRef={inputRef}
@@ -183,7 +183,7 @@ export default function CommandPalette() {
                   letterSpacing: "0.1em",
                   color: "text.secondary",
                   opacity: 0.5,
-                  border: "1px solid rgba(108,99,255,0.18)",
+                  border: "1px solid rgba(59,130,246,0.18)",
                   borderRadius: 0.75,
                   px: 0.75,
                   py: 0.25,
@@ -232,7 +232,7 @@ export default function CommandPalette() {
                             py: 1.25,
                             cursor: "pointer",
                             position: "relative",
-                            bgcolor: active ? "rgba(108,99,255,0.08)" : "transparent",
+                            bgcolor: active ? "rgba(59,130,246,0.08)" : "transparent",
                             transition: "background 0.12s",
                             "&::before": active
                               ? {
@@ -242,13 +242,13 @@ export default function CommandPalette() {
                                   top: 6,
                                   bottom: 6,
                                   width: 2,
-                                  bgcolor: "#6C63FF",
+                                  bgcolor: "#3B82F6",
                                   borderRadius: "0 2px 2px 0",
                                 }
                               : {},
                           }}
                         >
-                          <Box sx={{ color: active ? "#6C63FF" : "text.secondary", opacity: active ? 1 : 0.7, "& .MuiSvgIcon-root": { fontSize: 18 } }}>
+                          <Box sx={{ color: active ? "#3B82F6" : "text.secondary", opacity: active ? 1 : 0.7, "& .MuiSvgIcon-root": { fontSize: 18 } }}>
                             {cmd.icon}
                           </Box>
                           <Typography sx={{ flex: 1, fontSize: "0.85rem", color: "text.primary" }}>
@@ -275,7 +275,7 @@ export default function CommandPalette() {
               )}
             </Box>
 
-            <Stack direction="row" spacing={2} sx={{ alignItems: "center", px: 2.5, py: 1.25, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.03)" }}>
+            <Stack direction="row" spacing={2} sx={{ alignItems: "center", px: 2.5, py: 1.25, borderTop: "1px solid rgba(59,130,246,0.12)", bgcolor: "rgba(59,130,246,0.03)" }}>
               <Stack sx={{ alignItems: "center" }} direction="row" spacing={0.5}>
                 <KeyboardCommandKeyIcon sx={{ fontSize: 14, color: "text.secondary", opacity: 0.5 }} />
                 <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", color: "text.secondary", opacity: 0.5, letterSpacing: "0.1em" }}>

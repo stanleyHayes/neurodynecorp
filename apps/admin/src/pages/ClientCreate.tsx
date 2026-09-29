@@ -10,14 +10,14 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#00D4AA" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#06B6D4" },
   },
 };
 
@@ -76,7 +76,7 @@ export default function ClientCreate() {
     <Box>
       <Box
         onClick={() => navigate("/clients")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#06B6D4" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO CLIENTS</Typography>
@@ -88,14 +88,14 @@ export default function ClientCreate() {
         description="Create a new client account for the platform."
         tag="ADMIN // NEW CLIENT"
         accentWord="New"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="CLIENTS"
       />
 
       {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/clients")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/clients")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -104,7 +104,7 @@ export default function ClientCreate() {
             startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#10B981" }} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || submitting}
             onClick={handleSubmit}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             {submitting ? "Saving…" : "Save Client"}
           </Button>
@@ -121,14 +121,14 @@ export default function ClientCreate() {
       {/* Form */}
       <SectionLabel>Client Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#00D4AA" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#06B6D4" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="First Name" value={firstName} onChange={(e) => setFirstName(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Last Name" value={lastName} onChange={(e) => setLastName(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} sx={inputSx} />
           </Stack>
         </Cell>
-        <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#3B82F6" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField
               fullWidth
@@ -144,7 +144,7 @@ export default function ClientCreate() {
                     <InputAdornment position="end">
                       <Tooltip title="Generate random password">
                         <IconButton size="small" onClick={() => setPassword(generatePassword())} edge="end">
-                          <CasinoOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} />
+                          <CasinoOutlinedIcon sx={{ fontSize: 18, color: "#3B82F6" }} />
                         </IconButton>
                       </Tooltip>
                     </InputAdornment>

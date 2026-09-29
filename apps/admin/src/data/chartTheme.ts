@@ -1,4 +1,4 @@
-export const CHART_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981"];
+export const CHART_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981"];
 
 export const AXIS_STYLE = {
   fontSize: 11,
@@ -7,13 +7,13 @@ export const AXIS_STYLE = {
 };
 
 export const GRID_STYLE = {
-  stroke: "rgba(108, 99, 255, 0.08)",
+  stroke: "rgba(59, 130, 246, 0.08)",
 };
 
 export const TOOLTIP_STYLE = {
   contentStyle: {
-    background: "#111827",
-    border: "1px solid rgba(108,99,255,0.2)",
+    background: "#111a2e",
+    border: "1px solid rgba(59,130,246,0.2)",
     borderRadius: 8,
     fontFamily: "'Outfit', sans-serif",
     fontSize: 12,

@@ -236,7 +236,7 @@ export default function FeatureFlags() {
         <Stack spacing={0.5}>
           <Typography sx={overlineSx}>PLATFORM // FLAGS</Typography>
           <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-            <FlagOutlinedIcon sx={{ color: "#6C63FF" }} />
+            <FlagOutlinedIcon sx={{ color: "#3B82F6" }} />
             <Typography variant="h5" sx={{ fontWeight: 800 }}>
               Feature Flags
             </Typography>
@@ -254,7 +254,7 @@ export default function FeatureFlags() {
       <Card
         sx={{
           mb: 3,
-          bgcolor: maintenanceOn ? "rgba(239,68,68,0.08)" : "#111827",
+          bgcolor: maintenanceOn ? "rgba(239,68,68,0.08)" : "#111a2e",
           border: `1px solid ${maintenanceOn ? "rgba(239,68,68,0.5)" : "rgba(245,158,11,0.3)"}`,
         }}
       >
@@ -307,7 +307,7 @@ export default function FeatureFlags() {
       </Card>
 
       {/* Flags table */}
-      <Card sx={{ bgcolor: "#111827", border: "1px solid rgba(255,255,255,0.06)" }}>
+      <Card sx={{ bgcolor: "#111a2e", border: "1px solid rgba(255,255,255,0.06)" }}>
         <CardContent>
           <Typography sx={{ ...overlineSx, mb: 2 }}>All Flags</Typography>
           <Divider sx={{ borderColor: "rgba(255,255,255,0.06)", mb: 1 }} />

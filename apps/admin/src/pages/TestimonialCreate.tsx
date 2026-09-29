@@ -10,12 +10,12 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const COLORS = [
-  { label: "Purple", value: "#6C63FF" },
-  { label: "Teal", value: "#00D4AA" },
-  { label: "Lavender", value: "#8B85FF" },
+  { label: "Purple", value: "#3B82F6" },
+  { label: "Teal", value: "#06B6D4" },
+  { label: "Lavender", value: "#8B5CF6" },
   { label: "Amber", value: "#F59E0B" },
   { label: "Green", value: "#10B981" },
   { label: "Violet", value: "#8B5CF6" },
@@ -23,10 +23,10 @@ const COLORS = [
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#8B85FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#8B5CF6" },
   },
 };
 
@@ -45,7 +45,7 @@ export default function TestimonialCreate() {
   const [company, setCompany] = useState("");
   const [content, setContent] = useState("");
   const [rating, setRating] = useState<number>(5);
-  const [avatarColor, setAvatarColor] = useState("#6C63FF");
+  const [avatarColor, setAvatarColor] = useState("#3B82F6");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -85,7 +85,7 @@ export default function TestimonialCreate() {
     <Box>
       <Box
         onClick={() => navigate("/testimonials")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#8B85FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#8B5CF6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TESTIMONIALS</Typography>
@@ -97,13 +97,13 @@ export default function TestimonialCreate() {
         description="Add a new client testimonial to be displayed on the website."
         tag="CONTENT // NEW TESTIMONIAL"
         accentWord="New"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="SOCIAL PROOF"
       />
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/testimonials")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/testimonials")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -112,7 +112,7 @@ export default function TestimonialCreate() {
             startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#F59E0B" }} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || submitting}
             onClick={() => handleSubmit("hidden")}
-            sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             Save Hidden
           </Button>
@@ -121,7 +121,7 @@ export default function TestimonialCreate() {
             size="small"
             disabled={!canSubmit || submitting}
             onClick={() => handleSubmit("active")}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             Publish
           </Button>
@@ -136,14 +136,14 @@ export default function TestimonialCreate() {
 
       <SectionLabel>Client Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#8B85FF" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#8B5CF6" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Role / Title" placeholder="CTO, Founder, VP Eng..." value={role} onChange={(e) => setRole(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Company" value={company} onChange={(e) => setCompany(e.target.value)} sx={inputSx} />
           </Stack>
         </Cell>
-        <Cell color="#00D4AA" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#06B6D4" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField select fullWidth size="small" label="Avatar Color" value={avatarColor} onChange={(e) => setAvatarColor(e.target.value)} sx={inputSx}>
               {COLORS.map((c) => (
@@ -171,7 +171,7 @@ export default function TestimonialCreate() {
       </Box>
 
       <SectionLabel>Testimonial Content</SectionLabel>
-      <Cell color="#8B85FF" index="02" animDelay={0.2}>
+      <Cell color="#8B5CF6" index="02" animDelay={0.2}>
         <TextField
           fullWidth
           multiline

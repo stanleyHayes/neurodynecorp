@@ -282,7 +282,7 @@ export default function Messages() {
                   icon={<ChatBubbleOutlineIcon />}
                   title="No message threads yet"
                   description="Start a conversation on one of your projects, or wait for your team to open a thread."
-                  color="#00D4AA"
+                  color="#06B6D4"
                 />
               ) : (
                 <List disablePadding>

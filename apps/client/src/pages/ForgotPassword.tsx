@@ -91,7 +91,7 @@ export default function ForgotPassword() {
 
       <Typography variant="body2" color="text.secondary" sx={{ textAlign: "center", mt: 3.5 }}>
         Remember your password?{" "}
-        <MuiLink component={Link} to="/login" sx={{ color: "#6C63FF", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+        <MuiLink component={Link} to="/login" sx={{ color: "#3B82F6", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
           Back to sign in
         </MuiLink>
       </Typography>

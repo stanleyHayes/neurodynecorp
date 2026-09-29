@@ -34,7 +34,7 @@ export default function ProjectIntakes() {
     {error && <Alert severity="error" sx={{ mb: 2 }}>{error}</Alert>}
     {loading ? <Box sx={{ py: 10, textAlign: "center" }}><CircularProgress /></Box> : items.length === 0 ? <EmptyState icon={<AssignmentOutlinedIcon />} title="No project briefs" description="Newly saved and submitted discovery briefs will appear here." /> :
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "repeat(2,1fr)", xl: "repeat(3,1fr)" }, gap: 2 }}>{items.map(item =>
-        <Box key={item.id} sx={{ p: 2.5, bgcolor: "background.paper", border: "1px solid rgba(108,99,255,.14)", display: "flex", flexDirection: "column", minHeight: 210 }}>
+        <Box key={item.id} sx={{ p: 2.5, bgcolor: "background.paper", border: "1px solid rgba(59,130,246,.14)", display: "flex", flexDirection: "column", minHeight: 210 }}>
           <Stack direction="row" sx={{ justifyContent: "space-between", gap: 2 }}><Typography variant="h6" sx={{ fontWeight: 700 }}>{item.title || "Untitled brief"}</Typography><Chip size="small" label={item.status} color={item.status === "submitted" ? "success" : "default"} variant="outlined" /></Stack>
           <Typography variant="body2" color="primary.main" sx={{ mt: 1 }}>{categoryLabel(item.category)}</Typography>
           <Typography color="text.secondary" sx={{ mt: 2 }}>{item.contactName || "Unknown contact"} · {item.company || "Independent"}</Typography><Typography variant="body2" color="text.secondary">{item.contactEmail || "No email"}</Typography>

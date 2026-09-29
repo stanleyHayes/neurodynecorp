@@ -9,7 +9,7 @@ export default function ThemeToggle() {
   const [animating, setAnimating] = useState(false);
 
   const isDark = mode === "dark";
-  const color = isDark ? "#F59E0B" : "#6C63FF";
+  const color = isDark ? "#F59E0B" : "#3B82F6";
 
   const handleClick = () => {
     setAnimating(true);

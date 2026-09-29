@@ -10,7 +10,7 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const ROLES = [
   { label: "Admin", value: "admin" },
@@ -20,18 +20,18 @@ const ROLES = [
 ];
 
 const roleColors: Record<string, string> = {
-  admin: "#6C63FF",
+  admin: "#3B82F6",
   project_manager: "#8B5CF6",
-  developer: "#00D4AA",
+  developer: "#06B6D4",
   qa: "#F59E0B",
 };
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#00D4AA" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#06B6D4" },
   },
 };
 
@@ -78,7 +78,7 @@ export default function TeamCreate() {
     .toUpperCase()
     .slice(0, 2);
 
-  const color = roleColors[role] ?? "#00D4AA";
+  const color = roleColors[role] ?? "#06B6D4";
   const roleLabel = ROLES.find((r) => r.value === role)?.label ?? role;
 
   const handleSubmit = async () => {
@@ -131,7 +131,7 @@ export default function TeamCreate() {
     <Box>
       <Box
         onClick={() => navigate("/team")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#06B6D4" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
@@ -143,13 +143,13 @@ export default function TeamCreate() {
         description="Add a new member to the NeuroDyne team."
         tag="ADMIN // NEW MEMBER"
         accentWord="New"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="TEAM"
       />
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/team")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/team")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -158,7 +158,7 @@ export default function TeamCreate() {
             startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#10B981" }} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || submitting}
             onClick={handleSubmit}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             {submitting ? "Saving…" : "Add Member"}
           </Button>
@@ -173,7 +173,7 @@ export default function TeamCreate() {
 
       <SectionLabel>Member Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#00D4AA" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#06B6D4" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Full Name" value={name} onChange={(e) => setName(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Email" type="email" value={email} onChange={(e) => setEmail(e.target.value)} sx={inputSx} />
@@ -202,7 +202,7 @@ export default function TeamCreate() {
             />
           </Stack>
         </Cell>
-        <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#3B82F6" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField select fullWidth size="small" label="Role" value={role} onChange={(e) => setRole(e.target.value)} sx={inputSx}>
               {availableRoles.map((r) => <MenuItem key={r.value} value={r.value}>{r.label}</MenuItem>)}

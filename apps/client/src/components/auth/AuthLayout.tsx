@@ -7,14 +7,14 @@ const MotionBox = motion.create(Box);
 // Floating doodle shapes
 function Doodles() {
   const shapes = [
-    { top: "8%", left: "12%", size: 80, rotate: 15, delay: 0, color: "rgba(108,99,255,0.07)", type: "circle" },
-    { top: "20%", right: "8%", size: 120, rotate: -20, delay: 0.5, color: "rgba(0,212,170,0.05)", type: "square" },
-    { top: "55%", left: "5%", size: 60, rotate: 45, delay: 1, color: "rgba(139,133,255,0.06)", type: "square" },
-    { top: "70%", right: "15%", size: 90, rotate: -10, delay: 0.3, color: "rgba(0,212,170,0.04)", type: "circle" },
-    { top: "85%", left: "25%", size: 50, rotate: 30, delay: 0.8, color: "rgba(108,99,255,0.05)", type: "triangle" },
-    { top: "35%", left: "60%", size: 40, rotate: -35, delay: 1.2, color: "rgba(139,133,255,0.06)", type: "circle" },
-    { top: "15%", left: "40%", size: 30, rotate: 60, delay: 0.6, color: "rgba(0,212,170,0.06)", type: "square" },
-    { top: "90%", right: "30%", size: 70, rotate: -25, delay: 0.9, color: "rgba(108,99,255,0.04)", type: "circle" },
+    { top: "8%", left: "12%", size: 80, rotate: 15, delay: 0, color: "rgba(59,130,246,0.07)", type: "circle" },
+    { top: "20%", right: "8%", size: 120, rotate: -20, delay: 0.5, color: "rgba(6,182,212,0.05)", type: "square" },
+    { top: "55%", left: "5%", size: 60, rotate: 45, delay: 1, color: "rgba(139,92,246,0.06)", type: "square" },
+    { top: "70%", right: "15%", size: 90, rotate: -10, delay: 0.3, color: "rgba(6,182,212,0.04)", type: "circle" },
+    { top: "85%", left: "25%", size: 50, rotate: 30, delay: 0.8, color: "rgba(59,130,246,0.05)", type: "triangle" },
+    { top: "35%", left: "60%", size: 40, rotate: -35, delay: 1.2, color: "rgba(139,92,246,0.06)", type: "circle" },
+    { top: "15%", left: "40%", size: 30, rotate: 60, delay: 0.6, color: "rgba(6,182,212,0.06)", type: "square" },
+    { top: "90%", right: "30%", size: 70, rotate: -25, delay: 0.9, color: "rgba(59,130,246,0.04)", type: "circle" },
   ];
 
   return (
@@ -63,8 +63,8 @@ function GridLines() {
         position: "absolute",
         inset: 0,
         backgroundImage: `
-          linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
-          linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px)
+          linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)
         `,
         backgroundSize: "60px 60px",
         pointerEvents: "none",
@@ -118,7 +118,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
           justifyContent: "center",
           px: { xs: 4, md: 8 },
           py: { xs: 6, md: 0 },
-          background: "linear-gradient(160deg, #0A0E1A 0%, #0F1629 50%, #111827 100%)",
+          background: "linear-gradient(160deg, #0A0F1F 0%, #0F1629 50%, #111a2e 100%)",
           position: "relative",
           overflow: "hidden",
         }}
@@ -127,8 +127,8 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
         <Doodles />
 
         {/* Gradient orbs */}
-        <Box sx={{ position: "absolute", top: "-20%", left: "-10%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(108,99,255,0.15) 0%, transparent 70%)", filter: "blur(100px)", pointerEvents: "none" }} />
-        <Box sx={{ position: "absolute", bottom: "-20%", right: "-10%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(0,212,170,0.1) 0%, transparent 70%)", filter: "blur(100px)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", top: "-20%", left: "-10%", width: 500, height: 500, borderRadius: "50%", background: "radial-gradient(circle, rgba(59,130,246,0.15) 0%, transparent 70%)", filter: "blur(100px)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", bottom: "-20%", right: "-10%", width: 400, height: 400, borderRadius: "50%", background: "radial-gradient(circle, rgba(6,182,212,0.1) 0%, transparent 70%)", filter: "blur(100px)", pointerEvents: "none" }} />
 
         <Box sx={{ position: "relative", zIndex: 1, maxWidth: 480 }}>
           <MotionBox
@@ -140,7 +140,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
             <Typography
               variant="h3"
               sx={{ fontWeight: 800,
-                background: "linear-gradient(135deg, #6C63FF, #8B85FF, #00D4AA)",
+                background: "linear-gradient(135deg, #3B82F6, #8B5CF6, #06B6D4)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
                 letterSpacing: "-0.02em",
@@ -171,14 +171,14 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
                   borderRadius: 1.5,
                   background: "rgba(17, 24, 39, 0.6)",
                   backdropFilter: "blur(12px)",
-                  border: "1px solid rgba(108, 99, 255, 0.08)",
+                  border: "1px solid rgba(59, 130, 246, 0.08)",
                   transition: "border-color 0.2s",
                   "&:hover": {
-                    borderColor: "rgba(108, 99, 255, 0.2)",
+                    borderColor: "rgba(59, 130, 246, 0.2)",
                   },
                 }}
               >
-                <Box sx={{ color: "#6C63FF", mt: 0.25, flexShrink: 0 }}>{card.icon}</Box>
+                <Box sx={{ color: "#3B82F6", mt: 0.25, flexShrink: 0 }}>{card.icon}</Box>
                 <Box>
                   <Typography sx={{ fontWeight: 700 }} variant="subtitle2" color="text.primary">
                     {card.title}
@@ -205,8 +205,8 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
           justifyContent: "center",
           px: { xs: 4, md: 8 },
           py: { xs: 6, md: 0 },
-          bgcolor: "#111827",
-          borderLeft: { md: "1px solid rgba(108, 99, 255, 0.1)" },
+          bgcolor: "#111a2e",
+          borderLeft: { md: "1px solid rgba(59, 130, 246, 0.1)" },
           position: "relative",
           overflow: "hidden",
         }}
@@ -220,8 +220,8 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
             position: "absolute",
             inset: 0,
             backgroundImage: `
-              linear-gradient(rgba(108,99,255,0.02) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(108,99,255,0.02) 1px, transparent 1px)
+              linear-gradient(rgba(59,130,246,0.02) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59,130,246,0.02) 1px, transparent 1px)
             `,
             backgroundSize: "60px 60px",
             pointerEvents: "none",

@@ -31,8 +31,8 @@ const STATUS_TRANSITIONS: Record<string, string[]> = {
 
 const STAGE_COLORS: Record<string, string> = {
   lead: "#94A3B8",
-  under_review: "#6C63FF",
-  approved: "#00D4AA",
+  under_review: "#3B82F6",
+  approved: "#06B6D4",
   in_development: "#F59E0B",
   qa: "#8B5CF6",
   delivered: "#10B981",
@@ -116,7 +116,7 @@ export default function Pipeline() {
     return [...known, ...extras].map((status) => ({
       name: labelStatus(status),
       status,
-      color: STAGE_COLORS[status] ?? "#6C63FF",
+      color: STAGE_COLORS[status] ?? "#3B82F6",
       projects: (byStatus.get(status) ?? []).map((p) => ({
         id: p.id,
         title: p.title ?? p.name ?? "Untitled",
@@ -138,8 +138,8 @@ export default function Pipeline() {
     projects.length > 0 ? `${Math.round((delivered / projects.length) * 100)}%` : "—";
 
   const stats = [
-    { label: "In Pipeline", value: loading ? "…" : String(totalInPipeline), change: "active opportunities", icon: <TimelineOutlinedIcon />, color: "#6C63FF" },
-    { label: "Conversion Rate", value: loading ? "…" : conversion, change: "lead to delivery", icon: <TrendingUpOutlinedIcon />, color: "#00D4AA" },
+    { label: "In Pipeline", value: loading ? "…" : String(totalInPipeline), change: "active opportunities", icon: <TimelineOutlinedIcon />, color: "#3B82F6" },
+    { label: "Conversion Rate", value: loading ? "…" : conversion, change: "lead to delivery", icon: <TrendingUpOutlinedIcon />, color: "#06B6D4" },
     { label: "Total Projects", value: loading ? "…" : String(projects.length), change: "all stages", icon: <FolderOutlinedIcon />, color: "#F59E0B" },
     { label: "New Leads", value: loading ? "…" : String(newLeads), change: "lead stage", icon: <PersonAddOutlinedIcon />, color: "#10B981" },
   ];
@@ -152,7 +152,7 @@ export default function Pipeline() {
         description="Visualize project flow from lead to delivery across all stages."
         tag="ADMIN // PIPELINE"
         accentWord="Pipeline"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="FLOW ACTIVE"
       />
 

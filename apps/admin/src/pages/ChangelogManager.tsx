@@ -38,9 +38,9 @@ const overline = {
 } as const;
 
 const CATEGORIES = [
-  { value: "feature", label: "Feature", color: "#6C63FF" },
+  { value: "feature", label: "Feature", color: "#3B82F6" },
   { value: "fix", label: "Fix", color: "#EF4444" },
-  { value: "improvement", label: "Improvement", color: "#00D4AA" },
+  { value: "improvement", label: "Improvement", color: "#06B6D4" },
   { value: "security", label: "Security", color: "#F59E0B" },
 ];
 
@@ -216,7 +216,7 @@ export default function ChangelogManager() {
             <CircularProgress />
           </Box>
         ) : entries.length === 0 ? (
-          <Card variant="outlined" sx={{ bgcolor: "#111827" }}>
+          <Card variant="outlined" sx={{ bgcolor: "#111a2e" }}>
             <CardContent sx={{ textAlign: "center", py: 6 }}>
               <HistoryOutlinedIcon sx={{ fontSize: 44, color: "text.secondary", opacity: 0.4, mb: 1 }} />
               <Typography variant="subtitle1" sx={{ fontWeight: 600 }}>
@@ -236,7 +236,7 @@ export default function ChangelogManager() {
               const meta = categoryMeta(entry.category);
               const published = Boolean(entry.published);
               return (
-                <Card key={entry.id ?? entry._id} variant="outlined" sx={{ bgcolor: "#111827" }}>
+                <Card key={entry.id ?? entry._id} variant="outlined" sx={{ bgcolor: "#111a2e" }}>
                   <CardContent>
                     <Stack sx={{ justifyContent: "space-between", alignItems: { sm: "flex-start" } }} direction={{ xs: "column", sm: "row" }} spacing={1.5}>
                       <Box sx={{ minWidth: 0 }}>
@@ -244,7 +244,7 @@ export default function ChangelogManager() {
                           <Chip
                             label={entry.version}
                             size="small"
-                            sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#6C63FF", border: "1px solid rgba(108,99,255,0.3)" }}
+                            sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(59,130,246,0.12)", color: "#3B82F6", border: "1px solid rgba(59,130,246,0.3)" }}
                           />
                           <Chip
                             label={meta.label}
@@ -277,7 +277,7 @@ export default function ChangelogManager() {
                             {published ? "LIVE" : "DRAFT"}
                           </Typography>
                         </Stack>
-                        <IconButton size="small" onClick={() => openEdit(entry)} sx={{ color: "#6C63FF" }}>
+                        <IconButton size="small" onClick={() => openEdit(entry)} sx={{ color: "#3B82F6" }}>
                           <EditOutlinedIcon fontSize="small" />
                         </IconButton>
                         <IconButton size="small" onClick={() => handleDelete(entry)} sx={{ color: "#EF4444" }}>
@@ -333,7 +333,7 @@ export default function ChangelogManager() {
               value={form.body}
               onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
             />
-            <Divider sx={{ borderColor: "rgba(108,99,255,0.12)" }} />
+            <Divider sx={{ borderColor: "rgba(59,130,246,0.12)" }} />
             <Stack sx={{ alignItems: "center", justifyContent: "space-between" }} direction="row">
               <Box>
                 <Typography sx={{ fontWeight: 600 }}>Published</Typography>

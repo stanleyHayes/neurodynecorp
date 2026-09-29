@@ -39,17 +39,17 @@ const overlineSx = {
 const METHODS = ["GET", "POST", "PUT", "PATCH", "DELETE"];
 
 const methodColor: Record<string, string> = {
-  GET: "#00D4AA",
+  GET: "#06B6D4",
   POST: "#10B981",
   PUT: "#F59E0B",
-  PATCH: "#6C63FF",
+  PATCH: "#3B82F6",
   DELETE: "#EF4444",
 };
 
 function statusColor(status: number): string {
   if (status >= 500) return "#EF4444";
   if (status >= 400) return "#F59E0B";
-  if (status >= 300) return "#6C63FF";
+  if (status >= 300) return "#3B82F6";
   return "#10B981";
 }
 
@@ -152,7 +152,7 @@ export default function AuditLog() {
       <Stack spacing={0.5} sx={{ mb: 3 }}>
         <Typography sx={overlineSx}>SECURITY // AUDIT</Typography>
         <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-          <ReceiptLongOutlinedIcon sx={{ color: "#6C63FF" }} />
+          <ReceiptLongOutlinedIcon sx={{ color: "#3B82F6" }} />
           <Typography variant="h5" sx={{ fontWeight: 800 }}>
             Audit Log
           </Typography>
@@ -163,7 +163,7 @@ export default function AuditLog() {
       </Stack>
 
       {/* Filters */}
-      <Card sx={{ mb: 3, bgcolor: "#111827", border: "1px solid rgba(255,255,255,0.06)" }}>
+      <Card sx={{ mb: 3, bgcolor: "#111a2e", border: "1px solid rgba(255,255,255,0.06)" }}>
         <CardContent>
           <Typography sx={{ ...overlineSx, mb: 2 }}>Filters</Typography>
           <Stack sx={{ alignItems: { xs: "stretch", md: "flex-end" } }}
@@ -245,7 +245,7 @@ export default function AuditLog() {
       </Card>
 
       {/* Table */}
-      <Card sx={{ bgcolor: "#111827", border: "1px solid rgba(255,255,255,0.06)" }}>
+      <Card sx={{ bgcolor: "#111a2e", border: "1px solid rgba(255,255,255,0.06)" }}>
         <CardContent>
           {loading ? (
             <Box sx={{ display: "flex", justifyContent: "center", py: 8 }}>

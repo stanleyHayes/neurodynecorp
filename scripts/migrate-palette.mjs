@@ -1,5 +1,5 @@
 /**
- * One-shot codemod: retired palette -> Aurora (§4).
+ * Codemod: retired palette -> Aurora (§4). Takes one or more source roots.
  *
  * The site is painted with colour literals, not theme colours: ~1,070 of them
  * across 69 files, while `theme.palette` is read five times in the whole app.
@@ -25,14 +25,20 @@
  * NOT remapped. They signal state, not brand, and §20 requires state to stay
  * distinguishable from brand emphasis.
  *
- *   node scripts/migrate-palette.mjs [--dry]
+ *   node scripts/migrate-palette.mjs apps/admin/src apps/client/src [--dry]
  */
 import { readFileSync, writeFileSync, readdirSync } from "fs";
 import { join } from "path";
 import { fileURLToPath } from "url";
 import { dirname } from "path";
 
-const SRC = join(dirname(fileURLToPath(import.meta.url)), "..", "src");
+const args = process.argv.slice(2).filter((a) => !a.startsWith("--"));
+if (!args.length) {
+  console.error("usage: node scripts/migrate-palette.mjs <src-dir> [<src-dir>...] [--dry]");
+  process.exit(1);
+}
+const REPO = join(dirname(fileURLToPath(import.meta.url)), "..");
+const TARGETS = args.map((a) => (a.startsWith("/") ? a : join(REPO, a)));
 const DRY = process.argv.includes("--dry");
 
 /** hex -> hex. Written uppercase; matching is case-insensitive. */
@@ -71,7 +77,7 @@ function sources(dir) {
   });
 }
 
-const files = sources(SRC);
+const files = TARGETS.flatMap(sources);
 
 const tally = {};
 let changedFiles = 0;

@@ -80,7 +80,7 @@ export default function Newsletter() {
   };
 
   const stats = [
-    { key: "total", label: "Total", value: subscribers.length, icon: <MarkEmailReadOutlinedIcon />, color: "#6C63FF" },
+    { key: "total", label: "Total", value: subscribers.length, icon: <MarkEmailReadOutlinedIcon />, color: "#3B82F6" },
     { key: "pending", label: "Pending", value: counts.pending, icon: <HourglassEmptyOutlinedIcon />, color: "#F59E0B" },
     { key: "confirmed", label: "Confirmed", value: counts.confirmed, icon: <CheckCircleOutlineOutlinedIcon />, color: "#10B981" },
     { key: "unsubscribed", label: "Unsubscribed", value: counts.unsubscribed, icon: <UnsubscribeOutlinedIcon />, color: "#94A3B8" },
@@ -202,7 +202,7 @@ export default function Newsletter() {
                                   label={seg}
                                   size="small"
                                   variant="outlined"
-                                  sx={{ fontSize: "0.6rem", borderColor: "rgba(108,99,255,0.3)", color: "text.secondary" }}
+                                  sx={{ fontSize: "0.6rem", borderColor: "rgba(59,130,246,0.3)", color: "text.secondary" }}
                                 />
                               ))}
                             </Stack>

@@ -92,13 +92,13 @@ export default function Roles() {
   }
 
   const stats = [
-    { label: "Total Roles", value: String(roles.length), change: `${roles.length} defined`, icon: <SecurityOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Roles", value: String(roles.length), change: `${roles.length} defined`, icon: <SecurityOutlinedIcon />, color: "#3B82F6" },
     { label: "System Roles", value: String(systemCount), change: "built-in", icon: <LockOutlinedIcon />, color: "#F59E0B" },
-    { label: "Custom Roles", value: String(customCount), change: "user-created", icon: <TuneOutlinedIcon />, color: "#00D4AA" },
+    { label: "Custom Roles", value: String(customCount), change: "user-created", icon: <TuneOutlinedIcon />, color: "#06B6D4" },
     { label: "Permissions", value: String(totalPermissions), change: "total assigned", icon: <VpnKeyOutlinedIcon />, color: "#8B5CF6" },
   ];
 
-  const roleColor = (role: RBACRole) => (role.is_system ? "#F59E0B" : "#6C63FF");
+  const roleColor = (role: RBACRole) => (role.is_system ? "#F59E0B" : "#3B82F6");
 
   return (
     <Box>
@@ -108,12 +108,12 @@ export default function Roles() {
         description="Manage roles and their default permissions for access control across your platform."
         tag="ADMIN // ROLES"
         accentWord="Roles"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="RBAC ACTIVE"
       />
 
       <PermissionGate permission="roles:create">
-        <ActionBar label="Create Role" subtitle="NEW ROLE" color="#6C63FF" onClick={() => navigate("/roles/new")} />
+        <ActionBar label="Create Role" subtitle="NEW ROLE" color="#3B82F6" onClick={() => navigate("/roles/new")} />
       </PermissionGate>
 
       {error && (
@@ -139,7 +139,7 @@ export default function Roles() {
       </Box>
 
       <SectionLabel>Role Directory</SectionLabel>
-      <Cell color="#6C63FF" index="04">
+      <Cell color="#3B82F6" index="04">
         <TextField
           fullWidth
           size="small"
@@ -153,10 +153,10 @@ export default function Roles() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
-              "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-              "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-              "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+              bgcolor: "rgba(59, 130, 246, 0.04)",
+              "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+              "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+              "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
             },
           }}
         />
@@ -167,7 +167,7 @@ export default function Roles() {
           icon={<SecurityOutlinedIcon />}
           title={search ? "No roles match your search" : "No roles defined"}
           description={search ? "Try adjusting your search terms or clearing the filter." : "Create your first role to manage team permissions and access control."}
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={loadRoles}
           onAdd={() => navigate("/roles/new")}
           addLabel="Create Role"

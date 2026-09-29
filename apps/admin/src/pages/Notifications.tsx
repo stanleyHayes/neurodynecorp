@@ -44,15 +44,15 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 const colorMap: Record<string, string> = {
-  project_update: "#6C63FF",
+  project_update: "#3B82F6",
   task_assigned: "#F59E0B",
   task_completed: "#10B981",
-  message_received: "#33DDBB",
+  message_received: "#10B981",
   invoice_sent: "#EF4444",
   invoice_paid: "#10B981",
   spec_generated: "#8B5CF6",
   spec_approved: "#10B981",
-  status_change: "#00D4AA",
+  status_change: "#06B6D4",
   system: "#94A3B8",
 };
 
@@ -130,7 +130,7 @@ export default function Notifications() {
 
       <Box
         sx={{
-          borderBottom: "1px solid rgba(108, 99, 255, 0.12)",
+          borderBottom: "1px solid rgba(59, 130, 246, 0.12)",
           py: 2,
           px: 3,
           display: "flex",
@@ -145,7 +145,7 @@ export default function Notifications() {
             fontWeight: 600,
             textTransform: "uppercase",
             letterSpacing: "0.2em",
-            color: "#6C63FF",
+            color: "#3B82F6",
             opacity: 0.5,
           }}
         >
@@ -161,7 +161,7 @@ export default function Notifications() {
               fontSize: "0.6rem",
               letterSpacing: "0.05em",
               textTransform: "none",
-              color: "#6C63FF",
+              color: "#3B82F6",
             }}
           >
             Mark all read
@@ -174,7 +174,7 @@ export default function Notifications() {
           icon={<NotificationsOffOutlinedIcon />}
           title="No notifications"
           description="You're all caught up! Notifications about projects, tasks, and messages will appear here."
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={load}
         />
       ) : (

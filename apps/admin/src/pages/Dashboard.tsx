@@ -21,8 +21,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const STATUS_COLORS: Record<string, string> = {
   lead: "#94A3B8",
-  under_review: "#6C63FF",
-  approved: "#00D4AA",
+  under_review: "#3B82F6",
+  approved: "#06B6D4",
   in_development: "#F59E0B",
   qa: "#8B5CF6",
   delivered: "#10B981",
@@ -90,7 +90,7 @@ export default function Dashboard() {
     return [...counts.entries()].map(([status, value]) => ({
       name: labelStatus(status),
       value,
-      color: STATUS_COLORS[status] ?? "#6C63FF",
+      color: STATUS_COLORS[status] ?? "#3B82F6",
       status,
     }));
   }, [projects]);
@@ -123,21 +123,21 @@ export default function Dashboard() {
       value: loading ? "…" : String(leads),
       change: "project intakes",
       icon: <TrendingUpOutlinedIcon />,
-      color: "#6C63FF",
+      color: "#3B82F6",
     },
     {
       label: "Active Projects",
       value: loading ? "…" : String(activeProjects),
       change: `${projects.length} total`,
       icon: <FolderOutlinedIcon />,
-      color: "#00D4AA",
+      color: "#06B6D4",
     },
     {
       label: "Team Members",
       value: loading ? "…" : String(teamCount),
       change: "non-client users",
       icon: <GroupsOutlinedIcon />,
-      color: "#8B85FF",
+      color: "#8B5CF6",
     },
     {
       label: "Open Tasks",
@@ -156,7 +156,7 @@ export default function Dashboard() {
         description="Overview of your projects, team, and key metrics at a glance."
         tag="ADMIN // DASHBOARD"
         accentWord="Dashboard"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="DASHBOARD ACTIVE"
       />
 
@@ -184,7 +184,7 @@ export default function Dashboard() {
 
       <SectionLabel>Analytics Overview</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <ChartCard title="Projects by Status" color="#00D4AA" index="04" colInRow={0} totalCols={2} animDelay={0.4} height={300}>
+        <ChartCard title="Projects by Status" color="#06B6D4" index="04" colInRow={0} totalCols={2} animDelay={0.4} height={300}>
           {projectsByStatus.length === 0 ? (
             <Box sx={{ height: "100%", display: "grid", placeItems: "center", px: 2 }}>
               <Typography variant="body2" color="text.secondary" align="center">
@@ -218,7 +218,7 @@ export default function Dashboard() {
 
         <Box>
           <SectionLabel>Project Pipeline</SectionLabel>
-          <Cell color="#6C63FF" index="05" animDelay={0.5}>
+          <Cell color="#3B82F6" index="05" animDelay={0.5}>
             {pipeline.length === 0 ? (
               <Typography variant="body2" color="text.secondary">
                 {loading ? "Loading…" : "No pipeline stages yet."}
@@ -247,7 +247,7 @@ export default function Dashboard() {
         </Box>
       ) : (
         recentProjects.map((project, i) => {
-          const color = STATUS_COLORS[project.rawStatus] ?? "#6C63FF";
+          const color = STATUS_COLORS[project.rawStatus] ?? "#3B82F6";
           return (
             <Cell
               key={project.id}

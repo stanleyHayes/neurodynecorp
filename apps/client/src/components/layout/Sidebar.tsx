@@ -26,7 +26,7 @@ import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOu
 import { useAuth } from "@/context/AuthContext";
 
 export const DRAWER_WIDTH = 260;
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 interface MenuItem {
   label: string;
@@ -59,31 +59,31 @@ const menuGroups: MenuGroup[] = [
   {
     title: "Overview",
     items: [
-      { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#6C63FF" },
-      { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#00D4AA" },
-      { label: "Start a Project", icon: <AddCircleOutlineOutlinedIcon />, path: "/start-project", color: "#8B85FF" },
+      { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#3B82F6" },
+      { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#06B6D4" },
+      { label: "Start a Project", icon: <AddCircleOutlineOutlinedIcon />, path: "/start-project", color: "#8B5CF6" },
     ],
   },
   {
     title: "Communication",
     items: [
-      { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#33DDBB" },
-      { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#00D4AA" },
+      { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#10B981" },
+      { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#06B6D4" },
     ],
   },
   {
     title: "Resources",
     items: [
-      { label: "Documents", icon: <DescriptionOutlinedIcon />, path: "/documents", color: "#8B85FF" },
-      { label: "Billing", icon: <ReceiptOutlinedIcon />, path: "/billing", color: "#6C63FF" },
-      { label: "Help Center", icon: <HelpOutlineOutlinedIcon />, path: "/help", color: "#00D4AA" },
+      { label: "Documents", icon: <DescriptionOutlinedIcon />, path: "/documents", color: "#8B5CF6" },
+      { label: "Billing", icon: <ReceiptOutlinedIcon />, path: "/billing", color: "#3B82F6" },
+      { label: "Help Center", icon: <HelpOutlineOutlinedIcon />, path: "/help", color: "#06B6D4" },
     ],
   },
   {
     title: "Account & Trust",
     items: [
       { label: "Security", icon: <VpnKeyOutlinedIcon />, path: "/security", color: "#EF4444" },
-      { label: "Webhooks", icon: <ApiOutlinedIcon />, path: "/webhooks", color: "#8B85FF" },
+      { label: "Webhooks", icon: <ApiOutlinedIcon />, path: "/webhooks", color: "#8B5CF6" },
     ],
   },
 ];
@@ -135,7 +135,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
           position: "absolute",
           inset: 0,
           backgroundImage:
-            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.02) 2px, rgba(108,99,255,0.02) 4px)",
+            "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.02) 2px, rgba(59,130,246,0.02) 4px)",
           pointerEvents: "none",
           zIndex: 0,
         }}
@@ -143,10 +143,10 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
 
       <Toolbar sx={{ position: "relative", zIndex: 1, px: 2.5, borderBottom: `1px solid ${BORDER}` }}>
         {/* Corner brackets on sidebar header */}
-        <Box sx={{ position: "absolute", top: 8, left: 8, width: 14, height: 14, borderTop: "2px solid rgba(108,99,255,0.3)", borderLeft: "2px solid rgba(108,99,255,0.3)", pointerEvents: "none" }} />
-        <Box sx={{ position: "absolute", top: 8, right: 8, width: 14, height: 14, borderTop: "2px solid rgba(0,212,170,0.3)", borderRight: "2px solid rgba(0,212,170,0.3)", pointerEvents: "none" }} />
-        <Box sx={{ position: "absolute", bottom: 8, left: 8, width: 14, height: 14, borderBottom: "2px solid rgba(0,212,170,0.3)", borderLeft: "2px solid rgba(0,212,170,0.3)", pointerEvents: "none" }} />
-        <Box sx={{ position: "absolute", bottom: 8, right: 8, width: 14, height: 14, borderBottom: "2px solid rgba(108,99,255,0.3)", borderRight: "2px solid rgba(108,99,255,0.3)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", top: 8, left: 8, width: 14, height: 14, borderTop: "2px solid rgba(59,130,246,0.3)", borderLeft: "2px solid rgba(59,130,246,0.3)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", top: 8, right: 8, width: 14, height: 14, borderTop: "2px solid rgba(6,182,212,0.3)", borderRight: "2px solid rgba(6,182,212,0.3)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", bottom: 8, left: 8, width: 14, height: 14, borderBottom: "2px solid rgba(6,182,212,0.3)", borderLeft: "2px solid rgba(6,182,212,0.3)", pointerEvents: "none" }} />
+        <Box sx={{ position: "absolute", bottom: 8, right: 8, width: 14, height: 14, borderBottom: "2px solid rgba(59,130,246,0.3)", borderRight: "2px solid rgba(59,130,246,0.3)", pointerEvents: "none" }} />
 
         <Box
           component={Link}
@@ -168,13 +168,13 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
               width: 30,
               height: 30,
               flexShrink: 0,
-              filter: "drop-shadow(0 0 8px rgba(108, 99, 255, 0.3))",
+              filter: "drop-shadow(0 0 8px rgba(59, 130, 246, 0.3))",
             }}
           />
           <Typography
             sx={{
               fontWeight: 800,
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -310,11 +310,11 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
                 pl: 2.5,
                 transition: "all 0.2s",
                 "&.Mui-selected": {
-                  bgcolor: "rgba(108, 99, 255, 0.08)",
-                  "& .MuiListItemIcon-root": { color: "#8B85FF" },
+                  bgcolor: "rgba(59, 130, 246, 0.08)",
+                  "& .MuiListItemIcon-root": { color: "#8B5CF6" },
                 },
                 "&:hover": {
-                  bgcolor: "rgba(108, 99, 255, 0.06)",
+                  bgcolor: "rgba(59, 130, 246, 0.06)",
                 },
               }}
             >
@@ -327,8 +327,8 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
                     bottom: "15%",
                     width: 3,
                     borderRadius: 2,
-                    background: "#8B85FF",
-                    boxShadow: "0 0 8px #8B85FF80, 0 0 20px #8B85FF40",
+                    background: "#8B5CF6",
+                    boxShadow: "0 0 8px #8B5CF680, 0 0 20px #8B5CF640",
                   }}
                 />
               )}
@@ -336,7 +336,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
                 sx={{
                   fontFamily: "monospace",
                   fontSize: "0.55rem",
-                  color: location.pathname === "/settings" ? "#8B85FF" : "text.secondary",
+                  color: location.pathname === "/settings" ? "#8B5CF6" : "text.secondary",
                   opacity: location.pathname === "/settings" ? 0.7 : 0.3,
                   letterSpacing: "0.1em",
                   mr: 1.5,
@@ -348,11 +348,11 @@ export default function Sidebar({ mobileOpen = false, onMobileClose, onItemClick
               <ListItemIcon
                 sx={{
                   minWidth: 36,
-                  color: location.pathname === "/settings" ? "#8B85FF" : undefined,
+                  color: location.pathname === "/settings" ? "#8B5CF6" : undefined,
                   "& .MuiSvgIcon-root": {
                     fontSize: 20,
                     filter: location.pathname === "/settings"
-                      ? "drop-shadow(0 0 6px #8B85FF60)"
+                      ? "drop-shadow(0 0 6px #8B5CF660)"
                       : "none",
                   },
                 }}

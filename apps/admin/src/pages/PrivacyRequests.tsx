@@ -35,15 +35,15 @@ const overlineSx = {
 const STATUS_OPTIONS = ["received", "in_progress", "completed", "rejected"];
 
 const statusColor: Record<string, string> = {
-  received: "#6C63FF",
+  received: "#3B82F6",
   in_progress: "#F59E0B",
   completed: "#10B981",
   rejected: "#EF4444",
 };
 
 const typeColor: Record<string, string> = {
-  access: "#00D4AA",
-  export: "#00D4AA",
+  access: "#06B6D4",
+  export: "#06B6D4",
   deletion: "#EF4444",
   delete: "#EF4444",
   rectification: "#F59E0B",
@@ -82,7 +82,7 @@ function StatCard({
     <Card
       variant="outlined"
       sx={{
-        bgcolor: "#111827",
+        bgcolor: "#111a2e",
         borderColor: `${color}30`,
         borderRadius: 2,
         flex: 1,
@@ -200,7 +200,7 @@ export default function PrivacyRequests() {
             <Card
               variant="outlined"
               sx={{
-                bgcolor: "#111827",
+                bgcolor: "#111a2e",
                 borderColor: "rgba(255,255,255,0.08)",
                 borderRadius: 2,
               }}

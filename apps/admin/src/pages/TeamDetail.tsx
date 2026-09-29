@@ -51,9 +51,9 @@ interface ProjectData {
 }
 
 const roleColors: Record<string, string> = {
-  admin: "#6C63FF",
+  admin: "#3B82F6",
   project_manager: "#8B5CF6",
-  developer: "#00D4AA",
+  developer: "#06B6D4",
   qa: "#F59E0B",
 };
 
@@ -165,8 +165,8 @@ function formatDate(dateStr?: string): string {
 
 const statusColors: Record<string, string> = {
   lead: "#94A3B8",
-  under_review: "#6C63FF",
-  approved: "#00D4AA",
+  under_review: "#3B82F6",
+  approved: "#06B6D4",
   in_development: "#F59E0B",
   qa: "#8B5CF6",
   delivered: "#10B981",
@@ -267,7 +267,7 @@ export default function TeamDetail() {
     <Box>
       <Box
         onClick={() => navigate("/team")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#06B6D4" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
@@ -363,7 +363,7 @@ export default function TeamDetail() {
         {/* Contact & details */}
         <Box>
           <SectionLabel>Details</SectionLabel>
-          <Cell color="#6C63FF" index="01" animDelay={0.1}>
+          <Cell color="#3B82F6" index="01" animDelay={0.1}>
             <Stack spacing={2.5}>
               {[
                 { icon: <EmailOutlinedIcon />, label: "Email", value: user.email },
@@ -393,8 +393,8 @@ export default function TeamDetail() {
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
         <Box>
           <SectionLabel>Skills & Technologies</SectionLabel>
-          <Cell color="#00D4AA" index="02" colInRow={0} totalCols={2} animDelay={0.2}>
-            <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 22 }, color: "#00D4AA", filter: "drop-shadow(0 0 8px #00D4AA40)", mb: 2 }}>
+          <Cell color="#06B6D4" index="02" colInRow={0} totalCols={2} animDelay={0.2}>
+            <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 22 }, color: "#06B6D4", filter: "drop-shadow(0 0 8px #06B6D440)", mb: 2 }}>
               <CodeOutlinedIcon />
             </Box>
             {skills.length > 0 ? (
@@ -405,7 +405,7 @@ export default function TeamDetail() {
                     label={skill}
                     size="small"
                     variant="outlined"
-                    sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", borderColor: "#00D4AA30", color: "#00D4AA" }}
+                    sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", borderColor: "#06B6D430", color: "#06B6D4" }}
                   />
                 ))}
               </Stack>

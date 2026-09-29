@@ -72,7 +72,7 @@ type Status = (typeof STATUSES)[number];
 
 const COLUMN_META: Record<Status, { label: string; color: string }> = {
   backlog: { label: "Backlog", color: "#94A3B8" },
-  todo: { label: "To Do", color: "#6C63FF" },
+  todo: { label: "To Do", color: "#3B82F6" },
   in_progress: { label: "In Progress", color: "#F59E0B" },
   in_review: { label: "Review", color: "#8B5CF6" },
   done: { label: "Done", color: "#10B981" },
@@ -80,7 +80,7 @@ const COLUMN_META: Record<Status, { label: string; color: string }> = {
 
 const priorityColors: Record<string, string> = {
   low: "#94A3B8",
-  medium: "#6C63FF",
+  medium: "#3B82F6",
   high: "#F59E0B",
   critical: "#EF4444",
 };
@@ -89,10 +89,10 @@ const INPUT_SX = {
   "& .MuiOutlinedInput-root": {
     fontFamily: "'Outfit', sans-serif",
     fontSize: "0.85rem",
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108, 99, 255, 0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108, 99, 255, 0.30)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59, 130, 246, 0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59, 130, 246, 0.30)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
   "& .MuiInputLabel-root": {
     fontFamily: "'Outfit', sans-serif",
@@ -183,7 +183,7 @@ function SortableTaskCard({
 
 function TaskCardOverlay({ task, projectName }: { task: ApiTask; projectName: string }) {
   const status = task.status as Status;
-  const colColor = COLUMN_META[status]?.color ?? "#6C63FF";
+  const colColor = COLUMN_META[status]?.color ?? "#3B82F6";
   const pColor = priorityColors[task.priority] ?? "#94A3B8";
 
   return (
@@ -344,7 +344,7 @@ function NewTaskDialog({
         sx: {
           bgcolor: "background.paper",
           backgroundImage: "none",
-          border: "1px solid rgba(108, 99, 255, 0.15)",
+          border: "1px solid rgba(59, 130, 246, 0.15)",
           borderRadius: 2,
         },
       } }}
@@ -566,7 +566,7 @@ export default function Tasks() {
   const done = tasksByStatus.done.length;
 
   const stats = [
-    { label: "Total Tasks", value: String(totalTasks), change: "across all boards", icon: <ViewKanbanOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Tasks", value: String(totalTasks), change: "across all boards", icon: <ViewKanbanOutlinedIcon />, color: "#3B82F6" },
     { label: "In Progress", value: String(inProgress), change: "active this sprint", icon: <PlayCircleOutlinedIcon />, color: "#F59E0B" },
     { label: "Critical", value: String(critical), change: "needs attention", icon: <BlockOutlinedIcon />, color: "#EF4444" },
     { label: "Done This Week", value: String(done), change: "completed tasks", icon: <AssignmentTurnedInOutlinedIcon />, color: "#10B981" },
@@ -718,7 +718,7 @@ export default function Tasks() {
           icon={<ViewKanbanOutlinedIcon />}
           title="No Tasks Yet"
           description="Create your first task to start organizing your sprint board."
-          color="#6C63FF"
+          color="#3B82F6"
           onRefresh={fetchData}
           onAdd={() => setDialogOpen(true)}
           addLabel="New Task"

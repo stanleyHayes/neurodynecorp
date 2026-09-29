@@ -31,9 +31,9 @@ interface User {
 }
 
 const roleColors: Record<string, string> = {
-  admin: "#6C63FF",
+  admin: "#3B82F6",
   project_manager: "#8B5CF6",
-  developer: "#00D4AA",
+  developer: "#06B6D4",
   qa: "#F59E0B",
 };
 
@@ -90,8 +90,8 @@ export default function Team() {
   const qas = members.filter((m) => m.role === "qa").length;
 
   const stats = [
-    { label: "Total Members", value: String(members.length), change: `${members.length} active`, icon: <GroupsOutlinedIcon />, color: "#00D4AA" },
-    { label: "Developers", value: String(devs), change: "core engineering", icon: <CodeOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Members", value: String(members.length), change: `${members.length} active`, icon: <GroupsOutlinedIcon />, color: "#06B6D4" },
+    { label: "Developers", value: String(devs), change: "core engineering", icon: <CodeOutlinedIcon />, color: "#3B82F6" },
     { label: "Project Managers", value: String(pms), change: "delivery leads", icon: <ManageAccountsOutlinedIcon />, color: "#8B5CF6" },
     { label: "QA Engineers", value: String(qas), change: "quality assurance", icon: <BugReportOutlinedIcon />, color: "#F59E0B" },
   ];
@@ -104,11 +104,11 @@ export default function Team() {
         description="View and manage your team members, roles, and project assignments."
         tag="ADMIN // TEAM"
         accentWord="Team"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="TEAM ROSTER"
       />
 
-      <ActionBar label="New Member" subtitle="ADD TO ROSTER" color="#00D4AA" onClick={() => navigate("/team/new")} />
+      <ActionBar label="New Member" subtitle="ADD TO ROSTER" color="#06B6D4" onClick={() => navigate("/team/new")} />
 
       {error && (
         <Alert severity="error" sx={{ mb: 2 }} onClose={() => setError("")}>
@@ -138,7 +138,7 @@ export default function Team() {
           icon={<GroupsOutlinedIcon />}
           title="No team members yet"
           description="Add your first team member to manage roles, permissions, and project assignments."
-          color="#00D4AA"
+          color="#06B6D4"
           onRefresh={loadTeam}
           onAdd={() => navigate("/team/new")}
           addLabel="New Member"

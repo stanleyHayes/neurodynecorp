@@ -15,7 +15,7 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const ICONS = [
   { label: "Code", value: "code", icon: <CodeOutlinedIcon /> },
@@ -35,19 +35,19 @@ const STATUSES = [
 ];
 
 const COLORS = [
-  { label: "Purple", value: "#6C63FF" },
-  { label: "Teal", value: "#00D4AA" },
-  { label: "Lavender", value: "#8B85FF" },
-  { label: "Mint", value: "#33DDBB" },
+  { label: "Purple", value: "#3B82F6" },
+  { label: "Teal", value: "#06B6D4" },
+  { label: "Lavender", value: "#8B5CF6" },
+  { label: "Mint", value: "#10B981" },
   { label: "Amber", value: "#F59E0B" },
 ];
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#00D4AA" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#06B6D4" },
   },
 };
 
@@ -77,7 +77,7 @@ export default function ServiceCreate() {
   const [description, setDescription] = useState("");
   const [icon, setIcon] = useState("code");
   const [status, setStatus] = useState("active");
-  const [color, setColor] = useState("#00D4AA");
+  const [color, setColor] = useState("#06B6D4");
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -110,7 +110,7 @@ export default function ServiceCreate() {
     <Box>
       <Box
         onClick={() => navigate("/services")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#00D4AA" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#06B6D4" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO SERVICES</Typography>
@@ -122,13 +122,13 @@ export default function ServiceCreate() {
         description="Add a new service offering to be displayed on the website."
         tag="CONTENT // NEW SERVICE"
         accentWord="New"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="OFFERINGS"
       />
 
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/services")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/services")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
           <Button
@@ -137,7 +137,7 @@ export default function ServiceCreate() {
             startIcon={submitting ? <CircularProgress size={14} sx={{ color: "#10B981" }} /> : <SaveOutlinedIcon />}
             disabled={!canSubmit || submitting}
             onClick={handleSubmit}
-            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+            sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
           >
             {submitting ? "Saving…" : "Save Service"}
           </Button>
@@ -152,13 +152,13 @@ export default function ServiceCreate() {
 
       <SectionLabel>Service Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#00D4AA" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#06B6D4" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Service Title" value={title} onChange={(e) => setTitle(e.target.value)} sx={inputSx} />
             <TextField fullWidth multiline minRows={3} maxRows={6} size="small" label="Description" placeholder="What does this service offer?" value={description} onChange={(e) => setDescription(e.target.value)} sx={inputSx} />
           </Stack>
         </Cell>
-        <Cell color="#6C63FF" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#3B82F6" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField select fullWidth size="small" label="Icon" value={icon} onChange={(e) => setIcon(e.target.value)} sx={inputSx}>
               {ICONS.map((i) => (

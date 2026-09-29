@@ -27,15 +27,15 @@ const baseSx = (color: string) => ({
   "& code": {
     fontFamily: "'Outfit', sans-serif",
     fontSize: "0.85em",
-    background: "rgba(108, 99, 255, 0.1)",
-    color: "#8B85FF",
+    background: "rgba(59, 130, 246, 0.1)",
+    color: "#8B5CF6",
     px: 0.8,
     py: 0.2,
     borderRadius: 1,
   },
   "& pre": {
-    background: "rgba(10, 14, 26, 0.8)",
-    border: "1px solid rgba(108, 99, 255, 0.1)",
+    background: "rgba(10, 15, 31, 0.8)",
+    border: "1px solid rgba(59, 130, 246, 0.1)",
     borderRadius: 3,
     p: 3,
     mb: 3,
@@ -46,16 +46,16 @@ const baseSx = (color: string) => ({
     width: "100%",
     borderCollapse: "collapse",
     mb: 3,
-    "& th": { textAlign: "left", py: 1.5, px: 2, fontWeight: 600, fontSize: "0.85rem", color: "text.primary", borderBottom: "2px solid rgba(108, 99, 255, 0.15)", background: "rgba(108, 99, 255, 0.04)" },
-    "& td": { py: 1.5, px: 2, fontSize: "0.85rem", color: "text.secondary", borderBottom: "1px solid rgba(108, 99, 255, 0.08)" },
+    "& th": { textAlign: "left", py: 1.5, px: 2, fontWeight: 600, fontSize: "0.85rem", color: "text.primary", borderBottom: "2px solid rgba(59, 130, 246, 0.15)", background: "rgba(59, 130, 246, 0.04)" },
+    "& td": { py: 1.5, px: 2, fontSize: "0.85rem", color: "text.secondary", borderBottom: "1px solid rgba(59, 130, 246, 0.08)" },
   },
-  "& hr": { border: "none", height: 1, background: "rgba(108, 99, 255, 0.12)", my: 4 },
+  "& hr": { border: "none", height: 1, background: "rgba(59, 130, 246, 0.12)", my: 4 },
   "& strong": { color: "text.primary", fontWeight: 600 },
   "& em": { fontStyle: "italic" },
-  "& img": { maxWidth: "100%", borderRadius: 3, border: "1px solid rgba(108, 99, 255, 0.1)" },
+  "& img": { maxWidth: "100%", borderRadius: 3, border: "1px solid rgba(59, 130, 246, 0.1)" },
 });
 
-export default function MarkdownRenderer({ content, color = "#6C63FF" }: MarkdownRendererProps) {
+export default function MarkdownRenderer({ content, color = "#3B82F6" }: MarkdownRendererProps) {
   if (!content?.trim()) {
     return (
       <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", color: "text.secondary", opacity: 0.4, py: 6, textAlign: "center" }}>

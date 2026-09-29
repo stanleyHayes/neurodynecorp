@@ -26,8 +26,8 @@ import { useAuth } from "@/context/AuthContext";
 
 const STATUS_COLORS: Record<string, string> = {
   lead: "#94A3B8",
-  under_review: "#6C63FF",
-  approved: "#00D4AA",
+  under_review: "#3B82F6",
+  approved: "#06B6D4",
   in_development: "#F59E0B",
   qa: "#8B5CF6",
   delivered: "#10B981",
@@ -35,10 +35,10 @@ const STATUS_COLORS: Record<string, string> = {
   cancelled: "#64748B",
 };
 
-const TYPE_COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#EF4444", "#10B981"];
+const TYPE_COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#EF4444", "#10B981"];
 const TASK_COLORS: Record<string, string> = {
   backlog: "#94A3B8",
-  todo: "#6C63FF",
+  todo: "#3B82F6",
   in_progress: "#F59E0B",
   in_review: "#8B5CF6",
   done: "#10B981",
@@ -95,7 +95,7 @@ export default function Analytics() {
     return [...counts.entries()].map(([status, value]) => ({
       name: label(status),
       value,
-      color: STATUS_COLORS[status] ?? "#6C63FF",
+      color: STATUS_COLORS[status] ?? "#3B82F6",
     }));
   }, [projects]);
 
@@ -113,7 +113,7 @@ export default function Analytics() {
     return [...counts.entries()].map(([status, value]) => ({
       status: label(status),
       count: value,
-      color: TASK_COLORS[status] ?? "#6C63FF",
+      color: TASK_COLORS[status] ?? "#3B82F6",
     }));
   }, [tasks]);
 
@@ -137,14 +137,14 @@ export default function Analytics() {
       value: loading ? "…" : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact" }).format(paidTotal),
       change: `${paid.length} paid invoices`,
       icon: <TrendingUpOutlinedIcon />,
-      color: "#6C63FF",
+      color: "#3B82F6",
     },
     {
       label: "Active Projects",
       value: loading ? "…" : String(projects.filter((p) => !["delivered", "cancelled", "completed"].includes(String(p.status))).length),
       change: `${projects.length} total`,
       icon: <ShowChartOutlinedIcon />,
-      color: "#00D4AA",
+      color: "#06B6D4",
     },
     {
       label: "Avg Paid Invoice",
@@ -153,7 +153,7 @@ export default function Analytics() {
         : new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", notation: "compact" }).format(avgProjectValue),
       change: "from paid invoices",
       icon: <PieChartOutlinedIcon />,
-      color: "#8B85FF",
+      color: "#8B5CF6",
     },
     {
       label: "Clients / Team",
@@ -172,7 +172,7 @@ export default function Analytics() {
         description="Deep dive into business metrics, trends, and performance indicators."
         tag="ADMIN // ANALYTICS"
         accentWord="Analytics"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="DATA LIVE"
       />
 
@@ -280,7 +280,7 @@ export default function Analytics() {
       </Box>
 
       <SectionLabel>Pipeline Funnel</SectionLabel>
-      <ChartCard title="Projects per stage" color="#6C63FF" index="07" animDelay={0.7} height={220}>
+      <ChartCard title="Projects per stage" color="#3B82F6" index="07" animDelay={0.7} height={220}>
         {pipelineConversion.length === 0 ? (
           <Box sx={{ height: "100%", display: "grid", placeItems: "center" }}>
             <Typography variant="body2" color="text.secondary">{loading ? "Loading…" : "No pipeline data"}</Typography>

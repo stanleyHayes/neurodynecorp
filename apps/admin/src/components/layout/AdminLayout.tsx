@@ -29,14 +29,14 @@ import ThemeToggle from "./ThemeToggle";
 import { useAuth } from "@/context/AuthContext";
 import { useSocket } from "@/hooks/useSocket";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const menuItemSx = {
   py: 1,
   px: 2,
   gap: 1.5,
   "& .MuiListItemIcon-root": { minWidth: 0 },
-  "&:hover": { bgcolor: "rgba(108, 99, 255, 0.06)" },
+  "&:hover": { bgcolor: "rgba(59, 130, 246, 0.06)" },
 };
 
 const pageTitles: Record<string, string> = {
@@ -192,17 +192,17 @@ export default function AdminLayout() {
                 px: 1,
                 borderRadius: 1,
                 transition: "background 0.2s",
-                "&:hover": { bgcolor: "rgba(108, 99, 255, 0.06)" },
+                "&:hover": { bgcolor: "rgba(59, 130, 246, 0.06)" },
               }}
             >
-              <Avatar sx={{ bgcolor: "#6C63FF30", color: "#6C63FF", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
+              <Avatar sx={{ bgcolor: "#3B82F630", color: "#3B82F6", width: 34, height: 34, fontSize: 13, fontWeight: 700 }}>
                 {initials}
               </Avatar>
               <Box sx={{ display: { xs: "none", sm: "block" } }}>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.75rem", fontWeight: 600, lineHeight: 1.2 }}>
                   {displayName}
                 </Typography>
-                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#6C63FF", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
+                <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.55rem", color: "#3B82F6", letterSpacing: "0.1em", opacity: 0.7, lineHeight: 1 }}>
                   {user?.role.replaceAll("_", " ").toUpperCase()}
                 </Typography>
               </Box>
@@ -223,7 +223,7 @@ export default function AdminLayout() {
                     bgcolor: "background.paper",
                     border: `1px solid ${BORDER}`,
                     backgroundImage:
-                      "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.015) 2px, rgba(108,99,255,0.015) 4px)",
+                      "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.015) 2px, rgba(59,130,246,0.015) 4px)",
                     "& .MuiList-root": { py: 0.5 },
                   },
                 },
@@ -236,7 +236,7 @@ export default function AdminLayout() {
               </Box>
 
               <MenuItem onClick={() => goTo("/settings?tab=profile")} sx={menuItemSx}>
-                <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF" }} /></ListItemIcon>
+                <ListItemIcon><PersonOutlinedIcon sx={{ fontSize: 18, color: "#3B82F6" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Profile</ListItemText>
                 <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.5rem", color: "text.secondary", opacity: 0.4 }}>P0</Typography>
               </MenuItem>

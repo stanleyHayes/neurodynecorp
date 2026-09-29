@@ -13,19 +13,19 @@ import SettingsOutlinedIcon from "@mui/icons-material/SettingsOutlined";
 const MotionBox = motion.create(Box);
 
 const items = [
-  { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#6C63FF", index: "01" },
-  { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#8B85FF", index: "02" },
-  { label: "Documents", icon: <DescriptionOutlinedIcon />, path: "/documents", color: "#00D4AA", index: "03" },
-  { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#33DDBB", index: "04" },
-  { label: "Billing", icon: <ReceiptOutlinedIcon />, path: "/billing", color: "#6C63FF", index: "05" },
-  { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#8B85FF", index: "06" },
+  { label: "Dashboard", icon: <DashboardOutlinedIcon />, path: "/", color: "#3B82F6", index: "01" },
+  { label: "Projects", icon: <FolderOutlinedIcon />, path: "/projects", color: "#8B5CF6", index: "02" },
+  { label: "Documents", icon: <DescriptionOutlinedIcon />, path: "/documents", color: "#06B6D4", index: "03" },
+  { label: "Messages", icon: <ChatOutlinedIcon />, path: "/messages", color: "#10B981", index: "04" },
+  { label: "Billing", icon: <ReceiptOutlinedIcon />, path: "/billing", color: "#3B82F6", index: "05" },
+  { label: "Notifications", icon: <NotificationsOutlinedIcon />, path: "/notifications", color: "#8B5CF6", index: "06" },
 ];
 
 const ctaItem = {
   label: "Settings",
   icon: <SettingsOutlinedIcon />,
   path: "/settings",
-  color: "#00D4AA",
+  color: "#06B6D4",
   index: "07",
 };
 
@@ -89,7 +89,7 @@ function Scanlines() {
         position: "absolute",
         inset: 0,
         backgroundImage:
-          "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.08) 2px, rgba(108,99,255,0.08) 4px)",
+          "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.08) 2px, rgba(59,130,246,0.08) 4px)",
         pointerEvents: "none",
         zIndex: 50,
       }}
@@ -132,7 +132,7 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
     [phase],
   );
 
-  const borderColor = "rgba(108, 99, 255, 0.12)";
+  const borderColor = "rgba(59, 130, 246, 0.12)";
   const selectedItem = allItems.find((m) => m.path === selected);
 
   return (
@@ -148,10 +148,10 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
       <Scanlines />
 
       {/* Corner accents */}
-      <Box sx={{ position: "absolute", top: 16, left: 16, width: 40, height: 40, borderTop: "2px solid rgba(108,99,255,0.3)", borderLeft: "2px solid rgba(108,99,255,0.3)", zIndex: 60, pointerEvents: "none" }} />
-      <Box sx={{ position: "absolute", top: 16, right: 16, width: 40, height: 40, borderTop: "2px solid rgba(0,212,170,0.3)", borderRight: "2px solid rgba(0,212,170,0.3)", zIndex: 60, pointerEvents: "none" }} />
-      <Box sx={{ position: "absolute", bottom: 16, left: 16, width: 40, height: 40, borderBottom: "2px solid rgba(0,212,170,0.3)", borderLeft: "2px solid rgba(0,212,170,0.3)", zIndex: 60, pointerEvents: "none" }} />
-      <Box sx={{ position: "absolute", bottom: 16, right: 16, width: 40, height: 40, borderBottom: "2px solid rgba(108,99,255,0.3)", borderRight: "2px solid rgba(108,99,255,0.3)", zIndex: 60, pointerEvents: "none" }} />
+      <Box sx={{ position: "absolute", top: 16, left: 16, width: 40, height: 40, borderTop: "2px solid rgba(59,130,246,0.3)", borderLeft: "2px solid rgba(59,130,246,0.3)", zIndex: 60, pointerEvents: "none" }} />
+      <Box sx={{ position: "absolute", top: 16, right: 16, width: 40, height: 40, borderTop: "2px solid rgba(6,182,212,0.3)", borderRight: "2px solid rgba(6,182,212,0.3)", zIndex: 60, pointerEvents: "none" }} />
+      <Box sx={{ position: "absolute", bottom: 16, left: 16, width: 40, height: 40, borderBottom: "2px solid rgba(6,182,212,0.3)", borderLeft: "2px solid rgba(6,182,212,0.3)", zIndex: 60, pointerEvents: "none" }} />
+      <Box sx={{ position: "absolute", bottom: 16, right: 16, width: 40, height: 40, borderBottom: "2px solid rgba(59,130,246,0.3)", borderRight: "2px solid rgba(59,130,246,0.3)", zIndex: 60, pointerEvents: "none" }} />
 
       {/* Grid phase */}
       <AnimatePresence>
@@ -445,9 +445,9 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
                 px: 2,
                 py: 1,
                 borderRadius: 50,
-                background: "rgba(10, 14, 26, 0.85)",
+                background: "rgba(10, 15, 31, 0.85)",
                 backdropFilter: "blur(24px)",
-                border: "1px solid rgba(108, 99, 255, 0.15)",
+                border: "1px solid rgba(59, 130, 246, 0.15)",
                 boxShadow: "0 8px 32px rgba(0,0,0,0.4)",
               }}
             >
@@ -490,8 +490,8 @@ export default function GridMenu({ onNavigate }: GridMenuProps) {
                 width: "100%",
                 mt: 2,
                 borderRadius: "24px 24px 0 0",
-                background: "linear-gradient(180deg, #111827 0%, #0A0E1A 100%)",
-                border: "1px solid rgba(108,99,255,0.1)",
+                background: "linear-gradient(180deg, #111a2e 0%, #0A0F1F 100%)",
+                border: "1px solid rgba(59,130,246,0.1)",
                 borderBottom: "none",
                 display: "flex",
                 alignItems: "center",

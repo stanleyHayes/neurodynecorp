@@ -49,8 +49,8 @@ const PER_PAGE = 9;
 const statusColors: Record<string, string> = {
   Draft: "#94A3B8",
   draft: "#94A3B8",
-  Generated: "#6C63FF",
-  generated: "#6C63FF",
+  Generated: "#3B82F6",
+  generated: "#3B82F6",
   "Under Review": "#F59E0B",
   under_review: "#F59E0B",
   Approved: "#10B981",
@@ -68,7 +68,7 @@ function formatStatus(status: string): string {
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
+    bgcolor: "rgba(59, 130, 246, 0.04)",
     "& fieldset": { borderColor: "rgba(139,92,246,0.15)" },
     "&:hover fieldset": { borderColor: "rgba(139,92,246,0.3)" },
     "&.Mui-focused fieldset": { borderColor: "#8B5CF6" },
@@ -150,7 +150,7 @@ export default function Specifications() {
     { label: "Total Specs", value: String(specs.length), change: "across all projects", icon: <DescriptionOutlinedIcon />, color: "#8B5CF6" },
     { label: "Approved", value: String(approved), change: "ready for dev", icon: <CheckCircleOutlinedIcon />, color: "#10B981" },
     { label: "Under Review", value: String(underReview), change: "awaiting feedback", icon: <RateReviewOutlinedIcon />, color: "#F59E0B" },
-    { label: "Draft / Generated", value: String(drafts), change: "in progress", icon: <DraftsOutlinedIcon />, color: "#6C63FF" },
+    { label: "Draft / Generated", value: String(drafts), change: "in progress", icon: <DraftsOutlinedIcon />, color: "#3B82F6" },
   ];
 
   if (loading) {
@@ -232,7 +232,7 @@ export default function Specifications() {
           }}
           sx={{
             "& .MuiOutlinedInput-root": {
-              bgcolor: "rgba(108, 99, 255, 0.04)",
+              bgcolor: "rgba(59, 130, 246, 0.04)",
               "& fieldset": { borderColor: "rgba(139,92,246,0.15)" },
               "&:hover fieldset": { borderColor: "rgba(139,92,246,0.3)" },
               "&.Mui-focused fieldset": { borderColor: "#8B5CF6" },

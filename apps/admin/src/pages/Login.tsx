@@ -88,7 +88,7 @@ export default function Login() {
           />
 
           <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-            <MuiLink component={Link} to="/forgot-password" sx={{ color: "#6C63FF", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
+            <MuiLink component={Link} to="/forgot-password" sx={{ color: "#3B82F6", fontSize: "0.875rem", fontWeight: 600, textDecoration: "none", "&:hover": { textDecoration: "underline" } }}>
               Forgot password?
             </MuiLink>
           </Box>
@@ -104,9 +104,9 @@ export default function Login() {
               fontSize: "1rem",
               fontWeight: 700,
               borderRadius: 1,
-              background: "linear-gradient(135deg, #6C63FF, #8B85FF)",
-              boxShadow: "0 4px 16px rgba(108, 99, 255, 0.3)",
-              "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(108, 99, 255, 0.4)" },
+              background: "linear-gradient(135deg, #3B82F6, #8B5CF6)",
+              boxShadow: "0 4px 16px rgba(59, 130, 246, 0.3)",
+              "&:hover": { background: "linear-gradient(135deg, #5B54EE, #7A75FF)", boxShadow: "0 6px 24px rgba(59, 130, 246, 0.4)" },
             }}
           >
             {isLoading ? <CircularProgress size={24} color="inherit" /> : "Sign In"}

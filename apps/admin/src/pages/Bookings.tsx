@@ -19,9 +19,9 @@ const STATUSES = ["requested", "confirmed", "declined", "completed"];
 
 const STATUS_COLOR: Record<string, string> = {
   requested: "#F59E0B",
-  confirmed: "#00D4AA",
+  confirmed: "#06B6D4",
   declined: "#EF4444",
-  completed: "#6C63FF",
+  completed: "#3B82F6",
 };
 
 const ROUTE_LABEL: Record<string, string> = {
@@ -38,9 +38,9 @@ function formatDate(iso?: string): string {
   return d.toLocaleString("en-US", { month: "short", day: "numeric", hour: "2-digit", minute: "2-digit" });
 }
 
-function StatCard({ label, value, color = "#6C63FF" }: { label: string; value: string; color?: string }) {
+function StatCard({ label, value, color = "#3B82F6" }: { label: string; value: string; color?: string }) {
   return (
-    <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
+    <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
       <CardContent>
         <Typography sx={{ ...overlineSx, mb: 1 }}>{label}</Typography>
         <Typography variant="h4" sx={{ fontWeight: 800, color }}>{value}</Typography>
@@ -102,7 +102,7 @@ export default function Bookings() {
         ) : (
           <>
             <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
-              <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
+              <StatCard label="Total" value={String(items.length)} color="#3B82F6" />
               <StatCard label="Awaiting confirmation" value={String(pending)} color="#F59E0B" />
             </Stack>
 
@@ -118,7 +118,7 @@ export default function Bookings() {
 
             <Divider sx={{ mb: 2, borderColor: "rgba(255,255,255,0.06)" }} />
 
-            <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
+            <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
               {items.length === 0 ? (
                 <Box sx={{ textAlign: "center", py: 8 }}>
                   <EventAvailableOutlinedIcon sx={{ fontSize: 48, color: "text.secondary", opacity: 0.3, mb: 1 }} />
@@ -151,7 +151,7 @@ export default function Bookings() {
                             <Typography component="span" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.65rem", color: "text.secondary", opacity: 0.7 }}>{b.email ?? ""}</Typography>
                           </TableCell>
                           <TableCell>
-                            {b.route ? <Chip label={ROUTE_LABEL[b.route] ?? b.route} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(108,99,255,0.12)", color: "#8B85FF" }} /> : <Typography sx={{ color: "text.secondary", opacity: 0.5 }}>—</Typography>}
+                            {b.route ? <Chip label={ROUTE_LABEL[b.route] ?? b.route} size="small" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", bgcolor: "rgba(59,130,246,0.12)", color: "#8B5CF6" }} /> : <Typography sx={{ color: "text.secondary", opacity: 0.5 }}>—</Typography>}
                           </TableCell>
                           <TableCell sx={{ fontWeight: 700, fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem" }}>
                             {b.durationMins ? `${b.durationMins}m` : "—"}

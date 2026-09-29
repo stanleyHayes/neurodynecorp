@@ -19,16 +19,16 @@ const STATUSES = ["open", "in_progress", "waiting", "resolved", "closed"];
 
 const STATUS_COLOR: Record<string, string> = {
   open: "#F59E0B",
-  in_progress: "#6C63FF",
-  waiting: "#8B85FF",
-  resolved: "#00D4AA",
+  in_progress: "#3B82F6",
+  waiting: "#8B5CF6",
+  resolved: "#06B6D4",
   closed: "#94A3B8",
 };
 
 const PRIORITY_COLOR: Record<string, string> = {
   urgent: "#EF4444",
   high: "#F59E0B",
-  normal: "#6C63FF",
+  normal: "#3B82F6",
   low: "#94A3B8",
 };
 
@@ -45,9 +45,9 @@ function slaBreached(t: any): boolean {
   return Boolean(due) && Date.now() > due;
 }
 
-function StatCard({ label, value, color = "#6C63FF" }: { label: string; value: string; color?: string }) {
+function StatCard({ label, value, color = "#3B82F6" }: { label: string; value: string; color?: string }) {
   return (
-    <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
+    <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: `${color}30`, borderRadius: 2, flex: 1, minWidth: 140 }}>
       <CardContent>
         <Typography sx={{ ...overlineSx, mb: 1 }}>{label}</Typography>
         <Typography variant="h4" sx={{ fontWeight: 800, color }}>{value}</Typography>
@@ -133,7 +133,7 @@ export default function Tickets() {
         ) : (
           <>
             <Stack direction="row" spacing={2} sx={{ alignItems: "stretch", mb: 3, flexWrap: "wrap", gap: 2 }}>
-              <StatCard label="Total" value={String(items.length)} color="#6C63FF" />
+              <StatCard label="Total" value={String(items.length)} color="#3B82F6" />
               <StatCard label="Awaiting first response" value={String(awaiting)} color="#F59E0B" />
               <StatCard label="SLA breached" value={String(breached)} color="#EF4444" />
             </Stack>
@@ -148,7 +148,7 @@ export default function Tickets() {
 
             <Divider sx={{ mb: 2, borderColor: "rgba(255,255,255,0.06)" }} />
 
-            <Card variant="outlined" sx={{ bgcolor: "#111827", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
+            <Card variant="outlined" sx={{ bgcolor: "#111a2e", borderColor: "rgba(255,255,255,0.08)", borderRadius: 2 }}>
               {items.length === 0 ? (
                 <Box sx={{ textAlign: "center", py: 8 }}>
                   <SupportAgentOutlinedIcon sx={{ fontSize: 48, color: "text.secondary", opacity: 0.3, mb: 1 }} />
@@ -215,8 +215,8 @@ export default function Tickets() {
                 ) : (
                   <Stack spacing={1.5}>
                     {(active.replies ?? []).map((rep: any) => (
-                      <Box key={rep.id} sx={{ p: 1.25, borderRadius: 1.5, bgcolor: rep.staff ? "rgba(0,212,170,0.08)" : "rgba(108,99,255,0.06)", border: "1px solid", borderColor: rep.staff ? "rgba(0,212,170,0.25)" : "rgba(108,99,255,0.15)" }}>
-                        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#00D4AA" : "#8B85FF", textTransform: "uppercase", mb: 0.5 }}>
+                      <Box key={rep.id} sx={{ p: 1.25, borderRadius: 1.5, bgcolor: rep.staff ? "rgba(6,182,212,0.08)" : "rgba(59,130,246,0.06)", border: "1px solid", borderColor: rep.staff ? "rgba(6,182,212,0.25)" : "rgba(59,130,246,0.15)" }}>
+                        <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.08em", color: rep.staff ? "#06B6D4" : "#8B5CF6", textTransform: "uppercase", mb: 0.5 }}>
                           {rep.staff ? "Staff" : "Client"}{rep.createdAt ? ` · ${formatDate(rep.createdAt)}` : ""}
                         </Typography>
                         <Typography variant="body2" sx={{ whiteSpace: "pre-wrap" }}>{rep.body}</Typography>

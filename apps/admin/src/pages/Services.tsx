@@ -111,9 +111,9 @@ export default function Services() {
   const totalProjects = services.reduce((sum, s) => sum + s.projectCount, 0);
 
   const stats = [
-    { label: "Total Services", value: String(services.length), change: `${activeCount} active`, icon: <MiscellaneousServicesOutlinedIcon />, color: "#00D4AA" },
+    { label: "Total Services", value: String(services.length), change: `${activeCount} active`, icon: <MiscellaneousServicesOutlinedIcon />, color: "#06B6D4" },
     { label: "Active", value: String(activeCount), change: "offered to clients", icon: <CheckCircleOutlinedIcon />, color: "#10B981" },
-    { label: "Total Projects", value: String(totalProjects), change: "across all services", icon: <FolderOutlinedIcon />, color: "#6C63FF" },
+    { label: "Total Projects", value: String(totalProjects), change: "across all services", icon: <FolderOutlinedIcon />, color: "#3B82F6" },
   ];
 
   return (
@@ -124,11 +124,11 @@ export default function Services() {
         description="Manage service offerings displayed on the public website."
         tag="CONTENT // SERVICES"
         accentWord="Services"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="OFFERINGS"
       />
 
-      <ActionBar label="New Service" subtitle="ADD OFFERING" color="#00D4AA" onClick={() => navigate("/services/new")} />
+      <ActionBar label="New Service" subtitle="ADD OFFERING" color="#06B6D4" onClick={() => navigate("/services/new")} />
 
       <SectionLabel>Service Metrics</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr 1fr" } }}>
@@ -152,7 +152,7 @@ export default function Services() {
           icon={<MiscellaneousServicesOutlinedIcon />}
           title="No services yet"
           description="Define your first service offering to showcase your capabilities on the public website."
-          color="#00D4AA"
+          color="#06B6D4"
           onRefresh={loadServices}
           onAdd={() => navigate("/services/new")}
           addLabel="New Service"

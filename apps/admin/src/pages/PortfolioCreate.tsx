@@ -11,7 +11,7 @@ import Cell from "@/components/shared/AnimatedCard";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import { useAuth } from "@/context/AuthContext";
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const CATEGORIES = ["Fintech", "Healthcare", "Supply Chain", "Analytics", "Education", "IoT", "Real Estate", "CleanTech"];
 const SECTORS = ["Government", "Health", "Financial Services", "Insurance", "Retail / Commerce", "Energy", "Education", "NGO / Development", "Proptech / Housing"];
@@ -19,9 +19,9 @@ const SERVICE_LINES = ["Audit & Architecture", "Enterprise & Government", "AI & 
 const SCALES = ["Pilot", "Growth", "Enterprise", "National"];
 const STAGES = ["Discovery", "In Development", "QA", "Approved", "Delivered"];
 const COLORS = [
-  { label: "Purple", value: "#6C63FF" },
-  { label: "Teal", value: "#00D4AA" },
-  { label: "Lavender", value: "#8B85FF" },
+  { label: "Purple", value: "#3B82F6" },
+  { label: "Teal", value: "#06B6D4" },
+  { label: "Lavender", value: "#8B5CF6" },
   { label: "Amber", value: "#F59E0B" },
   { label: "Violet", value: "#8B5CF6" },
 ];
@@ -33,10 +33,10 @@ const slugify = (s: string) => s.toLowerCase().replace(/[^a-z0-9]+/g, "-").repla
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
 };
 
@@ -55,7 +55,7 @@ export default function PortfolioCreate() {
   const [category, setCategory] = useState("Fintech");
   const [description, setDescription] = useState("");
   const [impact, setImpact] = useState("");
-  const [color, setColor] = useState("#6C63FF");
+  const [color, setColor] = useState("#3B82F6");
   const [tagInput, setTagInput] = useState("");
   const [tags, setTags] = useState<string[]>([]);
 
@@ -138,7 +138,7 @@ export default function PortfolioCreate() {
     <Box>
       <Box
         onClick={() => navigate("/portfolio")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO PORTFOLIO</Typography>
@@ -150,20 +150,20 @@ export default function PortfolioCreate() {
         description="Add a new project showcase to the public portfolio."
         tag="CONTENT // NEW CASE STUDY"
         accentWord="New"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="PORTFOLIO"
       />
 
       {/* Action bar */}
       <Box sx={{ display: "flex", justifyContent: "flex-end", px: 3, py: 1.5, borderBottom: `1px solid ${BORDER}` }}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small" onClick={() => navigate("/portfolio")} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+          <Button variant="outlined" size="small" onClick={() => navigate("/portfolio")} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
             Cancel
           </Button>
-          <Button variant="outlined" size="small" startIcon={<SaveOutlinedIcon />} disabled={!canSubmit} onClick={() => handleSave("draft")} sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}>
+          <Button variant="outlined" size="small" startIcon={<SaveOutlinedIcon />} disabled={!canSubmit} onClick={() => handleSave("draft")} sx={{ ...btnSx, borderColor: "#F59E0B40", color: "#F59E0B", "&:hover": { borderColor: "#F59E0B", bgcolor: "#F59E0B08" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}>
             {saving ? "Saving…" : "Save Draft"}
           </Button>
-          <Button variant="outlined" size="small" disabled={!canSubmit} onClick={() => handleSave("published")} sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}>
+          <Button variant="outlined" size="small" disabled={!canSubmit} onClick={() => handleSave("published")} sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}>
             Publish
           </Button>
         </Stack>
@@ -178,7 +178,7 @@ export default function PortfolioCreate() {
       {/* Form fields */}
       <SectionLabel>Case Study Details</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#6C63FF" index="00" colInRow={0} totalCols={2} animDelay={0}>
+        <Cell color="#3B82F6" index="00" colInRow={0} totalCols={2} animDelay={0}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Project Title" value={title} onChange={(e) => setTitle(e.target.value)} sx={inputSx} />
             <TextField fullWidth size="small" label="Client Name" value={client} onChange={(e) => setClient(e.target.value)} sx={inputSx} />
@@ -187,7 +187,7 @@ export default function PortfolioCreate() {
             </TextField>
           </Stack>
         </Cell>
-        <Cell color="#00D4AA" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
+        <Cell color="#06B6D4" index="01" colInRow={1} totalCols={2} animDelay={0.1}>
           <Stack spacing={2}>
             <TextField fullWidth size="small" label="Impact Metric" placeholder="e.g. 50K+ users, 3x faster" value={impact} onChange={(e) => setImpact(e.target.value)} sx={inputSx} />
             <TextField select fullWidth size="small" label="Accent Color" value={color} onChange={(e) => setColor(e.target.value)} sx={inputSx}>
@@ -211,7 +211,7 @@ export default function PortfolioCreate() {
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addTag(); } }}
                   sx={{ ...inputSx, flex: 1 }}
                 />
-                <IconButton size="small" onClick={addTag} sx={{ color: "#6C63FF" }}><AddOutlinedIcon /></IconButton>
+                <IconButton size="small" onClick={addTag} sx={{ color: "#3B82F6" }}><AddOutlinedIcon /></IconButton>
               </Stack>
               {tags.length > 0 && (
                 <Stack direction="row" spacing={0.5} sx={{ mt: 1, flexWrap: "wrap", gap: 0.5 }}>
@@ -233,7 +233,7 @@ export default function PortfolioCreate() {
       </Box>
 
       <SectionLabel>Description</SectionLabel>
-      <Cell color="#6C63FF" index="02" animDelay={0.2}>
+      <Cell color="#3B82F6" index="02" animDelay={0.2}>
         <TextField
           fullWidth
           multiline
@@ -249,7 +249,7 @@ export default function PortfolioCreate() {
       {/* Case Dossier fields */}
       <SectionLabel>Case Dossier (declassified brief)</SectionLabel>
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-        <Cell color="#8B85FF" index="03" colInRow={0} totalCols={2} animDelay={0.3}>
+        <Cell color="#8B5CF6" index="03" colInRow={0} totalCols={2} animDelay={0.3}>
           <Stack spacing={2}>
             <TextField select fullWidth size="small" label="Sector" value={sector} onChange={(e) => setSector(e.target.value)} sx={inputSx}>
               <MenuItem value=""><em>None</em></MenuItem>
@@ -285,7 +285,7 @@ export default function PortfolioCreate() {
                   onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addConstraint(); } }}
                   sx={{ ...inputSx, flex: 1 }}
                 />
-                <IconButton size="small" onClick={addConstraint} sx={{ color: "#6C63FF" }}><AddOutlinedIcon /></IconButton>
+                <IconButton size="small" onClick={addConstraint} sx={{ color: "#3B82F6" }}><AddOutlinedIcon /></IconButton>
               </Stack>
               {constraints.length > 0 && (
                 <Stack direction="row" spacing={0.5} sx={{ mt: 1, flexWrap: "wrap", gap: 0.5 }}>
@@ -299,7 +299,7 @@ export default function PortfolioCreate() {
         </Cell>
       </Box>
 
-      <Cell color="#8B85FF" index="05" animDelay={0.4}>
+      <Cell color="#8B5CF6" index="05" animDelay={0.4}>
         <Stack spacing={2}>
           <TextField fullWidth multiline minRows={2} size="small" label="Architecture chosen" value={architecture} onChange={(e) => setArchitecture(e.target.value)} sx={inputSx} />
           <TextField fullWidth multiline minRows={3} size="small" label="What shipped (one per line)" value={shipped} onChange={(e) => setShipped(e.target.value)} sx={inputSx} />

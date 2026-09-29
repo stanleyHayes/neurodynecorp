@@ -7,12 +7,12 @@ import HeadsetMicOutlinedIcon from "@mui/icons-material/HeadsetMicOutlined";
 const MotionBox = motion.create(Box);
 
 const doodles = [
-  { top: "10%", left: "8%", size: 70, rotate: 15, delay: 0, color: "rgba(108,99,255,0.07)", type: "circle" as const },
-  { top: "22%", right: "10%", size: 100, rotate: -20, delay: 0.4, color: "rgba(0,212,170,0.05)", type: "square" as const },
-  { top: "60%", left: "5%", size: 50, rotate: 45, delay: 0.8, color: "rgba(139,133,255,0.06)", type: "square" as const },
-  { top: "75%", right: "12%", size: 80, rotate: -10, delay: 0.3, color: "rgba(0,212,170,0.04)", type: "circle" as const },
-  { top: "40%", left: "70%", size: 35, rotate: 60, delay: 1, color: "rgba(108,99,255,0.05)", type: "circle" as const },
-  { top: "85%", left: "30%", size: 45, rotate: 30, delay: 0.6, color: "rgba(139,133,255,0.05)", type: "square" as const },
+  { top: "10%", left: "8%", size: 70, rotate: 15, delay: 0, color: "rgba(59,130,246,0.07)", type: "circle" as const },
+  { top: "22%", right: "10%", size: 100, rotate: -20, delay: 0.4, color: "rgba(6,182,212,0.05)", type: "square" as const },
+  { top: "60%", left: "5%", size: 50, rotate: 45, delay: 0.8, color: "rgba(139,92,246,0.06)", type: "square" as const },
+  { top: "75%", right: "12%", size: 80, rotate: -10, delay: 0.3, color: "rgba(6,182,212,0.04)", type: "circle" as const },
+  { top: "40%", left: "70%", size: 35, rotate: 60, delay: 1, color: "rgba(59,130,246,0.05)", type: "circle" as const },
+  { top: "85%", left: "30%", size: 45, rotate: 30, delay: 0.6, color: "rgba(139,92,246,0.05)", type: "square" as const },
 ];
 
 export default function NotFound() {
@@ -27,7 +27,7 @@ export default function NotFound() {
         justifyContent: "center",
         overflow: "hidden",
         background:
-          "radial-gradient(ellipse at 30% 30%, rgba(108,99,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(0,212,170,0.06) 0%, transparent 50%), #0A0E1A",
+          "radial-gradient(ellipse at 30% 30%, rgba(59,130,246,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(6,182,212,0.06) 0%, transparent 50%), #0A0F1F",
         px: 3,
       }}
     >
@@ -37,8 +37,8 @@ export default function NotFound() {
           position: "absolute",
           inset: 0,
           backgroundImage: `
-            linear-gradient(rgba(108,99,255,0.03) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(108,99,255,0.03) 1px, transparent 1px)
+            linear-gradient(rgba(59,130,246,0.03) 1px, transparent 1px),
+            linear-gradient(90deg, rgba(59,130,246,0.03) 1px, transparent 1px)
           `,
           backgroundSize: "80px 80px",
           pointerEvents: "none",
@@ -88,7 +88,7 @@ export default function NotFound() {
             fontSize: { xs: "8rem", md: "12rem" },
             fontWeight: 900,
             lineHeight: 1,
-            background: "linear-gradient(135deg, #6C63FF 0%, #00D4AA 50%, #8B85FF 100%)",
+            background: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #8B5CF6 100%)",
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -138,11 +138,11 @@ export default function NotFound() {
               px: 4,
               py: 1.5,
               fontSize: "1rem",
-              background: "linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%)",
+              background: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)",
               "&:hover": {
                 background: "linear-gradient(135deg, #5B54EE 0%, #00C49A 100%)",
                 transform: "translateY(-2px)",
-                boxShadow: "0 8px 25px rgba(108,99,255,0.3)",
+                boxShadow: "0 8px 25px rgba(59,130,246,0.3)",
               },
               transition: "all 0.3s ease",
             }}
@@ -159,11 +159,11 @@ export default function NotFound() {
               px: 4,
               py: 1.5,
               fontSize: "1rem",
-              borderColor: "rgba(108,99,255,0.4)",
+              borderColor: "rgba(59,130,246,0.4)",
               color: "text.primary",
               "&:hover": {
-                borderColor: "#6C63FF",
-                background: "rgba(108,99,255,0.08)",
+                borderColor: "#3B82F6",
+                background: "rgba(59,130,246,0.08)",
                 transform: "translateY(-2px)",
               },
               transition: "all 0.3s ease",

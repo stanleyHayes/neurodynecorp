@@ -42,7 +42,7 @@ interface RBACRole {
   updated_at: string;
 }
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const FALLBACK_RESOURCES = [
   "dashboard", "pipeline", "analytics", "clients", "projects",
@@ -80,10 +80,10 @@ function formatResource(r: string): string {
 
 const inputSx = {
   "& .MuiOutlinedInput-root": {
-    bgcolor: "rgba(108, 99, 255, 0.04)",
-    "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-    "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+    bgcolor: "rgba(59, 130, 246, 0.04)",
+    "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+    "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
   },
 };
 
@@ -221,7 +221,7 @@ export default function RoleDetail() {
       <Box>
         <Box
           onClick={() => navigate("/roles")}
-          sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+          sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
         >
           <ArrowBackIcon sx={{ fontSize: 18 }} />
           <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
@@ -233,14 +233,14 @@ export default function RoleDetail() {
 
   if (!role) return null;
 
-  const color = role.is_system ? "#F59E0B" : "#6C63FF";
+  const color = role.is_system ? "#F59E0B" : "#3B82F6";
   const resourceCount = new Set(role.permissions.map((p) => p.split(":")[0])).size;
 
   return (
     <Box>
       <Box
         onClick={() => navigate("/roles")}
-        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#6C63FF" }, transition: "color 0.2s" }}
+        sx={{ display: "inline-flex", alignItems: "center", gap: 1, px: 3, py: 1.5, cursor: "pointer", color: "text.secondary", "&:hover": { color: "#3B82F6" }, transition: "color 0.2s" }}
       >
         <ArrowBackIcon sx={{ fontSize: 18 }} />
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO ROLES</Typography>
@@ -261,7 +261,7 @@ export default function RoleDetail() {
         <Stack direction="row" spacing={1}>
           {editing ? (
             <>
-              <Button variant="outlined" size="small" onClick={handleCancel} sx={{ ...btnSx, borderColor: "rgba(108,99,255,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(108,99,255,0.4)" } }}>
+              <Button variant="outlined" size="small" onClick={handleCancel} sx={{ ...btnSx, borderColor: "rgba(59,130,246,0.2)", color: "text.secondary", "&:hover": { borderColor: "rgba(59,130,246,0.4)" } }}>
                 Cancel
               </Button>
               <Button
@@ -270,7 +270,7 @@ export default function RoleDetail() {
                 startIcon={saving ? <CircularProgress size={14} /> : <SaveOutlinedIcon />}
                 disabled={!formName.trim() || formPermissions.size === 0 || saving}
                 onClick={handleSave}
-                sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(108,99,255,0.1)", color: "text.secondary", opacity: 0.3 } }}
+                sx={{ ...btnSx, borderColor: "#10B98140", color: "#10B981", "&:hover": { borderColor: "#10B981", bgcolor: "#10B98108" }, "&.Mui-disabled": { borderColor: "rgba(59,130,246,0.1)", color: "text.secondary", opacity: 0.3 } }}
               >
                 Save Changes
               </Button>
@@ -285,7 +285,7 @@ export default function RoleDetail() {
                 </PermissionGate>
               )}
               <PermissionGate permission="roles:update">
-                <Button variant="outlined" size="small" onClick={() => setEditing(true)} sx={{ ...btnSx, borderColor: "#6C63FF40", color: "#6C63FF", "&:hover": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.05)" } }}>
+                <Button variant="outlined" size="small" onClick={() => setEditing(true)} sx={{ ...btnSx, borderColor: "#3B82F640", color: "#3B82F6", "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.05)" } }}>
                   Edit Role
                 </Button>
               </PermissionGate>
@@ -323,15 +323,15 @@ export default function RoleDetail() {
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{role.permissions.length}</Typography>
           <Typography variant="caption" sx={{ color: "#8B5CF6", opacity: 0.8 }}>total assigned</Typography>
         </Cell>
-        <Cell color="#00D4AA" index="02" colInRow={2} totalCols={4} animDelay={0.2} minH={120}>
-          <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#00D4AA", filter: "drop-shadow(0 0 12px rgba(0,212,170,0.25))", mb: 1 }}>
+        <Cell color="#06B6D4" index="02" colInRow={2} totalCols={4} animDelay={0.2} minH={120}>
+          <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#06B6D4", filter: "drop-shadow(0 0 12px rgba(6,182,212,0.25))", mb: 1 }}>
             <SecurityOutlinedIcon />
           </Box>
           <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", letterSpacing: "0.15em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6, mb: 0.5 }}>
             Resources
           </Typography>
           <Typography variant="h4" sx={{ fontWeight: 800, mb: 0.5 }}>{resourceCount}</Typography>
-          <Typography variant="caption" sx={{ color: "#00D4AA", opacity: 0.8 }}>with access</Typography>
+          <Typography variant="caption" sx={{ color: "#06B6D4", opacity: 0.8 }}>with access</Typography>
         </Cell>
         <Cell color="#F59E0B" index="03" colInRow={3} totalCols={4} animDelay={0.3} minH={120}>
           <Box sx={{ "& .MuiSvgIcon-root": { fontSize: 28 }, color: "#F59E0B", filter: "drop-shadow(0 0 12px rgba(245,158,11,0.25))", mb: 1 }}>
@@ -350,7 +350,7 @@ export default function RoleDetail() {
           {/* Editable form */}
           <SectionLabel>Role Details</SectionLabel>
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-            <Cell color="#6C63FF" index="04" colInRow={0} totalCols={2} animDelay={0.35}>
+            <Cell color="#3B82F6" index="04" colInRow={0} totalCols={2} animDelay={0.35}>
               <Stack spacing={2}>
                 <TextField fullWidth size="small" label="Role Name" value={formName} onChange={(e) => setFormName(e.target.value)} sx={inputSx} />
                 <TextField fullWidth size="small" label="Description" value={formDescription} onChange={(e) => setFormDescription(e.target.value)} multiline rows={2} sx={inputSx} />
@@ -371,7 +371,7 @@ export default function RoleDetail() {
           </Box>
 
           <SectionLabel>Permissions</SectionLabel>
-          <Cell color="#6C63FF" index="06" animDelay={0.45}>
+          <Cell color="#3B82F6" index="06" animDelay={0.45}>
             <Typography variant="caption" sx={{ color: "text.secondary", display: "block", mb: 2 }}>
               Higher actions automatically include lower ones (delete includes update, create, and read)
             </Typography>

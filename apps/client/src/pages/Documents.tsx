@@ -113,7 +113,7 @@ export default function Documents() {
               icon={<FolderOffOutlinedIcon />}
               title="No documents yet"
               description="When documents are uploaded to your projects, they will appear here for easy access."
-              color="#8B85FF"
+              color="#8B5CF6"
             />
           ) : (
             <TableContainer>

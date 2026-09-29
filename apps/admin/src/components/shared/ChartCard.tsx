@@ -15,7 +15,7 @@ interface ChartCardProps {
 
 export default function ChartCard({
   title,
-  color = "#6C63FF",
+  color = "#3B82F6",
   index,
   colInRow,
   totalCols,
