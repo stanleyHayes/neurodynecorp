@@ -1,7 +1,7 @@
 import { Box, Typography, Button } from "@mui/material";
 import { motion } from "framer-motion";
 import { Link } from "react-router";
-import DoodleBackground from "@/components/doodles/DoodleBackground";
+import OrbitField from "@/components/shared/OrbitField";
 import SEO from "@/components/seo/SEO";
 
 const MotionBox = motion.create(Box);
@@ -26,7 +26,7 @@ export default function NotFound() {
         }}
       >
         {/* Doodles everywhere */}
-        <DoodleBackground density="dense" />
+        <OrbitField />
 
         {/* Center content */}
         <MotionBox

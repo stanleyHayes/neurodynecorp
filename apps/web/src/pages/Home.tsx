@@ -11,7 +11,7 @@ import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
 import SEO from "@/components/seo/SEO";
-import HeroWireframe from "@/components/shared/HeroWireframe";
+import HeroOrbit from "@/components/shared/HeroOrbit";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import MaturityBadge from "@/components/shared/MaturityBadge";
 import { Overline, SectionHeading } from "@/components/shared/Marketing";
@@ -144,7 +144,7 @@ export default function Home() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 5 }}>
-              <HeroWireframe />
+              <HeroOrbit />
             </Grid>
           </Grid>
         </Container>
