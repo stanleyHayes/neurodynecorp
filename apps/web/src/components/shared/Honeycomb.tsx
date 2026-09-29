@@ -51,7 +51,7 @@ export default function Honeycomb({
               p: 3,
               border: "1px solid",
               borderColor: "divider",
-              bgcolor: `${item.accent ?? "#6C63FF"}08`,
+              bgcolor: `${item.accent ?? "#3B82F6"}08`,
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
@@ -113,7 +113,7 @@ export default function Honeycomb({
           }}
         >
           {row.map((item, ci) => {
-            const accent = item.accent ?? "#6C63FF";
+            const accent = item.accent ?? "#3B82F6";
             return (
               <MotionBox
                 key={item.key}
@@ -148,7 +148,7 @@ export default function Honeycomb({
                     clipPath: HEX_CLIP,
                     background:
                       theme.palette.mode === "dark"
-                        ? `linear-gradient(160deg, ${accent}14, rgba(10,14,26,0.92))`
+                        ? `linear-gradient(160deg, ${accent}14, rgba(10,15,31,0.92))`
                         : `linear-gradient(160deg, ${accent}12, rgba(255,255,255,0.94))`,
                     transition: "background 0.28s ease",
                   }}

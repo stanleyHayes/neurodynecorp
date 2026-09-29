@@ -22,15 +22,15 @@ export default function SoundToggle() {
           sx={{
             width: 40,
             height: 40,
-            border: "1px solid rgba(108,99,255,0.2)",
-            bgcolor: "rgba(10,14,26,0.8)",
+            border: "1px solid rgba(59,130,246,0.2)",
+            bgcolor: "rgba(10,15,31,0.8)",
             backdropFilter: "blur(8px)",
-            color: enabled ? "#6C63FF" : "text.secondary",
+            color: enabled ? "#3B82F6" : "text.secondary",
             transition: "all 0.2s",
             "&:hover": {
-              borderColor: "rgba(108,99,255,0.4)",
-              bgcolor: "rgba(10,14,26,0.9)",
-              boxShadow: enabled ? "0 0 16px rgba(108,99,255,0.3)" : "none",
+              borderColor: "rgba(59,130,246,0.4)",
+              bgcolor: "rgba(10,15,31,0.9)",
+              boxShadow: enabled ? "0 0 16px rgba(59,130,246,0.3)" : "none",
             },
           }}
         >

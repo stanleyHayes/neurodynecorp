@@ -19,7 +19,7 @@ interface Category {
 const CATEGORIES: Category[] = [
   {
     name: "Engagement model",
-    color: "#6C63FF",
+    color: "#3B82F6",
     items: [
       { q: "How do engagements start?", a: "By qualification, not enquiry. You complete the Engagement Readiness Diagnostic; we route you to the right path and a qualified conversation." },
       { q: "Do you take any project?", a: "No. We're selective on mission-critical builds and take web/platform work where it earns strategic position." },
@@ -28,7 +28,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Pricing",
-    color: "#00D4AA",
+    color: "#06B6D4",
     items: [
       { q: "How do you price?", a: "Audits are fixed-scope; builds are milestone-paid; advisory is retainer-based. We publish indicative bands on each service page." },
       { q: "What currencies do you work in?", a: "USD, GHS, and EUR where relevant. The billing currency and any rate assumptions are fixed in the engagement agreement before work starts." },
@@ -37,7 +37,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Intellectual property",
-    color: "#8B85FF",
+    color: "#8B5CF6",
     items: [
       { q: "Who owns what we build?", a: "Client engagements: you own the deliverables. Labs platforms: the IP stays with the firm and would be licensed to you rather than transferred. We make the distinction explicit up front." },
       { q: "Can we extract our data?", a: "Yes. Deliverables, decisions, milestones, and audit logs are yours, and a full export can be requested at any point during or after the engagement. Export is a contractual commitment, not a feature you have to negotiate for." },
@@ -53,7 +53,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Timelines",
-    color: "#33DDBB",
+    color: "#10B981",
     items: [
       { q: "How long does an audit take?", a: "Audits are scoped per engagement rather than sold against a fixed calendar. The duration and the review points are agreed in writing before work begins." },
       { q: "How fast can a build go live?", a: "Builds are phased so that each phase is independently shippable rather than held for one large launch. The phase plan and its dates are set with you at the start of the engagement, not quoted as a general timeline." },
@@ -61,7 +61,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Who does the work",
-    color: "#6C63FF",
+    color: "#3B82F6",
     items: [
       { q: "Who works on my engagement?", a: "NeuroDyne is founder-led by one engineer. The person who scopes the work is the person who designs, builds, and ships it — there is no handover to an unnamed delivery team." },
       { q: "Where are you based?", a: "Ghana. Engagements are delivered remotely, and the practice is oriented toward institutions building in Ghana and West Africa." },
@@ -69,7 +69,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Security & data protection",
-    color: "#00D4AA",
+    color: "#06B6D4",
     items: [
       { q: "How do you handle security?", a: "Role-based access control with per-permission checks, an append-only audit log on sensitive actions, and encryption in transit. Multi-factor authentication is not enabled yet, and there is no third-party certification or external audit to point to — every control is written out on the Trust Center so you can assess it directly." },
       { q: "What regulations do you align to?", a: "Work is designed to align with GDPR and Ghana's Data Protection Act 2012 (Act 843). That is a design posture rather than a certified compliance position; a data-processing agreement and sub-processor disclosure are available on request." },
@@ -77,7 +77,7 @@ const CATEGORIES: Category[] = [
   },
   {
     name: "Post-launch",
-    color: "#8B85FF",
+    color: "#8B5CF6",
     items: [
       { q: "What happens after launch?", a: "Handover runbooks, training, a post-engagement report, and an agreed support plan. The engagement workspace stays as your record." },
       { q: "Do you offer ongoing support?", a: "Yes — through support tickets in the client portal and, where it fits, a retained advisory relationship. Response expectations are agreed in the support plan itself rather than advertised as a blanket SLA." },
@@ -116,7 +116,7 @@ export default function FAQ() {
         description="A working reference, not a marketing FAQ. Grouped by what people actually ask before they engage."
         tag="REFERENCE // FAQ"
         accentWord="answered"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="KNOWLEDGE BASE"
       />
 
@@ -170,7 +170,7 @@ export default function FAQ() {
             tag="STILL STUCK?"
             title="Didn't find your answer?"
             description="Reach out directly and we'll get back to you. Serious enquiries get a serious response."
-            color="#6C63FF"
+            color="#3B82F6"
           />
         </Stack>
       </Container>

@@ -36,7 +36,7 @@ export default function Services() {
         description={SERVICES_OVERVIEW.description}
         tag="COMPANY // ENGINEERING"
         accentWord="Services"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="WAYS TO ENGAGE"
       />
       <Container maxWidth="lg" sx={{ py: { xs: 4, md: 6 } }}>

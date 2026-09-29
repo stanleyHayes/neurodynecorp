@@ -5,7 +5,7 @@ import { BlueprintGrid, IconWatermark } from "@/components/shared/Watermark";
 
 const MotionBox = motion.create(Box);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 function HeroCell({
   children,
@@ -108,7 +108,7 @@ export default function PageHero({
   description,
   tag,
   accentWord,
-  iconColor = "#00D4AA",
+  iconColor = "#06B6D4",
   iconLabel,
 }: PageHeroProps) {
   // Split title at accentWord if provided
@@ -153,21 +153,21 @@ export default function PageHero({
         sx={{
           position: "absolute",
           inset: 0,
-          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.04) 2px, rgba(108,99,255,0.04) 4px)",
+          backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.04) 2px, rgba(59,130,246,0.04) 4px)",
           pointerEvents: "none",
           zIndex: 50,
         }}
       />
 
       {/* Left — text */}
-      <HeroCell color="#6C63FF" index="00" colInRow={0} totalCols={2} minH={{ xs: 280, md: 340 }}>
+      <HeroCell color="#3B82F6" index="00" colInRow={0} totalCols={2} minH={{ xs: 280, md: 340 }}>
         <MotionBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
           <Typography
             sx={{
               fontSize: "0.6rem",
               fontFamily: "monospace",
               fontWeight: 600,
-              color: "#6C63FF",
+              color: "#3B82F6",
               letterSpacing: "0.25em",
               textTransform: "uppercase",
               mb: 3,
@@ -194,7 +194,7 @@ export default function PageHero({
                 <Box
                   component="span"
                   sx={{
-                    background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                    background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                     backgroundClip: "text",
                     WebkitBackgroundClip: "text",
                     WebkitTextFillColor: "transparent",

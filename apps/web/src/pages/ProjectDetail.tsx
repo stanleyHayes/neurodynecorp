@@ -211,7 +211,7 @@ export default function ProjectDetail() {
 
           <Divider />
 
-          <Section tag="Who it serves" title="The people on the other side" icon={<GroupsOutlinedIcon />} accent="#8B85FF">
+          <Section tag="Who it serves" title="The people on the other side" icon={<GroupsOutlinedIcon />} accent="#8B5CF6">
             <Stack direction="row" sx={{ flexWrap: "wrap", gap: 1 }}>
               {project.audience.map((a) => (
                 <Box
@@ -239,7 +239,7 @@ export default function ProjectDetail() {
               items={[{ icon: <PublicOutlinedIcon />, at: { top: "-20%", right: "0%" }, size: 380 }]}
             />
             <Box sx={{ position: "relative", zIndex: 1 }}>
-              <Section tag="Why it matters" title="Impact on Ghana & the region" icon={<PublicOutlinedIcon />} accent="#00D4AA">
+              <Section tag="Why it matters" title="Impact on Ghana & the region" icon={<PublicOutlinedIcon />} accent="#06B6D4">
                 <Stack spacing={2}>
                   {project.impact.map((p, i) => (
                     <Typography key={i} color="text.secondary" sx={{ lineHeight: 1.95, fontSize: "1.02rem" }}>
@@ -254,7 +254,7 @@ export default function ProjectDetail() {
           {project.provenPrimitives && project.provenPrimitives.length > 0 && (
             <>
               <Divider />
-              <Section tag="What it proved" title="Primitives now reused elsewhere" icon={<LayersOutlinedIcon />} accent="#6C63FF">
+              <Section tag="What it proved" title="Primitives now reused elsewhere" icon={<LayersOutlinedIcon />} accent="#3B82F6">
                 <Typography color="text.secondary" sx={{ lineHeight: 1.9, mb: 2.5 }}>
                   Every system we build contributes reusable capability back to the platform. These are the primitives
                   this project proved out — now available to every operating system that follows it.
@@ -270,7 +270,7 @@ export default function ProjectDetail() {
                         fontSize: "0.7rem",
                         bgcolor: "transparent",
                         border: "1px solid",
-                        borderColor: "rgba(108,99,255,0.4)",
+                        borderColor: "rgba(59,130,246,0.4)",
                         color: "text.secondary",
                       }}
                     />

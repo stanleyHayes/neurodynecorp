@@ -6,10 +6,10 @@ import { motion } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 const MotionBox = motion.create(Box);
-export const BORDER = "rgba(108, 99, 255, 0.12)";
+export const BORDER = "rgba(59, 130, 246, 0.12)";
 
 /** Monospace, uppercase section marker — matches the §-style register used across the site. */
-export function Overline({ children, color = "#6C63FF" }: { children: ReactNode; color?: string }) {
+export function Overline({ children, color = "#3B82F6" }: { children: ReactNode; color?: string }) {
   return (
     <Typography
       sx={{
@@ -32,7 +32,7 @@ export function SectionHeading({
   tag,
   title,
   lead,
-  color = "#6C63FF",
+  color = "#3B82F6",
   align = "left",
   component = "h2",
 }: {
@@ -66,7 +66,7 @@ export function SectionHeading({
 /** Bordered content card with optional accent, icon, corner-bracket aesthetic on hover. */
 export function InfoCard({
   children,
-  accent = "#6C63FF",
+  accent = "#3B82F6",
   icon,
   title,
   subtitle,
@@ -146,7 +146,7 @@ export function CTABand({
   tag,
   title,
   description,
-  color = "#00D4AA",
+  color = "#06B6D4",
 }: {
   to: string;
   tag: string;

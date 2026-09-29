@@ -25,7 +25,7 @@ const chipSx = (active: boolean, accent: string) => ({
   cursor: "pointer",
   bgcolor: active ? `${accent}26` : "transparent",
   color: active ? accent : "text.secondary",
-  border: active ? `1px solid ${accent}` : "1px solid rgba(108,99,255,0.2)",
+  border: active ? `1px solid ${accent}` : "1px solid rgba(59,130,246,0.2)",
   transition: "all 0.2s",
   "&:hover": { borderColor: accent, bgcolor: `${accent}14` },
 });
@@ -98,11 +98,11 @@ export default function ScopeEstimator() {
   };
 
   return (
-    <Box sx={{ position: "relative", p: { xs: 3, md: 5 }, borderRadius: 3, border: "1px solid rgba(108, 99, 255, 0.18)", background: "linear-gradient(135deg, rgba(108,99,255,0.04), rgba(0,212,170,0.03))" }}>
-      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#6C63FF", opacity: 0.7, mb: 1 }}>
+    <Box sx={{ position: "relative", p: { xs: 3, md: 5 }, borderRadius: 3, border: "1px solid rgba(59, 130, 246, 0.18)", background: "linear-gradient(135deg, rgba(59,130,246,0.04), rgba(6,182,212,0.03))" }}>
+      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#3B82F6", opacity: 0.7, mb: 1 }}>
         // SCOPE ESTIMATOR
       </Typography>
-      <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.6rem", md: "2.2rem" }, letterSpacing: "-0.02em", mb: 1, background: "linear-gradient(135deg, #6C63FF, #00D4AA)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
+      <Typography sx={{ fontWeight: 800, fontSize: { xs: "1.6rem", md: "2.2rem" }, letterSpacing: "-0.02em", mb: 1, background: "linear-gradient(135deg, #3B82F6, #06B6D4)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent" }}>
         Configure an indicative scope
       </Typography>
       <Typography sx={{ color: "text.secondary", opacity: 0.7, mb: 4, maxWidth: 520 }}>
@@ -126,7 +126,7 @@ export default function ScopeEstimator() {
             <Typography sx={labelSx}>In scope ({params.length} selected)</Typography>
             <Stack direction="row" spacing={1} sx={{ flexWrap: "wrap", gap: 1 }}>
               {estimator.params.map((p) => (
-                <Chip key={p.id} label={`${p.label} +${fmtK(p.costDelta)}`} onClick={() => toggleParam(p.id)} sx={chipSx(params.includes(p.id), "#00D4AA")} />
+                <Chip key={p.id} label={`${p.label} +${fmtK(p.costDelta)}`} onClick={() => toggleParam(p.id)} sx={chipSx(params.includes(p.id), "#06B6D4")} />
               ))}
             </Stack>
           </Box>
@@ -138,18 +138,18 @@ export default function ScopeEstimator() {
               initial={{ opacity: 0, scale: 0.99 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.25 }}
-              sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 14, 26, 0.4)", border: "1px solid rgba(108, 99, 255, 0.2)", mb: 3 }}
+              sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 15, 31, 0.4)", border: "1px solid rgba(59, 130, 246, 0.2)", mb: 3 }}
             >
               <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr" }, gap: { xs: 2, md: 3 }, mb: 3 }}>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-                  <AttachMoneyIcon sx={{ fontSize: 30, color: "#6C63FF", filter: "drop-shadow(0 0 12px rgba(108,99,255,0.5))" }} />
+                  <AttachMoneyIcon sx={{ fontSize: 30, color: "#3B82F6", filter: "drop-shadow(0 0 12px rgba(59,130,246,0.5))" }} />
                   <Box>
                     <Typography sx={{ ...labelSx, mb: 0.25, fontSize: "0.55rem" }}>Indicative price band</Typography>
                     <Typography sx={{ fontWeight: 800, fontSize: "1.4rem" }}>{fmtK(result.priceMin)} – {fmtK(result.priceMax)}</Typography>
                   </Box>
                 </Stack>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-                  <ScheduleOutlinedIcon sx={{ fontSize: 30, color: "#00D4AA", filter: "drop-shadow(0 0 12px rgba(0,212,170,0.5))" }} />
+                  <ScheduleOutlinedIcon sx={{ fontSize: 30, color: "#06B6D4", filter: "drop-shadow(0 0 12px rgba(6,182,212,0.5))" }} />
                   <Box>
                     <Typography sx={{ ...labelSx, mb: 0.25, fontSize: "0.55rem" }}>Indicative timeline</Typography>
                     <Typography sx={{ fontWeight: 800, fontSize: "1.4rem" }}>~{result.weeksMin}–{result.weeksMax} weeks</Typography>
@@ -159,19 +159,19 @@ export default function ScopeEstimator() {
 
               <Box sx={{ mb: 2.5 }}>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 1 }}>
-                  <WidgetsOutlinedIcon sx={{ fontSize: 16, color: "#8B85FF" }} />
+                  <WidgetsOutlinedIcon sx={{ fontSize: 16, color: "#8B5CF6" }} />
                   <Typography sx={{ ...labelSx, mb: 0 }}>Indicative components</Typography>
                 </Stack>
                 <Stack direction="row" spacing={0.75} sx={{ flexWrap: "wrap", gap: 0.75 }}>
                   {result.components.map((c) => (
-                    <Chip key={c} label={c} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(139,133,255,0.12)", color: "#8B85FF", border: "1px solid rgba(139,133,255,0.25)" }} />
+                    <Chip key={c} label={c} size="small" sx={{ fontFamily: "monospace", fontSize: "0.6rem", bgcolor: "rgba(139,92,246,0.12)", color: "#8B5CF6", border: "1px solid rgba(139,92,246,0.25)" }} />
                   ))}
                 </Stack>
               </Box>
 
               <Box>
                 <Stack direction="row" spacing={1} sx={{ alignItems: "center", mb: 0.75 }}>
-                  <LayersOutlinedIcon sx={{ fontSize: 16, color: "#33DDBB" }} />
+                  <LayersOutlinedIcon sx={{ fontSize: 16, color: "#10B981" }} />
                   <Typography sx={{ ...labelSx, mb: 0 }}>Sample architecture</Typography>
                 </Stack>
                 <Typography variant="body2" sx={{ color: "text.secondary", opacity: 0.85, lineHeight: 1.7 }}>{result.architecture}</Typography>
@@ -196,7 +196,7 @@ export default function ScopeEstimator() {
                   onClick={submit}
                   disabled={!canSubmit}
                   startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
-                  sx={{ fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.06em", background: "linear-gradient(135deg, #6C63FF, #00D4AA)", whiteSpace: "nowrap", "&:hover": { boxShadow: "0 8px 30px rgba(108,99,255,0.4)" } }}
+                  sx={{ fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.06em", background: "linear-gradient(135deg, #3B82F6, #06B6D4)", whiteSpace: "nowrap", "&:hover": { boxShadow: "0 8px 30px rgba(59,130,246,0.4)" } }}
                 >
                   Send scope
                 </Button>
@@ -207,7 +207,7 @@ export default function ScopeEstimator() {
         </>
       ) : (
         // Lines without a configurator (e.g. retained advisory) — point to a conversation.
-        <Box sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 14, 26, 0.4)", border: "1px solid rgba(108, 99, 255, 0.2)" }}>
+        <Box sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 2, background: "rgba(10, 15, 31, 0.4)", border: "1px solid rgba(59, 130, 246, 0.2)" }}>
           <Typography sx={{ fontWeight: 700, mb: 1 }}>{line.name} is scoped as a relationship, not a configurator.</Typography>
           <Typography variant="body2" sx={{ color: "text.secondary", mb: 2 }}>{line.priceBand}. {line.positioning}</Typography>
           <Button component={Link} to="/company/engineering-services/diagnostic" variant="outlined" sx={{ borderColor: `${accent}66`, color: accent }}>

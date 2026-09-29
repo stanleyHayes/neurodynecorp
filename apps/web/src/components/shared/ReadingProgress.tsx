@@ -5,7 +5,7 @@ interface ReadingProgressProps {
   color?: string;
 }
 
-export default function ReadingProgress({ color = "#6C63FF" }: ReadingProgressProps) {
+export default function ReadingProgress({ color = "#3B82F6" }: ReadingProgressProps) {
   const [pct, setPct] = useState(0);
 
   useEffect(() => {
@@ -43,7 +43,7 @@ export default function ReadingProgress({ color = "#6C63FF" }: ReadingProgressPr
         sx={{
           height: "100%",
           width: `${pct}%`,
-          background: `linear-gradient(90deg, ${color}, #00D4AA)`,
+          background: `linear-gradient(90deg, ${color}, #06B6D4)`,
           boxShadow: `0 0 12px ${color}90, 0 0 4px ${color}`,
           transition: "width 0.08s linear",
         }}

@@ -188,7 +188,7 @@ const SPECS: Spec[] = [
     id: "fintech",
     title: "Financial Analytics Platform",
     category: "Template",
-    color: "#6C63FF",
+    color: "#3B82F6",
     excerpt: "How a spec for a real-time analytics platform is structured: objectives, architecture, effort breakdown, assumptions.",
     content: FINTECH_SPEC,
   },
@@ -196,7 +196,7 @@ const SPECS: Spec[] = [
     id: "healthcare",
     title: "Patient Monitoring Platform",
     category: "Template",
-    color: "#00D4AA",
+    color: "#06B6D4",
     excerpt: "How a spec for a regulated domain is structured, including where compliance scope and engineering controls are written down.",
     content: HEALTHCARE_SPEC,
   },
@@ -204,7 +204,7 @@ const SPECS: Spec[] = [
     id: "saas",
     title: "Multi-Tenant SaaS Starter",
     category: "Template",
-    color: "#8B85FF",
+    color: "#8B5CF6",
     excerpt: "Tenant onboarding, RBAC, billing, audit log. A reusable architecture blueprint.",
     content: SAAS_SPEC,
   },
@@ -226,7 +226,7 @@ export default function SpecLibrary() {
         description="Illustrative specification templates. These are not client documents — they show how a Neurodyne spec is structured, from objectives through architecture to assumptions."
         tag="TEMPLATES // PUBLIC"
         accentWord="Library"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="3 TEMPLATES"
       />
 
@@ -236,8 +236,8 @@ export default function SpecLibrary() {
             position: "relative",
             p: 2.5,
             mb: 5,
-            border: "1px solid rgba(108, 99, 255, 0.2)",
-            bgcolor: "rgba(108, 99, 255, 0.04)",
+            border: "1px solid rgba(59, 130, 246, 0.2)",
+            bgcolor: "rgba(59, 130, 246, 0.04)",
           }}
         >
           <Typography
@@ -281,8 +281,8 @@ export default function SpecLibrary() {
                 position: "relative",
                 p: 3,
                 borderRadius: 0,
-                border: "1px solid rgba(108, 99, 255, 0.15)",
-                bgcolor: "rgba(108, 99, 255, 0.02)",
+                border: "1px solid rgba(59, 130, 246, 0.15)",
+                bgcolor: "rgba(59, 130, 246, 0.02)",
                 transition: "all 0.25s",
                 "&:hover": {
                   borderColor: `${s.color}50`,
@@ -340,7 +340,7 @@ export default function SpecLibrary() {
           sx: {
             width: { xs: "100%", md: 720 },
             bgcolor: "background.default",
-            borderLeft: "1px solid rgba(108,99,255,0.2)",
+            borderLeft: "1px solid rgba(59,130,246,0.2)",
           },
         } }}
         anchor="right"
@@ -354,7 +354,7 @@ export default function SpecLibrary() {
           {selected && (
             <Box sx={{ height: "100%", overflow: "hidden", display: "flex", flexDirection: "column" }}>
               {/* Header */}
-              <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, py: 2, borderBottom: "1px solid rgba(108,99,255,0.12)" }}>
+              <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, py: 2, borderBottom: "1px solid rgba(59,130,246,0.12)" }}>
                 <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
                   <Box sx={{ width: 8, height: 8, borderRadius: "50%", bgcolor: selected.color, boxShadow: `0 0 8px ${selected.color}` }} />
                   <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.2em", textTransform: "uppercase", color: "text.secondary", opacity: 0.6 }}>
@@ -380,13 +380,13 @@ export default function SpecLibrary() {
                   "& p": { color: "text.secondary", lineHeight: 1.85, mb: 2, fontSize: "0.95rem" },
                   "& ul, & ol": { color: "text.secondary", pl: 3, mb: 2, "& li": { mb: 0.75, lineHeight: 1.7 } },
                   "& blockquote": { borderLeft: `3px solid ${selected.color}`, pl: 2.5, my: 3, bgcolor: `${selected.color}08`, borderRadius: 0, py: 0.5 },
-                  "& code": { fontFamily: "monospace", fontSize: "0.85em", bgcolor: "rgba(108, 99, 255, 0.1)", color: "#8B85FF", px: 0.6, borderRadius: 0.5 },
+                  "& code": { fontFamily: "monospace", fontSize: "0.85em", bgcolor: "rgba(59, 130, 246, 0.1)", color: "#8B5CF6", px: 0.6, borderRadius: 0.5 },
                   "& table": {
                     width: "100%",
                     borderCollapse: "collapse",
                     mb: 3,
-                    "& th": { textAlign: "left", py: 1.25, px: 1.5, fontWeight: 600, fontSize: "0.8rem", borderBottom: "2px solid rgba(108,99,255,0.15)" },
-                    "& td": { py: 1.25, px: 1.5, fontSize: "0.8rem", color: "text.secondary", borderBottom: "1px solid rgba(108,99,255,0.08)" },
+                    "& th": { textAlign: "left", py: 1.25, px: 1.5, fontWeight: 600, fontSize: "0.8rem", borderBottom: "2px solid rgba(59,130,246,0.15)" },
+                    "& td": { py: 1.25, px: 1.5, fontSize: "0.8rem", color: "text.secondary", borderBottom: "1px solid rgba(59,130,246,0.08)" },
                   },
                 }}
               >
@@ -394,7 +394,7 @@ export default function SpecLibrary() {
               </Box>
 
               {/* Footer CTA */}
-              <Box sx={{ px: 3, py: 2, borderTop: "1px solid rgba(108,99,255,0.12)", bgcolor: "rgba(108,99,255,0.04)" }}>
+              <Box sx={{ px: 3, py: 2, borderTop: "1px solid rgba(59,130,246,0.12)", bgcolor: "rgba(59,130,246,0.04)" }}>
                 <Typography sx={{ fontSize: "0.85rem", color: "text.secondary", opacity: 0.85 }}>
                   Want a spec in this format for your own project? <Box component="a" href="/start-project" sx={{ color: selected.color, fontWeight: 600, textDecoration: "none", borderBottom: `1px solid ${selected.color}40`, "&:hover": { borderColor: selected.color } }}>Start a brief</Box>.
                 </Typography>

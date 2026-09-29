@@ -82,7 +82,7 @@ export default function LabsProduct() {
 
           {/* Problem + Approach */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: { xs: 3, md: 4 } }}>
-            <InfoCard accent="#6C63FF" title="The problem">
+            <InfoCard accent="#3B82F6" title="The problem">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {product.problem.map((p) => (
                   <Typography key={p} variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
@@ -119,11 +119,11 @@ export default function LabsProduct() {
 
           {/* Stack + Audience */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1.4fr 0.6fr" }, gap: { xs: 3, md: 4 } }}>
-            <InfoCard accent="#8B85FF" icon={<LayersOutlinedIcon />} title="Technical direction">
+            <InfoCard accent="#8B5CF6" icon={<LayersOutlinedIcon />} title="Technical direction">
               <Stack spacing={1.5} sx={{ mt: 1 }}>
                 {product.stack.map((s) => (
                   <Stack sx={{ alignItems: "flex-start" }} key={s} direction="row" spacing={1.5}>
-                    <CheckCircleOutlineIcon sx={{ color: "#8B85FF", fontSize: 18, mt: "3px" }} />
+                    <CheckCircleOutlineIcon sx={{ color: "#8B5CF6", fontSize: 18, mt: "3px" }} />
                     <Typography variant="body2" color="text.secondary">
                       {s}
                     </Typography>
@@ -131,10 +131,10 @@ export default function LabsProduct() {
                 ))}
               </Stack>
             </InfoCard>
-            <InfoCard accent="#33DDBB" title="Designed for">
+            <InfoCard accent="#10B981" title="Designed for">
               <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
                 {product.audience.map((a) => (
-                  <Chip key={a} label={a} variant="outlined" sx={{ borderColor: "#33DDBB55" }} />
+                  <Chip key={a} label={a} variant="outlined" sx={{ borderColor: "#10B98155" }} />
                 ))}
               </Stack>
             </InfoCard>

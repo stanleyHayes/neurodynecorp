@@ -134,7 +134,7 @@ function makeTheme(mode: Mode) {
           } : {
             background: "rgba(248, 250, 252, 0.85)",
             backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(91, 84, 238, 0.1)",
+            borderBottom: "1px solid rgba(37, 99, 235, 0.1)",
           },
         },
       },
@@ -161,7 +161,7 @@ function ThemeTransitionOverlay({ transition, onComplete }: {
   // The page has already switched to the target theme. This overlay paints the
   // theme we are LEAVING and circularly collapses it into the toggle button,
   // revealing the new theme underneath — a clean circular reveal.
-  const leavingBg = transition.targetMode === "dark" ? "#F8FAFC" : "#0A0E1A";
+  const leavingBg = transition.targetMode === "dark" ? "#F8FAFC" : "#0A0F1F";
   const cx = transition.originX;
   const cy = transition.originY;
 

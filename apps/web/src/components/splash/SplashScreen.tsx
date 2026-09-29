@@ -47,8 +47,8 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
               inset: 0,
               opacity: 0.46,
               backgroundImage: `
-                linear-gradient(rgba(139,133,255,.08) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(139,133,255,.08) 1px, transparent 1px)
+                linear-gradient(rgba(139,92,246,.08) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(139,92,246,.08) 1px, transparent 1px)
               `,
               backgroundSize: { xs: "44px 44px", md: "72px 72px" },
               maskImage: "linear-gradient(to bottom, black, transparent 88%)",
@@ -66,7 +66,7 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
               left: 0,
               right: 0,
               height: 3,
-              bgcolor: "#8b85ff",
+              bgcolor: "#8b5cf6",
               transformOrigin: "left center",
             }}
           />
@@ -107,9 +107,9 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
                   textTransform: "uppercase",
                   cursor: "pointer",
                   transition: "border-color 180ms ease, color 180ms ease, transform 180ms ease",
-                  "&:hover": { borderColor: "#8b85ff", color: "#fff" },
+                  "&:hover": { borderColor: "#8b5cf6", color: "#fff" },
                   "&:active": { transform: "translateY(1px)" },
-                  "&:focus-visible": { outline: "2px solid #8b85ff", outlineOffset: 3 },
+                  "&:focus-visible": { outline: "2px solid #8b5cf6", outlineOffset: 3 },
                 }}
               >
                 Skip intro
@@ -134,7 +134,7 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
                   initial={{ opacity: 0, y: reduceMotion ? 0 : 12 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.45, delay: reduceMotion ? 0 : 0.15 }}
-                  sx={{ mb: { xs: 2.5, md: 4 }, fontFamily: "monospace", fontSize: { xs: 10, md: 11 }, letterSpacing: ".22em", color: "#8b85ff" }}
+                  sx={{ mb: { xs: 2.5, md: 4 }, fontFamily: "monospace", fontSize: { xs: 10, md: 11 }, letterSpacing: ".22em", color: "#8b5cf6" }}
                 >
                   SYSTEMS, DESIGNED WITH INTENT
                 </MotionTypography>
@@ -163,7 +163,7 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
                     transition={{ duration: reduceMotion ? 0 : 0.82, delay: 0.28, ease: [0.76, 0, 0.24, 1] }}
                     sx={{
                       m: 0,
-                      color: "#8b85ff",
+                      color: "#8b5cf6",
                       fontFamily: "'TT Squares', 'Outfit', sans-serif",
                       fontSize: { xs: "clamp(3.35rem, 18vw, 5rem)", sm: "clamp(5rem, 13vw, 8rem)", lg: "clamp(7.5rem, 11vw, 11rem)" },
                       fontWeight: 800,
@@ -190,7 +190,7 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
                     <Box key={note} sx={{ display: "grid", gridTemplateColumns: "2rem 1fr auto", gap: 1, alignItems: "center" }}>
                       <Typography sx={{ fontFamily: "monospace", fontSize: 9, color: "rgba(245,244,250,.34)" }}>0{index + 1}</Typography>
                       <Typography sx={{ fontSize: 12, color: "rgba(245,244,250,.78)" }}>{note}</Typography>
-                      <Box sx={{ width: 5, height: 5, bgcolor: index === 0 ? "#8b85ff" : "rgba(245,244,250,.22)" }} />
+                      <Box sx={{ width: 5, height: 5, bgcolor: index === 0 ? "#8b5cf6" : "rgba(245,244,250,.22)" }} />
                     </Box>
                   ))}
                 </Box>
@@ -207,7 +207,7 @@ export default function SplashScreen({ onComplete, duration = 3200 }: SplashScre
                   <MotionBox
                     animate={reduceMotion ? undefined : { opacity: [0.35, 1, 0.35] }}
                     transition={{ duration: 1.4, repeat: Infinity }}
-                    sx={{ width: 6, height: 6, bgcolor: "#8b85ff" }}
+                    sx={{ width: 6, height: 6, bgcolor: "#8b5cf6" }}
                   />
                   <Typography sx={{ fontFamily: "monospace", fontSize: 9, letterSpacing: ".16em", color: "rgba(245,244,250,.58)" }}>INITIALISING</Typography>
                 </Box>

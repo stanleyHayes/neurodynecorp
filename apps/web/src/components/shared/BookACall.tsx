@@ -24,15 +24,15 @@ export default function BookACall() {
         position: "relative",
         p: { xs: 3, md: 5 },
         borderRadius: 0,
-        border: "1px solid rgba(0, 212, 170, 0.25)",
-        background: "linear-gradient(135deg, rgba(0,212,170,0.06), rgba(108,99,255,0.04))",
+        border: "1px solid rgba(6, 182, 212, 0.25)",
+        background: "linear-gradient(135deg, rgba(6,182,212,0.06), rgba(59,130,246,0.04))",
         overflow: "hidden",
       }}
     >
       <HudCorners />
       <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-        <VideoCallOutlinedIcon sx={{ color: "#00D4AA", fontSize: 22, filter: "drop-shadow(0 0 6px rgba(0,212,170,0.4))" }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#00D4AA", opacity: 0.85 }}>
+        <VideoCallOutlinedIcon sx={{ color: "#06B6D4", fontSize: 22, filter: "drop-shadow(0 0 6px rgba(6,182,212,0.4))" }} />
+        <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#06B6D4", opacity: 0.85 }}>
           // SKIP THE FORM
         </Typography>
         <Chip
@@ -42,9 +42,9 @@ export default function BookACall() {
             fontFamily: "monospace",
             fontSize: "0.55rem",
             height: 18,
-            bgcolor: "rgba(0,212,170,0.12)",
-            color: "#00D4AA",
-            border: "1px solid rgba(0,212,170,0.3)",
+            bgcolor: "rgba(6,182,212,0.12)",
+            color: "#06B6D4",
+            border: "1px solid rgba(6,182,212,0.3)",
           }}
         />
       </Stack>
@@ -55,7 +55,7 @@ export default function BookACall() {
           fontSize: { xs: "1.4rem", md: "1.8rem" },
           letterSpacing: "-0.02em",
           mb: 1,
-          background: "linear-gradient(135deg, #00D4AA, #6C63FF)",
+          background: "linear-gradient(135deg, #06B6D4, #3B82F6)",
           backgroundClip: "text",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
@@ -82,8 +82,8 @@ export default function BookACall() {
               letterSpacing: "0.1em",
               px: 3,
               py: 1.25,
-              background: "linear-gradient(135deg, #00D4AA, #6C63FF)",
-              "&:hover": { boxShadow: "0 8px 24px rgba(0,212,170,0.4)" },
+              background: "linear-gradient(135deg, #06B6D4, #3B82F6)",
+              "&:hover": { boxShadow: "0 8px 24px rgba(6,182,212,0.4)" },
             }}
           >
             Pick a time
@@ -101,8 +101,8 @@ export default function BookACall() {
               letterSpacing: "0.1em",
               px: 3,
               py: 1.25,
-              background: "linear-gradient(135deg, #00D4AA, #6C63FF)",
-              "&:hover": { boxShadow: "0 8px 24px rgba(0,212,170,0.4)" },
+              background: "linear-gradient(135deg, #06B6D4, #3B82F6)",
+              "&:hover": { boxShadow: "0 8px 24px rgba(6,182,212,0.4)" },
             }}
           >
             Request a time
@@ -118,9 +118,9 @@ export default function BookACall() {
             fontSize: "0.75rem",
             fontWeight: 600,
             letterSpacing: "0.1em",
-            borderColor: "rgba(108,99,255,0.25)",
+            borderColor: "rgba(59,130,246,0.25)",
             color: "text.primary",
-            "&:hover": { borderColor: "rgba(108,99,255,0.5)", bgcolor: "rgba(108,99,255,0.06)" },
+            "&:hover": { borderColor: "rgba(59,130,246,0.5)", bgcolor: "rgba(59,130,246,0.06)" },
           }}
         >
           {CONTACT_EMAIL}

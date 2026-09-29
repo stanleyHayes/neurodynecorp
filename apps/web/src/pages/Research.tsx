@@ -31,7 +31,7 @@ export default function Research() {
             title="Research meant to become infrastructure"
             accentWord="infrastructure"
             description="Research threads here come out of building. Each one exists because a system under construction ran into a question that couldn't be bought off the shelf."
-            iconColor="#8B85FF"
+            iconColor="#8B5CF6"
           />
         </Box>
       </Container>
@@ -61,11 +61,11 @@ export default function Research() {
                     border: "1px solid",
                     borderColor: "divider",
                     transition: "border-color 0.3s, background 0.3s",
-                    "&:hover": { borderColor: "rgba(139,133,255,0.5)", bgcolor: "rgba(139,133,255,0.06)" },
+                    "&:hover": { borderColor: "rgba(139,92,246,0.5)", bgcolor: "rgba(139,92,246,0.06)" },
                   }}
                 >
                   <HudCorners />
-                  <Overline color="#8B85FF">R-{String(i + 1).padStart(2, "0")}</Overline>
+                  <Overline color="#8B5CF6">R-{String(i + 1).padStart(2, "0")}</Overline>
                   <Typography variant="h6" sx={{ fontWeight: 700, mt: 1.25, mb: 1 }}>
                     {r.title}
                   </Typography>
@@ -85,7 +85,7 @@ export default function Research() {
           title="Research with a build attached"
           lead="Research here isn't done in isolation. Each thread is tied to a system being built — schools, housing, creators, public finance — so questions are tested against real constraints: intermittent connectivity, low-spec devices, thin budgets, and regulation."
           align="center"
-          color="#8B85FF"
+          color="#8B5CF6"
         />
         <Stack direction={{ xs: "column", md: "row" }} spacing={2} sx={{ mt: 4 }}>
           {[
@@ -98,7 +98,7 @@ export default function Research() {
               sx={{ position: "relative", flex: 1, p: 3, border: "1px solid", borderColor: "divider" }}
             >
               <HudCorners />
-              <Overline color={i === 1 ? "#00D4AA" : "#6C63FF"}>{c.k}</Overline>
+              <Overline color={i === 1 ? "#06B6D4" : "#3B82F6"}>{c.k}</Overline>
               <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5, lineHeight: 1.8 }}>
                 {c.v}
               </Typography>
@@ -112,7 +112,7 @@ export default function Research() {
             tag="Related"
             title="Research feeds the standards"
             description="Research here is intended to become schemas, APIs and validation tools in the NeuroDyne Open Standards Initiative."
-            color="#00D4AA"
+            color="#06B6D4"
           />
         </Box>
       </Container>

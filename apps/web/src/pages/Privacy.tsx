@@ -96,7 +96,7 @@ export default function Privacy() {
         description="Your privacy matters. This policy describes how NeuroDyne Corp collects, uses, and protects your personal information."
         tag="SECURITY // PROTOCOL"
         accentWord="Privacy"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="ENCRYPTED CHANNEL"
       />
 

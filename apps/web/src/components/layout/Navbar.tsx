@@ -18,8 +18,8 @@ import { ALL_GRID_ITEMS, NAV_GROUPS, type NavItem } from "@/content/navigation";
 import { Button, Drawer, Modal } from "@mui/material";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 
-const BORDER = "rgba(108, 99, 255, 0.15)";
-const GLOW = "rgba(108, 99, 255, 0.6)";
+const BORDER = "rgba(59, 130, 246, 0.15)";
+const GLOW = "rgba(59, 130, 246, 0.6)";
 
 /**
  * Stacking order for the navigation surfaces.
@@ -67,13 +67,13 @@ const roundIconButtonSx = (isDark: boolean) => ({
   width: 40,
   height: 40,
   borderRadius: "50%",
-  border: `1px solid ${isDark ? "rgba(255,255,255,0.25)" : "rgba(12,22,46,0.16)"}`,
-  background: isDark ? "rgba(255,255,255,0.05)" : "rgba(12,22,46,0.03)",
+  border: `1px solid ${isDark ? "rgba(255,255,255,0.25)" : "rgba(10,15,31,0.16)"}`,
+  background: isDark ? "rgba(255,255,255,0.05)" : "rgba(10,15,31,0.03)",
   color: isDark ? "rgba(247,250,255,0.9)" : "rgba(6,18,39,0.78)",
   transition: "border-color 0.3s, background 0.3s, color 0.3s",
   "&:hover": {
-    borderColor: isDark ? "rgba(255,255,255,0.42)" : "rgba(12,22,46,0.28)",
-    background: isDark ? "rgba(255,255,255,0.08)" : "rgba(12,22,46,0.06)",
+    borderColor: isDark ? "rgba(255,255,255,0.42)" : "rgba(10,15,31,0.28)",
+    background: isDark ? "rgba(255,255,255,0.08)" : "rgba(10,15,31,0.06)",
   },
 });
 
@@ -347,7 +347,7 @@ function GridCell({
         borderRight: `1px solid ${BORDER}`,
         borderBottom: `1px solid ${BORDER}`,
         background: hovered ? theme.palette.background.paper : theme.palette.background.default,
-        backgroundImage: "radial-gradient(rgba(108, 99, 255, 0.05) 1px, transparent 1px)",
+        backgroundImage: "radial-gradient(rgba(59, 130, 246, 0.05) 1px, transparent 1px)",
         backgroundSize: "24px 24px",
         ...(isCta ? { gridColumn: "1 / -1" } : {}),
       }}
@@ -366,7 +366,7 @@ function GridCell({
           right: 0,
           height: 1,
           background: `linear-gradient(90deg, transparent, ${
-            hovered ? "rgba(108,99,255,0.5)" : "rgba(108,99,255,0.12)"
+            hovered ? "rgba(59,130,246,0.5)" : "rgba(59,130,246,0.12)"
           }, transparent)`,
           pointerEvents: "none",
         }}
@@ -441,7 +441,7 @@ function GridCell({
           textTransform: "uppercase",
           userSelect: "none",
           ...(isCta && {
-            background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+            background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
             backgroundClip: "text",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
@@ -473,7 +473,7 @@ function GridCell({
           right: "10%",
           height: 2,
           borderRadius: 1,
-          background: "linear-gradient(90deg, transparent, #6C63FF, #00D4AA, transparent)",
+          background: "linear-gradient(90deg, transparent, #3B82F6, #06B6D4, transparent)",
           pointerEvents: "none",
         }}
         initial={{ opacity: 0, scaleX: 0 }}
@@ -493,7 +493,7 @@ function GridCell({
               position: "absolute",
               inset: 0,
               background:
-                "radial-gradient(circle, rgba(108,99,255,0.35), rgba(0,212,170,0.15), transparent 70%)",
+                "radial-gradient(circle, rgba(59,130,246,0.35), rgba(6,182,212,0.15), transparent 70%)",
               pointerEvents: "none",
               zIndex: 2,
             }}
@@ -509,8 +509,8 @@ function GridCell({
           style={{
             position: "absolute",
             inset: 0,
-            border: "1px solid rgba(108,99,255,0.5)",
-            boxShadow: "inset 0 0 60px rgba(108,99,255,0.12)",
+            border: "1px solid rgba(59,130,246,0.5)",
+            boxShadow: "inset 0 0 60px rgba(59,130,246,0.12)",
             pointerEvents: "none",
             zIndex: 1,
           }}
@@ -973,7 +973,7 @@ export default function Navbar() {
                   ? "repeat(4, minmax(130px, 1fr)) minmax(100px, .6fr)"
                   : "1fr 1fr .45fr",
                 overflowY: "auto",
-                background: "#0A0E1A",
+                background: "#0A0F1F",
               }}
             >
               {ALL_GRID_ITEMS.map((item, i) => (

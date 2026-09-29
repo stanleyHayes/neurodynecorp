@@ -26,7 +26,7 @@ const OVERLINE = {
   opacity: 0.6,
 };
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 export default function HelpArticle() {
   const { slug } = useParams();
@@ -111,7 +111,7 @@ export default function HelpArticle() {
               to="/help"
               startIcon={<ArrowBackOutlinedIcon />}
               variant="outlined"
-              sx={{ borderColor: "rgba(108,99,255,0.3)", "&:hover": { borderColor: "rgba(108,99,255,0.5)" } }}
+              sx={{ borderColor: "rgba(59,130,246,0.3)", "&:hover": { borderColor: "rgba(59,130,246,0.5)" } }}
             >
               Back to Help Center
             </Button>
@@ -145,7 +145,7 @@ export default function HelpArticle() {
           sx={{
             mb: 4,
             color: "text.secondary",
-            "&:hover": { color: "text.primary", bgcolor: "rgba(108,99,255,0.06)" },
+            "&:hover": { color: "text.primary", bgcolor: "rgba(59,130,246,0.06)" },
           }}
         >
           Help Center
@@ -162,9 +162,9 @@ export default function HelpArticle() {
                 fontSize: "0.65rem",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                bgcolor: "rgba(108,99,255,0.12)",
-                color: "#8B85FF",
-                border: "1px solid rgba(108,99,255,0.2)",
+                bgcolor: "rgba(59,130,246,0.12)",
+                color: "#8B5CF6",
+                border: "1px solid rgba(59,130,246,0.2)",
               }}
             />
           )}
@@ -199,7 +199,7 @@ export default function HelpArticle() {
             p: { xs: 3, md: 4 },
             borderRadius: 2,
             border: `1px solid ${BORDER}`,
-            bgcolor: "rgba(108,99,255,0.03)",
+            bgcolor: "rgba(59,130,246,0.03)",
           }}
         >
           {feedbackSent ? (

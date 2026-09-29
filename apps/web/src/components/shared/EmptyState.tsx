@@ -5,7 +5,7 @@ import RefreshOutlinedIcon from "@mui/icons-material/RefreshOutlined";
 
 const MotionBox = motion.create(Box);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 /* ── Animated doodle ring that orbits the icon ── */
 function OrbitRing({ color, size = 120, duration = 8 }: { color: string; size?: number; duration?: number }) {
@@ -63,7 +63,7 @@ export default function EmptyState({
   icon,
   title,
   description,
-  color = "#6C63FF",
+  color = "#3B82F6",
   onRefresh,
 }: EmptyStateProps) {
   return (

@@ -53,13 +53,13 @@ function statusMeta(raw: string | undefined | null) {
     return { color: "#F59E0B", label: "Degraded Performance", Icon: WarningAmberOutlinedIcon };
   }
   if (s.includes("maintenance")) {
-    return { color: "#6C63FF", label: "Under Maintenance", Icon: BuildCircleOutlinedIcon };
+    return { color: "#3B82F6", label: "Under Maintenance", Icon: BuildCircleOutlinedIcon };
   }
   if (s === "investigating" || s === "identified") {
     return { color: "#F59E0B", label: s === "identified" ? "Identified" : "Investigating", Icon: WarningAmberOutlinedIcon };
   }
   if (s === "monitoring") {
-    return { color: "#6C63FF", label: "Monitoring", Icon: BuildCircleOutlinedIcon };
+    return { color: "#3B82F6", label: "Monitoring", Icon: BuildCircleOutlinedIcon };
   }
   if (s === "resolved") {
     return { color: "#10B981", label: "Resolved", Icon: CheckCircleOutlinedIcon };
@@ -423,12 +423,12 @@ export default function Status() {
                 borderRadius: 3,
                 border: "1px solid",
                 borderColor: "divider",
-                bgcolor: "rgba(108,99,255,0.06)",
+                bgcolor: "rgba(59,130,246,0.06)",
               }}
             >
               <CardContent sx={{ p: { xs: 3, md: 4 } }}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
-                  <NotificationsActiveOutlinedIcon sx={{ color: "#6C63FF" }} />
+                  <NotificationsActiveOutlinedIcon sx={{ color: "#3B82F6" }} />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     Subscribe to updates
                   </Typography>

@@ -87,7 +87,7 @@ export default function PortfolioDetail() {
     );
   }
 
-  const color = dossier.color || "#6C63FF";
+  const color = dossier.color || "#3B82F6";
   // Client identities are withheld: no named-client row is rendered.
   const facts: { label: string; value?: string }[] = [
     { label: "Sector", value: dossier.sector ?? dossier.category },
@@ -170,7 +170,7 @@ export default function PortfolioDetail() {
               </InfoCard>
             )}
             {dossier.architecture && (
-              <InfoCard accent="#8B85FF" icon={<LayersOutlinedIcon />} title="Architecture chosen">
+              <InfoCard accent="#8B5CF6" icon={<LayersOutlinedIcon />} title="Architecture chosen">
                 <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.8, mt: 1 }}>
                   {dossier.architecture}
                 </Typography>
@@ -196,11 +196,11 @@ export default function PortfolioDetail() {
           {/* Retained IP + Learnt */}
           <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" }, gap: { xs: 3, md: 4 } }}>
             {hasList(dossier.retained) && (
-              <InfoCard accent="#00D4AA" icon={<LockOutlinedIcon />} title="Retained as IP">
+              <InfoCard accent="#06B6D4" icon={<LockOutlinedIcon />} title="Retained as IP">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.retained!.map((r) => (
                     <Stack sx={{ alignItems: "flex-start" }} key={r} direction="row" spacing={1.5}>
-                      <LockOutlinedIcon sx={{ color: "#00D4AA", fontSize: 16, mt: "3px" }} />
+                      <LockOutlinedIcon sx={{ color: "#06B6D4", fontSize: 16, mt: "3px" }} />
                       <Typography variant="body2" color="text.secondary">{r}</Typography>
                     </Stack>
                   ))}
@@ -208,11 +208,11 @@ export default function PortfolioDetail() {
               </InfoCard>
             )}
             {hasList(dossier.learnt) && (
-              <InfoCard accent="#33DDBB" icon={<LightbulbOutlinedIcon />} title="What was learnt">
+              <InfoCard accent="#10B981" icon={<LightbulbOutlinedIcon />} title="What was learnt">
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.learnt!.map((l) => (
                     <Stack sx={{ alignItems: "flex-start" }} key={l} direction="row" spacing={1.5}>
-                      <LightbulbOutlinedIcon sx={{ color: "#33DDBB", fontSize: 16, mt: "3px" }} />
+                      <LightbulbOutlinedIcon sx={{ color: "#10B981", fontSize: 16, mt: "3px" }} />
                       <Typography variant="body2" color="text.secondary">{l}</Typography>
                     </Stack>
                   ))}
@@ -243,7 +243,7 @@ export default function PortfolioDetail() {
               <Overline>Stack</Overline>
               <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 1 }}>
                 {dossier.tags.map((t) => (
-                  <Chip key={t} label={t} size="small" sx={{ fontFamily: "monospace", fontSize: "0.65rem", bgcolor: "rgba(108,99,255,0.06)" }} />
+                  <Chip key={t} label={t} size="small" sx={{ fontFamily: "monospace", fontSize: "0.65rem", bgcolor: "rgba(59,130,246,0.06)" }} />
                 ))}
               </Stack>
             </Box>

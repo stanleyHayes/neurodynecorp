@@ -13,9 +13,9 @@ import { SectionHeading, InfoCard, CardGrid, CTABand, Overline } from "@/compone
 import { LABS_PRODUCTS } from "@/data/labs";
 
 const LOOP = [
-  { stage: "01", title: "Question", body: "A problem worth building for, usually surfaced by delivery work or by a gap with no off-the-shelf answer.", Icon: AssignmentOutlinedIcon, color: "#6C63FF" },
-  { stage: "02", title: "Prototype", body: "A prototype built to test the hardest assumption in the idea — not a product launch, and not a commitment to ship.", Icon: BuildOutlinedIcon, color: "#00D4AA" },
-  { stage: "03", title: "Assess", body: "What holds up under real constraints may graduate into a product later. Most of it stays research, and is labelled that way here.", Icon: FactCheckOutlinedIcon, color: "#8B85FF" },
+  { stage: "01", title: "Question", body: "A problem worth building for, usually surfaced by delivery work or by a gap with no off-the-shelf answer.", Icon: AssignmentOutlinedIcon, color: "#3B82F6" },
+  { stage: "02", title: "Prototype", body: "A prototype built to test the hardest assumption in the idea — not a product launch, and not a commitment to ship.", Icon: BuildOutlinedIcon, color: "#06B6D4" },
+  { stage: "03", title: "Assess", body: "What holds up under real constraints may graduate into a product later. Most of it stays research, and is labelled that way here.", Icon: FactCheckOutlinedIcon, color: "#8B5CF6" },
 ];
 
 export default function Labs() {
@@ -34,7 +34,7 @@ export default function Labs() {
         description="Systems worked through to a full specification and deliberately left there. This is a blueprint library, not a roadmap: nothing here is in development, and nothing here is a commitment to ship."
         tag="LABS // BLUEPRINTS"
         accentWord="Labs"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="RESEARCH"
       />
 
@@ -46,7 +46,7 @@ export default function Labs() {
               tag="§ 01 — HOW A CONCEPT GETS DOCUMENTED"
               title="From question to specification"
               lead="Everything on this page is early. Nothing here is sold, licensed, or deployed, and most of it will never leave this stage."
-              color="#8B85FF"
+              color="#8B5CF6"
             />
             <CardGrid columns={3}>
               {LOOP.map((s, i) => (
@@ -66,7 +66,7 @@ export default function Labs() {
               tag="§ 02 — THE LIBRARY"
               title="What has been specified"
               lead="Each entry is a design or prototype being worked through. Read them as open questions, not as products with a release date."
-              color="#00D4AA"
+              color="#06B6D4"
             />
             <Box sx={{ mb: 3 }}>
               <MaturityLegend labels={["RESEARCH"]} />
@@ -117,7 +117,7 @@ export default function Labs() {
             tag="§ 03 — COLLABORATE"
             title="Working on a problem in the same territory?"
             description="These are open questions rather than products. If one overlaps something you are building, start a conversation."
-            color="#6C63FF"
+            color="#3B82F6"
           />
         </Stack>
       </Container>

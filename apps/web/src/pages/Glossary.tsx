@@ -23,7 +23,7 @@ const OVERLINE = {
   opacity: 0.6,
 };
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 interface Term {
   id: string;
@@ -157,10 +157,10 @@ export default function Glossary() {
             sx={{
               maxWidth: 560,
               "& .MuiOutlinedInput-root": {
-                bgcolor: "rgba(108,99,255,0.04)",
-                "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-                "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-                "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                bgcolor: "rgba(59,130,246,0.04)",
+                "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+                "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+                "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
               },
             }}
           />
@@ -182,10 +182,10 @@ export default function Glossary() {
                     letterSpacing: "0.08em",
                     cursor: "pointer",
                     textTransform: c ? "none" : "uppercase",
-                    bgcolor: active ? "rgba(108,99,255,0.15)" : "transparent",
-                    color: active ? "#6C63FF" : "text.secondary",
-                    border: active ? "1px solid #6C63FF" : "1px solid rgba(108,99,255,0.15)",
-                    "&:hover": { borderColor: "rgba(108,99,255,0.4)" },
+                    bgcolor: active ? "rgba(59,130,246,0.15)" : "transparent",
+                    color: active ? "#3B82F6" : "text.secondary",
+                    border: active ? "1px solid #3B82F6" : "1px solid rgba(59,130,246,0.15)",
+                    "&:hover": { borderColor: "rgba(59,130,246,0.4)" },
                   }}
                 />
               );
@@ -200,7 +200,7 @@ export default function Glossary() {
           </Box>
         ) : filtered.length === 0 ? (
           <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>
-            <MenuBookOutlinedIcon sx={{ fontSize: 48, color: "#6C63FF", opacity: 0.5 }} />
+            <MenuBookOutlinedIcon sx={{ fontSize: 48, color: "#3B82F6", opacity: 0.5 }} />
             <Typography sx={{ fontWeight: 700 }} variant="h6">
               No terms found
             </Typography>
@@ -216,7 +216,7 @@ export default function Glossary() {
               <Box key={letter}>
                 <Typography
                   variant="h4"
-                  sx={{ fontWeight: 800, color: "#6C63FF", mb: 2, fontFamily: "monospace", letterSpacing: "0.05em" }}
+                  sx={{ fontWeight: 800, color: "#3B82F6", mb: 2, fontFamily: "monospace", letterSpacing: "0.05em" }}
                 >
                   {letter}
                 </Typography>
@@ -227,7 +227,7 @@ export default function Glossary() {
                       id={t.slug || undefined}
                       sx={{
                         p: { xs: 2, md: 2.5 },
-                        bgcolor: "rgba(108,99,255,0.03)",
+                        bgcolor: "rgba(59,130,246,0.03)",
                         border: `1px solid ${BORDER}`,
                         borderRadius: 2,
                         scrollMarginTop: "96px",
@@ -246,9 +246,9 @@ export default function Glossary() {
                               fontSize: "0.6rem",
                               letterSpacing: "0.1em",
                               textTransform: "uppercase",
-                              bgcolor: "rgba(108,99,255,0.12)",
-                              color: "#8B85FF",
-                              border: "1px solid rgba(108,99,255,0.2)",
+                              bgcolor: "rgba(59,130,246,0.12)",
+                              color: "#8B5CF6",
+                              border: "1px solid rgba(59,130,246,0.2)",
                             }}
                           />
                         )}

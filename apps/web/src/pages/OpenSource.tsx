@@ -103,7 +103,7 @@ function RepoCard({ repo, index }: { repo: Repo; index: number }) {
                 fontFamily: "monospace",
                 fontSize: "0.95rem",
                 fontWeight: 700,
-                color: "#6C63FF",
+                color: "#3B82F6",
                 wordBreak: "break-word",
               }}
             >
@@ -205,7 +205,7 @@ export default function OpenSource() {
         description="Infrastructure that cannot be inspected is not infrastructure — it is a dependency. What is published is published in full; what is not yet public is listed as exactly that."
         tag="BUILD // IN PUBLIC"
         accentWord="Source"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="GITHUB"
       />
 
@@ -216,7 +216,7 @@ export default function OpenSource() {
           sx={{ alignItems: { sm: "flex-end" }, justifyContent: "space-between", gap: 2, mb: 3 }}
         >
           <Box>
-            <Overline color="#6C63FF">Published</Overline>
+            <Overline color="#3B82F6">Published</Overline>
             <Typography
               variant="h4"
               component="h2"
@@ -256,7 +256,7 @@ export default function OpenSource() {
               href={PROFILE_URL}
               target="_blank"
               rel="noopener noreferrer"
-              sx={{ color: "#6C63FF" }}
+              sx={{ color: "#3B82F6" }}
             >
               github.com/{GH_USER}
             </Box>

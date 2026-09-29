@@ -82,7 +82,7 @@ export const PILLARS: Pillar[] = [
       "Open-source libraries and reference implementations",
       "Developer documentation",
     ],
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     to: "/developers",
   },
   {
@@ -99,7 +99,7 @@ export const PILLARS: Pillar[] = [
       "Government API standards",
       "Healthcare and education interoperability",
     ],
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     to: "/infrastructure#digital-public-infrastructure",
   },
   {
@@ -114,7 +114,7 @@ export const PILLARS: Pillar[] = [
       "AuraEDU — education",
       "Bak2Me — property recovery and trust",
     ],
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     to: "/products",
   },
   {
@@ -323,7 +323,7 @@ export const PARTNER_PATHWAYS: PartnerPathway[] = [
       "Technical review of existing digital infrastructure",
     ],
     inquiryType: "Government / Institution",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
   },
   {
     slug: "companies",
@@ -337,7 +337,7 @@ export const PARTNER_PATHWAYS: PartnerPathway[] = [
       "Engineering partnership on an existing product",
     ],
     inquiryType: "Enterprise",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
   },
   {
     slug: "developers",
@@ -351,7 +351,7 @@ export const PARTNER_PATHWAYS: PartnerPathway[] = [
       "Report an issue in published work",
     ],
     inquiryType: "Developer",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
   },
   {
     slug: "startups-investors",

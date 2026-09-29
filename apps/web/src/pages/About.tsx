@@ -18,7 +18,7 @@ import { ABOUT } from "@/content/positioning";
 import { FOUNDER, CANON } from "@/content/company";
 
 const MotionBox = motion.create(Box);
-const ACCENTS = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B", "#38BDF8"];
+const ACCENTS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B", "#38D3EB"];
 
 export default function About() {
   return (
@@ -38,7 +38,7 @@ export default function About() {
             title="An infrastructure company, built in Ghana"
             accentWord="infrastructure company"
             description="Africa's digital economy is being built on infrastructure designed somewhere else. Neurodyne exists to build the foundations here, once, and in the open."
-            iconColor="#8B85FF"
+            iconColor="#8B5CF6"
           />
         </Box>
 
@@ -64,8 +64,8 @@ export default function About() {
           <Grid size={{ xs: 12, md: 5 }}>
             <Stack spacing={2}>
               {[
-                { tag: "Vision", icon: <RocketLaunchOutlinedIcon />, body: ABOUT.vision, accent: "#6C63FF" },
-                { tag: "Mission", icon: <TrackChangesOutlinedIcon />, body: ABOUT.mission, accent: "#00D4AA" },
+                { tag: "Vision", icon: <RocketLaunchOutlinedIcon />, body: ABOUT.vision, accent: "#3B82F6" },
+                { tag: "Mission", icon: <TrackChangesOutlinedIcon />, body: ABOUT.mission, accent: "#06B6D4" },
               ].map((c) => (
                 <Box
                   key={c.tag}
@@ -127,10 +127,10 @@ export default function About() {
                   transition: "background-color 0.25s ease, color 0.25s ease",
                   "&::after": {
                     content: '""', position: "absolute", inset: "auto 0 0", height: 3,
-                    bgcolor: i % 2 === 0 ? "primary.main" : "#00D4AA",
+                    bgcolor: i % 2 === 0 ? "primary.main" : "#06B6D4",
                     transform: "scaleX(0)", transformOrigin: "left", transition: "transform 0.3s ease",
                   },
-                  "&:hover": { bgcolor: i % 2 === 0 ? "rgba(108,99,255,0.07)" : "rgba(0,212,170,0.06)" },
+                  "&:hover": { bgcolor: i % 2 === 0 ? "rgba(59,130,246,0.07)" : "rgba(6,182,212,0.06)" },
                   "&:hover::after": { transform: "scaleX(1)" },
                 }}
               >
@@ -154,7 +154,7 @@ export default function About() {
       {/* Values */}
       <Box sx={{ position: "relative", py: { xs: 7, md: 11 }, borderTop: "1px solid", borderColor: "divider" }}>
         <Container maxWidth="lg">
-          <SectionHeading tag="Our Values" title="What we hold to" align="center" color="#00D4AA" />
+          <SectionHeading tag="Our Values" title="What we hold to" align="center" color="#06B6D4" />
           <Grid container spacing={2}>
             {ABOUT.values.map((v, i) => (
               <Grid size={{ xs: 12, sm: 6, md: 4 }} key={v.title}>
@@ -186,7 +186,7 @@ export default function About() {
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 3, md: 8 }}>
             <Grid size={{ xs: 12, md: 5 }}>
-              <Overline color="#8B85FF">Where we work</Overline>
+              <Overline color="#8B5CF6">Where we work</Overline>
               <Typography variant="h3" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em", lineHeight: 1.2 }}>
                 Built in Accra. Engineered for anywhere.
               </Typography>
@@ -221,7 +221,7 @@ export default function About() {
               <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em" }}>
                 {FOUNDER.name}
               </Typography>
-              <Typography sx={{ mt: 0.75, color: "#00D4AA", fontWeight: 600, fontSize: "0.92rem" }}>
+              <Typography sx={{ mt: 0.75, color: "#06B6D4", fontWeight: 600, fontSize: "0.92rem" }}>
                 {FOUNDER.role} · {FOUNDER.location}
               </Typography>
               <Stack direction="row" spacing={2} sx={{ mt: 2.5 }}>
@@ -285,7 +285,7 @@ export default function About() {
             sx={{
               fontWeight: 900,
               letterSpacing: "-0.02em",
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",

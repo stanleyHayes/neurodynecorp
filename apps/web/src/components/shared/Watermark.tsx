@@ -17,9 +17,9 @@ function useToneColor(tone: WatermarkTone): string {
   const dark = theme.palette.mode === "dark";
   switch (tone) {
     case "brand":
-      return dark ? "rgba(139, 133, 255, 0.055)" : "rgba(91, 84, 238, 0.05)";
+      return dark ? "rgba(139, 92, 246, 0.055)" : "rgba(37, 99, 235, 0.05)";
     case "accent":
-      return dark ? "rgba(0, 212, 170, 0.05)" : "rgba(0, 168, 136, 0.045)";
+      return dark ? "rgba(6, 182, 212, 0.05)" : "rgba(0, 168, 136, 0.045)";
     case "surface":
     default:
       return dark ? "rgba(148, 163, 184, 0.045)" : "rgba(30, 41, 59, 0.04)";
@@ -105,7 +105,7 @@ export function WatermarkConstellation({
 export function BlueprintGrid({ spacing = 56, opacity = 1 }: { spacing?: number; opacity?: number }) {
   const theme = useTheme();
   const dark = theme.palette.mode === "dark";
-  const line = dark ? "rgba(108, 99, 255, 0.055)" : "rgba(91, 84, 238, 0.06)";
+  const line = dark ? "rgba(59, 130, 246, 0.055)" : "rgba(37, 99, 235, 0.06)";
   return (
     <Box
       aria-hidden

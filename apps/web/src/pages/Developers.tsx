@@ -50,7 +50,7 @@ const SURFACES: Surface[] = [
     name: "SDKs",
     scopeIndex: 3,
     maturity: "IN DEVELOPMENT",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     body:
       "Client libraries for the payment, identity and messaging integrations each Neurodyne platform has already had to build privately. They are being extracted from code those platforms already had to get right, rather than written speculatively against a spec.",
     gate: "Published when a second platform has used the library instead of its own copy.",
@@ -59,7 +59,7 @@ const SURFACES: Surface[] = [
     name: "AI Agent Skills",
     scopeIndex: 0,
     maturity: "IN DEVELOPMENT",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     body:
       "Packaged instructions that let an AI agent carry out a real African workflow — initiating a mobile money collection, reconciling a wallet settlement, validating an identity document format — instead of guessing at an interface nobody documented.",
     gate: "Published when a skill completes its workflow against a live service without hand-holding.",
@@ -68,7 +68,7 @@ const SURFACES: Surface[] = [
     name: "MCP Servers",
     scopeIndex: 1,
     maturity: "IN DEVELOPMENT",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     body:
       "Model Context Protocol servers exposing the same capabilities to any MCP-capable agent, so the integration work is done once and reused rather than rebuilt inside every assistant.",
     gate: "Published when the server is stable enough that a breaking change would be a versioned release, not a surprise.",
@@ -86,7 +86,7 @@ const SURFACES: Surface[] = [
     name: "Open-source libraries",
     scopeIndex: 4,
     maturity: "IN DEVELOPMENT",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     body:
       "Reference implementations for the parts every company here rewrites: wallet reconciliation, retry and idempotency behaviour over unreliable mobile data, identity format validation across several authorities.",
     gate: "Published under an open licence when the implementation is correct enough for someone else to depend on.",
@@ -126,7 +126,7 @@ export default function Developers() {
             title="Build for Africa with Neurodyne"
             accentWord="Neurodyne"
             description={PILLAR.tagline}
-            iconColor="#6C63FF"
+            iconColor="#3B82F6"
           />
         </Box>
       </Container>
@@ -169,7 +169,7 @@ export default function Developers() {
                   same identity checks against several authorities that each trust a different
                   document. The work is repeated, privately, by everyone, and none of it compounds.
                 </Typography>
-                <Typography sx={{ lineHeight: 1.95, fontSize: "1.02rem", color: "#00D4AA" }}>
+                <Typography sx={{ lineHeight: 1.95, fontSize: "1.02rem", color: "#06B6D4" }}>
                   That duplicated cost is the gap this pillar exists to close.
                 </Typography>
               </Stack>
@@ -185,7 +185,7 @@ export default function Developers() {
                   bgcolor: "action.hover",
                 }}
               >
-                <HudCorners color="rgba(108,99,255,0.35)" />
+                <HudCorners color="rgba(59,130,246,0.35)" />
                 <Overline>Pillar scope</Overline>
                 <Typography
                   variant="h6"
@@ -208,7 +208,7 @@ export default function Developers() {
                     >
                       <Box
                         aria-hidden
-                        sx={{ width: 6, height: 6, mt: 1.1, background: "#6C63FF", flexShrink: 0 }}
+                        sx={{ width: 6, height: 6, mt: 1.1, background: "#3B82F6", flexShrink: 0 }}
                       />
                       <Typography color="text.secondary" sx={{ fontSize: "0.9rem", lineHeight: 1.7 }}>
                         {item}
@@ -380,7 +380,7 @@ export default function Developers() {
       <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Stack spacing={1.5} sx={{ mb: { xs: 3, md: 4 } }}>
-            <Overline color="#00D4AA">How it gets built</Overline>
+            <Overline color="#06B6D4">How it gets built</Overline>
             <Typography variant="h4" component="h2" sx={{ fontWeight: 800, letterSpacing: "-0.02em" }}>
               Three rules this work is held to
             </Typography>
@@ -423,7 +423,7 @@ export default function Developers() {
                       px: 3,
                       py: 1.25,
                       fontWeight: 700,
-                      "&:hover, &:focus-visible": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.08)" },
+                      "&:hover, &:focus-visible": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.08)" },
                     }}
                   >
                     {FOUNDER.name} on {l.label}

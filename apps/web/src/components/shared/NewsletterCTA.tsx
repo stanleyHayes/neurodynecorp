@@ -59,21 +59,21 @@ export default function NewsletterCTA() {
         alignItems: "center",
         gap: { xs: 3, md: 5 },
         borderRadius: 0,
-        border: "1px solid rgba(108, 99, 255, 0.18)",
-        background: "linear-gradient(135deg, rgba(108,99,255,0.05), rgba(0,212,170,0.04))",
+        border: "1px solid rgba(59, 130, 246, 0.18)",
+        background: "linear-gradient(135deg, rgba(59,130,246,0.05), rgba(6,182,212,0.04))",
         overflow: "hidden",
       }}
     >
       <Box>
         <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-          <EmailOutlinedIcon sx={{ color: "#6C63FF", fontSize: 22 }} />
+          <EmailOutlinedIcon sx={{ color: "#3B82F6", fontSize: 22 }} />
           <Typography
             sx={{
               fontFamily: "monospace",
               fontSize: "0.6rem",
               letterSpacing: "0.3em",
               textTransform: "uppercase",
-              color: "#6C63FF",
+              color: "#3B82F6",
               opacity: 0.8,
             }}
           >
@@ -152,13 +152,13 @@ export default function NewsletterCTA() {
               onChange={(e) => setEmail(e.target.value)}
               sx={{
                 "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(108,99,255,0.04)",
+                  bgcolor: "rgba(59,130,246,0.04)",
                   fontFamily: "monospace",
                   fontSize: "0.85rem",
                   height: 48,
-                  "& fieldset": { borderColor: "rgba(108,99,255,0.2)" },
-                  "&:hover fieldset": { borderColor: "rgba(108,99,255,0.4)" },
-                  "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                  "& fieldset": { borderColor: "rgba(59,130,246,0.2)" },
+                  "&:hover fieldset": { borderColor: "rgba(59,130,246,0.4)" },
+                  "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
                 },
               }}
             />
@@ -175,9 +175,9 @@ export default function NewsletterCTA() {
                 height: 48,
                 px: 3,
                 flexShrink: 0,
-                background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-                "&:hover": { boxShadow: "0 4px 20px rgba(108,99,255,0.4)" },
-                "&.Mui-disabled": { background: "rgba(108,99,255,0.15)", color: "text.secondary" },
+                background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+                "&:hover": { boxShadow: "0 4px 20px rgba(59,130,246,0.4)" },
+                "&.Mui-disabled": { background: "rgba(59,130,246,0.15)", color: "text.secondary" },
               }}
             >
               {loading ? <ContentSkeleton compact /> : "Subscribe"}

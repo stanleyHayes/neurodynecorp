@@ -117,7 +117,7 @@ function RippleEffect({ ripple, onDone }: { ripple: Ripple; onDone: (id: number)
           width: 32,
           height: 32,
           borderRadius: "50%",
-          border: "1.5px solid rgba(108, 99, 255, 0.5)",
+          border: "1.5px solid rgba(59, 130, 246, 0.5)",
           pointerEvents: "none",
           zIndex: 100000,
         }}
@@ -135,7 +135,7 @@ function RippleEffect({ ripple, onDone }: { ripple: Ripple; onDone: (id: number)
           width: 20,
           height: 20,
           borderRadius: "50%",
-          background: "radial-gradient(circle, rgba(108,99,255,0.4), transparent)",
+          background: "radial-gradient(circle, rgba(59,130,246,0.4), transparent)",
           pointerEvents: "none",
           zIndex: 100000,
         }}
@@ -160,8 +160,8 @@ function RippleEffect({ ripple, onDone }: { ripple: Ripple; onDone: (id: number)
               width: p.size,
               height: p.size,
               borderRadius: "50%",
-              background: i % 2 === 0 ? "#6C63FF" : "#00D4AA",
-              boxShadow: `0 0 4px ${i % 2 === 0 ? "rgba(108,99,255,0.6)" : "rgba(0,212,170,0.6)"}`,
+              background: i % 2 === 0 ? "#3B82F6" : "#06B6D4",
+              boxShadow: `0 0 4px ${i % 2 === 0 ? "rgba(59,130,246,0.6)" : "rgba(6,182,212,0.6)"}`,
               pointerEvents: "none",
               zIndex: 100000,
             }}

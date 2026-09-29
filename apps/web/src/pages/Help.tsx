@@ -27,7 +27,7 @@ const OVERLINE = {
   opacity: 0.6,
 };
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 function slugFor(article: any): string {
   return article?.slug ?? "";
@@ -136,10 +136,10 @@ export default function Help() {
             sx={{
               maxWidth: 560,
               "& .MuiOutlinedInput-root": {
-                bgcolor: "rgba(108,99,255,0.04)",
-                "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-                "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-                "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                bgcolor: "rgba(59,130,246,0.04)",
+                "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+                "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+                "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
               },
             }}
           />
@@ -156,10 +156,10 @@ export default function Help() {
                 fontSize: "0.7rem",
                 letterSpacing: "0.08em",
                 cursor: "pointer",
-                bgcolor: category === "" ? "rgba(108,99,255,0.15)" : "transparent",
-                color: category === "" ? "#6C63FF" : "text.secondary",
-                border: category === "" ? "1px solid #6C63FF" : "1px solid rgba(108,99,255,0.15)",
-                "&:hover": { borderColor: "rgba(108,99,255,0.4)" },
+                bgcolor: category === "" ? "rgba(59,130,246,0.15)" : "transparent",
+                color: category === "" ? "#3B82F6" : "text.secondary",
+                border: category === "" ? "1px solid #3B82F6" : "1px solid rgba(59,130,246,0.15)",
+                "&:hover": { borderColor: "rgba(59,130,246,0.4)" },
               }}
             />
             {categoryOptions.map((c) => {
@@ -174,10 +174,10 @@ export default function Help() {
                     fontSize: "0.7rem",
                     letterSpacing: "0.08em",
                     cursor: "pointer",
-                    bgcolor: active ? "rgba(108,99,255,0.15)" : "transparent",
-                    color: active ? "#6C63FF" : "text.secondary",
-                    border: active ? "1px solid #6C63FF" : "1px solid rgba(108,99,255,0.15)",
-                    "&:hover": { borderColor: "rgba(108,99,255,0.4)" },
+                    bgcolor: active ? "rgba(59,130,246,0.15)" : "transparent",
+                    color: active ? "#3B82F6" : "text.secondary",
+                    border: active ? "1px solid #3B82F6" : "1px solid rgba(59,130,246,0.15)",
+                    "&:hover": { borderColor: "rgba(59,130,246,0.4)" },
                   }}
                 />
               );
@@ -192,7 +192,7 @@ export default function Help() {
           </Box>
         ) : articles.length === 0 ? (
           <Stack spacing={2} sx={{ alignItems: "center", py: 10, textAlign: "center" }}>
-            <HelpOutlineOutlinedIcon sx={{ fontSize: 48, color: "#6C63FF", opacity: 0.5 }} />
+            <HelpOutlineOutlinedIcon sx={{ fontSize: 48, color: "#3B82F6", opacity: 0.5 }} />
             <Typography sx={{ fontWeight: 700 }} variant="h6">
               No articles found
             </Typography>
@@ -221,13 +221,13 @@ export default function Help() {
                   sx={{
                     height: "100%",
                     textDecoration: "none",
-                    bgcolor: "rgba(108,99,255,0.03)",
+                    bgcolor: "rgba(59,130,246,0.03)",
                     border: `1px solid ${BORDER}`,
                     borderRadius: 2,
                     transition: "border-color 0.2s, background 0.2s, transform 0.2s",
                     "&:hover": {
-                      borderColor: "rgba(108,99,255,0.4)",
-                      bgcolor: "rgba(108,99,255,0.06)",
+                      borderColor: "rgba(59,130,246,0.4)",
+                      bgcolor: "rgba(59,130,246,0.06)",
                       transform: "translateY(-2px)",
                     },
                   }}
@@ -243,9 +243,9 @@ export default function Help() {
                           fontSize: "0.62rem",
                           letterSpacing: "0.12em",
                           textTransform: "uppercase",
-                          bgcolor: "rgba(108,99,255,0.12)",
-                          color: "#8B85FF",
-                          border: "1px solid rgba(108,99,255,0.2)",
+                          bgcolor: "rgba(59,130,246,0.12)",
+                          color: "#8B5CF6",
+                          border: "1px solid rgba(59,130,246,0.2)",
                         }}
                       />
                     )}
@@ -261,7 +261,7 @@ export default function Help() {
                         {article?.summary ?? article?.excerpt}
                       </Typography>
                     )}
-                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", mt: "auto", color: "#6C63FF" }}>
+                    <Stack direction="row" spacing={0.5} sx={{ alignItems: "center", mt: "auto", color: "#3B82F6" }}>
                       <Typography
                         sx={{ fontFamily: "monospace", fontSize: "0.7rem", letterSpacing: "0.1em" }}
                       >

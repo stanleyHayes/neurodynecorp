@@ -89,19 +89,19 @@ export default function ServiceDetail() {
               </Stack>
             </InfoCard>
 
-            <InfoCard accent="#6C63FF" title="Commercials">
+            <InfoCard accent="#3B82F6" title="Commercials">
               <Stack spacing={2} sx={{ mt: 1 }}>
                 <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={1.5}>
-                  <ScheduleOutlinedIcon sx={{ color: "#6C63FF", fontSize: 20, mt: "2px" }} />
+                  <ScheduleOutlinedIcon sx={{ color: "#3B82F6", fontSize: 20, mt: "2px" }} />
                   <Box>
                     <Overline>Indicative timeline</Overline>
                     <Typography variant="body2" sx={{ mt: 0.25 }}>{svc.timeline}</Typography>
                   </Box>
                 </Stack>
                 <Stack sx={{ alignItems: "flex-start" }} direction="row" spacing={1.5}>
-                  <PaymentsOutlinedIcon sx={{ color: "#00D4AA", fontSize: 20, mt: "2px" }} />
+                  <PaymentsOutlinedIcon sx={{ color: "#06B6D4", fontSize: 20, mt: "2px" }} />
                   <Box>
-                    <Overline color="#00D4AA">Indicative price band</Overline>
+                    <Overline color="#06B6D4">Indicative price band</Overline>
                     <Typography variant="body2" sx={{ mt: 0.25 }}>{svc.priceBand}</Typography>
                   </Box>
                 </Stack>
@@ -114,10 +114,10 @@ export default function ServiceDetail() {
 
           {/* Engagement scope */}
           <Box>
-            <SectionHeading tag="§ 02 — SCOPE" title="What an engagement covers" color="#8B85FF" />
+            <SectionHeading tag="§ 02 — SCOPE" title="What an engagement covers" color="#8B5CF6" />
             <Stack sx={{ flexWrap: "wrap" }} direction="row" spacing={1} useFlexGap>
               {svc.sampleWork.map((w) => (
-                <Chip key={w} label={w} variant="outlined" sx={{ borderColor: "#8B85FF55" }} />
+                <Chip key={w} label={w} variant="outlined" sx={{ borderColor: "#8B5CF655" }} />
               ))}
             </Stack>
           </Box>

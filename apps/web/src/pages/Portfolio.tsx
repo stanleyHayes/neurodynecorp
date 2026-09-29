@@ -10,7 +10,7 @@ import AnimatedCaseStudy from "@/components/shared/AnimatedCaseStudy";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
-const COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#33DDBB"];
+const COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#10B981"];
 
 interface PortfolioItem {
   id: string;
@@ -28,7 +28,7 @@ interface PortfolioItem {
   stage?: string;
 }
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 // Facets the dossiers can be sliced by (spec §5.6: sector, service line, scale, stage).
 // `category` is kept as a fallback facet: it is always populated, so the filter bar still
@@ -111,7 +111,7 @@ export default function Portfolio() {
         description="Engineering work delivered for other organisations, written up as anonymised briefs — the constraint set, the architecture chosen, what shipped, and what was retained. Filterable by sector, service line, scale, and stage."
         tag="OPERATIONS // LOG"
         accentWord="Dossiers"
-        iconColor="#33DDBB"
+        iconColor="#10B981"
         iconLabel="ARCHIVE LOADED"
       />
 
@@ -174,7 +174,7 @@ export default function Portfolio() {
               icon={<WorkIcon />}
               title={anyFilterActive ? "No dossiers match these filters" : "No case dossiers published yet"}
               description={anyFilterActive ? "Try clearing a filter to widen the search." : "Published briefs will appear here once they are written up."}
-              color="#33DDBB"
+              color="#10B981"
             />
           ) : (
             <Box
@@ -221,10 +221,10 @@ function FilterPill({ label, active, onClick }: { label: string; active: boolean
         fontFamily: "monospace",
         letterSpacing: "0.05em",
         color: active ? "text.primary" : "text.secondary",
-        background: active ? "rgba(108, 99, 255, 0.12)" : "transparent",
-        border: active ? "1px solid rgba(108, 99, 255, 0.2)" : "1px solid transparent",
+        background: active ? "rgba(59, 130, 246, 0.12)" : "transparent",
+        border: active ? "1px solid rgba(59, 130, 246, 0.2)" : "1px solid transparent",
         transition: "all 0.2s",
-        "&:hover": { color: "text.primary", background: "rgba(108, 99, 255, 0.06)" },
+        "&:hover": { color: "text.primary", background: "rgba(59, 130, 246, 0.06)" },
       }}
     >
       {label}

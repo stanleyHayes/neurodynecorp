@@ -34,7 +34,7 @@ function seedFor(postId: string): Counts {
   }, {} as Counts);
 }
 
-export default function PostReactions({ postId, color = "#6C63FF" }: PostReactionsProps) {
+export default function PostReactions({ postId, color = "#3B82F6" }: PostReactionsProps) {
   const storageKey = STORAGE_PREFIX + postId;
   const [counts, setCounts] = useState<Counts>(() => seedFor(postId));
   const [reacted, setReacted] = useState<Set<string>>(new Set());
@@ -83,7 +83,7 @@ export default function PostReactions({ postId, color = "#6C63FF" }: PostReactio
   };
 
   return (
-    <Box sx={{ py: 4, borderTop: "1px solid rgba(108,99,255,0.12)", borderBottom: "1px solid rgba(108,99,255,0.12)", my: 4 }}>
+    <Box sx={{ py: 4, borderTop: "1px solid rgba(59,130,246,0.12)", borderBottom: "1px solid rgba(59,130,246,0.12)", my: 4 }}>
       <Typography
         sx={{
           fontFamily: "monospace",
@@ -114,7 +114,7 @@ export default function PostReactions({ postId, color = "#6C63FF" }: PostReactio
                   py: 1,
                   borderRadius: 99,
                   cursor: "pointer",
-                  border: active ? `1px solid ${color}` : "1px solid rgba(108,99,255,0.15)",
+                  border: active ? `1px solid ${color}` : "1px solid rgba(59,130,246,0.15)",
                   bgcolor: active ? `${color}15` : "transparent",
                   transition: "all 0.2s",
                   userSelect: "none",

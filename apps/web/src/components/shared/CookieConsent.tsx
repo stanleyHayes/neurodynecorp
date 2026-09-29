@@ -116,7 +116,7 @@ export default function CookieConsent() {
     <Box
       sx={{
         borderRadius: 3,
-        border: "1px solid rgba(108, 99, 255, 0.22)",
+        border: "1px solid rgba(59, 130, 246, 0.22)",
         background:
           "linear-gradient(135deg, rgba(17,24,39,0.96), rgba(17,24,39,0.92))",
         backdropFilter: "blur(12px)",
@@ -147,8 +147,8 @@ export default function CookieConsent() {
       >
         <Box sx={{ flex: 1 }}>
           <Stack direction="row" spacing={1.25} sx={{ alignItems: "center", mb: 1 }}>
-            <ShieldOutlinedIcon sx={{ color: "#00D4AA", fontSize: 22 }} />
-            <CookieOutlinedIcon sx={{ color: "#6C63FF", fontSize: 22 }} />
+            <ShieldOutlinedIcon sx={{ color: "#06B6D4", fontSize: 22 }} />
+            <CookieOutlinedIcon sx={{ color: "#3B82F6", fontSize: 22 }} />
             <Typography sx={overline}>Your privacy</Typography>
           </Stack>
           <Typography
@@ -189,7 +189,7 @@ export default function CookieConsent() {
                 transition={{ duration: reduceMotion ? 0 : 0.25 }}
                 sx={{ overflow: "hidden" }}
               >
-                <Divider sx={{ my: 2, borderColor: "rgba(108,99,255,0.15)" }} />
+                <Divider sx={{ my: 2, borderColor: "rgba(59,130,246,0.15)" }} />
                 <Stack spacing={1}>
                   <Stack sx={{ alignItems: "center", justifyContent: "space-between" }}
                     direction="row"
@@ -261,8 +261,8 @@ export default function CookieConsent() {
               fontFamily: "monospace",
               fontWeight: 700,
               letterSpacing: "0.08em",
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-              "&:hover": { boxShadow: "0 4px 20px rgba(108,99,255,0.4)" },
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+              "&:hover": { boxShadow: "0 4px 20px rgba(59,130,246,0.4)" },
             }}
           >
             Accept all
@@ -276,9 +276,9 @@ export default function CookieConsent() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
-                borderColor: "rgba(108,99,255,0.4)",
+                borderColor: "rgba(59,130,246,0.4)",
                 color: "text.primary",
-                "&:hover": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.06)" },
+                "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
               }}
             >
               Save preferences
@@ -292,9 +292,9 @@ export default function CookieConsent() {
                 fontFamily: "monospace",
                 fontWeight: 700,
                 letterSpacing: "0.08em",
-                borderColor: "rgba(108,99,255,0.4)",
+                borderColor: "rgba(59,130,246,0.4)",
                 color: "text.primary",
-                "&:hover": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.06)" },
+                "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
               }}
             >
               Customize

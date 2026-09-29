@@ -40,9 +40,9 @@ type Phase = "intro" | "questions" | "contact" | "result";
 type AnswerMap = Record<string, string | string[]>;
 
 const ROUTE_COLOR: Record<string, string> = {
-  services: "#6C63FF",
-  labs: "#8B85FF",
-  gov_digital_excellence: "#00D4AA",
+  services: "#3B82F6",
+  labs: "#8B5CF6",
+  gov_digital_excellence: "#06B6D4",
   decline_referral: "#F59E0B",
 };
 
@@ -156,7 +156,7 @@ export default function Diagnostic() {
         description="Eight to ten questions. We'll route your brief to the right path and hand you a one-page readiness summary. Engagement is by qualification — this is how it starts."
         tag="INTAKE // DIAGNOSTIC"
         accentWord="Readiness"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="QUALIFY"
       />
 
@@ -174,7 +174,7 @@ export default function Diagnostic() {
             {/* ── Intro ── */}
             {phase === "intro" && (
               <MotionBox key="intro" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -12 }}>
-                <InfoCard accent="#6C63FF" title="Before we talk, a quick qualification">
+                <InfoCard accent="#3B82F6" title="Before we talk, a quick qualification">
                   <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
                     This replaces the contact form. It takes about two minutes, branches based on your answers, and ends
                     with an indicative routing decision plus a one-page summary you can keep. Nothing here commits you to anything.
@@ -183,7 +183,7 @@ export default function Diagnostic() {
                     variant="contained"
                     endIcon={<ArrowForwardIcon />}
                     onClick={() => { setPhase("questions"); setStepIndex(0); }}
-                    sx={{ bgcolor: "#6C63FF", "&:hover": { bgcolor: "#5a52e0" } }}
+                    sx={{ bgcolor: "#3B82F6", "&:hover": { bgcolor: "#2563eb" } }}
                   >
                     Begin diagnostic
                   </Button>
@@ -194,7 +194,7 @@ export default function Diagnostic() {
             {/* ── Questions ── */}
             {phase === "questions" && current && (
               <MotionBox key={`q-${current.id}`} initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }}>
-                <LinearProgress variant="determinate" value={progress} sx={{ mb: 3, borderRadius: 2, height: 6, bgcolor: "rgba(108,99,255,0.12)", "& .MuiLinearProgress-bar": { bgcolor: "#6C63FF" } }} />
+                <LinearProgress variant="determinate" value={progress} sx={{ mb: 3, borderRadius: 2, height: 6, bgcolor: "rgba(59,130,246,0.12)", "& .MuiLinearProgress-bar": { bgcolor: "#3B82F6" } }} />
                 <Overline>Question {stepIndex + 1} of {visible.length}</Overline>
                 <Typography variant="h5" sx={{ fontWeight: 800, mt: 1, mb: current.helpText ? 0.75 : 2 }}>
                   {current.text}
@@ -218,18 +218,18 @@ export default function Diagnostic() {
                           p: 2,
                           borderRadius: 2,
                           border: "1px solid",
-                          borderColor: selected ? "#6C63FF" : "divider",
-                          bgcolor: selected ? "rgba(108,99,255,0.10)" : "transparent",
+                          borderColor: selected ? "#3B82F6" : "divider",
+                          bgcolor: selected ? "rgba(59,130,246,0.10)" : "transparent",
                           color: "text.primary",
                           display: "flex",
                           alignItems: "center",
                           justifyContent: "space-between",
                           transition: "border-color 0.2s, background 0.2s",
-                          "&:hover": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.06)" },
+                          "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
                         }}
                       >
                         <Typography sx={{ fontWeight: 500 }}>{opt.label}</Typography>
-                        {selected && <CheckCircleOutlineIcon sx={{ color: "#6C63FF", fontSize: 20 }} />}
+                        {selected && <CheckCircleOutlineIcon sx={{ color: "#3B82F6", fontSize: 20 }} />}
                       </Box>
                     );
                   })}
@@ -243,7 +243,7 @@ export default function Diagnostic() {
             {/* ── Contact ── */}
             {phase === "contact" && (
               <MotionBox key="contact" initial={{ opacity: 0, x: 24 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -24 }}>
-                <LinearProgress variant="determinate" value={92} sx={{ mb: 3, borderRadius: 2, height: 6, bgcolor: "rgba(108,99,255,0.12)", "& .MuiLinearProgress-bar": { bgcolor: "#6C63FF" } }} />
+                <LinearProgress variant="determinate" value={92} sx={{ mb: 3, borderRadius: 2, height: 6, bgcolor: "rgba(59,130,246,0.12)", "& .MuiLinearProgress-bar": { bgcolor: "#3B82F6" } }} />
                 <SectionHeading tag="ALMOST THERE" title="Where should the summary go?" lead="Optional — but if you'd like a copy and a route to a conversation, leave a way to reach you." />
                 <Stack spacing={2}>
                   <TextField label="Your name" value={contact.respondentName} onChange={(e) => setContact({ ...contact, respondentName: e.target.value })} fullWidth />
@@ -258,7 +258,7 @@ export default function Diagnostic() {
                     endIcon={submitting ? <ContentSkeleton compact /> : <ArrowForwardIcon />}
                     disabled={submitting}
                     onClick={submit}
-                    sx={{ bgcolor: "#6C63FF", "&:hover": { bgcolor: "#5a52e0" } }}
+                    sx={{ bgcolor: "#3B82F6", "&:hover": { bgcolor: "#2563eb" } }}
                   >
                     See my routing
                   </Button>
@@ -270,10 +270,10 @@ export default function Diagnostic() {
             {phase === "result" && result && (
               <MotionBox key="result" initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
                 <Stack spacing={3}>
-                  <InfoCard accent={ROUTE_COLOR[result.route] ?? "#6C63FF"} icon={<CheckCircleOutlineIcon />} title="Your indicative routing">
+                  <InfoCard accent={ROUTE_COLOR[result.route] ?? "#3B82F6"} icon={<CheckCircleOutlineIcon />} title="Your indicative routing">
                     <Chip
                       label={result.routeLabel}
-                      sx={{ mt: 0.5, mb: 2, bgcolor: `${ROUTE_COLOR[result.route] ?? "#6C63FF"}1A`, color: ROUTE_COLOR[result.route] ?? "#6C63FF", fontWeight: 700, fontFamily: "monospace", letterSpacing: "0.08em" }}
+                      sx={{ mt: 0.5, mb: 2, bgcolor: `${ROUTE_COLOR[result.route] ?? "#3B82F6"}1A`, color: ROUTE_COLOR[result.route] ?? "#3B82F6", fontWeight: 700, fontFamily: "monospace", letterSpacing: "0.08em" }}
                     />
                     <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
                       {result.nextStep}
@@ -283,7 +283,7 @@ export default function Diagnostic() {
                         <Overline>Why</Overline>
                         {result.reasons.map((r, i) => (
                           <Stack sx={{ alignItems: "flex-start" }} key={`${i}-${r}`} direction="row" spacing={1.5}>
-                            <Box sx={{ width: 5, height: 5, borderRadius: "50%", bgcolor: ROUTE_COLOR[result.route] ?? "#6C63FF", mt: "7px", flexShrink: 0 }} />
+                            <Box sx={{ width: 5, height: 5, borderRadius: "50%", bgcolor: ROUTE_COLOR[result.route] ?? "#3B82F6", mt: "7px", flexShrink: 0 }} />
                             <Typography variant="body2" color="text.secondary">{r}</Typography>
                           </Stack>
                         ))}
@@ -292,7 +292,7 @@ export default function Diagnostic() {
                   </InfoCard>
 
                   {/* One-page summary (print-friendly) */}
-                  <Box className="diagnostic-summary" sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 3, border: "1px solid", borderColor: "divider", bgcolor: "rgba(108,99,255,0.04)" }}>
+                  <Box className="diagnostic-summary" sx={{ p: { xs: 2.5, md: 3 }, borderRadius: 3, border: "1px solid", borderColor: "divider", bgcolor: "rgba(59,130,246,0.04)" }}>
                     <Overline>One-page summary</Overline>
                     <Typography component="pre" sx={{ mt: 1.5, fontFamily: "monospace", fontSize: "0.8rem", whiteSpace: "pre-wrap", color: "text.secondary", lineHeight: 1.7 }}>
                       {result.summary}
@@ -318,7 +318,7 @@ export default function Diagnostic() {
                       tag="NEXT STEP"
                       title="Book a qualified conversation"
                       description="We've reserved the right length of time based on your routing. Pick up exactly where the diagnostic left off."
-                      color={ROUTE_COLOR[result.route] ?? "#6C63FF"}
+                      color={ROUTE_COLOR[result.route] ?? "#3B82F6"}
                     />
                   )}
                 </Stack>

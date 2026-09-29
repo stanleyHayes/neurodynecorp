@@ -16,7 +16,7 @@ const MotionBox = motion.create(Box);
 
 const TYPE_COLORS: Record<string, string> = {
   feature: "#10B981",
-  improvement: "#6C63FF",
+  improvement: "#3B82F6",
   fix: "#F59E0B",
   security: "#EF4444",
 };
@@ -69,7 +69,7 @@ export default function Changelog() {
         description={CHANGELOG_COPY.description}
         tag="WHAT'S // NEW"
         accentWord="log"
-        iconColor="#6C63FF"
+        iconColor="#3B82F6"
         iconLabel="RELEASE NOTES"
       />
 
@@ -138,7 +138,7 @@ export default function Changelog() {
                 sx={{
                   position: "relative",
                   pl: { xs: 3, md: 4 },
-                  borderLeft: "1px solid rgba(108,99,255,0.15)",
+                  borderLeft: "1px solid rgba(59,130,246,0.15)",
                   pb: 2,
                 }}
               >
@@ -152,7 +152,7 @@ export default function Changelog() {
                     borderRadius: "50%",
                     bgcolor: TYPE_COLORS[e.type] ?? TYPE_COLORS.improvement,
                     boxShadow: `0 0 12px ${TYPE_COLORS[e.type] ?? TYPE_COLORS.improvement}`,
-                    border: "2px solid #0A0E1A",
+                    border: "2px solid #0A0F1F",
                   }}
                 />
 
@@ -165,7 +165,7 @@ export default function Changelog() {
                     sx={{
                       fontFamily: "monospace",
                       fontSize: "0.75rem",
-                      color: "#6C63FF",
+                      color: "#3B82F6",
                       fontWeight: 700,
                     }}
                   >

@@ -131,9 +131,9 @@ export default function FeedbackWidget() {
             py: 1.25,
             borderRadius: 999,
             color: "#fff",
-            background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-            boxShadow: "0 8px 28px rgba(108,99,255,0.45)",
-            "&:hover": { boxShadow: "0 10px 34px rgba(108,99,255,0.6)" },
+            background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+            boxShadow: "0 8px 28px rgba(59,130,246,0.45)",
+            "&:hover": { boxShadow: "0 10px 34px rgba(59,130,246,0.6)" },
           }}
         >
           Feedback
@@ -142,10 +142,10 @@ export default function FeedbackWidget() {
 
       <Dialog slotProps={{ paper: {
           sx: {
-            bgcolor: "#111827",
+            bgcolor: "#111a2e",
             backgroundImage:
-              "linear-gradient(135deg, rgba(108,99,255,0.06), rgba(0,212,170,0.04))",
-            border: "1px solid rgba(108,99,255,0.22)",
+              "linear-gradient(135deg, rgba(59,130,246,0.06), rgba(6,182,212,0.04))",
+            border: "1px solid rgba(59,130,246,0.22)",
             borderRadius: 3,
           },
         } }}
@@ -219,14 +219,14 @@ export default function FeedbackWidget() {
                           borderRadius: 1.5,
                           color: active ? "#fff" : "text.secondary",
                           border: "1px solid",
-                          borderColor: active ? "transparent" : "rgba(108,99,255,0.25)",
+                          borderColor: active ? "transparent" : "rgba(59,130,246,0.25)",
                           background: active
-                            ? "linear-gradient(135deg, #6C63FF, #00D4AA)"
-                            : "rgba(108,99,255,0.04)",
+                            ? "linear-gradient(135deg, #3B82F6, #06B6D4)"
+                            : "rgba(59,130,246,0.04)",
                           "&:hover": {
                             background: active
-                              ? "linear-gradient(135deg, #6C63FF, #00D4AA)"
-                              : "rgba(108,99,255,0.1)",
+                              ? "linear-gradient(135deg, #3B82F6, #06B6D4)"
+                              : "rgba(59,130,246,0.1)",
                           },
                         }}
                       />
@@ -234,7 +234,7 @@ export default function FeedbackWidget() {
                   })}
                 </Stack>
 
-                <Divider sx={{ borderColor: "rgba(108,99,255,0.12)", mb: 2 }} />
+                <Divider sx={{ borderColor: "rgba(59,130,246,0.12)", mb: 2 }} />
 
                 <Typography sx={{ fontSize: "0.78rem", color: "text.secondary", opacity: 0.7, mb: 1 }}>
                   How likely are you to recommend us? (optional)
@@ -262,14 +262,14 @@ export default function FeedbackWidget() {
                           fontWeight: 700,
                           color: active ? "#fff" : "text.secondary",
                           border: "1px solid",
-                          borderColor: active ? "transparent" : "rgba(108,99,255,0.2)",
+                          borderColor: active ? "transparent" : "rgba(59,130,246,0.2)",
                           background: active
-                            ? "linear-gradient(135deg, #6C63FF, #00D4AA)"
+                            ? "linear-gradient(135deg, #3B82F6, #06B6D4)"
                             : "transparent",
                           "&:hover": {
                             background: active
-                              ? "linear-gradient(135deg, #6C63FF, #00D4AA)"
-                              : "rgba(108,99,255,0.1)",
+                              ? "linear-gradient(135deg, #3B82F6, #06B6D4)"
+                              : "rgba(59,130,246,0.1)",
                           },
                         }}
                       >
@@ -289,11 +289,11 @@ export default function FeedbackWidget() {
                   sx={{
                     mb: 2,
                     "& .MuiOutlinedInput-root": {
-                      bgcolor: "rgba(108,99,255,0.04)",
+                      bgcolor: "rgba(59,130,246,0.04)",
                       fontSize: "0.9rem",
-                      "& fieldset": { borderColor: "rgba(108,99,255,0.2)" },
-                      "&:hover fieldset": { borderColor: "rgba(108,99,255,0.4)" },
-                      "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                      "& fieldset": { borderColor: "rgba(59,130,246,0.2)" },
+                      "&:hover fieldset": { borderColor: "rgba(59,130,246,0.4)" },
+                      "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
                     },
                   }}
                 />
@@ -308,12 +308,12 @@ export default function FeedbackWidget() {
                   helperText={!emailValid(email) ? "Enter a valid email or leave blank" : " "}
                   sx={{
                     "& .MuiOutlinedInput-root": {
-                      bgcolor: "rgba(108,99,255,0.04)",
+                      bgcolor: "rgba(59,130,246,0.04)",
                       fontFamily: "monospace",
                       fontSize: "0.85rem",
-                      "& fieldset": { borderColor: "rgba(108,99,255,0.2)" },
-                      "&:hover fieldset": { borderColor: "rgba(108,99,255,0.4)" },
-                      "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                      "& fieldset": { borderColor: "rgba(59,130,246,0.2)" },
+                      "&:hover fieldset": { borderColor: "rgba(59,130,246,0.4)" },
+                      "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
                     },
                   }}
                 />
@@ -353,10 +353,10 @@ export default function FeedbackWidget() {
                 fontWeight: 700,
                 letterSpacing: "0.08em",
                 px: 2.5,
-                background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-                "&:hover": { boxShadow: "0 4px 20px rgba(108,99,255,0.4)" },
+                background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+                "&:hover": { boxShadow: "0 4px 20px rgba(59,130,246,0.4)" },
                 "&.Mui-disabled": {
-                  background: "rgba(108,99,255,0.15)",
+                  background: "rgba(59,130,246,0.15)",
                   color: "text.secondary",
                 },
               }}

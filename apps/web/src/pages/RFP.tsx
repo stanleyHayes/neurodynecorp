@@ -86,22 +86,22 @@ export default function RFP() {
         description="A structured channel for formal procurement. Submit the brief and your requirements; we acknowledge every serious submission within 48 hours and route it to the team that owns your vertical."
         tag="INTAKE // PROCUREMENT"
         accentWord="Tender"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="PROCUREMENT"
       />
 
       <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
         {result ? (
           <Stack spacing={3}>
-            <InfoCard accent="#00D4AA" icon={<CheckCircleOutlineIcon />} title="Submission received">
+            <InfoCard accent="#06B6D4" icon={<CheckCircleOutlineIcon />} title="Submission received">
               <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8, mb: 2 }}>
                 Thank you. Your RFP has been logged and routed internally. We commit to acknowledging it within{" "}
                 <strong>{result.slaHours} hours</strong> — you'll get an email from us, and a confirmation is on its way now.
               </Typography>
               <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-                <ScheduleOutlinedIcon sx={{ color: "#00D4AA", fontSize: 20 }} />
+                <ScheduleOutlinedIcon sx={{ color: "#06B6D4", fontSize: 20 }} />
                 <Typography variant="body2" color="text.secondary">
-                  Reference: <Box component="span" sx={{ fontFamily: "monospace", color: "#00D4AA" }}>{result.id}</Box>
+                  Reference: <Box component="span" sx={{ fontFamily: "monospace", color: "#06B6D4" }}>{result.id}</Box>
                 </Typography>
               </Stack>
             </InfoCard>
@@ -111,9 +111,9 @@ export default function RFP() {
           </Stack>
         ) : (
           <Stack spacing={4}>
-            <InfoCard accent="#8B85FF">
+            <InfoCard accent="#8B5CF6">
               <Stack sx={{ alignItems: "center" }} direction="row" spacing={1.5}>
-                <ScheduleOutlinedIcon sx={{ color: "#8B85FF", fontSize: 22 }} />
+                <ScheduleOutlinedIcon sx={{ color: "#8B5CF6", fontSize: 22 }} />
                 <Typography variant="body2" color="text.secondary">
                   Every serious submission is acknowledged within <strong>48 hours</strong> and SLA-tracked internally.
                 </Typography>
@@ -122,7 +122,7 @@ export default function RFP() {
 
             {/* Organisation & contact */}
             <Box>
-              <SectionHeading tag="§ 01 — WHO" title="Organisation & contact" color="#6C63FF" />
+              <SectionHeading tag="§ 01 — WHO" title="Organisation & contact" color="#3B82F6" />
               <Stack spacing={2}>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextField slotProps={{ htmlInput: { maxLength: 200 } }} label="Organisation *" value={form.org} onChange={set("org")} fullWidth />
@@ -140,7 +140,7 @@ export default function RFP() {
 
             {/* The brief */}
             <Box>
-              <SectionHeading tag="§ 02 — THE BRIEF" title="Scope & requirements" color="#00D4AA" />
+              <SectionHeading tag="§ 02 — THE BRIEF" title="Scope & requirements" color="#06B6D4" />
               <Stack spacing={2}>
                 <TextField slotProps={{ htmlInput: { maxLength: 300 } }} label="RFP / tender title *" value={form.title} onChange={set("title")} fullWidth />
                 <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} label="Scope * (what you need built or delivered)" value={form.scope} onChange={set("scope")} fullWidth multiline minRows={4} helperText="At least a couple of sentences." />
@@ -153,7 +153,7 @@ export default function RFP() {
 
             {/* Logistics */}
             <Box>
-              <SectionHeading tag="§ 03 — LOGISTICS" title="Deadline, value & document" color="#8B85FF" />
+              <SectionHeading tag="§ 03 — LOGISTICS" title="Deadline, value & document" color="#8B5CF6" />
               <Stack spacing={2}>
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2}>
                   <TextField slotProps={{ inputLabel: { shrink: true } }} label="Your submission deadline" type="date" value={form.deadline} onChange={set("deadline")} fullWidth />
@@ -172,7 +172,7 @@ export default function RFP() {
                 onClick={submit}
                 disabled={!canSubmit}
                 startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
-                sx={{ mt: 1.5, bgcolor: "#6C63FF", "&:hover": { bgcolor: "#5a52e0" } }}
+                sx={{ mt: 1.5, bgcolor: "#3B82F6", "&:hover": { bgcolor: "#2563eb" } }}
               >
                 Submit RFP
               </Button>

@@ -77,14 +77,14 @@ export default function Booking() {
         description="Request an initial conversation. We confirm a time and come prepared — with the right people, and the right amount of time for where you are."
         tag="INTAKE // CONVERSATION"
         accentWord="Reading"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="SCHEDULE"
       />
 
       <Container maxWidth="md" sx={{ py: { xs: 5, md: 8 } }}>
         {done ? (
           <Stack spacing={3}>
-            <InfoCard accent="#00D4AA" icon={<CheckCircleOutlineIcon />} title="Request received">
+            <InfoCard accent="#06B6D4" icon={<CheckCircleOutlineIcon />} title="Request received">
               <Typography variant="body1" color="text.secondary" sx={{ lineHeight: 1.8 }}>
                 Thanks — we've logged your request for a <strong>{done.durationMins}-minute</strong> conversation and will
                 confirm a time by email shortly.
@@ -96,12 +96,12 @@ export default function Booking() {
           <Stack spacing={4}>
             {/* Context / soft gate */}
             {ref ? (
-              <InfoCard accent="#6C63FF" icon={<ScheduleOutlinedIcon />} title="Tailored to your diagnostic">
+              <InfoCard accent="#3B82F6" icon={<ScheduleOutlinedIcon />} title="Tailored to your diagnostic">
                 <Stack direction="row" spacing={1} useFlexGap sx={{ flexWrap: "wrap", mt: 0.5 }}>
                   {route && ROUTE_LABEL[route] && (
-                    <Chip label={ROUTE_LABEL[route]} sx={{ bgcolor: "rgba(108,99,255,0.12)", color: "#6C63FF", fontFamily: "monospace", fontSize: "0.65rem" }} />
+                    <Chip label={ROUTE_LABEL[route]} sx={{ bgcolor: "rgba(59,130,246,0.12)", color: "#3B82F6", fontFamily: "monospace", fontSize: "0.65rem" }} />
                   )}
-                  <Chip label={`${duration} minutes`} sx={{ bgcolor: "rgba(0,212,170,0.12)", color: "#00D4AA", fontFamily: "monospace", fontSize: "0.65rem" }} />
+                  <Chip label={`${duration} minutes`} sx={{ bgcolor: "rgba(6,182,212,0.12)", color: "#06B6D4", fontFamily: "monospace", fontSize: "0.65rem" }} />
                 </Stack>
                 <Typography variant="body2" color="text.secondary" sx={{ mt: 1.5 }}>
                   We've reserved a <strong>{duration}-minute</strong> slot based on your readiness diagnostic.
@@ -144,7 +144,7 @@ export default function Booking() {
                 onClick={submit}
                 disabled={!canSubmit}
                 startIcon={submitting ? <ContentSkeleton compact /> : <SendOutlinedIcon />}
-                sx={{ mt: 1.5, bgcolor: "#00D4AA", color: "#04221c", fontWeight: 700, "&:hover": { bgcolor: "#00b896" } }}
+                sx={{ mt: 1.5, bgcolor: "#06B6D4", color: "#04221c", fontWeight: 700, "&:hover": { bgcolor: "#00b896" } }}
               >
                 {`Request a ${duration}-minute reading`}
               </Button>
@@ -155,7 +155,7 @@ export default function Booking() {
               tag="NOT YET QUALIFIED?"
               title="Run the readiness diagnostic first"
               description="Two minutes. It routes your brief and sets the right length for this conversation."
-              color="#6C63FF"
+              color="#3B82F6"
             />
           </Stack>
         )}

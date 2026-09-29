@@ -21,7 +21,7 @@ interface CaseStudyCardProps {
 
 const STEPS = [
   { label: "PROBLEM", color: "#F59E0B" },
-  { label: "APPROACH", color: "#6C63FF" },
+  { label: "APPROACH", color: "#3B82F6" },
   { label: "OUTCOME", color: "#10B981" },
 ];
 
@@ -80,8 +80,8 @@ export default function AnimatedCaseStudy({
         cursor: href ? "pointer" : "default",
         overflow: "hidden",
         background: hovered ? `${color}06` : "transparent",
-        borderRight: { md: "1px solid rgba(108,99,255,0.1)" },
-        borderBottom: "1px solid rgba(108,99,255,0.1)",
+        borderRight: { md: "1px solid rgba(59,130,246,0.1)" },
+        borderBottom: "1px solid rgba(59,130,246,0.1)",
         transition: "background 0.3s",
       }}
     >
@@ -138,7 +138,7 @@ export default function AnimatedCaseStudy({
             sx={{
               fontWeight: 800,
               letterSpacing: "-0.02em",
-              background: hovered ? `linear-gradient(135deg, ${color}, #00D4AA)` : "transparent",
+              background: hovered ? `linear-gradient(135deg, ${color}, #06B6D4)` : "transparent",
               backgroundClip: hovered ? "text" : "unset",
               WebkitBackgroundClip: hovered ? "text" : "unset",
               WebkitTextFillColor: hovered ? "transparent" : "inherit",
@@ -176,7 +176,7 @@ export default function AnimatedCaseStudy({
               flex: 1,
               height: 3,
               borderRadius: 1,
-              bgcolor: i <= step && hovered ? s.color : "rgba(108,99,255,0.12)",
+              bgcolor: i <= step && hovered ? s.color : "rgba(59,130,246,0.12)",
               boxShadow: i === step && hovered ? `0 0 6px ${s.color}` : "none",
               cursor: "pointer",
               transition: "all 0.3s",
@@ -226,9 +226,9 @@ export default function AnimatedCaseStudy({
               fontFamily: "monospace",
               fontSize: "0.6rem",
               height: 20,
-              bgcolor: hovered ? `${color}15` : "rgba(108,99,255,0.06)",
+              bgcolor: hovered ? `${color}15` : "rgba(59,130,246,0.06)",
               color: hovered ? color : "text.secondary",
-              border: hovered ? `1px solid ${color}40` : "1px solid rgba(108,99,255,0.15)",
+              border: hovered ? `1px solid ${color}40` : "1px solid rgba(59,130,246,0.15)",
               transition: "all 0.3s",
             }}
           />

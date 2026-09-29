@@ -81,7 +81,7 @@ export const PROJECTS: Project[] = [{
     tier: "platform",
     maturity: "PRIVATE BETA",
     year: "2025—",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary:
       "Digital infrastructure for renting in Ghana — verified listings, signed leases, mobile-money rent, tenant credit history, and policy tools for regulators.",
     problem: [
@@ -122,7 +122,7 @@ export const PROJECTS: Project[] = [{
     tier: "platform",
     maturity: "IN DEVELOPMENT",
     year: "2024—",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     summary:
       "One platform running academics, fees, attendance, admissions, communication and AI guidance — configurable per school rather than rebuilt per school.",
     problem: [
@@ -163,7 +163,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Client project",
     year: "2025—",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     summary:
       "A workflow engine that takes a topic through brief, script, scenes, render, human approval and publishing — with every AI provider swappable.",
     problem: [
@@ -284,7 +284,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2025",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary:
       "Multi-tenant employee onboarding with SCIM provisioning, HRIS sync, and an AI assistant that answers only from the company's own documents.",
     problem: [
@@ -323,7 +323,7 @@ export const PROJECTS: Project[] = [{
     tier: "platform",
     maturity: "PRIVATE BETA",
     year: "2024—",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     summary:
       "Verified recovery points, ownership proof, chain-of-custody records and fraud scoring — built as a trust network rather than a lost-item listing board, because a user-confirmed return is not evidence enough to pay out a reward.",
     problem: [
@@ -446,7 +446,7 @@ export const PROJECTS: Project[] = [{
     tier: "platform",
     maturity: "PRIVATE BETA",
     year: "2024—",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     summary:
       "Connects African causes, communities and organisations with local and diaspora supporters — campaign tiers, progressive KYC, an auditable ledger, payout orchestration and fraud controls at the core.",
     problem: [
@@ -485,7 +485,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Non-profit",
     year: "2024—",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary:
       "Marketing site and CMS with dual-rail donations — Stripe for international donors, Paystack for African ones.",
     problem: [
@@ -523,7 +523,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Non-profit",
     year: "2024—",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     summary:
       "Events, conversations, fellowship applications and features — API-driven so a media brand can operate at publishing cadence.",
     problem: [
@@ -599,7 +599,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Client project",
     year: "2024—",
-    accent: "#38BDF8",
+    accent: "#38D3EB",
     summary:
       "Campaign management, attribution and AI budget optimisation for advertisers priced out of enterprise adtech.",
     problem: [
@@ -658,7 +658,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "In discussion",
     year: "2026",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     summary: "A scheduling engine and administration platform that assembles, validates, approves and exports university timetables with zero hard conflicts.",
     problem: ["Academic scheduling must reconcile rooms, courses, lecturers and institutional constraints at a scale spreadsheets cannot safely govern."],
     approach: ["The system separates optimisation from the approval workflow and records every decision, notification and published schedule as auditable state."],
@@ -677,7 +677,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Client project",
     year: "2025—2026",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary: "A public site and alumni operations platform for registration, year-group directories, events, projects, news, volunteering and donations.",
     problem: ["Alumni records, events, school projects and fundraising often live in disconnected forms, chats and spreadsheets.", "That fragmentation makes it difficult to sustain participation across generations."],
     approach: ["One API-backed platform gives alumni, administrators and the public role-appropriate views of the same association record.", "Production deployment keeps the API isolated while the public, admin and alumni surfaces use an explicit origin allowlist."],
@@ -696,7 +696,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2026",
-    accent: "#38BDF8",
+    accent: "#38D3EB",
     summary: "A multi-tenant platform for creator-owned publishing, community, commerce, events, sponsorships and operations without replacing discovery networks.",
     problem: ["Creators build audiences on platforms they do not control, then operate community, sales and partnerships through disconnected tools."],
     approach: ["Creator OS keeps discovery platforms as distribution while giving each creator an owned destination, customer record and operational console."],
@@ -734,7 +734,7 @@ export const PROJECTS: Project[] = [{
     tier: "open-source",
     maturity: "IN DEVELOPMENT",
     year: "2026—",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary: "Versioned geography data, search, geocoding, APIs and operator tools built around Ghana's regions, districts and places.",
     problem: ["Applications repeatedly rebuild incomplete or inconsistent copies of Ghana's administrative geography, weakening search, reporting and interoperability."],
     approach: ["A governed data core publishes versioned datasets through stable REST and gRPC contracts, typo-tolerant search and auditable operator workflows."],
@@ -772,7 +772,7 @@ export const PROJECTS: Project[] = [{
     tier: "client-work",
     engagement: "Partnership",
     year: "2026—",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     summary: "A public brand, client portal and operations stack connecting content, community, partnerships, events, ticketing, education and enquiries.",
     problem: ["A growing creator brand cannot reliably convert attention into partnerships and transactions when every workflow lives in a different third-party channel."],
     approach: ["Independent public, client and administration surfaces share one API and business model while remaining separately deployable."],
@@ -829,7 +829,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2026",
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     summary: "A build-ready career platform designed to support the full arc of a person's working life rather than stopping at job search.",
     problem: ["Job boards optimise for vacancies, leaving career discovery, preparation, transitions and long-term development fragmented."],
     approach: ["CareerOS models a continuous journey from self-understanding through employment and advancement, with secure foundations and phase-ready domain boundaries."],
@@ -867,7 +867,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2026",
-    accent: "#8B85FF",
+    accent: "#8B5CF6",
     summary: "A private, shareable platform for life events, wishlists, tributes, contributions, gifting and yearly remembrance.",
     problem: ["The people, gifts, messages and memories around important life moments are scattered across chats, payment receipts and temporary social posts."],
     approach: ["One reusable event model supports celebration, support and remembrance while keeping privacy, contribution records and recurring dates explicit."],
@@ -886,7 +886,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2026",
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     summary: "A Ghana-first logistics layer connecting homes, parcel points, terminals, carriers, destination hubs and last-mile delivery.",
     problem: ["Domestic parcels move through informal handoffs, paper tickets and phone calls, forcing customers and merchants to coordinate transport infrastructure themselves."],
     approach: ["Customers create and pay for one shipment while the platform orchestrates carrier and hub handoffs behind one tracking identity."],
@@ -905,7 +905,7 @@ export const PROJECTS: Project[] = [{
     tier: "labs",
     maturity: "RESEARCH",
     year: "Specified 2026",
-    accent: "#38BDF8",
+    accent: "#38D3EB",
     summary: "An AI-native communication platform for messaging, structured communities, collaborative work, knowledge, commerce, mini-apps and developer APIs.",
     problem: ["Important decisions and commitments disappear into message history, while overloaded users must manually convert conversation into tasks and durable knowledge."],
     approach: ["Messaging stays fast and private, while consent-aware AI helps extract decisions, tasks, events and searchable knowledge for low-bandwidth, multilingual markets."],

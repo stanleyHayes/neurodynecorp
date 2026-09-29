@@ -92,17 +92,17 @@ export default function KeyboardNav() {
             px: 2.5,
             py: 1.25,
             borderRadius: 99,
-            bgcolor: "rgba(10, 14, 26, 0.9)",
+            bgcolor: "rgba(10, 15, 31, 0.9)",
             backdropFilter: "blur(12px)",
-            border: "1px solid rgba(108, 99, 255, 0.3)",
-            boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 0 24px rgba(108,99,255,0.15)",
+            border: "1px solid rgba(59, 130, 246, 0.3)",
+            boxShadow: "0 8px 24px rgba(0,0,0,0.4), 0 0 24px rgba(59,130,246,0.15)",
             display: "flex",
             alignItems: "center",
             gap: 1,
             pointerEvents: "none",
           }}
         >
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", fontWeight: 600 }}>
+          <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#3B82F6", letterSpacing: "0.1em", fontWeight: 600 }}>
             {hint}
           </Typography>
           {hint === "g" && (

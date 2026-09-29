@@ -49,7 +49,7 @@ function SectionTitle({
   tag,
   title,
   lead,
-  color = "#6C63FF",
+  color = "#3B82F6",
   align = "left",
 }: {
   tag?: string;
@@ -108,7 +108,7 @@ export default function Infrastructure() {
         title="Infrastructure"
         accentWord="Infrastructure"
         description={CANON.short}
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
       />
 
       {/* ── The thesis ───────────────────────────────────────────────────── */}
@@ -153,9 +153,9 @@ export default function Infrastructure() {
                           ...MONO,
                           fontSize: "0.7rem",
                           letterSpacing: "0.14em",
-                          color: i === 0 ? "#00D4AA" : "text.secondary",
+                          color: i === 0 ? "#06B6D4" : "text.secondary",
                           border: "1px solid",
-                          borderColor: i === 0 ? "#00D4AA59" : "divider",
+                          borderColor: i === 0 ? "#06B6D459" : "divider",
                           px: 1.2,
                           py: 0.4,
                         }}
@@ -317,7 +317,7 @@ export default function Infrastructure() {
             tag="Initiative · Digital Public Infrastructure"
             title="The Neurodyne Open Standards Initiative (NOSI)"
             lead="The interoperability work under the second pillar, given a name so it can be adopted by people who do not work here."
-            color="#00D4AA"
+            color="#06B6D4"
           />
 
           <Grid container spacing={{ xs: 3, md: 6 }} sx={{ alignItems: "flex-start" }}>
@@ -346,8 +346,8 @@ export default function Infrastructure() {
                   bgcolor: "action.hover",
                 }}
               >
-                <HudCorners color="rgba(0,212,170,0.35)" />
-                <Overline color="#00D4AA">The core belief</Overline>
+                <HudCorners color="rgba(6,182,212,0.35)" />
+                <Overline color="#06B6D4">The core belief</Overline>
                 <Typography variant="h5" component="h3" sx={{ fontWeight: 800, mt: 1.5, lineHeight: 1.35 }}>
                   Software is temporary.
                   <br />
@@ -381,7 +381,7 @@ export default function Infrastructure() {
                     fontSize: "0.68rem",
                     letterSpacing: "0.12em",
                     border: "1px solid",
-                    borderColor: "rgba(0,212,170,0.28)",
+                    borderColor: "rgba(6,182,212,0.28)",
                     color: "text.secondary",
                     px: 1.4,
                     py: 0.6,
@@ -419,7 +419,7 @@ export default function Infrastructure() {
           />
           <Grid container spacing={3} sx={{ mt: { xs: 2, md: 4 } }}>
             {SOLUTIONS.map((s, i) => {
-              const accent = ["#6C63FF", "#00D4AA", "#8B85FF", "#F59E0B"][i % 4]!;
+              const accent = ["#3B82F6", "#06B6D4", "#8B5CF6", "#F59E0B"][i % 4]!;
               return (
                 <Grid key={s.slug} size={{ xs: 12, md: 6 }}>
                   <MotionBox
@@ -483,7 +483,7 @@ export default function Infrastructure() {
           items={[{ icon: <PublicOutlinedIcon />, at: { top: "-8%", right: "-3%" }, size: 420 }]}
         />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
-          <SectionTitle tag="Design conditions" title={WHY_AFRICA.title} lead={WHY_AFRICA.lead} color="#00D4AA" />
+          <SectionTitle tag="Design conditions" title={WHY_AFRICA.title} lead={WHY_AFRICA.lead} color="#06B6D4" />
 
           <AfricaConditionsGrid />
         </Container>
@@ -500,7 +500,7 @@ export default function Infrastructure() {
         }}
       >
         <Container maxWidth="md">
-          <Overline color="#00D4AA">Partnership</Overline>
+          <Overline color="#06B6D4">Partnership</Overline>
           <Typography
             variant="h3"
             component="h2"
@@ -545,7 +545,7 @@ export default function Infrastructure() {
               mt: { xs: 6, md: 8 },
               fontWeight: 900,
               letterSpacing: "-0.02em",
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",

@@ -17,7 +17,7 @@ const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
 const MotionBox = motion.create(Box);
 
-const COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#33DDBB"];
+const COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#10B981"];
 
 interface BlogPostItem {
   id: string;
@@ -36,7 +36,7 @@ function slugify(title: string) {
     .replace(/(^-|-$)/g, "");
 }
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 function BlogCell({
   post,
@@ -291,7 +291,7 @@ export default function Blog() {
         description="Engineering insights, tutorials, and thought leadership from the NeuroDyne Corp team."
         tag="TRANSMISSIONS // FEED"
         accentWord="Blog"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="SIGNAL LIVE"
       />
 
@@ -316,12 +316,12 @@ export default function Blog() {
               sx={{
                 minWidth: { md: 280 },
                 "& .MuiOutlinedInput-root": {
-                  bgcolor: "rgba(108,99,255,0.04)",
+                  bgcolor: "rgba(59,130,246,0.04)",
                   fontFamily: "monospace",
                   fontSize: "0.85rem",
-                  "& fieldset": { borderColor: "rgba(108,99,255,0.15)" },
-                  "&:hover fieldset": { borderColor: "rgba(108,99,255,0.3)" },
-                  "&.Mui-focused fieldset": { borderColor: "#6C63FF" },
+                  "& fieldset": { borderColor: "rgba(59,130,246,0.15)" },
+                  "&:hover fieldset": { borderColor: "rgba(59,130,246,0.3)" },
+                  "&.Mui-focused fieldset": { borderColor: "#3B82F6" },
                 },
               }}
             />
@@ -337,10 +337,10 @@ export default function Blog() {
                       fontFamily: "monospace",
                       fontSize: "0.65rem",
                       cursor: "pointer",
-                      bgcolor: active ? "rgba(108,99,255,0.15)" : "transparent",
-                      color: active ? "#6C63FF" : "text.secondary",
-                      border: active ? "1px solid #6C63FF" : "1px solid rgba(108,99,255,0.15)",
-                      "&:hover": { borderColor: "rgba(108,99,255,0.4)" },
+                      bgcolor: active ? "rgba(59,130,246,0.15)" : "transparent",
+                      color: active ? "#3B82F6" : "text.secondary",
+                      border: active ? "1px solid #3B82F6" : "1px solid rgba(59,130,246,0.15)",
+                      "&:hover": { borderColor: "rgba(59,130,246,0.4)" },
                     }}
                   />
                 );
@@ -363,14 +363,14 @@ export default function Blog() {
           icon={<ArticleIcon />}
           title="No blog posts published yet"
           description="Nothing published yet. Writing on engineering, AI and digital infrastructure for African markets will appear here."
-          color="#8B85FF"
+          color="#8B5CF6"
         />
       ) : filtered.length === 0 ? (
         <EmptyState
           icon={<SearchIcon />}
           title="No posts match your filters"
           description={search ? `Nothing found for "${search}". Try a different keyword or clear the filter.` : "Try a different category or clear the filter."}
-          color="#8B85FF"
+          color="#8B5CF6"
         />
       ) : (
         <Box

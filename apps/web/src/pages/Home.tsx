@@ -52,7 +52,7 @@ export default function Home() {
             transform: "translateX(-50%) rotateX(72deg)",
             transformOrigin: "50% 100%",
             backgroundImage:
-              "linear-gradient(rgba(108,99,255,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(108,99,255,0.16) 1px, transparent 1px)",
+              "linear-gradient(rgba(59,130,246,0.16) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.16) 1px, transparent 1px)",
             backgroundSize: "104px 104px",
             maskImage:
               "linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.7) 34%, rgba(0,0,0,0.4) 62%, rgba(0,0,0,0.16) 84%, transparent 100%)",
@@ -78,7 +78,7 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
                 sx={{ transform: { md: "translateZ(52px)" } }}
               >
-                <Overline color="#00D4AA">AI &amp; Digital Infrastructure · Accra, Ghana</Overline>
+                <Overline color="#06B6D4">AI &amp; Digital Infrastructure · Accra, Ghana</Overline>
                 <Typography
                   variant="h1"
                   sx={{
@@ -93,7 +93,7 @@ export default function Home() {
                   <Box
                     component="span"
                     sx={{
-                      background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                      background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                       backgroundClip: "text",
                       WebkitBackgroundClip: "text",
                       WebkitTextFillColor: "transparent",
@@ -186,9 +186,9 @@ export default function Home() {
                           fontSize: "0.7rem",
                           letterSpacing: "0.14em",
                           textTransform: "uppercase",
-                          color: i === 0 ? "#00D4AA" : "text.secondary",
+                          color: i === 0 ? "#06B6D4" : "text.secondary",
                           border: "1px solid",
-                          borderColor: i === 0 ? "#00D4AA59" : "divider",
+                          borderColor: i === 0 ? "#06B6D459" : "divider",
                           px: 1.2,
                           py: 0.4,
                         }}
@@ -365,7 +365,7 @@ export default function Home() {
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "center" }}>
             <Grid size={{ xs: 12, md: 6 }}>
-              <Overline color="#6C63FF">Developers</Overline>
+              <Overline color="#3B82F6">Developers</Overline>
               <Typography variant="h3" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em", lineHeight: 1.15 }}>
                 Build for Africa with Neurodyne.
               </Typography>
@@ -400,7 +400,7 @@ export default function Home() {
                   <Stack key={item} direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
                     <Box
                       aria-hidden
-                      sx={{ width: 6, height: 6, mt: 1, background: "#6C63FF", flexShrink: 0 }}
+                      sx={{ width: 6, height: 6, mt: 1, background: "#3B82F6", flexShrink: 0 }}
                     />
                     <Typography color="text.secondary" sx={{ fontSize: "0.95rem", lineHeight: 1.7 }}>
                       {item}
@@ -431,7 +431,7 @@ export default function Home() {
               <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em" }}>
                 {FOUNDER.name}
               </Typography>
-              <Typography sx={{ mt: 0.75, color: "#00D4AA", fontWeight: 600, fontSize: "0.92rem" }}>
+              <Typography sx={{ mt: 0.75, color: "#06B6D4", fontWeight: 600, fontSize: "0.92rem" }}>
                 {FOUNDER.role} · {FOUNDER.location}
               </Typography>
               <Stack direction="row" spacing={2} sx={{ mt: 2.5 }}>
@@ -561,8 +561,8 @@ export default function Home() {
             <Box><Overline>Research</Overline><Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1 }}>Open questions we&rsquo;re working on.</Typography></Box>
             <Button component={Link} to="/research" endIcon={<ArrowForwardIcon />}>Read the research</Button>
           </Box>
-          <Honeycomb cell={280} perRow={3} gap={6} items={RESEARCH_AREAS.slice(0, 6).map((r, i) => ({ key: r.title, accent: i % 2 ? "#00D4AA" : "#8B85FF", content: <>
-            <HubOutlinedIcon aria-hidden sx={{ color: i % 2 ? "#00D4AA" : "#8B85FF", mb: 1 }} />
+          <Honeycomb cell={280} perRow={3} gap={6} items={RESEARCH_AREAS.slice(0, 6).map((r, i) => ({ key: r.title, accent: i % 2 ? "#06B6D4" : "#8B5CF6", content: <>
+            <HubOutlinedIcon aria-hidden sx={{ color: i % 2 ? "#06B6D4" : "#8B5CF6", mb: 1 }} />
             <Typography component="h3" sx={{ fontWeight: 800, fontSize: ".92rem", lineHeight: 1.25, minHeight: "2.5em", display: "flex", alignItems: "center" }}>{r.title}</Typography>
             <Typography color="text.secondary" sx={{ mt: 1, fontSize: ".78rem", lineHeight: 1.5 }}>{r.blurb}</Typography>
           </> }))} />
@@ -577,7 +577,7 @@ export default function Home() {
             sx={{
               fontWeight: 900,
               letterSpacing: "-0.02em",
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",

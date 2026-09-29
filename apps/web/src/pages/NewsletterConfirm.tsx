@@ -123,10 +123,10 @@ export default function NewsletterConfirm() {
             sx={{
               width: "100%",
               maxWidth: 560,
-              bgcolor: "#111827",
+              bgcolor: "#111a2e",
               backgroundImage:
-                "linear-gradient(135deg, rgba(108,99,255,0.06), rgba(0,212,170,0.04))",
-              border: "1px solid rgba(108,99,255,0.2)",
+                "linear-gradient(135deg, rgba(59,130,246,0.06), rgba(6,182,212,0.04))",
+              border: "1px solid rgba(59,130,246,0.2)",
               borderRadius: 3,
             }}
           >
@@ -170,9 +170,9 @@ export default function NewsletterConfirm() {
                       fontFamily: "monospace",
                       fontWeight: 700,
                       letterSpacing: "0.08em",
-                      borderColor: "rgba(108,99,255,0.4)",
+                      borderColor: "rgba(59,130,246,0.4)",
                       color: "text.primary",
-                      "&:hover": { borderColor: "#6C63FF", bgcolor: "rgba(108,99,255,0.06)" },
+                      "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
                     }}
                   >
                     Back to home
@@ -190,8 +190,8 @@ export default function NewsletterConfirm() {
               sx={{
                 width: "100%",
                 maxWidth: 560,
-                bgcolor: "#111827",
-                border: "1px solid rgba(108,99,255,0.16)",
+                bgcolor: "#111a2e",
+                border: "1px solid rgba(59,130,246,0.16)",
                 borderRadius: 3,
               }}
             >
@@ -204,9 +204,9 @@ export default function NewsletterConfirm() {
                   Update these any time. Unsubscribe is always one click away.
                 </Typography>
 
-                <Divider sx={{ borderColor: "rgba(108,99,255,0.12)", mb: 1 }} />
+                <Divider sx={{ borderColor: "rgba(59,130,246,0.12)", mb: 1 }} />
 
-                <Stack divider={<Divider sx={{ borderColor: "rgba(108,99,255,0.08)" }} />}>
+                <Stack divider={<Divider sx={{ borderColor: "rgba(59,130,246,0.08)" }} />}>
                   {SEGMENTS.map((seg) => (
                     <Stack
                       key={seg.key}
@@ -241,10 +241,10 @@ export default function NewsletterConfirm() {
                     fontFamily: "monospace",
                     fontWeight: 700,
                     letterSpacing: "0.08em",
-                    background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
-                    "&:hover": { boxShadow: "0 4px 20px rgba(108,99,255,0.4)" },
+                    background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
+                    "&:hover": { boxShadow: "0 4px 20px rgba(59,130,246,0.4)" },
                     "&.Mui-disabled": {
-                      background: "rgba(108,99,255,0.15)",
+                      background: "rgba(59,130,246,0.15)",
                       color: "text.secondary",
                     },
                   }}

@@ -32,13 +32,13 @@ const STATE_META: Record<
   { color: string; gloss: string; dashed: boolean; built: boolean }
 > = {
   Current: {
-    color: "#00D4AA",
+    color: "#06B6D4",
     gloss: "Where Neurodyne is today.",
     dashed: false,
     built: true,
   },
   Underway: {
-    color: "#6C63FF",
+    color: "#3B82F6",
     gloss: "Started. Not finished.",
     dashed: false,
     built: true,
@@ -109,7 +109,7 @@ export default function Vision() {
             title="Vision"
             accentWord="Vision"
             description="A ten-year strategy in four phases — products, infrastructure, ecosystem, and eventually infrastructure other people depend on. The first two are work in progress today. The last two are direction, not achievement."
-            iconColor="#6C63FF"
+            iconColor="#3B82F6"
           />
         </Box>
 
@@ -159,7 +159,7 @@ export default function Vision() {
       {/* ── State key ────────────────────────────────────────────────────── */}
       <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
-          <Overline color="#8B85FF">Key</Overline>
+          <Overline color="#8B5CF6">Key</Overline>
           <Typography
             variant="h4"
             component="h2"
@@ -396,7 +396,7 @@ export default function Vision() {
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 3, md: 8 }} sx={{ alignItems: "flex-start" }}>
             <Grid size={{ xs: 12, md: 5 }}>
-              <Overline color="#00D4AA">Geography</Overline>
+              <Overline color="#06B6D4">Geography</Overline>
               <Typography
                 variant="h4"
                 component="h2"
@@ -428,10 +428,10 @@ export default function Vision() {
                         fontSize: "0.7rem",
                         letterSpacing: "0.14em",
                         textTransform: "uppercase",
-                        color: i === 0 ? "#00D4AA" : "text.secondary",
+                        color: i === 0 ? "#06B6D4" : "text.secondary",
                         border: "1px solid",
                         borderStyle: i === 0 ? "solid" : "dashed",
-                        borderColor: i === 0 ? "#00D4AA59" : "divider",
+                        borderColor: i === 0 ? "#06B6D459" : "divider",
                         px: 1.2,
                         py: 0.4,
                       }}
@@ -489,7 +489,7 @@ export default function Vision() {
               <MotionBox key={section.id} id={section.id} {...rise(0)}>
                 <Grid container spacing={{ xs: 2, md: 6 }}>
                   <Grid size={{ xs: 12, md: 4 }}>
-                    <Overline color={i % 2 === 0 ? "#6C63FF" : "#00D4AA"}>
+                    <Overline color={i % 2 === 0 ? "#3B82F6" : "#06B6D4"}>
                       {String(i + 1).padStart(2, "0")} — Position
                     </Overline>
                     <Typography
@@ -570,7 +570,7 @@ export default function Vision() {
       {/* ── Operating principles ─────────────────────────────────────────── */}
       <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
-          <Overline color="#00D4AA">Operating principles</Overline>
+          <Overline color="#06B6D4">Operating principles</Overline>
           <Typography
             variant="h4"
             component="h2"
@@ -591,7 +591,7 @@ export default function Vision() {
                     borderColor: "divider",
                     transition: "border-color .25s ease",
                     "&:hover, &:focus-visible": {
-                      borderColor: i % 2 === 0 ? "#6C63FF66" : "#00D4AA66",
+                      borderColor: i % 2 === 0 ? "#3B82F666" : "#06B6D466",
                     },
                   }}
                 >
@@ -601,7 +601,7 @@ export default function Vision() {
                       fontSize: "0.62rem",
                       letterSpacing: "0.2em",
                       textTransform: "uppercase",
-                      color: i % 2 === 0 ? "#6C63FF" : "#00D4AA",
+                      color: i % 2 === 0 ? "#3B82F6" : "#06B6D4",
                     }}
                   >
                     {String(i + 1).padStart(2, "0")}
@@ -638,7 +638,7 @@ export default function Vision() {
                 sx={{
                   fontWeight: 900,
                   letterSpacing: "-0.02em",
-                  background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                  background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",

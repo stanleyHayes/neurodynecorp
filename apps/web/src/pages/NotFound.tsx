@@ -21,7 +21,7 @@ export default function NotFound() {
           justifyContent: "center",
           overflow: "hidden",
           background:
-            "radial-gradient(ellipse at 30% 30%, rgba(108,99,255,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(0,212,170,0.06) 0%, transparent 50%), #0A0E1A",
+            "radial-gradient(ellipse at 30% 30%, rgba(59,130,246,0.08) 0%, transparent 50%), radial-gradient(ellipse at 70% 70%, rgba(6,182,212,0.06) 0%, transparent 50%), #0A0F1F",
           px: 3,
         }}
       >
@@ -47,7 +47,7 @@ export default function NotFound() {
               fontSize: { xs: "8rem", md: "12rem" },
               fontWeight: 900,
               lineHeight: 1,
-              background: "linear-gradient(135deg, #6C63FF 0%, #00D4AA 50%, #8B85FF 100%)",
+              background: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 50%, #8B5CF6 100%)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",
@@ -96,11 +96,11 @@ export default function NotFound() {
                 px: 4,
                 py: 1.5,
                 fontSize: "1rem",
-                background: "linear-gradient(135deg, #6C63FF 0%, #00D4AA 100%)",
+                background: "linear-gradient(135deg, #3B82F6 0%, #06B6D4 100%)",
                 "&:hover": {
                   background: "linear-gradient(135deg, #5B54EE 0%, #00C49A 100%)",
                   transform: "translateY(-2px)",
-                  boxShadow: "0 8px 25px rgba(108,99,255,0.3)",
+                  boxShadow: "0 8px 25px rgba(59,130,246,0.3)",
                 },
                 transition: "all 0.3s ease",
               }}
@@ -116,11 +116,11 @@ export default function NotFound() {
                 px: 4,
                 py: 1.5,
                 fontSize: "1rem",
-                borderColor: "rgba(108,99,255,0.4)",
+                borderColor: "rgba(59,130,246,0.4)",
                 color: "text.primary",
                 "&:hover": {
-                  borderColor: "#6C63FF",
-                  background: "rgba(108,99,255,0.08)",
+                  borderColor: "#3B82F6",
+                  background: "rgba(59,130,246,0.08)",
                   transform: "translateY(-2px)",
                 },
                 transition: "all 0.3s ease",

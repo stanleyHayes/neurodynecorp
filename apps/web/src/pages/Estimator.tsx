@@ -21,7 +21,7 @@ export default function Estimator() {
         description="Pick a service line, toggle what's in scope, and get an indicative component set, timeline, and price band. Not a quote — a signal that we understand the brief."
         tag="INTAKE // CONFIGURATOR"
         accentWord="Scope"
-        iconColor="#00D4AA"
+        iconColor="#06B6D4"
         iconLabel="CONFIGURE"
       />
 
@@ -33,7 +33,7 @@ export default function Estimator() {
             tag="GO DEEPER"
             title="Not sure where you fit?"
             description="Run the two-minute Engagement Readiness Diagnostic and we'll route your brief to the right path."
-            color="#6C63FF"
+            color="#3B82F6"
           />
         </Stack>
       </Container>

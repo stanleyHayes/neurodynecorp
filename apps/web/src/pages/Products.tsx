@@ -135,13 +135,13 @@ export default function Products() {
         description="Four platforms, the experiments behind them, and the engineering work delivered for other organisations. Every item carries the stage it is actually at."
         tag="BUILD // LOG"
         accentWord="Products"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="PRODUCTS"
       />
 
       {/* ── Platforms ────────────────────────────────────────────────────── */}
       <Container maxWidth="lg" sx={{ py: { xs: 6, md: 9 } }}>
-        <Overline color="#8B85FF">Platforms</Overline>
+        <Overline color="#8B5CF6">Platforms</Overline>
         <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em" }}>
           Neurodyne&rsquo;s own products
         </Typography>
@@ -247,7 +247,7 @@ export default function Products() {
       {CLIENT_WORK.length > 0 && (
         <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 6, md: 9 } }}>
           <Container maxWidth="lg">
-            <Overline color="#00D4AA">Engineering work</Overline>
+            <Overline color="#06B6D4">Engineering work</Overline>
             <Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1.5, letterSpacing: "-0.02em" }}>
               Work for other organisations
             </Typography>
@@ -267,7 +267,7 @@ export default function Products() {
                 variant={sector === null ? "filled" : "outlined"}
                 aria-pressed={sector === null}
                 role="button"
-                sx={{ borderRadius: 0, "&:focus-visible": { outline: "2px solid #00D4AA", outlineOffset: 2 } }}
+                sx={{ borderRadius: 0, "&:focus-visible": { outline: "2px solid #06B6D4", outlineOffset: 2 } }}
               />
               {sectors.map((s) => (
                 <Chip
@@ -277,7 +277,7 @@ export default function Products() {
                   variant={sector === s ? "filled" : "outlined"}
                   aria-pressed={sector === s}
                   role="button"
-                  sx={{ borderRadius: 0, "&:focus-visible": { outline: "2px solid #00D4AA", outlineOffset: 2 } }}
+                  sx={{ borderRadius: 0, "&:focus-visible": { outline: "2px solid #06B6D4", outlineOffset: 2 } }}
                 />
               ))}
             </Stack>

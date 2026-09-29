@@ -17,8 +17,8 @@ const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 const MotionBox = motion.create(Box);
 const MotionTypography = motion.create(Typography);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
-const COLORS = ["#6C63FF", "#00D4AA", "#8B85FF", "#33DDBB"];
+const BORDER = "rgba(59, 130, 246, 0.12)";
+const COLORS = ["#3B82F6", "#06B6D4", "#8B5CF6", "#10B981"];
 
 /* ─── floating mesh canvas ──────────────────────────────── */
 
@@ -264,7 +264,7 @@ function ScanLine({ color }: { color: string }) {
 /* ─── grid skeleton loader ──────────────────────────────── */
 
 function BlogPostSkeleton() {
-  const SK = "rgba(108,99,255,0.08)";
+  const SK = "rgba(59,130,246,0.08)";
 
   return (
     <Box>
@@ -273,7 +273,7 @@ function BlogPostSkeleton() {
         sx={{
           position: "relative",
           minHeight: { xs: 420, md: 520 },
-          bgcolor: "#0A0E1A",
+          bgcolor: "#0A0F1F",
           overflow: "hidden",
           display: "flex",
           alignItems: "flex-end",
@@ -284,8 +284,8 @@ function BlogPostSkeleton() {
             position: "absolute",
             inset: 0,
             backgroundImage: `
-              linear-gradient(rgba(108,99,255,0.04) 1px, transparent 1px),
-              linear-gradient(90deg, rgba(108,99,255,0.04) 1px, transparent 1px)
+              linear-gradient(rgba(59,130,246,0.04) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(59,130,246,0.04) 1px, transparent 1px)
             `,
             backgroundSize: "60px 60px",
           }}
@@ -364,10 +364,10 @@ function BlogPostSkeleton() {
                       ...(pos.right !== undefined && { right: pos.right }),
                       width: 12,
                       height: 12,
-                      borderTop: pos.bT ? `1.5px solid rgba(108,99,255,0.12)` : "none",
-                      borderBottom: pos.bB ? `1.5px solid rgba(108,99,255,0.12)` : "none",
-                      borderLeft: pos.bL ? `1.5px solid rgba(108,99,255,0.12)` : "none",
-                      borderRight: pos.bR ? `1.5px solid rgba(108,99,255,0.12)` : "none",
+                      borderTop: pos.bT ? `1.5px solid rgba(59,130,246,0.12)` : "none",
+                      borderBottom: pos.bB ? `1.5px solid rgba(59,130,246,0.12)` : "none",
+                      borderLeft: pos.bL ? `1.5px solid rgba(59,130,246,0.12)` : "none",
+                      borderRight: pos.bR ? `1.5px solid rgba(59,130,246,0.12)` : "none",
                       pointerEvents: "none",
                     }}
                   />
@@ -392,7 +392,7 @@ function BlogPostSkeleton() {
                       mt: 2,
                       p: 2,
                       borderRadius: 2,
-                      bgcolor: "rgba(10, 14, 26, 0.5)",
+                      bgcolor: "rgba(10, 15, 31, 0.5)",
                       border: `1px solid ${BORDER}`,
                     }}
                   >
@@ -400,7 +400,7 @@ function BlogPostSkeleton() {
                       <Skeleton
                         key={i}
                         variant="text"
-                        sx={{ bgcolor: "rgba(108,99,255,0.06)", width: `${50 + Math.random() * 40}%`, fontSize: "0.85rem" }}
+                        sx={{ bgcolor: "rgba(59,130,246,0.06)", width: `${50 + Math.random() * 40}%`, fontSize: "0.85rem" }}
                       />
                     ))}
                   </Box>
@@ -460,7 +460,7 @@ export default function BlogPost() {
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
 
-  const color: string = (post ? COLORS[post.title.length % COLORS.length] : "#6C63FF") ?? "#6C63FF";
+  const color: string = (post ? COLORS[post.title.length % COLORS.length] : "#3B82F6") ?? "#3B82F6";
 
   useEffect(() => {
     if (!slug) {
@@ -537,7 +537,7 @@ export default function BlogPost() {
           display: "flex",
           alignItems: "flex-end",
           overflow: "hidden",
-          bgcolor: "#0A0E1A",
+          bgcolor: "#0A0F1F",
         }}
       >
         {/* animated mesh background */}
@@ -564,12 +564,12 @@ export default function BlogPost() {
 
         {/* floating shapes */}
         <FloatingShape shape="ring" size={60} x="8%" y="20%" color={color} delay={0} duration={12} />
-        <FloatingShape shape="diamond" size={24} x="85%" y="15%" color="#00D4AA" delay={1.5} duration={10} />
+        <FloatingShape shape="diamond" size={24} x="85%" y="15%" color="#06B6D4" delay={1.5} duration={10} />
         <FloatingShape shape="circle" size={16} x="72%" y="65%" color={color} delay={0.8} duration={14} />
-        <FloatingShape shape="cross" size={28} x="15%" y="70%" color="#6C63FF" delay={2} duration={11} />
-        <FloatingShape shape="ring" size={40} x="90%" y="55%" color="#8B85FF" delay={3} duration={13} />
+        <FloatingShape shape="cross" size={28} x="15%" y="70%" color="#3B82F6" delay={2} duration={11} />
+        <FloatingShape shape="ring" size={40} x="90%" y="55%" color="#8B5CF6" delay={3} duration={13} />
         <FloatingShape shape="diamond" size={18} x="45%" y="12%" color={color} delay={0.5} duration={9} />
-        <FloatingShape shape="circle" size={10} x="30%" y="80%" color="#00D4AA" delay={1} duration={15} />
+        <FloatingShape shape="circle" size={10} x="30%" y="80%" color="#06B6D4" delay={1} duration={15} />
 
         {/* large decorative letter */}
         <MotionBox
@@ -600,7 +600,7 @@ export default function BlogPost() {
             left: 0,
             right: 0,
             height: "60%",
-            background: "linear-gradient(to top, #0A0E1A 0%, transparent 100%)",
+            background: "linear-gradient(to top, #0A0F1F 0%, transparent 100%)",
             pointerEvents: "none",
             zIndex: 2,
           }}
@@ -625,7 +625,7 @@ export default function BlogPost() {
                 background: "rgba(17, 24, 39, 0.4)",
                 borderRadius: 0,
                 px: 2,
-                border: "1px solid rgba(108, 99, 255, 0.1)",
+                border: "1px solid rgba(59, 130, 246, 0.1)",
                 "&:hover": { color: "text.primary", background: "rgba(17, 24, 39, 0.6)" },
               }}
             >
@@ -700,7 +700,7 @@ export default function BlogPost() {
                 borderRadius: 0,
                 background: "rgba(17, 24, 39, 0.5)",
                 backdropFilter: "blur(12px)",
-                border: "1px solid rgba(108, 99, 255, 0.1)",
+                border: "1px solid rgba(59, 130, 246, 0.1)",
               }}
             >
               <Avatar
@@ -735,7 +735,7 @@ export default function BlogPost() {
             left: 0,
             right: 0,
             height: "2px",
-            background: `linear-gradient(90deg, transparent, ${color}, #00D4AA, transparent)`,
+            background: `linear-gradient(90deg, transparent, ${color}, #06B6D4, transparent)`,
             transformOrigin: "center",
             zIndex: 4,
           }}
@@ -796,15 +796,15 @@ export default function BlogPost() {
               "& code": {
                 fontFamily: "monospace",
                 fontSize: "0.85em",
-                background: "rgba(108, 99, 255, 0.1)",
-                color: "#8B85FF",
+                background: "rgba(59, 130, 246, 0.1)",
+                color: "#8B5CF6",
                 px: 0.8,
                 py: 0.2,
                 borderRadius: 1,
               },
               "& pre": {
-                background: "rgba(10, 14, 26, 0.8)",
-                border: "1px solid rgba(108, 99, 255, 0.1)",
+                background: "rgba(10, 15, 31, 0.8)",
+                border: "1px solid rgba(59, 130, 246, 0.1)",
                 borderRadius: 3,
                 p: 3,
                 mb: 3,
@@ -829,21 +829,21 @@ export default function BlogPost() {
                   fontWeight: 600,
                   fontSize: "0.85rem",
                   color: "text.primary",
-                  borderBottom: "2px solid rgba(108, 99, 255, 0.15)",
-                  background: "rgba(108, 99, 255, 0.04)",
+                  borderBottom: "2px solid rgba(59, 130, 246, 0.15)",
+                  background: "rgba(59, 130, 246, 0.04)",
                 },
                 "& td": {
                   py: 1.5,
                   px: 2,
                   fontSize: "0.85rem",
                   color: "text.secondary",
-                  borderBottom: "1px solid rgba(108, 99, 255, 0.08)",
+                  borderBottom: "1px solid rgba(59, 130, 246, 0.08)",
                 },
               },
               "& hr": {
                 border: "none",
                 height: 1,
-                background: "rgba(108, 99, 255, 0.12)",
+                background: "rgba(59, 130, 246, 0.12)",
                 my: 5,
               },
               "& strong": {
@@ -873,14 +873,14 @@ export default function BlogPost() {
           </Box>
 
           {/* Footer divider */}
-          <Divider sx={{ my: 6, borderColor: "rgba(108, 99, 255, 0.1)" }} />
+          <Divider sx={{ my: 6, borderColor: "rgba(59, 130, 246, 0.1)" }} />
 
           <Button
             component={Link}
             to="/blog"
             startIcon={<ArrowBackIcon />}
             variant="outlined"
-            sx={{ borderColor: "rgba(108, 99, 255, 0.2)", "&:hover": { borderColor: "rgba(108, 99, 255, 0.4)" } }}
+            sx={{ borderColor: "rgba(59, 130, 246, 0.2)", "&:hover": { borderColor: "rgba(59, 130, 246, 0.4)" } }}
           >
             Back to All Articles
           </Button>

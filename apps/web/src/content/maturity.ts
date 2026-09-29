@@ -35,19 +35,19 @@ export const MATURITY: Record<Maturity, MaturityMeta> = {
   LIVE: {
     label: "LIVE",
     meaning: "Publicly available and in real use.",
-    color: "#00D4AA",
+    color: "#06B6D4",
     rank: 0,
   },
   "PRIVATE BETA": {
     label: "PRIVATE BETA",
     meaning: "Working software, running with invited users rather than open signup.",
-    color: "#6C63FF",
+    color: "#3B82F6",
     rank: 1,
   },
   PILOT: {
     label: "PILOT",
     meaning: "Deployed with a specific organisation under an agreed scope of work.",
-    color: "#8B85FF",
+    color: "#8B5CF6",
     rank: 2,
   },
   "IN DEVELOPMENT": {

@@ -27,16 +27,16 @@ export default function CommunityBlock() {
         position: "relative",
         p: { xs: 3, md: 5 },
         borderRadius: 0,
-        border: "1px solid rgba(108, 99, 255, 0.15)",
-        background: "linear-gradient(135deg, rgba(108,99,255,0.04), rgba(0,212,170,0.03))",
+        border: "1px solid rgba(59, 130, 246, 0.15)",
+        background: "linear-gradient(135deg, rgba(59,130,246,0.04), rgba(6,182,212,0.03))",
         overflow: "hidden",
         textAlign: "center",
       }}
     >
       <HudCorners />
       <Box sx={{ display: "inline-flex", alignItems: "center", gap: 1, mb: 2 }}>
-        <GroupsOutlinedIcon sx={{ fontSize: 22, color: "#6C63FF" }} />
-        <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#6C63FF", opacity: 0.8 }}>
+        <GroupsOutlinedIcon sx={{ fontSize: 22, color: "#3B82F6" }} />
+        <Typography sx={{ fontFamily: "monospace", fontSize: "0.6rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#3B82F6", opacity: 0.8 }}>
           // JOIN THE COMMUNITY
         </Typography>
       </Box>
@@ -71,7 +71,7 @@ export default function CommunityBlock() {
               letterSpacing: "0.1em",
               px: 2.5,
               py: 0.75,
-              borderColor: "rgba(108,99,255,0.2)",
+              borderColor: "rgba(59,130,246,0.2)",
               color: "text.primary",
               "&:hover": {
                 borderColor: l.color,

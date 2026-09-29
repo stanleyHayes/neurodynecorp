@@ -27,7 +27,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "01",
     tag: "PLATFORMS",
     icon: <WidgetsOutlinedIcon />,
-    color: "#8B85FF",
+    color: "#8B5CF6",
   },
   {
     label: "Infrastructure",
@@ -35,7 +35,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "02",
     tag: "THE LAYER",
     icon: <AccountTreeOutlinedIcon />,
-    color: "#00D4AA",
+    color: "#06B6D4",
   },
   {
     label: "Open Source",
@@ -43,7 +43,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "03",
     tag: "IN PUBLIC",
     icon: <GitHubIcon />,
-    color: "#6C63FF",
+    color: "#3B82F6",
   },
   {
     label: "Developers",
@@ -51,7 +51,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "04",
     tag: "BUILD WITH US",
     icon: <TerminalOutlinedIcon />,
-    color: "#6C63FF",
+    color: "#3B82F6",
   },
   {
     label: "Research",
@@ -59,7 +59,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "05",
     tag: "OPEN QUESTIONS",
     icon: <ScienceOutlinedIcon />,
-    color: "#33DDBB",
+    color: "#10B981",
   },
   {
     label: "Company",
@@ -67,7 +67,7 @@ const NAV_ITEMS: NavItem[] = [
     index: "06",
     tag: "WHO WE ARE",
     icon: <InfoOutlinedIcon />,
-    color: "#8B85FF",
+    color: "#8B5CF6",
   },
   {
     label: "Blog",
@@ -85,7 +85,7 @@ const CTA_ITEM: NavItem = {
   index: "08",
   tag: "INITIATE SEQUENCE",
   icon: <HandshakeOutlinedIcon />,
-  color: "#00D4AA",
+  color: "#06B6D4",
 };
 
 const HOME_ITEM: NavItem = {
@@ -94,7 +94,7 @@ const HOME_ITEM: NavItem = {
   index: "00",
   tag: "START HERE",
   icon: <HomeOutlinedIcon />,
-  color: "#00D4AA",
+  color: "#06B6D4",
 };
 const ALL_GRID_ITEMS: NavItem[] = [HOME_ITEM, ...NAV_ITEMS, CTA_ITEM];
 const descriptions: Record<string, string> = {
@@ -116,7 +116,7 @@ const extra = (
   path: string,
   description: string,
   icon: React.ReactNode,
-): NavItem => ({ label, path, description, icon, index: "", tag: "", color: "#8B85FF" });
+): NavItem => ({ label, path, description, icon, index: "", tag: "", color: "#8B5CF6" });
 const NAV_GROUPS: NavItem[] = [
   NAV_ITEMS[0]!,
   NAV_ITEMS[1]!,

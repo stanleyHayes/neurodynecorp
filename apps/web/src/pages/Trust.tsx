@@ -45,7 +45,7 @@ const SECTIONS: Section[] = [
     title: "Security Posture",
     blurb: "Defence-in-depth is part of how each service is built and operated.",
     Icon: VerifiedUserOutlinedIcon,
-    accent: "#6C63FF",
+    accent: "#3B82F6",
     items: [
       { label: "Audit logging", detail: "Sensitive actions and access events are written to an append-only audit log — entries are created, never edited or deleted.", Icon: HistoryToggleOffOutlinedIcon },
       { label: "Encryption in transit", detail: "Traffic is served over HTTPS, with standard security headers set by the API.", Icon: LockOutlinedIcon },
@@ -57,7 +57,7 @@ const SECTIONS: Section[] = [
     title: "Data Protection by Design",
     blurb: "Privacy-first engineering, built around the data-protection regimes that matter in the markets we build for. These are the practices followed, not a certified compliance position.",
     Icon: GavelOutlinedIcon,
-    accent: "#00D4AA",
+    accent: "#06B6D4",
     items: [
       { label: "Built around GDPR principles", detail: "Data-subject rights, lawful basis, and a data-processing agreement available on request.", Icon: ShieldOutlinedIcon },
       { label: "Designed to align with Ghana's Data Protection Act 2012 (Act 843)", detail: "Data handling is designed around the requirements set out by Ghana's Data Protection Commission.", Icon: GavelOutlinedIcon },
@@ -196,12 +196,12 @@ export default function Trust() {
                 borderRadius: 3,
                 border: "1px solid",
                 borderColor: "divider",
-                bgcolor: "rgba(108,99,255,0.06)",
+                bgcolor: "rgba(59,130,246,0.06)",
               }}
             >
               <CardContent sx={{ p: { xs: 3, md: 4 } }}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1 }}>
-                  <ShieldOutlinedIcon sx={{ color: "#6C63FF", fontSize: 30 }} />
+                  <ShieldOutlinedIcon sx={{ color: "#3B82F6", fontSize: 30 }} />
                   <Typography variant="h6" sx={{ fontWeight: 700 }}>
                     Report a security issue
                   </Typography>

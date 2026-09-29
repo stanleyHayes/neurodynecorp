@@ -21,7 +21,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     slug: "audit",
     name: "Digital Systems Audit & Architecture",
     kicker: "CORE ENTRY SERVICE",
-    color: "#6C63FF",
+    color: "#3B82F6",
     positioning:
       "The core entry service. A structured engagement that audits your digital posture and produces an architecture for the next 18–36 months.",
     methodology: [
@@ -49,7 +49,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     slug: "enterprise",
     name: "Enterprise & Government System Development",
     kicker: "MISSION-CRITICAL BUILDS",
-    color: "#00D4AA",
+    color: "#06B6D4",
     positioning:
       "Mission-critical builds for institutions, with security, compliance, and governance designed in from the first line.",
     methodology: [
@@ -77,7 +77,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     slug: "ai",
     name: "AI & Automation Integration",
     kicker: "THE INTELLIGENCE LAYER",
-    color: "#8B85FF",
+    color: "#8B5CF6",
     positioning:
       "The intelligence layer. Document intelligence, workflow automation, predictive layers, and copilots — added to systems that earn them, with evaluation built in.",
     methodology: [
@@ -104,7 +104,7 @@ export const SERVICE_LINES: ServiceLine[] = [
     slug: "digital",
     name: "Strategic Web & Digital Platforms",
     kicker: "TRANSITIONAL, CONTROLLED",
-    color: "#33DDBB",
+    color: "#10B981",
     positioning:
       "We take web and digital platform work where it earns strategic position — not as agency work.",
     methodology: [

@@ -1,6 +1,6 @@
 import { Box } from "@mui/material";
 
-const BRACKET = "rgba(108, 99, 255, 0.30)";
+const BRACKET = "rgba(59, 130, 246, 0.30)";
 
 /**
  * Four L-shaped corner brackets — the NeuroDyne HUD/grid frame used on the

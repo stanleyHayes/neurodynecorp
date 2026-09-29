@@ -35,7 +35,7 @@ import { useContactForm } from "@/hooks/useContactForm";
 
 const MotionBox = motion.create(Box);
 
-const BORDER = "rgba(108, 99, 255, 0.12)";
+const BORDER = "rgba(59, 130, 246, 0.12)";
 
 const scanlinePulse = keyframes`
   0% { transform: translateY(-100%); }
@@ -57,14 +57,14 @@ const PROJECT_TYPES = [
 ];
 
 const CONTACT_DATA = [
-  { icon: <EmailIcon />, label: "Email", value: "info@neurodyne.dev", href: "mailto:info@neurodyne.dev", copyable: true, color: "#6C63FF", index: "08" },
-  { icon: <LocationOnIcon />, label: "Location", value: "Accra, Ghana", href: undefined, copyable: false, color: "#8B85FF", index: "09" },
+  { icon: <EmailIcon />, label: "Email", value: "info@neurodyne.dev", href: "mailto:info@neurodyne.dev", copyable: true, color: "#3B82F6", index: "08" },
+  { icon: <LocationOnIcon />, label: "Location", value: "Accra, Ghana", href: undefined, copyable: false, color: "#8B5CF6", index: "09" },
 ];
 
 const STEPS = [
-  { step: "01", text: "Your message is read by the engineer who would do the work", color: "#6C63FF", index: "10" },
-  { step: "02", text: "If it is a fit, you get a direct reply with questions", color: "#00D4AA", index: "11" },
-  { step: "03", text: "Scope, constraints and cost are worked out together", color: "#8B85FF", index: "12" },
+  { step: "01", text: "Your message is read by the engineer who would do the work", color: "#3B82F6", index: "10" },
+  { step: "02", text: "If it is a fit, you get a direct reply with questions", color: "#06B6D4", index: "11" },
+  { step: "03", text: "Scope, constraints and cost are worked out together", color: "#8B5CF6", index: "12" },
 ];
 
 // ── Reusable Cell ───────────────────────────────────────────────────────────
@@ -164,7 +164,7 @@ function Cell({
   );
 }
 
-function SectionLabel({ text, color = "#6C63FF" }: { text: string; color?: string }) {
+function SectionLabel({ text, color = "#3B82F6" }: { text: string; color?: string }) {
   return (
     <Box sx={{ borderBottom: `1px solid ${BORDER}`, py: 2, px: 4 }}>
       <Typography sx={{ fontSize: "0.7rem", fontFamily: "monospace", fontWeight: 700, letterSpacing: "0.3em", color, filter: `drop-shadow(0 0 6px ${color}60)` }}>
@@ -178,12 +178,12 @@ function SectionLabel({ text, color = "#6C63FF" }: { text: string; color?: strin
 
 const fieldSx = {
   "& .MuiOutlinedInput-root": {
-    background: "rgba(108, 99, 255, 0.03)",
+    background: "rgba(59, 130, 246, 0.03)",
     borderRadius: 1,
     fontSize: "0.9rem",
-    "& fieldset": { borderColor: "rgba(108, 99, 255, 0.12)" },
-    "&:hover fieldset": { borderColor: "rgba(108, 99, 255, 0.3)" },
-    "&.Mui-focused fieldset": { borderColor: "#6C63FF", borderWidth: 1 },
+    "& fieldset": { borderColor: "rgba(59, 130, 246, 0.12)" },
+    "&:hover fieldset": { borderColor: "rgba(59, 130, 246, 0.3)" },
+    "&.Mui-focused fieldset": { borderColor: "#3B82F6", borderWidth: 1 },
   },
   "& .MuiInputLabel-root": {
     fontSize: "0.8rem",
@@ -284,20 +284,20 @@ export default function Contact() {
           sx={{
             position: "absolute",
             inset: 0,
-            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(108,99,255,0.04) 2px, rgba(108,99,255,0.04) 4px)",
+            backgroundImage: "repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(59,130,246,0.04) 2px, rgba(59,130,246,0.04) 4px)",
             pointerEvents: "none",
             zIndex: 50,
           }}
         />
 
-        <Cell color="#6C63FF" index="00" colInRow={0} totalCols={2} minH={{ xs: 300, md: 360 }}>
+        <Cell color="#3B82F6" index="00" colInRow={0} totalCols={2} minH={{ xs: 300, md: 360 }}>
           <MotionBox initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.7 }}>
             <Typography
               sx={{
                 fontSize: "0.6rem",
                 fontFamily: "monospace",
                 fontWeight: 600,
-                color: "#6C63FF",
+                color: "#3B82F6",
                 letterSpacing: "0.25em",
                 textTransform: "uppercase",
                 mb: 3,
@@ -322,7 +322,7 @@ export default function Contact() {
               <Box
                 component="span"
                 sx={{
-                  background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                  background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                   backgroundClip: "text",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
@@ -342,7 +342,7 @@ export default function Contact() {
         </Cell>
 
         {/* Right — icon cell */}
-        <Cell color="#00D4AA" index="—" colInRow={1} totalCols={2} minH={{ xs: 160, md: 360 }}>
+        <Cell color="#06B6D4" index="—" colInRow={1} totalCols={2} minH={{ xs: 160, md: 360 }}>
           <Box sx={{ textAlign: "center" }}>
             <MotionBox
               initial={{ scale: 0, rotate: -15 }}
@@ -352,8 +352,8 @@ export default function Contact() {
               <ContactMailOutlinedIcon
                 sx={{
                   fontSize: { xs: 80, md: 120 },
-                  color: "#00D4AA",
-                  filter: "drop-shadow(0 0 20px rgba(0,212,170,0.3)) drop-shadow(0 0 60px rgba(0,212,170,0.15))",
+                  color: "#06B6D4",
+                  filter: "drop-shadow(0 0 20px rgba(6,182,212,0.3)) drop-shadow(0 0 60px rgba(6,182,212,0.15))",
                 }}
               />
             </MotionBox>
@@ -375,7 +375,7 @@ export default function Contact() {
       </Box>
 
       {/* ═══ FORM GRID ═══ */}
-      <SectionLabel text="TRANSMIT YOUR MESSAGE" color="#6C63FF" />
+      <SectionLabel text="TRANSMIT YOUR MESSAGE" color="#3B82F6" />
 
       <AnimatePresence mode="wait">
         {isSubmitted ? (
@@ -386,7 +386,7 @@ export default function Contact() {
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.5, type: "spring", stiffness: 120 }}
           >
-            <Cell color="#00D4AA" index="OK" colInRow={0} totalCols={1} minH={{ xs: 300, md: 400 }}>
+            <Cell color="#06B6D4" index="OK" colInRow={0} totalCols={1} minH={{ xs: 300, md: 400 }}>
               <Box sx={{ textAlign: "center", py: 4 }}>
                 <MotionBox
                   initial={{ scale: 0 }}
@@ -397,8 +397,8 @@ export default function Contact() {
                   <CheckCircleOutlineIcon
                     sx={{
                       fontSize: 80,
-                      color: "#00D4AA",
-                      filter: "drop-shadow(0 0 20px rgba(0,212,170,0.4))",
+                      color: "#06B6D4",
+                      filter: "drop-shadow(0 0 20px rgba(6,182,212,0.4))",
                     }}
                   />
                 </MotionBox>
@@ -412,11 +412,11 @@ export default function Contact() {
                   variant="outlined"
                   onClick={() => window.location.reload()}
                   sx={{
-                    borderColor: "#00D4AA30",
-                    color: "#00D4AA",
+                    borderColor: "#06B6D430",
+                    color: "#06B6D4",
                     fontFamily: "monospace",
                     letterSpacing: "0.1em",
-                    "&:hover": { borderColor: "#00D4AA60", background: "#00D4AA08" },
+                    "&:hover": { borderColor: "#06B6D460", background: "#06B6D408" },
                   }}
                 >
                   SEND ANOTHER
@@ -444,17 +444,17 @@ export default function Contact() {
 
             {/* Row 1: Name | Email */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-              <Cell color="#6C63FF" index="01" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0}>
+              <Cell color="#3B82F6" index="01" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <PersonOutlineIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Full Name</Typography>
+                  <PersonOutlineIcon sx={{ fontSize: 18, color: "#3B82F6", filter: "drop-shadow(0 0 4px #3B82F640)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#3B82F6", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Full Name</Typography>
                 </Stack>
                 <TextField fullWidth required disabled={isSubmitting} value={form.name} onChange={handleChange("name")} placeholder="John Doe" size="small" sx={fieldSx} error={attempted && Boolean(errors.name)} helperText={attempted ? errors.name : ""}/>
               </Cell>
-              <Cell color="#00D4AA" index="02" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.05}>
+              <Cell color="#06B6D4" index="02" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.05}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <AlternateEmailIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Email</Typography>
+                  <AlternateEmailIcon sx={{ fontSize: 18, color: "#06B6D4", filter: "drop-shadow(0 0 4px #06B6D440)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#06B6D4", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Email</Typography>
                 </Stack>
                 <TextField fullWidth required type="email" disabled={isSubmitting} value={form.email} onChange={handleChange("email")} placeholder="you@company.com" size="small" sx={fieldSx} error={attempted && Boolean(errors.email)} helperText={attempted ? errors.email : ""}/>
               </Cell>
@@ -462,19 +462,19 @@ export default function Contact() {
 
             {/* Row 2: Phone | Company */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-              <Cell color="#8B85FF" index="03" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.1}>
+              <Cell color="#8B5CF6" index="03" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.1}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <PhoneOutlinedIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Phone</Typography>
-                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B85FF15", color: "#8B85FF", border: "none" }} />
+                  <PhoneOutlinedIcon sx={{ fontSize: 18, color: "#8B5CF6", filter: "drop-shadow(0 0 4px #8B5CF640)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B5CF6", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Phone</Typography>
+                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#8B5CF615", color: "#8B5CF6", border: "none" }} />
                 </Stack>
                 <TextField fullWidth disabled={isSubmitting} value={form.phone} onChange={handleChange("phone")} placeholder="+1 (555) 000-0000" size="small" sx={fieldSx} />
               </Cell>
-              <Cell color="#33DDBB" index="04" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.15}>
+              <Cell color="#10B981" index="04" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.15}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <BusinessOutlinedIcon sx={{ fontSize: 18, color: "#33DDBB", filter: "drop-shadow(0 0 4px #33DDBB40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#33DDBB", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Company</Typography>
-                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#33DDBB15", color: "#33DDBB", border: "none" }} />
+                  <BusinessOutlinedIcon sx={{ fontSize: 18, color: "#10B981", filter: "drop-shadow(0 0 4px #10B98140)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#10B981", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Company</Typography>
+                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#10B98115", color: "#10B981", border: "none" }} />
                 </Stack>
                 <TextField fullWidth disabled={isSubmitting} value={form.company} onChange={handleChange("company")} placeholder="Acme Corp" size="small" sx={fieldSx} />
               </Cell>
@@ -482,18 +482,18 @@ export default function Contact() {
 
             {/* Row 3: Subject | Inquiry type */}
             <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "1fr 1fr" } }}>
-              <Cell color="#6C63FF" index="05" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.2}>
+              <Cell color="#3B82F6" index="05" colInRow={0} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.2}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <SubjectOutlinedIcon sx={{ fontSize: 18, color: "#6C63FF", filter: "drop-shadow(0 0 4px #6C63FF40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#6C63FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Subject</Typography>
+                  <SubjectOutlinedIcon sx={{ fontSize: 18, color: "#3B82F6", filter: "drop-shadow(0 0 4px #3B82F640)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#3B82F6", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Subject</Typography>
                 </Stack>
                 <TextField fullWidth required disabled={isSubmitting} value={form.subject} onChange={handleChange("subject")} placeholder="Project inquiry" size="small" sx={fieldSx} error={attempted && Boolean(errors.subject)} helperText={attempted ? errors.subject : ""}/>
               </Cell>
-              <Cell color="#00D4AA" index="06" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.25}>
+              <Cell color="#06B6D4" index="06" colInRow={1} totalCols={2} minH={{ xs: 100, md: 130 }} animDelay={0.25}>
                 <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                  <CategoryOutlinedIcon sx={{ fontSize: 18, color: "#00D4AA", filter: "drop-shadow(0 0 4px #00D4AA40)" }} />
-                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#00D4AA", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Inquiry type</Typography>
-                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#00D4AA15", color: "#00D4AA", border: "none" }} />
+                  <CategoryOutlinedIcon sx={{ fontSize: 18, color: "#06B6D4", filter: "drop-shadow(0 0 4px #06B6D440)" }} />
+                  <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#06B6D4", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Inquiry type</Typography>
+                  <Chip label="OPT" size="small" sx={{ height: 16, fontSize: "0.5rem", fontFamily: "monospace", background: "#06B6D415", color: "#06B6D4", border: "none" }} />
                 </Stack>
                 <TextField
                   fullWidth
@@ -513,10 +513,10 @@ export default function Contact() {
             </Box>
 
             {/* Row 4: Message — full width */}
-            <Cell color="#8B85FF" index="07" colInRow={0} totalCols={1} minH={{ xs: 180, md: 220 }} animDelay={0.3}>
+            <Cell color="#8B5CF6" index="07" colInRow={0} totalCols={1} minH={{ xs: 180, md: 220 }} animDelay={0.3}>
               <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: 1.5 }}>
-                <ChatBubbleOutlineIcon sx={{ fontSize: 18, color: "#8B85FF", filter: "drop-shadow(0 0 4px #8B85FF40)" }} />
-                <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B85FF", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Message</Typography>
+                <ChatBubbleOutlineIcon sx={{ fontSize: 18, color: "#8B5CF6", filter: "drop-shadow(0 0 4px #8B5CF640)" }} />
+                <Typography sx={{ fontFamily: "monospace", fontSize: "0.7rem", color: "#8B5CF6", letterSpacing: "0.1em", textTransform: "uppercase", opacity: 0.7 }}>Message</Typography>
               </Stack>
               <TextField
                 fullWidth
@@ -557,7 +557,7 @@ export default function Contact() {
                     left: 0,
                     right: 0,
                     height: 1,
-                    background: "linear-gradient(90deg, transparent, #6C63FF40, transparent)",
+                    background: "linear-gradient(90deg, transparent, #3B82F640, transparent)",
                     animation: `${scanlinePulse} 3s linear infinite`,
                   },
                 }}
@@ -579,10 +579,10 @@ export default function Contact() {
                     ...(pos.right !== undefined && { right: pos.right }),
                     width: 14,
                     height: 14,
-                    borderTop: pos.bT ? "2px solid #00D4AA30" : "none",
-                    borderBottom: pos.bB ? "2px solid #00D4AA30" : "none",
-                    borderLeft: pos.bL ? "2px solid #00D4AA30" : "none",
-                    borderRight: pos.bR ? "2px solid #00D4AA30" : "none",
+                    borderTop: pos.bT ? "2px solid #06B6D430" : "none",
+                    borderBottom: pos.bB ? "2px solid #06B6D430" : "none",
+                    borderLeft: pos.bL ? "2px solid #06B6D430" : "none",
+                    borderRight: pos.bR ? "2px solid #06B6D430" : "none",
                     pointerEvents: "none",
                     zIndex: 2,
                   }}
@@ -601,16 +601,16 @@ export default function Contact() {
                   letterSpacing: "0.15em",
                   textTransform: "uppercase",
                   color: "#060911",
-                  background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+                  background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
                   borderRadius: 1,
                   position: "relative",
                   zIndex: 1,
                   "&:hover": {
-                    boxShadow: "0 0 30px rgba(108,99,255,0.4), 0 0 60px rgba(0,212,170,0.2)",
+                    boxShadow: "0 0 30px rgba(59,130,246,0.4), 0 0 60px rgba(6,182,212,0.2)",
                     background: "linear-gradient(135deg, #7B73FF, #00E4BA)",
                   },
                   "&:disabled": {
-                    background: "rgba(108, 99, 255, 0.2)",
+                    background: "rgba(59, 130, 246, 0.2)",
                     color: "text.secondary",
                   },
                 }}
@@ -630,7 +630,7 @@ export default function Contact() {
       </AnimatePresence>
 
       {/* ═══ CONTACT INFO ═══ */}
-      <SectionLabel text="DIRECT CHANNELS" color="#00D4AA" />
+      <SectionLabel text="DIRECT CHANNELS" color="#06B6D4" />
 
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" } }}>
         {CONTACT_DATA.map((item, i) => (
@@ -672,7 +672,7 @@ export default function Contact() {
                     handleCopy(item.value, item.label);
                   }}
                   sx={{
-                    color: copied === item.label ? "#00D4AA" : "text.secondary",
+                    color: copied === item.label ? "#06B6D4" : "text.secondary",
                     transition: "color 0.2s",
                   }}
                 >
@@ -689,7 +689,7 @@ export default function Contact() {
       </Box>
 
       {/* ═══ WHAT TO EXPECT ═══ */}
-      <SectionLabel text="WHAT TO EXPECT" color="#6C63FF" />
+      <SectionLabel text="WHAT TO EXPECT" color="#3B82F6" />
 
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", md: "repeat(3, 1fr)" } }}>
         {STEPS.map((item, i) => (
@@ -735,7 +735,7 @@ export default function Contact() {
           borderBottom: `1px solid ${BORDER}`,
           transition: "background 0.3s",
           "&:hover": {
-            background: "rgba(0,212,170,0.04)",
+            background: "rgba(6,182,212,0.04)",
             "& .cta-arrow": { opacity: 1, transform: "translateX(0)" },
           },
         }}
@@ -756,10 +756,10 @@ export default function Contact() {
               ...(pos.right !== undefined && { right: pos.right }),
               width: 16,
               height: 16,
-              borderTop: pos.bT ? "2px solid #00D4AA30" : "none",
-              borderBottom: pos.bB ? "2px solid #00D4AA30" : "none",
-              borderLeft: pos.bL ? "2px solid #00D4AA30" : "none",
-              borderRight: pos.bR ? "2px solid #00D4AA30" : "none",
+              borderTop: pos.bT ? "2px solid #06B6D430" : "none",
+              borderBottom: pos.bB ? "2px solid #06B6D430" : "none",
+              borderLeft: pos.bL ? "2px solid #06B6D430" : "none",
+              borderRight: pos.bR ? "2px solid #06B6D430" : "none",
               transition: "all 0.3s",
               pointerEvents: "none",
               zIndex: 2,
@@ -768,7 +768,7 @@ export default function Contact() {
         ))}
 
         <Box sx={{ textAlign: "center", position: "relative", zIndex: 1 }}>
-          <RocketLaunchOutlinedIcon sx={{ fontSize: 40, color: "#00D4AA", filter: "drop-shadow(0 0 8px rgba(0,212,170,0.4))", mb: 2 }} />
+          <RocketLaunchOutlinedIcon sx={{ fontSize: 40, color: "#06B6D4", filter: "drop-shadow(0 0 8px rgba(6,182,212,0.4))", mb: 2 }} />
           <Typography variant="h3" sx={{ fontWeight: 800, letterSpacing: "-0.02em", textTransform: "uppercase", color: "text.secondary", mb: 1 }}>
             Skip the Form?
           </Typography>

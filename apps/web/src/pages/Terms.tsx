@@ -99,7 +99,7 @@ export default function Terms() {
         description="Please read these terms carefully before using our services. They outline the rules and regulations for using NeuroDyne Corp."
         tag="LEGAL // FRAMEWORK"
         accentWord="Terms"
-        iconColor="#8B85FF"
+        iconColor="#8B5CF6"
         iconLabel="DIRECTIVE LOADED"
       />
 

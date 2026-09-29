@@ -88,8 +88,8 @@ function CubieMesh({
     position: "absolute",
     inset: 0,
     border: "1px solid rgba(218, 232, 255, 0.82)",
-    background: "rgba(108, 99, 255, 0.018)",
-    boxShadow: "inset 0 0 10px rgba(108,99,255,0.035)",
+    background: "rgba(59, 130, 246, 0.018)",
+    boxShadow: "inset 0 0 10px rgba(59,130,246,0.035)",
     boxSizing: "border-box",
   } as const;
 
@@ -101,7 +101,7 @@ function CubieMesh({
         height: size,
         transform: `translate3d(${tx}px, ${ty}px, ${tz}px)${turnTransform}`,
         transformStyle: "preserve-3d",
-        boxShadow: inTurningLayer ? "0 0 22px rgba(0, 212, 170, 0.34)" : "0 0 6px rgba(108,99,255,0.08)",
+        boxShadow: inTurningLayer ? "0 0 22px rgba(6, 182, 212, 0.34)" : "0 0 6px rgba(59,130,246,0.08)",
       }}
     >
       <span style={{ ...face, transform: `translateZ(${half}px)` }} />
@@ -277,8 +277,8 @@ export default function HeroWireframe() {
             position: "absolute", inset: 0, zIndex: 0, opacity: 0.72, pointerEvents: "none",
             backgroundImage: [
               "radial-gradient(circle at 12% 21%, rgba(255,255,255,.8) 0 1px, transparent 1.5px)",
-              "radial-gradient(circle at 74% 18%, rgba(0,212,170,.75) 0 1px, transparent 1.6px)",
-              "radial-gradient(circle at 88% 61%, rgba(139,133,255,.85) 0 1px, transparent 1.5px)",
+              "radial-gradient(circle at 74% 18%, rgba(6,182,212,.75) 0 1px, transparent 1.6px)",
+              "radial-gradient(circle at 88% 61%, rgba(139,92,246,.85) 0 1px, transparent 1.5px)",
               "radial-gradient(circle at 31% 69%, rgba(255,255,255,.55) 0 1px, transparent 1.4px)",
             ].join(","),
             backgroundSize: "190px 170px, 260px 210px, 230px 250px, 310px 190px",
@@ -297,7 +297,7 @@ export default function HeroWireframe() {
               position: "absolute", zIndex: 1, left: "50%", top: "53%",
               width: 235 + ring * 44, height: 92 + ring * 22,
               ml: `${-(235 + ring * 44) / 2}px`, mt: `${-(92 + ring * 22) / 2}px`,
-              border: `1px solid ${ring === 1 ? "rgba(0,212,170,.16)" : "rgba(139,133,255,.2)"}`,
+              border: `1px solid ${ring === 1 ? "rgba(6,182,212,.16)" : "rgba(139,92,246,.2)"}`,
               borderRadius: "50%", transform: `rotate(${ring * 38}deg)`, pointerEvents: "none",
             }}
           />
@@ -311,7 +311,7 @@ export default function HeroWireframe() {
             <Typography sx={{ fontSize: "0.72rem", fontWeight: 600, color: "rgba(226,232,255,.72)" }}>Composable infrastructure</Typography>
           </Box>
           <Box sx={{ display: "flex", alignItems: "center", gap: 0.75, px: 1.1, py: 0.55, border: "1px solid rgba(148,163,184,.25)", bgcolor: "rgba(5,9,20,.58)", backdropFilter: "blur(12px)" }}>
-            <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#00D4AA", boxShadow: "0 0 10px rgba(0,212,170,0.75)" }} />
+            <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#06B6D4", boxShadow: "0 0 10px rgba(6,182,212,0.75)" }} />
             <Typography sx={{ fontFamily: "monospace", fontSize: "0.52rem", letterSpacing: "0.12em", color: "rgba(226,232,255,.72)" }}>LIVE</Typography>
           </Box>
         </Box>

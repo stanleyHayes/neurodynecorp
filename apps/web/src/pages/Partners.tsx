@@ -86,7 +86,7 @@ export default function Partners() {
       {/* ── Pathway index ─────────────────────────────────────────────────── */}
       <Box sx={{ position: "relative", py: { xs: 6, md: 8 } }}>
         <Container maxWidth="lg">
-          <Overline color="#00D4AA">Choose a pathway</Overline>
+          <Overline color="#06B6D4">Choose a pathway</Overline>
           <Typography
             color="text.secondary"
             sx={{ mt: 1.5, mb: 3, lineHeight: 1.9, maxWidth: 720, fontSize: "1.02rem" }}
@@ -335,7 +335,7 @@ export default function Partners() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={VIEWPORT}
                   transition={{ duration: 0.4, delay: reduce ? 0 : i * 0.05 }}
-                  sx={{ height: "100%", borderTop: "2px solid", borderColor: "#6C63FF", pt: 2.25 }}
+                  sx={{ height: "100%", borderTop: "2px solid", borderColor: "#3B82F6", pt: 2.25 }}
                 >
                   <Typography sx={{ fontWeight: 800, fontSize: "1.02rem", lineHeight: 1.35 }}>
                     {item.title}
@@ -361,14 +361,14 @@ export default function Partners() {
         }}
       >
         <Container maxWidth="md" sx={{ position: "relative" }}>
-          <HudCorners color="rgba(108, 99, 255, 0.25)" />
+          <HudCorners color="rgba(59, 130, 246, 0.25)" />
           <Typography
             variant="h4"
             component="h2"
             sx={{
               fontWeight: 900,
               letterSpacing: "-0.02em",
-              background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+              background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
               backgroundClip: "text",
               WebkitBackgroundClip: "text",
               WebkitTextFillColor: "transparent",

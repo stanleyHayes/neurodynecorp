@@ -33,10 +33,10 @@ const ITEMS: TechItem[] = [
 ];
 
 const CAT_COLORS: Record<TechItem["category"], string> = {
-  frontend: "#6C63FF",
-  backend: "#00D4AA",
+  frontend: "#3B82F6",
+  backend: "#06B6D4",
   data: "#F59E0B",
-  infra: "#8B85FF",
+  infra: "#8B5CF6",
 };
 
 const CAT_LABELS: Record<TechItem["category"], string> = {
@@ -79,11 +79,11 @@ export default function TechStackPicker() {
         position: "relative",
         p: { xs: 3, md: 5 },
         borderRadius: 3,
-        border: "1px solid rgba(108, 99, 255, 0.18)",
-        background: "linear-gradient(135deg, rgba(108,99,255,0.04), rgba(0,212,170,0.03))",
+        border: "1px solid rgba(59, 130, 246, 0.18)",
+        background: "linear-gradient(135deg, rgba(59,130,246,0.04), rgba(6,182,212,0.03))",
       }}
     >
-      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#6C63FF", opacity: 0.7, mb: 1 }}>
+      <Typography sx={{ fontFamily: "monospace", fontSize: "0.65rem", letterSpacing: "0.3em", textTransform: "uppercase", color: "#3B82F6", opacity: 0.7, mb: 1 }}>
         // BUILD WITH US
       </Typography>
       <Typography
@@ -92,7 +92,7 @@ export default function TechStackPicker() {
           fontSize: { xs: "1.5rem", md: "2rem" },
           letterSpacing: "-0.02em",
           mb: 1,
-          background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+          background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
           backgroundClip: "text",
           WebkitBackgroundClip: "text",
           WebkitTextFillColor: "transparent",
@@ -131,7 +131,7 @@ export default function TechStackPicker() {
                       px: 0.5,
                       bgcolor: active ? `${c}20` : "transparent",
                       color: active ? c : "text.secondary",
-                      border: active ? `1px solid ${c}` : "1px solid rgba(108,99,255,0.15)",
+                      border: active ? `1px solid ${c}` : "1px solid rgba(59,130,246,0.15)",
                       transition: "all 0.2s",
                       "&:hover": { borderColor: c, bgcolor: `${c}10` },
                     }}
@@ -154,12 +154,12 @@ export default function TechStackPicker() {
           sx={{
             p: { xs: 2, md: 3 },
             borderRadius: 2,
-            background: "rgba(10, 14, 26, 0.4)",
-            border: "1px solid rgba(108, 99, 255, 0.2)",
+            background: "rgba(10, 15, 31, 0.4)",
+            border: "1px solid rgba(59, 130, 246, 0.2)",
             mb: 3,
           }}
         >
-          <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: "#00D4AA", opacity: 0.8, textTransform: "uppercase", mb: 1 }}>
+          <Typography sx={{ fontFamily: "monospace", fontSize: "0.55rem", letterSpacing: "0.25em", color: "#06B6D4", opacity: 0.8, textTransform: "uppercase", mb: 1 }}>
             Suggested blueprint
           </Typography>
           <Typography sx={{ color: "text.primary", lineHeight: 1.6, fontSize: "0.9rem" }}>
@@ -182,10 +182,10 @@ export default function TechStackPicker() {
           fontFamily: "monospace",
           fontWeight: 700,
           letterSpacing: "0.1em",
-          background: "linear-gradient(135deg, #6C63FF, #00D4AA)",
+          background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
           px: 3,
           py: 1.25,
-          "&:hover": { boxShadow: "0 8px 30px rgba(108,99,255,0.4)" },
+          "&:hover": { boxShadow: "0 8px 30px rgba(59,130,246,0.4)" },
         }}
       >
         Brief us with this stack
