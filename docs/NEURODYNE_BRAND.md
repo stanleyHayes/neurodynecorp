@@ -145,9 +145,33 @@ Only `neurodyne_logo_icon.png` has a genuinely transparent background, so it is
 the only master usable as an interface mark. The horizontal lockup is RGBA but
 carries a baked-in dark glow — it is dark-surface-only.
 
-**No SVG master exists yet.** PNG is the interface format until one is supplied.
-Ask for it: an SVG mark would be smaller, sharper, and animatable in layers,
-which §25 anticipates.
+### The traced SVG
+
+No SVG master was supplied, so `scripts/trace-mark-svg.mjs` derives one from the
+PNG with potrace. This is **not** a redrawing — the outline comes mechanically
+from the master's own alpha channel, and it verifies at **99.71% shape IoU**
+against it (657 pixels off out of 827,813). §26 forbids approximating the mark
+by hand; a measured trace is a different thing, and the number is there so the
+claim can be checked rather than believed.
+
+It is a **silhouette**. The colour master carries smooth internal gradients and
+specular highlights that give the ribbon its sense of folding over itself, and
+a vector outline cannot reproduce them. So:
+
+| File | Use |
+|---|---|
+| `mark-512.png` etc. | The primary interface mark. Keeps the shading. |
+| `brand/mark.svg` | `currentColor` silhouette — monochrome variants, masks |
+| `brand/mark-aurora.svg` | Silhouette with the Aurora gradient |
+| `favicon.svg` | Crisp at every size, one file |
+
+Both SVGs carry the ribbon and the node as separate `<path>` elements with
+stable ids — the "motion-ready separated SVG layers" §25 asks for, so the hero
+sequence can animate them independently.
+
+**A real vector master is still worth asking for.** It would carry the shading
+the trace cannot, and would let the full-colour mark scale as cleanly as the
+silhouette does.
 
 ---
 
