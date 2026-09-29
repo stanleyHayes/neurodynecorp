@@ -15,6 +15,7 @@ import HeroWireframe from "@/components/shared/HeroWireframe";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import MaturityBadge from "@/components/shared/MaturityBadge";
 import { Overline, SectionHeading } from "@/components/shared/Marketing";
+import { RevealText, EnergyButton } from "@/components/motion";
 import { WatermarkConstellation } from "@/components/shared/Watermark";
 import { CANON, HERO, PILLARS, WHY_AFRICA, FOUNDER, PARTNER_PATHWAYS } from "@/content/company";
 import { PLATFORMS } from "@/content/projects";
@@ -78,9 +79,12 @@ export default function Home() {
                 transition={{ duration: 0.6 }}
                 sx={{ transform: { md: "translateZ(52px)" } }}
               >
-                <Overline color="#06B6D4">AI &amp; Digital Infrastructure · Accra, Ghana</Overline>
+                <Overline color="#06B6D4">
+                  <RevealText as="label">AI &amp; Digital Infrastructure · Accra, Ghana</RevealText>
+                </Overline>
                 <Typography
                   variant="h1"
+                  component="h1"
                   sx={{
                     fontWeight: 900,
                     letterSpacing: "-0.03em",
@@ -89,7 +93,7 @@ export default function Home() {
                     mt: 2,
                   }}
                 >
-                  Building Africa&rsquo;s{" "}
+                  <RevealText as="heading" component="span">Building Africa&rsquo;s</RevealText>{" "}
                   <Box
                     component="span"
                     sx={{
@@ -99,7 +103,9 @@ export default function Home() {
                       WebkitTextFillColor: "transparent",
                     }}
                   >
-                    Digital Infrastructure
+                    <RevealText as="heading" component="span" delay={0.12}>
+                      Digital Infrastructure
+                    </RevealText>
                   </Box>
                   .
                 </Typography>
@@ -112,25 +118,18 @@ export default function Home() {
                 </Typography>
 
                 <Stack direction={{ xs: "column", sm: "row" }} spacing={2} sx={{ mt: 4.5 }}>
-                  <Button
+                  <EnergyButton
                     component={Link}
                     to={HERO.primaryCta.to}
-                    variant="contained"
+                    tone="solid"
                     size="large"
                     endIcon={<ArrowForwardIcon />}
-                    sx={{ borderRadius: 0, px: 4, py: 1.5 }}
                   >
                     {HERO.primaryCta.label}
-                  </Button>
-                  <Button
-                    component={Link}
-                    to={HERO.secondaryCta.to}
-                    variant="outlined"
-                    size="large"
-                    sx={{ borderRadius: 0, px: 4, py: 1.5 }}
-                  >
+                  </EnergyButton>
+                  <EnergyButton component={Link} to={HERO.secondaryCta.to} size="large">
                     {HERO.secondaryCta.label}
-                  </Button>
+                  </EnergyButton>
                 </Stack>
 
                 <Button

@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode } from "react";
+import { forwardRef, type ElementType, type ReactNode } from "react";
 import { Box, Button, type ButtonProps } from "@mui/material";
 import { aurora, auroraGradient, duration, easing, distance, radius } from "@/theme/tokens";
 
@@ -29,6 +29,14 @@ export interface EnergyButtonProps extends Omit<ButtonProps, "variant"> {
    */
   tone?: "outline" | "solid";
   children: ReactNode;
+  /**
+   * MUI's polymorphic `component`, declared explicitly because forwardRef
+   * narrows the element type and would otherwise reject `component={Link}`.
+   */
+  component?: ElementType;
+  /** react-router Link target, when `component` is a Link. */
+  to?: string;
+  href?: string;
 }
 
 const EnergyButton = forwardRef<HTMLButtonElement, EnergyButtonProps>(function EnergyButton(

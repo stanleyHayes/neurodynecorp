@@ -58,6 +58,29 @@ Business content lives in `apps/web/src/content/` and `apps/web/src/data/`,
 never hardcoded in components. Import `CANON`, `PILLARS`, `FOUNDER` and the
 rest from `@/content/company` rather than restating copy in JSX.
 
+## Brand, colour and motion
+
+Full detail: [docs/NEURODYNE_BRAND.md](docs/NEURODYNE_BRAND.md).
+
+Colour, type, space and motion come from
+`apps/web/src/theme/tokens.ts`. **Do not write colour literals** — the site once
+carried 1,071 of them across 69 files while `theme.palette` was read five
+times, which made the brand impossible to change from one place.
+
+The Aurora palette clears AA on Deep Navy and **fails on white** (Teal is
+2.43:1 there). Use `auroraOnLight` for accent text in light mode. Never invert
+the dark values.
+
+Motion primitives live in `apps/web/src/components/motion/`. A universal
+fade-up is not the default — pick the vocabulary that matches what the text is.
+Reduced motion *removes* decorative effects rather than shortening them, and is
+handled at the primitive level plus a global CSS guard in `index.html` for
+`@keyframes`, which MotionConfig cannot reach.
+
+**Never redraw or approximate the Neural Orbit mark.** Use the supplied asset
+via `Logo.tsx`. Brand masters are gitignored; regenerate derivatives with
+`node scripts/build-brand-assets.mjs`.
+
 ## Preserve what works
 
 Before removing anything, classify it: Keep, Rewrite, Move, Archive, or Remove.
