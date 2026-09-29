@@ -92,8 +92,11 @@ export default function Finance() {
     setLoading(true);
     setError("");
     try {
-      const res = await api.listInvoices({ pageSize: "100" });
-      setInvoices((res as any).items ?? []);
+      // Every invoice, not one page. totalPaid, totalOutstanding and the
+      // monthly revenue chart all reduce over this array and are read as the
+      // business's actual revenue — a single page silently under-reports past
+      // 100 invoices, and the number still looks authoritative.
+      setInvoices(await api.fetchAll((p) => api.listInvoices(p)));
     } catch (err: any) {
       setError(err?.message ?? "Failed to load invoices");
     } finally {

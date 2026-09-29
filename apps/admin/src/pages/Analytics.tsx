@@ -61,6 +61,7 @@ function countBy(items: any[], keyFn: (item: any) => string) {
 export default function Analytics() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [users, setUsers] = useState<any[]>([]);
   const [tasks, setTasks] = useState<any[]>([]);
@@ -69,21 +70,34 @@ export default function Analytics() {
   useEffect(() => {
     let cancelled = false;
     (async () => {
-      try {
-        const [projectRes, usersRes, tasksRes, invoiceRes] = await Promise.all([
-          api.listProjects().catch(() => ({ items: [] })),
-          api.listUsers().catch(() => ({ users: [] })),
-          api.get<{ items?: any[]; tasks?: any[] }>("/api/v1/tasks").catch(() => ({ items: [] })),
-          api.listInvoices({ pageSize: "100" }).catch(() => ({ items: [] })),
-        ]);
-        if (cancelled) return;
-        setProjects((projectRes as any).items ?? []);
-        setUsers((usersRes as any).users ?? (usersRes as any).items ?? []);
-        setTasks((tasksRes as any).items ?? (tasksRes as any).tasks ?? []);
-        setInvoices((invoiceRes as any).items ?? []);
-      } finally {
-        if (!cancelled) setLoading(false);
-      }
+      // Every source is paged, because these feed counts and revenue rather
+      // than a table: an unpaged list quietly caps the charts at the server's
+      // default page size and the dashboard still reads as complete.
+      //
+      // Failures are recorded rather than swallowed. These calls previously
+      // caught into empty arrays, so an API outage rendered charts of zeros
+      // with no indication anything had gone wrong — and staff read zeros as
+      // fact. A partial load now says so.
+      const failed: string[] = [];
+      const [projectRes, usersRes, tasksRes, invoiceRes] = await Promise.all([
+        api.fetchAll((p) => api.listProjects(p)).catch(() => { failed.push("projects"); return []; }),
+        api.listUsers().catch(() => { failed.push("users"); return { users: [] }; }),
+        api
+          .get<{ items?: any[]; tasks?: any[] }>("/api/v1/tasks")
+          .catch(() => { failed.push("tasks"); return { items: [] }; }),
+        api.fetchAll((p) => api.listInvoices(p)).catch(() => { failed.push("invoices"); return []; }),
+      ]);
+      if (cancelled) return;
+      setProjects(projectRes as any[]);
+      setUsers((usersRes as any).users ?? (usersRes as any).items ?? []);
+      setTasks((tasksRes as any).items ?? (tasksRes as any).tasks ?? []);
+      setInvoices(invoiceRes as any[]);
+      setLoadError(
+        failed.length
+          ? `Could not load ${failed.join(", ")}. The figures below are incomplete.`
+          : "",
+      );
+      setLoading(false);
     })();
     return () => {
       cancelled = true;
@@ -175,6 +189,16 @@ export default function Analytics() {
         iconColor="#8B5CF6"
         iconLabel="DATA LIVE"
       />
+
+      {/* A dashboard that renders zeros after a failed fetch is worse than one
+          that renders nothing: the zeros look like findings. */}
+      {loadError && (
+        <Box sx={{ px: 3, pt: 2 }}>
+          <Alert severity="warning" variant="outlined">
+            {loadError}
+          </Alert>
+        </Box>
+      )}
 
       <Box sx={{ px: 3, pt: 2 }}>
         <Alert severity="info">

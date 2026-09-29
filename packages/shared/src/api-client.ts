@@ -354,6 +354,42 @@ export class ApiClient {
     return this.request<{ status: string }>(`/api/v1/tasks/${id}`, { method: "DELETE" });
   }
 
+  /**
+   * Fetches every page of a paginated list.
+   *
+   * The server caps pageSize at 100 and defaults to 20. Anywhere a caller
+   * REDUCES over a list — revenue totals, outstanding balances, analytics
+   * counts — a single page silently under-reports the moment the data outgrows
+   * it, and the number still looks authoritative. This has already been the
+   * cause of a wrong outstanding balance in the mobile app and wrong revenue on
+   * the admin finance dashboard.
+   *
+   * Use this for aggregates. For a table the user pages through, keep the
+   * normal paged call.
+   *
+   *   const invoices = await api.fetchAll((p) => api.listInvoices(p));
+   *
+   * `maxPages` bounds the walk so a bad `total` cannot spin forever.
+   */
+  async fetchAll<T>(
+    list: (params: Record<string, string>) => Promise<PaginatedResponse<T>>,
+    params: Record<string, string> = {},
+    maxPages = 50,
+  ): Promise<T[]> {
+    const pageSize = 100;
+    const first = await list({ ...params, page: "1", pageSize: String(pageSize) });
+    const all = [...(first.items ?? [])];
+    const total = first.total ?? all.length;
+    const pages = Math.min(Math.ceil(total / pageSize), maxPages);
+
+    for (let page = 2; page <= pages && all.length < total; page++) {
+      const next = await list({ ...params, page: String(page), pageSize: String(pageSize) });
+      if (!next.items?.length) break;
+      all.push(...next.items);
+    }
+    return all;
+  }
+
   // Invoices
   listInvoices(params?: Record<string, string>) {
     return this.request<PaginatedResponse<Invoice>>("/api/v1/invoices", { params });
