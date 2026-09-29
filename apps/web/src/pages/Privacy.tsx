@@ -52,27 +52,52 @@ All third-party service providers are contractually obligated to protect your da
   },
   {
     title: "6. Your Rights",
-    content: `Depending on your jurisdiction, you may have the right to:
+    content: `Under Ghana's Data Protection Act, 2012 (Act 843), and under other data protection laws that may apply to you, you have the right to:
 
 • Access the personal data we hold about you
-• Correct inaccurate or incomplete data
-• Request deletion of your data
+• Correct data that is inaccurate or incomplete
+• Request erasure of your data
 • Object to or restrict processing of your data
-• Data portability
-• Withdraw consent at any time
+• Receive a copy of your data in a portable format
+• Withdraw consent at any time, where processing relies on consent
 
-To exercise these rights, please contact us at info@neurodyne.dev.`,
+You can request an export or the deletion of your account and its data directly from your profile in the client portal and in the mobile app, without contacting us first. You can also email info@neurodyne.dev, and we will respond within the period required by applicable law.
+
+You have the right to complain to Ghana's Data Protection Commission if you believe your data has been handled improperly.`,
   },
   {
-    title: "7. Cookies & Tracking",
+    title: "7. The Neurodyne Mobile App",
+    content: `The Neurodyne client app for iOS and Android is covered by this policy.
+
+When you sign in to the app we process:
+
+• Your name, email address, phone number and company name, as shown and edited on your profile
+• Your user ID and the permissions attached to your account
+• The projects, documents, invoices and message threads belonging to your engagement
+• Messages you send through the app's messaging feature
+
+The app stores your sign-in token in the device's secure keychain (iOS Keychain, Android Keystore) rather than in ordinary app storage, and clears it when you sign out or delete your account.
+
+While you are signed in the app maintains a realtime connection to our servers so that messages and notifications arrive without refreshing. That connection carries the same data described above and is closed when you sign out.
+
+The app does not use advertising identifiers, does not track you across other companies' apps or websites, and does not collect your location.`,
+  },
+  {
+    title: "8. International Transfers",
+    content: `Neurodyne is based in Accra, Ghana. Some of the infrastructure we use to run our services — hosting, database, email delivery and error reporting — operates outside Ghana, which means your personal data may be stored or processed in another country.
+
+Where that happens, we take reasonable steps to ensure the receiving provider offers a level of protection comparable to that required under Ghana's Data Protection Act, 2012 (Act 843), including contractual data-processing terms. Our current sub-processors are listed at /legal/subprocessors.`,
+  },
+  {
+    title: "9. Cookies & Tracking",
     content: `We use cookies and similar tracking technologies to collect information about your browsing activity. You can control cookie preferences through your browser settings. Essential cookies are required for the site to function and cannot be disabled. Analytics cookies help us understand how visitors interact with our website.`,
   },
   {
-    title: "8. Changes to This Policy",
+    title: "10. Changes to This Policy",
     content: `We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page and updating the "Last Updated" date. We encourage you to review this policy periodically.`,
   },
   {
-    title: "9. Contact Us",
+    title: "11. Contact Us",
     content: `If you have questions or concerns about this Privacy Policy, please contact us at:
 
 NeuroDyne Corp

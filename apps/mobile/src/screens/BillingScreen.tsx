@@ -140,10 +140,32 @@ export default function BillingScreen() {
   useEffect(() => {
     let cancelled = false;
 
+    /**
+     * Fetches EVERY invoice, not the first page.
+     *
+     * The summary row below reports the client's total paid and outstanding
+     * balance. `listInvoices()` with no params takes the server's default
+     * pageSize of 20, so a client with more than 20 invoices was shown a
+     * balance that silently omitted the rest — understating what they owe.
+     * Totals have to be computed over the whole set or not presented as totals.
+     */
     async function fetchData() {
       try {
-        const res = await listInvoices();
-        if (!cancelled) setInvoices(res.items);
+        const PAGE = 100; // server caps pageSize at 100
+        const first = await listInvoices({ page: "1", pageSize: String(PAGE) });
+        const all = [...first.items];
+        const total = first.total ?? all.length;
+
+        // Bounded: the page count is derived from the server's own total, and
+        // capped so a bad `total` cannot spin this forever.
+        const pages = Math.min(Math.ceil(total / PAGE), 20);
+        for (let page = 2; page <= pages && all.length < total; page++) {
+          const next = await listInvoices({ page: String(page), pageSize: String(PAGE) });
+          if (!next.items?.length) break;
+          all.push(...next.items);
+        }
+
+        if (!cancelled) setInvoices(all);
       } catch {
         // keep empty on error
       } finally {
