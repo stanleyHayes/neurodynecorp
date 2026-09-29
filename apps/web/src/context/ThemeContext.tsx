@@ -8,6 +8,7 @@ import {
 } from "react";
 import { ThemeProvider as MuiThemeProvider, CssBaseline, Box } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
+import { aurora, auroraOnLight, canvas, ink } from "@/theme/tokens";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MotionBox = motion.create(Box);
@@ -55,24 +56,36 @@ const sharedComponents = {
 
 function makeTheme(mode: Mode) {
   return createTheme({
+    // Aurora (§4). Teal is "core brand energy — interactive accents", so it is
+    // primary; violet is "energy culmination — selected emphasis", so it is
+    // secondary.
+    //
+    // Light mode uses the darkened Aurora variants, NOT the same hexes. Measured
+    // on white, Emerald is 2.54:1 and Teal 2.43:1 — nowhere near AA. Reusing the
+    // dark-mode values here is exactly the "simply invert every color" mistake
+    // §24 warns against, and it would fail the AA requirement in §4.
     palette: mode === "dark" ? {
       mode: "dark",
-      primary: { main: "#6C63FF", light: "#8B85FF", dark: "#4B44CC" },
-      secondary: { main: "#00D4AA", light: "#33DDBB", dark: "#00A888" },
-      background: { default: "#0A0E1A", paper: "#111827" },
-      text: { primary: "#F1F5F9", secondary: "#94A3B8" },
+      primary: { main: aurora.teal, light: "#38D3EB", dark: "#0490AA" },
+      secondary: { main: aurora.violet, light: "#A78BFA", dark: "#6D3EE0" },
+      background: { default: canvas.deep, paper: canvas.raised },
+      text: { primary: ink.onDark.primary, secondary: ink.onDark.secondary },
       error: { main: "#EF4444" },
-      success: { main: "#10B981" },
+      success: { main: aurora.emerald },
+      info: { main: aurora.blue },
       warning: { main: "#F59E0B" },
+      divider: "rgba(255,255,255,0.10)",
     } : {
       mode: "light",
-      primary: { main: "#5B54EE", light: "#7A75FF", dark: "#3D38B8" },
-      secondary: { main: "#00BF99", light: "#33DDBB", dark: "#009977" },
-      background: { default: "#F8FAFC", paper: "#FFFFFF" },
-      text: { primary: "#0F172A", secondary: "#475569" },
+      primary: { main: auroraOnLight.teal, light: aurora.teal, dark: "#036276" },
+      secondary: { main: auroraOnLight.violet, light: aurora.violet, dark: "#6D3EE0" },
+      background: { default: canvas.lightRaised, paper: canvas.light },
+      text: { primary: ink.onLight.primary, secondary: ink.onLight.secondary },
       error: { main: "#DC2626" },
-      success: { main: "#059669" },
-      warning: { main: "#D97706" },
+      success: { main: auroraOnLight.emerald },
+      info: { main: auroraOnLight.blue },
+      warning: { main: "#B45309" },
+      divider: "rgba(10,15,31,0.12)",
     },
     typography: sharedTypography,
     shape: { borderRadius: 0 },
@@ -85,12 +98,16 @@ function makeTheme(mode: Mode) {
         variants: [
           {
             props: { variant: "contained", color: "primary" },
+            // Two adjacent Aurora stops, not all four: §13 forbids filling a
+            // button with the full spectrum.
             style: mode === "dark" ? {
-              background: "linear-gradient(135deg, #6C63FF 0%, #8B85FF 100%)",
-              "&:hover": { background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)" },
+              background: `linear-gradient(135deg, ${aurora.teal} 0%, ${aurora.blue} 100%)`,
+              color: "#04121A",
+              "&:hover": { background: `linear-gradient(135deg, #38D3EB 0%, #5A96F8 100%)` },
             } : {
-              background: "linear-gradient(135deg, #5B54EE 0%, #7A75FF 100%)",
-              "&:hover": { background: "linear-gradient(135deg, #4B44CC 0%, #6C63FF 100%)" },
+              background: `linear-gradient(135deg, ${auroraOnLight.teal} 0%, ${auroraOnLight.blue} 100%)`,
+              color: "#FFFFFF",
+              "&:hover": { background: `linear-gradient(135deg, #036276 0%, #1560DB 100%)` },
             },
           },
         ],
@@ -98,26 +115,22 @@ function makeTheme(mode: Mode) {
       MuiCard: {
         styleOverrides: {
           root: mode === "dark" ? {
-            background: "rgba(17, 24, 39, 0.35)",
-            backdropFilter: "blur(16px) saturate(1.3)",
-            WebkitBackdropFilter: "blur(16px) saturate(1.3)",
-            border: "1px solid rgba(108, 99, 255, 0.08)",
+            background: canvas.raised,
+            border: "1px solid rgba(255,255,255,0.08)",
             boxShadow: "none",
           } : {
-            background: "rgba(255, 255, 255, 0.7)",
-            backdropFilter: "blur(16px) saturate(1.3)",
-            WebkitBackdropFilter: "blur(16px) saturate(1.3)",
-            border: "1px solid rgba(91, 84, 238, 0.08)",
-            boxShadow: "0 1px 3px rgba(0,0,0,0.04)",
+            background: canvas.light,
+            border: "1px solid rgba(10,15,31,0.10)",
+            boxShadow: "none",
           },
         },
       },
       MuiAppBar: {
         styleOverrides: {
           root: mode === "dark" ? {
-            background: "rgba(10, 14, 26, 0.85)",
+            background: "rgba(10, 15, 31, 0.85)",
             backdropFilter: "blur(20px)",
-            borderBottom: "1px solid rgba(108, 99, 255, 0.1)",
+            borderBottom: "1px solid rgba(255,255,255,0.10)",
           } : {
             background: "rgba(248, 250, 252, 0.85)",
             backdropFilter: "blur(20px)",
