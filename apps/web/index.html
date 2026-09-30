@@ -45,6 +45,30 @@
         Durations are near-zero rather than `none` so animation end events still
         fire and nothing waits forever on a callback that never arrives.
       */
+      /*
+        Theme change, as a circular reveal.
+
+        By default a view transition cross-fades the old and new snapshots,
+        which on a full-page theme swap reads as a wash. Turning that off and
+        stacking them instead means the OLD page sits still underneath while
+        the new theme clips in over it from the toggle button — nothing
+        disappears, because the previous frame is genuinely still on screen.
+
+        The clip-path itself is animated in ThemeContext, where the origin of
+        the circle is known. Browsers without view transitions just swap.
+      */
+      ::view-transition-old(root),
+      ::view-transition-new(root) {
+        animation: none;
+        mix-blend-mode: normal;
+      }
+      ::view-transition-old(root) {
+        z-index: 1;
+      }
+      ::view-transition-new(root) {
+        z-index: 2;
+      }
+
       @media (prefers-reduced-motion: reduce) {
         *,
         *::before,

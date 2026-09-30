@@ -15,6 +15,10 @@ import CookieOutlinedIcon from "@mui/icons-material/CookieOutlined";
 import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import { api } from "@/api/client";
 
+/** The banner is dark in both themes, so its text is pinned to on-dark values. */
+const ON_DARK = "#F1F5F9";
+const ON_DARK_MUTED = "#94A3B8";
+
 const CONSENT_KEY = "neurodyne_cookie_consent";
 const ANON_KEY = "neurodyne_anon_id";
 const POLICY_VERSION = "1.0";
@@ -32,7 +36,7 @@ const overline = {
   fontSize: "0.7rem",
   textTransform: "uppercase" as const,
   letterSpacing: "0.25em",
-  color: "text.secondary",
+  color: ON_DARK_MUTED,
   opacity: 0.6,
 };
 
@@ -119,6 +123,16 @@ export default function CookieConsent() {
         border: "1px solid rgba(59, 130, 246, 0.22)",
         background:
           "linear-gradient(135deg, rgba(17, 26, 46,0.96), rgba(17, 26, 46,0.92))",
+        /*
+         * This panel paints its own dark background in both themes, so its
+         * text cannot come from the theme — in light mode `text.primary` is
+         * near-black and the notice became unreadable on its own backdrop.
+         * Same fault as the sign-in pages had.
+         *
+         * Set here so everything inside inherits it; the muted lines below
+         * override with ON_DARK_MUTED rather than text.secondary.
+         */
+        color: ON_DARK,
         backdropFilter: "blur(12px)",
         boxShadow: "0 16px 48px rgba(0,0,0,0.45)",
         p: { xs: 2.5, md: 3 },
@@ -133,7 +147,7 @@ export default function CookieConsent() {
           position: "absolute",
           top: 8,
           right: 8,
-          color: "text.secondary",
+          color: ON_DARK_MUTED,
           opacity: 0.5,
           "&:hover": { opacity: 1 },
         }}
@@ -163,7 +177,7 @@ export default function CookieConsent() {
           </Typography>
           <Typography
             sx={{
-              color: "text.secondary",
+              color: ON_DARK_MUTED,
               opacity: 0.8,
               fontSize: "0.875rem",
               lineHeight: 1.65,
@@ -199,7 +213,7 @@ export default function CookieConsent() {
                         Essential
                       </Typography>
                       <Typography
-                        sx={{ color: "text.secondary", opacity: 0.65, fontSize: "0.78rem" }}
+                        sx={{ color: ON_DARK_MUTED, opacity: 0.65, fontSize: "0.78rem" }}
                       >
                         Required for the site to work. Always on.
                       </Typography>
@@ -214,7 +228,7 @@ export default function CookieConsent() {
                         Analytics
                       </Typography>
                       <Typography
-                        sx={{ color: "text.secondary", opacity: 0.65, fontSize: "0.78rem" }}
+                        sx={{ color: ON_DARK_MUTED, opacity: 0.65, fontSize: "0.78rem" }}
                       >
                         Helps us see what's useful and what to fix.
                       </Typography>
@@ -232,7 +246,7 @@ export default function CookieConsent() {
                         Marketing
                       </Typography>
                       <Typography
-                        sx={{ color: "text.secondary", opacity: 0.65, fontSize: "0.78rem" }}
+                        sx={{ color: ON_DARK_MUTED, opacity: 0.65, fontSize: "0.78rem" }}
                       >
                         Lets us tailor what we show you elsewhere.
                       </Typography>
@@ -277,7 +291,7 @@ export default function CookieConsent() {
                 fontWeight: 700,
                 letterSpacing: "0.08em",
                 borderColor: "rgba(59,130,246,0.4)",
-                color: "text.primary",
+                color: ON_DARK,
                 "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
               }}
             >
@@ -293,7 +307,7 @@ export default function CookieConsent() {
                 fontWeight: 700,
                 letterSpacing: "0.08em",
                 borderColor: "rgba(59,130,246,0.4)",
-                color: "text.primary",
+                color: ON_DARK,
                 "&:hover": { borderColor: "#3B82F6", bgcolor: "rgba(59,130,246,0.06)" },
               }}
             >
@@ -308,8 +322,8 @@ export default function CookieConsent() {
               fontFamily: "monospace",
               fontWeight: 600,
               letterSpacing: "0.06em",
-              color: "text.secondary",
-              "&:hover": { color: "text.primary", bgcolor: "rgba(255,255,255,0.03)" },
+              color: ON_DARK_MUTED,
+              "&:hover": { color: ON_DARK, bgcolor: "rgba(255,255,255,0.03)" },
             }}
           >
             Reject non-essential

@@ -6,12 +6,11 @@ import {
   useCallback,
   type ReactNode,
 } from "react";
-import { ThemeProvider as MuiThemeProvider, CssBaseline, Box } from "@mui/material";
+import { ThemeProvider as MuiThemeProvider, CssBaseline } from "@mui/material";
 import { createTheme } from "@mui/material/styles";
 import { aurora, auroraOnLight, canvas, ink } from "@/theme/tokens";
-import { motion, AnimatePresence } from "framer-motion";
+import { flushSync } from "react-dom";
 
-const MotionBox = motion.create(Box);
 
 type Mode = "dark" | "light";
 
@@ -144,48 +143,6 @@ function makeTheme(mode: Mode) {
 
 // ── Transition overlay ──
 
-interface TransitionState {
-  active: boolean;
-  originX: number;
-  originY: number;
-  targetMode: Mode;
-}
-
-function ThemeTransitionOverlay({ transition, onComplete }: {
-  transition: TransitionState;
-  onComplete: () => void;
-}) {
-  const maxDimension =
-    typeof window !== "undefined" ? Math.max(window.innerWidth, window.innerHeight) : 2000;
-  const maxRadius = maxDimension * 1.6;
-  // The page has already switched to the target theme. This overlay paints the
-  // theme we are LEAVING and circularly collapses it into the toggle button,
-  // revealing the new theme underneath — a clean circular reveal.
-  const leavingBg = transition.targetMode === "dark" ? "#F8FAFC" : "#0A0F1F";
-  const cx = transition.originX;
-  const cy = transition.originY;
-
-  return (
-    <AnimatePresence>
-      {transition.active && (
-        <MotionBox
-          key={`theme-reveal-${transition.targetMode}`}
-          initial={{ clipPath: `circle(${maxRadius}px at ${cx}px ${cy}px)` }}
-          animate={{ clipPath: `circle(0px at ${cx}px ${cy}px)` }}
-          transition={{ duration: 0.6, ease: [0.83, 0, 0.17, 1] }}
-          onAnimationComplete={onComplete}
-          sx={{
-            position: "fixed",
-            inset: 0,
-            zIndex: 99999,
-            pointerEvents: "none",
-            background: leavingBg,
-          }}
-        />
-      )}
-    </AnimatePresence>
-  );
-}
 
 // ── Provider ──
 
@@ -197,38 +154,75 @@ export default function ThemeContextProvider({ children }: { children: ReactNode
     return "dark";
   });
 
-  const [transition, setTransition] = useState<TransitionState>({
-    active: false,
-    originX: 0,
-    originY: 0,
-    targetMode: "dark",
-  });
 
   const toggleTheme = useCallback((originRect?: DOMRect) => {
+    const next = mode === "dark" ? "light" : "dark";
+    const apply = () => {
+      localStorage.setItem(STORAGE_KEY, next);
+      setMode(next);
+    };
+
+    /*
+     * A circular reveal has to reveal the PAGE.
+     *
+     * This used to paint a flat slab of #0A0F1F or #F8FAFC across the whole
+     * viewport at z-index 99999 and collapse it into the toggle. For 600ms
+     * every word and image on the page was simply gone behind a blank
+     * rectangle — the colour changed, then the content came back. That is not
+     * a reveal, it is a curtain.
+     *
+     * The View Transitions API is built for exactly this: the browser
+     * snapshots the real page before the change and holds it underneath while
+     * the new one clips in over it. Nothing vanishes, because the old frame is
+     * genuinely still there.
+     *
+     * Where it is unsupported, or where the reader has asked for less motion,
+     * the theme simply changes. An instant swap is the correct reduced-motion
+     * behaviour anyway — §20 removes the effect rather than shortening it.
+     */
+    const startViewTransition = (
+      document as Document & { startViewTransition?: (cb: () => void) => { ready: Promise<void> } }
+    ).startViewTransition;
+
+    const prefersReduced =
+      typeof window !== "undefined" &&
+      window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+
+    if (!startViewTransition || prefersReduced) {
+      apply();
+      return;
+    }
+
     const cx = originRect ? originRect.left + originRect.width / 2 : window.innerWidth / 2;
     const cy = originRect ? originRect.top + originRect.height / 2 : 40;
+    const radius = Math.hypot(
+      Math.max(cx, window.innerWidth - cx),
+      Math.max(cy, window.innerHeight - cy),
+    );
 
-    setMode((prev) => {
-      const next = prev === "dark" ? "light" : "dark";
-      localStorage.setItem(STORAGE_KEY, next);
-
-      setTransition({
-        active: true,
-        originX: cx,
-        originY: cy,
-        targetMode: next,
-      });
-
-      return next;
+    // flushSync so the DOM carries the new theme before the browser takes its
+    // "after" snapshot; without it the transition captures the old one twice.
+    const transition = startViewTransition.call(document, () => {
+      flushSync(apply);
     });
-  }, []);
 
-  const handleTransitionComplete = useCallback(() => {
-    setTransition((prev) => {
-      if (!prev.active) return prev;
-      return { ...prev, active: false };
+    void transition.ready.then(() => {
+      document.documentElement.animate(
+        {
+          clipPath: [
+            `circle(0px at ${cx}px ${cy}px)`,
+            `circle(${radius}px at ${cx}px ${cy}px)`,
+          ],
+        },
+        {
+          duration: 600,
+          easing: "cubic-bezier(0.83, 0, 0.17, 1)",
+          pseudoElement: "::view-transition-new(root)",
+        },
+      );
     });
-  }, []);
+  }, [mode]);
+
 
   const theme = useMemo(() => makeTheme(mode), [mode]);
 
@@ -237,10 +231,6 @@ export default function ThemeContextProvider({ children }: { children: ReactNode
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
         {children}
-        <ThemeTransitionOverlay
-          transition={transition}
-          onComplete={handleTransitionComplete}
-        />
       </MuiThemeProvider>
     </ThemeContext.Provider>
   );
