@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from "react";
+import { Suspense, useState, useEffect, useCallback } from "react";
 import {
   Box,
   AppBar,
@@ -14,6 +14,7 @@ import {
   Divider,
   useMediaQuery,
   useTheme,
+  CircularProgress
 } from "@mui/material";
 import { Outlet, useNavigate, useLocation } from "react-router";
 import NotificationsOutlinedIcon from "@mui/icons-material/NotificationsOutlined";
@@ -286,7 +287,26 @@ export default function DashboardLayout() {
           </Toolbar>
         </AppBar>
         <Box component="main" sx={{ flexGrow: 1, p: 0, width: "100%" }}>
-          <Outlet />
+          {/*
+            Routes are lazy. This boundary sits inside the layout so the sidebar
+            and topbar do not unmount and remount on every navigation, and its
+            minHeight reserves the space the page is about to occupy rather than
+            letting the layout collapse around a spinner.
+          */}
+          <Suspense
+            fallback={
+              <Box
+                role="status"
+                aria-live="polite"
+                aria-label="Loading page"
+                sx={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+              >
+                <CircularProgress size={28} />
+              </Box>
+            }
+          >
+            <Outlet />
+          </Suspense>
         </Box>
       </Box>
     </Box>

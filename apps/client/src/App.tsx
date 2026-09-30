@@ -1,4 +1,5 @@
-import { useState, useEffect } from "react";
+import { Suspense, lazy, useState, useEffect } from "react";
+import { Box, CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router";
 import { AnimatePresence } from "framer-motion";
 import { ThemeProvider } from "@/theme/ThemeContext";
@@ -8,23 +9,23 @@ import DashboardLayout from "@/components/layout/DashboardLayout";
 import SplashScreen from "@/components/splash/SplashScreen";
 import Onboarding from "@/components/onboarding/Onboarding";
 import GridMenu from "@/components/onboarding/GridMenu";
-import Dashboard from "@/pages/Dashboard";
-import Projects from "@/pages/Projects";
-import ProjectDetail from "@/pages/ProjectDetail";
-import Documents from "@/pages/Documents";
-import Billing from "@/pages/Billing";
-import Messages from "@/pages/Messages";
-import Notifications from "@/pages/Notifications";
-import Settings from "@/pages/Settings";
-import Security from "@/pages/Security";
-import Webhooks from "@/pages/Webhooks";
-import HelpCenter from "@/pages/HelpCenter";
-import StartProject from "@/pages/StartProject";
+const Dashboard = lazy(() => import("@/pages/Dashboard"));
+const Projects = lazy(() => import("@/pages/Projects"));
+const ProjectDetail = lazy(() => import("@/pages/ProjectDetail"));
+const Documents = lazy(() => import("@/pages/Documents"));
+const Billing = lazy(() => import("@/pages/Billing"));
+const Messages = lazy(() => import("@/pages/Messages"));
+const Notifications = lazy(() => import("@/pages/Notifications"));
+const Settings = lazy(() => import("@/pages/Settings"));
+const Security = lazy(() => import("@/pages/Security"));
+const Webhooks = lazy(() => import("@/pages/Webhooks"));
+const HelpCenter = lazy(() => import("@/pages/HelpCenter"));
+const StartProject = lazy(() => import("@/pages/StartProject"));
 import Login from "@/pages/Login";
-import Register from "@/pages/Register";
-import ForgotPassword from "@/pages/ForgotPassword";
-import ResetPassword from "@/pages/ResetPassword";
-import NotFound from "@/pages/NotFound";
+const Register = lazy(() => import("@/pages/Register"));
+const ForgotPassword = lazy(() => import("@/pages/ForgotPassword"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
+const NotFound = lazy(() => import("@/pages/NotFound"));
 import CommandPalette from "@/components/shared/CommandPalette";
 import KeyboardNav from "@/components/shared/KeyboardNav";
 import CursorTrail from "@/components/shared/CursorTrail";
@@ -77,34 +78,50 @@ function AppShell() {
         {showGridMenu && !showOnboarding && <GridMenu onNavigate={handleGridMenuNavigate} />}
       </AnimatePresence>
 
-      <Routes>
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        <Route path="/forgot-password" element={<ForgotPassword />} />
-        <Route path="/reset-password" element={<ResetPassword />} />
-        <Route
-          element={
-            <ProtectedRoute>
-              <DashboardLayout />
-            </ProtectedRoute>
-          }
-        >
-          <Route index element={<Dashboard />} />
-          <Route path="projects" element={<Projects />} />
-          <Route path="start-project" element={<StartProject />} />
-          <Route path="projects/:id" element={<ProjectDetail />} />
-          <Route path="documents" element={<Documents />} />
-          <Route path="billing" element={<Billing />} />
-          <Route path="messages" element={<Messages />} />
-          <Route path="notifications" element={<Notifications />} />
-          <Route path="settings" element={<Settings />} />
-          <Route path="security" element={<Security />} />
-          <Route path="webhooks" element={<Webhooks />} />
-          <Route path="help" element={<HelpCenter />} />
-        </Route>
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <Suspense fallback={<RouteFallback />}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route path="/forgot-password" element={<ForgotPassword />} />
+          <Route path="/reset-password" element={<ResetPassword />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <DashboardLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route index element={<Dashboard />} />
+            <Route path="projects" element={<Projects />} />
+            <Route path="start-project" element={<StartProject />} />
+            <Route path="projects/:id" element={<ProjectDetail />} />
+            <Route path="documents" element={<Documents />} />
+            <Route path="billing" element={<Billing />} />
+            <Route path="messages" element={<Messages />} />
+            <Route path="notifications" element={<Notifications />} />
+            <Route path="settings" element={<Settings />} />
+            <Route path="security" element={<Security />} />
+            <Route path="webhooks" element={<Webhooks />} />
+            <Route path="help" element={<HelpCenter />} />
+          </Route>
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
     </>
+  );
+}
+
+/** Shown while a lazy route chunk loads outside the dashboard chrome. */
+function RouteFallback() {
+  return (
+    <Box
+      role="status"
+      aria-live="polite"
+      aria-label="Loading"
+      sx={{ minHeight: "100vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+    >
+      <CircularProgress size={28} />
+    </Box>
   );
 }
 

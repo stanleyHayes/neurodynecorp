@@ -16,7 +16,11 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
-          if (id.includes("react-router") || id.includes("/react-dom/") || id.match(/\/react\//)) return "react";
+          // Anchored on both sides: the previous /\/react\// never matched
+          // react-is, which left it unclaimed and folded into whichever chunk
+          // the bundler chose — the same misfile that put react-markdown on the
+          // marketing site's homepage.
+          if (/\/(react|react-dom|react-is|react-router|scheduler)\//.test(id)) return "react";
           if (id.includes("@mui/")) return "mui";
           if (id.includes("framer-motion")) return "motion";
         },
