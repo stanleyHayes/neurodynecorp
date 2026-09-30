@@ -9,7 +9,7 @@ import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import HudCorners from "@/components/shared/HudCorners";
-import { Overline } from "@/components/shared/Marketing";
+import { BulletMarker, Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
 import { CANON, VISION_PHASES } from "@/content/company";
 import type { VisionPhase } from "@/content/company";
@@ -529,17 +529,7 @@ export default function Vision() {
                             {section.list.map((item) => (
                               <Grid size={{ xs: 12, sm: 6 }} key={item}>
                                 <Stack direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                                  <Box
-                                    aria-hidden
-                                    sx={{
-                                      mt: "9px",
-                                      width: 6,
-                                      height: 6,
-                                      flexShrink: 0,
-                                      bgcolor: "primary.main",
-                                      opacity: 0.7,
-                                    }}
-                                  />
+                                  <BulletMarker />
                                   <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
                                     {item}
                                   </Typography>

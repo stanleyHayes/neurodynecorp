@@ -191,3 +191,52 @@ export function CTABand({
     </Box>
   );
 }
+
+/**
+ * A list marker that sits on the first line of the text beside it.
+ *
+ * Every one of these used to carry its own hardcoded top margin — `mt: "9px"`
+ * in two places, `mt: "7px"` in two others. Each number was picked to look
+ * right against one font size and one line height, and drifted the moment
+ * either changed; the result was markers floating above their text.
+ *
+ * Centring the dot inside a box exactly one line tall tracks the type instead
+ * of guessing at it, so it stays aligned whatever the body size becomes.
+ */
+export function BulletMarker({
+  color = "primary.main",
+  size = 6,
+  round = false,
+  opacity = 0.7,
+  lineHeight = 1.7,
+}: {
+  color?: string;
+  size?: number;
+  round?: boolean;
+  opacity?: number;
+  /** Must match the lineHeight of the text it sits beside. */
+  lineHeight?: number;
+}) {
+  return (
+    <Box
+      aria-hidden
+      sx={(theme) => ({
+        fontSize: theme.typography.body2.fontSize,
+        height: `${lineHeight}em`,
+        display: "flex",
+        alignItems: "center",
+        flexShrink: 0,
+      })}
+    >
+      <Box
+        sx={{
+          width: size,
+          height: size,
+          borderRadius: round ? "50%" : 0,
+          bgcolor: color,
+          opacity,
+        }}
+      />
+    </Box>
+  );
+}

@@ -11,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import LightbulbOutlinedIcon from "@mui/icons-material/LightbulbOutlined";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
-import { SectionHeading, InfoCard, CTABand, Overline } from "@/components/shared/Marketing";
+import { BulletMarker, CTABand, InfoCard, Overline, SectionHeading } from "@/components/shared/Marketing";
 
 const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:4000";
 
@@ -162,7 +162,7 @@ export default function PortfolioDetail() {
                 <Stack spacing={1.5} sx={{ mt: 1 }}>
                   {dossier.constraints!.map((c) => (
                     <Stack sx={{ alignItems: "flex-start" }} key={c} direction="row" spacing={1.5}>
-                      <Box sx={{ width: 6, height: 6, borderRadius: "50%", bgcolor: "#F59E0B", mt: "7px", flexShrink: 0 }} />
+                      <BulletMarker color="#F59E0B" round opacity={1} />
                       <Typography variant="body2" color="text.secondary">{c}</Typography>
                     </Stack>
                   ))}

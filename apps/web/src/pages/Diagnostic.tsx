@@ -11,7 +11,7 @@ import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
 import PrintOutlinedIcon from "@mui/icons-material/PrintOutlined";
 import SEO from "@/components/seo/SEO";
 import PageHero from "@/components/shared/PageHero";
-import { SectionHeading, InfoCard, CTABand, Overline } from "@/components/shared/Marketing";
+import { BulletMarker, CTABand, InfoCard, Overline, SectionHeading } from "@/components/shared/Marketing";
 import { api } from "@/api/client";
 
 const MotionBox = motion.create(Box);
@@ -283,7 +283,7 @@ export default function Diagnostic() {
                         <Overline>Why</Overline>
                         {result.reasons.map((r, i) => (
                           <Stack sx={{ alignItems: "flex-start" }} key={`${i}-${r}`} direction="row" spacing={1.5}>
-                            <Box sx={{ width: 5, height: 5, borderRadius: "50%", bgcolor: ROUTE_COLOR[result.route] ?? "#3B82F6", mt: "7px", flexShrink: 0 }} />
+                            <BulletMarker color={ROUTE_COLOR[result.route] ?? "#3B82F6"} size={5} round opacity={1} />
                             <Typography variant="body2" color="text.secondary">{r}</Typography>
                           </Stack>
                         ))}

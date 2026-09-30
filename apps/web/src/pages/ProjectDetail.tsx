@@ -9,7 +9,7 @@ import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import GroupsOutlinedIcon from "@mui/icons-material/GroupsOutlined";
 import LayersOutlinedIcon from "@mui/icons-material/LayersOutlined";
 import SEO from "@/components/seo/SEO";
-import { Overline } from "@/components/shared/Marketing";
+import { BulletMarker, Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid, IconWatermark } from "@/components/shared/Watermark";
 import HudCorners from "@/components/shared/HudCorners";
 import { getProject, PROJECTS, type Project } from "@/content/projects";
@@ -198,7 +198,7 @@ export default function ProjectDetail() {
                 {project.capabilities.map((c) => (
                   <Grid size={{ xs: 12, sm: 6 }} key={c}>
                     <Stack direction="row" spacing={1.25} sx={{ alignItems: "flex-start" }}>
-                      <Box sx={{ mt: "9px", width: 6, height: 6, flexShrink: 0, bgcolor: accent, opacity: 0.8 }} />
+                      <BulletMarker color={accent} opacity={0.8} />
                       <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
                         {c}
                       </Typography>
