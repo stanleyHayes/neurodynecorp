@@ -82,11 +82,13 @@ services:
         sync: false
       - key: NEURODYNE_MONGODB_DATABASE
         value: neurodyne
-      # Without this the job runs, writes nothing, and says why.
-      - key: NEURODYNE_ANTHROPIC_API_KEY
+      # The same key neurodyne-server already uses for the project-intake
+      # copilot — one AI vendor and one bill rather than two. Without it the
+      # job runs, writes nothing, and says why.
+      - key: OPENAI_API_KEY
         sync: false
-      - key: NEURODYNE_BLOG_MODEL
-        value: claude-sonnet-5-5
+      - key: OPENAI_BLOG_MODEL
+        value: gpt-5-mini
       # Posts go live unreviewed. Every one is categorised "AI Automation",
       # bylined to the AI desk rather than a person, and opens with a notice
       # saying it was machine-written. Set to "false" for a draft queue instead.

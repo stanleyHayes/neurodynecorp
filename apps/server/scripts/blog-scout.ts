@@ -5,7 +5,8 @@
  *   pnpm --filter @neurodyne/server blog:scout --limit 4
  *   pnpm --filter @neurodyne/server blog:scout --dry-run  # read feeds, write nothing
  *
- * Needs NEURODYNE_ANTHROPIC_API_KEY. Everything else has a default.
+ * Needs OPENAI_API_KEY — the same one the project-intake copilot uses.
+ * Everything else has a default.
  *
  * Posts are created as DRAFTS. They are invisible on the site until someone
  * opens the admin blog queue and publishes them. Setting
@@ -47,7 +48,8 @@ async function main(): Promise<void> {
   const config = loadConfig();
   const logger = createLogger(config.server.environment);
 
-  const apiKey = process.env.NEURODYNE_ANTHROPIC_API_KEY ?? "";
+  // The same key the project-intake copilot uses — one AI vendor, one bill.
+  const apiKey = process.env.OPENAI_API_KEY ?? "";
   // Publishing without review is the default here, because the person who
   // would do the reviewing said they will not have time to. That makes the
   // label on every post the thing doing the work — see SCOUT_CATEGORY and the
@@ -104,7 +106,7 @@ async function main(): Promise<void> {
       repo: blogRepo,
       logger,
       apiKey,
-      model: process.env.NEURODYNE_BLOG_MODEL ?? "claude-sonnet-5-5",
+      model: process.env.OPENAI_BLOG_MODEL ?? process.env.OPENAI_INTAKE_MODEL ?? "gpt-5-mini",
       feeds: feedsFromEnv(),
       author: author ? `${author.firstName} ${author.lastName}` : SCOUT_AUTHOR,
       authorId: author?.id ?? "",

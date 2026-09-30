@@ -43,7 +43,7 @@ export interface BlogRepo {
 export interface BlogScoutDeps {
   repo: BlogRepo;
   logger: Logger;
-  /** Anthropic API key. Without one the scout does nothing and says so. */
+  /** OpenAI API key — the same one the project-intake copilot uses. */
   apiKey: string;
   model: string;
   feeds: ScoutFeed[];
@@ -196,81 +196,90 @@ interface Drafted {
   tags: string[];
 }
 
-function buildPrompt(item: FeedItem): string {
-  return `You are drafting a short post for the engineering blog of Neurodyne, an
-African AI and digital infrastructure company based in Accra, Ghana.
-
-Here is something that was published. Write a commentary post about it.
-
-  Headline: ${item.title}
-  Source:   ${item.source}
-  URL:      ${item.link}
-  Summary:  ${item.summary || "(the feed gave no summary)"}
+/**
+ * The rules. Sent as `instructions`, separate from the material, which is how
+ * project-intake-routes.ts already calls this API — the model is likelier to
+ * hold a constraint that is not buried in the same blob as the content.
+ */
+const INSTRUCTIONS = `You draft short posts for the engineering blog of Neurodyne, an African AI
+and digital infrastructure company based in Accra, Ghana. You will be given one
+item from a public feed. Write a commentary post about it.
 
 RULES, IN ORDER OF IMPORTANCE.
 
-1. Do not invent facts. You have the headline and summary above and nothing
-   else. Do not add version numbers, benchmarks, dates, prices, company
-   statements or capabilities that are not in that material. If you do not know
-   a specific, write around it rather than guessing. A vaguer sentence is always
-   better than a confident wrong one.
+1. Do not invent facts. You have a headline and a summary and nothing else. Do
+   not add version numbers, benchmarks, dates, prices, company statements or
+   capabilities that are not in that material. If you do not know a specific,
+   write around it rather than guessing. A vaguer sentence is always better than
+   a confident wrong one.
 
 2. Never write about Neurodyne itself. No claims about what it has built, who
    its clients are, how many people work there, or what it plans. It is
    founder-led by one engineer; "we", "our team" and "our engineers" are all
-   wrong. Write as an observer of the industry.
+   wrong. Write as an observer of the industry. A post mentioning the company
+   is discarded, so it is wasted work.
 
 3. Say why it matters, and where possible why it matters from where this is
    written — African infrastructure constraints, intermittent connectivity,
    cost of compute, mobile-first users, data sovereignty. Only where it honestly
    applies. Do not force it.
 
-4. Attribute. The post must make clear the news came from ${item.source} and
-   link to ${item.link}.
+4. Attribute. Make clear which publication the news came from.
 
-5. 300-500 words. Markdown. No H1 — the title is separate. Plain, specific
+5. 300-500 words of Markdown. No H1 — the title is separate. Plain, specific
    prose. No hype, no "game-changing", no "revolutionary", no rhetorical
    questions as openers, no three-item lists used for rhythm.
 
 Reply with JSON and nothing else:
 {"title": "...", "excerpt": "one sentence, under 200 characters",
- "category": "AI" | "Engineering" | "Infrastructure" | "Open Source" | "Industry",
  "tags": ["two", "to", "four"], "body": "the markdown"}`;
-}
 
 async function draftOne(item: FeedItem, deps: BlogScoutDeps): Promise<Drafted | null> {
-  const res = await fetch("https://api.anthropic.com/v1/messages", {
+  // Same endpoint and response shape the project-intake copilot uses, so there
+  // is one way this codebase talks to OpenAI rather than two.
+  const res = await fetch("https://api.openai.com/v1/responses", {
     method: "POST",
-    headers: {
-      "content-type": "application/json",
-      "x-api-key": deps.apiKey,
-      "anthropic-version": "2023-06-01",
-    },
+    headers: { Authorization: `Bearer ${deps.apiKey}`, "Content-Type": "application/json" },
     body: JSON.stringify({
       model: deps.model,
-      max_tokens: 2000,
-      messages: [{ role: "user", content: buildPrompt(item) }],
+      store: false,
+      max_output_tokens: 2000,
+      instructions: INSTRUCTIONS,
+      input: JSON.stringify({
+        headline: item.title,
+        source: item.source,
+        url: item.link,
+        summary: item.summary || null,
+      }),
     }),
-    signal: AbortSignal.timeout(90_000),
+    signal: AbortSignal.timeout(120_000),
   });
 
   if (!res.ok) {
-    throw new Error(`Anthropic responded ${res.status}: ${(await res.text()).slice(0, 300)}`);
+    throw new Error(`OpenAI responded ${res.status}: ${(await res.text()).slice(0, 300)}`);
   }
 
-  const payload = (await res.json()) as { content?: { type: string; text?: string }[] };
-  const text = payload.content?.find((c) => c.type === "text")?.text ?? "";
-  const json = text.slice(text.indexOf("{"), text.lastIndexOf("}") + 1);
-  if (!json) return null;
+  const data = (await res.json()) as {
+    output_text?: string;
+    output?: Array<{ content?: Array<{ type?: string; text?: string }> }>;
+  };
+  const text =
+    data.output_text ||
+    data.output?.flatMap((o) => o.content ?? []).find((c) => c.type === "output_text")?.text ||
+    "";
 
-  const parsed = JSON.parse(json) as Partial<Drafted>;
+  const open = text.indexOf("{");
+  const close = text.lastIndexOf("}");
+  if (open === -1 || close <= open) return null;
+
+  const parsed = JSON.parse(text.slice(open, close + 1)) as Partial<Drafted>;
   if (!parsed.title || !parsed.body) return null;
 
   return {
     title: parsed.title,
     excerpt: parsed.excerpt ?? "",
     body: parsed.body,
-    category: parsed.category ?? "Industry",
+    category: SCOUT_CATEGORY,
     tags: Array.isArray(parsed.tags) ? parsed.tags.slice(0, 4) : [],
   };
 }
@@ -281,7 +290,7 @@ export async function runBlogScout(deps: BlogScoutDeps, limit = 2): Promise<Scou
   const empty: ScoutResult = { considered: 0, skippedAlreadyCovered: 0, drafted: 0, rejected: 0, failed: 0 };
 
   if (!deps.apiKey) {
-    return { ...empty, reason: "No ANTHROPIC_API_KEY set — nothing drafted." };
+    return { ...empty, reason: "No OPENAI_API_KEY set — nothing drafted." };
   }
   if (deps.feeds.length === 0) {
     return { ...empty, reason: "No feeds configured — nothing drafted." };
