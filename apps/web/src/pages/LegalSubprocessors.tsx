@@ -20,36 +20,64 @@ const overline = {
   opacity: 0.6,
 } as const;
 
+/**
+ * This page covers BOTH surfaces: the public website and the client platform.
+ *
+ * It used to be silent about its own scope, which left the reader unable to
+ * tell whether an omission meant "we do not use this" or "that is out of
+ * scope". Saying which is the point — and saying "both" is what obliged us to
+ * list Vercel, which serves neurodyne.dev and therefore processes the request
+ * logs and IP addresses of everyone who reads this page.
+ *
+ * `usedFor` keeps that honest per row, so "both" is something the table shows
+ * rather than something the prose claims.
+ *
+ * Redis and Kafka are deliberately absent: they are self-hosted alongside the
+ * application rather than managed by a third party, so they are covered by the
+ * hosting entry.
+ */
 const subprocessors = [
   {
-    name: "Cloudinary",
-    purpose: "File and media storage, processing, and delivery",
-    location: "United States / Global CDN",
+    name: "Vercel",
+    purpose: "Hosting and delivery of the public website, including request logs",
+    location: "United States / Global edge network",
+    usedFor: "Website",
   },
   {
-    name: "Resend",
-    purpose: "Transactional and notification email delivery",
-    location: "United States",
+    name: "Render",
+    purpose: "Application and infrastructure hosting for the client platform",
+    location: "United States / Selected regions",
+    usedFor: "Client platform",
   },
   {
     name: "MongoDB Atlas",
     purpose: "Managed application database",
     location: "Configurable region (cloud-hosted)",
+    usedFor: "Client platform",
+  },
+  {
+    name: "Cloudinary",
+    purpose: "File and media storage, processing, and delivery",
+    location: "United States / Global CDN",
+    usedFor: "Client platform",
+  },
+  {
+    name: "Resend",
+    purpose: "Transactional and notification email delivery",
+    location: "United States",
+    usedFor: "Both",
   },
   {
     name: "Stripe",
     purpose: "International payment processing",
     location: "United States / Global",
+    usedFor: "Client platform",
   },
   {
     name: "Paystack",
     purpose: "Payment processing for Ghana and Africa",
     location: "Ghana / Nigeria",
-  },
-  {
-    name: "Render",
-    purpose: "Application and infrastructure hosting",
-    location: "United States / Selected regions",
+    usedFor: "Client platform",
   },
 ];
 
@@ -58,7 +86,7 @@ export default function LegalSubprocessors() {
     <Box sx={{ py: { xs: 6, md: 10 } }}>
       <SEO
         title="Sub-processors"
-        description="The third-party sub-processors NeuroDyne Corp engages to deliver its services, including their purpose and location."
+        description="The third-party sub-processors NeuroDyne Corp engages across the public website and the client platform, including what each is used for, its purpose, and its location."
         canonical="https://neurodyne.dev/legal/subprocessors"
         ogUrl="https://neurodyne.dev/legal/subprocessors"
       />
@@ -74,17 +102,21 @@ export default function LegalSubprocessors() {
 
         <Divider sx={{ my: 5 }} />
 
-        <Typography
-          variant="body1"
-          color="text.secondary"
-          sx={{ mb: 5, lineHeight: 1.8 }}
-        >
-          NeuroDyne Corp engages a small number of trusted third-party
-          providers ("sub-processors") to help deliver, secure, and operate our
-          services. Each sub-processor is bound by contractual obligations
-          requiring appropriate technical and organisational safeguards and is
-          permitted to process personal data only as instructed by us. The table
-          below lists our current sub-processors.
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 2, lineHeight: 1.8 }}>
+          NeuroDyne Corp engages a small number of third-party providers
+          ("sub-processors") to help deliver, secure, and operate its services.
+          Each is permitted to process personal data only as instructed by us.
+        </Typography>
+
+        <Typography variant="body1" color="text.secondary" sx={{ mb: 5, lineHeight: 1.8 }}>
+          <Box component="strong" sx={{ color: "text.primary" }}>
+            This page covers both surfaces
+          </Box>{" "}
+          — the public website at neurodyne.dev and the client platform — so a
+          provider that touches only one of them is still listed here, and the
+          table says which. Infrastructure we run ourselves alongside the
+          application, rather than buying as a managed service, is covered by the
+          relevant hosting entry and is not listed separately.
         </Typography>
 
         <Box sx={{ overflowX: "auto" }}>
@@ -99,6 +131,9 @@ export default function LegalSubprocessors() {
                   Name
                 </TableCell>
                 <TableCell sx={{ fontWeight: 700, color: "primary.light" }}>
+                  Used for
+                </TableCell>
+                <TableCell sx={{ fontWeight: 700, color: "primary.light" }}>
                   Purpose
                 </TableCell>
                 <TableCell sx={{ fontWeight: 700, color: "primary.light" }}>
@@ -110,6 +145,9 @@ export default function LegalSubprocessors() {
               {subprocessors.map((row) => (
                 <TableRow key={row.name}>
                   <TableCell sx={{ fontWeight: 600 }}>{row.name}</TableCell>
+                  <TableCell sx={{ color: "text.secondary", whiteSpace: "nowrap" }}>
+                    {row.usedFor}
+                  </TableCell>
                   <TableCell sx={{ color: "text.secondary" }}>
                     {row.purpose}
                   </TableCell>
