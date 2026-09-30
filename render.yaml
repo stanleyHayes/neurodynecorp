@@ -53,6 +53,50 @@ services:
     healthCheckPath: /health
     numInstances: 1
 
+  # ── Blog scout ──────────────────────────────────────────────────────────
+  # Drafts and publishes posts from public feeds. Twice a week, one post per
+  # run, so the blog fills at a pace a reader can follow rather than arriving
+  # in bursts.
+  #
+  # Reuses the server image: the Dockerfile copies the whole of apps/server, so
+  # scripts/blog-scout.ts and tsx are already inside it — nothing extra to
+  # build. `dockerCommand` calls node directly for the same reason the web
+  # service does: pnpm 11 verifies the workspace before `exec` and can trigger
+  # a full reinstall, which a small instance will not survive.
+  #
+  # 07:00 UTC is 07:00 in Accra. Monday and Thursday.
+  - type: cron
+    name: neurodyne-blog-scout
+    runtime: docker
+    dockerfilePath: ./apps/server/Dockerfile
+    plan: starter
+    schedule: "0 7 * * 1,4"
+    dockerCommand: node --import tsx scripts/blog-scout.ts --limit 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      # Same database as the web service. Render has no cross-service reference
+      # for a plain value, so this is set once in the dashboard for this service
+      # too — it must match neurodyne-server exactly.
+      - key: NEURODYNE_MONGODB_URI
+        sync: false
+      - key: NEURODYNE_MONGODB_DATABASE
+        value: neurodyne
+      # Without this the job runs, writes nothing, and says why.
+      - key: NEURODYNE_ANTHROPIC_API_KEY
+        sync: false
+      - key: NEURODYNE_BLOG_MODEL
+        value: claude-sonnet-5-5
+      # Posts go live unreviewed. Every one is categorised "AI Automation",
+      # bylined to the AI desk rather than a person, and opens with a notice
+      # saying it was machine-written. Set to "false" for a draft queue instead.
+      - key: NEURODYNE_BLOG_AUTOPUBLISH
+        value: "true"
+      # Leave unset. Blank means the byline is "Neurodyne AI Desk" rather than
+      # a person who never read the post.
+      - key: NEURODYNE_BLOG_AUTHOR_EMAIL
+        sync: false
+
   # Render Key Value is Redis/Valkey-compatible and belongs in services,
   # not databases (which is reserved for managed Postgres instances).
   - name: neurodyne-redis
