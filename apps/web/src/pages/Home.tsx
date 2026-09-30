@@ -11,11 +11,12 @@ import MemoryOutlinedIcon from "@mui/icons-material/MemoryOutlined";
 import PublicOutlinedIcon from "@mui/icons-material/PublicOutlined";
 import TerminalOutlinedIcon from "@mui/icons-material/TerminalOutlined";
 import SEO from "@/components/seo/SEO";
-import HeroOrbit from "@/components/shared/HeroOrbit";
+import HeroSystem from "@/components/shared/HeroSystem";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import MaturityBadge from "@/components/shared/MaturityBadge";
 import { Overline, SectionHeading } from "@/components/shared/Marketing";
 import { RevealText, EnergyButton } from "@/components/motion";
+import { aurora } from "@/theme/tokens";
 import { WatermarkConstellation } from "@/components/shared/Watermark";
 import { CANON, HERO, PILLARS, WHY_AFRICA, FOUNDER, PARTNER_PATHWAYS } from "@/content/company";
 import { PLATFORMS } from "@/content/projects";
@@ -94,20 +95,18 @@ export default function Home() {
                   }}
                 >
                   <RevealText as="heading" component="span">Building Africa&rsquo;s</RevealText>{" "}
-                  <Box
+                  <RevealText
+                    as="heading"
                     component="span"
-                    sx={{
-                      background: "linear-gradient(135deg, #3B82F6, #06B6D4)",
-                      backgroundClip: "text",
-                      WebkitBackgroundClip: "text",
-                      WebkitTextFillColor: "transparent",
-                    }}
+                    delay={0.12}
+                    // The gradient goes through RevealText rather than onto a
+                    // wrapper. On a wrapper it clipped to nothing once the word
+                    // spans were transformed, and this half of the headline was
+                    // invisible.
+                    gradient={`linear-gradient(135deg, ${aurora.blue}, ${aurora.teal})`}
                   >
-                    <RevealText as="heading" component="span" delay={0.12}>
-                      Digital Infrastructure
-                    </RevealText>
-                  </Box>
-                  .
+                    Digital Infrastructure.
+                  </RevealText>
                 </Typography>
 
                 <Typography sx={{ mt: 3, fontSize: { xs: "1.05rem", md: "1.2rem" }, lineHeight: 1.7, maxWidth: 620 }}>
@@ -144,7 +143,7 @@ export default function Home() {
             </Grid>
 
             <Grid size={{ xs: 12, md: 5 }}>
-              <HeroOrbit />
+              <HeroSystem />
             </Grid>
           </Grid>
         </Container>

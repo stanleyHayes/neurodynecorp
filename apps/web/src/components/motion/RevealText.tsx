@@ -36,6 +36,14 @@ interface RevealTextProps {
   component?: ElementType;
   /** Delay before the reveal starts, in seconds. */
   delay?: number;
+  /**
+   * A CSS background applied with `background-clip: text`.
+   *
+   * Supplying this forces the phrase to animate as ONE element rather than
+   * word by word — see the note in the component. Pass the gradient here
+   * rather than putting it on a wrapper.
+   */
+  gradient?: string;
   sx?: SxProps<Theme>;
 }
 
@@ -44,6 +52,7 @@ export default function RevealText({
   as = "body",
   component = "span",
   delay = 0,
+  gradient,
   sx,
 }: RevealTextProps) {
   const pref = useMotionPreference();
@@ -52,7 +61,49 @@ export default function RevealText({
   // Fragment → Resolve needs a plain string to split. Anything with markup
   // keeps its nodes and takes the calm treatment instead — rearranging
   // arbitrary children would reorder the DOM.
-  const canFragment = as === "heading" && text !== null && !pref.reduce;
+  const canFragment = as === "heading" && text !== null && !pref.reduce && !gradient;
+
+  /*
+   * Gradient text cannot be split into words.
+   *
+   * `background-clip: text` paints the background on THIS element's own box and
+   * clips it to the text rendered inside it. A descendant that gets its own
+   * compositing layer — which is exactly what a transform, or `will-change:
+   * transform`, asks for — is painted separately, so the clip never reaches it.
+   * The glyphs then render with `-webkit-text-fill-color: transparent` over
+   * nothing at all and the text simply disappears.
+   *
+   * That is what happened to "Digital Infrastructure" in the hero: word spans
+   * transformed inside a gradient-clipped parent, and half the headline was
+   * invisible on the busiest page of the site.
+   *
+   * So when a gradient is supplied, the gradient and the transform go on the
+   * same element and the phrase resolves as one piece. The sentence still reads
+   * as assembling, because the words before it fragment normally.
+   */
+  if (gradient) {
+    return (
+      <Box component={component} sx={{ display: "inline-block", ...sx }}>
+        <motion.span
+          initial={{ opacity: 0, y: pref.reduce ? 0 : pref.dist("fragment") }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={VIEWPORT}
+          transition={{ duration: pref.dur("narrative"), ease: pref.ease, delay }}
+          style={{
+            display: "inline-block",
+            backgroundImage: gradient,
+            backgroundClip: "text",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            // Deliberately no willChange: promoting this layer is what broke
+            // the clip in the first place.
+          }}
+        >
+          {children}
+        </motion.span>
+      </Box>
+    );
+  }
 
   if (canFragment) {
     const words = text.split(" ");
