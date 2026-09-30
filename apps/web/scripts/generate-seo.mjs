@@ -243,6 +243,77 @@ function serviceLineRoutes() {
   return out;
 }
 
+// ── Listed-only routes: blog posts and help articles ─────────────────────────
+// These live in the database, not the repository, so there is no build-time
+// <head> for them and they are not prerendered. They are still *listed*:
+// without a sitemap entry, Google's only route to a post is to render /blog and
+// follow the links, which is the weakest form of discovery there is.
+//
+// Deliberately not prerendered. A shell written at build time would keep
+// serving 200 with a real title after the post was deleted — a ghost page,
+// which is the same class of problem this file exists to fix.
+//
+// Best-effort: if the API is unreachable the build still succeeds with a
+// shorter sitemap. A build that fails because the blog is down is worse than a
+// sitemap that is briefly short — but a sitemap that is *silently* short is
+// worse than both, so the count is always logged.
+
+const CONTENT_API = process.env.SEO_API_URL ?? process.env.VITE_API_URL ?? "";
+
+// Must match the fallback in src/pages/Blog.tsx, or the sitemap advertises URLs
+// the app cannot resolve.
+function slugify(title) {
+  return String(title)
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/(^-|-$)/g, "");
+}
+
+async function getJson(path) {
+  const res = await fetch(`${CONTENT_API}${path}`, { signal: AbortSignal.timeout(8_000) });
+  if (!res.ok) throw new Error(`${path} responded ${res.status}`);
+  return res.json();
+}
+
+async function listedRoutes() {
+  if (!CONTENT_API) {
+    console.log("sitemap: SEO_API_URL/VITE_API_URL unset — blog posts and help articles omitted");
+    return [];
+  }
+
+  const out = [];
+
+  try {
+    const data = await getJson("/api/v1/blog?status=published");
+    const posts = data.items ?? [];
+    for (const post of posts) {
+      const slug = post.slug || slugify(post.title ?? "");
+      if (slug) out.push({ path: `/blog/${slug}`, priority: "0.6", changefreq: "monthly" });
+    }
+    console.log(`sitemap: ${posts.length} blog posts`);
+  } catch (err) {
+    console.warn(`sitemap: blog posts omitted — ${err.message}`);
+  }
+
+  try {
+    const data = await getJson("/api/v1/help");
+    const articles = Array.isArray(data) ? data : (data.items ?? data.articles ?? []);
+    let n = 0;
+    for (const article of articles) {
+      if (article?.slug) {
+        out.push({ path: `/help/${article.slug}`, priority: "0.5", changefreq: "monthly" });
+        n++;
+      }
+    }
+    console.log(`sitemap: ${n} help articles`);
+  } catch (err) {
+    console.warn(`sitemap: help articles omitted — ${err.message}`);
+  }
+
+  return out;
+}
+
+
 // ── Sitemap ──────────────────────────────────────────────────────────────────
 
 function buildSitemap(routes, lastmod) {
@@ -301,14 +372,16 @@ function shellFor(template, route) {
 // page reached from an email link, and it carries noIndex.
 const lastmod = new Date().toISOString().slice(0, 10);
 const routes = [...STATIC_ROUTES, ...productRoutes(), ...serviceLineRoutes()];
+const listed = await listedRoutes();
+const sitemapRoutes = [...routes, ...listed];
 
-writeFileSync(join(ROOT, "public/sitemap.xml"), buildSitemap(routes, lastmod));
-console.log(`sitemap.xml: ${routes.length} routes`);
+writeFileSync(join(ROOT, "public/sitemap.xml"), buildSitemap(sitemapRoutes, lastmod));
+console.log(`sitemap.xml: ${sitemapRoutes.length} routes (${routes.length} prerendered, ${listed.length} listed only)`);
 
 if (existsSync(DIST)) {
   // Keep dist/sitemap.xml in step with the one just written to public/ —
   // vite build has already copied the previous version across.
-  writeFileSync(join(DIST, "sitemap.xml"), buildSitemap(routes, lastmod));
+  writeFileSync(join(DIST, "sitemap.xml"), buildSitemap(sitemapRoutes, lastmod));
 
   const template = readFileSync(join(DIST, "index.html"), "utf8");
   let written = 0;
