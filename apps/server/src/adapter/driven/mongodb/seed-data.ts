@@ -15,6 +15,7 @@ import type { QuestionnaireResponse } from "../../../domain/entity/questionnaire
 import type { RBACRole as Role } from "../../../domain/entity/role.js";
 import { perm, RESOURCES, ACTIONS, type Permission } from "../../../domain/entity/permission.js";
 import { CLIENT_DEFAULT_PERMISSIONS } from "../../../domain/entity/default-permissions.js";
+import bcrypt from "bcryptjs";
 
 // ── Pre-generated ObjectId hex strings ──────────────────────────────────────
 // Generated once so foreign-key references are consistent across collections.
@@ -127,9 +128,26 @@ function fullPermissions(): string[] {
   return RESOURCES.flatMap((r) => allActions(r));
 }
 
-// All passwords are bcrypt hash of "Password123!" (cost 10)
-const PASSWORD_HASH =
-  "$2a$10$2J4N8bUwDHvRcCHzvYlxueuQVIIfK/AL2jahstegQfoKnM2GWUt.e";
+/**
+ * Seed password, hashed at load.
+ *
+ * This file is in a PUBLIC repository. A hardcoded hash here is a published
+ * credential for every account it is attached to — which is exactly what the
+ * previous line was, with its own plaintext written in the comment above it.
+ *
+ * So the password comes from the environment instead. The fallback is
+ * deliberately named to be unusable as a real credential, and it can only ever
+ * reach a local database: scripts/seed.ts refuses any host that is not
+ * localhost.
+ *
+ * To use your own, put it in apps/server/.env (gitignored), never here:
+ *   NEURODYNE_SEED_PASSWORD=...
+ *
+ * For a real account on a deployed database, use scripts/create-admin.ts.
+ * Seeding is not the tool for that — it drops every collection first.
+ */
+const SEED_PASSWORD = process.env.NEURODYNE_SEED_PASSWORD ?? "local-dev-only-not-a-real-password";
+const PASSWORD_HASH = bcrypt.hashSync(SEED_PASSWORD, 10);
 
 // ── Default role permission sets ──────────────────────────────────────────
 
@@ -244,7 +262,7 @@ export const roles: Role[] = [
 export const users: User[] = [
   {
     id: IDS.founder,
-    email: "stanley@neurodynecorp.com",
+    email: "stanley@neurodyne.dev",
     passwordHash: PASSWORD_HASH,
     firstName: "Stanley",
     lastName: "Hayford",
@@ -260,7 +278,7 @@ export const users: User[] = [
   },
   {
     id: IDS.admin,
-    email: "admin@neurodynecorp.com",
+    email: "admin@neurodyne.dev",
     passwordHash: PASSWORD_HASH,
     firstName: "Ayo",
     lastName: "Adeyemi",

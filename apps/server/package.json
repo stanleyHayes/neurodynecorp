@@ -15,7 +15,8 @@
     "test:watch": "node --import tsx --test --watch 'src/**/*.test.ts'",
     "seed": "tsx scripts/seed.ts",
     "seed:fresh": "tsx scripts/seed.ts --fresh",
-    "seed:align": "tsx scripts/align-seed-ids.ts"
+    "seed:align": "tsx scripts/align-seed-ids.ts",
+    "create-admin": "tsx scripts/create-admin.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
