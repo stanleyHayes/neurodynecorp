@@ -1,6 +1,7 @@
 import { ObjectId } from "mongodb";
 import type { Collection } from "mongodb";
 import type { DsrRequest } from "../../../domain/entity/dsr.js";
+import { DSR_RESPONSE_DAYS } from "../../../domain/entity/dsr.js";
 import type { MongoDBClient } from "./client.js";
 
 interface DsrRequestDoc {
@@ -12,6 +13,7 @@ interface DsrRequestDoc {
   notes?: string;
   created_at: Date;
   updated_at: Date;
+  due_at?: Date;
   completed_at?: Date;
 }
 
@@ -25,6 +27,7 @@ function toDoc(r: DsrRequest): DsrRequestDoc {
     notes: r.notes,
     created_at: r.createdAt,
     updated_at: r.updatedAt,
+    due_at: r.dueAt,
     completed_at: r.completedAt,
   };
 }
@@ -39,6 +42,9 @@ function fromDoc(d: DsrRequestDoc): DsrRequest {
     notes: d.notes,
     createdAt: d.created_at,
     updatedAt: d.updated_at,
+    // Rows written before dueAt existed get the same clock derived from their
+    // own createdAt, rather than appearing to have no deadline at all.
+    dueAt: d.due_at ?? new Date(d.created_at.getTime() + DSR_RESPONSE_DAYS * 24 * 60 * 60 * 1000),
     completedAt: d.completed_at,
   };
 }

@@ -21,6 +21,7 @@ import {
   Alert,
 } from "@mui/material";
 import PrivacyTipOutlinedIcon from "@mui/icons-material/PrivacyTipOutlined";
+import ErrorOutlineOutlinedIcon from "@mui/icons-material/ErrorOutlineOutlined";
 import { useAuth } from "@/context/AuthContext";
 
 const overlineSx = {
@@ -49,6 +50,29 @@ const typeColor: Record<string, string> = {
   rectification: "#F59E0B",
   correction: "#F59E0B",
 };
+
+/**
+ * Days left to answer, against the 30-day commitment on /account-deletion.
+ *
+ * The page promised a deadline that nothing tracked, so a request could sit in
+ * "received" indefinitely while the promise stood. This is the promise made
+ * visible to the person who has to keep it.
+ */
+function dueState(r: any): { label: string; color: string; overdue: boolean } | null {
+  const raw = r.dueAt ?? r.due_at;
+  if (!raw) return null;
+  const due = new Date(raw);
+  if (isNaN(due.getTime())) return null;
+
+  const settled = r.status === "completed" || r.status === "rejected";
+  if (settled) return { label: "Closed", color: "#94A3B8", overdue: false };
+
+  const days = Math.ceil((due.getTime() - Date.now()) / 86_400_000);
+  if (days < 0) return { label: `${Math.abs(days)}d overdue`, color: "#EF4444", overdue: true };
+  if (days === 0) return { label: "Due today", color: "#EF4444", overdue: true };
+  if (days <= 7) return { label: `${days}d left`, color: "#F59E0B", overdue: false };
+  return { label: `${days}d left`, color: "#10B981", overdue: false };
+}
 
 function statusLabel(s: string): string {
   return s
@@ -222,6 +246,7 @@ export default function PrivacyRequests() {
                       <TableCell sx={overlineSx}>Email</TableCell>
                       <TableCell sx={overlineSx}>Type</TableCell>
                       <TableCell sx={overlineSx}>Status</TableCell>
+                      <TableCell sx={overlineSx}>Due</TableCell>
                       <TableCell sx={overlineSx}>Notes</TableCell>
                     </TableRow>
                   </TableHead>
@@ -309,6 +334,29 @@ export default function PrivacyRequests() {
                               </Select>
                               {isSaving && <CircularProgress size={16} />}
                             </Stack>
+                          </TableCell>
+                          <TableCell sx={{ whiteSpace: "nowrap" }}>
+                            {(() => {
+                              const due = dueState(r);
+                              if (!due) return <Box component="span" sx={{ color: "text.secondary" }}>—</Box>;
+                              return (
+                                <Chip
+                                  label={due.label}
+                                  size="small"
+                                  // The word carries the meaning; the colour only reinforces it.
+                                  icon={due.overdue ? <ErrorOutlineOutlinedIcon sx={{ fontSize: 14 }} /> : undefined}
+                                  sx={{
+                                    fontFamily: "'Outfit', sans-serif",
+                                    fontSize: "0.6rem",
+                                    fontWeight: due.overdue ? 700 : 400,
+                                    bgcolor: `${due.color}18`,
+                                    color: due.color,
+                                    border: `1px solid ${due.color}30`,
+                                    "& .MuiChip-icon": { color: due.color },
+                                  }}
+                                />
+                              );
+                            })()}
                           </TableCell>
                           <TableCell sx={{ minWidth: 240 }}>
                             <TextField
