@@ -14,7 +14,7 @@ import SEO from "@/components/seo/SEO";
 import HeroSystem from "@/components/shared/HeroSystem";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import MaturityBadge from "@/components/shared/MaturityBadge";
-import { Overline, SectionHeading } from "@/components/shared/Marketing";
+import { BulletMarker, Overline, SectionHeading } from "@/components/shared/Marketing";
 import { RevealText, EnergyButton } from "@/components/motion";
 import { aurora } from "@/theme/tokens";
 import { WatermarkConstellation } from "@/components/shared/Watermark";
@@ -396,10 +396,7 @@ export default function Home() {
               <Stack spacing={1.5}>
                 {(PILLARS.find((p) => p.slug === "ai-developer-infrastructure")?.scope ?? []).map((item) => (
                   <Stack key={item} direction="row" spacing={1.5} sx={{ alignItems: "flex-start" }}>
-                    <Box
-                      aria-hidden
-                      sx={{ width: 6, height: 6, mt: 1, background: "#3B82F6", flexShrink: 0 }}
-                    />
+                    <BulletMarker color={aurora.blue} opacity={1} fontSize="0.95rem" />
                     <Typography color="text.secondary" sx={{ fontSize: "0.95rem", lineHeight: 1.7 }}>
                       {item}
                     </Typography>

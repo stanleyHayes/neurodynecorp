@@ -209,6 +209,7 @@ export function BulletMarker({
   round = false,
   opacity = 0.7,
   lineHeight = 1.7,
+  fontSize,
 }: {
   color?: string;
   size?: number;
@@ -216,12 +217,14 @@ export function BulletMarker({
   opacity?: number;
   /** Must match the lineHeight of the text it sits beside. */
   lineHeight?: number;
+  /** Must match the fontSize of the text it sits beside. Defaults to body2. */
+  fontSize?: string;
 }) {
   return (
     <Box
       aria-hidden
       sx={(theme) => ({
-        fontSize: theme.typography.body2.fontSize,
+        fontSize: fontSize ?? theme.typography.body2.fontSize,
         height: `${lineHeight}em`,
         display: "flex",
         alignItems: "center",

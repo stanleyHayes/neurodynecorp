@@ -13,10 +13,11 @@ import HudCorners from "@/components/shared/HudCorners";
 import MaturityBadge, { MaturityLegend } from "@/components/shared/MaturityBadge";
 import CommunityBlock from "@/components/shared/CommunityBlock";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
-import { Overline } from "@/components/shared/Marketing";
+import { BulletMarker, Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation, BlueprintGrid } from "@/components/shared/Watermark";
 import { PILLARS, FOUNDER, type Pillar } from "@/content/company";
 import type { Maturity } from "@/content/maturity";
+import { aurora } from "@/theme/tokens";
 
 const MotionBox = motion.create(Box);
 
@@ -206,10 +207,7 @@ export default function Developers() {
                       spacing={1.5}
                       sx={{ alignItems: "flex-start" }}
                     >
-                      <Box
-                        aria-hidden
-                        sx={{ width: 6, height: 6, mt: 1.1, background: "#3B82F6", flexShrink: 0 }}
-                      />
+                      <BulletMarker color={aurora.blue} opacity={1} fontSize="0.9rem" />
                       <Typography color="text.secondary" sx={{ fontSize: "0.9rem", lineHeight: 1.7 }}>
                         {item}
                       </Typography>
