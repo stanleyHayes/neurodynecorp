@@ -272,10 +272,10 @@ function NotificationsTab() {
         <Stack spacing={2}>
           <Stack sx={{ alignItems: "center" }} direction="row" spacing={1}>
             <NotificationsOutlinedIcon sx={{ fontSize: 18, color: "#F59E0B" }} />
-            <Label color="#F59E0B">Notification Preferences</Label>
+            <Label color="#F59E0B">Notifications</Label>
           </Stack>
           <Alert severity="info">
-            In-app, email, and integration notification preferences are not persisted yet. You will continue receiving the default notification set.
+            Per-channel preferences are not configurable yet. Everyone receives the default set — project updates, messages and invoice alerts.
           </Alert>
         </Stack>
       </Cell>

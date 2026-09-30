@@ -21,7 +21,7 @@ import { createLogger } from "../src/logger/index.js";
 import { MongoDBClient } from "../src/adapter/driven/mongodb/client.js";
 import { MongoBlogPostRepository } from "../src/adapter/driven/mongodb/content-repository.js";
 import { MongoUserRepository } from "../src/adapter/driven/mongodb/user-repository.js";
-import { runBlogScout, DEFAULT_FEEDS, type ScoutFeed } from "../src/app/blog-scout.js";
+import { runBlogScout, DEFAULT_FEEDS, SCOUT_AUTHOR, type ScoutFeed } from "../src/app/blog-scout.js";
 
 function arg(name: string): string | undefined {
   const i = process.argv.indexOf(`--${name}`);
@@ -48,15 +48,21 @@ async function main(): Promise<void> {
   const logger = createLogger(config.server.environment);
 
   const apiKey = process.env.NEURODYNE_ANTHROPIC_API_KEY ?? "";
-  const autoPublish = process.env.NEURODYNE_BLOG_AUTOPUBLISH === "true";
+  // Publishing without review is the default here, because the person who
+  // would do the reviewing said they will not have time to. That makes the
+  // label on every post the thing doing the work — see SCOUT_CATEGORY and the
+  // notice the scout writes at the top of each body. Set
+  // NEURODYNE_BLOG_AUTOPUBLISH=false to go back to a draft queue.
+  const autoPublish = process.env.NEURODYNE_BLOG_AUTOPUBLISH !== "false";
   const dryRun = process.argv.includes("--dry-run");
   const limit = Number(arg("limit") ?? 2);
 
   if (autoPublish) {
-    console.warn("");
-    console.warn("  NEURODYNE_BLOG_AUTOPUBLISH=true — drafts will go straight to the site,");
-    console.warn("  unreviewed, under the configured byline.");
-    console.warn("");
+    console.log("");
+    console.log("  Auto-publish is ON. Posts go straight to the site, unreviewed,");
+    console.log("  labelled 'AI Automation' and bylined to the AI desk rather than a person.");
+    console.log("  Set NEURODYNE_BLOG_AUTOPUBLISH=false for a draft queue instead.");
+    console.log("");
   }
 
   if (dryRun) {
@@ -100,7 +106,7 @@ async function main(): Promise<void> {
       apiKey,
       model: process.env.NEURODYNE_BLOG_MODEL ?? "claude-sonnet-5-5",
       feeds: feedsFromEnv(),
-      author: author ? `${author.firstName} ${author.lastName}` : "Neurodyne",
+      author: author ? `${author.firstName} ${author.lastName}` : SCOUT_AUTHOR,
       authorId: author?.id ?? "",
       autoPublish,
     },
@@ -111,6 +117,7 @@ async function main(): Promise<void> {
   console.log(`  considered            ${result.considered}`);
   console.log(`  already covered       ${result.skippedAlreadyCovered}`);
   console.log(`  ${autoPublish ? "published" : "drafted"}               ${result.drafted}`);
+  console.log(`  rejected (self-ref)   ${result.rejected}`);
   console.log(`  failed                ${result.failed}`);
   if (result.reason) console.log(`  ${result.reason}`);
   if (!autoPublish && result.drafted > 0) {

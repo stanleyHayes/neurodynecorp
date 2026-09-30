@@ -254,7 +254,7 @@ export default function Finance() {
       <PageBanner
         icon={<AttachMoneyOutlinedIcon />}
         title="Finance"
-        description="Track revenue, costs, and profitability across all active projects."
+        description="Track revenue and invoices across all active projects."
         tag="ADMIN // FINANCE"
         accentWord="Finance"
         iconColor="#10B981"
@@ -265,7 +265,7 @@ export default function Finance() {
 
       <Box sx={{ px: 3, pt: 2 }}>
         <Alert severity="info">
-          Totals below are derived from live invoices. Cost/profit margins still need a cost aggregation source.
+          Totals below are derived from live invoices. Costs are not recorded anywhere yet, so margins are not shown rather than estimated.
         </Alert>
         {error && (
           <Alert severity="error" sx={{ mt: 1 }}>

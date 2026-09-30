@@ -58,6 +58,8 @@ export interface ScoutResult {
   considered: number;
   skippedAlreadyCovered: number;
   drafted: number;
+  /** Written, then discarded for breaking a rule the prompt only asked for. */
+  rejected: number;
   failed: number;
   reason?: string;
 }
@@ -82,7 +84,38 @@ const FETCH_TIMEOUT_MS = 15_000;
 export const MAX_ITEMS_PER_FEED = 12;
 
 /** Marks a post as machine-drafted, so a reviewer always knows what they have. */
-export const SCOUT_TAG = "ai-drafted";
+export const SCOUT_TAG = "ai-automation";
+
+/**
+ * The category every scouted post carries.
+ *
+ * Nobody reviews these before they go up, so the label is not decoration — it
+ * is the thing that lets a reader calibrate what they are reading. It is set
+ * here rather than taken from the model, so it cannot be talked out of it.
+ */
+export const SCOUT_CATEGORY = "AI Automation";
+
+/**
+ * The byline.
+ *
+ * Deliberately not a person. Publishing unreviewed machine prose under a
+ * founder's name attributes writing to someone who never read it, which is a
+ * worse problem than an empty blog. Overridable, but this is the default.
+ */
+export const SCOUT_AUTHOR = "Neurodyne AI Desk";
+
+/**
+ * The one rule the prompt cannot be trusted to keep on its own.
+ *
+ * The prompt forbids writing about Neurodyne, because a model has no way to
+ * know who the clients are, how many people work here, or what has shipped —
+ * and inventing any of that is exactly the failure the rest of this codebase
+ * is careful about. With no human between the model and the site, "the prompt
+ * says not to" is not a control. This is.
+ */
+export function mentionsNeurodyne(text: string): boolean {
+  return /neuro\s?dyne/i.test(text);
+}
 
 // ── Feed parsing ─────────────────────────────────────────────────────────────
 // RSS and Atom, enough of each to read a title, a link and a summary. A full
@@ -245,7 +278,7 @@ async function draftOne(item: FeedItem, deps: BlogScoutDeps): Promise<Drafted | 
 // ── Run ──────────────────────────────────────────────────────────────────────
 
 export async function runBlogScout(deps: BlogScoutDeps, limit = 2): Promise<ScoutResult> {
-  const empty: ScoutResult = { considered: 0, skippedAlreadyCovered: 0, drafted: 0, failed: 0 };
+  const empty: ScoutResult = { considered: 0, skippedAlreadyCovered: 0, drafted: 0, rejected: 0, failed: 0 };
 
   if (!deps.apiKey) {
     return { ...empty, reason: "No ANTHROPIC_API_KEY set — nothing drafted." };
@@ -276,6 +309,7 @@ export async function runBlogScout(deps: BlogScoutDeps, limit = 2): Promise<Scou
     considered: items.length,
     skippedAlreadyCovered: skipped,
     drafted: 0,
+    rejected: 0,
     failed: 0,
   };
 
@@ -287,9 +321,24 @@ export async function runBlogScout(deps: BlogScoutDeps, limit = 2): Promise<Scou
         continue;
       }
 
-      // The attribution is appended here rather than trusted to the model, so
-      // it is present on every post whatever the model returned.
-      const body = `${drafted.body}\n\n---\n\nSource: [${item.title}](${item.link}) — ${item.source}.\n\n_Drafted automatically from a public feed and reviewed before publishing._\n`;
+      // Enforced, not requested. A post that talks about Neurodyne is dropped
+      // rather than published, because nobody downstream is going to catch it.
+      if (mentionsNeurodyne(drafted.title) || mentionsNeurodyne(drafted.body)) {
+        result.rejected++;
+        deps.logger.warn(
+          { title: drafted.title, source: item.link },
+          "blog-scout: draft mentioned Neurodyne — discarded",
+        );
+        continue;
+      }
+
+      // Both notices are written here rather than trusted to the model, so
+      // they are present on every post whatever came back. The one at the top
+      // is the one that matters: it is what a reader sees first.
+      const notice = deps.autoPublish
+        ? "_Written by an automated system from a public feed, and published without human review. Follow the source before relying on anything here._"
+        : "_Drafted automatically from a public feed, and reviewed before publishing._";
+      const body = `${notice}\n\n${drafted.body}\n\n---\n\nSource: [${item.title}](${item.link}) — ${item.source}.\n`;
 
       await deps.repo.create(
         createBlogPost({
@@ -297,9 +346,9 @@ export async function runBlogScout(deps: BlogScoutDeps, limit = 2): Promise<Scou
           slug: slugify(drafted.title),
           excerpt: drafted.excerpt,
           content: body,
-          category: drafted.category,
+          category: SCOUT_CATEGORY,
           status: deps.autoPublish ? "published" : "draft",
-          author: deps.author,
+          author: deps.author || SCOUT_AUTHOR,
           authorId: deps.authorId,
           readTime: readTime(body),
           tags: [...drafted.tags, SCOUT_TAG],
