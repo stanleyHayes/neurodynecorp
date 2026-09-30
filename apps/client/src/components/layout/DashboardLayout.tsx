@@ -247,7 +247,7 @@ export default function DashboardLayout() {
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Profile</ListItemText>
               </MenuItem>
 
-              <MenuItem onClick={() => goTo("/settings?tab=security")} sx={menuItemSx}>
+              <MenuItem onClick={() => goTo("/security")} sx={menuItemSx}>
                 <ListItemIcon><LockOutlinedIcon sx={{ fontSize: 18, color: "#EF4444" }} /></ListItemIcon>
                 <ListItemText slotProps={{ primary: { sx: { fontSize: "0.8rem" }, } }}>Security</ListItemText>
               </MenuItem>

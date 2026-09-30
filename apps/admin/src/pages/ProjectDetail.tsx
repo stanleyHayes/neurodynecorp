@@ -231,7 +231,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeDecision = async (decisionId: string) => {
+  const removeDecision = async (decisionId: string, label: string) => {
+    if (!window.confirm(`Delete the decision "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteDecision(decisionId);
       setToast("Decision removed");
@@ -313,7 +314,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeRisk = async (riskId: string) => {
+  const removeRisk = async (riskId: string, label: string) => {
+    if (!window.confirm(`Delete the risk "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteRisk(riskId);
       setToast("Risk removed");
@@ -361,7 +363,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const withdrawApproval = async (approvalId: string) => {
+  const withdrawApproval = async (approvalId: string, label: string) => {
+    if (!window.confirm(`Withdraw the sign-off "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteApproval(approvalId);
       setToast("Sign-off withdrawn");
@@ -413,7 +416,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeStakeholder = async (stakeholderId: string) => {
+  const removeStakeholder = async (stakeholderId: string, label: string) => {
+    if (!window.confirm(`Remove the stakeholder "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteStakeholder(stakeholderId);
       setToast("Stakeholder removed");
@@ -464,7 +468,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeLatticeItem = async (itemId: string) => {
+  const removeLatticeItem = async (itemId: string, label: string) => {
+    if (!window.confirm(`Remove the capability "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteLatticeItem(itemId);
       setToast("Capability removed");
@@ -535,7 +540,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeReport = async (reportId: string) => {
+  const removeReport = async (reportId: string, label: string) => {
+    if (!window.confirm(`Delete the report "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteReport(reportId);
       setToast("Report removed");
@@ -586,7 +592,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeMember = async (memberId: string) => {
+  const removeMember = async (memberId: string, label: string) => {
+    if (!window.confirm(`Remove the team member "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteTeamMember(memberId);
       setToast("Team member removed");
@@ -648,7 +655,8 @@ export default function ProjectDetail() {
     }
   };
 
-  const removeBudgetItem = async (itemId: string) => {
+  const removeBudgetItem = async (itemId: string, label: string) => {
+    if (!window.confirm(`Delete the budget line "${label}"? This cannot be undone.`)) return;
     try {
       await api.deleteBudgetItem(itemId);
       setToast("Budget line removed");
@@ -1126,7 +1134,7 @@ export default function ProjectDetail() {
                   {d.decisionMaker}{d.decidedAt ? ` · ${String(d.decidedAt).slice(0, 10)}` : ""}
                 </Typography>
               </Box>
-              <IconButton size="small" onClick={() => removeDecision(d.id)} sx={{ color: "#EF4444" }}>
+              <IconButton size="small" onClick={() => removeDecision(d.id, d.title)} sx={{ color: "#EF4444" }}>
                 <DeleteOutlineOutlinedIcon fontSize="small" />
               </IconButton>
             </Stack>
@@ -1167,7 +1175,7 @@ export default function ProjectDetail() {
                     Owner: {r.owner || "—"}{r.escalation ? ` · Escalation: ${r.escalation}` : ""}
                   </Typography>
                 </Box>
-                <IconButton size="small" onClick={() => removeRisk(r.id)} sx={{ color: "#EF4444" }}>
+                <IconButton size="small" onClick={() => removeRisk(r.id, r.title)} sx={{ color: "#EF4444" }}>
                   <DeleteOutlineOutlinedIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -1212,7 +1220,7 @@ export default function ProjectDetail() {
                   )}
                 </Box>
                 {a.status === "pending" && (
-                  <IconButton size="small" onClick={() => withdrawApproval(a.id)} sx={{ color: "#EF4444" }}>
+                  <IconButton size="small" onClick={() => withdrawApproval(a.id, a.title)} sx={{ color: "#EF4444" }}>
                     <DeleteOutlineOutlinedIcon fontSize="small" />
                   </IconButton>
                 )}
@@ -1255,7 +1263,7 @@ export default function ProjectDetail() {
                     <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.75, mt: 0.5, whiteSpace: "pre-wrap" }}>{s.notes}</Typography>
                   )}
                 </Box>
-                <IconButton size="small" onClick={() => removeStakeholder(s.id)} sx={{ color: "#EF4444" }}>
+                <IconButton size="small" onClick={() => removeStakeholder(s.id, s.name)} sx={{ color: "#EF4444" }}>
                   <DeleteOutlineOutlinedIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -1326,7 +1334,7 @@ export default function ProjectDetail() {
                     </Typography>
                   )}
                 </Box>
-                <IconButton size="small" onClick={() => removeLatticeItem(l.id)} sx={{ color: "#EF4444" }}>
+                <IconButton size="small" onClick={() => removeLatticeItem(l.id, l.capability)} sx={{ color: "#EF4444" }}>
                   <DeleteOutlineOutlinedIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -1403,7 +1411,7 @@ export default function ProjectDetail() {
                   ) : (
                     <Button size="small" onClick={() => publishReport(r.id)} sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "#10B981" }}>Publish</Button>
                   )}
-                  <IconButton size="small" onClick={() => removeReport(r.id)} sx={{ color: "#EF4444" }}>
+                  <IconButton size="small" onClick={() => removeReport(r.id, r.title)} sx={{ color: "#EF4444" }}>
                     <DeleteOutlineOutlinedIcon fontSize="small" />
                   </IconButton>
                 </Stack>
@@ -1472,7 +1480,7 @@ export default function ProjectDetail() {
                     </Typography>
                   )}
                 </Box>
-                <IconButton size="small" onClick={() => removeMember(m.id)} sx={{ color: "#EF4444" }}>
+                <IconButton size="small" onClick={() => removeMember(m.id, m.name)} sx={{ color: "#EF4444" }}>
                   <DeleteOutlineOutlinedIcon fontSize="small" />
                 </IconButton>
               </Stack>
@@ -1542,7 +1550,7 @@ export default function ProjectDetail() {
                   )}
                   {b.notes && <Typography sx={{ fontSize: "0.72rem", color: "text.secondary", opacity: 0.75, mt: 0.5 }}>{b.notes}</Typography>}
                 </Box>
-                <IconButton size="small" onClick={() => removeBudgetItem(b.id)} sx={{ color: "#EF4444" }}>
+                <IconButton size="small" onClick={() => removeBudgetItem(b.id, b.label)} sx={{ color: "#EF4444" }}>
                   <DeleteOutlineOutlinedIcon fontSize="small" />
                 </IconButton>
               </Stack>

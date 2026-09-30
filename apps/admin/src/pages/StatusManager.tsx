@@ -153,6 +153,9 @@ export default function StatusManager() {
 
   const handleDeleteComponent = async (component: any) => {
     const id = component.id ?? component._id;
+    // Removing a component removes it from the public status page and takes its
+    // incident history with it.
+    if (!window.confirm(`Delete status component "${component.name ?? id}"? It disappears from the public status page, along with its history.`)) return;
     try {
       await api.del(`/api/v1/status/components/${id}`);
       setComponents((prev) => prev.filter((c) => (c.id ?? c._id) !== id));

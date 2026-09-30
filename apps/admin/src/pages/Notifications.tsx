@@ -1,5 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
-import { Box, Typography, Chip, Stack, Button, IconButton } from "@mui/material";
+import { Alert, Box, Typography, Chip, Stack, Button, IconButton } from "@mui/material";
 import { motion } from "framer-motion";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import NotificationsOffOutlinedIcon from "@mui/icons-material/NotificationsOffOutlined";
@@ -71,6 +71,11 @@ export default function Notifications() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
+  // Every handler on this page used to swallow its error, so a failed
+  // request was indistinguishable from a successful one until a reload
+  // silently undid it.
+  const [loadError, setLoadError] = useState("");
+  const [actionError, setActionError] = useState("");
 
   const load = useCallback(async () => {
     try {
@@ -86,8 +91,10 @@ export default function Notifications() {
         resourceType: n.resourceType ?? n.resource_type,
       })) as NotificationItem[];
       setNotifications(items);
+      setLoadError("");
     } catch {
-      // handled by API client
+      setNotifications([]);
+      setLoadError("Could not load notifications. This is not an empty inbox.");
     } finally {
       setLoading(false);
     }
@@ -99,21 +106,31 @@ export default function Notifications() {
     try {
       await api.markAllNotificationsRead();
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    } catch { /* silent */ }
+      setActionError("");
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "Could not mark all as read.");
+    }
   };
 
   const handleMarkRead = async (id: string) => {
     try {
       await api.markNotificationRead(id);
       setNotifications((prev) => prev.map((n) => n.id === id ? { ...n, read: true } : n));
-    } catch { /* silent */ }
+      setActionError("");
+    } catch (e) {
+      setActionError(e instanceof Error ? e.message : "Could not mark that notification as read.");
+    }
   };
 
   const handleDelete = async (id: string) => {
     try {
       await api.deleteNotification(id);
       setNotifications((prev) => prev.filter((n) => n.id !== id));
-    } catch { /* silent */ }
+    } catch (e) {
+      // The row used to be filtered out regardless, so a failed delete looked
+      // exactly like a successful one until the next reload brought it back.
+      setActionError(e instanceof Error ? e.message : "Could not delete that notification.");
+    }
   };
 
   if (loading) return <PageSkeleton stats={0} rows={8} />;
@@ -127,6 +144,17 @@ export default function Notifications() {
         title="Notifications"
         description={`${unreadCount} unread notification${unreadCount !== 1 ? "s" : ""}`}
       />
+
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mx: 3, mt: 2 }}>
+          {loadError}
+        </Alert>
+      )}
+      {actionError && (
+        <Alert severity="error" variant="outlined" sx={{ mx: 3, mt: 2 }} onClose={() => setActionError("")}>
+          {actionError}
+        </Alert>
+      )}
 
       <Box
         sx={{

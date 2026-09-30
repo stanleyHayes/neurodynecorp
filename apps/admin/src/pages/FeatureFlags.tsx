@@ -141,6 +141,9 @@ export default function FeatureFlags() {
   };
 
   const toggleMaintenance = async (enabled: boolean) => {
+    // One unguarded switch took the whole platform down for every user. Turning
+    // it back off needs no confirmation — that direction is the safe one.
+    if (enabled && !window.confirm("Enable maintenance mode? This takes the platform offline for every user until you turn it back off.")) return;
     setMaintBusy(true);
     try {
       if (maintenance) {

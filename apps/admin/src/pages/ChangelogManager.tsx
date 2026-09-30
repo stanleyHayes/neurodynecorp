@@ -170,6 +170,8 @@ export default function ChangelogManager() {
 
   const handleDelete = async (entry: any) => {
     const id = entry.id ?? entry._id;
+    // Changelog entries are public; deleting one edits the published record.
+    if (!window.confirm(`Delete changelog entry "${entry.title ?? entry.version ?? id}"? It is published, and this cannot be undone.`)) return;
     try {
       await api.del(`/api/v1/changelog/${id}`);
       setEntries((prev) => prev.filter((e) => (e.id ?? e._id) !== id));
