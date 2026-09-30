@@ -36,10 +36,51 @@ import {
 import { seedAll } from "../src/adapter/driven/mongodb/seed.js";
 
 const fresh = process.argv.includes("--fresh");
+const forced = process.argv.includes("--yes-destroy-production-data");
+
+/**
+ * Refuses to touch a database that is not obviously local.
+ *
+ * `--fresh` drops every collection, and the accounts it then creates share one
+ * bcrypt hash whose plaintext is written in seed-data.ts — a file in a public
+ * repository. Pointed at production this is both a wipe and a credential leak,
+ * and the only thing deciding which database it hits is whichever MONGODB_URI
+ * happens to be in the environment. There was no guard at all.
+ */
+function assertNotProduction(uri: string, environment: string): void {
+  const host = (() => {
+    try {
+      return new URL(uri.replace(/^mongodb\+srv:/, "mongodb:")).hostname;
+    } catch {
+      return "";
+    }
+  })();
+  const isLocal = host === "localhost" || host === "127.0.0.1" || host === "mongo" || host === "mongodb";
+
+  if (environment === "production" || !isLocal) {
+    console.error("");
+    console.error("  Refusing to seed.");
+    console.error(`    NODE_ENV : ${environment}`);
+    console.error(`    database : ${host || "(unparsed)"}`);
+    console.error("");
+    console.error("  This script drops every collection and creates accounts whose");
+    console.error("  password is published in seed-data.ts. It is for local development.");
+    console.error("");
+    if (!forced) {
+      console.error("  If you genuinely mean to do this, pass --yes-destroy-production-data.");
+      console.error("");
+      process.exit(1);
+    }
+    console.error("  --yes-destroy-production-data given. Proceeding.");
+    console.error("");
+  }
+}
 
 async function main() {
   const config = loadConfig();
   const logger = createLogger(config.server.environment);
+
+  assertNotProduction(config.mongodb.uri, config.server.environment);
 
   const mongoClient = new MongoDBClient({
     uri: config.mongodb.uri,
