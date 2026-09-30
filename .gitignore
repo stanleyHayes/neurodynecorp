@@ -64,3 +64,11 @@ credentials.txt
 # skips cleanly when they are absent, so only regenerating needs them.
 /neurodyne.png
 /neurodyne_*.png
+
+# Internal working documents. Supplied separately, and this repository is
+# public — these are positioning, brand and compliance working notes, not code.
+# The durable public summaries live in docs/NEURODYNE_POSITIONING.md and
+# docs/NEURODYNE_BRAND.md. Untracked is not the same as ignored: these were one
+# `git add -A` away from being published.
+/*.docx
+/INTERNAL_*.md
