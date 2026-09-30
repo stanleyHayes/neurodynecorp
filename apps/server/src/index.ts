@@ -82,6 +82,8 @@ import { MongoAuditRepository } from "./adapter/driven/mongodb/audit-repository.
 import { MongoStatusRepository } from "./adapter/driven/mongodb/status-repository.js";
 import { MongoFeatureFlagRepository } from "./adapter/driven/mongodb/feature-flag-repository.js";
 import { MongoWebhookRepository } from "./adapter/driven/mongodb/webhook-repository.js";
+import { WebhookDispatcher, withWebhookDispatch } from "./app/webhook-dispatcher.js";
+import { assertSafeOutboundUrl } from "./adapter/driving/http/url-safety.js";
 import { MongoApiKeyRepository } from "./adapter/driven/mongodb/api-key-repository.js";
 import { MongoDsrRepository } from "./adapter/driven/mongodb/dsr-repository.js";
 import { MongoConsentRepository } from "./adapter/driven/mongodb/consent-repository.js";
@@ -334,6 +336,38 @@ async function main(): Promise<void> {
       close: async () => {},
     };
   }
+
+  // ── Webhook delivery ───────────────────────────────────────────────────────
+  // Decorating the publisher rather than calling the dispatcher from each
+  // service: there are nine publish sites across five services, and a new one
+  // would otherwise have to remember. It also keeps webhooks working when
+  // Kafka is unavailable and `eventPublisher` is the no-op stub above.
+  const webhookDispatcher = new WebhookDispatcher({
+    repo: webhookRepo,
+    assertSafeUrl: assertSafeOutboundUrl,
+    logger,
+    /**
+     * Resolves the single client an event belongs to.
+     *
+     * Payloads are inconsistent — invoice events carry `clientId`, project and
+     * spec events carry only an id — so anything without a resolvable owner is
+     * dropped rather than fanned out. A missed notification is recoverable; one
+     * client receiving another's project activity is not.
+     */
+    resolveOwner: async (_topic, payload) => {
+      if (typeof payload.clientId === "string") return payload.clientId;
+      if (typeof payload.projectId === "string") {
+        try {
+          const project = await projectRepo.findById(payload.projectId);
+          return project?.clientId ?? null;
+        } catch {
+          return null;
+        }
+      }
+      return null;
+    },
+  });
+  eventPublisher = withWebhookDispatch(eventPublisher, webhookDispatcher);
 
   // File storage (Cloudinary)
   const fileStorage = new CloudinaryFileStorage({

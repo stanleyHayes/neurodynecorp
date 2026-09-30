@@ -91,6 +91,18 @@ export class MongoWebhookRepository {
     return docs.map(fromSubscriptionDoc);
   }
 
+  /**
+   * Active subscriptions listening for one event, across all owners.
+   *
+   * The caller is responsible for narrowing to the event's owner — see
+   * WebhookDispatcher, which drops any event whose owner it cannot resolve
+   * rather than delivering it to everyone subscribed.
+   */
+  async listActiveByEvent(event: string): Promise<WebhookSubscription[]> {
+    const docs = await this.col.find({ active: true, events: event }).toArray();
+    return docs.map(fromSubscriptionDoc);
+  }
+
   async getById(id: string): Promise<WebhookSubscription | null> {
     const doc = await this.col.findOne({ _id: new ObjectId(id) });
     return doc ? fromSubscriptionDoc(doc) : null;

@@ -45,12 +45,26 @@ const overlineSx = {
   opacity: 0.6,
 } as const;
 
+/**
+ * The events the server actually publishes.
+ *
+ * This list used to offer project.updated, deliverable.published,
+ * decision.logged and milestone.reached — four names nothing in the server has
+ * ever emitted. A client could select them, save, and wait forever. Only
+ * invoice.paid was real.
+ *
+ * Keep this in step with the publish sites in apps/server/src/app/*-service.ts.
+ * An event offered here that is never published is indistinguishable, from the
+ * client's side, from a broken integration.
+ */
 const EVENT_OPTIONS = [
-  "project.updated",
-  "deliverable.published",
-  "invoice.paid",
-  "decision.logged",
-  "milestone.reached",
+  { value: "project.created", label: "Project created" },
+  { value: "project.status_changed", label: "Project status changed" },
+  { value: "spec.generated", label: "Specification generated" },
+  { value: "spec.approved", label: "Specification approved" },
+  { value: "spec.rejected", label: "Specification rejected" },
+  { value: "invoice.created", label: "Invoice issued" },
+  { value: "invoice.paid", label: "Invoice paid" },
 ];
 
 function formatDate(value: any): string {
@@ -418,8 +432,11 @@ export default function Webhooks() {
                 }
               >
                 {EVENT_OPTIONS.map((ev) => (
-                  <MenuItem key={ev} value={ev} sx={{ fontFamily: "monospace", fontSize: "0.8rem" }}>
-                    {ev}
+                  <MenuItem key={ev.value} value={ev.value} sx={{ fontSize: "0.85rem" }}>
+                    {ev.label}
+                    <Box component="span" sx={{ ml: 1, fontFamily: "monospace", fontSize: "0.72rem", color: "text.secondary" }}>
+                      {ev.value}
+                    </Box>
                   </MenuItem>
                 ))}
               </Select>
