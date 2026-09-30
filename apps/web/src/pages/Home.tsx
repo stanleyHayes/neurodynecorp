@@ -15,7 +15,7 @@ import HeroSystem from "@/components/shared/HeroSystem";
 import NewsletterCTA from "@/components/shared/NewsletterCTA";
 import MaturityBadge from "@/components/shared/MaturityBadge";
 import { BulletMarker, Overline, SectionHeading } from "@/components/shared/Marketing";
-import { RevealText, EnergyButton } from "@/components/motion";
+import { RevealText, EnergyButton, MotionSection } from "@/components/motion";
 import { aurora } from "@/theme/tokens";
 import { WatermarkConstellation } from "@/components/shared/Watermark";
 import { CANON, HERO, PILLARS, WHY_AFRICA, FOUNDER, PARTNER_PATHWAYS } from "@/content/company";
@@ -150,7 +150,7 @@ export default function Home() {
       </Box>
 
       {/* ── The thesis ───────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <HubOutlinedIcon />, at: { top: "-10%", right: "2%" }, size: 400 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 3, md: 8 }}>
@@ -205,10 +205,10 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Four strategic pillars ───────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Infrastructure"
@@ -274,10 +274,10 @@ export default function Home() {
             ))}
           </Grid>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Flagship platforms ───────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Platforms"
@@ -355,10 +355,10 @@ export default function Home() {
             </Button>
           </Box>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Developer infrastructure ─────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <TerminalOutlinedIcon />, at: { bottom: "-14%", left: "-3%" }, size: 380 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Grid container spacing={{ xs: 4, md: 8 }} sx={{ alignItems: "center" }}>
@@ -406,19 +406,19 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Why Africa ───────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, overflow: "hidden" }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 }, overflow: "hidden" }}>
         <WatermarkConstellation items={[{ icon: <PublicOutlinedIcon />, at: { top: "-8%", right: "-3%" }, size: 420 }]} />
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <SectionHeading tag="Why Africa" title={WHY_AFRICA.title} lead={WHY_AFRICA.lead} align="center" />
           <AfricaConditionsGrid />
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Founder ──────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Grid container spacing={{ xs: 4, md: 8 }}>
             <Grid size={{ xs: 12, md: 5 }}>
@@ -480,10 +480,10 @@ export default function Home() {
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Partnership pathways ─────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <SectionHeading
             tag="Partnership"
@@ -547,10 +547,10 @@ export default function Home() {
             </Button>
           </Box>
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Research ─────────────────────────────────────────────────────── */}
-      <Box sx={{ position: "relative", borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 } }}>
         <Container maxWidth="lg">
           <Box sx={{ display: "flex", flexWrap: "wrap", alignItems: "center", justifyContent: "space-between", gap: 2, mb: 3 }}>
             <Box><Overline>Research</Overline><Typography variant="h4" component="h2" sx={{ fontWeight: 800, mt: 1 }}>Open questions we&rsquo;re working on.</Typography></Box>
@@ -562,10 +562,10 @@ export default function Home() {
             <Typography color="text.secondary" sx={{ mt: 1, fontSize: ".78rem", lineHeight: 1.5 }}>{r.blurb}</Typography>
           </> }))} />
         </Container>
-      </Box>
+      </MotionSection>
 
       {/* ── Closing ──────────────────────────────────────────────────────── */}
-      <Box sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, textAlign: "center" }}>
+      <MotionSection rhythm="tight" sx={{ py: { xs: 5, md: 6 }, textAlign: "center" }}>
         <Container maxWidth="md">
           <Typography
             variant="h4"
@@ -584,7 +584,7 @@ export default function Home() {
             {CANON.geography}
           </Typography>
         </Container>
-      </Box>
+      </MotionSection>
 
       <NewsletterCTA />
     </>

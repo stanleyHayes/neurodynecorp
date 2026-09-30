@@ -98,8 +98,15 @@ Import from the barrel, not the files.
 | `MotionSection` | 10 | Section entrance, fired before the content reaches viewport centre |
 | `EnergyButton` | 13 | Aurora streak across one border edge on hover **and focus** |
 | `EnergyCard` | 12 | Pointer-proximity illumination, 2–6px magnetism |
-| `OrbitNode` / `Orbit` | 11 | Ecosystem satellites; becomes a vertical sequence below `md` |
 | `ScrollPath` | 10 | The signature line, drawn against scroll position |
+
+**§11's ecosystem satellites are not implemented.** `OrbitNode`/`Orbit` was
+built and then deleted: it is a square hub-and-satellite layout, and this site
+has no content shaped like that. Every candidate turned out to be either a
+narrative panel that needs to be read in order or a narrow sidebar with no room
+for a circle. Forcing it into one would have been motion without purpose, which
+§21 rules out. The orbital metaphor lives in the hero instead, as `HeroSystem`,
+where it carries the four pillars and is worth the space.
 
 **A universal fade-up is not the default.** §9 rejects it explicitly. Pick the
 vocabulary that matches what the text is.

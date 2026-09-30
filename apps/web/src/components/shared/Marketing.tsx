@@ -2,6 +2,7 @@ import { ReactNode } from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import { Link } from "react-router";
 import HudCorners from "@/components/shared/HudCorners";
+import { EnergyCard } from "@/components/motion";
 import { motion } from "framer-motion";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
@@ -81,25 +82,39 @@ export function InfoCard({
   delay?: number;
   sx?: object;
 }) {
+  /*
+   * The entrance stays here; the surface behaviour comes from EnergyCard.
+   *
+   * This card used to hand-roll its hover as a border-colour and background
+   * swap. EnergyCard is the §12 treatment the brand specification actually
+   * asks for — pointer-proximity illumination, 2-6px magnetism, the nearest
+   * edge taking teal — and it encodes three rules a hand-rolled :hover cannot:
+   * keyboard focus produces the equivalent visible state, coarse pointers get
+   * none of it rather than a stuck hover, and reduced motion removes the
+   * effect instead of shortening it.
+   *
+   * Wiring it in here rather than at each call site means every card on the
+   * site gets it, which is the point of having the primitive at all.
+   */
   return (
     <MotionBox
       initial={{ opacity: 0, y: 14 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.4, delay }}
-      sx={{
-        height: "100%",
-        p: { xs: 3, md: 3.5 },
-        borderRadius: 0,
-        position: "relative",
-        border: "1px solid",
-        borderColor: "divider",
-        bgcolor: `${accent}0A`,
-        transition: "border-color 0.3s, background 0.3s",
-        "&:hover": { borderColor: `${accent}55`, bgcolor: `${accent}12` },
-        ...sx,
-      }}
+      sx={{ height: "100%" }}
     >
+      <EnergyCard
+        accent={accent}
+        sx={{
+          height: "100%",
+          p: { xs: 3, md: 3.5 },
+          borderRadius: 0,
+          position: "relative",
+          bgcolor: `${accent}0A`,
+          ...sx,
+        }}
+      >
       <HudCorners />
       {(icon || title) && (
         <Stack direction="row" spacing={1.5} sx={{ alignItems: "center", mb: subtitle ? 0.75 : 1.5 }}>
@@ -117,6 +132,7 @@ export function InfoCard({
         </Typography>
       )}
       {children}
+      </EnergyCard>
     </MotionBox>
   );
 }

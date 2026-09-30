@@ -15,6 +15,7 @@ import { CANON, VISION_PHASES } from "@/content/company";
 import type { VisionPhase } from "@/content/company";
 import { PHILOSOPHY_SECTIONS, PRINCIPLES } from "@/content/positioning";
 
+
 const MotionBox = motion.create(Box);
 
 const VIEWPORT = { once: true, margin: "-60px" } as const;
@@ -234,6 +235,7 @@ export default function Vision() {
             { icon: <HubOutlinedIcon />, at: { bottom: "-10%", right: "-3%" }, size: 380 },
           ]}
         />
+
         <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <Overline>The progression</Overline>
           <Typography

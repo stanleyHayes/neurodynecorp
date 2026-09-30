@@ -9,6 +9,5 @@ export { default as RevealText } from "./RevealText";
 export { default as MotionSection } from "./MotionSection";
 export { default as EnergyButton } from "./EnergyButton";
 export { default as EnergyCard } from "./EnergyCard";
-export { default as OrbitNode, Orbit } from "./OrbitNode";
 export { default as ScrollPath } from "./ScrollPath";
 export { useMotionPreference, VIEWPORT } from "./useMotionPreference";

@@ -23,6 +23,7 @@ import { Overline } from "@/components/shared/Marketing";
 import { WatermarkConstellation } from "@/components/shared/Watermark";
 import { CANON, PILLARS, WHY_AFRICA } from "@/content/company";
 import { NOSI, SOLUTIONS } from "@/content/positioning";
+import { ScrollPath } from "@/components/motion";
 
 const MotionBox = motion.create(Box);
 
@@ -179,9 +180,36 @@ export default function Infrastructure() {
       {/* ── The four pillars ─────────────────────────────────────────────── */}
       <Box
         component="section"
-        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 } }}
+        sx={{ borderTop: "1px solid", borderColor: "divider", py: { xs: 5, md: 6 }, position: "relative", overflow: "hidden" }}
       >
-        <Container maxWidth="lg">
+        {/*
+          The signature line (§10), drawn against scroll.
+
+          It belongs here rather than on a page that already has a connecting
+          device — the Vision progression has a phase rail whose solid and
+          dashed segments carry meaning, and a second line beside it would have
+          been decoration competing with information. This stack is four tall
+          panels with nothing joining them, and the section's own claim is
+          "four pillars, one system". The line is that claim, drawn as the
+          reader travels down it.
+
+          Hidden below md, where §23 asks for reduced path complexity and there
+          is no gutter to occupy. Static under reduced motion.
+        */}
+        <ScrollPath
+          sx={{
+            display: { xs: "none", md: "block" },
+            position: "absolute",
+            top: 0,
+            bottom: 0,
+            left: "1.5%",
+            width: 80,
+            opacity: 0.45,
+            pointerEvents: "none",
+            zIndex: 0,
+          }}
+        />
+        <Container maxWidth="lg" sx={{ position: "relative", zIndex: 1 }}>
           <SectionTitle
             tag="Structure"
             title="Four pillars, one system"
