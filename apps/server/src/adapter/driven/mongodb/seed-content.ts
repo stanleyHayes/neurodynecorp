@@ -75,21 +75,58 @@ export const blogPosts: BlogPost[] = [
   { id: oid(), title: "The Future of AI-Assisted Software Specification", slug: "future-ai-assisted-software-specification", excerpt: "How machine learning is transforming the way we capture and structure software requirements.", content: "", category: "AI/ML", status: "published", author: "Stanley Asoku Hayford", authorId: "", readTime: "6 min", tags: ["AI", "Specifications"], createdAt: d("2026-03-15T09:00:00Z"), updatedAt: d("2026-03-15T09:00:00Z") },
   { id: oid(), title: "React Router v7: What's New for Enterprise Apps", slug: "react-router-v7-enterprise-apps", excerpt: "Exploring the latest features in React Router v7 and how they improve large-scale applications.", content: "", category: "Tutorial", status: "published", author: "Sarah Chen", authorId: "", readTime: "5 min", tags: ["React", "Frontend"], createdAt: d("2026-03-10T09:00:00Z"), updatedAt: d("2026-03-10T09:00:00Z") },
   { id: oid(), title: "Why We Chose MongoDB for Our Multi-Tenant Platform", slug: "why-we-chose-mongodb-multi-tenant", excerpt: "The technical reasoning behind our database choice and how it scales with our architecture.", content: "", category: "Engineering", status: "published", author: "Maria Gonzalez", authorId: "", readTime: "7 min", tags: ["MongoDB", "Architecture"], createdAt: d("2026-03-05T09:00:00Z"), updatedAt: d("2026-03-05T09:00:00Z") },
-  { id: oid(), title: "Productizing Software Development: Lessons from 36 Projects", slug: "productizing-software-development", excerpt: "What we learned shipping 36+ projects across fintech, govtech, healthcare, and education in Africa.", content: "", category: "Thought Leadership", status: "published", author: "Stanley Asoku Hayford", authorId: "", readTime: "10 min", tags: ["Business", "Product", "Africa"], createdAt: d("2026-02-28T09:00:00Z"), updatedAt: d("2026-02-28T09:00:00Z") },
+  { id: oid(), title: "Productizing Software Development", slug: "productizing-software-development", excerpt: "Turning bespoke delivery into a repeatable process: where productisation helps, and where it quietly costs you.", content: "", category: "Thought Leadership", status: "published", author: "Stanley Asoku Hayford", authorId: "", readTime: "10 min", tags: ["Business", "Product", "Africa"], createdAt: d("2026-02-28T09:00:00Z"), updatedAt: d("2026-02-28T09:00:00Z") },
   { id: oid(), title: "Implementing Real-Time Features with Kafka and WebSockets", slug: "real-time-kafka-websockets", excerpt: "A practical guide to building real-time notification and messaging systems.", content: "", category: "Tutorial", status: "published", author: "Maria Gonzalez", authorId: "", readTime: "9 min", tags: ["Kafka", "WebSocket", "Real-time"], createdAt: d("2026-02-20T09:00:00Z"), updatedAt: d("2026-02-20T09:00:00Z") },
-  { id: oid(), title: "Shipping GovTech in Ghana: BDR and LeKMA Case Studies", slug: "shipping-govtech-ghana", excerpt: "Lessons from rebuilding government digital infrastructure — from vital statistics to municipal services.", content: "", category: "Engineering", status: "draft", author: "Stanley Asoku Hayford", authorId: "", readTime: "7 min", tags: ["GovTech", "Ghana", "Case Study"], createdAt: d("2026-03-28T09:00:00Z"), updatedAt: d("2026-03-28T09:00:00Z") },
+  { id: oid(), title: "Building for Public Institutions", slug: "shipping-govtech-ghana", excerpt: "What changes when the user cannot choose a different provider, and the record has to outlive the system holding it.", content: "", category: "Engineering", status: "draft", author: "Stanley Asoku Hayford", authorId: "", readTime: "7 min", tags: ["GovTech", "Ghana", "Case Study"], createdAt: d("2026-03-28T09:00:00Z"), updatedAt: d("2026-03-28T09:00:00Z") },
   { id: oid(), title: "Design Systems at Scale", slug: "design-systems-at-scale", excerpt: "How we maintain consistency across three frontends with a shared design token layer.", content: "", category: "Tutorial", status: "draft", author: "Sarah Chen", authorId: "", readTime: "6 min", tags: ["Design", "Frontend"], createdAt: d("2026-03-27T09:00:00Z"), updatedAt: d("2026-03-27T09:00:00Z") },
 ];
 
 // ── Testimonials ───────────────────────────────────────────────────────────
 
+/*
+ * Placeholder testimonials, and deliberately unconvincing ones.
+ *
+ * What was here was six fabricated quotes. Three were attributed to invented
+ * NeuroDyne staff — a Project Manager, a Lead Engineer and a QA Lead — at a
+ * company that is founder-led by one engineer. One thanked "Stanley and the
+ * NeuroDyne team". One named a government sector. And one contained the string
+ * "36+ projects and counting", which AGENTS.md names explicitly as a known
+ * falsehood that must not reappear.
+ *
+ * None of it ever reached the site, because nothing in apps/web renders
+ * testimonials. That is the only reason it was not a live problem — it was one
+ * `pnpm seed` and one component away from being one.
+ *
+ * These exist so the admin testimonial screens have rows to render. They use
+ * example.com, the domain reserved for exactly this, and say nothing a reader
+ * could mistake for a real endorsement. Real testimonials need written
+ * permission on file and a named person who agreed to it.
+ */
 export const testimonials: Testimonial[] = [
-  { id: oid(), name: "David Kim", role: "CEO", company: "Acme Corp", content: "Stanley and the NeuroDyne team transformed our vague idea into a comprehensive specification in days. The structured process was exactly what we needed.", rating: 5, status: "active", avatarColor: "#3B82F6", createdAt: d("2026-03-18T09:00:00Z"), updatedAt: d("2026-03-18T09:00:00Z") },
-  { id: oid(), name: "Fatima Hassan", role: "Founder", company: "GreenLeaf Technologies", content: "The transparency and professionalism from spec to delivery was outstanding. We could track every milestone in real-time on the dashboard.", rating: 5, status: "active", avatarColor: "#06B6D4", createdAt: d("2026-03-10T09:00:00Z"), updatedAt: d("2026-03-10T09:00:00Z") },
-  { id: oid(), name: "Lucas Berg", role: "CTO", company: "Nordic SaaS", content: "Their productized approach caught requirements we hadn't even considered. Truly next-level engineering partner for our AI chatbot project.", rating: 5, status: "active", avatarColor: "#8B5CF6", createdAt: d("2026-02-25T09:00:00Z"), updatedAt: d("2026-02-25T09:00:00Z") },
-  { id: oid(), name: "James Okafor", role: "Project Manager", company: "NeuroDyne Corp", content: "Working with Stanley means every project starts with clarity. The spec-first approach saves weeks of back-and-forth.", rating: 5, status: "active", avatarColor: "#F59E0B", createdAt: d("2026-02-15T09:00:00Z"), updatedAt: d("2026-02-15T09:00:00Z") },
-  { id: oid(), name: "Maria Gonzalez", role: "Lead Engineer", company: "NeuroDyne Corp", content: "The depth of projects we've shipped — from govtech to healthcare to fintech — keeps every day challenging and meaningful.", rating: 5, status: "active", avatarColor: "#10B981", createdAt: d("2026-01-20T09:00:00Z"), updatedAt: d("2026-01-20T09:00:00Z") },
-  { id: oid(), name: "Priya Sharma", role: "QA Lead", company: "NeuroDyne Corp", content: "36+ projects and counting. The variety of domains we work in makes NeuroDyne one of the most exciting engineering studios in Africa.", rating: 5, status: "active", avatarColor: "#8B5CF6", createdAt: d("2025-12-10T09:00:00Z"), updatedAt: d("2025-12-10T09:00:00Z") },
+  {
+    id: oid(),
+    name: "Placeholder Client",
+    role: "Role",
+    company: "Example Ltd (example.com)",
+    content: "Sample testimonial text. Seed data for local development — not a real quote from a real client.",
+    rating: 5,
+    status: "active",
+    avatarColor: "#3B82F6",
+    createdAt: d("2026-03-18T09:00:00Z"),
+    updatedAt: d("2026-03-18T09:00:00Z"),
+  },
+  {
+    id: oid(),
+    name: "Second Placeholder",
+    role: "Role",
+    company: "Example Ltd (example.com)",
+    content: "A second sample row, so the list, sorting and empty states all have something to exercise.",
+    rating: 4,
+    status: "hidden",
+    avatarColor: "#06B6D4",
+    createdAt: d("2026-02-25T09:00:00Z"),
+    updatedAt: d("2026-02-25T09:00:00Z"),
+  },
 ];
 
 // ── Services ───────────────────────────────────────────────────────────────
@@ -230,6 +267,20 @@ export const serviceItems: ServiceItem[] = [
 
 // ── Case Studies / Portfolio ───────────────────────────────────────────────
 
+/*
+ * Client names are anonymised here by default.
+ *
+ * This file seeded a portfolio that named real organisations — including two
+ * Ghanaian government bodies, a national records agency and a municipal
+ * assembly — as clients. AGENTS.md is explicit on both counts: clients are
+ * anonymised unless there is written permission on file, and no claim of
+ * government adoption is made without evidence in this repository.
+ *
+ * Descriptors carry the same useful signal ("a municipal assembly" tells a
+ * reader the sector and the scale) without asserting a relationship nobody
+ * agreed to publish. RentOS keeps its name because it is Neurodyne's own
+ * product rather than a client.
+ */
 export const caseStudies: CaseStudy[] = [
   {
     id: oid(), title: "RentOS Ghana", slug: "rentos-ghana", client: "RentOS", category: "Proptech",
@@ -247,7 +298,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#3B82F6", createdAt: d("2026-03-12T09:00:00Z"), updatedAt: d("2026-03-12T09:00:00Z"),
   },
   {
-    id: oid(), title: "FastCare Clinics", slug: "fastcare-clinics", client: "FastCare", category: "Healthcare",
+    id: oid(), title: "FastCare Clinics", slug: "fastcare-clinics", client: "A healthcare provider", category: "Healthcare",
     sector: "Health", serviceLine: "Healthcare Technology", scale: "Enterprise", stage: "Delivered",
     tags: ["React", "Node.js", "NHIS"],
     description: "Complete healthcare management platform with NHIS integration, EHR, and telemedicine for African clinics.",
@@ -262,10 +313,10 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#06B6D4", createdAt: d("2026-02-28T09:00:00Z"), updatedAt: d("2026-02-28T09:00:00Z"),
   },
   {
-    id: oid(), title: "BDR Ghana", slug: "bdr-ghana", client: "Births & Deaths Registry", category: "GovTech",
+    id: oid(), title: "National Records Platform", slug: "bdr-ghana", client: "A national records agency", category: "GovTech",
     sector: "Government", serviceLine: "Enterprise & Government", scale: "National", stage: "Approved",
     tags: ["React", "Go", "API-first"],
-    description: "Redesign of bdr.gov.gh as a data-driven, API-first vital statistics platform with public dashboards.",
+    description: "Redesign of the registry's public site as a data-driven, API-first vital statistics platform with public dashboards.",
     brief: "The national Births & Deaths Registry needed to move from a brochure site to a data-driven, API-first vital-statistics platform other agencies could consume.",
     constraints: ["Sovereign data handling", "Inter-agency integration requirements", "Public transparency mandate"],
     architecture: "API-first Go backend, React public dashboards, agency integration endpoints, sovereign hosting option.",
@@ -277,7 +328,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#8B5CF6", createdAt: d("2026-02-10T09:00:00Z"), updatedAt: d("2026-02-10T09:00:00Z"),
   },
   {
-    id: oid(), title: "24-Hour Economy Platform", slug: "24-hour-economy-platform", client: "Investment Intelligence", category: "Fintech",
+    id: oid(), title: "24-Hour Economy Platform", slug: "24-hour-economy-platform", client: "An investment platform", category: "Fintech",
     sector: "Financial Services", serviceLine: "AI & Automation", scale: "National", stage: "In Development",
     tags: ["React", "Node.js", "ML"],
     description: "Investment intelligence platform with ML-driven scoring, real-time analytics, and portfolio tracking.",
@@ -292,7 +343,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#F59E0B", createdAt: d("2026-03-25T09:00:00Z"), updatedAt: d("2026-03-25T09:00:00Z"),
   },
   {
-    id: oid(), title: "ILIVVON Health Ecosystem", slug: "ilivvon-health-ecosystem", client: "ILIVVON", category: "Healthcare",
+    id: oid(), title: "Health Ecosystem Platform", slug: "ilivvon-health-ecosystem", client: "A health technology company", category: "Healthcare",
     sector: "Health", serviceLine: "Healthcare Technology", scale: "National", stage: "In Development",
     tags: ["React", "Expo", "ML", "Interoperability"],
     description: "A health intelligence platform unifying the clinical record, claims, and a predictive layer across clinic networks.",
@@ -307,7 +358,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#06B6D4", createdAt: d("2026-03-01T09:00:00Z"), updatedAt: d("2026-03-01T09:00:00Z"),
   },
   {
-    id: oid(), title: "JDPlus Group Platform", slug: "jdplus-group-platform", client: "JDPlus", category: "Commerce",
+    id: oid(), title: "Logistics Group Platform", slug: "jdplus-group-platform", client: "A logistics group", category: "Commerce",
     sector: "Retail / Commerce", serviceLine: "Web & Digital Platforms", scale: "Enterprise", stage: "Delivered",
     tags: ["Go", "Fiber", "React", "Expo", "Paystack"],
     description: "Parent platform for the JDPlus ecosystem — AC sales & service, susu collections, loans, and analytics.",
@@ -322,7 +373,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#10B981", createdAt: d("2026-01-20T09:00:00Z"), updatedAt: d("2026-01-20T09:00:00Z"),
   },
   {
-    id: oid(), title: "LeKMA Municipal Portal", slug: "lekma-municipal-portal", client: "Ledzokuku Municipal Assembly", category: "GovTech",
+    id: oid(), title: "Municipal Services Portal", slug: "lekma-municipal-portal", client: "A municipal assembly", category: "GovTech",
     sector: "Government", serviceLine: "Enterprise & Government", scale: "Enterprise", stage: "Delivered",
     tags: ["React", "Node.js", "Payments"],
     description: "Municipal services portal for citizen engagement, permits, and revenue collection.",
@@ -337,7 +388,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#3B82F6", createdAt: d("2025-11-15T09:00:00Z"), updatedAt: d("2025-11-15T09:00:00Z"),
   },
   {
-    id: oid(), title: "BestPriceGH Marketplace", slug: "bestpricegh-marketplace", client: "BestPriceGH", category: "E-commerce",
+    id: oid(), title: "Retail Marketplace", slug: "bestpricegh-marketplace", client: "A retail marketplace", category: "E-commerce",
     sector: "Retail / Commerce", serviceLine: "Web & Digital Platforms", scale: "Growth", stage: "Delivered",
     tags: ["React", "Node.js", "Multi-vendor"],
     description: "Multi-vendor e-commerce marketplace with vendor onboarding, catalogue, and order routing.",
@@ -352,7 +403,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#10B981", createdAt: d("2025-10-05T09:00:00Z"), updatedAt: d("2025-10-05T09:00:00Z"),
   },
   {
-    id: oid(), title: "UPOSA Alumni Network", slug: "uposa-alumni-network", client: "UPOSA", category: "Education",
+    id: oid(), title: "Alumni Network", slug: "uposa-alumni-network", client: "An alumni association", category: "Education",
     sector: "Education", serviceLine: "Web & Digital Platforms", scale: "Growth", stage: "Delivered",
     tags: ["React", "Node.js"],
     description: "Alumni network platform with directory, events, dues, and giving.",
@@ -367,7 +418,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#8B5CF6", createdAt: d("2025-09-10T09:00:00Z"), updatedAt: d("2025-09-10T09:00:00Z"),
   },
   {
-    id: oid(), title: "AEJ Travel & Tours", slug: "aej-travel-and-tours", client: "AEJ", category: "Travel",
+    id: oid(), title: "Travel & Tours Platform", slug: "aej-travel-and-tours", client: "A travel operator", category: "Travel",
     sector: "Retail / Commerce", serviceLine: "Web & Digital Platforms", scale: "Growth", stage: "Delivered",
     tags: ["React", "Node.js", "Payments"],
     description: "Travel & tours booking platform with package management and payments.",
@@ -382,7 +433,7 @@ export const caseStudies: CaseStudy[] = [
     status: "published", color: "#F59E0B", createdAt: d("2025-08-20T09:00:00Z"), updatedAt: d("2025-08-20T09:00:00Z"),
   },
   {
-    id: oid(), title: "EasyLife Lending", slug: "easylife-lending", client: "EasyLife", category: "Fintech",
+    id: oid(), title: "Lending Platform", slug: "easylife-lending", client: "A lending platform", category: "Fintech",
     sector: "Financial Services", serviceLine: "Fintech & Payments", scale: "Growth", stage: "Delivered",
     tags: ["React", "Node.js", "Mobile Money", "Scoring"],
     description: "Consumer lending platform with mobile-money disbursement, repayments, and risk scoring.",
