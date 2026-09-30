@@ -158,6 +158,9 @@ export default function NotificationsScreen() {
   const [notifications, setNotifications] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [loadError, setLoadError] = useState("");
+  // The three handlers below used to fail silently, so a tap that did
+  // nothing looked exactly like a tap that worked.
+  const [actionError, setActionError] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const { on } = useSocket();
 
@@ -198,8 +201,8 @@ export default function NotificationsScreen() {
     try {
       await markAllNotificationsRead();
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    } catch {
-      // silently fail
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not mark everything as read.");
     }
   };
 
@@ -209,8 +212,8 @@ export default function NotificationsScreen() {
       setNotifications((prev) =>
         prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
       );
-    } catch {
-      // silently fail
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not mark that notification as read.");
     }
   };
 
@@ -218,8 +221,8 @@ export default function NotificationsScreen() {
     try {
       await deleteNotification(id);
       setNotifications((prev) => prev.filter((n) => n.id !== id));
-    } catch {
-      // silently fail
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not delete that notification.");
     }
   };
 
@@ -262,6 +265,18 @@ export default function NotificationsScreen() {
           />
         }
       >
+        {actionError !== "" && (
+          <View style={styles.noticeCard}>
+            <Text style={styles.noticeError}>{actionError}</Text>
+            <TouchableOpacity
+              onPress={() => setActionError("")}
+              accessibilityRole="button"
+              accessibilityLabel="Dismiss error"
+            >
+              <Text style={styles.noticeAction}>DISMISS</Text>
+            </TouchableOpacity>
+          </View>
+        )}
         {loadError !== "" && (
           <View style={styles.noticeCard}>
             <Text style={styles.noticeError}>{loadError}</Text>

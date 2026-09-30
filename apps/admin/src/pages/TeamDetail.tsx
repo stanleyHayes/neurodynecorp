@@ -117,6 +117,9 @@ export default function TeamDetail() {
   const [pastProjects, setPastProjects] = useState<ProjectData[]>([]);
   const [toggling, setToggling] = useState(false);
   const [actionError, setActionError] = useState("");
+  // `catch { // error }` left both project lists empty, so a failed request
+  // read as "this person is assigned to nothing".
+  const [loadError, setLoadError] = useState("");
 
   const load = useCallback(async () => {
     if (!id) return;
@@ -140,8 +143,9 @@ export default function TeamDetail() {
       const past = memberProjects.filter((p) => p.status === "delivered" || p.status === "completed");
       setCurrentProjects(current);
       setPastProjects(past);
-    } catch {
-      // error
+      setLoadError("");
+    } catch (e) {
+      setLoadError(e instanceof Error ? e.message : "Could not load this person's projects.");
     } finally {
       setLoading(false);
     }
@@ -204,6 +208,11 @@ export default function TeamDetail() {
         <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.7rem", letterSpacing: "0.1em" }}>BACK TO TEAM</Typography>
       </Box>
 
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
       <PageBanner
         icon={<PersonOutlinedIcon />}
         title={name}

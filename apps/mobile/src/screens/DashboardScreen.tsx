@@ -128,6 +128,9 @@ function SkeletonDashboard() {
 export default function DashboardScreen() {
   const { user } = useAuth();
   const [loading, setLoading] = useState(true);
+  // The figures below default to zero. Keeping those defaults on a failed
+  // request reports "no active projects, no pending invoices" as fact.
+  const [loadError, setLoadError] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [stats, setStats] = useState([
     { label: "ACTIVE PROJECTS", value: "0" },
@@ -180,7 +183,7 @@ export default function DashboardScreen() {
           { label: "DOCUMENTS", value: String(documentCount) },
         ]);
       } catch {
-        // keep defaults on error
+        if (!cancelled) setLoadError("Could not load your dashboard. The figures below are not current.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -197,6 +200,12 @@ export default function DashboardScreen() {
   return (
     <ScrollView style={styles.container} showsVerticalScrollIndicator={false}>
       <Text style={styles.greeting}>WELCOME BACK, {firstName.toUpperCase()}</Text>
+
+      {loadError !== "" && (
+        <View style={styles.noticeCard}>
+          <Text style={styles.noticeError}>{loadError}</Text>
+        </View>
+      )}
 
       {/* ── 2x2 Stats Grid ───────────────────────────────────── */}
       <View style={styles.statsGrid}>
@@ -258,6 +267,8 @@ export default function DashboardScreen() {
 /* ── styles ──────────────────────────────────────────────────── */
 
 const styles = StyleSheet.create({
+  noticeCard: { borderWidth: 1, borderColor: colors.border, padding: 20, margin: 16 },
+  noticeError: { color: colors.error, fontFamily: fonts.regular, fontSize: 13, marginBottom: 12 },
   container: {
     flex: 1,
     backgroundColor: colors.background,

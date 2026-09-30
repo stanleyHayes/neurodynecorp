@@ -489,6 +489,7 @@ export default function Tasks() {
   const [projects, setProjects] = useState<ApiProject[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [partialWarning, setPartialWarning] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -517,6 +518,11 @@ export default function Tasks() {
 
       // Fetch tasks for every project and merge
       const allTasks: ApiTask[] = [];
+      // A project whose tasks fail to load used to be skipped in silence, so
+      // the board showed fewer tasks than exist and looked complete. Skipping
+      // is still right — one broken project must not blank the board — but the
+      // count has to be visible, or the board lies by omission.
+      const unreachable: string[] = [];
       await Promise.all(
         loadedProjects.map(async (proj) => {
           try {
@@ -524,11 +530,16 @@ export default function Tasks() {
             const items = (taskRes.items ?? []) as ApiTask[];
             allTasks.push(...items);
           } catch {
-            // Skip projects that fail to load tasks
+            unreachable.push(proj.title);
           }
         }),
       );
       setTasks(allTasks);
+      setPartialWarning(
+        unreachable.length === 0
+          ? ""
+          : `Tasks could not be loaded for ${unreachable.length} project${unreachable.length === 1 ? "" : "s"} (${unreachable.join(", ")}). This board is incomplete.`,
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load tasks");
     } finally {
@@ -687,6 +698,11 @@ export default function Tasks() {
 
       <ActionBar label="New Task" subtitle="ADD TO SPRINT" color="#EF4444" onClick={() => setDialogOpen(true)} />
 
+      {partialWarning && (
+        <Alert severity="warning" sx={{ mx: 2, mt: 1 }} onClose={() => setPartialWarning("")}>
+          {partialWarning}
+        </Alert>
+      )}
       {error && (
         <Alert severity="error" sx={{ mx: 2, mt: 1 }} onClose={() => setError(null)}>
           {error}

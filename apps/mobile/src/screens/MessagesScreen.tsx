@@ -127,6 +127,9 @@ function formatClock(dateStr?: string): string {
 
 export default function MessagesScreen() {
   const [loading, setLoading] = useState(true);
+  // An empty thread list after a failed load says "no conversations",
+  // which is a claim about the client's account, not about the network.
+  const [loadError, setLoadError] = useState("");
   const [threads, setThreads] = useState<any[]>([]);
   const [projects, setProjects] = useState<any[]>([]);
   const [selected, setSelected] = useState<any | null>(null);
@@ -174,8 +177,9 @@ export default function MessagesScreen() {
     async function fetchData() {
       try {
         await reloadThreads();
+        if (!cancelled) setLoadError("");
       } catch {
-        // keep empty on error
+        if (!cancelled) setLoadError("Could not load your conversations. This is not an empty inbox.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -265,6 +269,29 @@ export default function MessagesScreen() {
   };
 
   if (loading) return <SkeletonMessages />;
+
+  if (loadError !== "") {
+    return (
+      <View style={styles.noticeCard}>
+        <Text style={styles.noticeError}>{loadError}</Text>
+        <TouchableOpacity
+          onPress={() => {
+            setLoading(true);
+            setLoadError("");
+            void reloadThreads()
+              // Without this, a second failure clears the error and the screen
+              // falls back to the empty state — the exact bug being fixed.
+              .catch(() => setLoadError("Could not load your conversations. This is not an empty inbox."))
+              .finally(() => setLoading(false));
+          }}
+          accessibilityRole="button"
+          accessibilityLabel="Retry loading conversations"
+        >
+          <Text style={styles.noticeAction}>RETRY</Text>
+        </TouchableOpacity>
+      </View>
+    );
+  }
 
   if (composing) {
     return (
@@ -441,6 +468,9 @@ export default function MessagesScreen() {
 /* ── styles ──────────────────────────────────────────────────── */
 
 const styles = StyleSheet.create({
+  noticeCard: { borderWidth: 1, borderColor: colors.border, padding: 20, margin: 16 },
+  noticeError: { color: colors.error, fontFamily: fonts.regular, fontSize: 13, marginBottom: 12 },
+  noticeAction: { color: colors.primary, fontFamily: fonts.regular, fontSize: 12, letterSpacing: 2 },
   container: {
     flex: 1,
     backgroundColor: colors.background,
