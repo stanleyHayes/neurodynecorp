@@ -18,10 +18,16 @@ export default defineConfig(({ mode }) => ({
       output: {
         manualChunks(id) {
           if (!id.includes("node_modules")) return;
-          if (id.includes("react-router") || id.includes("/react-dom/") || id.match(/\/react\//)) return "react";
+
+          // Anchored on both sides. The previous /\/react\// left react-is
+          // unclaimed, and the bundler folded it into the "markdown" chunk —
+          // so MUI, which depends on react-is, dragged react-markdown's 160 kB
+          // onto every route including the homepage, which renders no markdown
+          // at all.
+          if (/\/(react|react-dom|react-is|react-router|scheduler)\//.test(id)) return "react";
           if (id.includes("@mui/")) return "mui";
           if (id.includes("framer-motion")) return "motion";
-          if (id.includes("react-markdown") || id.includes("remark-")) return "markdown";
+
         },
       },
     },

@@ -1,5 +1,5 @@
-import { useEffect } from "react";
-import { Box } from "@mui/material";
+import { Suspense, useEffect } from "react";
+import { Box, CircularProgress } from "@mui/material";
 import { Outlet, useLocation } from "react-router";
 import Navbar from "./Navbar";
 import Footer from "./Footer";
@@ -51,7 +51,30 @@ export default function Layout() {
       <ScrollToTop />
       <Navbar />
       <Box component="main" sx={{ flex: 1, pb: 0 }}>
-        <Outlet />
+        {/*
+          Routes are lazy, so this boundary sits inside the layout rather than
+          around it — otherwise the navbar and footer would unmount and remount
+          on every navigation.
+
+          minHeight reserves the space the page is about to occupy. Without it
+          the footer jumps up to meet the spinner and back down when the chunk
+          lands, which is a layout shift Core Web Vitals counts against the
+          page.
+        */}
+        <Suspense
+          fallback={
+            <Box
+              role="status"
+              aria-live="polite"
+              aria-label="Loading page"
+              sx={{ minHeight: "70vh", display: "flex", alignItems: "center", justifyContent: "center" }}
+            >
+              <CircularProgress size={28} />
+            </Box>
+          }
+        >
+          <Outlet />
+        </Suspense>
       </Box>
       <Footer />
       <CookieConsent />
