@@ -149,7 +149,7 @@ async function main(): Promise<void> {
     console.log(`\n  Created ${email} as an admin.\n`);
   }
 
-  await mongoClient.disconnect();
+  await mongoClient.close();
 }
 
 main().catch((err) => {

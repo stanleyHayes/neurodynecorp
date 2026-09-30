@@ -128,7 +128,7 @@ async function main(): Promise<void> {
   }
   console.log("");
 
-  await mongoClient.disconnect();
+  await mongoClient.close();
 }
 
 main().catch((err) => {
