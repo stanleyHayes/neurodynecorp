@@ -107,3 +107,37 @@ npm run build        # builds and regenerates sitemap + per-route SEO shells
 `npm run build` runs `scripts/generate-seo.mjs`, which derives `sitemap.xml` and
 the prerendered per-route `<head>` from the route table and the content model.
 If you add a route or a product, check it appears in the generated sitemap.
+
+## Retiring a URL takes two edits, not one
+
+A `<Navigate>` route in `apps/web/src/App.tsx` only redirects visitors who
+already have the JavaScript running. To a crawler, the old URL answers **200**
+with whatever shell the rewrite served — which is how a retired path gets
+indexed as a duplicate of the homepage.
+
+So every retired URL needs **both**:
+
+1. a `<Navigate>` route in `App.tsx`, for in-app navigation and local dev, where
+   `vercel.json` does not apply; and
+2. a `permanent: true` entry in `apps/web/vercel.json` `redirects`, which is the
+   one Google sees.
+
+Adding only the first is the silent failure. The two lists must agree.
+
+## What serves an unmatched URL
+
+`vercel.json` rewrites anything with no matching file to **`app-shell.html`**,
+not `index.html`. That shell deliberately carries no canonical, no `og:url` and
+no page-specific title, so an API-driven page — a blog post, a help article —
+does not inherit the homepage's `<head>` and get filed as a duplicate of it.
+React sets the real tags on hydration.
+
+`generate-seo.mjs` writes that file, and `npm run build` always runs it. A bare
+`vite build` does not, and every unmatched route 404s until you run the full
+build.
+
+Blog posts and help articles are **listed in the sitemap but never
+prerendered** — a build-time shell would keep serving 200 with a real title
+after the post was deleted. Fetching them needs `VITE_API_URL` (or
+`SEO_API_URL`); without it the build still succeeds and says how many it
+omitted.
