@@ -14,7 +14,8 @@ export const useThemeMode = () => useContext(ThemeContext);
 
 const STORAGE_KEY = "neurodyne_client_theme";
 
-function makeTheme(mode: Mode) {
+/** Exported so the sign-in pages can force a dark subtree — see AuthLayout. */
+export function makeTheme(mode: Mode) {
   const dark = mode === "dark";
   return createTheme({
     palette: {

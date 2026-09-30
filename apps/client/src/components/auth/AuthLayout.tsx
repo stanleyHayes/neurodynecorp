@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import { Box, Typography, Stack } from "@mui/material";
 import { motion } from "framer-motion";
+import { useMemo } from "react";
+import { ThemeProvider as MuiThemeProvider } from "@mui/material/styles";
+import { makeTheme } from "@/theme/ThemeContext";
 
 const MotionBox = motion.create(Box);
 
@@ -100,10 +103,46 @@ const formVariants: any = {
   visible: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+/*
+ * These pages paint their own canvas.
+ *
+ * The background below is a hardcoded dark gradient — the sign-in screen is
+ * always dark, whatever theme the dashboard is set to. But the text colours
+ * were being taken from the theme, and `text.primary` is #1E293B in light
+ * mode. So anyone who had ever toggled the dashboard to light got dark text
+ * on a dark canvas: "Welcome back" and every feature card heading rendered
+ * near-invisible, while the body copy, which uses text.secondary, stayed just
+ * light enough to read. That is exactly what it looked like.
+ *
+ * Text on this canvas is therefore fixed to the on-dark values rather than
+ * inherited from the mode.
+ */
+const ON_DARK = "#F1F5F9";
+const ON_DARK_MUTED = "#94A3B8";
+
 export default function AuthLayout({ children, brandTitle, brandSubtitle, cards }: AuthLayoutProps) {
+  /*
+   * Forcing the mode, not just the two colours above.
+   *
+   * Pinning ON_DARK on the headings fixed the cards but not "Welcome back",
+   * which lives in the page rather than here, and not the form — field labels,
+   * outlines, helper text and placeholders all take their colour from the mode
+   * too. Rather than have every auth page remember to override, the whole
+   * subtree gets a dark theme, which is the one thing that is actually true
+   * about this screen: its canvas is always dark.
+   */
+  const darkTheme = useMemo(() => makeTheme("dark"), []);
+
   return (
+    <MuiThemeProvider theme={darkTheme}>
     <Box
       sx={{
+        // The nested theme reaches MUI components, but a Typography with no
+        // `color` prop simply inherits — and what it inherits is the colour
+        // CssBaseline put on <body> from the OUTER theme. Setting it here is
+        // what actually fixes "Welcome back" and anything else a page renders
+        // into this canvas without stating a colour.
+        color: ON_DARK,
         minHeight: "100vh",
         display: "flex",
         flexDirection: { xs: "column", md: "row" },
@@ -149,7 +188,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
             >
               {brandTitle}
             </Typography>
-            <Typography variant="body1" color="text.secondary" sx={{ mb: 5, lineHeight: 1.7 }}>
+            <Typography variant="body1" sx={{ color: ON_DARK_MUTED, mb: 5, lineHeight: 1.7 }}>
               {brandSubtitle}
             </Typography>
           </MotionBox>
@@ -180,10 +219,10 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
               >
                 <Box sx={{ color: "#3B82F6", mt: 0.25, flexShrink: 0 }}>{card.icon}</Box>
                 <Box>
-                  <Typography sx={{ fontWeight: 700 }} variant="subtitle2" color="text.primary">
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, color: ON_DARK }}>
                     {card.title}
                   </Typography>
-                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
+                  <Typography variant="body2" sx={{ color: ON_DARK_MUTED, lineHeight: 1.6 }}>
                     {card.desc}
                   </Typography>
                 </Box>
@@ -232,5 +271,6 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
         </Box>
       </MotionBox>
     </Box>
+    </MuiThemeProvider>
   );
 }
