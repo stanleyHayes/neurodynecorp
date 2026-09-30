@@ -152,6 +152,10 @@ const PM_PERMISSIONS = [
   ...allActions("services"),
   ...allActions("contact_submissions"),
   ...allActions("tickets"),
+  // The admin shell renders a notification bell with a live unread badge for
+  // every role. Without this a project manager saw the count, clicked, and was
+  // bounced straight back to the dashboard by the route guard.
+  ...allActions("notifications"),
   perm("settings", "read"),
   perm("settings", "update"),
   perm("roles", "read"),

@@ -36,6 +36,7 @@ interface ApiProject {
   features: unknown[];
   progress: number;
   assigned_team: string[];
+  assigned_team_members?: { first_name?: string; last_name?: string }[];
   specification_id?: string;
   created_at: string;
   updated_at: string;
@@ -62,26 +63,44 @@ function mapApiProject(p: ApiProject): ProjectDisplay {
     type: p.type ?? "",
     status: p.status ?? "planning",
     progress: p.progress ?? 0,
-    team: (p.assigned_team ?? []).map((id) => id.slice(0, 2).toUpperCase()),
+    // Initials from the member records the API already returns. This used to
+    // slice the first two characters off a Mongo ObjectId, so avatars read
+    // "68" and "6A".
+    team: (p.assigned_team_members ?? []).map((m) =>
+      `${m.first_name?.[0] ?? ""}${m.last_name?.[0] ?? ""}`.toUpperCase() || "??",
+    ),
     budget: 0,
   };
 }
 
 const PER_PAGE = 9;
 
+/**
+ * Keyed on the server's ProjectStatus enum — lead, under_review, approved,
+ * in_development, qa, delivered (apps/server/src/domain/entity/project.ts:3).
+ *
+ * This map used to be keyed on "In Progress" / in_progress / Completed /
+ * on_hold / active, none of which the server has ever emitted. Every chip fell
+ * through to the default colour and all three stat cards below read 0
+ * regardless of how many projects were in those stages.
+ */
 const statusColors: Record<string, string> = {
-  "In Progress": "#F59E0B",
-  in_progress: "#F59E0B",
-  Completed: "#10B981",
-  completed: "#10B981",
-  "On Hold": "#EF4444",
-  on_hold: "#EF4444",
-  Planning: "#94A3B8",
-  planning: "#94A3B8",
-  Review: "#8B5CF6",
-  review: "#8B5CF6",
-  draft: "#94A3B8",
-  active: "#F59E0B",
+  lead: "#94A3B8",
+  under_review: "#8B5CF6",
+  approved: "#3B82F6",
+  in_development: "#F59E0B",
+  qa: "#06B6D4",
+  delivered: "#10B981",
+};
+
+/** The enum values are snake_case; these are what a human should read. */
+const statusLabels: Record<string, string> = {
+  lead: "Lead",
+  under_review: "Under review",
+  approved: "Approved",
+  in_development: "In development",
+  qa: "QA",
+  delivered: "Delivered",
 };
 
 function formatStatus(status: string): string {
@@ -104,8 +123,24 @@ export default function Projects() {
     setLoading(true);
     setError(null);
     try {
-      const res = await api.listProjects({ pageSize: "100" });
-      setProjects((res.items ?? []).map((p) => mapApiProject(p as unknown as ApiProject)));
+      const [res, usersRes] = await Promise.all([
+        api.listProjects({ pageSize: "100" }),
+        // Names for the client_id each project carries. Without this the card
+        // renders a raw Mongo ObjectId where the client name belongs.
+        api.listUsers({ role: "client" }).catch(() => ({ users: [] })),
+      ]);
+      const names = new Map<string, string>(
+        ((usersRes as any).users ?? (usersRes as any).items ?? []).map((u: any) => [
+          u.id,
+          [u.first_name, u.last_name].filter(Boolean).join(" ") || u.company || u.email,
+        ]),
+      );
+      setProjects(
+        (res.items ?? []).map((p) => {
+          const mapped = mapApiProject(p as unknown as ApiProject);
+          return { ...mapped, client: names.get(mapped.clientId ?? "") ?? mapped.client };
+        }),
+      );
     } catch (err) {
       setError(err instanceof Error ? err.message : "Failed to load projects");
     } finally {
@@ -125,15 +160,18 @@ export default function Projects() {
   const totalPages = Math.ceil(filtered.length / PER_PAGE);
   const pageItems = filtered.slice(page * PER_PAGE, (page + 1) * PER_PAGE);
 
-  const inProgress = projects.filter((p) => p.status === "In Progress" || p.status === "in_progress" || p.status === "active").length;
-  const completed = projects.filter((p) => p.status === "Completed" || p.status === "completed").length;
-  const onHold = projects.filter((p) => p.status === "On Hold" || p.status === "on_hold").length;
+  // Active work is anything accepted and not yet delivered.
+  const inProgress = projects.filter((p) => ["approved", "in_development", "qa"].includes(p.status)).length;
+  const completed = projects.filter((p) => p.status === "delivered").length;
+  // There is no "on hold" state in the enum; under_review is the real stage a
+  // project sits in awaiting a decision.
+  const underReview = projects.filter((p) => ["lead", "under_review"].includes(p.status)).length;
 
   const stats = [
     { label: "Total Projects", value: String(projects.length), change: `${inProgress} active`, icon: <FolderOutlinedIcon />, color: "#3B82F6" },
     { label: "In Progress", value: String(inProgress), change: "across clients", icon: <TrendingUpOutlinedIcon />, color: "#F59E0B" },
-    { label: "Completed", value: String(completed), change: "this quarter", icon: <CheckCircleOutlinedIcon />, color: "#10B981" },
-    { label: "On Hold", value: String(onHold), change: "pending review", icon: <PauseCircleOutlinedIcon />, color: "#EF4444" },
+    { label: "Delivered", value: String(completed), change: "all time", icon: <CheckCircleOutlinedIcon />, color: "#10B981" },
+    { label: "Awaiting decision", value: String(underReview), change: "leads and review", icon: <PauseCircleOutlinedIcon />, color: "#8B5CF6" },
   ];
 
   if (loading) {
@@ -217,7 +255,8 @@ export default function Projects() {
       <Box sx={{ display: "grid", gridTemplateColumns: { xs: "1fr", sm: "1fr 1fr", md: "1fr 1fr 1fr" } }}>
         {pageItems.map((project, i) => {
           const color = statusColors[project.status] ?? "#94A3B8";
-          const displayStatus = formatStatus(project.status);
+          // statusLabels first: formatStatus would render "qa" as "Qa".
+          const displayStatus = statusLabels[project.status] ?? formatStatus(project.status);
           return (
             <Cell key={project.id} color={color} index={String(page * PER_PAGE + i + 5).padStart(2, "0")} colInRow={i % 3} totalCols={3} animDelay={0.3 + i * 0.05}>
               <Box onClick={() => navigate(`/projects/${project.id}`)} sx={{ cursor: "pointer" }}>

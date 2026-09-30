@@ -18,8 +18,7 @@ import {
   DialogContent,
   DialogActions,
   Snackbar,
-  Alert,
-} from "@mui/material";
+  Alert } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -58,6 +57,7 @@ export default function Glossary() {
   const { api } = useAuth();
   const [terms, setTerms] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -72,8 +72,12 @@ export default function Glossary() {
       setLoading(true);
       const res = await api.listAllGlossary();
       setTerms(res.items ?? []);
+      setLoadError("");
     } catch {
+      // Rendering an empty state here asserts the terms do not exist when
+      // they were never fetched. A 500 or an expired session is not "none".
       setTerms([]);
+      setLoadError("Could not load terms.");
     } finally {
       setLoading(false);
     }
@@ -143,6 +147,11 @@ export default function Glossary() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
       <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>CONTENT // GLOSSARY OF PRACTICE</Typography>

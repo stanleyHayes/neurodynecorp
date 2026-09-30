@@ -63,7 +63,7 @@ export default function AdminLayout() {
   const theme = useTheme();
   const navigate = useNavigate();
   const location = useLocation();
-  const { api, logout, user } = useAuth();
+  const { api, logout, user, hasPermission } = useAuth();
   const { on } = useSocket();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -173,12 +173,23 @@ export default function AdminLayout() {
             {/* Theme toggle */}
             <ThemeToggle />
 
-            {/* Notifications */}
-            <IconButton color="inherit" size="small" onClick={() => navigate("/notifications")}>
-              <Badge badgeContent={unreadCount || undefined} color="error">
-                <NotificationsOutlinedIcon fontSize="small" />
-              </Badge>
-            </IconButton>
+            {/* Notifications. Gated the way the sidebar is — an ungated bell
+                sends a role that cannot read notifications into a guard bounce,
+                and its badge fetch 403s on a loop. */}
+            {hasPermission("notifications:read") && (
+              <IconButton
+                color="inherit"
+                size="small"
+                onClick={() => navigate("/notifications")}
+                aria-label={
+                  unreadCount > 0 ? `Notifications, ${unreadCount} unread` : "Notifications"
+                }
+              >
+                <Badge badgeContent={unreadCount || undefined} color="error">
+                  <NotificationsOutlinedIcon fontSize="small" />
+                </Badge>
+              </IconButton>
+            )}
 
             {/* User dropdown trigger */}
             <Box

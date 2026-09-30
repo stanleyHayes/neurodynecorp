@@ -41,6 +41,7 @@ function labelStatus(status: string): string {
 export default function Dashboard() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [leads, setLeads] = useState(0);
   const [projects, setProjects] = useState<any[]>([]);
   const [teamCount, setTeamCount] = useState(0);
@@ -50,12 +51,26 @@ export default function Dashboard() {
     let cancelled = false;
     (async () => {
       try {
+        // Failures are recorded, not swallowed. Catching into empty arrays
+        // meant an outage rendered "0 leads, 0 active projects, 0 team
+        // members" under a banner asserting the figures were live — and zeros
+        // on a dashboard read as findings, not as an error.
+        const failed: string[] = [];
         const [intakeRes, projectRes, usersRes, tasksRes] = await Promise.all([
-          api.listProjectIntakes().catch(() => ({ items: [] })),
-          api.listProjects().catch(() => ({ items: [] })),
-          api.listUsers().catch(() => ({ users: [] })),
-          api.get<{ items?: any[]; tasks?: any[]; total?: number }>("/api/v1/tasks").catch(() => ({ items: [], total: 0 })),
+          api.listProjectIntakes().catch(() => { failed.push("leads"); return { items: [] }; }),
+          api.listProjects().catch(() => { failed.push("projects"); return { items: [] }; }),
+          api.listUsers().catch(() => { failed.push("team"); return { users: [] }; }),
+          api
+            .get<{ items?: any[]; tasks?: any[]; total?: number }>("/api/v1/tasks")
+            .catch(() => { failed.push("tasks"); return { items: [], total: 0 }; }),
         ]);
+        if (!cancelled) {
+          setLoadError(
+            failed.length
+              ? `Could not load ${failed.join(", ")}. The figures below are incomplete.`
+              : "",
+          );
+        }
         if (cancelled) return;
 
         const projectItems = (projectRes as any).items ?? [];
@@ -162,7 +177,9 @@ export default function Dashboard() {
 
       <Box sx={{ px: 3, pt: 2 }}>
         <Alert severity="info">
-          Headline counts and project charts use live API data. Revenue time-series still requires a finance aggregation API.
+          {loadError
+            ? loadError
+            : "Headline counts and project charts use live API data. Revenue time-series still requires a finance aggregation API."}
         </Alert>
       </Box>
 

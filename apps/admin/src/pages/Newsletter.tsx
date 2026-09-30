@@ -14,8 +14,7 @@ import {
   TableHead,
   TableBody,
   TableRow,
-  TableCell,
-} from "@mui/material";
+  TableCell, Alert } from "@mui/material";
 import MarkEmailReadOutlinedIcon from "@mui/icons-material/MarkEmailReadOutlined";
 import HourglassEmptyOutlinedIcon from "@mui/icons-material/HourglassEmptyOutlined";
 import CheckCircleOutlineOutlinedIcon from "@mui/icons-material/CheckCircleOutlineOutlined";
@@ -54,6 +53,7 @@ export default function Newsletter() {
   const { api } = useAuth();
   const [subscribers, setSubscribers] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [statusFilter, setStatusFilter] = useState<string>("all");
 
   const load = useCallback(async () => {
@@ -62,8 +62,12 @@ export default function Newsletter() {
       const params = statusFilter === "all" ? undefined : { status: statusFilter };
       const res: any = await api.get("/api/v1/newsletter", params);
       setSubscribers(asList(res));
+      setLoadError("");
     } catch {
+      // Rendering an empty state here asserts the subscribers do not exist when
+      // they were never fetched. A 500 or an expired session is not "none".
       setSubscribers([]);
+      setLoadError("Could not load subscribers.");
     } finally {
       setLoading(false);
     }
@@ -88,6 +92,11 @@ export default function Newsletter() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
       <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>AUDIENCE // NEWSLETTER</Typography>

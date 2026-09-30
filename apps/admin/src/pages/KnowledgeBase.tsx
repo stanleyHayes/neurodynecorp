@@ -18,8 +18,7 @@ import {
   DialogContent,
   DialogActions,
   Snackbar,
-  Alert,
-} from "@mui/material";
+  Alert } from "@mui/material";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import EditOutlinedIcon from "@mui/icons-material/EditOutlined";
 import DeleteOutlineOutlinedIcon from "@mui/icons-material/DeleteOutlineOutlined";
@@ -69,6 +68,7 @@ export default function KnowledgeBase() {
   const { api } = useAuth();
   const [articles, setArticles] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState("");
   const [dialogOpen, setDialogOpen] = useState(false);
   const [form, setForm] = useState<FormState>(emptyForm);
   const [saving, setSaving] = useState(false);
@@ -84,8 +84,12 @@ export default function KnowledgeBase() {
       // pass status param to also fetch drafts (not just published)
       const res: any = await api.get("/api/v1/help", { status: "all" });
       setArticles(asList(res));
+      setLoadError("");
     } catch {
+      // Rendering an empty state here asserts the articles do not exist when
+      // they were never fetched. A 500 or an expired session is not "none".
       setArticles([]);
+      setLoadError("Could not load articles.");
     } finally {
       setLoading(false);
     }
@@ -158,6 +162,11 @@ export default function KnowledgeBase() {
 
   return (
     <Box sx={{ p: { xs: 2, md: 3 } }}>
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
       <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap" }} direction="row" spacing={2}>
         <Box>
           <Typography sx={overlineSx}>CONTENT // KNOWLEDGE BASE</Typography>
