@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Avatar,
   AvatarGroup,
   Box,
@@ -33,6 +34,10 @@ export default function Projects() {
   const navigate = useNavigate();
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
+  // "Handled by the API client" was only ever true for a 401, which redirects.
+  // A 500 or a dropped connection fell through to an empty list, and the empty
+  // state then told the client they have none of something they may well have.
+  const [loadError, setLoadError] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [userMap, setUserMap] = useState<Record<string, ResolvedUser>>({});
 
@@ -61,7 +66,7 @@ export default function Projects() {
         }
         if (!cancelled) setUserMap(map);
       } catch {
-        // handled by API client
+        if (!cancelled) setLoadError("Could not load your projects. This is a problem reaching the server, not an empty portfolio.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -78,6 +83,11 @@ export default function Projects() {
         title="My Projects"
         description="Track progress, milestones, and team assignments for all your active projects."
       />
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
 
       <Grid container spacing={3}>
         {loading

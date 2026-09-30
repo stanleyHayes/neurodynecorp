@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  Alert,
   Box,
   Typography,
   CardContent,
@@ -49,6 +50,10 @@ function formatDate(dateStr: string): string {
 export default function Billing() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
+  // "Handled by the API client" was only ever true for a 401, which redirects.
+  // A 500 or a dropped connection fell through to an empty list, and the empty
+  // state then told the client they have none of something they may well have.
+  const [loadError, setLoadError] = useState("");
   const [invoices, setInvoices] = useState<InvoiceRow[]>([]);
   const [projectNames, setProjectNames] = useState<Record<string, string>>({});
   const [payingId, setPayingId] = useState<string | null>(null);
@@ -103,7 +108,11 @@ export default function Billing() {
         }
         setProjectNames(names);
       } catch {
-        // handled by API client
+        if (!cancelled) {
+          setLoadError(
+            "Could not load your invoices. Do not treat this as a settled account — it is a problem reaching the server.",
+          );
+        }
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -148,6 +157,11 @@ export default function Billing() {
         title="Billing & Invoices"
         description="View payment history, outstanding invoices, and manage your billing."
       />
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
 
       <Grid container spacing={3} sx={{ mb: 4 }}>
         {statCards.map((stat, i) => (

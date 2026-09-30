@@ -155,6 +155,10 @@ export default function ProjectDetail() {
   const [activeApproval, setActiveApproval] = useState<any | null>(null);
   const [decisionComment, setDecisionComment] = useState("");
   const [deciding, setDeciding] = useState(false);
+  // Approving or rejecting a deliverable is the most consequential thing a
+  // client does here. A silent failure left the dialog open with no reason
+  // given, which reads as "nothing happened" — or worse, as success.
+  const [decideError, setDecideError] = useState("");
 
   const reloadApprovals = async () => {
     if (!id) return;
@@ -169,13 +173,16 @@ export default function ProjectDetail() {
   const decide = async (decision: string) => {
     if (!activeApproval) return;
     setDeciding(true);
+    setDecideError("");
     try {
       await api.decideApproval(activeApproval.id, decision, decisionComment.trim() || undefined);
       setActiveApproval(null);
       setDecisionComment("");
       await reloadApprovals();
-    } catch {
-      /* keep dialog open */
+    } catch (err) {
+      setDecideError(
+        err instanceof Error ? err.message : "That decision was not recorded. Nothing has been approved — try again.",
+      );
     } finally {
       setDeciding(false);
     }
@@ -206,6 +213,9 @@ export default function ProjectDetail() {
   const [activeTicket, setActiveTicket] = useState<any>(null);
   const [replyText, setReplyText] = useState("");
   const [replying, setReplying] = useState(false);
+  // "Keep the dialog open" was the whole failure handler: the spinner
+  // stopped, the text stayed, and nothing said why.
+  const [replyError, setReplyError] = useState("");
 
   const reloadTickets = async () => {
     if (!id) return;
@@ -243,13 +253,15 @@ export default function ProjectDetail() {
   const sendReply = async () => {
     if (!activeTicket || !replyText.trim()) return;
     setReplying(true);
+    setReplyError("");
     try {
       const updated = await api.replyTicket(activeTicket.id, replyText.trim());
       setActiveTicket(updated);
       setReplyText("");
       await reloadTickets();
-    } catch {
-      /* keep dialog open */
+    } catch (err) {
+      // The reply is deliberately left in the box so it is not lost.
+      setReplyError(err instanceof Error ? err.message : "Reply not sent. Your text is still here — try again.");
     } finally {
       setReplying(false);
     }
@@ -1253,7 +1265,7 @@ export default function ProjectDetail() {
       )}
 
       {/* Sign-off decision dialog */}
-      <Dialog open={!!activeApproval} onClose={() => setActiveApproval(null)} fullWidth maxWidth="sm">
+      <Dialog open={!!activeApproval} onClose={() => { setActiveApproval(null); setDecideError(""); }} fullWidth maxWidth="sm">
         {activeApproval && (
           <>
             <DialogTitle sx={{ pb: 0.5 }}>{activeApproval.title}</DialogTitle>
@@ -1267,6 +1279,11 @@ export default function ProjectDetail() {
                 </Typography>
               )}
               <Divider sx={{ mb: 2 }} />
+              {decideError && (
+                <Alert severity="error" sx={{ mb: 2 }} onClose={() => setDecideError("")}>
+                  {decideError}
+                </Alert>
+              )}
               <TextField slotProps={{ htmlInput: { maxLength: 8000 } }}
                 label="Comments / conditions (optional, required if rejecting)"
                 value={decisionComment}
@@ -1277,7 +1294,7 @@ export default function ProjectDetail() {
               />
             </DialogContent>
             <DialogActions sx={{ flexWrap: "wrap", gap: 1, p: 2 }}>
-              <Button onClick={() => setActiveApproval(null)} sx={{ mr: "auto" }}>Cancel</Button>
+              <Button onClick={() => { setActiveApproval(null); setDecideError(""); }} sx={{ mr: "auto" }}>Cancel</Button>
               <Button color="error" variant="outlined" disabled={deciding || !decisionComment.trim()} onClick={() => decide("rejected")}>
                 Reject
               </Button>
@@ -1348,6 +1365,7 @@ export default function ProjectDetail() {
               )}
             </DialogContent>
             <DialogActions sx={{ flexDirection: "column", alignItems: "stretch", gap: 1, p: 2 }}>
+              {replyError && <Alert severity="error" sx={{ mb: 1 }} onClose={() => setReplyError("")}>{replyError}</Alert>}
               <TextField slotProps={{ htmlInput: { maxLength: 8000 } }} placeholder="Write a reply…" value={replyText} onChange={(e) => setReplyText(e.target.value)} fullWidth multiline minRows={2} size="small" />
               <Stack sx={{ justifyContent: "flex-end" }} direction="row" spacing={1}>
                 <Button onClick={() => setActiveTicket(null)}>Close</Button>

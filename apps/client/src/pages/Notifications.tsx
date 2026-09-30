@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import {
+  Alert,
   Box,
   Typography,
   CardContent,
@@ -54,14 +55,22 @@ function timeAgo(dateStr: string): string {
 export default function Notifications() {
   const { api } = useAuth();
   const [loading, setLoading] = useState(true);
+  // Every handler here swallowed its error, so a failure was indistinguishable
+  // from a click that never registered — and a failed load rendered as "no
+  // notifications", which tells the client their inbox is empty when we simply
+  // could not ask.
+  const [loadError, setLoadError] = useState("");
+  const [actionError, setActionError] = useState("");
   const [notifications, setNotifications] = useState<NotificationItem[]>([]);
 
   const load = useCallback(async () => {
     try {
       const res = await api.listNotifications();
       setNotifications((res.items ?? []) as NotificationItem[]);
+      setLoadError("");
     } catch {
-      // handled by API client
+      setNotifications([]);
+      setLoadError("Could not load notifications. This is not an empty inbox.");
     } finally {
       setLoading(false);
     }
@@ -75,8 +84,9 @@ export default function Notifications() {
     try {
       await api.markAllNotificationsRead();
       setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
-    } catch {
-      // silent
+      setActionError("");
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not mark everything as read.");
     }
   };
 
@@ -85,8 +95,9 @@ export default function Notifications() {
     try {
       await api.markNotificationRead(id);
       setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
-    } catch {
-      // silent
+      setActionError("");
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not mark that notification as read.");
     }
   };
 
@@ -94,8 +105,9 @@ export default function Notifications() {
     try {
       await api.deleteNotification(id);
       setNotifications((prev) => prev.filter((n) => n.id !== id));
-    } catch {
-      // silent
+      setActionError("");
+    } catch (err) {
+      setActionError(err instanceof Error ? err.message : "Could not delete that notification.");
     }
   };
 
@@ -107,6 +119,17 @@ export default function Notifications() {
         description="Stay updated on project status changes, messages, and important alerts."
         action={<Button variant="outlined" size="small" onClick={handleMarkAllRead}>Mark All as Read</Button>}
       />
+
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
+      {actionError && (
+        <Alert severity="error" variant="outlined" sx={{ mb: 2 }} onClose={() => setActionError("")}>
+          {actionError}
+        </Alert>
+      )}
 
       <AnimatedCard delay={0}>
         <CardContent>

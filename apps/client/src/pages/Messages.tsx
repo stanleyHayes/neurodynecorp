@@ -1,5 +1,6 @@
 import { useEffect, useState, useCallback } from "react";
 import {
+  Alert,
   Box,
   Typography,
   List,
@@ -19,7 +20,6 @@ import {
   DialogContent,
   DialogActions,
   MenuItem,
-  Alert,
 } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -72,6 +72,10 @@ function formatTime(dateStr: string): string {
 export default function Messages() {
   const { api, user } = useAuth();
   const [loading, setLoading] = useState(true);
+  // "Handled by the API client" was only ever true for a 401, which redirects.
+  // A 500 or a dropped connection fell through to an empty list, and the empty
+  // state then told the client they have none of something they may well have.
+  const [loadError, setLoadError] = useState("");
   const [threads, setThreads] = useState<Thread[]>([]);
   const [selectedThread, setSelectedThread] = useState<string | null>(null);
   const [messages, setMessages] = useState<Msg[]>([]);
@@ -83,6 +87,10 @@ export default function Messages() {
   const [newTitle, setNewTitle] = useState("");
   const [creating, setCreating] = useState(false);
   const [createError, setCreateError] = useState("");
+  // A failed send used to do nothing at all: the text stayed in the box and
+  // no reason was given, which is indistinguishable from a click that never
+  // registered.
+  const [sendError, setSendError] = useState("");
 
   const reloadThreads = useCallback(async () => {
     const res = await api.listThreads();
@@ -111,7 +119,7 @@ export default function Messages() {
           setSelectedThread(allThreads[0].id);
         }
       } catch {
-        // handled by API client
+        if (!cancelled) setLoadError("Could not load your conversations. This is a problem reaching the server, not an empty inbox.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -185,12 +193,14 @@ export default function Messages() {
     const thread = threads.find((t) => t.id === selectedThread);
     if (!thread) return;
 
+    setSendError("");
     try {
       const sent = await api.sendMessage(selectedThread, text);
       setMessages((prev) => [...prev, sent as Msg]);
       setNewMessage("");
-    } catch {
-      // send failed
+    } catch (err) {
+      // The text is deliberately left in the box so it is not lost.
+      setSendError(err instanceof Error ? err.message : "Message not sent. Your text is still here — try again.");
     }
   };
 
@@ -203,6 +213,11 @@ export default function Messages() {
         title="Messages"
         description="Communicate with your project team in real-time threads."
       />
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
 
       <Box sx={{ px: 3, pb: 1, display: "flex", justifyContent: "flex-end" }}>
         <Button
@@ -377,6 +392,11 @@ export default function Messages() {
 
               <Divider />
               <Box sx={{ p: 2 }}>
+                {sendError && (
+                  <Alert severity="error" sx={{ mb: 1.5 }} onClose={() => setSendError("")}>
+                    {sendError}
+                  </Alert>
+                )}
                 <Stack direction="row" spacing={1}>
                   <TextField
                     fullWidth

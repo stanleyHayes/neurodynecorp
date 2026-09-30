@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Box, Typography, Chip, Stack, Skeleton } from "@mui/material";
+import { Alert, Box, Typography, Chip, Stack, Skeleton } from "@mui/material";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
 import AssignmentOutlinedIcon from "@mui/icons-material/AssignmentOutlined";
 import ReceiptLongOutlinedIcon from "@mui/icons-material/ReceiptLongOutlined";
@@ -50,6 +50,10 @@ function timeAgo(dateStr: string): string {
 export default function Dashboard() {
   const { api, user } = useAuth();
   const [loading, setLoading] = useState(true);
+  // "Handled by the API client" was only ever true for a 401, which redirects.
+  // A 500 or a dropped connection fell through to an empty list, and the empty
+  // state then told the client they have none of something they may well have.
+  const [loadError, setLoadError] = useState("");
   const [projects, setProjects] = useState<any[]>([]);
   const [pendingInvoices, setPendingInvoices] = useState(0);
   const [unreadMessages, setUnreadMessages] = useState(0);
@@ -91,7 +95,7 @@ export default function Dashboard() {
         );
         if (!cancelled) setDocumentCount(docs);
       } catch {
-        // Errors are handled by the API client (e.g. redirect on 401)
+        if (!cancelled) setLoadError("Could not load your dashboard. The figures below are incomplete.");
       } finally {
         if (!cancelled) setLoading(false);
       }
@@ -132,6 +136,11 @@ export default function Dashboard() {
         iconColor="#3B82F6"
         iconLabel="DASH ACTIVE"
       />
+      {loadError && (
+        <Alert severity="warning" variant="outlined" sx={{ mb: 2 }}>
+          {loadError}
+        </Alert>
+      )}
 
       {/* Stats grid */}
       <SectionLabel>System Stats</SectionLabel>
