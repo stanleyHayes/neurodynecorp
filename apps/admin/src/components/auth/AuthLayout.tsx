@@ -169,7 +169,7 @@ export default function AuthLayout({ children, brandTitle, brandSubtitle, cards 
                   alignItems: "flex-start",
                   p: 2.5,
                   borderRadius: 1.5,
-                  background: "rgba(17, 24, 39, 0.6)",
+                  background: "rgba(17, 26, 46, 0.6)",
                   backdropFilter: "blur(12px)",
                   border: "1px solid rgba(59, 130, 246, 0.08)",
                   transition: "border-color 0.2s",

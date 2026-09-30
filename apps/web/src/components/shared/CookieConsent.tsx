@@ -118,7 +118,7 @@ export default function CookieConsent() {
         borderRadius: 3,
         border: "1px solid rgba(59, 130, 246, 0.22)",
         background:
-          "linear-gradient(135deg, rgba(17,24,39,0.96), rgba(17,24,39,0.92))",
+          "linear-gradient(135deg, rgba(17, 26, 46,0.96), rgba(17, 26, 46,0.92))",
         backdropFilter: "blur(12px)",
         boxShadow: "0 16px 48px rgba(0,0,0,0.45)",
         p: { xs: 2.5, md: 3 },

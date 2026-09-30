@@ -1,7 +1,7 @@
 export const PROJECT_STATUSES = {
   lead: { label: "Lead", color: "#94A3B8" },
-  under_review: { label: "Under Review", color: "#6C63FF" },
-  approved: { label: "Approved", color: "#00D4AA" },
+  under_review: { label: "Under Review", color: "#3B82F6" },
+  approved: { label: "Approved", color: "#06B6D4" },
   in_development: { label: "In Development", color: "#F59E0B" },
   qa: { label: "QA", color: "#8B5CF6" },
   delivered: { label: "Delivered", color: "#10B981" },
@@ -16,14 +16,14 @@ export const PROJECT_TYPES = {
 
 export const TASK_PRIORITIES = {
   low: { label: "Low", color: "#94A3B8" },
-  medium: { label: "Medium", color: "#6C63FF" },
+  medium: { label: "Medium", color: "#3B82F6" },
   high: { label: "High", color: "#F59E0B" },
   critical: { label: "Critical", color: "#EF4444" },
 } as const;
 
 export const TASK_STATUSES = {
   backlog: { label: "Backlog", color: "#94A3B8" },
-  todo: { label: "To Do", color: "#6C63FF" },
+  todo: { label: "To Do", color: "#3B82F6" },
   in_progress: { label: "In Progress", color: "#F59E0B" },
   review: { label: "Review", color: "#8B5CF6" },
   done: { label: "Done", color: "#10B981" },

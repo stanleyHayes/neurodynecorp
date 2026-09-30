@@ -15,7 +15,7 @@ const theme = createTheme({
     },
     background: {
       default: "#0A0F1F",
-      paper: "rgba(17, 24, 39, 0.35)",
+      paper: "rgba(17, 26, 46, 0.35)",
     },
     text: {
       primary: "#F1F5F9",
@@ -47,7 +47,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
-          background: "rgba(17, 24, 39, 0.35)",
+          background: "rgba(17, 26, 46, 0.35)",
           backdropFilter: "blur(24px)",
           WebkitBackdropFilter: "blur(24px)",
           border: "1px solid rgba(59, 130, 246, 0.1)",

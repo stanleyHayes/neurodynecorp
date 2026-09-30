@@ -622,11 +622,11 @@ export default function BlogPost() {
                 mb: 4,
                 color: "text.secondary",
                 backdropFilter: "blur(8px)",
-                background: "rgba(17, 24, 39, 0.4)",
+                background: "rgba(17, 26, 46, 0.4)",
                 borderRadius: 0,
                 px: 2,
                 border: "1px solid rgba(59, 130, 246, 0.1)",
-                "&:hover": { color: "text.primary", background: "rgba(17, 24, 39, 0.6)" },
+                "&:hover": { color: "text.primary", background: "rgba(17, 26, 46, 0.6)" },
               }}
             >
               All Articles
@@ -698,7 +698,7 @@ export default function BlogPost() {
                 px: 2,
                 py: 1,
                 borderRadius: 0,
-                background: "rgba(17, 24, 39, 0.5)",
+                background: "rgba(17, 26, 46, 0.5)",
                 backdropFilter: "blur(12px)",
                 border: "1px solid rgba(59, 130, 246, 0.1)",
               }}

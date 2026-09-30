@@ -244,7 +244,7 @@ const testimonialCreateSchema = z
     content: z.string().min(1),
     rating: z.number().min(1).max(5).optional().default(5),
     status: z.enum(["active", "hidden"]).optional(),
-    avatarColor: z.string().optional().default("#6C63FF"),
+    avatarColor: z.string().optional().default("#3B82F6"),
   })
   .strict();
 
@@ -269,7 +269,7 @@ const serviceCreateSchema = z
     features: z.array(z.string()).optional(),
     status: z.enum(["active", "coming_soon", "inactive"]).optional(),
     projectCount: z.number().optional(),
-    color: z.string().optional().default("#6C63FF"),
+    color: z.string().optional().default("#3B82F6"),
     order: z.number().optional(),
   })
   .strict();
@@ -312,7 +312,7 @@ const caseStudyCreateSchema = z
     results: z.array(z.string()).optional(),
     status: z.enum(["published", "draft"]).optional(),
     coverImage: z.string().optional(),
-    color: z.string().optional().default("#6C63FF"),
+    color: z.string().optional().default("#3B82F6"),
     sector: z.string().optional(),
     serviceLine: z.string().optional(),
     scale: z.string().optional(),
@@ -403,7 +403,7 @@ export function createTestimonialRoutes(service: ContentService<any>, tokenServi
       content: data.content,
       rating: data.rating ?? 5,
       status: data.status ?? "active",
-      avatarColor: data.avatarColor ?? "#6C63FF",
+      avatarColor: data.avatarColor ?? "#3B82F6",
     }),
     updateSchema: testimonialUpdateSchema,
     publicRead: true,
@@ -421,7 +421,7 @@ export function createServiceItemRoutes(service: ContentService<any>, tokenServi
       features: data.features ?? [],
       order: data.order ?? 0,
       projectCount: data.projectCount ?? 0,
-      color: data.color ?? "#6C63FF",
+      color: data.color ?? "#3B82F6",
     }),
     updateSchema: serviceUpdateSchema,
     publicRead: true,
@@ -446,7 +446,7 @@ export function createCaseStudyRoutes(
       description: data.description ?? "",
       impact: data.impact ?? "",
       coverImage: data.coverImage,
-      color: data.color ?? "#6C63FF",
+      color: data.color ?? "#3B82F6",
       sector: data.sector,
       serviceLine: data.serviceLine,
       scale: data.scale,

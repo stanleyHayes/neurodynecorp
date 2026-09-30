@@ -84,9 +84,9 @@ export const blogPosts: BlogPost[] = [
 // ── Testimonials ───────────────────────────────────────────────────────────
 
 export const testimonials: Testimonial[] = [
-  { id: oid(), name: "David Kim", role: "CEO", company: "Acme Corp", content: "Stanley and the NeuroDyne team transformed our vague idea into a comprehensive specification in days. The structured process was exactly what we needed.", rating: 5, status: "active", avatarColor: "#6C63FF", createdAt: d("2026-03-18T09:00:00Z"), updatedAt: d("2026-03-18T09:00:00Z") },
-  { id: oid(), name: "Fatima Hassan", role: "Founder", company: "GreenLeaf Technologies", content: "The transparency and professionalism from spec to delivery was outstanding. We could track every milestone in real-time on the dashboard.", rating: 5, status: "active", avatarColor: "#00D4AA", createdAt: d("2026-03-10T09:00:00Z"), updatedAt: d("2026-03-10T09:00:00Z") },
-  { id: oid(), name: "Lucas Berg", role: "CTO", company: "Nordic SaaS", content: "Their productized approach caught requirements we hadn't even considered. Truly next-level engineering partner for our AI chatbot project.", rating: 5, status: "active", avatarColor: "#8B85FF", createdAt: d("2026-02-25T09:00:00Z"), updatedAt: d("2026-02-25T09:00:00Z") },
+  { id: oid(), name: "David Kim", role: "CEO", company: "Acme Corp", content: "Stanley and the NeuroDyne team transformed our vague idea into a comprehensive specification in days. The structured process was exactly what we needed.", rating: 5, status: "active", avatarColor: "#3B82F6", createdAt: d("2026-03-18T09:00:00Z"), updatedAt: d("2026-03-18T09:00:00Z") },
+  { id: oid(), name: "Fatima Hassan", role: "Founder", company: "GreenLeaf Technologies", content: "The transparency and professionalism from spec to delivery was outstanding. We could track every milestone in real-time on the dashboard.", rating: 5, status: "active", avatarColor: "#06B6D4", createdAt: d("2026-03-10T09:00:00Z"), updatedAt: d("2026-03-10T09:00:00Z") },
+  { id: oid(), name: "Lucas Berg", role: "CTO", company: "Nordic SaaS", content: "Their productized approach caught requirements we hadn't even considered. Truly next-level engineering partner for our AI chatbot project.", rating: 5, status: "active", avatarColor: "#8B5CF6", createdAt: d("2026-02-25T09:00:00Z"), updatedAt: d("2026-02-25T09:00:00Z") },
   { id: oid(), name: "James Okafor", role: "Project Manager", company: "NeuroDyne Corp", content: "Working with Stanley means every project starts with clarity. The spec-first approach saves weeks of back-and-forth.", rating: 5, status: "active", avatarColor: "#F59E0B", createdAt: d("2026-02-15T09:00:00Z"), updatedAt: d("2026-02-15T09:00:00Z") },
   { id: oid(), name: "Maria Gonzalez", role: "Lead Engineer", company: "NeuroDyne Corp", content: "The depth of projects we've shipped — from govtech to healthcare to fintech — keeps every day challenging and meaningful.", rating: 5, status: "active", avatarColor: "#10B981", createdAt: d("2026-01-20T09:00:00Z"), updatedAt: d("2026-01-20T09:00:00Z") },
   { id: oid(), name: "Priya Sharma", role: "QA Lead", company: "NeuroDyne Corp", content: "36+ projects and counting. The variety of domains we work in makes NeuroDyne one of the most exciting engineering studios in Africa.", rating: 5, status: "active", avatarColor: "#8B5CF6", createdAt: d("2025-12-10T09:00:00Z"), updatedAt: d("2025-12-10T09:00:00Z") },
@@ -104,7 +104,7 @@ export const serviceItems: ServiceItem[] = [
     features: ["React / Next.js / Vite", "SaaS platforms", "Admin dashboards", "Marketing websites", "API-first architecture"],
     status: "active",
     projectCount: 33,
-    color: "#6C63FF",
+    color: "#3B82F6",
     order: 1,
     createdAt: d("2025-01-01T00:00:00Z"),
     updatedAt: d("2025-01-01T00:00:00Z"),
@@ -117,7 +117,7 @@ export const serviceItems: ServiceItem[] = [
     features: ["iOS & Android", "React Native / Expo", "Push notifications", "Offline-first", "Mobile money integration"],
     status: "active",
     projectCount: 13,
-    color: "#00D4AA",
+    color: "#06B6D4",
     order: 2,
     createdAt: d("2025-01-01T00:00:00Z"),
     updatedAt: d("2025-01-01T00:00:00Z"),
@@ -130,7 +130,7 @@ export const serviceItems: ServiceItem[] = [
     features: ["Go / Node.js / Express", "gRPC & REST", "Hexagonal architecture", "Kafka event streaming", "Redis caching"],
     status: "active",
     projectCount: 36,
-    color: "#8B85FF",
+    color: "#8B5CF6",
     order: 3,
     createdAt: d("2025-01-01T00:00:00Z"),
     updatedAt: d("2025-01-01T00:00:00Z"),
@@ -156,7 +156,7 @@ export const serviceItems: ServiceItem[] = [
     features: ["Paystack / Stripe", "Mobile money (MoMo)", "Installment engines", "Escrow & payouts", "Compliance reporting"],
     status: "active",
     projectCount: 5,
-    color: "#33DDBB",
+    color: "#10B981",
     order: 5,
     createdAt: d("2025-01-01T00:00:00Z"),
     updatedAt: d("2025-01-01T00:00:00Z"),
@@ -221,7 +221,7 @@ export const serviceItems: ServiceItem[] = [
     features: ["AWS / GCP / Render", "Docker & Kubernetes", "CI/CD pipelines", "Prometheus monitoring", "Auto-scaling"],
     status: "active",
     projectCount: 36,
-    color: "#6C63FF",
+    color: "#3B82F6",
     order: 10,
     createdAt: d("2025-01-01T00:00:00Z"),
     updatedAt: d("2025-01-01T00:00:00Z"),
@@ -244,7 +244,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Digital tenancy agreements", "MoMo rent collection & receipts", "Tenant credit scoring"],
     retained: ["Credit-scoring model as reusable IP", "Payments orchestration layer"],
     learnt: ["Receipts-by-SMS drove trust faster than the app UI itself", "Credit scoring must degrade gracefully where history is thin"],
-    status: "published", color: "#6C63FF", createdAt: d("2026-03-12T09:00:00Z"), updatedAt: d("2026-03-12T09:00:00Z"),
+    status: "published", color: "#3B82F6", createdAt: d("2026-03-12T09:00:00Z"), updatedAt: d("2026-03-12T09:00:00Z"),
   },
   {
     id: oid(), title: "FastCare Clinics", slug: "fastcare-clinics", client: "FastCare", category: "Healthcare",
@@ -259,7 +259,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Electronic health records", "Automated NHIS claims", "Telemedicine consults"],
     retained: ["Claims-automation engine", "Consent-aware EHR core (feeds ILIVVON)"],
     learnt: ["Claims validation at capture point cut rejections dramatically", "Offline-first capture was non-negotiable for rural sites"],
-    status: "published", color: "#00D4AA", createdAt: d("2026-02-28T09:00:00Z"), updatedAt: d("2026-02-28T09:00:00Z"),
+    status: "published", color: "#06B6D4", createdAt: d("2026-02-28T09:00:00Z"), updatedAt: d("2026-02-28T09:00:00Z"),
   },
   {
     id: oid(), title: "BDR Ghana", slug: "bdr-ghana", client: "Births & Deaths Registry", category: "GovTech",
@@ -274,7 +274,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Digital registration flows", "Public vital-statistics dashboards", "Agency integration API"],
     retained: ["API-first registry architecture as reference pattern"],
     learnt: ["Publishing open dashboards built political momentum for the digital programme"],
-    status: "published", color: "#8B85FF", createdAt: d("2026-02-10T09:00:00Z"), updatedAt: d("2026-02-10T09:00:00Z"),
+    status: "published", color: "#8B5CF6", createdAt: d("2026-02-10T09:00:00Z"), updatedAt: d("2026-02-10T09:00:00Z"),
   },
   {
     id: oid(), title: "24-Hour Economy Platform", slug: "24-hour-economy-platform", client: "Investment Intelligence", category: "Fintech",
@@ -304,7 +304,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Unified patient record", "Claims automation", "Telemedicine"],
     retained: ["Entire platform owned by NeuroDyne Labs (spinning out as ILIVVON Health Systems Ltd)"],
     learnt: ["Interoperability sells the platform; the intelligence layer retains it"],
-    status: "published", color: "#00D4AA", createdAt: d("2026-03-01T09:00:00Z"), updatedAt: d("2026-03-01T09:00:00Z"),
+    status: "published", color: "#06B6D4", createdAt: d("2026-03-01T09:00:00Z"), updatedAt: d("2026-03-01T09:00:00Z"),
   },
   {
     id: oid(), title: "JDPlus Group Platform", slug: "jdplus-group-platform", client: "JDPlus", category: "Commerce",
@@ -319,7 +319,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Customer & product registry", "AC service workflow with QR follow-up", "Susu collections & loans", "Analytics"],
     retained: ["Reusable commerce + collections core"],
     learnt: ["QR-coded service stickers + SMS reminders drove repeat service revenue"],
-    status: "published", color: "#33DDBB", createdAt: d("2026-01-20T09:00:00Z"), updatedAt: d("2026-01-20T09:00:00Z"),
+    status: "published", color: "#10B981", createdAt: d("2026-01-20T09:00:00Z"), updatedAt: d("2026-01-20T09:00:00Z"),
   },
   {
     id: oid(), title: "LeKMA Municipal Portal", slug: "lekma-municipal-portal", client: "Ledzokuku Municipal Assembly", category: "GovTech",
@@ -394,7 +394,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Loan origination", "MoMo disbursement & collection", "Risk scoring & reporting"],
     retained: ["Lending + collections engine"],
     learnt: ["Automated repayment reminders cut defaults more than tighter origination rules"],
-    status: "published", color: "#00D4AA", createdAt: d("2025-07-12T09:00:00Z"), updatedAt: d("2025-07-12T09:00:00Z"),
+    status: "published", color: "#06B6D4", createdAt: d("2025-07-12T09:00:00Z"), updatedAt: d("2025-07-12T09:00:00Z"),
   },
   {
     id: oid(), title: "Kraken Compliance OS", slug: "kraken-compliance-os", client: "Confidential", category: "GovTech",
@@ -409,7 +409,7 @@ export const caseStudies: CaseStudy[] = [
     shipped: ["Workflow engine", "Evidence vault", "Audit trail & exports"],
     retained: ["Compliance workflow engine as IP"],
     learnt: ["An immutable, exportable audit trail was the single feature that won trust"],
-    status: "published", color: "#6C63FF", createdAt: d("2026-04-02T09:00:00Z"), updatedAt: d("2026-04-02T09:00:00Z"),
+    status: "published", color: "#3B82F6", createdAt: d("2026-04-02T09:00:00Z"), updatedAt: d("2026-04-02T09:00:00Z"),
   },
 ];
 

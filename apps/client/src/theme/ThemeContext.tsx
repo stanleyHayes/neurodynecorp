@@ -23,7 +23,7 @@ function makeTheme(mode: Mode) {
       secondary: { main: "#06B6D4", light: "#10B981", dark: "#00A888" },
       background: {
         default: dark ? "#0A0F1F" : "#F5F7FA",
-        paper: dark ? "rgba(17, 24, 39, 0.35)" : "rgba(255, 255, 255, 0.8)",
+        paper: dark ? "rgba(17, 26, 46, 0.35)" : "rgba(255, 255, 255, 0.8)",
       },
       text: {
         primary: dark ? "#F1F5F9" : "#1E293B",
@@ -55,7 +55,7 @@ function makeTheme(mode: Mode) {
         styleOverrides: {
           root: {
             borderRadius: 6,
-            background: dark ? "rgba(17, 24, 39, 0.35)" : "rgba(255, 255, 255, 0.8)",
+            background: dark ? "rgba(17, 26, 46, 0.35)" : "rgba(255, 255, 255, 0.8)",
             backdropFilter: "blur(24px)",
             WebkitBackdropFilter: "blur(24px)",
             border: `1px solid ${dark ? "rgba(59, 130, 246, 0.1)" : "rgba(59, 130, 246, 0.12)"}`,

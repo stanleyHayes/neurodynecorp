@@ -780,7 +780,7 @@ async function main(): Promise<void> {
           type: "blog",
           text: `New post: ${post.title}`,
           ts: new Date(post.createdAt ?? Date.now()).toISOString(),
-          color: "#8B85FF",
+          color: "#8B5CF6",
         });
       }
 
@@ -789,7 +789,7 @@ async function main(): Promise<void> {
         type: "project",
         text: "Delivery pipeline active",
         ts: new Date().toISOString(),
-        color: "#6C63FF",
+        color: "#3B82F6",
       });
 
       events.sort((a, b) => new Date(b.ts).getTime() - new Date(a.ts).getTime());

@@ -37,7 +37,7 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           borderRadius: 6,
-          background: "rgba(17, 24, 39, 0.35)",
+          background: "rgba(17, 26, 46, 0.35)",
           backdropFilter: "blur(16px) saturate(1.3)",
           WebkitBackdropFilter: "blur(16px) saturate(1.3)",
           border: "1px solid rgba(59, 130, 246, 0.08)",
