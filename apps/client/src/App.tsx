@@ -1,7 +1,7 @@
 import { Suspense, lazy, useState, useEffect } from "react";
 import { Box, CircularProgress } from "@mui/material";
 import { BrowserRouter, Routes, Route } from "react-router";
-import { AnimatePresence } from "framer-motion";
+import { AnimatePresence, MotionConfig } from "framer-motion";
 import { ThemeProvider } from "@/theme/ThemeContext";
 import { AuthProvider, useAuth } from "@/context/AuthContext";
 import ProtectedRoute from "@/components/layout/ProtectedRoute";
@@ -142,9 +142,11 @@ export default function App() {
         <CursorTrail />
         <SoundToggle />
         <AuthProvider>
-          <BrowserRouter>
+          <MotionConfig reducedMotion="user">
+        <BrowserRouter>
             <AppShell />
           </BrowserRouter>
+        </MotionConfig>
         </AuthProvider>
       </ErrorBoundary>
     </ThemeProvider>

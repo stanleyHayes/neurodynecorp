@@ -61,6 +61,7 @@ import KeyboardNav from "@/components/shared/KeyboardNav";
 import CursorTrail from "@/components/shared/CursorTrail";
 import SoundToggle from "@/components/shared/SoundToggle";
 import ErrorBoundary from "@/components/shared/ErrorBoundary";
+import { MotionConfig } from "framer-motion";
 
 /** Shown while a lazy route chunk loads outside the admin chrome. */
 function RouteFallback() {
@@ -95,6 +96,7 @@ export default function App() {
       <CursorTrail />
       <SoundToggle />
       <AuthProvider>
+        <MotionConfig reducedMotion="user">
         <BrowserRouter>
           <CommandPalette />
           <KeyboardNav />
@@ -157,6 +159,7 @@ export default function App() {
             </Routes>
           </Suspense>
         </BrowserRouter>
+        </MotionConfig>
       </AuthProvider>
       </ErrorBoundary>
     </ThemeProvider>

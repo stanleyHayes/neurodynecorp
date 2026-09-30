@@ -8,6 +8,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import Logo from "@/components/logo/Logo";
 import { CANON } from "@/content/company";
 import { footerSections, socials } from "@/content/footer";
+import { aurora } from "@/theme/tokens";
 function BackToTop() {
   const [show, setShow] = useState(false);
   useEffect(() => {
@@ -51,12 +52,27 @@ export default function Footer() {
       <Box
         component="footer"
         sx={{
+          /*
+           * The current page, marked twice over.
+           *
+           * This used to stack four signals at once — colour, weight, an
+           * underline and `bgcolor: action.selected`. The links are flex rows
+           * with an icon, so the filled background painted the whole row and
+           * read as a pressed button rather than as "you are here", and the
+           * underline ran under the icon with it.
+           *
+           * An inset box-shadow draws the marker inside the padding box without
+           * affecting layout, so nothing reflows when a link becomes current.
+           * Weight changes alongside colour, so the state is not carried by
+           * colour alone (§20).
+           */
           "& a[aria-current=page]": {
             color: "primary.main",
-            fontWeight: 750,
-            textDecoration: "underline",
-            textUnderlineOffset: "5px",
-            bgcolor: "action.selected",
+            fontWeight: 700,
+          },
+          "& nav a[aria-current=page]": {
+            boxShadow: `inset 2px 0 0 0 ${aurora.teal}`,
+            pl: 1,
           },
           borderTop: "1px solid",
           borderColor: "divider",

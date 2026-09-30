@@ -8,6 +8,29 @@
     <meta name="referrer" content="no-referrer" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>NeuroDyne Corp - Client Portal</title>
+    <style>
+      /*
+        Global reduced-motion guard.
+
+        <MotionConfig reducedMotion="user"> in App.tsx governs framer-motion,
+        but it cannot reach CSS @keyframes. This catches every one of them,
+        including anything added later that forgets to ask, and it applies
+        before React mounts so the splash screen is covered too.
+
+        Durations are near-zero rather than `none` so animation end events
+        still fire and nothing waits forever on a callback that never arrives.
+      */
+      @media (prefers-reduced-motion: reduce) {
+        *,
+        *::before,
+        *::after {
+          animation-duration: 0.01ms !important;
+          animation-iteration-count: 1 !important;
+          transition-duration: 0.01ms !important;
+          scroll-behavior: auto !important;
+        }
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
