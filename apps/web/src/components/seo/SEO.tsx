@@ -41,7 +41,10 @@ export default function SEO({
   const finalOgTitle = ogTitle ?? fullTitle;
   const finalOgDescription = ogDescription ?? description;
   const currentPath = typeof window === "undefined" ? "/" : window.location.pathname;
-  const finalCanonical = canonical ?? `${SITE_URL}${currentPath === "/" ? "" : currentPath.replace(/\/$/, "")}`;
+  // Root keeps its trailing slash so the canonical, the og:url and the
+  // sitemap's <loc> are byte-identical. They are equivalent URLs, but an
+  // index has no reason to be asked to work that out.
+  const finalCanonical = canonical ?? `${SITE_URL}${currentPath === "/" ? "/" : currentPath.replace(/\/$/, "")}`;
   const finalOgUrl = ogUrl ?? finalCanonical;
 
   return (
@@ -70,30 +73,6 @@ export default function SEO({
       <link rel="canonical" href={finalCanonical} />
       <link rel="alternate" hrefLang="en" href={finalCanonical} />
       <meta name="robots" content={noIndex ? "noindex,nofollow,noarchive" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1"} />
-      <script type="application/ld+json">
-        {JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "Organization",
-          name: SITE_NAME,
-          url: SITE_URL,
-          logo: `${SITE_URL}/brand/mark-512.png`,
-          email: "info@neurodyne.dev",
-          description:
-            "Neurodyne is building AI and digital infrastructure for Africa — AI-native platforms, developer tools and open digital infrastructure built for African markets.",
-          founder: { "@type": "Person", name: "Stanley Asoku Hayford" },
-          foundingLocation: { "@type": "Place", name: "Accra, Ghana" },
-          address: { "@type": "PostalAddress", addressCountry: "GH", addressLocality: "Accra" },
-          areaServed: ["Ghana", "Africa"],
-          // Only profiles that actually exist. An empty or invented sameAs is
-          // worse than a short one: search engines use it to disambiguate this
-          // Neurodyne from unrelated organisations with the same name.
-          sameAs: [
-            "https://github.com/stanleyHayes",
-            "https://linkedin.com/in/stanley-asoku-hayford",
-            "https://x.com/sa_hayford",
-          ],
-        }).replace(/</g, "\\u003c")}
-      </script>
 
       {/* Structured Data.
           react-helmet-async injects a <script> child as raw innerHTML on the client (CSR) path with

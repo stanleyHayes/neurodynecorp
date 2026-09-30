@@ -219,6 +219,30 @@ function productRoutes() {
   }));
 }
 
+// ── Service-line routes, derived the same way ────────────────────────────────
+// /company/engineering-services/:slug is rendered from a static data file, so
+// each one can carry its own <head> instead of inheriting the homepage's.
+
+function serviceLineRoutes() {
+  const src = readFileSync(join(ROOT, "src/data/serviceLines.ts"), "utf8");
+  const re = /slug:\s*"([^"]+)",\s*\n\s*name:\s*"([^"]+)",[\s\S]{0,600}?positioning:\s*\n?\s*"([^"]+)"/g;
+  const out = [];
+  let m;
+  while ((m = re.exec(src)) !== null) {
+    out.push({
+      path: `/company/engineering-services/${m[1]}`,
+      title: m[2],
+      description: m[3],
+      priority: "0.6",
+      changefreq: "monthly",
+    });
+  }
+  if (out.length === 0) {
+    throw new Error("generate-seo: parsed 0 service lines from src/data/serviceLines.ts — the format changed.");
+  }
+  return out;
+}
+
 // ── Sitemap ──────────────────────────────────────────────────────────────────
 
 function buildSitemap(routes, lastmod) {
@@ -240,7 +264,8 @@ const esc = (s) =>
   String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
 
 function shellFor(template, route) {
-  const url = `${SITE}${route.path === "/" ? "" : route.path}`;
+  // Trailing slash on root, matching buildSitemap's <loc>.
+  const url = `${SITE}${route.path === "/" ? "/" : route.path}`;
   const title = route.path === "/" ? route.title : `${route.title} | Neurodyne`;
   let html = template;
 
@@ -275,7 +300,7 @@ function shellFor(template, route) {
 // /newsletter/confirm is deliberately absent: it is a transactional landing
 // page reached from an email link, and it carries noIndex.
 const lastmod = new Date().toISOString().slice(0, 10);
-const routes = [...STATIC_ROUTES, ...productRoutes()];
+const routes = [...STATIC_ROUTES, ...productRoutes(), ...serviceLineRoutes()];
 
 writeFileSync(join(ROOT, "public/sitemap.xml"), buildSitemap(routes, lastmod));
 console.log(`sitemap.xml: ${routes.length} routes`);
@@ -298,6 +323,25 @@ if (existsSync(DIST)) {
     written++;
   }
   console.log(`prerendered head for ${written} routes into dist/`);
+
+  // Neutral shell for the routes that cannot be prerendered. Blog posts and
+  // help articles are fetched from the API at runtime, so there is no
+  // build-time <head> for them — they fell through the SPA rewrite to
+  // dist/index.html and therefore served the homepage's <title> and a
+  // canonical pointing at "/". To a crawler that is not a page; it is a
+  // duplicate of the homepage, which is precisely how a blog stays out of an
+  // index no matter how much is published.
+  //
+  // This shell asserts nothing instead of asserting something wrong: no
+  // canonical, no page-specific title or og:url, so the tags React sets on
+  // hydration are the only ones describing the page. vercel.json rewrites
+  // unmatched paths here rather than to index.html.
+  const neutral = template
+    .replace(/<title>[\s\S]*?<\/title>/, "<title>Neurodyne</title>")
+    .replace(/\s*<meta property="og:url"[^>]*>/, "")
+    .replace(/\s*<link rel="canonical"[^>]*>/, "");
+  writeFileSync(join(DIST, "app-shell.html"), neutral);
+  console.log("app-shell.html: neutral fallback for API-driven routes");
 } else {
   console.log("dist/ not found — sitemap written, skipping HTML shells (run after `vite build`).");
 }

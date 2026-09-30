@@ -61,6 +61,33 @@
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <!--
+      Organization data, static rather than injected by react-helmet on mount.
+      It was previously emitted from SEO.tsx, which meant a crawler that did not
+      execute JavaScript saw no structured data at all. Here it is carried by
+      every prerendered route shell and by the SPA fallback. Nothing in it is
+      unverifiable: no employee count, no award, no funding, no rating.
+    -->
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Organization",
+        "name": "Neurodyne",
+        "url": "https://neurodyne.dev",
+        "logo": "https://neurodyne.dev/brand/mark-512.png",
+        "email": "info@neurodyne.dev",
+        "description": "Neurodyne is building AI and digital infrastructure for Africa \u2014 AI-native platforms, developer tools and open digital infrastructure built for African markets.",
+        "founder": { "@type": "Person", "name": "Stanley Asoku Hayford" },
+        "foundingLocation": { "@type": "Place", "name": "Accra, Ghana" },
+        "address": { "@type": "PostalAddress", "addressCountry": "GH", "addressLocality": "Accra" },
+        "areaServed": ["Ghana", "Africa"],
+        "sameAs": [
+          "https://github.com/stanleyHayes",
+          "https://linkedin.com/in/stanley-asoku-hayford",
+          "https://x.com/sa_hayford"
+        ]
+      }
+    </script>
     <title>Neurodyne — Building Africa's Digital Infrastructure</title>
   </head>
   <body>
