@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Box, IconButton } from "@mui/material";
 import DarkModeIcon from "@mui/icons-material/DarkMode";
 import LightModeIcon from "@mui/icons-material/LightMode";
@@ -13,9 +13,33 @@ export default function ThemeToggle() {
 
   const handleClick = () => {
     setAnimating(true);
-    toggleMode();
+    // Delay theme change to the midpoint of animation for smooth transition
+    setTimeout(() => {
+      toggleMode();
+    }, 300);
     setTimeout(() => setAnimating(false), 600);
   };
+
+  // Apply smooth CSS transitions to colored elements during theme toggle animation
+  // This prevents the jarring flash/disappear effect when colors change
+  useEffect(() => {
+    if (animating) {
+      const style = document.createElement("style");
+      // Target only elements that would be affected by theme color changes
+      style.textContent = `
+        body, body *, [data-theme-aware] {
+          transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease,
+                      box-shadow 0.3s ease, fill 0.3s ease, stroke 0.3s ease !important;
+        }
+      `;
+      style.id = "theme-transition-styles";
+      document.head.appendChild(style);
+
+      return () => {
+        style.remove();
+      };
+    }
+  }, [animating]);
 
   return (
     <Box sx={{ position: "relative" }}>

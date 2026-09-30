@@ -1,5 +1,5 @@
-import { createContext, useContext, useState, useMemo, type ReactNode } from "react";
-import { ThemeProvider as MuiThemeProvider, CssBaseline, createTheme } from "@mui/material";
+import { createContext, useContext, useState, useMemo, useEffect, type ReactNode } from "react";
+import { ThemeProvider as MuiThemeProvider, CssBaseline, createTheme, Box } from "@mui/material";
 
 type Mode = "dark" | "light";
 
@@ -18,8 +18,10 @@ const ThemeContext = createContext<ThemeContextValue>({
 export const useThemeMode = () => useContext(ThemeContext);
 
 const STORAGE_KEY = "neurodyne_admin_theme";
+const THEME_TRANSITION_KEY = "neurodyne_admin_theme_transitioning";
 
-function makeTheme(mode: Mode) {
+/** Exported so the sign-in pages can force a dark subtree — see AuthLayout. */
+export function makeTheme(mode: Mode) {
   const dark = mode === "dark";
   return createTheme({
     palette: {
@@ -93,18 +95,31 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<Mode>(() => {
     return (localStorage.getItem(STORAGE_KEY) as Mode) || "dark";
   });
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  // Set color-scheme immediately when mode changes to prevent CSSBaseline flash.
+  // This communicates the color preference to the browser and form elements before
+  // MUI repaints, preventing the visual flash when theme updates.
+  useEffect(() => {
+    document.documentElement.style.colorScheme = mode;
+  }, [mode]);
 
   const toggleMode = () => {
+    setIsTransitioning(true);
     setMode((prev) => {
       const next = prev === "dark" ? "light" : "dark";
       localStorage.setItem(STORAGE_KEY, next);
       return next;
     });
+    // Clear transitioning state after animation completes
+    setTimeout(() => setIsTransitioning(false), 600);
   };
 
   const applyMode = (next: Mode) => {
+    setIsTransitioning(true);
     localStorage.setItem(STORAGE_KEY, next);
     setMode(next);
+    setTimeout(() => setIsTransitioning(false), 600);
   };
 
   const theme = useMemo(() => makeTheme(mode), [mode]);
@@ -113,7 +128,17 @@ export function ThemeProvider({ children }: { children: ReactNode }) {
     <ThemeContext.Provider value={{ mode, toggleMode, setMode: applyMode }}>
       <MuiThemeProvider theme={theme}>
         <CssBaseline />
-        {children}
+        <Box
+          sx={{
+            opacity: isTransitioning ? 0.95 : 1,
+            transition: "opacity 0.3s ease-in-out",
+            "&& > *": {
+              transition: isTransitioning ? "none" : undefined,
+            },
+          }}
+        >
+          {children}
+        </Box>
       </MuiThemeProvider>
     </ThemeContext.Provider>
   );

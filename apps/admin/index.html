@@ -13,6 +13,16 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
       /*
+        Smooth theme transitions. When the theme changes, background and text
+        colors transition smoothly over 0.4s instead of flashing instantaneously.
+        This keeps page content visible during theme toggle animations.
+      */
+      html,
+      body {
+        transition: background-color 0.4s ease-in-out, color 0.4s ease-in-out;
+      }
+
+      /*
         Global reduced-motion guard.
 
         <MotionConfig reducedMotion="user"> in App.tsx governs framer-motion,
