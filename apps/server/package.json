@@ -16,7 +16,8 @@
     "seed": "tsx scripts/seed.ts",
     "seed:fresh": "tsx scripts/seed.ts --fresh",
     "seed:align": "tsx scripts/align-seed-ids.ts",
-    "create-admin": "tsx scripts/create-admin.ts"
+    "create-admin": "tsx scripts/create-admin.ts",
+    "blog:scout": "tsx scripts/blog-scout.ts"
   },
   "dependencies": {
     "bcryptjs": "^2.4.3",
