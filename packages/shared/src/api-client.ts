@@ -1,3 +1,4 @@
+import { MAX_UPLOAD_BYTES, formatBytes } from "./constants";
 const DEFAULT_BASE_URL = "http://localhost:4000";
 
 interface RequestOptions {
@@ -437,23 +438,61 @@ export class ApiClient {
     }>(`/api/v1/invoices/${id}/checkout`, { method: "POST" });
   }
 
-  // File Upload
+  // ── Files ───────────────────────────────────────────────────────────────────
+
+  /**
+   * Uploads a file to a project.
+   *
+   * Does not go through `request()`, because the body is FormData and setting
+   * a JSON content-type would stop the server from parsing the multipart
+   * boundary. That means the 401-refresh and error-unwrapping that `request()`
+   * provides have to be repeated here — previously they were not, so an upload
+   * that outlived its 15-minute access token failed permanently instead of
+   * refreshing, and every failure surfaced as the same bare "Upload failed"
+   * regardless of what the server actually said.
+   *
+   * `projectId` is effectively required for anything a client should see
+   * again: the files list is queried per project, so a file uploaded without
+   * one is reachable only by its uploader and never appears in a listing.
+   */
   async uploadFile(
     file: File,
     folder = "uploads",
     projectId?: string,
   ): Promise<{ url: string; filename: string; size: number; id?: string }> {
-    const formData = new FormData();
-    formData.append("file", file);
-    if (folder) formData.append("folder", folder);
-    if (projectId) formData.append("projectId", projectId);
-    const token = this.getToken();
-    const res = await fetch(`${this.baseUrl}/api/v1/files/upload`, {
-      method: "POST",
-      headers: token ? { Authorization: `Bearer ${token}` } : {},
-      body: formData,
-    });
-    if (!res.ok) throw new ApiError("Upload failed", res.status);
+    if (file.size > MAX_UPLOAD_BYTES) {
+      throw new ApiError(
+        `${file.name} is ${formatBytes(file.size)}. The limit is ${formatBytes(MAX_UPLOAD_BYTES)}.`,
+        413,
+      );
+    }
+
+    const send = async (): Promise<Response> => {
+      const formData = new FormData();
+      formData.append("file", file);
+      if (folder) formData.append("folder", folder);
+      if (projectId) formData.append("projectId", projectId);
+      const token = this.getToken();
+      return fetch(`${this.baseUrl}/api/v1/files/upload`, {
+        method: "POST",
+        headers: token ? { Authorization: `Bearer ${token}` } : {},
+        body: formData,
+      });
+    };
+
+    let res = await send();
+
+    if (res.status === 401 && (await this.tryRefresh())) {
+      // FormData is single-use once consumed by fetch, so `send` rebuilds it.
+      res = await send();
+    }
+
+    if (!res.ok) {
+      if (res.status === 401) this.onUnauthorized?.();
+      const body = await res.json().catch(() => ({}) as Record<string, unknown>);
+      throw new ApiError(String(body.error ?? "Upload failed"), res.status);
+    }
+
     const data = (await res.json()) as Record<string, unknown>;
     return {
       id: data.id ? String(data.id) : undefined,
@@ -462,6 +501,12 @@ export class ApiClient {
       size: Number(data.size ?? data.fileSize ?? data.file_size ?? 0),
     };
   }
+
+  /** Removes a stored file. The server permits this for staff or the uploader. */
+  deleteFile(id: string) {
+    return this.request<void>(`/api/v1/files/${id}`, { method: "DELETE" });
+  }
+
   listFiles(projectId: string) {
     return this.request<{ items: any[]; total: number }>("/api/v1/files", {
       params: { projectId },

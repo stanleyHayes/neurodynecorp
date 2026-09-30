@@ -52,3 +52,21 @@ export const TIMELINES = [
   "6-12 months",
   "12+ months",
 ] as const;
+
+/**
+ * Upload ceiling, in bytes. Mirrors the two server-side limits it has to agree
+ * with: multer's `limits.fileSize` and the explicit check in the upload route.
+ * Kept here so a UI can reject an oversized file before spending the user's
+ * bandwidth on a request that is going to be refused anyway — and so there is
+ * one number to change rather than four.
+ */
+export const MAX_UPLOAD_BYTES = 10 * 1024 * 1024;
+
+/** Human-readable byte size, e.g. 2.4 MB. */
+export function formatBytes(bytes: number): string {
+  if (!Number.isFinite(bytes) || bytes <= 0) return "0 B";
+  const units = ["B", "KB", "MB", "GB"];
+  const i = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const value = bytes / Math.pow(1024, i);
+  return `${i === 0 ? value : value.toFixed(value < 10 ? 1 : 0)} ${units[i]}`;
+}

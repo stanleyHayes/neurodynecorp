@@ -9,8 +9,11 @@ import AttachMoneyOutlinedIcon from "@mui/icons-material/AttachMoneyOutlined";
 import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined";
 import GroupOutlinedIcon from "@mui/icons-material/GroupOutlined";
 import TrendingUpOutlinedIcon from "@mui/icons-material/TrendingUpOutlined";
+import DownloadOutlinedIcon from "@mui/icons-material/DownloadOutlined";
+import { formatBytes } from "@neurodyne/shared";
 import PageBanner from "@/components/shared/PageBanner";
 import Cell from "@/components/shared/AnimatedCard";
+import DocumentUpload from "@/components/shared/DocumentUpload";
 import SectionLabel from "@/components/shared/AnimatedGrid";
 import PageSkeleton from "@/components/shared/PageSkeleton";
 import MarkdownRenderer from "@/components/shared/MarkdownRenderer";
@@ -235,6 +238,35 @@ export default function ProjectDetail() {
       await loadDecisions();
     } catch (e) {
       setToast(e instanceof Error ? e.message : "Failed to remove decision");
+    }
+  };
+
+  // Documents state
+  const [documents, setDocuments] = useState<any[]>([]);
+  const [docsError, setDocsError] = useState("");
+
+  const loadDocuments = useCallback(async () => {
+    if (!id) return;
+    try {
+      const r = await api.listFiles(id);
+      setDocuments(Array.isArray(r) ? r : (r.items ?? []));
+      setDocsError("");
+    } catch {
+      // An empty list here would claim the project has no documents when we
+      // simply failed to ask.
+      setDocuments([]);
+      setDocsError("Could not load documents for this project.");
+    }
+  }, [api, id]);
+
+  const removeDocument = async (fileId: string, name: string) => {
+    if (!window.confirm(`Delete "${name}"? This removes the stored file permanently and cannot be undone.`)) return;
+    try {
+      await api.deleteFile(fileId);
+      setToast("Document deleted");
+      await loadDocuments();
+    } catch (e) {
+      setToast(e instanceof Error ? e.message : "Failed to delete document");
     }
   };
 
@@ -729,6 +761,7 @@ export default function ProjectDetail() {
   useEffect(() => {
     fetchData();
     loadDecisions();
+    loadDocuments();
     loadRisks();
     loadApprovals();
     loadStakeholders();
@@ -736,7 +769,7 @@ export default function ProjectDetail() {
     loadReports();
     loadDirectory();
     loadBudget();
-  }, [fetchData, loadDecisions, loadRisks, loadApprovals, loadStakeholders, loadLattice, loadReports, loadDirectory, loadBudget]);
+  }, [fetchData, loadDecisions, loadDocuments, loadRisks, loadApprovals, loadStakeholders, loadLattice, loadReports, loadDirectory, loadBudget]);
 
   if (loading) {
     return <PageSkeleton stats={4} rows={4} />;
@@ -997,6 +1030,71 @@ export default function ProjectDetail() {
           )}
         </Box>
       </Box>
+
+      {/* Documents */}
+      <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1, flexWrap: "wrap", gap: 1 }}>
+        <SectionLabel>Documents</SectionLabel>
+        <DocumentUpload projectId={id!} onUploaded={loadDocuments} onMessage={setToast} />
+      </Stack>
+      {docsError && (
+        <Box sx={{ px: 3 }}>
+          <Alert severity="warning" variant="outlined">{docsError}</Alert>
+        </Box>
+      )}
+      {documents.length === 0 ? (
+        <Cell color="#94A3B8" index="--">
+          <Typography color="text.secondary" sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.8rem", opacity: 0.5 }}>
+            {docsError ? "Documents unavailable" : "No documents uploaded yet"}
+          </Typography>
+        </Cell>
+      ) : (
+        documents.map((d: any, i: number) => {
+          const name = d.file_name ?? d.fileName ?? d.filename ?? "Untitled file";
+          const href = safeHref(d.url ?? d.file_url ?? d.fileURL);
+          const size = Number(d.size ?? d.file_size ?? d.fileSize ?? 0);
+          const when = d.created_at ?? d.createdAt;
+          return (
+            <Cell key={d.id ?? name} color="#06B6D4" index={String(i + 1).padStart(2, "0")} animDelay={i * 0.05}>
+              <Stack sx={{ justifyContent: "space-between", alignItems: "flex-start" }} direction="row" spacing={1}>
+                <Box sx={{ flex: 1, minWidth: 0 }}>
+                  <Typography variant="subtitle2" sx={{ fontWeight: 700, wordBreak: "break-word" }}>{name}</Typography>
+                  <Typography sx={{ fontFamily: "'Outfit', sans-serif", fontSize: "0.6rem", color: "text.secondary", opacity: 0.6, mt: 0.5 }}>
+                    {d.mime_type ?? d.mimeType ?? "file"}
+                    {size > 0 ? ` · ${formatBytes(size)}` : ""}
+                    {when ? ` · ${String(when).slice(0, 10)}` : ""}
+                  </Typography>
+                </Box>
+                <Stack direction="row" spacing={0.5}>
+                  {href ? (
+                    <IconButton
+                      size="small"
+                      href={href}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={`Download ${name}`}
+                      sx={{ color: "#06B6D4" }}
+                    >
+                      <DownloadOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  ) : (
+                    <IconButton size="small" disabled aria-label={`Download ${name} (unavailable)`}>
+                      <DownloadOutlinedIcon fontSize="small" />
+                    </IconButton>
+                  )}
+                  <IconButton
+                    size="small"
+                    onClick={() => removeDocument(d.id, name)}
+                    aria-label={`Delete ${name}`}
+                    sx={{ color: "#EF4444" }}
+                  >
+                    <DeleteOutlineOutlinedIcon fontSize="small" />
+                  </IconButton>
+                </Stack>
+              </Stack>
+            </Cell>
+          );
+        })
+      )}
 
       {/* Decision Log */}
       <Stack direction="row" sx={{ alignItems: "center", justifyContent: "space-between", px: 3, pt: 1 }}>

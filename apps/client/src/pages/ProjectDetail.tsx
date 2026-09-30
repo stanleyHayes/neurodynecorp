@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import {
   Box,
   Typography,
@@ -38,6 +38,7 @@ import AssignmentIcon from "@mui/icons-material/Assignment";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import PageBanner from "@/components/shared/PageBanner";
 import AnimatedCard from "@/components/shared/AnimatedCard";
+import DocumentUpload from "@/components/shared/DocumentUpload";
 import { useAuth } from "@/context/AuthContext";
 
 const statusColors: Record<string, "primary" | "warning" | "success" | "info"> = {
@@ -437,6 +438,19 @@ export default function ProjectDetail() {
 
   const milestones = project.milestones ?? [];
   const attachments = documents;
+
+  /** Refetches the files list after an upload, so the new row appears at once. */
+  const refreshDocuments = useCallback(async () => {
+    if (!id) return;
+    try {
+      const filesRes = await api.listFiles(id);
+      const files = Array.isArray(filesRes) ? filesRes : (filesRes.items ?? []);
+      setDocuments(files);
+    } catch {
+      // The upload itself succeeded and reported so; a failed refetch must not
+      // be shown as an upload failure. The list catches up on next load.
+    }
+  }, [api, id]);
   const completedMilestones = milestones.filter(
     (m: any) => m.status === "completed" || m.completed_at
   ).length;
@@ -639,6 +653,11 @@ export default function ProjectDetail() {
             <Typography variant="h6" sx={{ mb: 2 }}>
               Documents
             </Typography>
+
+            <Box sx={{ mb: 2.5 }}>
+              <DocumentUpload projectId={id!} onUploaded={refreshDocuments} />
+            </Box>
+
             {attachments.length === 0 ? (
               <Typography variant="body2" color="text.secondary">
                 No documents uploaded yet.
